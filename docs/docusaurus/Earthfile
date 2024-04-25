@@ -1,0 +1,12 @@
+VERSION 0.8
+
+live:
+    FROM ../../+node
+    WORKDIR /app
+    COPY --dir package.json pnpm-lock.yaml /app
+    DO ../../+USEPNPM
+    RUN pnpm install
+    COPY --dir babel.config.js blog docs docusaurus.config.ts sidebars.ts src static tsconfig.json /app
+    CMD pnpm run start --host 0.0.0.0 --port 80
+    ARG --required ref
+    SAVE IMAGE --push ${ref}

@@ -1,0 +1,28 @@
+{{- if .Values.docusaurus.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "dap.fullname" . }}
+  labels:
+    {{- include "dap.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "dap.fullname" . }}
+  minReplicas: {{ .Values.docusaurus.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.docusaurus.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.docusaurus.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.docusaurus.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.docusaurus.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.docusaurus.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
