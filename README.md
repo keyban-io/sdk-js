@@ -25,7 +25,8 @@ graph LR
     classDef accounts fill:#77b255,stroke:#000,stroke-width:2px, color:#000;
     classDef selected fill:#e91e63,stroke:#000,stroke-width:2px, color:#000;
 
-    MPCTSSSigner("MPC TSS Signer") 
+    EdDSAMPCTSSSigner("EdDSA MPC TSS Signer") 
+    EcDSAMPCTSSSigner("EcDSA MPC TSS Signer") 
 
     %% React Subgraph
     subgraph React
@@ -114,9 +115,15 @@ graph LR
         KeyStorageSolutionsSmartPhoneNative("Native Storage")
         KeyStorageSolutionsGenericPinCode("Generic Storage (Pin Code)")
     end
+    
+    %% Connections for the MPC TSS signers
+    EdDSAMPCTSSSigner --> KeyStorageSolutions
+    EcDSAMPCTSSSigner --> KeyStorageSolutions
+
 
     %% Connections for Hedera
-    ReactHederaAccounts --> MPCTSSSigner
+    ReactHederaAccounts --> EdDSAMPCTSSSigner
+    ReactHederaAccounts --> EcDSAMPCTSSSigner
     ReactHederaAccounts --> HederaTransfer
     ReactHederaAccounts --> HederaGetAccount
     HederaTransfer --> HederaTransferCrypto
@@ -124,7 +131,8 @@ graph LR
     HederaTransfer --> HederaTransferFeeEstimation
 
     %% Connections for Polygon
-    ReactPolygonAccounts --> MPCTSSSigner
+    ReactPolygonAccounts --> EdDSAMPCTSSSigner
+    ReactPolygonAccounts --> EcDSAMPCTSSSigner
     ReactPolygonAccounts --> PolygonTransfer
     ReactPolygonAccounts --> PolygonGetAccount
     PolygonTransfer --> PolygonTransferCrypto
@@ -135,7 +143,6 @@ graph LR
     ReactWallet --> ReactHederaAccounts
     ReactWallet --> ReactPolygonAccounts
     ReactWallet --> SDKAuthProviders
-    ReactWallet --> KeyStorageSolutions
 
     ReactHederaAccounts --> ReactHederaAccountsCreate
     ReactHederaAccounts --> ReactHederaAccountsList
@@ -200,6 +207,6 @@ graph LR
     class Auth,SDKAuthProviders,SDKAuthProviders0Auth2,SDKAuthProvidersAuth0,SDKAuthProvidersAmazonCognito,SDKAuthProvidersAmazonOther auth;
     class KeyStorage,KeyStorageSolutions,KeyStorageSolutionsGeneric,KeyStorageSolutionsGenericGoogleDrive,KeyStorageSolutionsGenericAppleIcloud,KeyStorageSolutionsGenericMicrosoftOneDrive,KeyStorageSolutionsGenericAmazonKMS,KeyStorageSolutionsBrowser,KeyStorageSolutionsBrowserUnsafe,KeyStorageSolutionsSmartPhone,KeyStorageSolutionsSmartPhoneUnsafe,KeyStorageSolutionsSmartPhoneNative,KeyStorageSolutionsGenericPinCode keyStorage;
 
-    class KeyStorageSolutionsGenericAmazonKMS,KeyStorageSolutionsSmartPhoneNative,SDKAuthProviders0Auth2,MPCTSSSigner selected;
+    class KeyStorageSolutionsGenericAmazonKMS,KeyStorageSolutionsSmartPhoneNative,SDKAuthProviders0Auth2,MPCTSSSigner,EdDSAMPCTSSSigner,EcDSAMPCTSSSigner selected;
 
 ```
