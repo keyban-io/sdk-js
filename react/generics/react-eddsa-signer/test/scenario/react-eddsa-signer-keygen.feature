@@ -1,12 +1,11 @@
 Feature: Single Key Generation in React Signer Library with EdDSA
-    As a client using the React Signer library,
-    I want to generate and manage a single master key for all my blockchain accounts,
-    To streamline the management and operation across Hedera and Polygon platforms with EdDSA signatures.
+    As a client using the React EdDSA Signer library,
+    I want to generate and manage a single master key,
+    To streamline the management and operation across platforms supporting  EdDSA signatures.
 
     Background:
-        Given the React EdDSA Signer cmoponent is installed and initialized in a React or React Native environment
-        And the library is designed to support EdDSA signatures for Hedera
-
+        Given the React EdDSA Signer component is installed and initialized in a React or React Native environment
+       
     @happy_path @eds_dsa @generic
     Scenario: Successful single master key generation for a user with EdDSA
         Given the client does not have an existing master key
@@ -34,4 +33,5 @@ Feature: Single Key Generation in React Signer Library with EdDSA
 
 
 Notes:
-- the server-side protection using Shamir's Secret Sharing will be implemented in a later iteration
+- The server-side protection using Shamir's Secret Sharing will be implemented in a later iteration
+- Authentication to control access to the service will be implemented in a later iteration
