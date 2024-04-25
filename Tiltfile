@@ -8,9 +8,15 @@ def earthly_build(image, target, args=None, **kwargs):
                  **kwargs)
 
 
-earthly_build("keyban.io/docusaurus",
-              "./docs/docusaurus+live",
-              deps=["./docs/docusaurus/"])
+earthly_build(
+    "keyban.io/docusaurus",
+    "./docs/docusaurus+live",
+    deps=["./docs/docusaurus"],
+    live_update=[
+        fall_back_on('./docs/docusaurus/Earthfile'),
+        sync('docs/docusaurus/', '/app/'),
+    ],
+)
 k8s_yaml(helm("./helm/dap", name="dap"))
 
 k8s_resource('dap-doc', port_forwards=['8080:80'])
