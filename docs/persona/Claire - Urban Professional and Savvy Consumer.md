@@ -2,7 +2,7 @@
 
 **Persona Name**: Claire
 
-![Claire](docs/persona/Claire - Urban Professional and Savvy Consumer.png)
+![Claire](https://github.com/keyban-io/dap/blob/main/docs/persona/Claire%20-%20Urban%20Professional%20and%20Savvy%20Consumer.png?raw=true)
 
 **Demographics**:
 Claire is a woman aged between 35 and 45. She lives in a large city and works in a typical office job.
