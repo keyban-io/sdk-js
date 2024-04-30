@@ -1,12 +1,20 @@
-def earthly_build(image, target, args=None, **kwargs):
-    args = args or []
-    args.append("--ref=$EXPECTED_REF")
-    custom_build(image,
-                 "earthly --push " + target + " " + " ".join(args),
-                 skips_local_docker=True,
-                 disable_push=True,
-                 **kwargs)
+config.define_string("clk-k8s-local-path")
+cfg = config.parse()
+2
+v1alpha1.extension_repo(
+    name='clk-k8s',
+    url=cfg.get(
+        'clk-k8s-local-path',
+        'https://github.com/clk-project/clk_extension_k8s',
+    ),
+)
+v1alpha1.extension(
+    name='clk-helpers',
+    repo_name='clk-k8s',
+    repo_path='tilt-extensions/helpers',
+)
 
+load('ext://clk-helpers', 'earthly_build')
 
 earthly_build(
     "keyban.io/docusaurus",
