@@ -1,6 +1,6 @@
 config.define_string("clk-k8s-local-path")
 cfg = config.parse()
-2
+
 v1alpha1.extension_repo(
     name='clk-k8s',
     url=cfg.get(
