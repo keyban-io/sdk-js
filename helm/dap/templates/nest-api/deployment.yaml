@@ -1,62 +1,60 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "dap.fullname" . }}-doc
+  name: {{ include "dap.fullname" . }}-nest
   labels:
     {{- include "dap.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.docusaurus.autoscaling.enabled }}
-  replicas: {{ .Values.docusaurus.replicaCount }}
+  {{- if not .Values.nestjs.autoscaling.enabled }}
+  replicas: {{ .Values.nestjs.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "dap.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.docusaurus.podAnnotations }}
+      {{- with .Values.nestjs.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "dap.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.docusaurus.imagePullSecrets }}
+      {{- with .Values.nestjs.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        {{- toYaml .Values.docusaurus.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.nestjs.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.docusaurus.securityContext | nindent 12 }}
-          image: "{{ .Values.docusaurus.image.repository }}:{{ .Values.docusaurus.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.docusaurus.image.pullPolicy }}
+            {{- toYaml .Values.nestjs.securityContext | nindent 12 }}
+          image: "{{ .Values.nestjs.image.repository }}:{{ .Values.nestjs.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.nestjs.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.docusaurus.service.port }}
+              containerPort: {{ .Values.nestjs.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 40
           readinessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 40
           resources:
-            {{- toYaml .Values.docusaurus.resources | nindent 12 }}
-      {{- with .Values.docusaurus.nodeSelector }}
+            {{- toYaml .Values.nestjs.resources | nindent 12 }}
+      {{- with .Values.nestjs.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.docusaurus.affinity }}
+      {{- with .Values.nestjs.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.docusaurus.tolerations }}
+      {{- with .Values.nestjs.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
