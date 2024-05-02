@@ -1,10 +1,10 @@
 VERSION 0.8
 
 live:
-    FROM ../../../+node
+    FROM ../../+node
     WORKDIR /app
     COPY --dir package.json pnpm-lock.yaml /app
-    DO ../../../+USEPNPM
+    DO ../../+USEPNPM
     RUN pnpm install
     COPY --dir tsconfig.json nest-cli.json src /app
     CMD pnpm run start:dev --host 0.0.0.0 --port 3000

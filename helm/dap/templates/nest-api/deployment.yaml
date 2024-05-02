@@ -40,10 +40,13 @@ spec:
             httpGet:
               path: /
               port: http
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /
               port: http
+            periodSeconds: 5
+            failureThreshold: 50
           resources:
             {{- toYaml .Values.nestjs.resources | nindent 12 }}
       {{- with .Values.nestjs.nodeSelector }}

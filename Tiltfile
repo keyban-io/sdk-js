@@ -28,11 +28,11 @@ earthly_build(
 
 earthly_build(
     "keyban.io/nest-api",
-    "./backend/nestjs/keyban+live",
-    deps=["./backend/nestjs/keyban"],
+    "./backend/nestjs+live",
+    deps=["./backend/nestjs"],
     live_update=[
-        fall_back_on('./backend/nestjs/keyban/Earthfile'),
-        sync('backend/nestjs/keyban/src', '/app/'),
+        fall_back_on('./backend/nestjs/Earthfile'),
+        sync('backend/nestjs/src', '/app/'),
     ],
 )
 k8s_yaml(helm("./helm/dap", name="dap"))
