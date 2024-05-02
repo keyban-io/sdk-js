@@ -8,13 +8,15 @@
  * @format
  */
 
-import React, {type PropsWithChildren} from 'react';
+import React, {type PropsWithChildren, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
@@ -26,36 +28,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
-const Section: React.FC<
-  PropsWithChildren<{
-    title: string;
-  }>
-> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import {KeybanProvider, useKeybanSdk} from './src/provider';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -65,55 +38,97 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <KeybanProvider>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <TestComponent />
+      </SafeAreaView>
+    </KeybanProvider>
+  );
+};
+
+const TestComponent = () => {
+  const {sdk, initialized} = useKeybanSdk();
+  const [num1, setNum1] = useState(0);
+  const [num2, setNum2] = useState(0);
+  const [res, setRes] = useState(0);
+
+  const onClick = async () => {
+    if (initialized && sdk) {
+      const result = await sdk.add({num1, num2});
+      setRes(result);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.flex}>
+        <TextInput
+          style={styles.textInput}
+          keyboardType="numeric"
+          onChangeText={text => setNum1(+text)}
+          value={String(num1)}
+          maxLength={10} //setting limit of input
+        />
+        <TextInput
+          style={styles.textInput}
+          keyboardType="numeric"
+          onChangeText={text => setNum2(+text)}
+          value={String(num2)}
+          maxLength={10} //setting limit of input
+        />
+      </View>
+      <TouchableOpacity onPress={() => onClick()} style={styles.button}>
+        <Text style={styles.buttonText}>ADD</Text>
+      </TouchableOpacity>
+
+      <Text style={{marginTop: 20}}>Result: {res}</Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
+  button: {
+    backgroundColor: '#6200EE', // Material Design purple
+    paddingVertical: 12,
     paddingHorizontal: 24,
+    borderRadius: 10,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    marginTop: 20,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '500',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  textInput: {
+    borderBottomWidth: 2,
+    backgroundColor: 'lightgray',
+    borderBottomColor: '#007AFF',
+    borderRadius: 10,
+    fontSize: 16,
+    padding: 10,
+    flex: 1,
+    marginRight: 10,
   },
-  highlight: {
-    fontWeight: '700',
+  container: {
+    height: '100%',
+    padding: 20,
+  },
+  flex: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    gap: 10,
   },
 });
 

@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "react": "18.1.0",
-    "react-native": "0.70.10"
+    "react-dom": "^18.3.1",
+    "react-native": "0.70.10",
+    "react-native-react-bridge": "^0.11.2",
+    "react-native-webview": "^13.8.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
