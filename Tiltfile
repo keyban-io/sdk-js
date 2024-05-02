@@ -25,6 +25,17 @@ earthly_build(
         sync('docs/docusaurus/', '/app/'),
     ],
 )
+
+earthly_build(
+    "keyban.io/nest-api",
+    "./backend/nestjs+live",
+    deps=["./backend/nestjs"],
+    live_update=[
+        fall_back_on('./backend/nestjs/Earthfile'),
+        sync('backend/nestjs/src', '/app/'),
+    ],
+)
 k8s_yaml(helm("./helm/dap", name="dap"))
 
 k8s_resource('dap-doc', port_forwards=['8080:80'])
+k8s_resource('dap-nest', port_forwards=['3000:3000'])

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "dap.fullname" . }}-nest
+  labels: 
+    {{- include "dap.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.nestjs.service.type }}
+  ports:
+    - port: {{ .Values.nestjs.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "dap.selectorLabels" . | nindent 4 }}
