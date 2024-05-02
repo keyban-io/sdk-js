@@ -38,12 +38,15 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
-          readinessProbe:
+            periodSeconds: 5
+          startupProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
+            periodSeconds: 5
+            failureThreshold: 50
           resources:
             {{- toYaml .Values.docusaurus.resources | nindent 12 }}
       {{- with .Values.docusaurus.nodeSelector }}
