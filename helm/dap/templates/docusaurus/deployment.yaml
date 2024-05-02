@@ -40,12 +40,13 @@ spec:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 40
-          readinessProbe:
+            periodSeconds: 5
+          startupProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 40
+            periodSeconds: 5
+            failureThreshold: 50
           resources:
             {{- toYaml .Values.docusaurus.resources | nindent 12 }}
       {{- with .Values.docusaurus.nodeSelector }}
