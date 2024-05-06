@@ -1,35 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Add, Substract } from "@keyban/sdk-react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <p>Below is a sum for a 3 and 3 with @keyban/sdk-react</p>
+      <div style={{ border: "1px solid purple", padding: 10 }}>
+        <Add a={3} b={3} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <br />
+      <br />
+      <br />
+
+      <p>Below is a subtraction of a 10 and 8 with @keyban/sdk-react</p>
+      <div style={{ border: "1px solid purple", padding: 10 }}>
+        <Substract a={10} b={8} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
