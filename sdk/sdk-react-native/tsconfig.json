@@ -15,8 +15,9 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "jsx": "react-native"
   },
-  "include": ["./src/**/*.ts", "./tests/**/*.test.ts"],
+  "include": ["./src/**/*.ts", "./tests/**/*.test.ts", "./src/**/*.tsx", "./src/**/*.test.tsx"],
   "exclude": ["node_modules", "dist"]
 }

@@ -5,7 +5,8 @@
 	},
 	"files": {
 		"include": [
-			"./src/**/*.ts"
+			"./**/*.ts",
+			"./**/*.tsx"
 		]
 	},
 	"linter": {
