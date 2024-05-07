@@ -9,3 +9,7 @@ node:
 USEPNPM:
     FUNCTION
     RUN corepack use pnpm@9.0.6
+
+rust:
+    FROM rust:1.78.0-slim-bookworm
+    WORKDIR /app
