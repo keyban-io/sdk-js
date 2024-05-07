@@ -1,26 +1,11 @@
 VERSION 0.8
 
-IMPORT github.com/earthly/lib/rust:3.0.1 AS rust
-
-build:
-    FROM ../../+rust
-    DO rust+INIT --keep_fingerprints=true
-    COPY --keep-ts --dir src Cargo.lock Cargo.toml .
-    DO rust+CARGO --args="build --release --bin signer-eddsa" --output="release/[^/\.]+"
-    SAVE ARTIFACT target/release/signer-eddsa signer-eddsa
-
-docker:
-    FROM debian:bookworm-20240423-slim
-    COPY +build/signer-eddsa signer-eddsa
-    CMD ["./signer-eddsa"]
-    ARG tag=latest
-    ARG ref=keyban.io/signer-eddsa:${tag}
-    SAVE IMAGE --push ${ref}
 
 live:
     FROM ../../+rust
     COPY --keep-ts --dir src Cargo.lock Cargo.toml .
     RUN cargo install cargo-watch
+    RUN cargo build --bin signer-eddsa
     CMD ["cargo", "watch", "-x", "run --bin signer-eddsa"]
     ARG --required ref
     SAVE IMAGE --push ${ref}
