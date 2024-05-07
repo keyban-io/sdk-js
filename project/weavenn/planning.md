@@ -1,15 +1,14 @@
-# Weavenn - Hedera
+# Weavenn - Hedera <> Keyban Planning
 
-<style>
-.ui-infobar, #doc.markdown-body { max-width: 3000px; }
-</style>
+## Wallet as a service SDK Team Composition
 
-## Wallet Team Composition
-
-- 1 Architect
-- 1 Cryptography Developer
-- 1.5 JavaScript Developer
-- 1 DevOps
+| Profil                   | Team mate                           |
+| ------------------------ | ----------------------------------- |
+| 1 Architect              | @Kei-Kiban,@Konubinix,@mvanmeerbeck |
+| 1 Cryptography Developer | @ahmdssi                            |
+| 1 React-Native Developer | @RadekKeyban                        |
+| 1 Backend Developer      | @grepson-keyban                     |
+| 1 DevOps                 | @Konubinix                          |
 
 ```mermaid
 gantt
@@ -27,11 +26,14 @@ gantt
 
 ## DPP Team Composition
 
-- 1 Architect at 30% commitment
-- 2 JavaScript Developers at full-time
-- 1 DevOps at full-time
-- 1 Web Developer at 50% commitment
-- 1 Smart Contract Developer at full-time
+| Profil                                  | Team mate       |
+| --------------------------------------- | --------------- |
+| 1 Architect at 30% commitment           | @Kei-Kiban      |
+| 1 React-Native Developer                | @RadekKeyban    |
+| 1 Backend Developer                     | @grepson-keyban |
+| 1 DevOps at full-time                   |                 |
+| 1 Web Developer at 50% commitment       |                 |
+| 1 Smart Contract Developer at full-time | @ahmdssi        |
 
 ```mermaid
 gantt
