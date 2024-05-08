@@ -1,5 +1,5 @@
-import React from "react";
-import { add, subtract } from "@keyban/sdk-base";
+import { add, subtract } from '@keyban/sdk-base';
+import React from 'react';
 
 /**
  * Adds two numbers
@@ -8,7 +8,7 @@ import { add, subtract } from "@keyban/sdk-base";
  * @example add(1, 2) // 3
  */
 export function Add(props: { a: number; b: number }) {
-  return <div>{add(props.a, props.b)}</div>;
+	return <div>{add(props.a, props.b)}</div>;
 }
 
 /**
@@ -18,5 +18,5 @@ export function Add(props: { a: number; b: number }) {
  * @example subtract(2, 1) // 1
  */
 export function Substract(props: { a: number; b: number }) {
-  return <div>{subtract(props.a, props.b)}</div>;
+	return <div>{subtract(props.a, props.b)}</div>;
 }

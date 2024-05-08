@@ -5,13 +5,17 @@
 	},
 	"files": {
 		"include": [
-			"./src/**/*.ts"
+			"./src/**/*.ts",
+			"./src/**/*.tsx"
 		]
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"correctness": {
+				"useExhaustiveDependencies": "error"
+			}
 		}
 	},
 	"formatter": {

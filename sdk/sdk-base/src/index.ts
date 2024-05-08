@@ -1,1 +1,3 @@
-export * from './math/math';
+export * from "./math/math";
+export * from "./eddsa";
+export * from "./wasm";
