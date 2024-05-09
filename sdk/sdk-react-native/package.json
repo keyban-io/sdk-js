@@ -42,6 +42,7 @@
     "README.md"
   ],
   "scripts": {
+    "compile:proto": "node ./src/eddsa/wasmBridge/script/compileProto.js",
     "build": "NODE_ENV=production tsup",
     "build:docs": "typedoc --out docs ./src/index.ts",
     "dev": "tsup --watch",
@@ -52,7 +53,8 @@
     "changeset": "changeset"
   },
   "dependencies": {
-    "@keyban/sdk-base": "file:../sdk-base"
+    "@keyban/sdk-base": "file:../sdk-base",
+    "long": "^5.2.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.4",
@@ -60,8 +62,12 @@
     "@changesets/cli": "^2.27.1",
     "@types/node": "^20.12.7",
     "@vitest/coverage-v8": "^1.4.0",
+    "protobufjs": "^7.2.6",
+    "protobufjs-cli": "^1.1.2",
     "react": "^18.3.1",
     "react-native": "^0.74.1",
+    "react-native-react-bridge": "^0.11.2",
+    "react-native-webview": "^13.10.0",
     "tsup": "^8.0.2",
     "typedoc": "^0.25.13",
     "typescript": "^5.4.5",
