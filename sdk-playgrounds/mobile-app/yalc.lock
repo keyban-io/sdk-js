@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "packages": {
+    "@keyban/sdk-react-native": {
+      "signature": "f0d8b544ac47c5c2d402b06493326f0c",
+      "file": true
+    },
+    "@keyban/sdk-base": {
+      "signature": "3464af7d0e2fbf43cc949d8f74a5d137"
+    }
+  }
+}

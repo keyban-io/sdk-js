@@ -1,5 +1,14 @@
-import type { WasmApi } from "@keyban/sdk-base";
-import { EddsaAddRequest, EddsaAddResponse } from "~/../compiled";
+import { hexToU8a, u8aToHex, type WasmApi } from "@keyban/sdk-base";
+import {
+  EddsaAddRequest,
+  EddsaAddResponse,
+  GenericMessage,
+} from "~/../compiled";
+import { Buffer } from "buffer/";
+
+if (!global.Buffer) {
+  global.Buffer = Buffer as typeof global.Buffer;
+}
 
 export class WasmInvoker {
   wasmApi;
@@ -9,18 +18,22 @@ export class WasmInvoker {
   }
 
   async add(protoPayload: string) {
-    const eddsaAddRequest = EddsaAddRequest.decode(
-      Buffer.from(protoPayload, "hex")
-    );
-    const sum = await this.wasmApi.add(
-      eddsaAddRequest.num1,
-      eddsaAddRequest.num2
-    );
+    const { callId, payload } = GenericMessage.decode(hexToU8a(protoPayload));
+    const { num1, num2 } = EddsaAddRequest.decode(hexToU8a(payload));
+    const sum = await this.wasmApi.add(num1, num2);
 
-    const responseProto = EddsaAddResponse.encode({
+    const responseBytes = EddsaAddResponse.encode({
       sum,
-      callId: eddsaAddRequest.callId,
     }).finish();
-    return Buffer.from(responseProto).toString("hex");
+
+    return this.prepareGenericMessage(callId, u8aToHex(responseBytes));
+  }
+
+  prepareGenericMessage(callId: string, payload: string) {
+    const arrayBufferMessage = GenericMessage.encode({
+      callId,
+      payload,
+    }).finish();
+    return u8aToHex(arrayBufferMessage);
   }
 }

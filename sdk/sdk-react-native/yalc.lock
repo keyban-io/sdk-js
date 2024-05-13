@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@keyban/sdk-base": {
+      "signature": "3464af7d0e2fbf43cc949d8f74a5d137",
+      "file": true
+    }
+  }
+}

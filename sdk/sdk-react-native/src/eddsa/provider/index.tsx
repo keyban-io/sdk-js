@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   type ReactNode,
   useCallback,
@@ -9,17 +9,18 @@ import { type KeybanEddsaContext as ConetxtType, ErrorCodes } from "./types";
 import { EddsaClient } from "@keyban/sdk-base";
 import { useWebViewMessage } from "react-native-react-bridge";
 import WebView from "react-native-webview";
-import { NativeWasm } from "~/eddsa/wasmBridge/nativeWasm";
-import webApp from "../wasmBridge/wasmWebView";
+import { NativeWasm } from "../wasmBridge/nativeWasm";
 
 export const KeybanEddsaContext = createContext<null | ConetxtType>(null);
 
 export const KeybanEddsaProvider = ({
   children,
   storageProvider,
+  webApp,
 }: {
   children: ReactNode;
   storageProvider: ConetxtType["storageProvider"];
+  webApp: string;
 }) => {
   const wasmApiRef = useRef<NativeWasm | null>(null);
   const eddsaClientRef = useRef<ConetxtType["eddsaClient"] | null>(null);
@@ -66,6 +67,7 @@ export const KeybanEddsaProvider = ({
         ref={ref}
         style={{ display: "none" }}
         webviewDebuggingEnabled
+        cacheEnabled={false}
         source={{ html: webApp }}
         onMessage={onMessage}
       />

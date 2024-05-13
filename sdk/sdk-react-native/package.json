@@ -31,6 +31,11 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./lib/web": {
+      "types": "./lib/web/index.d.ts",
+      "import": "./lib/web/index.mjs",
+      "default": "./lib/web/index.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -53,8 +58,9 @@
     "changeset": "changeset"
   },
   "dependencies": {
-    "@keyban/sdk-base": "file:../sdk-base",
-    "long": "^5.2.3"
+    "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base",
+    "long": "^5.2.3",
+    "react-native-buffer": "^6.0.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.4",
@@ -80,7 +86,7 @@
     "react": "*",
     "react-dom": "*",
     "react-native": "*",
-    "react-native-react-bridge": "^0.11.2",
-    "react-native-webview": "^13.8.7"
+    "react-native-react-bridge": "*",
+    "react-native-webview": "*"
   }
 }

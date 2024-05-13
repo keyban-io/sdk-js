@@ -1,6 +1,10 @@
-import { generateUUID } from "@keyban/sdk-base";
+import { generateUUID, hexToU8a, u8aToHex } from "@keyban/sdk-base";
 import type { WasmApi } from "@keyban/sdk-base";
-import { EddsaAddRequest } from "../../../compiled";
+import {
+  EddsaAddRequest,
+  EddsaAddResponse,
+  GenericMessage,
+} from "~/../compiled";
 
 type PromiseResolveFn = (data: string) => void;
 type EmitFn = (params: { type: keyof WasmApi; data: string }) => void;
@@ -24,8 +28,7 @@ export class NativeWasm implements WasmApi {
   async add(num1: number, num2: number): Promise<number> {
     this.ensureEmitFn();
     const callId = generateUUID(); // this should be random uuid
-    const uaPayload = EddsaAddRequest.encode({
-      callId,
+    const addPayload = EddsaAddRequest.encode({
       num1,
       num2,
     }).finish();
@@ -33,13 +36,13 @@ export class NativeWasm implements WasmApi {
     const resultString = await this.promisifyMessage(() => {
       this.emitFn?.({
         type: "add",
-        data: Buffer.from(uaPayload).toString("hex"),
+        data: this.prepareGenericMessage(callId, u8aToHex(addPayload)),
       });
     }, callId);
 
-    console.log("NativeWasm received: ", resultString);
+    const decodedResult = EddsaAddResponse.decode(hexToU8a(resultString));
 
-    return JSON.parse(resultString).result;
+    return decodedResult.sum;
   }
 
   // UTILS
@@ -51,14 +54,23 @@ export class NativeWasm implements WasmApi {
 
     return true;
   }
-  receiveMessage(messageString: string) {
-    const { id } = JSON.parse(messageString);
-    const resFn = this.promiseMap.get(id);
+  receiveMessage(messageHex: string) {
+    const decodedGenericMessage = GenericMessage.decode(hexToU8a(messageHex));
+    const { callId, payload } = decodedGenericMessage;
+    const resFn = this.promiseMap.get(callId);
 
     if (!resFn) return;
-    this.promiseMap.delete(id);
+    this.promiseMap.delete(callId);
 
-    resFn(messageString);
+    resFn(payload);
+  }
+
+  prepareGenericMessage(callId: string, payload: string) {
+    const arrayBufferMessage = GenericMessage.encode({
+      callId,
+      payload,
+    }).finish();
+    return u8aToHex(arrayBufferMessage);
   }
 
   promisifyMessage(callback: () => void, callId: string): Promise<string> {

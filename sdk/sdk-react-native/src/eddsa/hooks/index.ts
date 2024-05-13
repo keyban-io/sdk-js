@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { KeybanEddsaContext } from "~/eddsa/provider";
+import { KeybanEddsaContext } from "../provider";
 
 export const useKeybanEddsa = () => {
   const context = useContext(KeybanEddsaContext);

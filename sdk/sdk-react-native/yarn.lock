@@ -1834,10 +1834,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keyban/sdk-base@file:../sdk-base::locator=%40keyban%2Fsdk-react-native%40workspace%3A.":
+"@keyban/sdk-base@file:.yalc/@keyban/sdk-base::locator=%40keyban%2Fsdk-react-native%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-base@file:../sdk-base#../sdk-base::hash=88746b&locator=%40keyban%2Fsdk-react-native%40workspace%3A."
-  checksum: 055cf61463db73f0cf7ee9f1bee7fe042c6ed8c8b84d744448f2dca5f9945fd31ac3411b0bf2bc6d952d25980792e17237bbaea85e4df8fcd206aecef5570ebb
+  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=995967&locator=%40keyban%2Fsdk-react-native%40workspace%3A."
+  checksum: 2099bbb5421a61784b5eb6d29519443af0e333113027dab4ab51dca847fff2a1506e5cdac11fdfb2cd2c48d10c9b247dc65abc2088ccda44450461275536e7c2
   languageName: node
   linkType: hard
 
@@ -1848,7 +1848,7 @@ __metadata:
     "@biomejs/biome": ^1.6.4
     "@changesets/changelog-github": ^0.5.0
     "@changesets/cli": ^2.27.1
-    "@keyban/sdk-base": "file:../sdk-base"
+    "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base"
     "@types/node": ^20.12.7
     "@vitest/coverage-v8": ^1.4.0
     long: ^5.2.3
@@ -1856,6 +1856,7 @@ __metadata:
     protobufjs-cli: ^1.1.2
     react: ^18.3.1
     react-native: ^0.74.1
+    react-native-buffer: ^6.0.3
     react-native-react-bridge: ^0.11.2
     react-native-webview: ^13.10.0
     tsup: ^8.0.2
@@ -1866,8 +1867,8 @@ __metadata:
     react: "*"
     react-dom: "*"
     react-native: "*"
-    react-native-react-bridge: ^0.11.2
-    react-native-webview: ^13.8.7
+    react-native-react-bridge: "*"
+    react-native-webview: "*"
   languageName: unknown
   linkType: soft
 
@@ -5184,7 +5185,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ieee754@npm:^1.1.13":
+"ieee754@npm:^1.1.13, ieee754@npm:^1.2.1":
   version: 1.2.1
   resolution: "ieee754@npm:1.2.1"
   checksum: 5144c0c9815e54ada181d80a0b810221a253562422e7c6c3a60b1901154184f49326ec239d618c416c1c5945a2e197107aee8d986a3dd836b53dffefd99b5e7e
@@ -7695,6 +7696,30 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react-native-buffer@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "react-native-buffer@npm:6.0.3"
+  dependencies:
+    ieee754: ^1.2.1
+    react-native-fast-base64: ^0.1.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-fast-base64: "*"
+  checksum: 5a7c1f13791c30e0c6cf83c7f51858296d1b22619e65b9a520f4453ca52e9207a6400974ebe9b2ac2ba2d864022ea7407ac933a916b7c3ceceb439ba0ff8cfb9
+  languageName: node
+  linkType: hard
+
+"react-native-fast-base64@npm:^0.1.1":
+  version: 0.1.2
+  resolution: "react-native-fast-base64@npm:0.1.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 7bb9b4076ee5ad4bd2b393ddd5661dc33609f1996c78389fea05970bc643947334270ef68117a32537f718a3b86df6832d19f13827819d1156701ef9eb7ab0c1
   languageName: node
   linkType: hard
 
