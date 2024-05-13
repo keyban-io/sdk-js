@@ -61,7 +61,7 @@ tilt down
 
 ## Architecture
 
-### Architecture Decision Records
+### Decision Records
 
 They are stored in `./docs/adr` and are edited using [adr-tools](https://github.com/npryce/adr-tools).
 
