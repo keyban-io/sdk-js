@@ -1,0 +1,22 @@
+{{- $root := . -}}
+{{- range $key, $val := .Values }}
+{{- if hasKey $val "service" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+  labels:
+    {{- include "dap.labels" $root | nindent 4 }}
+spec:
+  type: {{ $val.service.type }}
+  ports:
+    - port: {{ $val.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "dap.selectorLabels" $root | nindent 4 }}
+    app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+{{- end }}
+{{- end }}

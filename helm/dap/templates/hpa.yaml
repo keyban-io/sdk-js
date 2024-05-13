@@ -1,0 +1,36 @@
+{{- $root := . -}}
+{{- range $key, $val := .Values }}
+{{- if and (hasKey $val "autoscaling") ($val.autoscaling.enabled) }}
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+  labels:
+    {{- include "dap.labels" $root | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+  minReplicas: {{ $val.autoscaling.minReplicas }}
+  maxReplicas: {{ $val.autoscaling.maxReplicas }}
+  metrics:
+    {{- if $val.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ $val.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if $val.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ $val.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
+{{- end }}
