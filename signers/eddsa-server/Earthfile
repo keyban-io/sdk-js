@@ -1,0 +1,19 @@
+VERSION 0.8
+
+
+live:
+    FROM ../../+rust
+    COPY --keep-ts --dir src Cargo.lock Cargo.toml .
+    RUN cargo install cargo-watch
+    RUN cargo build --bin signer-eddsa
+    CMD ["cargo", "watch", "-x", "run --bin signer-eddsa"]
+    ARG --required ref
+    SAVE IMAGE --push ${ref}
+
+
+
+
+
+
+
+

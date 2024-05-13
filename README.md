@@ -2,14 +2,18 @@
 
 Digital Asset Platform with Privacy Preserving Data Management
 
+## Architecture Decision Records ##
+
+They are stored in <./docs/adr> and are edited using [adr-tools](https://github.com/npryce/adr-tools).
+
 ## Stack installation
 
-Prerequisites: 
+Prerequisites:
 
 - your laptop is an Apple one with an m3 cpu.
 - your system must be up to date in order to install Docker.
 
-Install brew 
+Install brew
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
@@ -48,8 +52,8 @@ graph LR
     classDef accounts fill:#77b255,stroke:#000,stroke-width:2px, color:#000;
     classDef selected fill:#e91e63,stroke:#000,stroke-width:2px, color:#000;
 
-    EdDSAMPCTSSSigner("EdDSA MPC TSS Signer") 
-    EcDSAMPCTSSSigner("EcDSA MPC TSS Signer") 
+    EdDSAMPCTSSSigner("EdDSA MPC TSS Signer")
+    EcDSAMPCTSSSigner("EcDSA MPC TSS Signer")
 
     %% React Subgraph
     subgraph React
@@ -111,7 +115,7 @@ graph LR
                 BundlerRelayer("Relayer")
                 BundlerRPaymaster("Paymaster")
             end
-        end 
+        end
     end
 
     %% Authentication Subgraph
@@ -138,7 +142,7 @@ graph LR
         KeyStorageSolutionsSmartPhoneNative("Native Storage")
         KeyStorageSolutionsGenericPinCode("Generic Storage (Pin Code)")
     end
-    
+
     %% Connections for the MPC TSS signers
     EdDSAMPCTSSSigner --> KeyStorageSolutions
     EcDSAMPCTSSSigner --> KeyStorageSolutions
