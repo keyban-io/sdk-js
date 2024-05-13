@@ -47,6 +47,12 @@ earthly_build(
 )
 
 k8s_yaml(helm("./helm/dap", name="dap"))
+k8s_yaml("./helm/dap/networkpolicy-allow-ingress-access.yaml")
+
+k8s_resource(
+    objects=['allow-ingress-access:networkpolicy', 'dap-doc:Ingress:default', 'dap-nest:Ingress:default'],
+    new_name='ingress'
+  )
 
 k8s_resource('dap-doc', port_forwards=['8080:80'])
 k8s_resource('dap-nest', port_forwards=['3000:3000'])
