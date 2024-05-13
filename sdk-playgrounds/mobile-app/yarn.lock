@@ -1455,18 +1455,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keyban/sdk-base@file:../sdk-base::locator=%40keyban%2Fsdk-react-native%40file%3A.yalc%2F%40keyban%2Fsdk-react-native%23.yalc%2F%40keyban%2Fsdk-react-native%3A%3Ahash%3Dfcdc1d%26locator%3DDapMobile%2540workspace%253A.":
+"@keyban/sdk-base@file:.yalc/@keyban/sdk-base::locator=DapMobile%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-base@file:../sdk-base#../sdk-base::hash=995967&locator=%40keyban%2Fsdk-react-native%40file%3A.yalc%2F%40keyban%2Fsdk-react-native%23.yalc%2F%40keyban%2Fsdk-react-native%3A%3Ahash%3Dfcdc1d%26locator%3DDapMobile%2540workspace%253A."
+  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=995967&locator=DapMobile%40workspace%3A."
   checksum: 2099bbb5421a61784b5eb6d29519443af0e333113027dab4ab51dca847fff2a1506e5cdac11fdfb2cd2c48d10c9b247dc65abc2088ccda44450461275536e7c2
   languageName: node
   linkType: hard
 
 "@keyban/sdk-react-native@file:.yalc/@keyban/sdk-react-native::locator=DapMobile%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-react-native@file:.yalc/@keyban/sdk-react-native#.yalc/@keyban/sdk-react-native::hash=fcdc1d&locator=DapMobile%40workspace%3A."
+  resolution: "@keyban/sdk-react-native@file:.yalc/@keyban/sdk-react-native#.yalc/@keyban/sdk-react-native::hash=0717c4&locator=DapMobile%40workspace%3A."
   dependencies:
-    "@keyban/sdk-base": "file:../sdk-base"
+    "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base"
     long: ^5.2.3
     react-native-buffer: ^6.0.3
   peerDependencies:
@@ -1475,7 +1475,7 @@ __metadata:
     react-native: "*"
     react-native-react-bridge: "*"
     react-native-webview: "*"
-  checksum: 3e845b2805e186317a6c60f2c602ef3bb1979fd30fd3d373b0fd569bbd227ecf626ae4eeec70f5b72cc3385b90c1dba14a482c69b8617a2b125570eab968fcfc
+  checksum: cd34395d27737bfaba63cc7c9c551a10a9a022690cb163ecb54f5ff659791ad849f28240867381f302ff2755450bc02a9a575985a95b86c250a83045011cb559
   languageName: node
   linkType: hard
 

@@ -554,22 +554,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keyban/sdk-base@file:../sdk-base::locator=%40keyban%2Fsdk-react%40file%3A..%2F..%2Fsdk%2Fsdk-react%23..%2F..%2Fsdk%2Fsdk-react%3A%3Ahash%3D284b6a%26locator%3Dweb-app%2540workspace%253A.":
+"@keyban/sdk-base@file:.yalc/@keyban/sdk-base::locator=web-app%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-base@file:../sdk-base#../sdk-base::hash=cc5fa1&locator=%40keyban%2Fsdk-react%40file%3A..%2F..%2Fsdk%2Fsdk-react%23..%2F..%2Fsdk%2Fsdk-react%3A%3Ahash%3D284b6a%26locator%3Dweb-app%2540workspace%253A."
-  checksum: 41b66690d4567b2f68dfedfe6d80f7f20fa6be515c344257dc1907600ab38fd1d332dc6f75f2cb54633a543cd831b6937f4c533abc0c0e557986eade96eb2576
+  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=995967&locator=web-app%40workspace%3A."
+  checksum: 2099bbb5421a61784b5eb6d29519443af0e333113027dab4ab51dca847fff2a1506e5cdac11fdfb2cd2c48d10c9b247dc65abc2088ccda44450461275536e7c2
   languageName: node
   linkType: hard
 
-"@keyban/sdk-react@file:../../sdk/sdk-react::locator=web-app%40workspace%3A.":
+"@keyban/sdk-react@file:.yalc/@keyban/sdk-react::locator=web-app%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-react@file:../../sdk/sdk-react#../../sdk/sdk-react::hash=284b6a&locator=web-app%40workspace%3A."
+  resolution: "@keyban/sdk-react@file:.yalc/@keyban/sdk-react#.yalc/@keyban/sdk-react::hash=199c6d&locator=web-app%40workspace%3A."
   dependencies:
-    "@keyban/sdk-base": "file:../sdk-base"
+    "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base"
+    long: ^5.2.3
   peerDependencies:
-    react: ^18.3.1
-    react-dom: ^18.3.1
-  checksum: 9372b1e99d7e1a9684cedd9f3a0d318d659b92226219c62b9dbed582c63d1a981685e1f83b759d0b82e6f4c1c35469e4469879e91d4fdd47c68259792e546213
+    react: "*"
+    react-dom: "*"
+  checksum: 485ec0d433b42298a67131c432c1c47a2c255e2351bb62e43bd2b59fe453d9faed47af04f7d55b72108b731a0276f4b4054ec61f4d3c1499a3b6a939fc54c691
   languageName: node
   linkType: hard
 
@@ -813,12 +814,12 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*, @types/react@npm:^18.2.66":
-  version: 18.3.1
-  resolution: "@types/react@npm:18.3.1"
+  version: 18.3.2
+  resolution: "@types/react@npm:18.3.2"
   dependencies:
     "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: 9224ef319a0c2b7f66e7e7f06012aa5eb638a6c76c9742843eab1a5d243f2bed5ff829ddbb41efd60d33a266420528adfcb84cb93f238b00e905f98c3a355768
+  checksum: d0b8b9d0ede6cd28dbbe34106d914b5e3652d9d7aa9d0f32fe6171506b6fc7c826d9d6571642976a5422bd29c5022fd893a710ed59a1177a0c1df8e02cf17ffe
   languageName: node
   linkType: hard
 
@@ -1160,9 +1161,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001587":
-  version: 1.0.30001616
-  resolution: "caniuse-lite@npm:1.0.30001616"
-  checksum: adbfdb5e2c02b060834874bec3deb7865a2717fa417b08ad8235af806c48ad7bc433bbf053e1ea48209d28c603c6e6d163eee3f0e4eec70e72569e378a7f9106
+  version: 1.0.30001617
+  resolution: "caniuse-lite@npm:1.0.30001617"
+  checksum: a03bfd6ed474d14378f1b93bf90e9b0031e56a813cf42b364e5a86881ecdcdfdd58bf94c56febb0e4128c5ab57cc0a760ab7f3ef7ce0c1ead1af78a8e806375e
   languageName: node
   linkType: hard
 
@@ -1310,9 +1311,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.668":
-  version: 1.4.756
-  resolution: "electron-to-chromium@npm:1.4.756"
-  checksum: 59e9e35459e7f4dc53c09e85a74b8b77a1be8a711a66e79bcd3dfdfd2a894bc48219a890d36314d16fe58a03a5df4080d942ae163c4d04e8d3fedb2b3510e518
+  version: 1.4.763
+  resolution: "electron-to-chromium@npm:1.4.763"
+  checksum: e32a2ed7e8b305cb01577caf26d9f0f206a476279983b28a577322045786fdec4088c9382a40b357c4590b619877cb49afe985837078642fa96d2bd526c2f84f
   languageName: node
   linkType: hard
 
@@ -1464,11 +1465,11 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-react-refresh@npm:^0.4.6":
-  version: 0.4.6
-  resolution: "eslint-plugin-react-refresh@npm:0.4.6"
+  version: 0.4.7
+  resolution: "eslint-plugin-react-refresh@npm:0.4.7"
   peerDependencies:
     eslint: ">=7"
-  checksum: f897bfc1c52d21b9941f1f0b7c3e89a7eb8404c10d73739fc91812a3347d0da8e37e0698fafb059222e629f9d56b5c991a88133105f12b82ad3178b91f7e1041
+  checksum: b2fe14d4ed158b6380ffd9831a5ebed4c79828ea806536d5db0aa8370f8a3878b198d77fc7da18bfd862cd9eb19ed4472cc9977f727f81679f80dcb48f8a3861
   languageName: node
   linkType: hard
 
@@ -1756,17 +1757,17 @@ __metadata:
   linkType: hard
 
 "glob@npm:^10.2.2, glob@npm:^10.3.10":
-  version: 10.3.12
-  resolution: "glob@npm:10.3.12"
+  version: 10.3.15
+  resolution: "glob@npm:10.3.15"
   dependencies:
     foreground-child: ^3.1.0
     jackspeak: ^2.3.6
     minimatch: ^9.0.1
     minipass: ^7.0.4
-    path-scurry: ^1.10.2
+    path-scurry: ^1.11.0
   bin:
     glob: dist/esm/bin.mjs
-  checksum: 2b0949d6363021aaa561b108ac317bf5a97271b8a5d7a5fac1a176e40e8068ecdcccc992f8a7e958593d501103ac06d673de92adc1efcbdab45edefe35f8d7c6
+  checksum: c7aeae0b4eea0dfedc6682b71a8ad4d1ea9dfec0f2440571f916e1918c046824c8d441bbe1965c06fede025a0726c6daab5ae8019afe667364f43776eaaf9044
   languageName: node
   linkType: hard
 
@@ -2106,6 +2107,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"long@npm:^5.2.3":
+  version: 5.2.3
+  resolution: "long@npm:5.2.3"
+  checksum: 885ede7c3de4facccbd2cacc6168bae3a02c3e836159ea4252c87b6e34d40af819824b2d4edce330bfb5c4d6e8ce3ec5864bdcf9473fa1f53a4f8225860e5897
+  languageName: node
+  linkType: hard
+
 "loose-envify@npm:^1.1.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
@@ -2130,15 +2138,6 @@ __metadata:
   dependencies:
     yallist: ^3.0.2
   checksum: c154ae1cbb0c2206d1501a0e94df349653c92c8cbb25236d7e85190bcaf4567a03ac6eb43166fabfa36fd35623694da7233e88d9601fbf411a9a481d85dbd2cb
-  languageName: node
-  linkType: hard
-
-"lru-cache@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "lru-cache@npm:6.0.0"
-  dependencies:
-    yallist: ^4.0.0
-  checksum: f97f499f898f23e4585742138a22f22526254fdba6d75d41a1c2526b3b6cc5747ef59c5612ba7375f42aca4f8461950e925ba08c991ead0651b4918b7c978297
   languageName: node
   linkType: hard
 
@@ -2265,9 +2264,9 @@ __metadata:
   linkType: hard
 
 "minipass@npm:^5.0.0 || ^6.0.2 || ^7.0.0, minipass@npm:^7.0.2, minipass@npm:^7.0.3, minipass@npm:^7.0.4":
-  version: 7.1.0
-  resolution: "minipass@npm:7.1.0"
-  checksum: c057d4b1d7fdb35b8f4b9d8f627b1f6832c441cd7dff9304ee5efef68abb3b460309bf97b1b0ce5b960e259caa53c724f609d058e4dc12d547e2a074aaae2cd6
+  version: 7.1.1
+  resolution: "minipass@npm:7.1.1"
+  checksum: d2c461947a7530f93de4162aa3ca0a1bed1f121626906f6ec63a5ba05fd7b1d9bee4fe89a37a43db7241c2416be98a799c1796abae583c7180be37be5c392ef6
   languageName: node
   linkType: hard
 
@@ -2438,13 +2437,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-scurry@npm:^1.10.2":
-  version: 1.10.2
-  resolution: "path-scurry@npm:1.10.2"
+"path-scurry@npm:^1.11.0":
+  version: 1.11.1
+  resolution: "path-scurry@npm:1.11.1"
   dependencies:
     lru-cache: ^10.2.0
     minipass: ^5.0.0 || ^6.0.2 || ^7.0.0
-  checksum: 6739b4290f7d1a949c61c758b481c07ac7d1a841964c68cf5e1fa153d7e18cbde4872b37aadf9c5173c800d627f219c47945859159de36c977dd82419997b9b8
+  checksum: 890d5abcd593a7912dcce7cf7c6bf7a0b5648e3dee6caf0712c126ca0a65c7f3d7b9d769072a4d1baf370f61ce493ab5b038d59988688e0c5f3f646ee3c69023
   languageName: node
   linkType: hard
 
@@ -2682,23 +2681,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.5":
-  version: 7.6.1
-  resolution: "semver@npm:7.6.1"
+"semver@npm:^7.3.5, semver@npm:^7.6.0":
+  version: 7.6.2
+  resolution: "semver@npm:7.6.2"
   bin:
     semver: bin/semver.js
-  checksum: 2c9c89b985230c0fcf02c96ae6a3ca40c474f2f4e838634394691e6e10c347a0c6def0f14fc355d82f90f1744a073b8b9c45457b108aa728280b5d68ed7961cd
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.6.0":
-  version: 7.6.0
-  resolution: "semver@npm:7.6.0"
-  dependencies:
-    lru-cache: ^6.0.0
-  bin:
-    semver: bin/semver.js
-  checksum: 7427f05b70786c696640edc29fdd4bc33b2acf3bbe1740b955029044f80575fc664e1a512e4113c3af21e767154a94b4aa214bf6cd6e42a1f6dba5914e0b208c
+  checksum: 40f6a95101e8d854357a644da1b8dd9d93ce786d5c6a77227bc69dbb17bea83d0d1d1d7c4cd5920a6df909f48e8bd8a5909869535007f90278289f2451d0292d
   languageName: node
   linkType: hard
 
@@ -3015,7 +3003,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web-app@workspace:."
   dependencies:
-    "@keyban/sdk-react": "file:../../sdk/sdk-react"
+    "@keyban/sdk-react": "file:.yalc/@keyban/sdk-react"
     "@types/react": ^18.2.66
     "@types/react-dom": ^18.2.22
     "@typescript-eslint/eslint-plugin": ^7.2.0

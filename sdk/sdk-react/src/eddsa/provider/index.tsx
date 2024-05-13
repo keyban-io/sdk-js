@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   type ReactNode,
   useCallback,
@@ -12,7 +12,7 @@ import type { WasmApi } from "@keyban/sdk-base";
 
 export const KeybanEddsaContext = createContext<null | ConetxtType>(null);
 
-export const KeybanProvider = ({
+export const KeybanEddsaProvider = ({
   children,
   storageProvider,
 }: {
@@ -43,7 +43,7 @@ export const KeybanProvider = ({
   }, [storageProvider]);
 
   const add: ConetxtType["add"] = useCallback(
-    (num1: number, num2: number) => {
+    async (num1: number, num2: number) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new Error(ErrorCodes.NOT_INITIALIZED);
       }

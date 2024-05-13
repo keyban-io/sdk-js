@@ -1,17 +1,9 @@
-import {useEffect, useMemo, useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-import {eddsa} from '@keyban/sdk-react-native';
+import {KeybanEddsaProvider, useKeybanEddsa} from '@keyban/sdk-react-native';
 import webApp from './src/keybanWebView';
-const {useKeybanEddsa, KeybanEddsaProvider} = eddsa;
+
 function App() {
   return (
     <KeybanEddsaProvider
@@ -29,14 +21,11 @@ const Main = () => {
   const {add, initialized} = useKeybanEddsa();
   const [sum, setSum] = useState<number | null>(0);
   useEffect(() => {
-    console.log('hyto', initialized);
     const init = async () => {
       if (initialized) {
-        console.log('hegaxd');
         const res = await add(3, 3).catch(e => {
           console.error(e);
         });
-        console.log('reh', res);
         setSum(res ?? 0);
       }
     };

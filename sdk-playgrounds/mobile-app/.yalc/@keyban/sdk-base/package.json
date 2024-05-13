@@ -1,0 +1,58 @@
+{
+  "name": "@keyban/sdk-base",
+  "version": "0.0.1",
+  "description": "Base SDK from Keyban MPC wallet solution.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keyban-io/dap.git"
+  },
+  "homepage": "https://github.com/keyban-io/dap",
+  "bugs": "https://github.com/keyban-io/dap/issues",
+  "author": {
+    "name": "Keyban",
+    "email": "keyban@google.com",
+    "url": "https://keyban.com"
+  },
+  "keywords": [
+    "hedera",
+    "plygon",
+    "eddsa",
+    "ecdsa",
+    "mpc",
+    "crypto"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {}
+  },
+  "files": [
+    "dist/**/*",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "NODE_ENV=production tsup",
+    "build:docs": "typedoc --out docs ./src/index.ts",
+    "dev": "tsup --watch",
+    "format": "biome check --apply ./src",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
+    "changeset": "changeset"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "yalcSig": "3464af7d0e2fbf43cc949d8f74a5d137"
+}

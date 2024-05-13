@@ -1,0 +1,12 @@
+import { b, c } from './chunk-ZTDFCM3P.mjs';
+import { createContext, useRef, useState, useCallback, useContext } from 'react';
+import { EddsaClient, generateUUID, u8aToHex, hexToU8a } from '@keyban/sdk-base';
+import { useWebViewMessage } from 'react-native-react-bridge';
+import F from 'react-native-webview';
+import { jsxs, jsx } from 'react/jsx-runtime';
+
+var i=b(c());var p=class{constructor(t){this.promiseMap=new Map;this.emitFn=null;this.signMessage=(t,s)=>Promise.resolve("");this.generateKeypair=()=>Promise.resolve("");this.promiseMap=new Map,this.emitFn=t;}async add(t,s){this.ensureEmitFn();let e=generateUUID(),r=i.EddsaAddRequest.encode({num1:t,num2:s}).finish(),n=await this.promisifyMessage(()=>{var a;(a=this.emitFn)==null||a.call(this,{type:"add",data:this.prepareGenericMessage(e,u8aToHex(r))});},e);return i.EddsaAddResponse.decode(hexToU8a(n)).sum}ensureEmitFn(){if(!this.emitFn)throw new Error("critical: missing emmit function");return !0}receiveMessage(t){let s=i.GenericMessage.decode(hexToU8a(t)),{callId:e,payload:r}=s,n=this.promiseMap.get(e);n&&(this.promiseMap.delete(e),n(r));}prepareGenericMessage(t,s){let e=i.GenericMessage.encode({callId:t,payload:s}).finish();return u8aToHex(e)}promisifyMessage(t,s){return new Promise((e,r)=>{t(),this.promiseMap.set(s,e),setTimeout(r,1e4);})}};var l=createContext(null),Z=({children:o,storageProvider:t,webApp:s})=>{let e=useRef(null),r=useRef(null),[n,u]=useState(!1),{ref:a,onMessage:b,emit:v}=useWebViewMessage(async d=>{var m,c;if(d.type==="initialized"){console.log("WebAssembly initialized inside WebView"),e.current=new p(v),r.current=new EddsaClient(e.current,{get:w=>Promise.resolve("1"),save:(w,k)=>Promise.resolve(!0)}),await((m=r.current)==null?void 0:m.initialize()),u(!0);return}(c=e.current)==null||c.receiveMessage(d.data);}),E=useCallback((d,m)=>{if(!n||!r.current)throw new Error("NOT_INITIALIZED");return r.current.add(d,m)},[n]);return jsxs(l.Provider,{value:{storageProvider:t,eddsaClient:r.current,wasmApi:e.current,initialized:n,add:E},children:[jsx(F,{ref:a,style:{display:"none"},webviewDebuggingEnabled:!0,cacheEnabled:!1,source:{html:s},onMessage:b}),o]})};var Q=()=>{let o=useContext(l);if(!o)throw new Error("useKeyban hook must be used inside KeybanProvider");return o};
+
+export { l as KeybanEddsaContext, Z as KeybanEddsaProvider, Q as useKeybanEddsa };
+//# sourceMappingURL=out.js.map
+//# sourceMappingURL=index.mjs.map

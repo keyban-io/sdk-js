@@ -52,7 +52,8 @@
     "changeset": "changeset"
   },
   "dependencies": {
-    "@keyban/sdk-base": "file:../sdk-base"
+    "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base",
+    "long": "^5.2.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.4",
@@ -70,7 +71,7 @@
     "access": "restricted"
   },
   "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "*",
+    "react-dom": "*"
   }
 }

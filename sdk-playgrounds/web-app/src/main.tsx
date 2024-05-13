@@ -2,14 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { KeybanLocalStorage, KeybanProvider } from "@keyban/sdk-react";
+import { KeybanLocalStorage, KeybanEddsaProvider } from "@keyban/sdk-react";
 
 const keybanLocalStorage = new KeybanLocalStorage();
 
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <KeybanProvider storageProvider={keybanLocalStorage}>
+    <KeybanEddsaProvider storageProvider={keybanLocalStorage}>
       <App />
-    </KeybanProvider>
+    </KeybanEddsaProvider>
   </React.StrictMode>
 );

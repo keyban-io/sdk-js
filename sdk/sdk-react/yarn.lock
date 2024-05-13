@@ -828,10 +828,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keyban/sdk-base@file:../sdk-base::locator=%40keyban%2Fsdk-react%40workspace%3A.":
+"@keyban/sdk-base@file:.yalc/@keyban/sdk-base::locator=%40keyban%2Fsdk-react%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-base@file:../sdk-base#../sdk-base::hash=cc5fa1&locator=%40keyban%2Fsdk-react%40workspace%3A."
-  checksum: 41b66690d4567b2f68dfedfe6d80f7f20fa6be515c344257dc1907600ab38fd1d332dc6f75f2cb54633a543cd831b6937f4c533abc0c0e557986eade96eb2576
+  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=995967&locator=%40keyban%2Fsdk-react%40workspace%3A."
+  checksum: 2099bbb5421a61784b5eb6d29519443af0e333113027dab4ab51dca847fff2a1506e5cdac11fdfb2cd2c48d10c9b247dc65abc2088ccda44450461275536e7c2
   languageName: node
   linkType: hard
 
@@ -842,17 +842,18 @@ __metadata:
     "@biomejs/biome": ^1.6.4
     "@changesets/changelog-github": ^0.5.0
     "@changesets/cli": ^2.27.1
-    "@keyban/sdk-base": "file:../sdk-base"
+    "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base"
     "@types/node": ^20.12.7
     "@vitest/coverage-v8": ^1.4.0
+    long: ^5.2.3
     react: ^18.3.1
     tsup: ^8.0.2
     typedoc: ^0.25.13
     typescript: ^5.4.5
     vitest: ^1.4.0
   peerDependencies:
-    react: ^18.3.1
-    react-dom: ^18.3.1
+    react: "*"
+    react-dom: "*"
   languageName: unknown
   linkType: soft
 
@@ -3262,6 +3263,13 @@ __metadata:
   version: 4.4.0
   resolution: "lodash.startcase@npm:4.4.0"
   checksum: c03a4a784aca653845fe09d0ef67c902b6e49288dc45f542a4ab345a9c406a6dc194c774423fa313ee7b06283950301c1221dd2a1d8ecb2dac8dfbb9ed5606b5
+  languageName: node
+  linkType: hard
+
+"long@npm:^5.2.3":
+  version: 5.2.3
+  resolution: "long@npm:5.2.3"
+  checksum: 885ede7c3de4facccbd2cacc6168bae3a02c3e836159ea4252c87b6e34d40af819824b2d4edce330bfb5c4d6e8ce3ec5864bdcf9473fa1f53a4f8225860e5897
   languageName: node
   linkType: hard
 
