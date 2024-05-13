@@ -1,9 +1,9 @@
-import { useKeyban } from "@keyban/sdk-react";
+import { useKeybanEddsa } from "@keyban/sdk-react";
 import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const { initialized, add } = useKeyban();
+  const { initialized, add } = useKeybanEddsa();
 
   const [sum, setSum] = useState<number | null>(0);
   useEffect(() => {
