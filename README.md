@@ -1,35 +1,71 @@
-# dap
+# DAP
 
-Digital Asset Platform with Privacy Preserving Data Management
+Digital Asset Platform with Privacy Preserving Data Management by Keyban
 
-## Architecture Decision Records ##
+![Keyban](./docs/images/logo.svg)
 
-They are stored in <./docs/adr> and are edited using [adr-tools](https://github.com/npryce/adr-tools).
+[![Website](https://img.shields.io/badge/website-keyban.io-blue)](https://www.keyban.io)
 
-## Stack installation
+## Table of Contents
 
-Prerequisites:
+* [Installation](#installation)
+* [Quick Start](#quick-start)
+* [Architecture](#architecture)
 
-- your laptop is an Apple one with an m3 cpu.
-- your system must be up to date in order to install Docker.
+## Installation
 
-Install brew
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+### Prerequisites
 
-Install Docker
-```bash
-```
+- Docker >= 25.0.5
+- CLK >= 0.36.0
 
+### CLK
 
 Install CLK
+
 ```bash
 curl -sSL https://clk-project.org/install.sh | env CLK_EXTENSIONS=k8s bash
 ```
 
+Verify CLK version
 
-## Introduction to the System Architecture Diagram for Account and Transaction Management on Hedera and Polygon Networks
+```bash
+clk --version
+```
+
+Install k8s extension to CLK
+
+```bash
+clk extension install k8s
+```
+
+## Quick Start
+
+Boot the k8s
+
+```bash
+clk k8s flow
+```
+
+Start the stack
+
+```bash
+tilt up
+```
+
+Stop the stack
+
+```bash
+tilt down
+```
+
+## Architecture
+
+### Architecture Decision Records
+
+They are stored in `./docs/adr` and are edited using [adr-tools](https://github.com/npryce/adr-tools).
+
+### Introduction to the System Architecture Diagram for Account and Transaction Management on Hedera and Polygon Networks
 
 This diagram provides a comprehensive overview of the system architecture designed to manage accounts and transactions within the Hedera and Polygon blockchain environments. It highlights key components and interactions that support the end-to-end processes of account management, including the creation, monitoring, and handling of both native and non-native transactions.
 
