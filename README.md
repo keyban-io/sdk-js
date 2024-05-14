@@ -6,18 +6,24 @@ Digital Asset Platform with Privacy Preserving Data Management by Keyban
 
 [![Website](https://img.shields.io/badge/website-keyban.io-blue)](https://www.keyban.io)
 
+## Overview
+
+The DAP (Digital Asset Platform) project aims to integrate digital assets into various business applications seamlessly. This platform leverages blockchain technology to provide secure, scalable, and user-friendly solutions for managing digital assets, including cryptocurrencies, tokens, and digital passports. The project includes developing multiple components, such as SDKs, user interfaces, and backend services to support various use cases.
+
 ## Table of Contents
 
 * [Installation](#installation)
 * [Quick Start](#quick-start)
+* [Wallet Stories](#wallet-stories)
+* [Hedera Stories](#hedera-stories)
 * [Architecture](#architecture)
 
 ## Installation
 
 ### Prerequisites
 
-- Docker >= 25.0.5
-- CLK >= 0.36.0
+* Docker >= 25.0.5
+* CLK >= 0.36.0
 
 ### CLK
 
@@ -59,6 +65,61 @@ Stop the stack
 tilt down
 ```
 
+## Wallet Stories
+
+The Wallet Stories section focuses on the development of components and features related to cryptocurrency wallets. These include secure key storage solutions, user authentication modules, transaction handling, and various UI components.
+
+### Components and Features
+
+* **C4 Model**
+* **ECDSA TSS MPC React Signer**
+  * React Component for Browser Unsafe Key Storage Solution
+  * React Component for Smartphone Unsafe Key Storage Solution
+  * React Component for Smartphone Native Key Storage Solution
+* **Unified Error Handling**
+* **Zero Trust Architecture**
+* **React Wallet SDK Setup**
+* **React Account Listing Component**
+* **React User Authentication Module (parent: OAuth2 Support)**
+* **SDK Documentation Hub**
+* **Quick Start Guides**
+* **FAQs and Troubleshooting**
+* **Application Definition Interface - Admin Portal**
+* **React KMS Integration for Secure Data Storage**
+* **Smart Account Contract**
+* **Gas-Less Transaction via Gas Sponsoring**
+* **React Native Balance Display**
+  * React Non-Native Balance Display
+  * React Token Balance Display & Token Details
+* **React Native Cryptocurrency Send Component**
+* **React Token Send Component (Non-native Tokens)**
+* **React Pending Transactions History Component**
+* **React Received Transactions History Component**
+* **React Notification for Incoming and Outgoing Cryptocurrency Transactions**
+* **React Sent Transactions History Component**
+* **React Network Selection Component**
+* **Signer Operation Benchmarking**
+* **Pen Testing**
+* **SOC 2 Certification**
+* **Service SLA Features**
+* **Real-Time Platform Status Page**
+* **Operational Cost Management for Infrastructure and Services**
+* **React Component for Google Drive Wallet Data Storage**
+
+## Hedera Stories
+
+The Hedera Stories section includes various use cases focused on integrating the Hedera network with the DAP platform. These use cases highlight how the platform can be utilized for logistics traceability, data monetization, and more.
+
+### Use Cases
+
+* **UC1: Wallet and DPP Association**
+* **UC2: Logistics Traceability**
+* **UC3: Repairing Log**
+* **UC4: Second Hand Market**
+* **UC5: Recycling / End of DPP Lifecycle**
+* **UC6: Data Monetization**
+* **UC7: Retargeted Promotional Offer**
+
 ## Architecture
 
 ### Decision Records
@@ -71,10 +132,10 @@ This diagram provides a comprehensive overview of the system architecture design
 
 The architecture is segmented into various subgraphs, each detailing a specific aspect of the system:
 
-- **React**: Focuses on the frontend interactions within the system, showcasing components like React Wallet which interfaces with both Hedera and Polygon accounts.
-- **Hedera and Polygon Subgraphs**: These sections illustrate the specific functionalities provided by the Hedera and Polygon networks, including account creation, balance management, and transaction history, along with detailed transaction processes like crypto and token transfers.
-- **Auth**: This subgraph details the authentication services integrated into the system, such as OAuth2, Auth0, and Amazon Cognito, which ensure secure user access and identity management.
-- **Key Storage**: Explores various key storage solutions that support secure key management across different platforms including web browsers and smartphones, highlighting both generic and specific storage options like Google Drive, Apple iCloud, and native smartphone storage.
+* **React**: Focuses on the frontend interactions within the system, showcasing components like React Wallet which interfaces with both Hedera and Polygon accounts.
+* **Hedera and Polygon Subgraphs**: These sections illustrate the specific functionalities provided by the Hedera and Polygon networks, including account creation, balance management, and transaction history, along with detailed transaction processes like crypto and token transfers.
+* **Auth**: This subgraph details the authentication services integrated into the system, such as OAuth2, Auth0, and Amazon Cognito, which ensure secure user access and identity management.
+* **Key Storage**: Explores various key storage solutions that support secure key management across different platforms including web browsers and smartphones, highlighting both generic and specific storage options like Google Drive, Apple iCloud, and native smartphone storage.
 
 ```mermaid
 graph LR
