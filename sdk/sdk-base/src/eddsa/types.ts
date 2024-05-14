@@ -10,5 +10,5 @@ export type WasmApi = {
 
 export type StorageProviderApi = {
   save: (key: string, payload: string) => Promise<boolean>;
-  get: (key: string) => Promise<string>;
+  get: (key: string) => Promise<string | undefined>;
 };
