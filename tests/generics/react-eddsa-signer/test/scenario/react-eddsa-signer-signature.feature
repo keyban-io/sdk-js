@@ -13,13 +13,6 @@ Feature: Signing with the React Signer Library using EdDSA
         When the client requests the library to sign data
         Then the library should return successfully signed data with EdDSA signatures
 
-    @edge_case @data_signing @no_master_key @eds_dsa @generic
-    Scenario: Attempt to sign data without a master key
-        Given the client does not have a master key
-        When the client attempts to sign data using the library
-        Then the library should return an error indicating "No master key found"
-        And the error should be logged with the severity "Critical"
-
     @error_handling @data_signing @signing_error @eds_dsa @generic
     Scenario: Handling errors during the data signing process with EdDSA
         Given the signing process is initiated with valid input data
@@ -28,3 +21,6 @@ Feature: Signing with the React Signer Library using EdDSA
         And the error details should be systématiquement logged with timestamp and error type
         And an error response should be returned by the library
         And the library should provide suggestions to retry or resolve the issue
+
+
+NOTE: Attempt to sign data without a master key scenario is probably not relevant #59

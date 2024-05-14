@@ -24,6 +24,19 @@ gantt
     Delivery Report: crit, after si, 5d
 ```
 
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    axisFormat %m/%d
+    excludes weekdays saturday,sunday
+
+    section Keyban Wallet Development for Hedera
+    L1.1 Architecture: a1, 2024-04-24, 30d
+    L1.2 Integration: s2, after a1, 70d
+    L1.3 Acceptance Test: si, after s2, 30d
+    Delivery Report: crit, after si, 5d
+```
+
 ## DPP Team Composition
 
 | Profil                                  | Team mate       |
@@ -51,6 +64,22 @@ gantt
     SDK Development: sdks, 2024-10-08, 30d
     DPP Website Development: web, 2024-11-24, 45d
     Delivery Report: crit, after web, 6d
+```
+
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    axisFormat %m/%d
+    excludes weekdays saturday,sunday
+
+    section Hedera Digital Passport Platform (DPP)
+    L2.1 Architecture Design: arch, 2024-07-24, 60d
+    L2.2 Keyban Services Implementation: keyban, after arch, 90d
+    L2.3 External Services Integration & Test: ext, after keyban, 30d
+    L2.4 Smart Contracts Development: contracts, after ext, 45d
+    L2.5 DPP Website Development: web, 2024-11-24, 45d
+    L2.6 Delivery Report: report, after web, 6d
+
 ```
 
 # Overall Project Timeline

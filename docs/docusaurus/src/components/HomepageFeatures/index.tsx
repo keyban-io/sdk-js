@@ -1,59 +1,74 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import Link from '@docusaurus/Link';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  imageSrc: string;
   description: JSX.Element;
+  buttonLabel?: string; // New optional property for button label
+  buttonLink?: string; // New optional property for button link
 };
 
+// Update your FeatureList to include a label and link for each button
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Smart Wallet as a Service',
+    imageSrc: require('@site/static/img/smart-wallet-as-a-service.png').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Onboard millions of users with your favorite applications.
       </>
     ),
+    buttonLabel: 'Get started', // Set button label
+    buttonLink: '/smart-wallet', // Set relative or absolute path
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Tokenization as a Service',
+    imageSrc: require('@site/static/img/tokenization-as-a-service.png').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Tokenize products, services, and loyalty cards in a snap. Leverage end-to-end traceability.
       </>
     ),
+    buttonLabel: 'Get started',
+    buttonLink: '/tokenization',
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Privacy preserving customer relationship',
+    imageSrc: require('@site/static/img/privacy-preserving-customer-relationship.png').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Compute insights from end-to-end digital passport tracking. No GDPR, no cookies.
       </>
     ),
+    buttonLabel: 'Get started',
+    buttonLink: '/privacy',
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({ title, imageSrc, description, buttonLabel, buttonLink }: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx('col col--4', styles.featureItem)}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <img src={imageSrc} className={styles.featureSvg} alt={title} />
       </div>
-      <div className="text--center padding-horiz--md">
+      <div className={clsx('text--center padding-horiz--md', styles.featureContent)}>
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>
       </div>
+      {buttonLabel && buttonLink && (
+        <div className="text--center">
+          <Link to={buttonLink} className={clsx('button button--primary', styles.featureButton)}>
+            {buttonLabel}
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
+
 
 export default function HomepageFeatures(): JSX.Element {
   return (
