@@ -1,11 +1,14 @@
-export enum EddsaClientErrors {
+export enum SignerClientErrors {
   CANNOT_PERFORM_ACTION_WITHOUT_ACCOUNT = "CANNOT_PERFORM_ACTION_WITHOUT_ACCOUNT",
+  FAILED_TO_SAVE_TO_STORE = "FAILED_TO_SAVE_TO_STORE",
 }
 class SignerClientError extends Error {
-  constructor(code: EddsaClientErrors) {
+  nativeError;
+  constructor(code: SignerClientErrors, nativeError?: unknown) {
     super(code);
     this.name = "SignerClientError";
     this.stack = new Error().stack;
+    this.nativeError = nativeError;
   }
 }
 
