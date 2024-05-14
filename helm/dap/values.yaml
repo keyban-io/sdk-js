@@ -131,6 +131,9 @@ nestjs:
     port: 3000
     probePath: /api
 
+  env:
+    SIGNER_URL: "http://localhost:9000"
+
   ingress:
     enabled: true
     className: ""
