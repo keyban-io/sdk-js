@@ -1,26 +1,28 @@
 import {
-  createContext,
+  EddsaClient,
+  getWasmBuffer,
+  SignerClientError,
+  SignerClientErrors,
+} from "@keyban/sdk-base";
+import type { WasmApi } from "@keyban/sdk-base";
+import {
   type ReactNode,
+  createContext,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { type KeybanEddsaContext as ConetxtType, ErrorCodes } from "./types";
-import { EddsaClient, getWasmBuffer } from "@keyban/sdk-base";
-import type { WasmApi } from "@keyban/sdk-base";
+import type { KeybanEddsaContext as ConetxtType } from "./types";
 
 export const KeybanEddsaContext = createContext<null | ConetxtType>(null);
 
-export const KeybanEddsaProvider = ({
-  children,
-  storageProvider,
-}: {
-  children: ReactNode;
-  storageProvider: ConetxtType["storageProvider"];
-}) => {
+export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   const wasmApiRef = useRef<ConetxtType["wasmApi"] | null>(null);
   const eddsaClientRef = useRef<ConetxtType["eddsaClient"] | null>(null);
+  const [knownAccounts, setKnownAccounts] = useState<
+    ConetxtType["knownAccounts"]
+  >([]);
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -35,20 +37,43 @@ export const KeybanEddsaProvider = ({
         .exports as WasmApi;
       wasmApiRef.current = wasmApi;
 
-      eddsaClientRef.current = new EddsaClient(wasmApi, storageProvider);
+      eddsaClientRef.current = new EddsaClient(wasmApi);
       setInitialized(true);
     };
 
     init();
-  }, [storageProvider]);
+  }, []);
 
-  const add: ConetxtType["add"] = useCallback(
-    async (num1: number, num2: number) => {
+  const createAccount: ConetxtType["createAccount"] = useCallback(
+    async (storageProvider) => {
       if (!initialized || !eddsaClientRef.current) {
-        throw new Error(ErrorCodes.NOT_INITIALIZED);
+        throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
       }
 
-      return eddsaClientRef.current.add(num1, num2);
+      const account = await eddsaClientRef.current?.createAccount(
+        storageProvider
+      );
+      setKnownAccounts((prev) => {
+        prev.push(account);
+        return prev;
+      });
+
+      return account;
+    },
+    [initialized]
+  );
+
+  const getSaveAccounts: ConetxtType["getSaveAccounts"] = useCallback(
+    async (storageProvider) => {
+      if (!initialized || !eddsaClientRef.current) {
+        throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
+      }
+
+      const accounts = await eddsaClientRef.current?.getSaveAccounts(
+        storageProvider
+      );
+      setKnownAccounts(accounts);
+      return accounts;
     },
     [initialized]
   );
@@ -56,12 +81,12 @@ export const KeybanEddsaProvider = ({
   return (
     <KeybanEddsaContext.Provider
       value={{
-        storageProvider,
         eddsaClient: eddsaClientRef.current,
         wasmApi: wasmApiRef.current,
         initialized,
-
-        add,
+        createAccount,
+        getSaveAccounts,
+        knownAccounts,
       }}
     >
       {children}

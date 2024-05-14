@@ -556,21 +556,21 @@ __metadata:
 
 "@keyban/sdk-base@file:.yalc/@keyban/sdk-base::locator=web-app%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=995967&locator=web-app%40workspace%3A."
-  checksum: 2099bbb5421a61784b5eb6d29519443af0e333113027dab4ab51dca847fff2a1506e5cdac11fdfb2cd2c48d10c9b247dc65abc2088ccda44450461275536e7c2
+  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=8e4738&locator=web-app%40workspace%3A."
+  checksum: 7270002c5fcafd718e8b1cd7b4c07e35003cdf3680ef69bae3b799ea6f67e10955912a8bf4f9f3b9685656266fca40d9e67aff08d38c2af3aebe5da6b03418e8
   languageName: node
   linkType: hard
 
 "@keyban/sdk-react@file:.yalc/@keyban/sdk-react::locator=web-app%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-react@file:.yalc/@keyban/sdk-react#.yalc/@keyban/sdk-react::hash=199c6d&locator=web-app%40workspace%3A."
+  resolution: "@keyban/sdk-react@file:.yalc/@keyban/sdk-react#.yalc/@keyban/sdk-react::hash=8f914b&locator=web-app%40workspace%3A."
   dependencies:
     "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base"
     long: ^5.2.3
   peerDependencies:
     react: "*"
     react-dom: "*"
-  checksum: 485ec0d433b42298a67131c432c1c47a2c255e2351bb62e43bd2b59fe453d9faed47af04f7d55b72108b731a0276f4b4054ec61f4d3c1499a3b6a939fc54c691
+  checksum: d6d968946709b0d736955fcf61f61b68e28ad360a49ea828135643c2421f52c09ea197610e3d6783cad9725ac3971842374779a925f80f455a8ad532aedaaa7c
   languageName: node
   linkType: hard
 

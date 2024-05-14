@@ -1,8 +1,9 @@
 export enum SignerClientErrors {
   CANNOT_PERFORM_ACTION_WITHOUT_ACCOUNT = "CANNOT_PERFORM_ACTION_WITHOUT_ACCOUNT",
+  CLIENT_NOT_INITIALIZED = "CLIENT_NOT_INITIALIZED",
   FAILED_TO_SAVE_TO_STORE = "FAILED_TO_SAVE_TO_STORE",
 }
-class SignerClientError extends Error {
+export class SignerClientError extends Error {
   nativeError;
   constructor(code: SignerClientErrors, nativeError?: unknown) {
     super(code);

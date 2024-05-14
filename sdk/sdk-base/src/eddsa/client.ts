@@ -20,7 +20,8 @@ class EddsaClient {
     const [clientShare, serverShare] = ["ffeksahfkj", "lhefskhj"];
     // 2. Save client share to provided storage
     const savedSharesString = await storageProvider.get("keyban-eddsa");
-    const savedShares = JSON.parse(savedSharesString ?? "[]") as ClientShare[];
+    console.log("savedStr", savedSharesString);
+    const savedShares = JSON.parse(savedSharesString || "[]") as ClientShare[];
     savedShares.push(clientShare);
     await storageProvider
       .save("keyban-eddsa", JSON.stringify(savedShares))

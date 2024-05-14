@@ -2,11 +2,11 @@
   "version": "v1",
   "packages": {
     "@keyban/sdk-react": {
-      "signature": "63b0e434151be7f5ed997b0f4ff9adfa",
+      "signature": "08d941e8fb0371c29ec61e81ca738553",
       "file": true
     },
     "@keyban/sdk-base": {
-      "signature": "3464af7d0e2fbf43cc949d8f74a5d137"
+      "signature": "b47b2a5fc2b374284209651dfa09a6a5"
     }
   }
 }

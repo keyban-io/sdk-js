@@ -3,10 +3,12 @@ import type { ClientShare } from "~/eddsa/account.types";
 
 export class EddsaAccount {
   wasmApi;
-  clientKeyShare;
+  address;
+  private clientKeyShare;
   constructor(clientKeyShare: ClientShare, wasmApi: WasmApi) {
     this.wasmApi = wasmApi;
     this.clientKeyShare = clientKeyShare;
+    this.address = clientKeyShare;
   }
 
   async signPayload(payload: Record<string, unknown>) {
@@ -26,7 +28,7 @@ export class EddsaAccount {
   }
 
   // FOR TESTING ONLY
-  add(num1: number, num2: number) {
+  async add(num1: number, num2: number) {
     return this.wasmApi.add(num1, num2);
   }
 }
