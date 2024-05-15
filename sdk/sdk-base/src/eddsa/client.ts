@@ -41,7 +41,14 @@ class EddsaClient {
     storageProvider: StorageProviderApi
   ): Promise<EddsaAccount[]> {
     // 3. Get all client shares for storage
-    const savedSharesString = await storageProvider.get("keyban-eddsa");
+    const savedSharesString = await storageProvider
+      .get("keyban-eddsa")
+      .catch((e) => {
+        throw new SignerClientError(
+          SignerClientErrors.FAILED_TO_READ_FROM_STORE,
+          e
+        );
+      });
     const savedShares = JSON.parse(savedSharesString ?? "[]") as ClientShare[];
     // 4. Return Account instances
     return savedShares.map(

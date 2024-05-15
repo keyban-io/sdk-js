@@ -1457,25 +1457,26 @@ __metadata:
 
 "@keyban/sdk-base@file:.yalc/@keyban/sdk-base::locator=DapMobile%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=995967&locator=DapMobile%40workspace%3A."
-  checksum: 2099bbb5421a61784b5eb6d29519443af0e333113027dab4ab51dca847fff2a1506e5cdac11fdfb2cd2c48d10c9b247dc65abc2088ccda44450461275536e7c2
+  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=4a1a70&locator=DapMobile%40workspace%3A."
+  checksum: 9513e86a3125df743b2e63ebcd576d409d65c089ba46b877edb40e9c330702f23d3dabaff4bca90990ad64ab129163b38aa1e770bc41f6675ddd188822ccd261
   languageName: node
   linkType: hard
 
 "@keyban/sdk-react-native@file:.yalc/@keyban/sdk-react-native::locator=DapMobile%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-react-native@file:.yalc/@keyban/sdk-react-native#.yalc/@keyban/sdk-react-native::hash=0717c4&locator=DapMobile%40workspace%3A."
+  resolution: "@keyban/sdk-react-native@file:.yalc/@keyban/sdk-react-native#.yalc/@keyban/sdk-react-native::hash=04e6f8&locator=DapMobile%40workspace%3A."
   dependencies:
     "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base"
     long: ^5.2.3
     react-native-buffer: ^6.0.3
   peerDependencies:
+    "@react-native-async-storage/async-storage": "*"
     react: "*"
     react-dom: "*"
     react-native: "*"
     react-native-react-bridge: "*"
     react-native-webview: "*"
-  checksum: cd34395d27737bfaba63cc7c9c551a10a9a022690cb163ecb54f5ff659791ad849f28240867381f302ff2755450bc02a9a575985a95b86c250a83045011cb559
+  checksum: 9b688410aacd5a5e5e43fe5bb8412b714b41b5a32397c75c5f1800e31efae94ffdf9cac514bd758335d24525c2bdc9bdb500bcea55fb77f10015391c7d2a50d0
   languageName: node
   linkType: hard
 
@@ -1532,6 +1533,17 @@ __metadata:
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
   checksum: 6ad6a00fc4f2f2cfc6bff76fb1d88b8ee20bc0601e18ebb01b6d4be583733a860239a521a7fbca73b612e66705078809483549d2b18f370eb346c5155c8e4a0f
+  languageName: node
+  linkType: hard
+
+"@react-native-async-storage/async-storage@npm:^1.23.1":
+  version: 1.23.1
+  resolution: "@react-native-async-storage/async-storage@npm:1.23.1"
+  dependencies:
+    merge-options: ^3.0.4
+  peerDependencies:
+    react-native: ^0.0.0-0 || >=0.60 <1.0
+  checksum: 7096546ed4a5faf1f6e0425e2e15713575f1a7493a04524da386ff35c3844b57b8fd20544fad4157b4a61e048b10235f2f06124f262da5b327edc74fbc31e02b
   languageName: node
   linkType: hard
 
@@ -2255,6 +2267,7 @@ __metadata:
     "@babel/core": ^7.12.9
     "@babel/runtime": ^7.12.5
     "@keyban/sdk-react-native": "file:.yalc/@keyban/sdk-react-native"
+    "@react-native-async-storage/async-storage": ^1.23.1
     "@react-native-community/eslint-config": ^2.0.0
     "@tsconfig/react-native": ^2.0.2
     "@types/jest": ^26.0.23
@@ -5684,6 +5697,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: cec9100678b0a9fe0248a81743041ed990c2d4c99f893d935545cfbc42876cbe86d207f3b895700c690ad2fa520e568c44afc1605044b535a7820c1d40e38daa
+  languageName: node
+  linkType: hard
+
 "is-plain-object@npm:^2.0.3, is-plain-object@npm:^2.0.4":
   version: 2.0.4
   resolution: "is-plain-object@npm:2.0.4"
@@ -6958,6 +6978,15 @@ __metadata:
   version: 5.2.1
   resolution: "memoize-one@npm:5.2.1"
   checksum: a3cba7b824ebcf24cdfcd234aa7f86f3ad6394b8d9be4c96ff756dafb8b51c7f71320785fbc2304f1af48a0467cbbd2a409efc9333025700ed523f254cb52e3d
+  languageName: node
+  linkType: hard
+
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: ^2.1.0
+  checksum: d86ddb3dd6e85d558dbf25dc944f3527b6bacb944db3fdda6e84a3f59c4e4b85231095f58b835758b9a57708342dee0f8de0dffa352974a48221487fe9f4584f
   languageName: node
   linkType: hard
 

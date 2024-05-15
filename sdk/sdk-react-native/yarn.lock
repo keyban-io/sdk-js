@@ -1836,8 +1836,8 @@ __metadata:
 
 "@keyban/sdk-base@file:.yalc/@keyban/sdk-base::locator=%40keyban%2Fsdk-react-native%40workspace%3A.":
   version: 0.0.1
-  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=995967&locator=%40keyban%2Fsdk-react-native%40workspace%3A."
-  checksum: 2099bbb5421a61784b5eb6d29519443af0e333113027dab4ab51dca847fff2a1506e5cdac11fdfb2cd2c48d10c9b247dc65abc2088ccda44450461275536e7c2
+  resolution: "@keyban/sdk-base@file:.yalc/@keyban/sdk-base#.yalc/@keyban/sdk-base::hash=0e55f8&locator=%40keyban%2Fsdk-react-native%40workspace%3A."
+  checksum: 359b3fd9c62863c288b2c9aa02da14238bbff887d1920812953139ecb4db07ceac3073dca1dfc361658dcf02ee3b12b5664bf0f2ce9244847d01dd8d2bd10f1a
   languageName: node
   linkType: hard
 
@@ -1849,6 +1849,7 @@ __metadata:
     "@changesets/changelog-github": ^0.5.0
     "@changesets/cli": ^2.27.1
     "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base"
+    "@react-native-async-storage/async-storage": ^1.23.1
     "@types/node": ^20.12.7
     "@vitest/coverage-v8": ^1.4.0
     long: ^5.2.3
@@ -2024,6 +2025,17 @@ __metadata:
   version: 1.1.0
   resolution: "@protobufjs/utf8@npm:1.1.0"
   checksum: f9bf3163d13aaa3b6f5e6fbf37a116e094ea021c0e1f2a7ccd0e12a29e2ce08dafba4e8b36e13f8ed7397e1591610ce880ed1289af4d66cf4ace8a36a9557278
+  languageName: node
+  linkType: hard
+
+"@react-native-async-storage/async-storage@npm:^1.23.1":
+  version: 1.23.1
+  resolution: "@react-native-async-storage/async-storage@npm:1.23.1"
+  dependencies:
+    merge-options: ^3.0.4
+  peerDependencies:
+    react-native: ^0.0.0-0 || >=0.60 <1.0
+  checksum: 7096546ed4a5faf1f6e0425e2e15713575f1a7493a04524da386ff35c3844b57b8fd20544fad4157b4a61e048b10235f2f06124f262da5b327edc74fbc31e02b
   languageName: node
   linkType: hard
 
@@ -5441,6 +5453,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: cec9100678b0a9fe0248a81743041ed990c2d4c99f893d935545cfbc42876cbe86d207f3b895700c690ad2fa520e568c44afc1605044b535a7820c1d40e38daa
+  languageName: node
+  linkType: hard
+
 "is-plain-object@npm:^2.0.4":
   version: 2.0.4
   resolution: "is-plain-object@npm:2.0.4"
@@ -6346,6 +6365,15 @@ __metadata:
     type-fest: ^0.13.1
     yargs-parser: ^18.1.3
   checksum: 77b569781145ad030be77130623d9f74d6eef0af5e0a349419d3df39bcf6d88cc25be046a7757062162a88160fb5d8604e540b5177b371d2bbc2aaf73ec01479
+  languageName: node
+  linkType: hard
+
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: ^2.1.0
+  checksum: d86ddb3dd6e85d558dbf25dc944f3527b6bacb944db3fdda6e84a3f59c4e4b85231095f58b835758b9a57708342dee0f8de0dffa352974a48221487fe9f4584f
   languageName: node
   linkType: hard
 

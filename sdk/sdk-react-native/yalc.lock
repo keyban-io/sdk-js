@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@keyban/sdk-base": {
-      "signature": "b47b2a5fc2b374284209651dfa09a6a5",
+      "signature": "cbe068bb5f04125d912487cb4621c231",
       "file": true
     }
   }
