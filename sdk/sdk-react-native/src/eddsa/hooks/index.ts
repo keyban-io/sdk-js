@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { KeybanEddsaContext } from "../provider";
+import { KeybanEddsaReactContext } from "~/eddsa";
 
 export const useKeybanEddsa = () => {
-  const context = useContext(KeybanEddsaContext);
+  const context = useContext(KeybanEddsaReactContext);
 
   if (!context) {
     throw new Error("useKeyban hook must be used inside KeybanProvider");

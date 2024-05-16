@@ -3,6 +3,11 @@ export enum SignerClientErrors {
   FAILED_TO_SAVE_TO_STORE = "FAILED_TO_SAVE_TO_STORE",
   FAILED_TO_READ_FROM_STORE = "FAILED_TO_READ_FROM_STORE",
 }
+
+/**
+ * @group errors
+ * Error class for server side related errors.
+ */
 export class SignerClientError extends Error {
   nativeError;
   constructor(code: SignerClientErrors, nativeError?: unknown) {

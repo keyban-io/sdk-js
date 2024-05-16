@@ -1,7 +1,13 @@
-export type ServerErrorTypes = "OFFLINE";
+export enum ServerErrors {
+  OFFLINE = "OFFLINE",
+}
 
-class ServerError extends Error {
-  constructor(code: ServerErrorTypes) {
+/**
+ * @category errors
+ * Error class for server side related errors.
+ */
+export class ServerError extends Error {
+  constructor(code: ServerErrors) {
     super(code);
     this.name = "ServerError";
     this.stack = new Error().stack;

@@ -2,6 +2,7 @@ export type Hex = string;
 
 // All return types should be a promise, even it wasm methods are sync
 // the reason is that react native will promisify them anyway
+
 export type WasmApi = {
   signMessage: (address: string, payload: string) => Promise<Hex>;
   generateKeypair: () => Promise<unknown>;

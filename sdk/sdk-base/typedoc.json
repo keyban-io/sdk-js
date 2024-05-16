@@ -1,4 +1,4 @@
 {
-  "entryPoints": ["./src/index.ts", "./src/secondary-entry.ts"],
+  "entryPoints": ["./src/utils/index.ts", "./src/eddsa/index.ts", "./src/errors/index.ts"],
   "out": "doc"
 }

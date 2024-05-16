@@ -13,15 +13,21 @@ import {
   useRef,
   useState,
 } from "react";
-import type { KeybanEddsaContext as ConetxtType } from "./types";
+import type { KeybanEddsaContext } from "./types";
 
-export const KeybanEddsaContext = createContext<null | ConetxtType>(null);
+/** @ignore */
+export const KeybanEddsaReactContext = createContext<null | KeybanEddsaContext>(
+  null
+);
 
+/** React wrapper around EDDSA Client
+ * @component
+ * */
 export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
-  const wasmApiRef = useRef<ConetxtType["wasmApi"] | null>(null);
-  const eddsaClientRef = useRef<ConetxtType["eddsaClient"] | null>(null);
+  const wasmApiRef = useRef<KeybanEddsaContext["wasmApi"] | null>(null);
+  const eddsaClientRef = useRef<KeybanEddsaContext["eddsaClient"] | null>(null);
   const [knownAccounts, setKnownAccounts] = useState<
-    ConetxtType["knownAccounts"]
+    KeybanEddsaContext["knownAccounts"]
   >([]);
   const [initialized, setInitialized] = useState(false);
 
@@ -44,7 +50,7 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
     init();
   }, []);
 
-  const createAccount: ConetxtType["createAccount"] = useCallback(
+  const createAccount: KeybanEddsaContext["createAccount"] = useCallback(
     async (storageProvider) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
@@ -63,7 +69,12 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
     [initialized]
   );
 
-  const getSaveAccounts: ConetxtType["getSaveAccounts"] = useCallback(
+  /**
+   * Used to retrieve previously saved Keyaban account.
+   * @param storageProvider - Any storage provider following @keyban/sdk-base {@link StorageProviderApi}. Eg. ${@link KeybanLocalStorage}
+   * @returns Array of {@link EddsaAccount}
+   */
+  const getSaveAccounts: KeybanEddsaContext["getSaveAccounts"] = useCallback(
     async (storageProvider) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
@@ -79,7 +90,7 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <KeybanEddsaContext.Provider
+    <KeybanEddsaReactContext.Provider
       value={{
         eddsaClient: eddsaClientRef.current,
         wasmApi: wasmApiRef.current,
@@ -90,6 +101,6 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </KeybanEddsaContext.Provider>
+    </KeybanEddsaReactContext.Provider>
   );
 };

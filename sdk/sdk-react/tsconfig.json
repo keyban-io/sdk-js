@@ -29,5 +29,6 @@
     }
   },
   "include": ["src"],
+  "files": ["node_modules/@keyban/sdk-base/dist/index.d.ts", ".yalc/@keyban/sdk-base/dist/index.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

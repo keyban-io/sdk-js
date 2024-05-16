@@ -5,14 +5,26 @@ import SignerClientError, {
   SignerClientErrors,
 } from "~/errors/SignerClientError";
 
+/**
+ * Client class for EDDSA Hedera connectivity and general logic.
+ */
 class EddsaClient {
+  /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */
   wasmApi;
-  clientKeyShare: string | null = null;
 
+  /**
+   * The constructor of the `EddsaClient` class.
+   * @param wasmApi - The source of the WebAssembly Rust logic, for web is plain WebAssembly object, for react-native it required bridger
+   */
   constructor(wasmApi: WasmApi) {
     this.wasmApi = wasmApi;
   }
 
+  /**
+   * Function for EDDSA account creation
+   * @param storageProvider - Any storage provider following {@link StorageProviderApi}. For web, it can be local storage, for native AsyncStorage.
+   * @returns Instance of {@link EddsaAccount}
+   */
   async createAccount(
     storageProvider: StorageProviderApi
   ): Promise<EddsaAccount> {
@@ -37,6 +49,11 @@ class EddsaClient {
     return new EddsaAccount(clientShare, this.wasmApi);
   }
 
+  /**
+   * Function for retrieving EDDSA accounts from provided storage
+   * @param storageProvider - Any storage provider following {@link StorageProviderApi}. For web, it can be local storage, for native AsyncStorage.
+   * @returns Array of {@link EddsaAccount}
+   */
   async getSaveAccounts(
     storageProvider: StorageProviderApi
   ): Promise<EddsaAccount[]> {
@@ -56,9 +73,16 @@ class EddsaClient {
     );
   }
 
+  /**
+   * Function for setting up chain metadata
+   */
   async setChainMetadata() {
     /**/
   }
+
+  /**
+   * Function for connecting to chain provider
+   */
   async connectToProvider() {
     /**/
   }

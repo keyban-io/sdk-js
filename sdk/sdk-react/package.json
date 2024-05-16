@@ -44,7 +44,7 @@
   "scripts": {
     "build:ts": "NODE_ENV=production tsup",
     "build": "NODE_ENV=production tsup && yalc push",
-    "build:docs": "typedoc --out docs ./src/index.ts",
+    "build:docs": "typedoc --out docs",
     "dev": "tsup --watch",
     "format": "biome check --apply ./src",
     "test": "vitest run",

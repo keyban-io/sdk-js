@@ -1,4 +1,8 @@
 {
-  "entryPoints": ["./src/index.ts", "./src/secondary-entry.ts"],
-  "out": "doc"
+  "entryPoints": ["./src/eddsa/storages/index.ts", "./src/eddsa/hooks/index.ts", "./src/eddsa/provider/index.ts",  "./src/web/wasmWebView.tsx"],
+  "out": "doc",
+  "tsconfig": "tsconfig.json",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true
 }
