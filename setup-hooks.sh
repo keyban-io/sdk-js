@@ -88,7 +88,7 @@ cd tools/commitlint
 # Check if npx and commitlint are available
 if ! command -v npx &> /dev/null || [ ! -d "node_modules" ]; then
   echo "npx or commitlint not found. Installing..."
-  npm install
+  pnpm install
 fi
 }
 
