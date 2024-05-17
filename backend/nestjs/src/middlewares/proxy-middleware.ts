@@ -13,12 +13,13 @@ export class ProxyMiddleware implements NestMiddleware {
   constructor(private readonly configService: ConfigService) {
     this.signerUrl = this.configService.get<string>('SIGNER_URL');
     this.signerPort = this.configService.get<string>('SIGNER_PORT');
+    const targetUrl = `http://${this.signerUrl}.default.svc.cluster.local:${this.signerPort}`;
     this.pathUrl = '';
 
     this.proxyMiddleware = createProxyMiddleware({
-      target: `${this.signerUrl}:${this.signerPort}`,
+      target: targetUrl,
       changeOrigin: true,
-      selfHandleResponse: true,
+      selfHandleResponse: false,
       pathRewrite: {
         '^/api/': '/', // rewrite path
       },
@@ -45,8 +46,9 @@ export class ProxyMiddleware implements NestMiddleware {
     if (!hasRoute) {
       console.log(
         'No route found. Going to signer via url: ',
-        `${this.signerUrl}:${this.signerPort}${this.pathUrl}`,
+        `http://${this.signerUrl}.default.svc.cluster.local:${this.signerPort}`,
       );
+      req.url = this.pathUrl; // Update the URL for the proxy middleware
       return this.proxyMiddleware(req, res, next);
     } else {
       return next();
