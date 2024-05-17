@@ -131,6 +131,10 @@ nestjs:
     port: 3000
     probePath: /api
 
+  env:
+    SIGNER_URL: "dap-signer-eddsa"
+    SIGNER_PORT: "9000"
+
   ingress:
     enabled: true
     className: ""

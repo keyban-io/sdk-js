@@ -6,7 +6,12 @@ metadata:
 spec:
   podSelector: {}
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+          podSelector: {}
