@@ -7,14 +7,16 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 export class ProxyMiddleware implements NestMiddleware {
   private readonly proxyMiddleware;
   private signerUrl: string;
+  private signerPort: string;
   private pathUrl: string;
 
   constructor(private readonly configService: ConfigService) {
     this.signerUrl = this.configService.get<string>('SIGNER_URL');
+    this.signerPort = this.configService.get<string>('SIGNER_PORT');
     this.pathUrl = '';
 
     this.proxyMiddleware = createProxyMiddleware({
-      target: this.signerUrl,
+      target: `${this.signerUrl}:${this.signerPort}`,
       changeOrigin: true,
       selfHandleResponse: true,
       pathRewrite: {
@@ -43,7 +45,7 @@ export class ProxyMiddleware implements NestMiddleware {
     if (!hasRoute) {
       console.log(
         'No route found. Going to signer via url: ',
-        this.signerUrl + this.pathUrl,
+        `${this.signerUrl}:${this.signerPort}${this.pathUrl}`,
       );
       return this.proxyMiddleware(req, res, next);
     } else {
