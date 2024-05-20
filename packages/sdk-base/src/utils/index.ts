@@ -1,2 +1,2 @@
-export * from "./hex";
-export * from "./uuid";
+export * from './hex';
+export * from './uuid';

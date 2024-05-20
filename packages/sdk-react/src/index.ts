@@ -1,1 +1,1 @@
-export * from "./eddsa";
+export * from './eddsa';

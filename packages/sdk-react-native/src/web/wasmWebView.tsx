@@ -1,9 +1,9 @@
-import { emit, useNativeMessage } from "react-native-react-bridge/lib/web";
+import { emit, useNativeMessage } from 'react-native-react-bridge/lib/web';
 
-import { useEffect, useState } from "react";
-import type { WasmApi } from "@keyban/sdk-base";
-import { getWasmBuffer } from "@keyban/sdk-base";
-import { WasmInvoker } from "~/eddsa/wasmBridge";
+import type { WasmApi } from '@keyban/sdk-base';
+import { getWasmBuffer } from '@keyban/sdk-base';
+import { useEffect, useState } from 'react';
+import { WasmInvoker } from '~/eddsa/wasmBridge';
 
 /**
  * This is very important part of the library.
@@ -19,28 +19,28 @@ import { WasmInvoker } from "~/eddsa/wasmBridge";
  * ```
  * */
 export const WebViewRoot = () => {
-  const [instance, setInstance] = useState<WasmInvoker | null>(null);
+	const [instance, setInstance] = useState<WasmInvoker | null>(null);
 
-  // useNativeMessage hook receives message from React Native
-  useNativeMessage(async (message) => {
-    if (!instance) return;
+	// useNativeMessage hook receives message from React Native
+	useNativeMessage(async (message) => {
+		if (!instance) return;
 
-    if (message.type === "add") {
-      const result = await instance.add(message.data as string);
-      emit({ type: "add", data: result });
-    }
-  });
+		if (message.type === 'add') {
+			const result = await instance.add(message.data as string);
+			emit({ type: 'add', data: result });
+		}
+	});
 
-  useEffect(() => {
-    const init = async () => {
-      const bufferSrc = await getWasmBuffer();
-      const module = await WebAssembly.instantiate(bufferSrc);
+	useEffect(() => {
+		const init = async () => {
+			const bufferSrc = await getWasmBuffer();
+			const module = await WebAssembly.instantiate(bufferSrc);
 
-      setInstance(new WasmInvoker(module.instance.exports as WasmApi));
-      emit({ type: "initialized", data: "" });
-    };
-    init();
-  }, []);
+			setInstance(new WasmInvoker(module.instance.exports as WasmApi));
+			emit({ type: 'initialized', data: '' });
+		};
+		init();
+	}, []);
 
-  return <div />;
+	return <div />;
 };

@@ -56,7 +56,6 @@
     "long": "^5.2.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.6.4",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
     "@types/node": "^20.12.7",

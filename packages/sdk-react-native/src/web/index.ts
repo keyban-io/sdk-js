@@ -1,1 +1,1 @@
-export * from "./wasmWebView";
+export * from './wasmWebView';

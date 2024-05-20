@@ -1,2 +1,2 @@
-export * from "./wasmInvoker";
-export * from "./nativeWasm";
+export * from './wasmInvoker';
+export * from './nativeWasm';
