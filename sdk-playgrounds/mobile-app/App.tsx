@@ -62,7 +62,9 @@ const Main = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <Text style={{textAlign: 'center'}}>{sum}</Text>
+          <Text testID="wasm-sum" style={{textAlign: 'center'}}>
+            {sum}
+          </Text>
         </View>
       </View>
     </>
