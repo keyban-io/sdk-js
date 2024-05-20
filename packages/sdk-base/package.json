@@ -42,8 +42,7 @@
     "README.md"
   ],
   "scripts": {
-    "build:ts": "NODE_ENV=production tsup && yalc push",
-    "build": "NODE_ENV=production tsup && yalc push",
+    "build": "NODE_ENV=production tsup",
     "build:docs": "typedoc --out docs",
     "dev": "tsup --watch",
     "format": "biome check --apply ./src",

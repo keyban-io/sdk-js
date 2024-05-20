@@ -48,8 +48,7 @@
   ],
   "scripts": {
     "compile:proto": "node ./src/eddsa/wasmBridge/script/compileProto.js",
-    "build:ts": "NODE_ENV=production tsup",
-    "build": "NODE_ENV=production tsup && yalc push",
+    "build": "NODE_ENV=production tsup",
     "build:docs": "typedoc --out docs",
     "dev": "tsup --watch",
     "format": "biome check --apply ./src",
@@ -59,7 +58,7 @@
     "changeset": "changeset"
   },
   "dependencies": {
-    "@keyban/sdk-base": "file:.yalc/@keyban/sdk-base",
+    "@keyban/sdk-base": "workspace:*",
     "long": "^5.2.3",
     "react-native-buffer": "^6.0.3"
   },

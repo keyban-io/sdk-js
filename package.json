@@ -1,0 +1,19 @@
+{
+  "name": "dap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "base": "pnpm --filter sdk-base",
+    "react": "pnpm --filter sdk-react",
+    "native": "pnpm --filter sdk-react-native",
+    "mobile": "pnpm --filter mobile-app",
+    "web": "pnpm --filter web-app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
