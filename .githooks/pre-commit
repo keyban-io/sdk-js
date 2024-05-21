@@ -1,7 +1,0 @@
-#!/bin/sh
-
-gitleaks protect -v --config ./tools/gitleaks.toml --log-level debug --staged --source .
-if [ $? -ne 0 ]; then
-  echo "Gitleaks detected leaks! Commit aborted."
-  exit 1
-fi
