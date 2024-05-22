@@ -1,3 +1,5 @@
+mod dkg;
+
 use axum::routing::get;
 use axum::{http::StatusCode, Router};
 
