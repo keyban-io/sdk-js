@@ -17,6 +17,7 @@ The DAP (Digital Asset Platform) project aims to integrate digital assets into v
 * [Wallet Stories](#wallet-stories)
 * [Hedera Stories](#hedera-stories)
 * [Architecture](#architecture)
+* [Collaboration](#collaboration)
 
 ## Installation
 
@@ -43,6 +44,14 @@ Install k8s extension to CLK
 
 ```bash
 clk extension install k8s
+```
+
+Install [pre-commit](https://pre-commit.com/) for git hooks resolution (optional)
+
+From root of the project:
+
+``` bash
+tools/setup-hooks.sh
 ```
 
 ## Quick Start
@@ -334,3 +343,19 @@ graph LR
     class KeyStorageSolutionsGenericAmazonKMS,KeyStorageSolutionsSmartPhoneNative,SDKAuthProviders0Auth2,MPCTSSSigner,EdDSAMPCTSSSigner,EcDSAMPCTSSSigner selected;
 
 ```
+
+## Collaboration
+
+To ensure that written code is following good practices and guidelines, repository is using [pre-commit](https://pre-commit.com/) tool that is checking the code before commit.
+Applied rules for commits:
+
+* [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to always have proper commit messages
+* [Git leaks](https://gitleaks.io/) for any secret keys passed in the commits
+* Rules from pre-commit itself:
+  * check-added-large-files
+  * trailing-whitespace
+  * end-of-file-fixer
+  * check-yaml
+  * check-json
+
+These rules ensure that the codebase stays clean and properly maintained.
