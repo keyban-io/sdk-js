@@ -3,22 +3,21 @@ repos:
     rev: v8.4.0
     hooks:
       - id: gitleaks
-        args: ['--config=./tools/gitleaks.toml', '--log-level=debug', '--staged']
 
-  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.16.0
+  - repo: local
     hooks:
       - id: commitlint
         name: commit-msg
         stages: [commit-msg]
-        additional_dependencies: ['@commitlint/config-conventional']
+        entry: tools/commitlint-warning.sh
         language: node
+        additional_dependencies: ['@commitlint/cli', '@commitlint/config-conventional']
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
       - id: check-added-large-files
-        args: ['--maxkb=3000']
+        args: ['--maxkb=500']
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml

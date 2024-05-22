@@ -25,7 +25,6 @@ The DAP (Digital Asset Platform) project aims to integrate digital assets into v
 
 * Docker >= 25.0.5
 * CLK >= 0.36.0
-* pre-commit >= 3.7.1
 
 ### CLK
 
@@ -47,7 +46,7 @@ Install k8s extension to CLK
 clk extension install k8s
 ```
 
-Install [pre-commit](https://pre-commit.com/) for git hooks resolution
+Install [pre-commit](https://pre-commit.com/) for git hooks resolution (optional)
 
 From root of the project:
 
