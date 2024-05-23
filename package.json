@@ -10,13 +10,19 @@
     "base": "pnpm --filter sdk-base",
     "react": "pnpm --filter sdk-react",
     "native": "pnpm --filter sdk-react-native",
-    "mobile": "pnpm --filter mobile-app",
-    "web": "pnpm --filter web-app"
+    "web": "pnpm --filter web-app",
+    "build": "pnpm run -r build",
+    "prepare:native": "cd ./apps/mobile-app && make prepare",
+    "ios:emu": "cd ./apps/mobile-app && make ios",
+    "android:emu": "cd ./apps/mobile-app && make android"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@biomejs/biome": "^1.6.4"
+    "@biomejs/biome": "^1.6.4",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.0",
+    "yalc": "1.0.0-pre.53"
   }
 }

@@ -42,9 +42,9 @@
     "README.md"
   ],
   "scripts": {
-    "build": "NODE_ENV=production tsup",
+    "build": "NODE_ENV=production tsup && yalc publish",
     "build:docs": "typedoc --out docs",
-    "dev": "tsup --watch",
+    "dev": "concurrently \"tsup --watch\" \"nodemon --watch dist -x 'yalc push'\"",
     "format": "biome check --apply ./src",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",

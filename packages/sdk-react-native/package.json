@@ -32,9 +32,9 @@
       "types": "./dist/index.d.ts"
     },
     "./lib/web": {
-      "types": "./lib/web/index.d.ts",
-      "import": "./lib/web/index.mjs",
-      "default": "./lib/web/index.js"
+      "types": "./dist/web/index.d.ts",
+      "import": "./dist/web/index.mjs",
+      "default": "./dist/web/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -48,9 +48,9 @@
   ],
   "scripts": {
     "compile:proto": "node ./src/eddsa/wasmBridge/script/compileProto.js",
-    "build": "NODE_ENV=production tsup",
+    "build": "NODE_ENV=production tsup && yalc publish",
     "build:docs": "typedoc --out docs",
-    "dev": "tsup --watch",
+    "dev": "concurrently \"tsup --watch\" \"nodemon --watch dist -x 'yalc push'\"",
     "format": "biome check --apply ./src",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",

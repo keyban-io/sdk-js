@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "biome check --apply ./src",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "e2e:chrome": "cypress run --browser chrome"
   },
   "dependencies": {
     "@keyban/sdk-react": "workspace:*",

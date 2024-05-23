@@ -1,5 +1,5 @@
 {
-  "entryPoints": ["./src/eddsa/storages/index.ts", "./src/eddsa/hooks/index.ts", "./src/eddsa/provider/index.ts", "./node_module/@keyban/sdk-base/dist/index.d.ts", "./.yalc/@keyban/sdk-base/dist/index.d.ts"],
+  "entryPoints": ["./src/eddsa/storages/index.ts", "./src/eddsa/hooks/index.ts", "./src/eddsa/provider/index.ts"],
   "out": "doc",
   "tsconfig": "tsconfig.json",
   "excludePrivate": true,
