@@ -141,7 +141,7 @@ The Hedera Stories section includes various use cases focused on integrating the
 
 They are stored in `./docs/adr` and are edited using [adr-tools](https://github.com/npryce/adr-tools).
 
-## Introduction to the System Architecture Diagram for Account and Transaction Management on Hedera and Polygon Networks
+### Introduction to the System Architecture Diagram for Account and Transaction Management on Hedera and Polygon Networks
 
 This diagram provides a comprehensive overview of the system architecture designed to manage accounts and transactions within the Hedera and Polygon blockchain environments. It highlights key components and interactions that support the end-to-end processes of account management, including the creation, monitoring, and handling of both native and non-native transactions.
 
