@@ -1,5 +1,5 @@
-import type { ClientShare } from "~/eddsa/account.types";
-import type { WasmApi } from "~/eddsa/types";
+import type { ClientShare } from '~/eddsa/account.types';
+import type { WasmApi } from '~/eddsa/types';
 
 export class EddsaAccount {
   /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */
@@ -25,7 +25,7 @@ export class EddsaAccount {
 
     const signature = await this.wasmApi.signMessage(
       this.clientKeyShare,
-      wasmReadyPayload
+      wasmReadyPayload,
     );
 
     return signature;

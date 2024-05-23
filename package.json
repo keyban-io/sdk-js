@@ -12,9 +12,10 @@
     "native": "pnpm --filter sdk-react-native",
     "web": "pnpm --filter web-app",
     "build": "pnpm run -r build",
+    "format": "pnpm run -r format",
     "prepare:native": "cd ./apps/mobile-app && make prepare",
-    "ios:emu": "cd ./apps/mobile-app && make ios",
-    "android:emu": "cd ./apps/mobile-app && make android"
+    "ios:emu": "cd ./apps/mobile-app && make run-ios",
+    "android:emu": "cd ./apps/mobile-app && make run-android"
   },
   "keywords": [],
   "author": "",

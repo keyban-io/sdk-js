@@ -7,16 +7,16 @@ const helloStringHex = '68656c6c6f';
 const helloString = 'hello';
 
 describe('Hex utils', () => {
-	it('U8A to Hex', () => {
-		const bufferHex = Buffer.from(helloString).toString('hex');
-		const utilsHex = u8aToHex(helloStringBytes);
+  it('U8A to Hex', () => {
+    const bufferHex = Buffer.from(helloString).toString('hex');
+    const utilsHex = u8aToHex(helloStringBytes);
 
-		expect(bufferHex).toEqual(utilsHex);
-	});
+    expect(bufferHex).toEqual(utilsHex);
+  });
 
-	it('Hex to U8A', () => {
-		const utilsU8A = hexToU8a(helloStringHex);
+  it('Hex to U8A', () => {
+    const utilsU8A = hexToU8a(helloStringHex);
 
-		expect(helloStringBytes.toString()).toEqual(utilsU8A.toString());
-	});
+    expect(helloStringBytes.toString()).toEqual(utilsU8A.toString());
+  });
 });

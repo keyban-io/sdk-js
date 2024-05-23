@@ -1,5 +1,5 @@
 export enum ServerErrors {
-	OFFLINE = 'OFFLINE',
+  OFFLINE = 'OFFLINE',
 }
 
 /**
@@ -7,11 +7,11 @@ export enum ServerErrors {
  * Error class for server side related errors.
  */
 export class ServerError extends Error {
-	constructor(code: ServerErrors) {
-		super(code);
-		this.name = 'ServerError';
-		this.stack = new Error().stack;
-	}
+  constructor(code: ServerErrors) {
+    super(code);
+    this.name = 'ServerError';
+    this.stack = new Error().stack;
+  }
 }
 
 export default ServerError;

@@ -44,7 +44,7 @@
   "scripts": {
     "build": "NODE_ENV=production tsup",
     "build:docs": "typedoc --out docs",
-    "dev": "tsup --watch",
+    "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "format": "biome check --apply ./src",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",

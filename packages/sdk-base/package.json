@@ -44,7 +44,7 @@
   "scripts": {
     "build": "NODE_ENV=production tsup && yalc publish",
     "build:docs": "typedoc --out docs",
-    "dev": "concurrently \"tsup --watch\" \"nodemon --watch dist -x 'yalc push'\"",
+    "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration && yalc push'",
     "format": "biome check --apply ./src",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",

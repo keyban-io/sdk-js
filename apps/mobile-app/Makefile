@@ -14,7 +14,9 @@ link_packages:
 # Define a target to run all the above targets in sequence
 prepare: install install_ios link_packages
 
-run-ios: ios
+run-ios:
+	yarn ios
 
-run-android: android
+run-android:
+	yarn android
 
