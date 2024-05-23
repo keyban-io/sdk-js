@@ -10,6 +10,9 @@ http-body-util = "0.1.1"
 frost-ed25519 = "1.0.0"
 rand = "0.8.5"
 maplit = "1.0.2"
+serde = "1.0.202"
+tower-http = { version = "0.5.2", features = ["cors", "trace"] }
+hex = "0.4.3"
 
 [dev-dependencies]
 tower = { version = "0.4.13", features = ["util"] }
