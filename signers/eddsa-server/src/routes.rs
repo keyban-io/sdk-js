@@ -3,7 +3,9 @@ use std::{collections::HashMap, sync::Arc};
 use crate::dkg;
 use axum::{
     extract::{Path, State},
-    http, Json,
+    http::{self, status},
+    response::{IntoResponse, Response},
+    Json,
 };
 use serde::{Deserialize, Serialize};
 use tokio::sync::RwLock;
@@ -14,15 +16,30 @@ use tokio::sync::RwLock;
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DkgRound1Response {
-    server_round1_package: dkg::ServerRound1Package,
+    pub server_round1_package: dkg::ServerRound1Package,
+}
+
+impl IntoResponse for DkgRound1Response {
+    fn into_response(self) -> Response {
+        let body = Json(self);
+        let status = http::StatusCode::CREATED;
+        (status, body).into_response()
+    }
 }
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DkgRound2Response {
-    public_key: String,
+    pub public_key: String,
 }
 
+impl IntoResponse for DkgRound2Response {
+    fn into_response(self) -> Response {
+        let body = Json(self);
+        let status = http::StatusCode::CREATED;
+        (status, body).into_response()
+    }
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                          Tss State                                             //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +82,7 @@ pub async fn dkg_round1(
     Path(keyid): Path<String>,
     State(state): State<TssState>,
     Json(client_round1_package): Json<dkg::ClientRound1Package>,
-) -> Result<Json<DkgRound1Response>, http::StatusCode> {
+) -> Result<DkgRound1Response, http::StatusCode> {
     let (secret_package, server_round1_package) =
         match dkg::server_dkg_round_1(client_round1_package.clone()) {
             Ok((secret_package, server_round1_package)) => (secret_package, server_round1_package),
@@ -79,16 +96,16 @@ pub async fn dkg_round1(
             client_round1_package,
         },
     );
-    Ok(Json(DkgRound1Response {
+    Ok(DkgRound1Response {
         server_round1_package,
-    }))
+    })
 }
 
 pub async fn dkg_round2(
     Path(keyid): Path<String>,
     State(state): State<TssState>,
     Json(client_round2_package): Json<dkg::ClientRound2Package>,
-) -> Result<Json<DkgRound2Response>, http::StatusCode> {
+) -> Result<DkgRound2Response, http::StatusCode> {
     let dkg_state = state.dkg.write().await.remove(&keyid);
     let dkg_state = match dkg_state {
         Some(dkg_state) => dkg_state,
@@ -111,5 +128,48 @@ pub async fn dkg_round2(
             pubkey_package,
         },
     );
-    Ok(Json(DkgRound2Response { public_key }))
+    Ok(DkgRound2Response { public_key })
+}
+
+mod tests {
+    use crate::dkg;
+
+    use super::*;
+
+    #[tokio::test]
+    async fn health_handler_returns_ok() {
+        let response = health().await.unwrap();
+        assert_eq!(response, "Ok!".to_string());
+    }
+
+    #[tokio::test]
+    async fn dkg_handlers_save_intermidiate_packages_in_state_successfully() {
+        // Round 1
+        let (client_round1_secret_package, client_round1_package) =
+            dkg::client_dkg_round_1().unwrap();
+        let state = TssState::default();
+        let response: DkgRound1Response = dkg_round1(
+            Path("toto".to_string()),
+            State(state.clone()),
+            Json(client_round1_package),
+        )
+        .await
+        .unwrap();
+        let server_round1_package = response.server_round1_package;
+        // Round 2
+        let (_, client_pub_key_package, client_round2_package) =
+            dkg::client_dkg_round_2(client_round1_secret_package, server_round1_package).unwrap();
+        let client_pubkey = hex::encode(client_pub_key_package.verifying_key().serialize());
+
+        let response: DkgRound2Response = dkg_round2(
+            Path("toto".to_string()),
+            State(state),
+            Json(client_round2_package),
+        )
+        .await
+        .unwrap();
+        let server_pubkey = response.public_key;
+
+        assert_eq!(client_pubkey, server_pubkey);
+    }
 }

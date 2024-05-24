@@ -96,7 +96,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn dkg_happy_path() {
+    fn dkg_lib_generates_valid_key_shares() {
         // round 1 client: client executing dkg part 1
         let (client_round1_secret_package, client_round1_package) = client_dkg_round_1().unwrap();
 

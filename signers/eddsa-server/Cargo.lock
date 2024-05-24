@@ -903,6 +903,7 @@ dependencies = [
  "maplit",
  "rand",
  "serde",
+ "serde_json",
  "tokio",
  "tower",
  "tower-http",
