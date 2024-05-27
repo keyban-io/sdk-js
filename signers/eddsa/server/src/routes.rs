@@ -1,7 +1,5 @@
 use axum;
 use axum::{routing, Router};
-use tower_http::cors::CorsLayer;
-use tower_http::trace::TraceLayer;
 
 use crate::handlers;
 
@@ -10,8 +8,6 @@ pub fn app(state: handlers::TssState) -> Router {
         .route("/health", routing::get(handlers::health))
         .route("/dkg/round1/:keyid", routing::post(handlers::dkg_round1))
         .route("/dkg/round2/:keyid", routing::post(handlers::dkg_round2))
-        .layer(CorsLayer::permissive())
-        .layer(TraceLayer::new_for_http())
         .with_state(state)
 }
 

@@ -4,3 +4,4 @@ members = [
     "cli-client",
     "server"
 ]
+resolver = "2"
