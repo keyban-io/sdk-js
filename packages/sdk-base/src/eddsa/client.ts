@@ -1,9 +1,10 @@
 import SignerClientError, {
   SignerClientErrors,
-} from '~/errors/SignerClientError';
-import { EddsaAccount } from './account';
-import type { ClientShare } from './account.types';
-import { StorageProviderApi, WasmApi } from './types';
+} from "~/errors/SignerClientError";
+import { EddsaAccount } from "./account";
+import type { ClientShare } from "./account.types";
+import { StorageProviderApi, WasmApi } from "./types";
+import { healthCheck } from "~/api/apiClient";
 
 /**
  * Client class for EDDSA Hedera connectivity and general logic.
@@ -26,21 +27,21 @@ class EddsaClient {
    * @returns Instance of {@link EddsaAccount}
    */
   async createAccount(
-    storageProvider: StorageProviderApi,
+    storageProvider: StorageProviderApi
   ): Promise<EddsaAccount> {
     // 1. Generate account with WASM
-    const [clientShare, serverShare] = ['ffeksahfkj', 'lhefskhj'];
+    const [clientShare, serverShare] = ["ffeksahfkj", "lhefskhj"];
     // 2. Save client share to provided storage
-    const savedSharesString = await storageProvider.get('keyban-eddsa');
-    console.log('savedStr', savedSharesString);
-    const savedShares = JSON.parse(savedSharesString || '[]') as ClientShare[];
+    const savedSharesString = await storageProvider.get("keyban-eddsa");
+    console.log("savedStr", savedSharesString);
+    const savedShares = JSON.parse(savedSharesString || "[]") as ClientShare[];
     savedShares.push(clientShare);
     await storageProvider
-      .save('keyban-eddsa', JSON.stringify(savedShares))
+      .save("keyban-eddsa", JSON.stringify(savedShares))
       .catch((e) => {
         throw new SignerClientError(
           SignerClientErrors.FAILED_TO_SAVE_TO_STORE,
-          e,
+          e
         );
       });
     // 3. Upload share to server
@@ -55,31 +56,36 @@ class EddsaClient {
    * @returns Array of {@link EddsaAccount}
    */
   async getSaveAccounts(
-    storageProvider: StorageProviderApi,
+    storageProvider: StorageProviderApi
   ): Promise<EddsaAccount[]> {
     // 3. Get all client shares for storage
     const savedSharesString = await storageProvider
-      .get('keyban-eddsa')
+      .get("keyban-eddsa")
       .catch((e) => {
         throw new SignerClientError(
           SignerClientErrors.FAILED_TO_READ_FROM_STORE,
-          e,
+          e
         );
       });
-    const savedShares = JSON.parse(savedSharesString ?? '[]') as ClientShare[];
+    const savedShares = JSON.parse(savedSharesString ?? "[]") as ClientShare[];
     // 4. Return Account instances
     return savedShares.map(
-      (clientShare) => new EddsaAccount(clientShare, this.wasmApi),
+      (clientShare) => new EddsaAccount(clientShare, this.wasmApi)
     );
   }
 
-  async healthCheck(): Promise<'operational' | 'down'> {
-    const res = await new Promise((res) => setTimeout(() => res(true), 1_000));
+  async healthCheck(): Promise<"operational" | "down"> {
+    try {
+      const res = await healthCheck();
+      if (res.ok) {
+        return "operational";
+      }
 
-    if (res) {
-      return 'operational';
+      return "down";
+    } catch (e) {
+      console.error("Failed to perform health check", e);
+      return "down";
     }
-    return 'down';
   }
 
   /**
