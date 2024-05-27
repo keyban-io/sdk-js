@@ -13,11 +13,11 @@ pub fn app(state: handlers::TssState) -> Router {
 
 #[cfg(test)]
 mod tests {
-    use crate::dkg::{client_dkg_round_1, client_dkg_round_2};
 
     use super::*;
     use axum::body::Body;
     use axum::http::{Request, StatusCode};
+    use eddsa_common::{dkg, models};
     use http_body_util::BodyExt; // for `collect`
     use tower::ServiceExt; // for `call`, `oneshot`, and `ready`
 
@@ -44,7 +44,8 @@ mod tests {
         let state = handlers::TssState::default();
         let app = app(state);
         // Round 1
-        let (client_round1_secret_package, client_round1_package) = client_dkg_round_1().unwrap();
+        let (client_round1_secret_package, client_round1_package) =
+            dkg::client_dkg_round_1().unwrap();
 
         let response = app
             .clone()
@@ -61,14 +62,14 @@ mod tests {
             .await
             .unwrap();
         assert_eq!(response.status(), StatusCode::CREATED);
-        let response: handlers::DkgRound1Response =
+        let response: models::DkgRound1Response =
             serde_json::from_slice(&response.into_body().collect().await.unwrap().to_bytes())
                 .unwrap();
         let server_round1_package = response.server_round1_package;
 
         // Round 2
         let (_, client_pub_key_package, client_round2_package) =
-            client_dkg_round_2(client_round1_secret_package, server_round1_package).unwrap();
+            dkg::client_dkg_round_2(client_round1_secret_package, server_round1_package).unwrap();
         let client_pubkey = hex::encode(client_pub_key_package.verifying_key().serialize());
 
         let response = app
@@ -85,7 +86,7 @@ mod tests {
             .await
             .unwrap();
         assert_eq!(response.status(), StatusCode::CREATED);
-        let response: handlers::DkgRound2Response =
+        let response: models::DkgRound2Response =
             serde_json::from_slice(&response.into_body().collect().await.unwrap().to_bytes())
                 .unwrap();
         let server_pubkey = response.public_key;

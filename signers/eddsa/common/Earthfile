@@ -1,0 +1,7 @@
+VERSION 0.8
+
+test:
+    FROM ../+deps
+    COPY --keep-ts --dir src /app/common/
+    WORKDIR /app/common
+    RUN --mount=type=cache,target=/app/target cargo test

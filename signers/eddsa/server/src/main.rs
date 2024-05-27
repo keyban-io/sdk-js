@@ -1,4 +1,3 @@
-mod dkg;
 mod handlers;
 mod routes;
 

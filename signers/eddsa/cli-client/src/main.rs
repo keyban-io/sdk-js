@@ -1,6 +1,6 @@
-use signer_eddsa::{dkg, handlers};
-use std::{env, process};
+use eddsa_common::{dkg, models};
 use reqwest;
+use std::{env, process};
 
 #[tokio::main]
 async fn main() {
@@ -50,12 +50,20 @@ async fn dkg(keyid: &str) -> Result<(), String> {
 
     let response = match response {
         Ok(response) => response,
-        Err(e) => return Err(format!("Error in server POST request to /dkg/round1: {}", e)),
+        Err(e) => {
+            return Err(format!(
+                "Error in server POST request to /dkg/round1: {}",
+                e
+            ))
+        }
     };
     if response.status() != reqwest::StatusCode::CREATED {
-        return Err(format!("Server returned status code: {}", response.status()));
+        return Err(format!(
+            "Server returned status code: {}",
+            response.status()
+        ));
     }
-    let response: handlers::DkgRound1Response = match response.json().await {
+    let response: models::DkgRound1Response = match response.json().await {
         Ok(response) => response,
         Err(e) => return Err(format!("Error in server response JSON parsing: {}", e)),
     };
@@ -78,12 +86,20 @@ async fn dkg(keyid: &str) -> Result<(), String> {
 
     let response = match response {
         Ok(response) => response,
-        Err(e) => return Err(format!("Error in server POST request to /dkg/round1: {}", e)),
+        Err(e) => {
+            return Err(format!(
+                "Error in server POST request to /dkg/round1: {}",
+                e
+            ))
+        }
     };
     if response.status() != reqwest::StatusCode::CREATED {
-        return Err(format!("Server returned status code: {}", response.status()));
+        return Err(format!(
+            "Server returned status code: {}",
+            response.status()
+        ));
     }
-    let response: handlers::DkgRound2Response = match response.json().await {
+    let response: models::DkgRound2Response = match response.json().await {
         Ok(response) => response,
         Err(e) => return Err(format!("Error in server response JSON parsing: {}", e)),
     };

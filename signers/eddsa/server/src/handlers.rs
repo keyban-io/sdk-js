@@ -1,45 +1,13 @@
 use std::{collections::HashMap, sync::Arc};
 
-use crate::dkg;
 use axum::{
     extract::{Path, State},
     http::{self},
-    response::{IntoResponse, Response},
     Json,
 };
-use serde::{Deserialize, Serialize};
+use eddsa_common::{dkg, models};
 use tokio::sync::RwLock;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///                                      Response Models                                         ///
-////////////////////////////////////////////////////////////////////////////////////////////////////
-#[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct DkgRound1Response {
-    pub server_round1_package: dkg::ServerRound1Package,
-}
-
-impl IntoResponse for DkgRound1Response {
-    fn into_response(self) -> Response {
-        let body = Json(self);
-        let status = http::StatusCode::CREATED;
-        (status, body).into_response()
-    }
-}
-
-#[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct DkgRound2Response {
-    pub public_key: String,
-}
-
-impl IntoResponse for DkgRound2Response {
-    fn into_response(self) -> Response {
-        let body = Json(self);
-        let status = http::StatusCode::CREATED;
-        (status, body).into_response()
-    }
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                          Tss State                                             //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +50,7 @@ pub async fn dkg_round1(
     Path(keyid): Path<String>,
     State(state): State<TssState>,
     Json(client_round1_package): Json<dkg::ClientRound1Package>,
-) -> Result<DkgRound1Response, http::StatusCode> {
+) -> Result<models::DkgRound1Response, http::StatusCode> {
     let (secret_package, server_round1_package) =
         match dkg::server_dkg_round_1(client_round1_package.clone()) {
             Ok((secret_package, server_round1_package)) => (secret_package, server_round1_package),
@@ -96,7 +64,7 @@ pub async fn dkg_round1(
             client_round1_package,
         },
     );
-    Ok(DkgRound1Response {
+    Ok(models::DkgRound1Response {
         server_round1_package,
     })
 }
@@ -105,7 +73,7 @@ pub async fn dkg_round2(
     Path(keyid): Path<String>,
     State(state): State<TssState>,
     Json(client_round2_package): Json<dkg::ClientRound2Package>,
-) -> Result<DkgRound2Response, http::StatusCode> {
+) -> Result<models::DkgRound2Response, http::StatusCode> {
     let dkg_state = state.dkg.write().await.remove(&keyid);
     let dkg_state = match dkg_state {
         Some(dkg_state) => dkg_state,
@@ -128,11 +96,11 @@ pub async fn dkg_round2(
             pubkey_package,
         },
     );
-    Ok(DkgRound2Response { public_key })
+    Ok(models::DkgRound2Response { public_key })
 }
 
+#[cfg(test)]
 mod tests {
-    use crate::dkg;
 
     use super::*;
 
@@ -148,7 +116,7 @@ mod tests {
         let (client_round1_secret_package, client_round1_package) =
             dkg::client_dkg_round_1().unwrap();
         let state = TssState::default();
-        let response: DkgRound1Response = dkg_round1(
+        let response: models::DkgRound1Response = dkg_round1(
             Path("toto".to_string()),
             State(state.clone()),
             Json(client_round1_package),
@@ -161,7 +129,7 @@ mod tests {
             dkg::client_dkg_round_2(client_round1_secret_package, server_round1_package).unwrap();
         let client_pubkey = hex::encode(client_pub_key_package.verifying_key().serialize());
 
-        let response: DkgRound2Response = dkg_round2(
+        let response: models::DkgRound2Response = dkg_round2(
             Path("toto".to_string()),
             State(state),
             Json(client_round2_package),

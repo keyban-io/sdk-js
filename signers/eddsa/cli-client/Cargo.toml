@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-signer-eddsa = { path = "../server" }
+eddsa-common = { path = "../common" }
 reqwest = { version = "0.12.4", default-features = false, features = ["json"] }
 tokio = { version = "1.37.0", features = ["full"] }
 hex = "0.4.3"

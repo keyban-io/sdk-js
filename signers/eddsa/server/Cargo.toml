@@ -1,16 +1,13 @@
 [package]
-name = "signer-eddsa"
+name = "eddsa-server"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+eddsa-common = { path = "../common" }
 axum = "0.7.5"
 tokio = { version = "1.37.0", features = ["full"] }
 http-body-util = "0.1.1"
-frost-ed25519 = "1.0.0"
-rand = "0.8.5"
-maplit = "1.0.2"
-serde = "1.0.202"
 hex = "0.4.3"
 
 [dev-dependencies]

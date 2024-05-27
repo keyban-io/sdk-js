@@ -1,0 +1,25 @@
+VERSION 0.8
+
+
+deps:
+    FROM ../../+rust
+    COPY Cargo.lock Cargo.toml  .
+    RUN mkdir -p common/src && touch common/src/main.rs
+    COPY ./common/Cargo.toml ./common
+    RUN mkdir -p cli-client/src && touch cli-client/src/main.rs
+    COPY ./cli-client/Cargo.toml ./cli-client
+    RUN mkdir -p server/src && touch server/src/main.rs
+    COPY ./server/Cargo.toml ./server
+    RUN cargo fetch
+    
+
+src:
+    FROM +deps
+    RUN cargo install cargo-watch
+    COPY --keep-ts --dir server/src /app/server/
+    COPY --keep-ts --dir common/src /app/common/
+    
+
+    
+    
+   
