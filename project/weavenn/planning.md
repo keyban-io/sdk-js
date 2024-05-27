@@ -8,26 +8,12 @@
 | 1 Cryptography Developer | @ahmdssi                            |
 | 1 React-Native Developer | @RadekKeyban                        |
 | 1 Backend Developer      | @grepson-keyban                     |
-| 1 DevOps                 | @Konubinix                          |
+| 1 DevOps                 | @new-team-mate-1                    |
 
 ```mermaid
 gantt
     dateFormat  YYYY-MM-DD
-    axisFormat %m/%d
-    excludes weekdays saturday,sunday
-    
-    section Hedera Wallet as a Service (WaaS)
-    Architecture Design: a1, 2024-04-24, 30d
-    Key Management System (KMS) Development: s2, after a1, 70d
-    Testing Environment Setup: after a1, 30d
-    Core Services Implementation: si, 2024-06-24, 70d
-    Delivery Report: crit, after si, 5d
-```
-
-```mermaid
-gantt
-    dateFormat  YYYY-MM-DD
-    axisFormat %m/%d
+    axisFormat %m/%Y
     excludes weekdays saturday,sunday
 
     section Keyban Wallet Development for Hedera
@@ -39,47 +25,28 @@ gantt
 
 ## DPP Team Composition
 
-| Profil                                  | Team mate       |
-| --------------------------------------- | --------------- |
-| 1 Architect at 30% commitment           | @Kei-Kiban      |
-| 1 React-Native Developer                | @RadekKeyban    |
-| 1 Backend Developer                     | @grepson-keyban |
-| 1 DevOps at full-time                   |                 |
-| 1 Web Developer at 50% commitment       |                 |
-| 1 Smart Contract Developer at full-time | @ahmdssi        |
+| Profil                                  | Team mate        |
+| --------------------------------------- | ---------------- |
+| 1 Architect at 30% commitment           | @Kei-Kiban       |
+| 1 React-Native Developer                | @RadekKeyban     |
+| 1 Backend Developer                     | @grepson-keyban  |
+| 1 DevOps at full-time                   | @new-team-mate-1 |
+| 1 Web Developer at 50% commitment       | @mvanmeerbeck    |
+| 1 Smart Contract Developer at full-time | @ahmdssi         |
 
 ```mermaid
 gantt
     dateFormat  YYYY-MM-DD
-    axisFormat %m/%d
+    axisFormat %m/%Y
     excludes weekdays saturday,sunday
     
-    
     section Hedera Digital Passport Platform (DPP)
-    Architecture Design: s1, 2024-07-24, 60d
-    Test & Development Environment Setup: devenv, 2024-08-07, 30d
-    External Services Integration: s4, after devenv, 30d
-    Smart Contracts Development: s3, after devenv, 45d
-    Keyban Services Implementation: s2, after devenv, 90d
-    SDK Development: sdks, 2024-10-08, 30d
-    DPP Website Development: web, 2024-11-24, 45d
-    Delivery Report: crit, after web, 6d
-```
-
-```mermaid
-gantt
-    dateFormat  YYYY-MM-DD
-    axisFormat %m/%d
-    excludes weekdays saturday,sunday
-
-    section Hedera Digital Passport Platform (DPP)
-    L2.1 Architecture Design: arch, 2024-07-24, 60d
-    L2.2 Keyban Services Implementation: keyban, after arch, 90d
-    L2.3 External Services Integration & Test: ext, after keyban, 30d
-    L2.4 Smart Contracts Development: contracts, after ext, 45d
-    L2.5 DPP Website Development: web, 2024-11-24, 45d
-    L2.6 Delivery Report: report, after web, 6d
-
+    L2.1 Architecture: s1, 2024-07-24, 60d
+    L2.2 Smart Contracts: s3, 2024-09-01, 60d
+    L2.3 DPP Platform Instantiation (including SDKs): s2, 2024-09-22, 90d
+    L2.4 External Services Integration: s4, 2024-11-22, 54d
+    L2.5 DPP Website: web, 2024-12-10, 45d
+    L2.6 Reporting: crit, after web, 6d
 ```
 
 # Overall Project Timeline
@@ -87,23 +54,20 @@ gantt
 ```mermaid
 gantt
     dateFormat  YYYY-MM-DD
-    axisFormat %m/%d
+    axisFormat %m/%Y
     excludes weekdays saturday,sunday
-    
-    section Hedera Wallet as a Service (WaaS)
-    Architecture Design: a1, 2024-04-24, 30d
-    Key Management System (KMS) Development: s2, after a1, 70d
-    Testing Environment Setup: after a1, 30d
-    Core Services Implementation: si, 2024-06-24, 70d
+
+    section Keyban Wallet Development for Hedera
+    L1.1 Architecture: a1, 2024-04-24, 30d
+    L1.2 Integration: s2, after a1, 70d
+    L1.3 Acceptance Test: si, after s2, 30d
     Delivery Report: crit, after si, 5d
-    
+
     section Hedera Digital Passport Platform (DPP)
-    Architecture Design: s1, 2024-07-24, 60d
-    Test & Development Environment Setup: devenv, 2024-08-07, 30d
-    External Services Integration: s4, after devenv, 30d
-    Smart Contracts Development: s3, after devenv, 45d
-    Keyban Services Implementation: s2, after devenv, 90d
-    SDK Development: sdks, 2024-10-08, 30d
-    DPP Website Development: web, 2024-11-24, 45d
-    Delivery Report: crit, after web, 6d
+    L2.1 Architecture: s1, 2024-07-24, 60d
+    L2.2 Smart Contracts: s3, 2024-09-01, 60d
+    L2.3 DPP Platform Instantiation (including SDKs): s5, 2024-09-22, 90d
+    L2.4 External Services Integration: s4, 2024-11-22, 54d
+    L2.5 DPP Website: web, 2024-12-10, 45d
+    L2.6 Reporting: crit, after web, 6d
 ```
