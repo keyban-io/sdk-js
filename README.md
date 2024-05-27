@@ -80,6 +80,8 @@ Stop the stack
 tilt down
 ```
 
+Connect to the documentation over https://keyban.localtest.me/doc
+
 ## Wallet Stories
 
 The Wallet Stories section focuses on the development of components and features related to cryptocurrency wallets. These include secure key storage solutions, user authentication modules, transaction handling, and various UI components.
