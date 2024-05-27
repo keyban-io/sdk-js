@@ -1,18 +1,16 @@
-Feature: Single Key Generation in React Signer Library with EdDSA
+Feature: Single Key Generation in React Signer Library with EdDSA 
     As a client using the React EdDSA Signer library,
     I want to generate and manage a single master key,
     To streamline the management and operation across platforms supporting  EdDSA signatures.
-
+    
     Background:
-        Given the React EdDSA Signer component is installed and initialized in a React or React Native environment
+        Given the React EdDSA Signer component is installed and initialized on Android or on Iphone environment
        
     @happy_path @eds_dsa @generic
     Scenario: Successful single master key generation for a user with EdDSA
         Given the client does not have an existing master key
         When the client initiates the key generation process
-        Then a client key share should be securely generated on the client side using EdDSA
-        And a server key share should be securely generated on the server side using EdDSA
-        And both key shares should conform to the EdDSA signature requirements
+        Then the public keys from the client and the server are the same
 
     @edge_case @eds_dsa @generic
     Scenario: Handling errors during key generation process with EdDSA
