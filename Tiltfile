@@ -38,11 +38,11 @@ earthly_build(
 
 earthly_build(
     "keyban.io/signer-eddsa",
-    "./signers/eddsa-server+live",
-    deps=["./signers/eddsa-server"],
+    "./signers/eddsa/server+live",
+    deps=["./signers/eddsa/server"],
     live_update=[
-        fall_back_on('./signers/eddsa-server/Earthfile'),
-        sync('./signers/eddsa-server/src', '/app/'),
+        fall_back_on('./signers/eddsa/server/Earthfile'),
+        sync('./signers/eddsa/server/src', '/app/'),
     ],
 )
 
