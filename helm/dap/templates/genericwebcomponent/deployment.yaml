@@ -10,7 +10,7 @@ metadata:
     {{- include "dap.labels" $root | nindent 4 }}
     app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
 spec:
-  {{- if not $val.autoscaling.enabled }}
+  {{- if or (not (hasKey $val "autoscaling")) (not $val.autoscaling.enabled) }}
   replicas: {{ $val.replicaCount }}
   {{- end }}
   selector:
