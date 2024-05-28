@@ -6,41 +6,43 @@
 gantt
     title High-Level Project Timeline
     dateFormat  DD/MM/YYYY
-    section Architecture and Setup
+
+    section 0.1 - EdDSA Signer and Architecture Setup
     EdDSA Signer and Architecture : 21/05/2024, 21/06/2024
     CI/CD and Zero Trust : 03/06/2024, 01/07/2024
 
-    section User Interface Development
+    section 0.2 - User Interface Foundations
     Core UI Foundations : 03/06/2024, 16/07/2024
     Advanced UI Features : 01/07/2024, 25/07/2024
 
-    section Documentation
+    section 0.3 - Core UI Features
     Documentation and Support : 26/07/2024, 02/08/2024
 
-    section Transaction Management
+    section 0.4 - Transaction Management
     Transaction Features : 17/07/2024, 16/08/2024
 
-    section Security
+    section 0.5 - Security
     Security and Compliance : 15/07/2024, 03/09/2024
 
-    section Certification
+    section 0.6 - Certification
     SOC 2 Certification : 02/09/2024, 25/10/2024
 ```
 
-## Detailled Wallet Roadmap Planning
+## Detailed Wallet Roadmap Planning
 
 ```mermaid
 gantt
-    title Project Timeline
+    title Detailed Wallet Roadmap Planning
     dateFormat  DD/MM/YYYY
-    section EdDSA Signer and Architecture Setup
+
+    section 0.1 - EdDSA Signer and Architecture Setup
     EdDSA TSS MPC React Signer : 21/05/2024, 31/05/2024
     C4 model : 03/06/2024, 03/06/2024
     Deploy the CI/CD for testing : 04/06/2024, 01/07/2024
     Zero trust Architecture : 03/06/2024, 14/06/2024
     Unified Error Handling + loggers : 11/06/2024, 21/06/2024
 
-    section User Interface Foundations 
+    section 0.2 - User Interface Foundations 
     React Component for SmartPhone Native Key Storage Solution : 03/06/2024, 12/06/2024
     React Wallet SDK Setup : 13/06/2024, 28/06/2024
     React Hedera account : 17/06/2024, 01/07/2024
@@ -50,18 +52,18 @@ gantt
     Application Definition Interface - Admin portal : 08/07/2024, 12/07/2024
     Deploy the CI/CD per branch : 02/07/2024, 29/07/2024
 
-    section Core UI Features
+    section 0.3 - Core UI Features
     React Native Balance Display + RPC node & indexer access : 01/07/2024, 04/07/2024
     React Non-Native Balance Display : 05/07/2024, 11/07/2024
     React Token Balance Display & Token details : 12/07/2024, 19/07/2024
     React Network selection component : 12/07/2024, 25/07/2024
 
-    section Documentation and Support
+    section 0.4 - Documentation and Support
     SDK Documentation Hub : 26/07/2024, 29/07/2024
     Quick Start Guides : 30/07/2024, 31/07/2024
     FAQs and Troubleshooting : 01/08/2024, 02/08/2024
 
-    section Transaction Management Features
+    section 0.5 - Transaction Management Features
     React Received Transactions History Component : 22/07/2024, 26/07/2024
     React Native Cryptocurrency Send Component : 19/07/2024, 05/08/2024
     React Pending Transactions History Component : 30/07/2024, 30/07/2024
@@ -70,15 +72,14 @@ gantt
     React Token Send Component (Non-native Tokens) : 29/07/2024, 13/08/2024
     Deploy the prod infra : 30/07/2024, 05/08/2024
 
-    section Security and Compliance
+    section 0.6 - Security and Compliance
     Signer Operation Benchmarking : 16/07/2024, 21/08/2024
     Pen testing : 15/07/2024, 30/08/2024
     Service SLA Features : 06/08/2024, 03/09/2024
     Real-Time Platform Status Page : 07/08/2024, 21/08/2024
 
-    section SOC 2 Certification
+    section 0.7 - SOC 2 Certification
     SOC 2 Certification : 02/09/2024, 25/10/2024
-
   ```
 
 ## DPP Roadmap

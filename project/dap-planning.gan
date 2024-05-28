@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Dap Project" company="Keyban" webLink="http://" view-date="2024-05-20" view-index="0" gantt-divider-location="1991" resource-divider-location="706" version="3.3.3307" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="Dap Project" company="Keyban" webLink="http://" view-date="2024-05-20" view-index="0" gantt-divider-location="637" resource-divider-location="706" version="3.3.3307" locale="fr_FR">
     <description/>
     <view zooming-state="default:6" id="gantt-chart">
-        <field id="tpd10" name="ID" width="78" order="0"/>
-        <field id="tpd3" name="Nom" width="580" order="1"/>
+        <field id="tpd10" name="ID" width="20" order="0"/>
+        <field id="tpd3" name="Nom" width="183" order="1"/>
         <field id="tpc0" name="Fibo Est." width="220" order="2"/>
-        <field id="tpd6" name="Durée" width="153" order="3"/>
+        <field id="tpd6" name="Durée" width="20" order="3"/>
         <field id="tpc3" name="Charge" width="219" order="4"/>
-        <field id="tpd9" name="Prédécesseurs" width="83" order="5"/>
-        <field id="tpd13" name="Ressources" width="116" order="6"/>
+        <field id="tpd9" name="Prédécesseurs" width="20" order="5"/>
+        <field id="tpd13" name="Ressources" width="20" order="6"/>
         <field id="tpd15" name="Notes" width="20" order="7"/>
-        <field id="tpd4" name="Date de début" width="245" order="7"/>
-        <field id="tpd5" name="Date de fin" width="281" order="8"/>
+        <field id="tpd4" name="Date de début" width="32" order="7"/>
+        <field id="tpd5" name="Date de fin" width="38" order="8"/>
         <option id="filter.completedTasks" value="false"/>
         <option id="filter.dueTodayTasks" value="false"/>
         <option id="filter.overdueTasks" value="false"/>
@@ -18,8 +18,8 @@
         <option id="color.recent"><![CDATA[#ffcccc #ccffcc #ff3333 #00ffff #9999ff #cc33ff #eeeeee]]></option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Nom" width="457" order="0"/>
-        <field id="1" name="Rôle par défaut" width="228" order="1"/>
+        <field id="0" name="Nom" width="464" order="0"/>
+        <field id="1" name="Rôle par défaut" width="236" order="1"/>
     </view>
     <!-- -->
     <calendars base-id="fr">
@@ -104,7 +104,7 @@
             <depend id="37" type="2" difference="0" hardness="Strong"/>
             <depend id="38" type="2" difference="0" hardness="Strong"/>
             <customproperty taskproperty-id="tpc2" value="73"/>
-            <task id="0" uid="71d8cf770ff2429cabd44695942e8152" name="EdDSA TSS MPC React Signer" color="#8cb6ce" meeting="false" start="2024-05-21" duration="9" complete="0" expand="false">
+            <task id="0" uid="71d8cf770ff2429cabd44695942e8152" name="EdDSA TSS MPC React Signer" color="#8cb6ce" meeting="false" start="2024-05-21" duration="9" complete="0" expand="true">
                 <depend id="26" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc0" value="65"/>
                 <customproperty taskproperty-id="tpc2" value="9"/>
