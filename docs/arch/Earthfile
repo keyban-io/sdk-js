@@ -1,0 +1,7 @@
+VERSION 0.8
+
+live:
+    FROM structurizr/lite:latest
+    COPY --dir structurizr.properties workspace.dsl /usr/local/structurizr/
+    ARG --required ref
+    SAVE IMAGE --push ${ref}

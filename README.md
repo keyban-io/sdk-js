@@ -139,6 +139,12 @@ The Hedera Stories section includes various use cases focused on integrating the
 
 ## Architecture
 
+```bash
+tilt up --arch
+```
+
+Then, go to <http://localhost:8081> and see our nice diagrams.
+
 ### Decision Records
 
 They are stored in `./docs/adr` and are edited using [adr-tools](https://github.com/npryce/adr-tools).

@@ -1,5 +1,6 @@
 ## setup
 config.define_string("clk-k8s-local-path")
+config.define_bool("arch")
 cfg = config.parse()
 
 v1alpha1.extension_repo(
@@ -49,17 +50,40 @@ earthly_build(
     ],
 )
 
-k8s_yaml(helm("./helm/dap", name="dap"))
+if cfg.get("arch"):
+    earthly_build(
+        "structurizr/lite",
+        "./docs/arch+live",
+        deps=["./docs/arch"],
+        live_update=[
+            sync('./docs/arch/workspace.dsl', '/usr/local/structurizr/'),
+            sync('./docs/arch/structurizr.properties',
+                 '/usr/local/structurizr/'),
+        ],
+    )
 
-k8s_resource(
-    objects=['allow-ingress-access:networkpolicy', 'dap-doc:Ingress:default', 'dap-nest:Ingress:default', 'control-pod-communication:networkpolicy'],
-    new_name='ingress'
-  )
+## loading k8s resources
+
+helm_set = []
+
+if cfg.get("arch"):
+    helm_set.append('structurizr.enabled=true')
+
+k8s_yaml(helm("./helm/dap", name="dap", set=helm_set))
+
+k8s_resource(objects=[
+    'allow-ingress-access:networkpolicy', 'dap-doc:Ingress:default',
+    'dap-nest:Ingress:default', 'control-pod-communication:networkpolicy'
+],
+             new_name='ingress')
+
 #### opening some ports to ease development
 
 k8s_resource('dap-doc', port_forwards=['8080:80'])
 k8s_resource('dap-nest', port_forwards=['3000:3000'])
 k8s_resource('dap-signer-eddsa', port_forwards=['9000:9000'])
+if cfg.get("arch"):
+    k8s_resource('dap-structurizr', port_forwards=['8081:8080'])
 
 ## making sure the pods in the cluster can get access to the publicly exposed
 ## services via the ingress
