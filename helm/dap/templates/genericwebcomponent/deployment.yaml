@@ -5,10 +5,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+  name: {{ include "dap.fullname" $root }}-{{ $val.name }}
   labels:
     {{- include "dap.labels" $root | nindent 4 }}
-    app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+    app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.name }}
 spec:
   {{- if or (not (hasKey $val "autoscaling")) (not $val.autoscaling.enabled) }}
   replicas: {{ $val.replicaCount }}
@@ -16,7 +16,7 @@ spec:
   selector:
     matchLabels:
       {{- include "dap.selectorLabels" $root | nindent 6 }}
-      app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+      app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.name }}
   template:
     metadata:
       {{- with $val.podAnnotations }}
@@ -25,7 +25,7 @@ spec:
       {{- end }}
       labels:
         {{- include "dap.selectorLabels" $root | nindent 8 }}
-        app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+        app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.name }}
     spec:
       {{- with $val.imagePullSecrets }}
       imagePullSecrets:

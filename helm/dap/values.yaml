@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 docusaurus:
+  name: "doc"
   replicaCount: 1
 
   image:
@@ -12,9 +13,6 @@ docusaurus:
     tag: ""
 
   imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
-  serviceName: "doc"
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -89,6 +87,7 @@ docusaurus:
   affinity: {}
 
 nestjs:
+  name: "nest"
   replicaCount: 1
 
   image:
@@ -98,9 +97,6 @@ nestjs:
     tag: ""
 
   imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
-  serviceName: "nest"
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -178,6 +174,7 @@ nestjs:
   affinity: {}
 
 signer-eddsa:
+  name: "signer-eddsa"
   replicaCount: 1
 
   image:
@@ -187,9 +184,6 @@ signer-eddsa:
     tag: ""
 
   imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
-  serviceName: "signer-eddsa"
 
   serviceAccount:
     # Specifies whether a service account should be created

@@ -5,7 +5,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+  name: {{ include "dap.fullname" $root }}-{{ $val.name }}
   labels:
     {{- include "dap.labels" $root | nindent 4 }}
 spec:
@@ -17,6 +17,6 @@ spec:
       name: http
   selector:
     {{- include "dap.selectorLabels" $root | nindent 4 }}
-    app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+    app.kubernetes.io/name: {{ include "dap.fullname" $root }}-{{ $val.name }}
 {{- end }}
 {{- end }}

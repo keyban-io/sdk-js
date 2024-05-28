@@ -5,14 +5,14 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+  name: {{ include "dap.fullname" $root }}-{{ $val.name }}
   labels:
     {{- include "dap.labels" $root | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "dap.fullname" $root }}-{{ $val.serviceName }}
+    name: {{ include "dap.fullname" $root }}-{{ $val.name }}
   minReplicas: {{ $val.autoscaling.minReplicas }}
   maxReplicas: {{ $val.autoscaling.maxReplicas }}
   metrics:

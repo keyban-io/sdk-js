@@ -3,7 +3,7 @@
 {{- if and (hasKey $val "ingress") ($val.ingress.enabled) (or (not (hasKey $val "enabled")) (eq true $val.enabled)) }}
 ---
 {{- $fullName := include "dap.fullname" $root }}
-{{- $serviceName := printf "%s-%s" (include "dap.fullname" $root) $val.serviceName }}
+{{- $name := printf "%s-%s" (include "dap.fullname" $root) $val.name }}
 {{- $svcPort := $val.service.port }}
 {{- if and $val.ingress.className (not (semverCompare ">=1.18-0" $root.Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey $val.ingress.annotations "kubernetes.io/ingress.class") }}
@@ -19,7 +19,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{ $serviceName }}
+  name: {{ $name }}
   labels:
     {{- include "dap.labels" $root | nindent 4 }}
   annotations:
@@ -53,11 +53,11 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $root.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ $serviceName }}
+                name: {{ $name }}
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: {{ $serviceName }}
+              serviceName: {{ $name }}
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
