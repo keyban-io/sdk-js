@@ -20,3 +20,7 @@ run-ios:
 run-android:
 	yarn android
 
+test-e2e:
+	DETOX_CONFIGURATION=ios.sim.debug npx cucumber-js  --require-module @babel/register --require 'e2e/**/*.js' ./e2e/features/**/*.feature
+
+
