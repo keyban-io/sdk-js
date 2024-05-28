@@ -5,6 +5,7 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
 		marc = person "Marc" "Our client"
 
 		keyban = softwareSystem "Keyban" "The server part of our product that host the wallet services" {
+			!adrs ./adr
 		}
     }
 

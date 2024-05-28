@@ -4,9 +4,7 @@ Date: 2024-04-30
 
 ## Status
 
-Amended
-
-amended by [4. Using structurizr](0004-using-structurizr.md)
+Accepted
 
 ## Context
 

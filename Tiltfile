@@ -59,6 +59,7 @@ if cfg.get("arch"):
             sync('./docs/arch/workspace.dsl', '/usr/local/structurizr/'),
             sync('./docs/arch/structurizr.properties',
                  '/usr/local/structurizr/'),
+            sync('./docs/arch/adr', '/usr/local/structurizr/adr'),
         ],
     )
 

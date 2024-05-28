@@ -147,7 +147,7 @@ Then, go to <http://localhost:8081> and see our nice diagrams.
 
 ### Decision Records
 
-They are stored in `./docs/adr` and are edited using [adr-tools](https://github.com/npryce/adr-tools).
+They are stored in `./docs/arch/adr` and are edited using [adr-tools](https://github.com/npryce/adr-tools).
 
 ### Introduction to the System Architecture Diagram for Account and Transaction Management on Hedera and Polygon Networks
 
