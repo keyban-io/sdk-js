@@ -1,0 +1,19 @@
+{
+    "alias": {
+        "create-trigger": {
+            "commands": [
+                [
+                    "exec",
+                    "gh",
+                    "issue",
+                    "create",
+                    "--label",
+                    "trigger",
+                    "--project",
+                    "Digital Asset Platform"
+                ]
+            ],
+            "documentation": null
+        }
+    }
+}
