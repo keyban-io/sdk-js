@@ -1,8 +1,0 @@
-
-[workspace]
-members = [
-    "cli-client",
-    "server",
-    "common"
-]
-resolver = "2"
