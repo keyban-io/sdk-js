@@ -71,6 +71,7 @@
     "protobufjs": "^7.2.6",
     "protobufjs-cli": "^1.1.2",
     "react": "^18.3.1",
+    "@types/react": "^18.0.21",
     "react-native": "^0.74.1",
     "react-native-react-bridge": "^0.11.2",
     "react-native-webview": "^13.10.0",

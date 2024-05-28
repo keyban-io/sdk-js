@@ -1,10 +1,11 @@
-import { type WasmApi, hexToU8a, u8aToHex } from '@keyban/sdk-base';
-import { Buffer } from 'buffer/';
+import { type WasmApi, hexToU8a, u8aToHex } from "@keyban/sdk-base";
+// @ts-ignore
+import { Buffer } from "buffer/";
 import {
   EddsaAddRequest,
   EddsaAddResponse,
   GenericMessage,
-} from '~/../compiled';
+} from "~/../compiled";
 
 if (!global.Buffer) {
   global.Buffer = Buffer as typeof global.Buffer;

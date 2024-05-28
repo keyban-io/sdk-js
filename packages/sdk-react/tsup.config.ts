@@ -8,7 +8,7 @@ export default defineConfig(({ watch = false }) => ({
   entry: {
     index: "src/index.ts",
   },
-  external: ["react", "react-dom"],
+  external: ["react-dom"],
   format: ["cjs", "esm", "iife"],
   treeshake: isProduction,
   minify: isProduction,

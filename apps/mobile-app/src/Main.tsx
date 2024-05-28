@@ -1,39 +1,19 @@
-import "./App.css";
-import {
-  KeybanLocalStorage,
-  KeybanEddsaReactContext,
-  useKeybanEddsa,
-} from "@keyban/sdk-react";
+import { KeybanAsyncStorage, useKeybanEddsa } from "@keyban/sdk-react-native";
 import type { ReactNode } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const keybanLocalStorage = new KeybanLocalStorage();
-
-function App() {
-  const { initialized } = useKeybanEddsa();
-
-  if (!initialized) {
-    return <p>loading...</p>;
-  }
-
-  return (
-    <>
-      <Main />
-    </>
-  );
-}
+const keybanAsyncStorage = new KeybanAsyncStorage();
 
 export const Main = () => {
   const { createAccount, knownAccounts, clientStatus } = useKeybanEddsa();
 
   const handleAccCreation = () => {
-    createAccount(keybanLocalStorage);
+    createAccount(keybanAsyncStorage);
   };
+
   return (
     <>
-      <KeybanEddsaReactContext.Consumer>
-        {(value) => <p style={{ marginTop: 100 }}>{JSON.stringify(value)}</p>}
-      </KeybanEddsaReactContext.Consumer>
-      <div style={styles.container}>
+      <View style={styles.container}>
         <AssertionBox
           humanDescription="Client health check result"
           testId="client-health"
@@ -46,16 +26,16 @@ export const Main = () => {
         />
         <ActionBox
           humanDescription="Button to init EDDSA dkg process"
-          actionp="Start dkg"
+          actionText="Start dkg"
           testId="start-eddsa-dkg-action"
           onTap={handleAccCreation}
         />
-      </div>
+      </View>
     </>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
@@ -65,28 +45,28 @@ const styles = {
     overflow: "scroll",
     height: "100%",
   },
-};
+});
 
 const ActionBox = ({
+  testId,
   humanDescription,
   onTap,
-  actionp,
+  actionText,
 }: {
   humanDescription: string;
   testId: string;
   onTap: () => void;
-  actionp: string;
+  actionText: string;
 }) => {
   return (
-    <div
+    <View
       style={{
         marginTop: 20,
       }}
     >
-      <p style={{ textAlign: "center" }}>{humanDescription}</p>
-      {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-      <button onClick={onTap}>
-        <p
+      <Text style={{ textAlign: "center" }}>{humanDescription}</Text>
+      <TouchableOpacity onPress={onTap} testID={testId}>
+        <Text
           style={{
             borderStyle: "solid",
             borderColor: "purple",
@@ -97,14 +77,15 @@ const ActionBox = ({
             textAlign: "center",
           }}
         >
-          {actionp}
-        </p>
-      </button>
-    </div>
+          {actionText}
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const AssertionBox = ({
+  testId,
   humanDescription,
   value,
 }: {
@@ -113,13 +94,14 @@ const AssertionBox = ({
   value: ReactNode;
 }) => {
   return (
-    <div
+    <View
       style={{
         marginTop: 20,
       }}
     >
-      <p style={{ textAlign: "center" }}>{humanDescription}</p>
-      <p
+      <Text style={{ textAlign: "center" }}>{humanDescription}</Text>
+      <Text
+        testID={testId}
         style={{
           borderStyle: "solid",
           borderColor: "purple",
@@ -131,9 +113,7 @@ const AssertionBox = ({
         }}
       >
         {value}
-      </p>
-    </div>
+      </Text>
+    </View>
   );
 };
-
-export default App;

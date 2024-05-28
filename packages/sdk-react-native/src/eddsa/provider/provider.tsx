@@ -2,22 +2,23 @@ import {
   EddsaClient,
   SignerClientError,
   SignerClientErrors,
-} from '@keyban/sdk-base';
+} from "@keyban/sdk-base";
 import {
   type ReactNode,
   createContext,
   useCallback,
   useRef,
   useState,
-} from 'react';
-import { useWebViewMessage } from 'react-native-react-bridge';
-import WebView from 'react-native-webview';
-import { NativeWasm } from '~/eddsa/wasmBridge';
-import type { KeybanEddsaContext } from './types';
+  type FC,
+} from "react";
+import { useWebViewMessage } from "react-native-react-bridge";
+import WebView from "react-native-webview";
+import { NativeWasm } from "~/eddsa/wasmBridge";
+import type { KeybanEddsaContext } from "./types";
 
 /** @ignore */
 export const KeybanEddsaReactContext = createContext<null | KeybanEddsaContext>(
-  null,
+  null
 );
 
 /**
@@ -43,26 +44,23 @@ export const KeybanEddsaReactContext = createContext<null | KeybanEddsaContext>(
  * }
  * ```
  * */
-export const KeybanEddsaProvider = ({
-  children,
-  webApp,
-}: {
+export const KeybanEddsaProvider: FC<{
   children: ReactNode;
   webApp: string;
-}) => {
+}> = ({ children, webApp }) => {
   const wasmApiRef = useRef<NativeWasm | null>(null);
-  const eddsaClientRef = useRef<KeybanEddsaContext['eddsaClient'] | null>(null);
+  const eddsaClientRef = useRef<KeybanEddsaContext["eddsaClient"] | null>(null);
   const [knownAccounts, setKnownAccounts] = useState<
-    KeybanEddsaContext['knownAccounts']
+    KeybanEddsaContext["knownAccounts"]
   >([]);
   const [initialized, setInitialized] = useState(false);
   const [clientStatus, setClientStatus] = useState<
-    'operational' | 'down' | null
+    "operational" | "down" | null
   >(null);
 
   const { ref, onMessage, emit } = useWebViewMessage(async (message) => {
-    if (message.type === 'initialized') {
-      console.log('WebAssembly initialized inside WebView');
+    if (message.type === "initialized") {
+      console.log("WebAssembly initialized inside WebView");
       wasmApiRef.current = new NativeWasm(emit);
       eddsaClientRef.current = new EddsaClient(wasmApiRef.current);
       setInitialized(true);
@@ -74,36 +72,38 @@ export const KeybanEddsaProvider = ({
     wasmApiRef.current?.receiveMessage(message.data as string);
   });
 
-  const createAccount: KeybanEddsaContext['createAccount'] = useCallback(
+  const createAccount: KeybanEddsaContext["createAccount"] = useCallback(
     async (storageProvider) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
       }
 
-      const account =
-        await eddsaClientRef.current?.createAccount(storageProvider);
+      const account = await eddsaClientRef.current?.createAccount(
+        storageProvider
+      );
+
       setKnownAccounts((prev) => {
         prev.push(account);
-        return prev;
+        return [...prev];
       });
-
       return account;
     },
-    [initialized],
+    [initialized]
   );
 
-  const getSaveAccounts: KeybanEddsaContext['getSaveAccounts'] = useCallback(
+  const getSaveAccounts: KeybanEddsaContext["getSaveAccounts"] = useCallback(
     async (storageProvider) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
       }
 
-      const accounts =
-        await eddsaClientRef.current?.getSaveAccounts(storageProvider);
+      const accounts = await eddsaClientRef.current?.getSaveAccounts(
+        storageProvider
+      );
       setKnownAccounts(accounts);
       return accounts;
     },
-    [initialized],
+    [initialized]
   );
 
   return (
@@ -112,7 +112,7 @@ export const KeybanEddsaProvider = ({
         eddsaClient: eddsaClientRef.current,
         wasmApi: wasmApiRef.current,
         initialized,
-        knownAccounts,
+        knownAccounts: knownAccounts,
         getSaveAccounts,
         createAccount,
         clientStatus,
@@ -120,7 +120,7 @@ export const KeybanEddsaProvider = ({
     >
       <WebView
         ref={ref}
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
         webviewDebuggingEnabled
         source={{ html: webApp }}
         onMessage={onMessage}

@@ -1,8 +1,7 @@
 Feature: Health check is performed
 
   Background:
-    Given The mobile app is launched
-#        And the React EdDSA Signer component is installed and initialized in a React or React Native environment
+    Given Mobile ios app is launched
 
   Scenario: BE service is down
     Given the status box is visible

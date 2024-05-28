@@ -45,7 +45,7 @@ class EddsaClient {
         );
       });
     // 3. Upload share to server
-    console.log(serverShare);
+    console.log(serverShare, serverShare);
     // 4. return Account instance
     return new EddsaAccount(clientShare, this.wasmApi);
   }
