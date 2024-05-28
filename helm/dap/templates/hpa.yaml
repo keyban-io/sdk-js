@@ -1,6 +1,6 @@
 {{- $root := . -}}
 {{- range $key, $val := .Values }}
-{{- if and (hasKey $val "autoscaling") ($val.autoscaling.enabled) }}
+{{- if and (or (not (hasKey $val "enabled")) (eq true $val.enabled)) (hasKey $val "autoscaling") ($val.autoscaling.enabled) }}
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler

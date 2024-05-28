@@ -1,6 +1,6 @@
 {{- $root := . -}}
 {{- range $key, $val := .Values }}
-{{- if hasKey $val "service" }}  # Ensure there's a service defined to create a deployment for
+{{- if and (hasKey $val "service") (or (not (hasKey $val "enabled")) (eq true $val.enabled)) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
