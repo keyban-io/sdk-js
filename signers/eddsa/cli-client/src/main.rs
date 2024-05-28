@@ -72,9 +72,9 @@ async fn dkg(keyid: &str) -> Result<(), String> {
 
     // Round 2
     // TODO store the secret share somewhere
-    let (_, client_pub_key_package, client_round2_package) =
+    let (client_keypair, client_round2_package) =
         dkg::client_dkg_round_2(client_round1_secret_package, server_round1_package).unwrap();
-    let client_pubkey = hex::encode(client_pub_key_package.verifying_key().serialize());
+    let client_pubkey = hex::encode(client_keypair.public_key.verifying_key().serialize());
 
     // call server round 2
     let response = http_client

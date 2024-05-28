@@ -27,8 +27,12 @@ pub type ClientRound1Package = frost::keys::dkg::round1::Package;
 pub type ClientRound2Package = frost::keys::dkg::round2::Package;
 pub type ServerRound1SecretPackage = frost::keys::dkg::round2::SecretPackage;
 pub type ClientRound1SecretPackage = frost::keys::dkg::round1::SecretPackage;
-pub type KeyPackage = frost::keys::KeyPackage;
+pub type SecretKeyPackage = frost::keys::KeyPackage;
 pub type PublicKeyPackage = frost::keys::PublicKeyPackage;
+pub struct KeyPair {
+    pub secret_key: SecretKeyPackage,
+    pub public_key: PublicKeyPackage,
+}
 
 pub fn client_dkg_round_1() -> Result<(ClientRound1SecretPackage, ClientRound1Package), frost::Error>
 {
@@ -60,7 +64,7 @@ pub fn server_dkg_round_1(
 pub fn client_dkg_round_2(
     round1_secret_package: ClientRound1SecretPackage,
     server_round1_package: ServerRound1Package,
-) -> Result<(KeyPackage, PublicKeyPackage, ClientRound2Package), frost::Error> {
+) -> Result<(KeyPair, ClientRound2Package), frost::Error> {
     let server_part1_package = btreemap! {server_id() => server_round1_package.part1_package};
     let server_part2_package = btreemap! {server_id() => server_round1_package.part2_package};
     let (secret_package, part2_package) =
@@ -71,8 +75,10 @@ pub fn client_dkg_round_2(
         &server_part2_package,
     )?;
     Ok((
-        key_package,
-        pub_key_package,
+        KeyPair {
+            secret_key: key_package,
+            public_key: pub_key_package,
+        },
         part2_package.get(&server_id()).unwrap().clone(), // It's safe to unwrap here because we know the server_id is in the map, otherwise the function would have returned an error
     ))
 }
@@ -81,14 +87,18 @@ pub fn server_dkg_round_2(
     round1_secret_package: ServerRound1SecretPackage,
     client_round1_package: ClientRound1Package,
     client_round2_package: ClientRound2Package,
-) -> Result<(KeyPackage, PublicKeyPackage), frost::Error> {
+) -> Result<KeyPair, frost::Error> {
     let client_part1_package = btreemap! {client_id() => client_round1_package};
     let client_part2_package = btreemap! {client_id() => client_round2_package};
-    frost::keys::dkg::part3(
+    let (key_package, pubkey_package) = frost::keys::dkg::part3(
         &round1_secret_package,
         &client_part1_package,
         &client_part2_package,
-    )
+    )?;
+    Ok(KeyPair {
+        secret_key: key_package,
+        public_key: pubkey_package,
+    })
 }
 
 #[cfg(test)]
@@ -105,18 +115,18 @@ mod tests {
             server_dkg_round_1(client_round1_package.clone()).unwrap();
 
         // round 2 client: client executing dkg part 2 and part 3
-        let (client_key_package, client_pub_key_package, client_round2_package) =
+        let (client_keypair, client_round2_package) =
             client_dkg_round_2(client_round1_secret_package, server_package).unwrap();
 
         // round 2 server: server executing dkg part 3
-        let (server_key_package, server_pub_key_package) = server_dkg_round_2(
+        let server_keypair = server_dkg_round_2(
             server_round1_secret_package,
             client_round1_package,
             client_round2_package,
         )
         .unwrap();
 
-        assert_ne!(client_key_package, server_key_package);
-        assert_eq!(client_pub_key_package, server_pub_key_package);
+        assert_ne!(client_keypair.secret_key, server_keypair.secret_key);
+        assert_eq!(client_keypair.public_key, server_keypair.public_key);
     }
 }

@@ -18,15 +18,9 @@ struct DkgState {
 }
 
 #[derive(Clone)]
-struct KeyStoreState {
-    key_package: dkg::KeyPackage,
-    pubkey_package: dkg::PublicKeyPackage,
-}
-
-#[derive(Clone)]
 pub struct TssState {
     dkg: Arc<RwLock<HashMap<String, DkgState>>>,
-    keystore: Arc<RwLock<HashMap<String, KeyStoreState>>>,
+    keystore: Arc<RwLock<HashMap<String, dkg::KeyPair>>>,
 }
 
 impl Default for TssState {
@@ -79,23 +73,17 @@ pub async fn dkg_round2(
         Some(dkg_state) => dkg_state,
         None => return Err(http::StatusCode::NOT_FOUND),
     };
-    let (key_package, pubkey_package) = match dkg::server_dkg_round_2(
+    let keypair = match dkg::server_dkg_round_2(
         dkg_state.secret_package,
         dkg_state.client_round1_package,
         client_round2_package,
     ) {
-        Ok((key_package, pubkey_package)) => (key_package, pubkey_package),
+        Ok(keypair) => keypair,
         Err(_) => return Err(http::StatusCode::INTERNAL_SERVER_ERROR),
     };
     // store round1 outcomes in memory
-    let public_key = hex::encode(pubkey_package.verifying_key().serialize());
-    state.keystore.write().await.insert(
-        keyid,
-        KeyStoreState {
-            key_package,
-            pubkey_package,
-        },
-    );
+    let public_key = hex::encode(keypair.public_key.verifying_key().serialize());
+    state.keystore.write().await.insert(keyid, keypair);
     Ok(models::DkgRound2Response { public_key })
 }
 
@@ -125,9 +113,9 @@ mod tests {
         .unwrap();
         let server_round1_package = response.server_round1_package;
         // Round 2
-        let (_, client_pub_key_package, client_round2_package) =
+        let (client_keypair, client_round2_package) =
             dkg::client_dkg_round_2(client_round1_secret_package, server_round1_package).unwrap();
-        let client_pubkey = hex::encode(client_pub_key_package.verifying_key().serialize());
+        let client_pubkey = hex::encode(client_keypair.public_key.verifying_key().serialize());
 
         let response: models::DkgRound2Response = dkg_round2(
             Path("toto".to_string()),
