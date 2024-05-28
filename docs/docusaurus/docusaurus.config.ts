@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'KEYBAN',
-  tagline: 'Digital Asset Business made easy',
+  tagline: 'Revolutionize the way you do business with digital assets',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -29,6 +29,8 @@ const config: Config = {
     locales: ['en'],
   },
 
+  plugins: ['docusaurus-plugin-sass'],
+
   presets: [
     [
       'classic',
@@ -37,7 +39,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: './src/css/custom.scss',
         },
       } satisfies Preset.Options,
     ],

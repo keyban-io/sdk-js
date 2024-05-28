@@ -20,9 +20,9 @@ function HomepageHeader() {
       <div className="container">
         <div style={{ alignItems: 'center' }}>
           {/* Directly render the SVG React component */}
-          <YourSVGImage style={{ width: '80px', height: '80px', marginRight: '10px' }} />
+          {/* <YourSVGImage style={{ width: '80px', height: '80px', marginRight: '10px' }} /> */}
           <Heading as="h1" className="hero__title">
-            Keyban Documentation
+            KEYBAN Documentation
           </Heading>
         </div>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
