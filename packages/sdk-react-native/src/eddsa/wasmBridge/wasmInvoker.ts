@@ -4,6 +4,9 @@ import { Buffer } from "buffer/";
 import {
   EddsaAddRequest,
   EddsaAddResponse,
+  EddsaDkgResponse,
+  EddsaSignMessageRequest,
+  EddsaSignMessageResponse,
   GenericMessage,
 } from "~/../compiled";
 
@@ -30,7 +33,44 @@ export class WasmInvoker {
     return this.prepareGenericMessage(callId, u8aToHex(responseBytes));
   }
 
-  prepareGenericMessage(callId: string, payload: string) {
+  async generateKeypair(protoPayload: string) {
+    const { callId } = GenericMessage.decode(hexToU8a(protoPayload));
+    // const clientShare = await this.wasmApi.generateKeypair();
+
+    const responseBytes = EddsaDkgResponse.encode({
+      secretShare: new Uint8Array(),
+      publicServerKey: "publicServerKey",
+      publicShare: {
+        key: "clientServerKey",
+      },
+    }).finish();
+    console.log("received call dkg", {
+      secretShare: new Uint8Array(),
+      publicServerKey: "publicServerKey",
+      publicShare: {
+        key: "clientServerKey",
+      },
+    });
+    return this.prepareGenericMessage(callId, u8aToHex(responseBytes));
+  }
+  async signMessage(protoPayload: string) {
+    const { callId, payload } = GenericMessage.decode(hexToU8a(protoPayload));
+    const { payload: signaturePayload, secretShare } =
+      EddsaSignMessageRequest.decode(hexToU8a(payload));
+
+    const signature = await this.wasmApi.signMessage(
+      secretShare,
+      signaturePayload
+    );
+
+    const responseBytes = EddsaSignMessageResponse.encode({
+      signature,
+    }).finish();
+
+    return this.prepareGenericMessage(callId, u8aToHex(responseBytes));
+  }
+
+  private prepareGenericMessage(callId: string, payload: string) {
     const arrayBufferMessage = GenericMessage.encode({
       callId,
       payload,

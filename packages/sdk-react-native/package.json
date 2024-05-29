@@ -47,7 +47,7 @@
     "README.md"
   ],
   "scripts": {
-    "compile:proto": "node ./src/eddsa/wasmBridge/script/compileProto.js",
+    "compile:proto": "./compile.sh",
     "build": "NODE_ENV=production tsup && yalc publish",
     "build:docs": "typedoc --out docs",
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration && yalc push'",

@@ -2,10 +2,10 @@
   "version": "v1",
   "packages": {
     "@keyban/sdk-react-native": {
-      "signature": "858e680c55b7c1bfb27ae9ad033bd77c"
+      "signature": "bad693acbb5a8e4302a4e8437e6ec4e7"
     },
     "@keyban/sdk-base": {
-      "signature": "b5245ec4c5a73348d2253c7c8c3ad58d"
+      "signature": "1c18bae36009fce41d599e4ec02cd041"
     }
   }
 }

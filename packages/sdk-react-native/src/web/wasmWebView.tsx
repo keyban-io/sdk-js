@@ -1,8 +1,8 @@
-import { emit, useNativeMessage } from 'react-native-react-bridge/lib/web';
+import { emit, useNativeMessage } from "react-native-react-bridge/lib/web";
 
-import { type WasmApi, getWasmBuffer } from '@keyban/sdk-base';
-import { useEffect, useState } from 'react';
-import { WasmInvoker } from '~/eddsa/wasmBridge';
+import { type WasmApi, getWasmBuffer } from "@keyban/sdk-base";
+import { useEffect, useState } from "react";
+import { WasmInvoker } from "~/eddsa/wasmBridge";
 
 /**
  * This is very important part of the library.
@@ -24,9 +24,22 @@ export const WebViewRoot = () => {
   useNativeMessage(async (message) => {
     if (!instance) return;
 
-    if (message.type === 'add') {
-      const result = await instance.add(message.data as string);
-      emit({ type: 'add', data: result });
+    switch (message.type as keyof WasmApi) {
+      case "add": {
+        const result = await instance.add(message.data as string);
+        emit({ type: "add", data: result });
+        break;
+      }
+      case "generateKeypair": {
+        const result = await instance.generateKeypair(message.data as string);
+        emit({ type: "generateKeypair", data: result });
+        break;
+      }
+      case "signMessage": {
+        const result = await instance.signMessage(message.data as string);
+        emit({ type: "generateKeypair", data: result });
+        break;
+      }
     }
   });
 
@@ -36,7 +49,7 @@ export const WebViewRoot = () => {
       const module = await WebAssembly.instantiate(bufferSrc);
 
       setInstance(new WasmInvoker(module.instance.exports as WasmApi));
-      emit({ type: 'initialized', data: '' });
+      emit({ type: "initialized", data: "" });
     };
     init();
   }, []);

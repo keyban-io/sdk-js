@@ -1,4 +1,3 @@
-export * from './client';
-export * from './types';
-export * from './account';
-export * from './account.types';
+export * from "./client";
+export * from "./types";
+export * from "./account";

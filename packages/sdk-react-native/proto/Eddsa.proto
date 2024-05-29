@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+message EddsaAddRequest {
+  required uint32 num1 = 1;
+  required uint32 num2 = 2;
+}
+
+message EddsaAddResponse {
+  required uint32 sum = 1;
+}
+
+message EddsaSignMessageRequest {
+  required bytes secretShare = 1;
+  required string payload = 2;
+}
+
+message EddsaSignMessageResponse {
+  required string signature = 1;
+}
+
+message EddsaDkgResponse {
+  required bytes secretShare = 1;
+  required EddsaPublicShare publicShare = 2;
+  required string publicServerKey = 3;
+}
+
+message EddsaPublicShare {
+  required string key = 1;
+}

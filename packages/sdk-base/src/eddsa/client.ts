@@ -2,8 +2,7 @@ import SignerClientError, {
   SignerClientErrors,
 } from "~/errors/SignerClientError";
 import { EddsaAccount } from "./account";
-import type { ClientShare } from "./account.types";
-import { StorageProviderApi, WasmApi } from "./types";
+import type { ClientShare, StorageProviderApi, WasmApi } from "./types";
 import { healthCheck } from "~/api/apiClient";
 
 /**
@@ -30,12 +29,18 @@ class EddsaClient {
     storageProvider: StorageProviderApi
   ): Promise<EddsaAccount> {
     // 1. Generate account with WASM
-    const [clientShare, serverShare] = ["ffeksahfkj", "lhefskhj"];
+    // const { publicServerKey, publicShare, secretShare } = await this.wasmApi.generateKeypair()
+    const [clientShare, publicServerKey] = ["ffeksahfkj", "lhefskhj"];
     // 2. Save client share to provided storage
     const savedSharesString = await storageProvider.get("keyban-eddsa");
-    console.log("savedStr", savedSharesString);
     const savedShares = JSON.parse(savedSharesString || "[]") as ClientShare[];
-    savedShares.push(clientShare);
+    savedShares.push({
+      publicShare: {
+        key: clientShare,
+      },
+      publicServerKey,
+      secretShare: new Uint8Array(),
+    });
     await storageProvider
       .save("keyban-eddsa", JSON.stringify(savedShares))
       .catch((e) => {
@@ -45,9 +50,18 @@ class EddsaClient {
         );
       });
     // 3. Upload share to server
-    console.log(serverShare, serverShare);
+    // console.log(serverShare, serverShare);
     // 4. return Account instance
-    return new EddsaAccount(clientShare, this.wasmApi);
+    return new EddsaAccount(
+      {
+        secretShare: new Uint8Array(),
+        publicShare: {
+          key: clientShare,
+        },
+        publicServerKey,
+      },
+      this.wasmApi
+    );
   }
 
   /**
@@ -103,4 +117,4 @@ class EddsaClient {
   }
 }
 
-export { StorageProviderApi, WasmApi, EddsaClient };
+export { type StorageProviderApi, type WasmApi, EddsaClient };
