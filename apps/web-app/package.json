@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@keyban/sdk-react": "workspace:*",
-    "eddsa-wasm-client": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
