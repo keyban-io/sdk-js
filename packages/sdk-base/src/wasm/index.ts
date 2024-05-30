@@ -3,7 +3,7 @@
 //   type InitOutput as WasmInstance,
 // } from "eddsa-wasm-client";
 // import wasm from "./";
-import initSync, { InitOutput } from "eddsa-wasm-client";
+import initSync, { InitOutput, dkg, add } from "eddsa-wasm-client";
 
 // const fetchWasmBuffer = async () =>
 //   Uint8Array.from([
@@ -29,4 +29,4 @@ const initWasm = async (): Promise<InitOutput> => {
     throw e;
   }
 };
-export { initWasm };
+export { initWasm, dkg, add };

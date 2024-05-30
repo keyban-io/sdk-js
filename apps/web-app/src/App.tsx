@@ -5,9 +5,8 @@ import {
   useKeybanEddsa,
 } from "@keyban/sdk-react";
 import type { ReactNode } from "react";
-import initSync, { InitOutput } from "eddsa-wasm-client";
+import { dkg, add } from "@keyban/sdk-react";
 
-const wasm = await initSync();
 const keybanLocalStorage = new KeybanLocalStorage();
 
 function App() {
@@ -25,17 +24,17 @@ function App() {
 }
 
 export const Main = () => {
-  const { createAccount, knownAccounts, clientStatus, wasmApi } = useKeybanEddsa();
+  const { createAccount, knownAccounts, clientStatus } = useKeybanEddsa();
 
 
 
-  const handleAccCreation = () => {
+  const handleAccCreation = async () => {
     //createAccount(keybanLocalStorage);
-    console.log(wasm, wasm.dkg('toto'));
+    console.log(await dkg("toto"));
   };
 
   const handleAdd = () => {
-    console.log(wasm, wasm.add(1, 5));
+    console.log(add(1, 5));
   };
   return (
     <>
