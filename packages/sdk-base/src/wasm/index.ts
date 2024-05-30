@@ -3,8 +3,8 @@
 //   type InitOutput as WasmInstance,
 // } from "eddsa-wasm-client";
 // import wasm from "./";
-import type { WasmApi } from "~/eddsa";
-import wasm from "./eddsa_wasm_client_bg.wasm";
+import initSync, { InitOutput } from "eddsa-wasm-client";
+
 // const fetchWasmBuffer = async () =>
 //   Uint8Array.from([
 //     0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, 0x01, 0x87, 0x80, 0x80,
@@ -15,42 +15,15 @@ import wasm from "./eddsa_wasm_client_bg.wasm";
 //     0x0b,
 //   ]);
 
-const initWasm = async (): Promise<WasmApi> => {
+const initWasm = async (): Promise<InitOutput> => {
   try {
     // Construct the URL to the WASM file
-    const route = new URL("./eddsa_wasm_client_bg.wasm", import.meta.url);
-    console.log("WASM URL:", route.toString(), wasm);
+    //const route = new URL("./eddsa_wasm_client_bg.wasm", import.meta.url);
+    const response = await initSync();
 
-    // Fetch the WASM file
-    const response = await fetch(route.toString(), {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/wasm",
-      },
-    });
     console.log("Fetch response:", response);
 
-    // Do something with the total
-
-    // Check the Content-Type header
-    const contentType = response.headers.get("Content-Type");
-    if (
-      !response.ok ||
-      !contentType ||
-      !contentType.includes("application/wasm")
-    ) {
-      throw new Error(
-        `Failed to load WASM file. Status: ${response.status}, Content-Type: ${contentType}`
-      );
-    }
-
-    // Read the response as an ArrayBuffer
-    const bytes = await response.arrayBuffer();
-    console.log("WASM bytes length:", bytes.byteLength);
-
-    // Instantiate the WebAssembly module
-    const wasmModule = await WebAssembly.instantiate(bytes);
-    return wasmModule.instance.exports as WasmApi;
+    return response;
   } catch (e) {
     console.error("Error loading WASM:", e);
     throw e;

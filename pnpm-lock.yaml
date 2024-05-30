@@ -29,6 +29,9 @@ importers:
       '@keyban/sdk-react':
         specifier: workspace:*
         version: link:../../packages/sdk-react
+      eddsa-wasm-client:
+        specifier: workspace:*
+        version: link:../../packages/sdk-wasm
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -209,6 +212,40 @@ importers:
         version: 1.6.0(@types/node@20.12.12)(terser@5.31.0)
 
   packages/sdk-wasm: {}
+
+  packages/ts-npm-template:
+    dependencies:
+      eddsa-wasm-client:
+        specifier: workspace:*
+        version: link:../sdk-wasm
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^1.6.4
+        version: 1.7.3
+      '@changesets/changelog-github':
+        specifier: ^0.5.0
+        version: 0.5.0
+      '@changesets/cli':
+        specifier: ^2.27.1
+        version: 2.27.3
+      '@types/node':
+        specifier: ^20.12.7
+        version: 20.12.12
+      '@vitest/coverage-v8':
+        specifier: ^1.4.0
+        version: 1.6.0(vitest@1.6.0(@types/node@20.12.12)(terser@5.31.0))
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
+      typedoc:
+        specifier: ^0.25.13
+        version: 0.25.13(typescript@5.4.5)
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+      vitest:
+        specifier: ^1.4.0
+        version: 1.6.0(@types/node@20.12.12)(terser@5.31.0)
 
 packages:
 
