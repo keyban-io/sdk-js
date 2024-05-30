@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "dist",
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "allowSyntheticDefaultImports":true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
     "paths": {

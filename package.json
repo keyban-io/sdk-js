@@ -13,6 +13,7 @@
     "web": "pnpm --filter web-app",
     "build": "pnpm run -r build",
     "format": "pnpm run -r format",
+    "dev": "sh ./run-dev.sh",
     "prepare:native": "cd ./apps/mobile-app && make prepare",
     "ios:emu": "cd ./apps/mobile-app && make run-ios",
     "android:emu": "cd ./apps/mobile-app && make run-android"

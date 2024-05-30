@@ -1,6 +1,6 @@
 import { emit, useNativeMessage } from "react-native-react-bridge/lib/web";
 
-import { type WasmApi, getWasmBuffer } from "@keyban/sdk-base";
+import { type WasmApi, initWasm } from "@keyban/sdk-base";
 import { useEffect, useState } from "react";
 import { WasmInvoker } from "~/eddsa/wasmBridge";
 
@@ -45,10 +45,11 @@ export const WebViewRoot = () => {
 
   useEffect(() => {
     const init = async () => {
-      const bufferSrc = await getWasmBuffer();
-      const module = await WebAssembly.instantiate(bufferSrc);
+      const wasmApi = await initWasm();
 
-      setInstance(new WasmInvoker(module.instance.exports as WasmApi));
+      // const module = await WebAssembly.instantiate(bufferSrc);
+
+      setInstance(new WasmInvoker(wasmApi as unknown as WasmApi));
       emit({ type: "initialized", data: "" });
     };
     init();

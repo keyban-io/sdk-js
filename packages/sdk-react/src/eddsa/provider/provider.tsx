@@ -2,7 +2,7 @@ import {
   EddsaClient,
   SignerClientError,
   SignerClientErrors,
-  getWasmBuffer,
+  initWasm,
 } from "@keyban/sdk-base";
 import type { WasmApi } from "@keyban/sdk-base";
 import {
@@ -41,10 +41,11 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
           "provider initialized in environment where WebAssembly is not supported!"
         );
       }
-      const wasmBuffer = await getWasmBuffer();
-      const wasmApi = (await WebAssembly.instantiate(wasmBuffer)).instance
-        .exports as WasmApi;
-      wasmApiRef.current = wasmApi;
+      const wasmApi = (await initWasm()) as unknown as WasmApi;
+
+      // const wasmApi = (await WebAssembly.instantiate(wasmBuffer)).instance
+      //   .exports as WasmApi;
+      // wasmApiRef.current = wasmApi;
 
       eddsaClientRef.current = new EddsaClient(wasmApi);
       setInitialized(true);

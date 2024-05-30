@@ -6,6 +6,7 @@ export type WasmApi = {
   signMessage: (secret: SecretShare, payload: string) => Promise<Hex>;
   generateKeypair: () => Promise<ClientShare>;
   add: (n1: number, n2: number) => Promise<number>;
+  dkg: (n1: number, n2: number) => Promise<number>;
 };
 
 export type StorageProviderApi = {

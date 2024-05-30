@@ -123,4 +123,9 @@ export class NativeWasm implements WasmApi {
 
     return decodedResult.signature;
   }
+
+  dkg(num1: number, num2: number): Promise<number> {
+    console.log(num1 + num2);
+    return Promise.resolve(0);
+  }
 }

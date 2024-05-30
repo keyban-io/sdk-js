@@ -71,6 +71,10 @@ importers:
         version: 5.2.11(@types/node@20.12.12)(terser@5.31.0)
 
   packages/sdk-base:
+    dependencies:
+      eddsa-wasm-client:
+        specifier: workspace:*
+        version: link:../sdk-wasm
     devDependencies:
       '@changesets/changelog-github':
         specifier: ^0.5.0
@@ -203,6 +207,8 @@ importers:
       vitest:
         specifier: ^1.4.0
         version: 1.6.0(@types/node@20.12.12)(terser@5.31.0)
+
+  packages/sdk-wasm: {}
 
 packages:
 

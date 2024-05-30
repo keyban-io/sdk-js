@@ -1,5 +1,5 @@
 import EventEmitter from "node:events";
-import { type WasmApi, getWasmBuffer } from "@keyban/sdk-base";
+import { type WasmApi, initWasm } from "@keyban/sdk-base";
 import { beforeAll, describe, expect, it } from "vitest";
 import { NativeWasm } from "./nativeWasm";
 import { WasmInvoker } from "./wasmInvoker";
@@ -11,9 +11,9 @@ describe("Native bridge", () => {
   let nativeWasm: NativeWasm;
   let wasmInvoker: WasmInvoker;
   beforeAll(async () => {
-    const bufferSrc = await getWasmBuffer();
-    const module = await WebAssembly.instantiate(bufferSrc);
-    wasmInvoker = new WasmInvoker(module.instance.exports as WasmApi); // on webview
+    const wasmApi = await initWasm();
+    // const module = await WebAssembly.instantiate(bufferSrc);
+    wasmInvoker = new WasmInvoker(wasmApi as unknown as WasmApi); // on webview
     nativeWasm = new NativeWasm(
       (
         { data, type } // on react-native
