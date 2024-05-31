@@ -14,7 +14,7 @@ import {
   EddsaSignMessageRequest,
   EddsaSignMessageResponse,
   GenericMessage,
-} from "~/../compiled";
+} from "~/proto_compiled";
 
 type PromiseResolveFn = (data: string) => void;
 type EmitFn = (params: { type: keyof WasmApi; data: string }) => void;

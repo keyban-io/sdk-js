@@ -8,7 +8,7 @@ import {
   EddsaSignMessageRequest,
   EddsaSignMessageResponse,
   GenericMessage,
-} from "~/../compiled";
+} from "~/proto_compiled";
 
 if (!global.Buffer) {
   global.Buffer = Buffer as typeof global.Buffer;

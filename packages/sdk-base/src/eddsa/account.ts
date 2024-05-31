@@ -6,7 +6,8 @@ export class EddsaAccount {
   /** Account address retrieved from ${@link clientKeyShare} */
   address;
   /** The client key share retrieved from storage. */
-  private clientKeyShare;
+  clientKeyShare;
+  private secretShare;
 
   /**
    * The constructor of the `EddsaClient` class.
@@ -15,15 +16,16 @@ export class EddsaAccount {
    */
   constructor(clientKeyShare: ClientShare, wasmApi: WasmApi) {
     this.wasmApi = wasmApi;
-    this.clientKeyShare = clientKeyShare.secretShare;
-    this.address = clientKeyShare;
+    this.clientKeyShare = clientKeyShare.publicServerKey;
+    this.address = clientKeyShare.publicShare.key;
+    this.secretShare = clientKeyShare.secretShare;
   }
 
   async signPayload(payload: Record<string, unknown>) {
     const wasmReadyPayload = this.prepareWasmPayload(payload);
 
     const signature = await this.wasmApi.signMessage(
-      this.clientKeyShare,
+      this.secretShare,
       wasmReadyPayload
     );
 

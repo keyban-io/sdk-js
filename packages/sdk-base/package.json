@@ -59,11 +59,13 @@
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
     "@types/node": "^20.12.7",
+    "@vitest/browser": "^1.6.0",
     "@vitest/coverage-v8": "^1.4.0",
     "tsup": "^8.0.2",
     "typedoc": "^0.25.13",
     "typescript": "^5.4.5",
-    "vitest": "^1.4.0"
+    "vitest": "^1.4.0",
+    "webdriverio": "^8.38.0"
   },
   "publishConfig": {
     "access": "restricted"

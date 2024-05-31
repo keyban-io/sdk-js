@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
   type FC,
+  useEffect,
 } from "react";
 import { useWebViewMessage } from "react-native-react-bridge";
 import WebView from "react-native-webview";
@@ -57,8 +58,8 @@ export const KeybanEddsaProvider: FC<{
   const [clientStatus, setClientStatus] = useState<
     "operational" | "down" | null
   >(null);
-
   const { ref, onMessage, emit } = useWebViewMessage(async (message) => {
+    console.log("message", message);
     if (message.type === "initialized") {
       console.log("WebAssembly initialized inside WebView");
       wasmApiRef.current = new NativeWasm(emit);
@@ -105,6 +106,10 @@ export const KeybanEddsaProvider: FC<{
     },
     [initialized]
   );
+
+  useEffect(() => {
+    emit({ type: "test", data: "" });
+  }, [emit]);
 
   return (
     <KeybanEddsaReactContext.Provider

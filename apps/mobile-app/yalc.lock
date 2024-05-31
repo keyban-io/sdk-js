@@ -2,10 +2,13 @@
   "version": "v1",
   "packages": {
     "@keyban/sdk-react-native": {
-      "signature": "9f0dbf31663f9a8c4ea854267d1f9401"
+      "signature": "8baacd98534d727449e597b52f7fa730"
     },
     "@keyban/sdk-base": {
-      "signature": "8b6fc784348dc6818af682c924adc379"
+      "signature": "88b8c5791b6006d6ac17c0294398bdd4"
+    },
+    "eddsa-wasm-client": {
+      "signature": "2be007a5ccf19d93d17343057c5a2add"
     }
   }
 }

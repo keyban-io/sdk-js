@@ -5,7 +5,6 @@ import {
   useKeybanEddsa,
 } from "@keyban/sdk-react";
 import type { ReactNode } from "react";
-import { dkg, add } from "@keyban/sdk-react";
 
 const keybanLocalStorage = new KeybanLocalStorage();
 
@@ -26,16 +25,13 @@ function App() {
 export const Main = () => {
   const { createAccount, knownAccounts, clientStatus } = useKeybanEddsa();
 
-
-
   const handleAccCreation = async () => {
-    //createAccount(keybanLocalStorage);
-    console.log(await dkg("toto"));
+    createAccount(keybanLocalStorage);
   };
 
-  const handleAdd = () => {
-    console.log(add(1, 5));
-  };
+  const handleAdd = () => {};
+
+  console.log("xd", knownAccounts);
   return (
     <>
       <KeybanEddsaReactContext.Consumer>
