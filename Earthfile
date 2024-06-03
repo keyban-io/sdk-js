@@ -7,12 +7,12 @@ get-wasm:
 
 
 live:
-    FROM ../../+node
+    FROM ../+node
     WORKDIR /app
-    COPY --dir package.json pnpm-lock.yaml pnpm-workspace.yaml /app
-    DO ../../+USEPNPM
+    CMD find . -name "node_modules" -type d -exec rm -rf {} +
+    COPY --dir run-dev.sh package.json pnpm-lock.yaml pnpm-workspace.yaml biome.json apps packages /app
+    DO ../+USEPNPM
     RUN pnpm install
-    COPY --dir biome.json apps packages /app
     CMD pnpm dev
     ARG --required ref
     SAVE IMAGE --push ${ref}
