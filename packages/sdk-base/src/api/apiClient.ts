@@ -1,5 +1,5 @@
-import { backendEndpoint } from "~/utils/constants";
+import { backendEndpoint } from '~/utils/constants';
 
 export const healthCheck = () => {
-  return fetch(`${backendEndpoint}/api/health`, { method: "GET" });
+  return fetch(`${backendEndpoint}/api/health`, { method: 'GET' });
 };

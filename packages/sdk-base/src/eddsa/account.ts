@@ -1,4 +1,4 @@
-import type { ClientShare, WasmApi } from "~/eddsa/types";
+import type { ClientShare, WasmApi } from '~/eddsa/types';
 
 export class EddsaAccount {
   /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */

@@ -1,12 +1,12 @@
 import {
   type ClientShare,
-  generateUUID,
   type Hex,
-  hexToU8a,
   type SecretShare,
-  u8aToHex,
   type WasmApi,
-} from "@keyban/sdk-base";
+  generateUUID,
+  hexToU8a,
+  u8aToHex,
+} from '@keyban/sdk-base';
 import {
   EddsaAddRequest,
   EddsaAddResponse,
@@ -14,7 +14,7 @@ import {
   EddsaSignMessageRequest,
   EddsaSignMessageResponse,
   GenericMessage,
-} from "~/proto_compiled";
+} from '~/proto_compiled';
 
 type PromiseResolveFn = (data: string) => void;
 type EmitFn = (params: { type: keyof WasmApi; data: string }) => void;
@@ -37,7 +37,7 @@ export class NativeWasm implements WasmApi {
 
     const resultString = await this.promisifyMessage(() => {
       this.emitFn?.({
-        type: "add",
+        type: 'add',
         data: this.prepareGenericMessage(callId, u8aToHex(addPayload)),
       });
     }, callId);
@@ -51,7 +51,7 @@ export class NativeWasm implements WasmApi {
 
   private ensureEmitFn() {
     if (!this.emitFn) {
-      throw new Error("critical: missing emmit function");
+      throw new Error('critical: missing emmit function');
     }
 
     return true;
@@ -77,7 +77,7 @@ export class NativeWasm implements WasmApi {
 
   private promisifyMessage(
     callback: () => void,
-    callId: string
+    callId: string,
   ): Promise<string> {
     return new Promise((res, rej) => {
       callback();
@@ -93,8 +93,8 @@ export class NativeWasm implements WasmApi {
     const callId = generateUUID(); // this should be random uuid
     const resultString = await this.promisifyMessage(() => {
       this.emitFn?.({
-        type: "generateKeypair",
-        data: this.prepareGenericMessage(callId, ""),
+        type: 'generateKeypair',
+        data: this.prepareGenericMessage(callId, ''),
       });
     }, callId);
 
@@ -112,13 +112,13 @@ export class NativeWasm implements WasmApi {
 
     const resultString = await this.promisifyMessage(() => {
       this.emitFn?.({
-        type: "signMessage",
+        type: 'signMessage',
         data: this.prepareGenericMessage(callId, u8aToHex(addPayload)),
       });
     }, callId);
 
     const decodedResult = EddsaSignMessageResponse.decode(
-      hexToU8a(resultString)
+      hexToU8a(resultString),
     );
 
     return decodedResult.signature;
