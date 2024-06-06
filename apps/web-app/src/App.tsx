@@ -90,6 +90,7 @@ const ActionBox = ({
   humanDescription,
   onTap,
   actionp,
+  testId,
 }: {
   humanDescription: string;
   testId: string;
@@ -104,7 +105,7 @@ const ActionBox = ({
     >
       <p style={{ textAlign: "center" }}>{humanDescription}</p>
       {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-      <button onClick={onTap}>
+      <button data-testId={testId} onClick={onTap}>
         <p
           style={{
             borderStyle: "solid",
