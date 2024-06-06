@@ -1,8 +1,9 @@
-// import { emit, useNativeMessage } from "react-native-react-bridge/lib/web";
-//
-// import type { WasmApi } from "@keyban/sdk-base";
-// import { useEffect, useState } from "react";
-// import { WasmInvoker } from "~/eddsa/wasmBridge";
+import { emit, useNativeMessage } from 'react-native-react-bridge/lib/web';
+
+import type { WasmApi } from '@keyban/sdk-base';
+import initWasm from 'eddsa-wasm-client';
+import { useEffect, useState } from 'react';
+import { WasmInvoker } from '~/wasmBridge';
 
 /**
  * This is very important part of the library.
@@ -18,45 +19,50 @@
  * ```
  * */
 export const WebViewRoot = () => {
-  console.log("wuuutang");
-  return null;
-  // const [instance, setInstance] = useState<WasmInvoker | null>(null);
-  //
-  // // useNativeMessage hook receives message from React Native
-  // useNativeMessage(async (message) => {
-  //   console.log("inner", message);
-  //   if (!instance) return;
-  //
-  //   switch (message.type as keyof WasmApi) {
-  //     case "add": {
-  //       const result = await instance.add(message.data as string);
-  //       emit({ type: "add", data: result });
-  //       break;
-  //     }
-  //     case "generateKeypair": {
-  //       const result = await instance.generateKeypair(message.data as string);
-  //       emit({ type: "generateKeypair", data: result });
-  //       break;
-  //     }
-  //     case "signMessage": {
-  //       const result = await instance.signMessage(message.data as string);
-  //       emit({ type: "generateKeypair", data: result });
-  //       break;
-  //     }
-  //   }
-  // });
-  //
-  // useEffect(() => {
-  //   const init = async () => {
-  //     // const wasmApi = await initWasm();
-  //
-  //     // const module = await WebAssembly.instantiate(bufferSrc);
-  //
-  //     setInstance(new WasmInvoker({} as unknown as WasmApi));
-  //     emit({ type: "initialized", data: "" });
-  //   };
-  //   init();
-  // }, []);
-  //
-  // return <div>7777</div>;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const [instance, setInstance] = useState<any | null>(null);
+  const [error] = useState<string[]>([]);
+
+  // useNativeMessage hook receives message from React Native
+  useNativeMessage(async (message) => {
+    console.log('inner', message);
+    if (!instance) return;
+
+    switch (message.type as keyof WasmApi) {
+      case 'add': {
+        const result = await instance.add(message.data as string);
+        emit({ type: 'add', data: result });
+        break;
+      }
+      case 'generateKeypair': {
+        const result = await instance.generateKeypair(message.data as string);
+        emit({ type: 'generateKeypair', data: result });
+        break;
+      }
+      case 'signMessage': {
+        const result = await instance.signMessage(message.data as string);
+        emit({ type: 'generateKeypair', data: result });
+        break;
+      }
+    }
+  });
+
+  useEffect(() => {
+    const init = async () => {
+      await initWasm();
+
+      setInstance(new WasmInvoker({} as unknown as WasmApi));
+      emit({ type: 'initialized', data: '' });
+    };
+    init();
+  }, []);
+
+  return (
+    <div>
+      {error.map((er, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+        <h1 key={index}>{er}</h1>
+      ))}
+    </div>
+  );
 };

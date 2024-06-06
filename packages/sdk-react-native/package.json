@@ -31,10 +31,15 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./lib/web": {
+    "./dist/web": {
       "types": "./dist/web/index.d.ts",
       "import": "./dist/web/index.mjs",
       "default": "./dist/web/index.js"
+    },
+    "./dist/wasmBridge": {
+      "types": "./dist/wasmBridge/index.d.ts",
+      "import": "./dist/wasmBridge/index.mjs",
+      "default": "./dist/wasmBridge/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -59,6 +64,7 @@
   },
   "dependencies": {
     "@keyban/sdk-base": "workspace:*",
+    "eddsa-wasm-client": "workspace:*",
     "long": "^5.2.3",
     "react-native-buffer": "^6.0.3"
   },

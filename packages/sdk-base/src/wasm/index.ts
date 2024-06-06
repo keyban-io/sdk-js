@@ -1,12 +1,11 @@
-import initSync, { type InitOutput } from "eddsa-wasm-client";
+import initWasmFile, { add, dkg } from 'eddsa-wasm-client';
+import type { WasmApi } from '~/eddsa';
 
-const initWasm = async (): Promise<InitOutput> => {
-  try {
-    const response = await initSync();
-    return response;
-  } catch (e) {
-    console.error("Error loading WASM:", e);
-    throw e;
-  }
+const initWasm = async (): Promise<WasmApi> => {
+  await initWasmFile();
+  return {
+    add: (...args) => Promise.resolve(add(...args)),
+    dkg: dkg as WasmApi['dkg'],
+  };
 };
 export { initWasm };

@@ -5,7 +5,7 @@ const isProduction = process.env.NODE_ENV === "production";
 export default defineConfig(({ watch = false }) => ({
   clean: true,
   dts: true,
-  entry: ["src/index.ts", "src/web/index.ts"],
+  entry: ["src/index.ts", "src/web/index.ts", "src/wasmBridge/index.ts"],
   external: [
     "react",
     "react-native",
