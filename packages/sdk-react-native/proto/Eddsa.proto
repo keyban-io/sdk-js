@@ -20,10 +20,11 @@ message EddsaSignMessageResponse {
 
 message EddsaDkgResponse {
   required bytes secretShare = 1;
-  required EddsaPublicShare publicShare = 2;
-  required string publicServerKey = 3;
+//  required EddsaPublicShare publicShare = 2;
+  required string client_pubkey = 2;
+  required string server_pubkey = 3;
 }
 
-message EddsaPublicShare {
-  required string key = 1;
-}
+//message EddsaPublicShare {
+//  required string key = 1;
+//}

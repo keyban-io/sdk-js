@@ -3,10 +3,10 @@ import type { ClientShare, WasmApi } from '~/eddsa/types';
 export class EddsaAccount {
   /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */
   wasmApi;
-  /** Account address retrieved from ${@link clientKeyShare} */
-  address;
+  /** The server public key. */
+  serverPublicKey;
   /** The client key share retrieved from storage. */
-  clientKeyShare;
+  clientPublicKey;
   private secretShare;
 
   /**
@@ -16,20 +16,21 @@ export class EddsaAccount {
    */
   constructor(clientKeyShare: ClientShare, wasmApi: WasmApi) {
     this.wasmApi = wasmApi;
-    this.clientKeyShare = clientKeyShare.publicServerKey;
-    this.address = clientKeyShare.publicShare.key;
+    this.serverPublicKey = clientKeyShare.server_pubkey;
+    this.clientPublicKey = clientKeyShare.client_pubkey;
     this.secretShare = clientKeyShare.secretShare;
   }
 
-  async signPayload(payload: Record<string, unknown>) {
-    const wasmReadyPayload = this.prepareWasmPayload(payload);
+  async signPayload(_: Record<string, unknown>) {
+    // const wasmReadyPayload = this.prepareWasmPayload(payload);
+    //
+    // const signature = await this.wasmApi.signMessage(
+    //   this.secretShare,
+    //   wasmReadyPayload
+    // );
+    console.log(this.secretShare);
 
-    const signature = await this.wasmApi.signMessage(
-      this.secretShare,
-      wasmReadyPayload
-    );
-
-    return signature;
+    return 'signature';
   }
 
   prepareWasmPayload(payload: Record<string, unknown>) {

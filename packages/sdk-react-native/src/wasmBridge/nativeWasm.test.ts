@@ -37,7 +37,7 @@ describe('Native bridge', () => {
             myEmitter.emit('webViewToNative', { type: 'add', data: result });
             break;
           }
-          case 'generateKeypair': {
+          case 'dkg': {
             const result = await wasmInvoker.generateKeypair(
               message.data as string,
             );
@@ -47,16 +47,16 @@ describe('Native bridge', () => {
             });
             break;
           }
-          case 'signMessage': {
-            const result = await wasmInvoker.signMessage(
-              message.data as string,
-            );
-            myEmitter.emit('webViewToNative', {
-              type: 'signMessage',
-              data: result,
-            });
-            break;
-          }
+          // case "signMessage": {
+          //   const result = await wasmInvoker.signMessage(
+          //     message.data as string
+          //   );
+          //   myEmitter.emit("webViewToNative", {
+          //     type: "signMessage",
+          //     data: result,
+          //   });
+          //   break;
+          // }
         }
       },
     );
@@ -68,9 +68,9 @@ describe('Native bridge', () => {
   });
 
   it('DKG', async () => {
-    const clientShare = await nativeWasm.generateKeypair();
-    expect(clientShare.publicServerKey).toBeDefined();
+    const clientShare = await nativeWasm.dkg();
+    expect(clientShare.client_pubkey).toBeDefined();
     expect(clientShare.secretShare).toBeDefined();
-    expect(clientShare.publicShare).toBeDefined();
+    expect(clientShare.server_pubkey).toBeDefined();
   });
 });

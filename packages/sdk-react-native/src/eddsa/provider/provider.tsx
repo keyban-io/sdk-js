@@ -74,13 +74,12 @@ export const KeybanEddsaProvider: FC<{
   });
 
   const createAccount: KeybanEddsaContext['createAccount'] = useCallback(
-    async (storageProvider) => {
+    async (...args) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
       }
 
-      const account =
-        await eddsaClientRef.current?.createAccount(storageProvider);
+      const account = await eddsaClientRef.current?.createAccount(...args);
 
       setKnownAccounts((prev) => {
         prev.push(account);
@@ -92,13 +91,12 @@ export const KeybanEddsaProvider: FC<{
   );
 
   const getSaveAccounts: KeybanEddsaContext['getSaveAccounts'] = useCallback(
-    async (storageProvider) => {
+    async (...args) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
       }
 
-      const accounts =
-        await eddsaClientRef.current?.getSaveAccounts(storageProvider);
+      const accounts = await eddsaClientRef.current?.getSaveAccounts(...args);
       setKnownAccounts(accounts);
       return accounts;
     },

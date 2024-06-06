@@ -88,17 +88,23 @@ export class NativeWasm implements WasmApi {
     });
   }
 
-  async generateKeypair(): Promise<ClientShare> {
+  async dkg(): Promise<ClientShare> {
     this.ensureEmitFn();
     const callId = generateUUID(); // this should be random uuid
     const resultString = await this.promisifyMessage(() => {
       this.emitFn?.({
-        type: 'generateKeypair',
+        type: 'dkg',
         data: this.prepareGenericMessage(callId, ''),
       });
     }, callId);
 
-    return EddsaDkgResponse.decode(hexToU8a(resultString));
+    const response = EddsaDkgResponse.decode(hexToU8a(resultString));
+
+    return {
+      server_pubkey: response.serverPubkey,
+      client_pubkey: response.clientPubkey,
+      secretShare: response.secretShare,
+    };
   }
 
   async signMessage(secret: SecretShare, payload: string): Promise<Hex> {
@@ -112,7 +118,7 @@ export class NativeWasm implements WasmApi {
 
     const resultString = await this.promisifyMessage(() => {
       this.emitFn?.({
-        type: 'signMessage',
+        type: 'dkg',
         data: this.prepareGenericMessage(callId, u8aToHex(addPayload)),
       });
     }, callId);
@@ -122,10 +128,5 @@ export class NativeWasm implements WasmApi {
     );
 
     return decodedResult.signature;
-  }
-
-  dkg(num1: number, num2: number): Promise<number> {
-    console.log(num1 + num2);
-    return Promise.resolve(0);
   }
 }

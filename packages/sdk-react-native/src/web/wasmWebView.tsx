@@ -34,16 +34,16 @@ export const WebViewRoot = () => {
         emit({ type: 'add', data: result });
         break;
       }
-      case 'generateKeypair': {
-        const result = await instance.generateKeypair(message.data as string);
-        emit({ type: 'generateKeypair', data: result });
+      case 'dkg': {
+        const result = await instance.dkg(message.data as string);
+        emit({ type: 'dkg', data: result });
         break;
       }
-      case 'signMessage': {
-        const result = await instance.signMessage(message.data as string);
-        emit({ type: 'generateKeypair', data: result });
-        break;
-      }
+      // case 'signMessage': {
+      //   const result = await instance.signMessage(message.data as string);
+      //   emit({ type: 'generateKeypair', data: result });
+      //   break;
+      // }
     }
   });
 
