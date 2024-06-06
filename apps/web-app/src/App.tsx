@@ -1,10 +1,10 @@
-import './App.css';
+import "./App.css";
 import {
   KeybanEddsaReactContext,
   KeybanLocalStorage,
   useKeybanEddsa,
-} from '@keyban/sdk-react';
-import type { ReactNode } from 'react';
+} from "@keyban/sdk-react";
+import type { ReactNode } from "react";
 
 const keybanLocalStorage = new KeybanLocalStorage();
 
@@ -27,7 +27,7 @@ export const Main = () => {
     useKeybanEddsa();
 
   const handleAccCreation = async () => {
-    createAccount('random-key-id', keybanLocalStorage);
+    createAccount("random-key-id", keybanLocalStorage);
   };
 
   const handleAdd = async () => {
@@ -76,13 +76,13 @@ export const Main = () => {
 
 const styles = {
   container: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column" as const,
+    alignItems: "center",
     padding: 30,
     marginTop: 20,
-    overflow: 'scroll',
-    height: '100%',
+    overflow: "scroll",
+    height: "100%",
   },
 };
 
@@ -102,18 +102,18 @@ const ActionBox = ({
         marginTop: 20,
       }}
     >
-      <p style={{ textAlign: 'center' }}>{humanDescription}</p>
+      <p style={{ textAlign: "center" }}>{humanDescription}</p>
       {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
       <button onClick={onTap}>
         <p
           style={{
-            borderStyle: 'solid',
-            borderColor: 'purple',
+            borderStyle: "solid",
+            borderColor: "purple",
             borderWidth: 1,
             padding: 10,
             marginTop: 20,
             marginBottom: 50,
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
           {actionp}
@@ -126,6 +126,7 @@ const ActionBox = ({
 const AssertionBox = ({
   humanDescription,
   value,
+  testId,
 }: {
   humanDescription: string;
   testId: string;
@@ -137,17 +138,18 @@ const AssertionBox = ({
         marginTop: 20,
       }}
     >
-      <p style={{ textAlign: 'center' }}>{humanDescription}</p>
+      <p style={{ textAlign: "center" }}>{humanDescription}</p>
       <p
         style={{
-          borderStyle: 'solid',
-          borderColor: 'purple',
+          borderStyle: "solid",
+          borderColor: "purple",
           borderWidth: 1,
           padding: 10,
           marginTop: 20,
           marginBottom: 50,
-          textAlign: 'center',
+          textAlign: "center",
         }}
+        data-testId={testId}
       >
         {value}
       </p>

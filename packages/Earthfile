@@ -1,6 +1,0 @@
-VERSION 0.8
-
-get-wasm:
-    FROM scratch
-    COPY ../../signers/eddsa/wasm-client+wasm/pkg /pkg
-    SAVE ARTIFACT /pkg AS LOCAL sdk-wasm
