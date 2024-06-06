@@ -24,7 +24,7 @@ test:
     COPY --dir run-dev.sh package.json pnpm-lock.yaml pnpm-workspace.yaml biome.json apps packages /app
     DO ../+USEPNPM
     RUN pnpm install
-    RUN --no-cache pnpm --filter web-app run e2e:chrome
+    RUN --no-cache pnpm --filter web-app run e2e
 
 live:
     FROM +src

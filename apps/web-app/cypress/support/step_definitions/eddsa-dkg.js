@@ -10,6 +10,7 @@ When("the client initiates the key generation process", () => {
 });
 
 Then("the public keys from the client and the server are the same", () => {
+  cy.get(byTestId("client-pub-key")).should("have.text");
   cy.get(byTestId("client-pub-key")).invoke("text").as("client-key");
   cy.get(byTestId("server-pub-key")).invoke("text").as("server-key");
   cy.get("@client-key").then((clientKey) => {
