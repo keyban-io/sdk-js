@@ -5,16 +5,12 @@ get-wasm:
     COPY ../signers/eddsa/wasm-client+wasm/pkg /pkg
     SAVE ARTIFACT /pkg AS LOCAL ./packages/sdk-wasm
 
-SETUP_SRC:
-    FUNCTION
+src:
+    FROM ../+node
     WORKDIR /app
     COPY --dir run-dev.sh package.json pnpm-lock.yaml pnpm-workspace.yaml biome.json apps packages /app
     DO ../+USEPNPM
     RUN pnpm install
-
-src:
-    FROM ../+node
-    DO +SETUP_SRC
 
 live:
     FROM +src
