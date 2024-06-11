@@ -9,6 +9,7 @@ src:
     FROM ../+node
     WORKDIR /app
     COPY --dir run-dev.sh package.json pnpm-lock.yaml pnpm-workspace.yaml biome.json apps packages /app
+    COPY --dir +get-wasm/pkg /app/packages/sdk-wasm
     DO ../+USEPNPM
     RUN pnpm install
 
