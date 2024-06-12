@@ -12,12 +12,19 @@ import {
   useRef,
   useState,
 } from 'react';
+import { KeybanLocalStorage } from '../storages';
 import type { KeybanEddsaContext } from './types';
 
 /** @ignore */
 export const KeybanEddsaReactContext = createContext<null | KeybanEddsaContext>(
   null,
 );
+
+const checkIfStorageIsUnsafe = (args: unknown[]) => {
+  if (args.some((arg) => arg instanceof KeybanLocalStorage)) {
+    console.warn("IMPORTANT: KEYBAN SDK SHOULDN'T BE USED WITH UNSAFE STORAGE");
+  }
+};
 
 /** React wrapper around EDDSA Client
  * @component
@@ -56,6 +63,8 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
       }
 
+      checkIfStorageIsUnsafe(args);
+
       const account = await eddsaClientRef.current?.createAccount(...args);
 
       setKnownAccounts((prev) => {
@@ -79,6 +88,8 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const accounts = await eddsaClientRef.current?.getSaveAccounts(...args);
+      checkIfStorageIsUnsafe(args);
+
       setKnownAccounts(accounts);
       return accounts;
     },
