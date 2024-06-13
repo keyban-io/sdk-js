@@ -11,4 +11,4 @@
 // export const wasmBinaryEndpoint = readEnv("WASM_BINARY_ENDPOINT");
 
 // todo figure out the way to read .env in both web and native, plus keyban.local is not working
-export const backendEndpoint = 'http://keyban.localtest.me'; //readEnv("BACKEND_URL");
+export const backendEndpoint = 'https://keyban.localtest.me'; //readEnv("BACKEND_URL");
