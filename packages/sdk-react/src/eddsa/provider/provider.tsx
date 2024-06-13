@@ -57,7 +57,7 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
     init();
   }, []);
 
-  const createAccount: KeybanEddsaContext['createAccount'] = useCallback(
+  const initialize: KeybanEddsaContext['initialize'] = useCallback(
     async (...args) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
@@ -65,7 +65,7 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
 
       checkIfStorageIsUnsafe(args);
 
-      const account = await eddsaClientRef.current?.createAccount(...args);
+      const account = await eddsaClientRef.current?.initialize(...args);
 
       setKnownAccounts((prev) => {
         prev.push(account);
@@ -76,34 +76,13 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
     [initialized],
   );
 
-  /**
-   * Used to retrieve previously saved Keyaban account.
-   * @param storageProvider - Any storage provider following @keyban/sdk-base {@link StorageProviderApi}. Eg. ${@link KeybanLocalStorage}
-   * @returns Array of {@link EddsaAccount}
-   */
-  const getSaveAccounts: KeybanEddsaContext['getSaveAccounts'] = useCallback(
-    async (...args) => {
-      if (!initialized || !eddsaClientRef.current) {
-        throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
-      }
-
-      const accounts = await eddsaClientRef.current?.getSaveAccounts(...args);
-      checkIfStorageIsUnsafe(args);
-
-      setKnownAccounts(accounts);
-      return accounts;
-    },
-    [initialized],
-  );
-
   return (
     <KeybanEddsaReactContext.Provider
       value={{
         eddsaClient: eddsaClientRef.current,
         wasmApi: wasmApiRef.current,
         initialized,
-        createAccount,
-        getSaveAccounts,
+        initialize,
         knownAccounts,
         clientStatus,
       }}

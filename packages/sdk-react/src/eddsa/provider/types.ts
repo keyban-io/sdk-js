@@ -7,4 +7,4 @@ export type KeybanEddsaContext = {
   initialized: boolean;
   knownAccounts: EddsaAccount[];
   clientStatus: 'operational' | 'down' | null;
-} & Pick<EddsaClient, 'createAccount' | 'getSaveAccounts'>;
+} & Pick<EddsaClient, 'initialize'>;

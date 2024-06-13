@@ -1,4 +1,5 @@
-import type { ClientShare, WasmApi } from '~/eddsa/types';
+import type { ClientShare, StorageProviderApi, WasmApi } from '~/eddsa/types';
+import { EDDSA_SDK_STORAGE_KEY } from '~/utils/constants';
 
 export class EddsaAccount {
   /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */
@@ -7,18 +8,25 @@ export class EddsaAccount {
   serverPublicKey;
   /** The client key share retrieved from storage. */
   clientPublicKey;
-  private secretShare;
+  /** Storage solution to store client share. */
+  accountStorageSolution;
+  private secretShare: Uint8Array | null = null;
 
   /**
    * The constructor of the `EddsaClient` class.
    * @param wasmApi - The source of the WebAssembly Rust logic, for web is plain WebAssembly object, for react-native it required bridger
    * @param clientKeyShare - The client key share retrieved from storage.
    */
-  constructor(clientKeyShare: ClientShare, wasmApi: WasmApi) {
+  constructor(
+    clientKeyShare: ClientShare,
+    wasmApi: WasmApi,
+    storage: StorageProviderApi,
+  ) {
     this.wasmApi = wasmApi;
     this.serverPublicKey = clientKeyShare.server_pubkey;
     this.clientPublicKey = clientKeyShare.client_pubkey;
     this.secretShare = clientKeyShare.secretShare;
+    this.accountStorageSolution = storage;
   }
 
   async signPayload(_: Record<string, unknown>) {
@@ -33,9 +41,35 @@ export class EddsaAccount {
     return 'signature';
   }
 
+  async authAndSign(
+    payload: Record<string, unknown>,
+    storagePassword?: string,
+  ) {
+    this.accountStorageSolution.get(
+      EddsaAccount.getStorageKey(this.clientPublicKey),
+      storagePassword,
+    );
+    console.log(payload);
+  }
+
+  async getClientShare(password?: string) {
+    return this.accountStorageSolution.get(
+      EddsaAccount.getStorageKey(this.clientPublicKey),
+      password,
+    );
+  }
+
+  async clearClientShare() {
+    this.secretShare = null;
+  }
+
   prepareWasmPayload(payload: Record<string, unknown>) {
     // Not sure how the payload should be prepared
     return JSON.stringify(payload);
+  }
+
+  static getStorageKey(publicKey: string) {
+    return `${EDDSA_SDK_STORAGE_KEY}-${publicKey}`;
   }
 
   // FOR TESTING ONLY

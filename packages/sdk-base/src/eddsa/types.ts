@@ -9,8 +9,12 @@ export type WasmApi = {
 };
 
 export type StorageProviderApi = {
-  save: (key: string, payload: string) => Promise<boolean>;
-  get: (key: string) => Promise<string | undefined>;
+  save: (
+    key: string,
+    share: ClientShare,
+    password?: string,
+  ) => Promise<boolean>;
+  get: (key: string, password?: string) => Promise<ClientShare | undefined>;
 };
 
 export type ClientShare = {
@@ -20,7 +24,3 @@ export type ClientShare = {
 };
 
 export type SecretShare = Uint8Array;
-
-// export type PublicShare = {
-//   key: string;
-// };

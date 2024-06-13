@@ -8,7 +8,6 @@ import {
   type ReactNode,
   createContext,
   useCallback,
-  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -73,13 +72,13 @@ export const KeybanEddsaProvider: FC<{
     wasmApiRef.current?.receiveMessage(message.data as string);
   });
 
-  const createAccount: KeybanEddsaContext['createAccount'] = useCallback(
+  const initialize: KeybanEddsaContext['initialize'] = useCallback(
     async (...args) => {
       if (!initialized || !eddsaClientRef.current) {
         throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
       }
 
-      const account = await eddsaClientRef.current?.createAccount(...args);
+      const account = await eddsaClientRef.current?.initialize(...args);
 
       setKnownAccounts((prev) => {
         prev.push(account);
@@ -90,23 +89,6 @@ export const KeybanEddsaProvider: FC<{
     [initialized],
   );
 
-  const getSaveAccounts: KeybanEddsaContext['getSaveAccounts'] = useCallback(
-    async (...args) => {
-      if (!initialized || !eddsaClientRef.current) {
-        throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
-      }
-
-      const accounts = await eddsaClientRef.current?.getSaveAccounts(...args);
-      setKnownAccounts(accounts);
-      return accounts;
-    },
-    [initialized],
-  );
-
-  useEffect(() => {
-    emit({ type: 'test', data: '' });
-  }, [emit]);
-
   return (
     <KeybanEddsaReactContext.Provider
       value={{
@@ -114,9 +96,8 @@ export const KeybanEddsaProvider: FC<{
         wasmApi: wasmApiRef.current,
         initialized,
         knownAccounts: knownAccounts,
-        getSaveAccounts,
-        createAccount,
         clientStatus,
+        initialize,
       }}
     >
       <WebView

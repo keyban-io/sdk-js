@@ -1,4 +1,4 @@
-import type { StorageProviderApi } from '@keyban/sdk-base';
+import type { ClientShare, StorageProviderApi } from '@keyban/sdk-base';
 
 export class KeybanLocalStorage implements StorageProviderApi {
   constructor() {
@@ -7,13 +7,17 @@ export class KeybanLocalStorage implements StorageProviderApi {
     }
   }
 
-  get(key: string): Promise<string> {
+  get(key: string): Promise<ClientShare | undefined> {
     const value = localStorage.getItem(key);
-    return Promise.resolve(value ?? '');
+    if (!value) {
+      return Promise.resolve(undefined);
+    }
+    const savedShares = JSON.parse(value) as ClientShare;
+    return Promise.resolve(savedShares);
   }
 
-  save(key: string, payload: string): Promise<boolean> {
-    localStorage.setItem(key, payload);
+  save(key: string, share: ClientShare): Promise<boolean> {
+    localStorage.setItem(key, JSON.stringify(share));
     return Promise.resolve(true);
   }
 }
