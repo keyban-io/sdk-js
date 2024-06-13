@@ -4,7 +4,7 @@ import {
   KeybanLocalStorage,
   useKeybanEddsa,
 } from '@keyban/sdk-react';
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 
 const keybanLocalStorage = new KeybanLocalStorage();
 
@@ -23,11 +23,12 @@ function App() {
 }
 
 export const Main = () => {
-  const { createAccount, knownAccounts, clientStatus, eddsaClient } =
+  const [userPublicKey, setUserPublic] = useState('');
+  const { initialize, knownAccounts, clientStatus, eddsaClient } =
     useKeybanEddsa();
 
   const handleAccCreation = async () => {
-    createAccount('random-key-id', keybanLocalStorage);
+    initialize(keybanLocalStorage, userPublicKey);
   };
 
   const handleAdd = async () => {
@@ -73,6 +74,12 @@ export const Main = () => {
           actionp="Start adding"
           testId="start-eddsa-add-action"
           onTap={handleAdd}
+        />
+        <InputBox
+          humanDescription="Provided public key"
+          testId="input-public-key"
+          value={userPublicKey}
+          setValue={setUserPublic}
         />
       </div>
     </>
@@ -125,6 +132,42 @@ const ActionBox = ({
           {actionp}
         </p>
       </button>
+    </div>
+  );
+};
+
+const InputBox = ({
+  humanDescription,
+  value,
+  testId,
+  setValue,
+}: {
+  humanDescription: string;
+  testId: string;
+  value: string;
+  setValue: (val: string) => void;
+}) => {
+  return (
+    <div
+      style={{
+        marginTop: 20,
+      }}
+    >
+      <p style={{ textAlign: 'center' }}>{humanDescription}</p>
+      <input
+        style={{
+          borderStyle: 'solid',
+          borderColor: 'purple',
+          borderWidth: 1,
+          padding: 10,
+          marginTop: 20,
+          marginBottom: 50,
+          textAlign: 'center',
+        }}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        data-testId={testId}
+      />
     </div>
   );
 };
