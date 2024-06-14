@@ -1,6 +1,4 @@
 import { type WasmApi, hexToU8a, u8aToHex } from '@keyban/sdk-base';
-// @ts-ignore
-import { Buffer } from 'buffer/';
 import {
   EddsaAddRequest,
   EddsaAddResponse,

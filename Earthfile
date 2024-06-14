@@ -18,3 +18,10 @@ live:
     CMD pnpm dev
     ARG --required ref
     SAVE IMAGE --push ${ref}
+
+docs:
+    FROM +src
+    RUN pnpm build:docs
+    SAVE ARTIFACT ./packages/sdk-base/docs 
+    SAVE ARTIFACT ./packages/sdk-react/docs
+    SAVE ARTIFACT ./packages/sdk-react-native/docs

@@ -53,7 +53,7 @@
   ],
   "scripts": {
     "compile:proto": "./compile.sh",
-    "build": "NODE_ENV=production tsup && yalc publish",
+    "build": "./compile.sh && NODE_ENV=production tsup && yalc publish",
     "build:docs": "typedoc --out docs",
     "dev": "tsup --no-dts --watch --onSuccess 'tsc --emitDeclarationOnly --declaration && yalc push'",
     "format": "biome check --apply ./src",

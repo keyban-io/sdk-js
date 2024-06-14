@@ -12,6 +12,7 @@
     "native": "pnpm --filter sdk-react-native",
     "web": "pnpm --filter web-app",
     "build": "pnpm run -r build",
+    "build:docs": "pnpm run -r build:docs",
     "format": "pnpm run -r format",
     "dev": "sh ./run-dev.sh",
     "prepare:native": "cd ./apps/mobile-app && make prepare",
