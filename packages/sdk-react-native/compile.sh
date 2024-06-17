@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # Directory to write generated code to (.js and .d.ts files)
 OUT_DIR="./src/proto_compiled"
