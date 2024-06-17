@@ -29,16 +29,16 @@ export class EddsaAccount {
     this.keyId = clientKeyShare.keyId;
   }
 
-  async signPayload(_: Record<string, unknown>) {
-    // const wasmReadyPayload = this.prepareWasmPayload(payload);
-    //
-    // const signature = await this.wasmApi.signMessage(
-    //   this.secretShare,
-    //   wasmReadyPayload
-    // );
-    console.log(this.secretShare);
+  async signPayload(payload: string) {
+    const signature = await this.wasmApi.signMessage(
+      this.keyId,
+      this.secretKey,
+      this.publicKey,
+      payload
+    );
+    console.log("signature: ", signature);
 
-    return 'signature';
+    return signature;
   }
 
   async authAndSign(

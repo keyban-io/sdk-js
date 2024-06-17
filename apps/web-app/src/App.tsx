@@ -38,6 +38,18 @@ export const Main = () => {
     }
   };
 
+  const handleSignature = () => {
+    const firstAcc = knownAccounts[0];
+    if (firstAcc) {
+      firstAcc.signPayload("test payload").then((res) => {
+        alert(res);
+        console.log("in app signature", res);
+      });
+    } else {
+      alert("Invoke DKG first");
+    }
+  };
+
   return (
     <>
       <KeybanEddsaReactContext.Consumer>
@@ -74,6 +86,12 @@ export const Main = () => {
           actionp="Start dkg"
           testId="start-eddsa-dkg-action"
           onTap={handleAccCreation}
+        />
+        <ActionBox
+          humanDescription="Button to sign"
+          actionp="Start signing"
+          testId="start-eddsa-add-action"
+          onTap={handleSignature}
         />
         <ActionBox
           humanDescription="Button to add"

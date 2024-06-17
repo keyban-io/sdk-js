@@ -1,9 +1,9 @@
-import { healthCheck } from '~/api/apiClient';
+import { healthCheck } from "~/api/apiClient";
 import SignerClientError, {
   SignerClientErrors,
-} from '~/errors/SignerClientError';
-import { EddsaAccount } from './account';
-import type { StorageProviderApi, WasmApi } from './types';
+} from "~/errors/SignerClientError";
+import { EddsaAccount } from "./account";
+import type { ClientShare, StorageProviderApi, WasmApi } from "./types";
 
 /**
  * Client class for EDDSA Hedera connectivity and general logic.
@@ -51,17 +51,17 @@ class EddsaClient {
     return new EddsaAccount(savedShare, this.wasmApi, storageProvider);
   }
 
-  async healthCheck(): Promise<'operational' | 'down'> {
+  async healthCheck(): Promise<"operational" | "down"> {
     try {
       const res = await healthCheck();
       if (res.ok) {
-        return 'operational';
+        return "operational";
       }
 
-      return 'down';
+      return "down";
     } catch (e) {
-      console.error('Failed to perform health check', e);
-      return 'down';
+      console.error("Failed to perform health check", e);
+      return "down";
     }
   }
 
