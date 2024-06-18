@@ -23,7 +23,7 @@ live:
 docs:
     FROM +src
     RUN pnpm build
-    RUN pnpm build:docs
-    SAVE ARTIFACT ./packages/sdk-base/docs
-    SAVE ARTIFACT ./packages/sdk-react/docs
-    SAVE ARTIFACT ./packages/sdk-react-native/docs
+    RUN pnpm build:docs 
+    SAVE ARTIFACT ./packages/sdk-base/docs sdk-base-docs
+    SAVE ARTIFACT ./packages/sdk-react/docs sdk-react-docs 
+    SAVE ARTIFACT ./packages/sdk-react-native/docs sdk-react-native-docs

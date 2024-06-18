@@ -1,4 +1,14 @@
 {
-  "entryPoints": ["./src/utils/index.ts", "./src/eddsa/index.ts", "./src/errors/index.ts"],
-  "out": "doc"
+  "entryPoints": [
+    "./src/utils/index.ts",
+    "./src/eddsa/index.ts",
+    "./src/errors/index.ts"
+  ],
+  "out": "doc",
+  "plugin": [
+    "typedoc-plugin-markdown"
+  ],
+  "flattenOutputFiles": true,
+  "entryFileName": "index",
+  // "entryModule": "index"
 }

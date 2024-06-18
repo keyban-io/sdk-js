@@ -3,7 +3,10 @@
     "baseUrl": ".",
     "outDir": "dist",
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitReturns": true,
@@ -11,7 +14,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": [
+        "./src/*"
+      ]
     },
     "resolveJsonModule": true,
     "sourceMap": true,
@@ -19,6 +24,12 @@
     "target": "ESNext",
     "jsx": "react-jsx"
   },
-  "include": ["./src/**/*.ts", "./tests/**/*.test.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "./src/**/*.ts",
+    "./tests/**/*.test.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

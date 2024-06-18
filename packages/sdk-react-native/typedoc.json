@@ -1,8 +1,19 @@
 {
-  "entryPoints": ["./src/eddsa/storages/index.ts", "./src/eddsa/hooks/index.ts", "./src/eddsa/provider/index.ts",  "./src/web/wasmWebView.tsx"],
+  "entryPoints": [
+    "./src/eddsa/storages/index.ts",
+    "./src/eddsa/hooks/index.ts",
+    "./src/eddsa/provider/index.ts",
+    "./src/web/wasmWebView.tsx"
+  ],
   "out": "doc",
+  "plugin": [
+    "typedoc-plugin-markdown"
+  ],
   "tsconfig": "tsconfig.json",
   "excludePrivate": true,
   "excludeProtected": true,
-  "excludeExternals": true
+  "excludeExternals": true,
+  "flattenOutputFiles": true,
+  "entryFileName": "index",
+  "entryModule": "index"
 }
