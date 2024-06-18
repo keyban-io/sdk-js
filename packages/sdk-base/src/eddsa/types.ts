@@ -21,6 +21,7 @@ export type ClientShare = {
   secretShare: SecretShare;
   client_pubkey: string;
   server_pubkey: string;
+  keyId: string;
 };
 
 export type SecretShare = Uint8Array;

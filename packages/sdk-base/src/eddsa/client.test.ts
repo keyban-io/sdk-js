@@ -18,10 +18,13 @@ describe('EDDSA Client', () => {
 
       const client = new EddsaClient(wasmApi as unknown as WasmApi);
       const error = await client
-        .initialize({
-          ...storage,
-          save: (_: string, _1: ClientShare) => Promise.reject(false),
-        })
+        .initialize(
+          {
+            ...storage,
+            save: (_: string, _1: ClientShare) => Promise.reject(false),
+          },
+          'test-key-id',
+        )
         .catch((e) => e);
       expect(error instanceof SignerClientError).toEqual(true);
       expect(error.message).toEqual(SignerClientErrors.FAILED_TO_SAVE_TO_STORE);

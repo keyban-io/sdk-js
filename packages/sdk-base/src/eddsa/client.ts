@@ -2,7 +2,6 @@ import { healthCheck } from '~/api/apiClient';
 import SignerClientError, {
   SignerClientErrors,
 } from '~/errors/SignerClientError';
-import { EDDSA_SDK_STORAGE_KEY } from '~/utils/constants';
 import { EddsaAccount } from './account';
 import type { StorageProviderApi, WasmApi } from './types';
 
@@ -29,29 +28,26 @@ class EddsaClient {
    */
   async initialize(
     storageProvider: StorageProviderApi,
-    publicKey?: string,
+    keyId: string,
   ): Promise<EddsaAccount> {
-    let savedShare = publicKey
-      ? await storageProvider.get(EddsaAccount.getStorageKey(publicKey))
-      : undefined;
+    let savedShare = await storageProvider.get(keyId);
 
     if (!savedShare) {
-      const dkgResult = await this.wasmApi.dkg(EDDSA_SDK_STORAGE_KEY);
+      const dkgResult = await this.wasmApi.dkg(keyId);
 
       savedShare = {
         ...dkgResult,
         secretShare: new Uint8Array(),
+        keyId,
       };
     }
 
-    await storageProvider
-      .save(EddsaAccount.getStorageKey(savedShare.client_pubkey), savedShare)
-      .catch((e) => {
-        throw new SignerClientError(
-          SignerClientErrors.FAILED_TO_SAVE_TO_STORE,
-          e,
-        );
-      });
+    await storageProvider.save(keyId, savedShare).catch((e) => {
+      throw new SignerClientError(
+        SignerClientErrors.FAILED_TO_SAVE_TO_STORE,
+        e,
+      );
+    });
     // 3. return Account instance
     return new EddsaAccount(savedShare, this.wasmApi, storageProvider);
   }

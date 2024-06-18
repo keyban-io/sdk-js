@@ -1,5 +1,4 @@
 import type { ClientShare, StorageProviderApi, WasmApi } from '~/eddsa/types';
-import { EDDSA_SDK_STORAGE_KEY } from '~/utils/constants';
 
 export class EddsaAccount {
   /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */
@@ -10,7 +9,8 @@ export class EddsaAccount {
   clientPublicKey;
   /** Storage solution to store client share. */
   accountStorageSolution;
-  private secretShare: Uint8Array | null = null;
+  keyId;
+  secretShare: Uint8Array | null = null;
 
   /**
    * The constructor of the `EddsaClient` class.
@@ -27,6 +27,7 @@ export class EddsaAccount {
     this.clientPublicKey = clientKeyShare.client_pubkey;
     this.secretShare = clientKeyShare.secretShare;
     this.accountStorageSolution = storage;
+    this.keyId = clientKeyShare.keyId;
   }
 
   async signPayload(_: Record<string, unknown>) {
@@ -45,18 +46,12 @@ export class EddsaAccount {
     payload: Record<string, unknown>,
     storagePassword?: string,
   ) {
-    this.accountStorageSolution.get(
-      EddsaAccount.getStorageKey(this.clientPublicKey),
-      storagePassword,
-    );
+    this.accountStorageSolution.get(this.keyId, storagePassword);
     console.log(payload);
   }
 
   async getClientShare(password?: string) {
-    return this.accountStorageSolution.get(
-      EddsaAccount.getStorageKey(this.clientPublicKey),
-      password,
-    );
+    return this.accountStorageSolution.get(this.keyId, password);
   }
 
   async clearClientShare() {
@@ -66,10 +61,6 @@ export class EddsaAccount {
   prepareWasmPayload(payload: Record<string, unknown>) {
     // Not sure how the payload should be prepared
     return JSON.stringify(payload);
-  }
-
-  static getStorageKey(publicKey: string) {
-    return `${EDDSA_SDK_STORAGE_KEY}-${publicKey}`;
   }
 
   // FOR TESTING ONLY

@@ -23,12 +23,13 @@ function App() {
 }
 
 export const Main = () => {
-  const [userPublicKey, setUserPublic] = useState('');
+  const [userKeyId, setUserKeyId] = useState('dumb');
   const { initialize, knownAccounts, clientStatus, eddsaClient } =
     useKeybanEddsa();
 
   const handleAccCreation = async () => {
-    initialize(keybanLocalStorage, userPublicKey);
+    if (!userKeyId) return;
+    initialize(keybanLocalStorage, userKeyId);
   };
 
   const handleAdd = async () => {
@@ -52,6 +53,11 @@ export const Main = () => {
           humanDescription="Unsaffe storage is initialized"
           testId="unsafe-storage"
           value={keybanLocalStorage ? 'on' : 'off'}
+        />
+        <AssertionBox
+          humanDescription="First account client secret share"
+          testId="secret-share"
+          value={knownAccounts[0]?.secretShare?.toString()}
         />
         <AssertionBox
           humanDescription="First account client public key"
@@ -78,8 +84,8 @@ export const Main = () => {
         <InputBox
           humanDescription="Provided public key"
           testId="input-public-key"
-          value={userPublicKey}
-          setValue={setUserPublic}
+          value={userKeyId}
+          setValue={setUserKeyId}
         />
       </div>
     </>
