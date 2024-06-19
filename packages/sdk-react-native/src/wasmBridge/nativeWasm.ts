@@ -1,7 +1,5 @@
 import {
   type ClientShare,
-  type Hex,
-  type SecretShare,
   type WasmApi,
   generateUUID,
   hexToU8a,
@@ -11,8 +9,6 @@ import {
   EddsaAddRequest,
   EddsaAddResponse,
   EddsaDkgResponse,
-  EddsaSignMessageRequest,
-  EddsaSignMessageResponse,
   GenericMessage,
 } from '~/proto_compiled';
 
@@ -101,32 +97,34 @@ export class NativeWasm implements WasmApi {
     const response = EddsaDkgResponse.decode(hexToU8a(resultString));
 
     return {
+      // TODO: fix missing keyid
+      keyId: '',
       server_pubkey: response.serverPubkey,
       client_pubkey: response.clientPubkey,
-      secretShare: response.secretShare,
+      secret_share: response.secretShare,
     };
   }
 
-  async signMessage(secret: SecretShare, payload: string): Promise<Hex> {
-    this.ensureEmitFn();
-    const callId = generateUUID(); // this should be random uuid
-
-    const addPayload = EddsaSignMessageRequest.encode({
-      secretShare: secret,
-      payload,
-    }).finish();
-
-    const resultString = await this.promisifyMessage(() => {
-      this.emitFn?.({
-        type: 'dkg',
-        data: this.prepareGenericMessage(callId, u8aToHex(addPayload)),
-      });
-    }, callId);
-
-    const decodedResult = EddsaSignMessageResponse.decode(
-      hexToU8a(resultString),
-    );
-
-    return decodedResult.signature;
-  }
+  // async signMessage(secret: SecretShare, payload: string): Promise<Hex> {
+  //   this.ensureEmitFn();
+  //   const callId = generateUUID(); // this should be random uuid
+  //
+  //   const addPayload = EddsaSignMessageRequest.encode({
+  //     secretShare: secret,
+  //     payload,
+  //   }).finish();
+  //
+  //   const resultString = await this.promisifyMessage(() => {
+  //     this.emitFn?.({
+  //       type: "dkg",
+  //       data: this.prepareGenericMessage(callId, u8aToHex(addPayload)),
+  //     });
+  //   }, callId);
+  //
+  //   const decodedResult = EddsaSignMessageResponse.decode(
+  //     hexToU8a(resultString)
+  //   );
+  //
+  //   return decodedResult.signature;
+  // }
 }

@@ -7,4 +7,4 @@ export type KeybanEddsaContext<T = WasmApi> = {
   initialized: boolean;
   knownAccounts: EddsaAccount[];
   clientStatus: 'operational' | 'down' | null | false;
-} & Pick<EddsaClient, 'createAccount' | 'getSaveAccounts'>;
+} & Pick<EddsaClient, 'initialize'>;
