@@ -57,7 +57,7 @@ export const Main = () => {
         <AssertionBox
           humanDescription="First account client secret share"
           testId="secret-share"
-          value={knownAccounts[0]?.secretShare?.toString()}
+          value={knownAccounts[0]?.secretShare?.keypair}
         />
         <AssertionBox
           humanDescription="First account client public key"
@@ -83,7 +83,7 @@ export const Main = () => {
         />
         <InputBox
           humanDescription="Provided public key"
-          testId="input-public-key"
+          testId="input-key-id"
           value={userKeyId}
           setValue={setUserKeyId}
         />

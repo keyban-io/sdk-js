@@ -68,7 +68,7 @@ describe('Native bridge', () => {
   it('DKG', async () => {
     const clientShare = await nativeWasm.dkg();
     expect(clientShare.client_pubkey).toBeDefined();
-    expect(clientShare.secretShare).toBeDefined();
+    expect(clientShare.secret_share).toBeDefined();
     expect(clientShare.server_pubkey).toBeDefined();
   });
 });

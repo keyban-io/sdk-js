@@ -18,10 +18,13 @@ export type StorageProviderApi = {
 };
 
 export type ClientShare = {
-  secretShare: SecretShare;
+  secret_share: SecretShare;
   client_pubkey: string;
   server_pubkey: string;
   keyId: string;
 };
 
-export type SecretShare = Uint8Array;
+export type SecretShare = {
+  keypair: string;
+  version: string;
+};

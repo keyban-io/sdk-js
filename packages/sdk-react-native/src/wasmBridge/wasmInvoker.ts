@@ -33,11 +33,11 @@ export class WasmInvoker {
 
   async dkg(protoPayload: string) {
     const { callId } = GenericMessage.decode(hexToU8a(protoPayload));
-    const { secretShare, server_pubkey, client_pubkey } =
+    const { secret_share, server_pubkey, client_pubkey } =
       await this.wasmApi.dkg('keyid');
 
     const responseBytes = EddsaDkgResponse.encode({
-      secretShare: secretShare,
+      secretShare: secret_share,
       serverPubkey: server_pubkey,
       clientPubkey: client_pubkey,
     }).finish();

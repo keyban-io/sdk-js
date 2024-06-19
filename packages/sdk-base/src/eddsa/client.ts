@@ -37,7 +37,6 @@ class EddsaClient {
 
       savedShare = {
         ...dkgResult,
-        secretShare: new Uint8Array(),
         keyId,
       };
     }

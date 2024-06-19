@@ -19,12 +19,12 @@ message EddsaSignMessageResponse {
 }
 
 message EddsaDkgResponse {
-  required bytes secretShare = 1;
-//  required EddsaPublicShare publicShare = 2;
+  required EddsaSecretShare secretShare = 1;
   required string client_pubkey = 2;
   required string server_pubkey = 3;
 }
 
-//message EddsaPublicShare {
-//  required string key = 1;
-//}
+message EddsaSecretShare {
+ required string keypair = 1;
+ required string version = 2;
+}

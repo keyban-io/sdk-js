@@ -10,7 +10,7 @@ export class EddsaAccount {
   /** Storage solution to store client share. */
   accountStorageSolution;
   keyId;
-  secretShare: Uint8Array | null = null;
+  secretShare: ClientShare['secret_share'] | null = null;
 
   /**
    * The constructor of the `EddsaClient` class.
@@ -25,7 +25,6 @@ export class EddsaAccount {
     this.wasmApi = wasmApi;
     this.serverPublicKey = clientKeyShare.server_pubkey;
     this.clientPublicKey = clientKeyShare.client_pubkey;
-    this.secretShare = clientKeyShare.secretShare;
     this.accountStorageSolution = storage;
     this.keyId = clientKeyShare.keyId;
   }
