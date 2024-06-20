@@ -5,9 +5,8 @@ export type Hex = string;
 export type WasmApi = {
   signMessage: (
     keyid: string,
-    client_keypair_hex: string,
-    client_public_keypair_hex: string,
-    message: string
+    secretShare: SecretShare,
+    message: string,
   ) => Promise<Hex>;
   dkg: (keyId: string) => Promise<ClientShare>;
   add: (n1: number, n2: number) => Promise<number>;

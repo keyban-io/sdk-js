@@ -1,5 +1,6 @@
 import {
   type ClientShare,
+  type SecretShare,
   type WasmApi,
   generateUUID,
   hexToU8a,
@@ -21,6 +22,11 @@ export class NativeWasm implements WasmApi {
   constructor(emitFn: (params: { type: string; data: string }) => void) {
     this.promiseMap = new Map<string, PromiseResolveFn>();
     this.emitFn = emitFn;
+  }
+
+  async signMessage(keyId: string, secretShare: SecretShare, message: string) {
+    console.log(keyId, secretShare, message);
+    return Promise.resolve('');
   }
 
   async add(num1: number, num2: number): Promise<number> {

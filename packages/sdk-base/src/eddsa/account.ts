@@ -30,13 +30,17 @@ export class EddsaAccount {
   }
 
   async signPayload(payload: string) {
+    const share = await this.getClientShare();
+
+    if (!share) {
+      throw new Error('couldnt get share from storage');
+    }
+
     const signature = await this.wasmApi.signMessage(
       this.keyId,
-      this.secretKey,
-      this.publicKey,
-      payload
+      share.secret_share,
+      payload,
     );
-    console.log("signature: ", signature);
 
     return signature;
   }
