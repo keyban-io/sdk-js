@@ -24,6 +24,8 @@ function App() {
 
 export const Main = () => {
   const [userKeyId, setUserKeyId] = useState('dumb');
+  const [signature, setSignature] = useState('');
+  const [payload, setPayload] = useState('');
   const { initialize, knownAccounts, clientStatus, eddsaClient } =
     useKeybanEddsa();
 
@@ -41,15 +43,15 @@ export const Main = () => {
   const handleSignature = () => {
     const firstAcc = knownAccounts[0];
     if (firstAcc) {
-      firstAcc.signPayload("test payload").then((res) => {
-        alert(res);
-        console.log("in app signature", res);
+      firstAcc.signPayload(payload).then((res) => {
+        setSignature(res);
       });
     } else {
-      alert("Invoke DKG first");
+      alert('Invoke DKG first');
     }
   };
 
+  console.log(knownAccounts);
   return (
     <>
       <KeybanEddsaReactContext.Consumer>
@@ -81,6 +83,17 @@ export const Main = () => {
           testId="server-pub-key"
           value={knownAccounts[0]?.serverPublicKey}
         />
+        <AssertionBox
+          humanDescription="First account signature over 'test payload'"
+          testId="signature"
+          value={signature}
+        />
+        <ActionBox
+          humanDescription="Button to sign with EDDSA dkg"
+          actionp="Start sign"
+          testId="start-eddsa-sign-action"
+          onTap={handleSignature}
+        />
         <ActionBox
           humanDescription="Button to init EDDSA dkg process"
           actionp="Start dkg"
@@ -104,6 +117,12 @@ export const Main = () => {
           testId="input-key-id"
           value={userKeyId}
           setValue={setUserKeyId}
+        />
+        <InputBox
+          humanDescription="Provided payload to signature"
+          testId="signature-payload"
+          value={payload}
+          setValue={setPayload}
         />
       </div>
     </>
