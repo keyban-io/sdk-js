@@ -51,7 +51,6 @@ export const Main = () => {
     }
   };
 
-  console.log(knownAccounts);
   return (
     <>
       <KeybanEddsaReactContext.Consumer>
