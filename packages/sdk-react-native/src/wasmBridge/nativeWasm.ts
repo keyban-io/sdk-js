@@ -24,8 +24,8 @@ export class NativeWasm implements WasmApi {
     this.emitFn = emitFn;
   }
 
+  //@ts-ignore
   async signMessage(keyId: string, secretShare: SecretShare, message: string) {
-    console.log(keyId, secretShare, message);
     return Promise.resolve('');
   }
 
