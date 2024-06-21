@@ -83,7 +83,7 @@ export const Main = () => {
           value={knownAccounts[0]?.serverPublicKey}
         />
         <AssertionBox
-          humanDescription="First account signature over 'test payload'"
+          humanDescription="First account signature"
           testId="signature"
           value={signature}
         />
