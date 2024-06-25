@@ -1,7 +1,5 @@
 import { healthCheck } from '~/api/apiClient';
-import SignerClientError, {
-  SignerClientErrors,
-} from '~/errors/SignerClientError';
+import { KeybanError } from '..';
 import { EddsaAccount } from './account';
 import type { StorageProviderApi, WasmApi } from './types';
 
@@ -51,10 +49,7 @@ class EddsaClient {
     }
 
     await storageProvider.save(keyId, savedShare).catch((e) => {
-      throw new SignerClientError(
-        SignerClientErrors.FAILED_TO_SAVE_TO_STORE,
-        e,
-      );
+      throw new KeybanError('StorageError:SaveFailed', e);
     });
 
     return new EddsaAccount(savedShare, this.wasmApi, storageProvider);
