@@ -1,19 +1,50 @@
+import type { KeybanBaseError } from './base';
+
 /**
+ * @enum
  * Enum representing possible SDK error types.
  *
- * - 'ClientNotInitialized': Client was not initialized properly. Make sure that your enviroment supports WebAssembly.
- * - 'WebAssemblyNotSupported': Enviroment that was used doesn't support WebAssembly module.
  */
-export type SdkError = 'ClientNotInitialized' | 'WebAssemblyNotSupported';
+export enum SdkErrorTypes {
+  /**
+   * Client was not initialized properly. Make sure that your enviroment supports WebAssembly.
+   */
+  ClientNotInitialized = 'ClientNotInitialized',
+  /**
+   * Enviroment that was used doesn't support WebAssembly module.
+   */
+  WebAssemblyNotSupported = 'WebAssemblyNotSupported',
+}
 
-export const parseSdkError = (errorType: `${string}:${SdkError}`) => {
-  if (errorType.endsWith('ClientNotInitialized')) {
-    return 'Client was not initialized properly. Make sure that your enviroment supports WebAssembly.';
+export class SdkError implements KeybanBaseError<SdkErrorTypes> {
+  title: string;
+  type: string;
+  status: number | null = null;
+  detail: string;
+  instance: string;
+  timestamp: string;
+  rootError: Error | null;
+  static types = SdkErrorTypes;
+
+  constructor(type: SdkErrorTypes, instance: string, rootError?: Error) {
+    this.title = type;
+    this.type = type;
+    this.detail = this.getDescription(type);
+    this.instance = instance;
+    this.timestamp = new Date().toISOString();
+    this.rootError = rootError ?? null;
   }
 
-  if (errorType.endsWith('WebAssemblyNotSupported')) {
-    return "Enviroment that was used doesn't support WebAssembly module.";
-  }
+  getDescription(errorType: SdkErrorTypes) {
+    switch (errorType) {
+      case SdkErrorTypes.ClientNotInitialized:
+        return 'Client was not initialized properly. Make sure that your enviroment supports WebAssembly.';
 
-  return 'Unkown error';
-};
+      case SdkErrorTypes.WebAssemblyNotSupported:
+        return "Enviroment that was used doesn't support WebAssembly module.";
+
+      default:
+        return 'Unknown error type';
+    }
+  }
+}

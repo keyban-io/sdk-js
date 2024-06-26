@@ -1,24 +1,55 @@
+import type { KeybanBaseError } from './base';
+
 /**
+ * @enum
  * Enum representing possible storage error types.
  *
- * - 'ConnectionError': SDK was unable to connect to your storage solution.
- * - 'RetrievalFailed': Retrival of the share from storage failed ungracefully. Storage provider might be implement incorrectly.
- * - 'SaveFailed': SDK encontered an error when trying to save your share into storage.
  */
-export type StorageError = 'ConnectionError' | 'RetrivalFailed' | 'SaveFailed';
+export enum StorageErrorTypes {
+  /**
+   *  SDK was unable to connect to your storage solution.
+   */
+  ConnectionError = 'ConnectionError',
+  /**
+   *  Retrival of the share from storage failed ungracefully. Storage provider might be implement incorrectly.
+   */
+  RetrivalFailed = 'RetrivalFailed',
+  /**
+   *  SDK encontered an error when trying to save your share into storage.
+   */
+  SaveFailed = 'SaveFailed',
+}
 
-export const parseStorageError = (errorType: `${string}:${StorageError}`) => {
-  if (errorType.endsWith('ConnectionError')) {
-    return 'SDK was unable to connect to your storage solution.';
+export class StorageError implements KeybanBaseError<StorageErrorTypes> {
+  title: string;
+  type: string;
+  status: number | null = null;
+  detail: string;
+  instance: string;
+  timestamp: string;
+  rootError: Error | null;
+  static types = StorageErrorTypes;
+
+  constructor(type: StorageErrorTypes, instance: string, rootError?: Error) {
+    this.title = type;
+    this.type = type;
+    this.detail = this.getDescription(type);
+    this.instance = instance;
+    this.timestamp = new Date().toISOString();
+    this.rootError = rootError ?? null;
   }
 
-  if (errorType.endsWith('RetrivalFailed')) {
-    return 'Retrival of the share from storage failed ungracefully. Storage provider might be implement incorrectly.';
-  }
+  getDescription(errorType: StorageErrorTypes) {
+    switch (errorType) {
+      case StorageErrorTypes.SaveFailed:
+        return 'SDK encontered an error when trying to save your share into storage.';
+      case StorageErrorTypes.RetrivalFailed:
+        return 'Retrival of the share from storage failed ungracefully. Storage provider might be implement incorrectly.';
+      case StorageErrorTypes.ConnectionError:
+        return 'SDK was unable to connect to your storage solution.';
 
-  if (errorType.endsWith('SaveFailed')) {
-    return 'SDK encontered an error when trying to save your share into storage.';
+      default:
+        return 'Unknown error type';
+    }
   }
-
-  return 'Unknown error';
-};
+}
