@@ -1,5 +1,5 @@
 import { healthCheck } from '~/api/apiClient';
-import { KeybanError } from '..';
+import { StorageError } from '..';
 import { EddsaAccount } from './account';
 import type { StorageProviderApi, WasmApi } from './types';
 
@@ -38,16 +38,15 @@ class EddsaClient {
     keyId: string,
   ): Promise<EddsaAccount> {
     let savedShare = await storageProvider.get(keyId).catch((e) => {
-      throw new KeybanError('StorageError:RetrivalFailed', e);
+      throw new StorageError(
+        StorageError.types.RetrivalFailed,
+        'EddsaClient.initialize',
+        e,
+      );
     });
 
     if (!savedShare) {
-      const dkgResult = await this.wasmApi.dkg(keyId).catch((e) => {
-        throw new KeybanError(
-          'ServerError:NetworkFailureEdDSAKeyGeneration',
-          e,
-        );
-      });
+      const dkgResult = await this.wasmApi.dkg(keyId);
 
       savedShare = {
         ...dkgResult,
@@ -56,7 +55,11 @@ class EddsaClient {
     }
 
     await storageProvider.save(keyId, savedShare).catch((e) => {
-      throw new KeybanError('StorageError:SaveFailed', e);
+      throw new StorageError(
+        StorageError.types.SaveFailed,
+        'EddsaClient.initialize',
+        e,
+      );
     });
 
     return new EddsaAccount(savedShare, this.wasmApi, storageProvider);

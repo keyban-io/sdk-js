@@ -1,4 +1,5 @@
-import React, {
+import { EddsaClient, SdkError, initWasm } from '@keyban/sdk-base';
+import {
   type ReactNode,
   createContext,
   useCallback,
@@ -51,7 +52,10 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   React.useEffect(() => {
     const init = async () => {
       if (!WebAssembly) {
-        throw new KeybanError('SdkError:WebAssemblyNotSupported');
+        throw new SdkError(
+          SdkError.types.WebAssemblyNotSupported,
+          'KeybanEddsaProvider.init',
+        );
       }
 
       eddsaClientRef.current = new EddsaClient(await initWasm());
@@ -72,7 +76,10 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   const initialize: KeybanEddsaContext['initialize'] = useCallback(
     async (...args) => {
       if (!initialized || !eddsaClientRef.current) {
-        throw new KeybanError('SdkError:ClientNotInitialized');
+        throw new SdkError(
+          SdkError.types.ClientNotInitialized,
+          'KeybanEddsaProvider.initialize',
+        );
       }
 
       checkIfStorageIsUnsafe(args);

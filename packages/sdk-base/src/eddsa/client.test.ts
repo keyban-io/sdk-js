@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { EddsaClient, type WasmApi } from '~/eddsa/client';
 import { initWasm } from '~/wasm';
-import { KeybanError, type KeybanErrorTypes } from '..';
+import { StorageError } from '..';
 import type { ClientShare } from './types';
 
 describe('EDDSA Client', () => {
@@ -24,8 +24,8 @@ describe('EDDSA Client', () => {
           'test-key-id',
         )
         .catch((e) => e);
-      expect(error instanceof KeybanError).toEqual(true);
-      expect(error.type).toEqual('StorageError:SaveFailed' as KeybanErrorTypes);
+      expect(error instanceof StorageError).toEqual(true);
+      expect(error.title).toEqual(StorageError.types.SaveFailed);
     });
   });
 });
