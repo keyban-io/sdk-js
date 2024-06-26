@@ -37,10 +37,17 @@ class EddsaClient {
     storageProvider: StorageProviderApi,
     keyId: string,
   ): Promise<EddsaAccount> {
-    let savedShare = await storageProvider.get(keyId);
+    let savedShare = await storageProvider.get(keyId).catch((e) => {
+      throw new KeybanError('StorageError:RetrivalFailed', e);
+    });
 
     if (!savedShare) {
-      const dkgResult = await this.wasmApi.dkg(keyId);
+      const dkgResult = await this.wasmApi.dkg(keyId).catch((e) => {
+        throw new KeybanError(
+          'ServerError:NetworkFailureEdDSAKeyGeneration',
+          e,
+        );
+      });
 
       savedShare = {
         ...dkgResult,

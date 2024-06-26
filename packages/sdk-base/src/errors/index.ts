@@ -24,7 +24,13 @@ const errorTypeToDetails = (errorType: KeybanErrorTypes): string => {
 };
 
 /**
- * Possible error types
+ * Enum representing all possible error types in the system.
+ *
+ * This includes:
+ * - {@link WasmErrors}
+ * - {@link ServerError}
+ * - {@link StorageError}
+ * - {@link SdkError}
  */
 export type KeybanErrorTypes =
   | `WasmError:${WasmErrors}`
@@ -34,13 +40,30 @@ export type KeybanErrorTypes =
 
 /**
  * @category errors
- * Error class for SDK errors.
+ * A class representing an error in the SDK.
  */
 export class KeybanError extends Error {
-  timestamp;
-  name: KeybanErrorTypes;
-  rootError;
+  /**
+   * Timestamp when the error occurred.
+   */
+  timestamp: Date;
 
+  /**
+   * The type of error.
+   */
+  name: KeybanErrorTypes;
+
+  /**
+   * The original error, if any.
+   */
+  rootError?: Error;
+
+  /**
+   * Creates an instance of KeybanError.
+   *
+   * @param type - The type of the error.
+   * @param rootError - The original error, if any.
+   */
   constructor(type: KeybanErrorTypes, rootError?: Error) {
     super(type);
     this.name = type;
@@ -50,3 +73,5 @@ export class KeybanError extends Error {
     this.stack = new Error().stack;
   }
 }
+
+export type { SdkError, WasmErrors, StorageError, ServerError };

@@ -51,9 +51,7 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   React.useEffect(() => {
     const init = async () => {
       if (!WebAssembly) {
-        throw new Error(
-          'Provider initialized in environment where WebAssembly is not supported!',
-        );
+        throw new KeybanError('SdkError:WebAssemblyNotSupported');
       }
 
       eddsaClientRef.current = new EddsaClient(await initWasm());
@@ -74,7 +72,7 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   const initialize: KeybanEddsaContext['initialize'] = useCallback(
     async (...args) => {
       if (!initialized || !eddsaClientRef.current) {
-        throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
+        throw new KeybanError('SdkError:ClientNotInitialized');
       }
 
       checkIfStorageIsUnsafe(args);

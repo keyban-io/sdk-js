@@ -1,8 +1,4 @@
-import {
-  EddsaClient,
-  SignerClientError,
-  SignerClientErrors,
-} from '@keyban/sdk-base';
+import { EddsaClient, KeybanError } from "@keyban/sdk-base";
 import {
   type FC,
   type ReactNode,
@@ -10,15 +6,15 @@ import {
   useCallback,
   useRef,
   useState,
-} from 'react';
-import { useWebViewMessage } from 'react-native-react-bridge';
-import WebView from 'react-native-webview';
-import { NativeWasm } from '~/wasmBridge';
-import type { KeybanEddsaContext } from './types';
+} from "react";
+import { useWebViewMessage } from "react-native-react-bridge";
+import WebView from "react-native-webview";
+import { NativeWasm } from "~/wasmBridge";
+import type { KeybanEddsaContext } from "./types";
 
 /** @ignore */
 export const KeybanEddsaReactContext = createContext<null | KeybanEddsaContext>(
-  null,
+  null
 );
 
 /**
@@ -49,18 +45,18 @@ export const KeybanEddsaProvider: FC<{
   webApp: string;
 }> = ({ children, webApp }) => {
   const wasmApiRef = useRef<NativeWasm | null>(null);
-  const eddsaClientRef = useRef<KeybanEddsaContext['eddsaClient'] | null>(null);
+  const eddsaClientRef = useRef<KeybanEddsaContext["eddsaClient"] | null>(null);
   const [knownAccounts, setKnownAccounts] = useState<
-    KeybanEddsaContext['knownAccounts']
+    KeybanEddsaContext["knownAccounts"]
   >([]);
   const [initialized, setInitialized] = useState(false);
   const [clientStatus, setClientStatus] = useState<
-    'operational' | 'down' | null
+    "operational" | "down" | null
   >(null);
   const { ref, onMessage, emit } = useWebViewMessage(async (message) => {
-    console.log('message', message);
-    if (message.type === 'initialized') {
-      console.log('WebAssembly initialized inside WebView');
+    console.log("message", message);
+    if (message.type === "initialized") {
+      console.log("WebAssembly initialized inside WebView");
       wasmApiRef.current = new NativeWasm(emit);
       eddsaClientRef.current = new EddsaClient(wasmApiRef.current);
       setInitialized(true);
@@ -72,10 +68,10 @@ export const KeybanEddsaProvider: FC<{
     wasmApiRef.current?.receiveMessage(message.data as string);
   });
 
-  const initialize: KeybanEddsaContext['initialize'] = useCallback(
+  const initialize: KeybanEddsaContext["initialize"] = useCallback(
     async (...args) => {
       if (!initialized || !eddsaClientRef.current) {
-        throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
+        throw new KeybanError("SdkError:ClientNotInitialized");
       }
 
       const account = await eddsaClientRef.current?.initialize(...args);
@@ -86,7 +82,7 @@ export const KeybanEddsaProvider: FC<{
       });
       return account;
     },
-    [initialized],
+    [initialized]
   );
 
   return (
@@ -102,7 +98,7 @@ export const KeybanEddsaProvider: FC<{
     >
       <WebView
         ref={ref}
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
         webviewDebuggingEnabled
         source={{ html: webApp }}
         onMessage={onMessage}
