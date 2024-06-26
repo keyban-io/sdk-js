@@ -8,7 +8,7 @@
   "plugin": [
     "typedoc-plugin-markdown"
   ],
-  "flattenOutputFiles": true,
+  // "flattenOutputFiles": true,
   "entryFileName": "index",
   // "entryModule": "index"
 }
