@@ -17,18 +17,26 @@ src:
     DO ../+USEPNPM
     RUN pnpm install
     COPY --dir +get-wasm/pkg/* /app/packages/sdk-wasm/
-    COPY --dir run-dev.sh biome.json apps packages /app
+    COPY --dir run-dev.sh biome.json apps /app
+    COPY --dir ./packages/sdk-base/src ./packages/sdk-base/vitest.config.mts ./packages/sdk-base/tsup.config.ts ./packages/sdk-base/tsconfig.json /app/packages/sdk-base/
+    COPY --dir ./packages/sdk-react/src ./packages/sdk-react/vitest.config.mts ./packages/sdk-react/tsup.config.ts ./packages/sdk-react/tsconfig.json /app/packages/sdk-react/
+    COPY --dir ./packages/sdk-react-native/src ./packages/sdk-react-native/proto ./packages/sdk-react-native/compile.sh ./packages/sdk-react-native/vitest.config.mts ./packages/sdk-react-native/tsup.config.ts ./packages/sdk-react-native/tsconfig.json /app/packages/sdk-react-native/
 
-live:
+build:
     FROM +src
     RUN pnpm build
+
+live:
+    FROM +build
     CMD pnpm dev
     ARG --required ref
     SAVE IMAGE --push ${ref}
 
 docs:
-    FROM +src
-    RUN pnpm build
+    FROM +build
+    COPY --dir ./packages/sdk-base/typedoc.json /app/packages/sdk-base/
+    COPY --dir ./packages/sdk-react/typedoc.json /app/packages/sdk-react/
+    COPY --dir ./packages/sdk-react-native/typedoc.json /app/packages/sdk-react-native/
     RUN pnpm build:docs
     SAVE ARTIFACT ./packages/sdk-base/docs sdk-base-docs
     SAVE ARTIFACT ./packages/sdk-react/docs sdk-react-docs
