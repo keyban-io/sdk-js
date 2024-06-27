@@ -1,4 +1,4 @@
-import type { KeybanBaseError } from './base';
+import { KeybanBaseError } from './base';
 
 /**
  * @enum
@@ -16,25 +16,13 @@ export enum SdkErrorTypes {
   WebAssemblyNotSupported = 'WebAssemblyNotSupported',
 }
 
-export class SdkError implements KeybanBaseError<SdkErrorTypes> {
-  title: string;
-  type: string;
-  status: number | null = null;
-  detail: string;
-  instance: string;
-  timestamp: string;
-  rootError: Error | null;
+export class SdkError extends KeybanBaseError<SdkErrorTypes> {
   static types = SdkErrorTypes;
 
   constructor(type: SdkErrorTypes, instance: string, rootError?: Error) {
-    this.title = type;
-    this.type = type;
+    super(type, instance, rootError);
     this.detail = this.getDescription(type);
-    this.instance = instance;
-    this.timestamp = new Date().toISOString();
-    this.rootError = rootError ?? null;
   }
-
   getDescription(errorType: SdkErrorTypes) {
     switch (errorType) {
       case SdkErrorTypes.ClientNotInitialized:

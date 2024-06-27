@@ -1,4 +1,4 @@
-import type { KeybanBaseError } from './base';
+import { KeybanBaseError } from './base';
 
 /**
  * @enum
@@ -20,23 +20,12 @@ export enum StorageErrorTypes {
   SaveFailed = 'SaveFailed',
 }
 
-export class StorageError implements KeybanBaseError<StorageErrorTypes> {
-  title: string;
-  type: string;
-  status: number | null = null;
-  detail: string;
-  instance: string;
-  timestamp: string;
-  rootError: Error | null;
+export class StorageError extends KeybanBaseError<StorageErrorTypes> {
   static types = StorageErrorTypes;
 
   constructor(type: StorageErrorTypes, instance: string, rootError?: Error) {
-    this.title = type;
-    this.type = type;
+    super(type, instance, rootError);
     this.detail = this.getDescription(type);
-    this.instance = instance;
-    this.timestamp = new Date().toISOString();
-    this.rootError = rootError ?? null;
   }
 
   getDescription(errorType: StorageErrorTypes) {
