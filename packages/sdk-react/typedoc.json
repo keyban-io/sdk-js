@@ -1,18 +1,24 @@
 {
+  "outputFileStrategy": "modules",
   "entryPoints": [
-    "./src/eddsa/storages/index.ts",
-    "./src/eddsa/hooks/index.ts",
-    "./src/eddsa/provider/index.ts"
+    "./src"
   ],
-  "out": "doc",
+  "out": "docs",
   "plugin": [
     "typedoc-plugin-markdown"
   ],
-  "tsconfig": "tsconfig.json",
-  "excludePrivate": true,
-  "excludeProtected": true,
-  "excludeExternals": true,
+  "entryFileName": "sdk-react",
   "flattenOutputFiles": true,
-  "entryFileName": "index",
-  "entryModule": "index"
+  "readme": "none",
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "excludeNotDocumented": false,
+  "hideGenerator": true,
+  "disableSources": true,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "hideBreadcrumbs": true,
+  "searchInComments": true,
+  "excludeInternal": true
 }

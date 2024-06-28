@@ -1,14 +1,24 @@
 {
+  "outputFileStrategy": "modules",
   "entryPoints": [
-    "./src/utils/index.ts",
-    "./src/eddsa/index.ts",
-    "./src/errors/index.ts"
+    "./src"
   ],
-  "out": "doc",
+  "out": "docs",
   "plugin": [
     "typedoc-plugin-markdown"
   ],
-  // "flattenOutputFiles": true,
-  "entryFileName": "index",
-  // "entryModule": "index"
+  "entryFileName": "sdk-base",
+  "flattenOutputFiles": true,
+  "readme": "none",
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "excludeNotDocumented": false,
+  "hideGenerator": true,
+  "disableSources": true,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "hideBreadcrumbs": true,
+  "searchInComments": true,
+  "excludeInternal": true
 }

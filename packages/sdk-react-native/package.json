@@ -54,7 +54,7 @@
   "scripts": {
     "compile:proto": "./compile.sh",
     "build": "./compile.sh && NODE_ENV=production tsup && yalc publish",
-    "build:docs": "typedoc --out docs",
+    "build:docs": "typedoc",
     "dev": "./compile.sh && tsup --no-dts --watch --onSuccess 'tsc --emitDeclarationOnly --declaration && yalc push'",
     "format": "biome check --apply ./src",
     "test": "vitest run",
@@ -79,8 +79,8 @@
     "protobufjs": "^7.2.6",
     "protobufjs-cli": "^1.1.2",
     "tsup": "^8.0.2",
-    "typedoc": "^0.25.13",
-    "typedoc-plugin-markdown": "^4.0.3",
+    "typedoc": "^0.26.2",
+    "typedoc-plugin-markdown": "^4.1.0",
     "typescript": "^5.4.5",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vitest": "^1.4.0",
@@ -98,4 +98,3 @@
     "react-native-webview": "*"
   }
 }
-

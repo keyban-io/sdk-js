@@ -108,5 +108,3 @@ Once you have followed the steps above and created a gist, uncomment these lines
 The project is configured to auto-generate the documentation using [typedoc](https://typedoc.org/). The documentation is generated in the `docs` folder.
 
 The documentation will get generated when the code is pushed to the `main` branch. You can also generate the documentation locally by running the command `pnpm run build:docs`.
-
-

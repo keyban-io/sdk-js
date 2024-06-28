@@ -1,5 +1,8 @@
 import type { ClientShare, StorageProviderApi, WasmApi } from '~/eddsa/types';
 
+/**
+ * @class EddsaAccount
+ */
 export class EddsaAccount {
   /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */
   wasmApi;
