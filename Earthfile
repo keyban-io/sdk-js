@@ -17,6 +17,7 @@ src:
     DO ../+USEPNPM
     RUN pnpm install
     COPY --dir +get-wasm/pkg/* /app/packages/sdk-wasm/
+    COPY --dir run-dev.sh /app
     COPY --dir ./apps/web-app/src ./apps/web-app/public ./apps/web-app/tsconfig.json ./apps/web-app/vite.config.ts ./apps/web-app/index.html ./apps/web-app/tsconfig.node.json /app/apps/web-app/
     COPY --dir ./packages/sdk-base/src ./packages/sdk-base/vitest.config.mts ./packages/sdk-base/tsup.config.ts ./packages/sdk-base/tsconfig.json /app/packages/sdk-base/
     COPY --dir ./packages/sdk-react/src ./packages/sdk-react/vitest.config.mts ./packages/sdk-react/tsup.config.ts ./packages/sdk-react/tsconfig.json /app/packages/sdk-react/
