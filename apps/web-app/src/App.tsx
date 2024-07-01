@@ -63,7 +63,7 @@ export const Main = () => {
           value={clientStatus}
         />
         <AssertionBox
-          humanDescription="Unsaffe storage is initialized"
+          humanDescription="Unsafe storage is initialized"
           testId="unsafe-storage"
           value={keybanLocalStorage ? 'on' : 'off'}
         />
