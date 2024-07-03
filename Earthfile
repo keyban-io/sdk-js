@@ -14,8 +14,10 @@ src:
     COPY --dir ./packages/sdk-react-native/package.json /app/packages/sdk-react-native/
     COPY --dir ./apps/web-app/package.json /app/apps/web-app/
     COPY --dir +get-wasm/pkg/package.json /app/packages/sdk-wasm/
+    COPY --dir ./packages/docgen/package.json /app/packages/docgen/
     DO ../+USEPNPM
     RUN pnpm install
+    COPY --dir ./packages/docgen/src ./packages/docgen/tsconfig.json /app/packages/docgen/
     COPY --dir +get-wasm/pkg/* /app/packages/sdk-wasm/
     COPY --dir run-dev.sh /app
     COPY --dir ./apps/web-app/src ./apps/web-app/public ./apps/web-app/tsconfig.json ./apps/web-app/vite.config.ts ./apps/web-app/index.html ./apps/web-app/tsconfig.node.json /app/apps/web-app/
@@ -34,12 +36,7 @@ live:
     ARG extra_ref
     SAVE IMAGE --push ${ref} ${extra_ref}
 
-docs:
-    FROM +build
-    COPY --dir ./packages/sdk-base/typedoc.json /app/packages/sdk-base/
-    COPY --dir ./packages/sdk-react/typedoc.json /app/packages/sdk-react/
-    COPY --dir ./packages/sdk-react-native/typedoc.json /app/packages/sdk-react-native/
+docgen:
+    FROM +src
     RUN pnpm build:docs
-    SAVE ARTIFACT ./packages/sdk-base/docs sdk-base-docs
-    SAVE ARTIFACT ./packages/sdk-react/docs sdk-react-docs
-    SAVE ARTIFACT ./packages/sdk-react-native/docs sdk-react-native-docs
+    SAVE ARTIFACT ./packages/docgen/docs sdk-docs

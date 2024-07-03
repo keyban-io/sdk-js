@@ -18,6 +18,7 @@
     "@types/react": "^18.3.3",
     "ts-node": "^10.9.2",
     "typedoc-plugin-markdown": "^4.1.0",
+    "typedoc-plugin-merge-modules": "^6.0.0",
     "typescript": "^5.5.3"
   }
 }

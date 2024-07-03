@@ -13,19 +13,19 @@
         "baseUrl": ".", // Assurez-vous que le baseUrl est défini
         "paths": {
             "~/*": [
-                "../packages/sdk-base/src/*",
-                "../packages/sdk-react/src/*"
+                "../sdk-base/src/*",
+                "../sdk-react/src/*"
             ],
             "@keyban/sdk-base": [
-                "../packages/sdk-base/src"
+                "../sdk-base/src"
             ]
         },
         "jsx": "react" // Ajouter cette ligne pour supporter JSX/TSX avec React
     },
     "include": [
-        "../packages/sdk-base/src/**/*.ts",
-        "../packages/sdk-base/src/**/*.tsx",
-        "../packages/sdk-react/src/**/*.ts",
-        "../packages/sdk-react/src/**/*.tsx"
+        "../sdk-base/src/**/*.ts",
+        "../sdk-base/src/**/*.tsx",
+        "../sdk-react/src/**/*.ts",
+        "../sdk-react/src/**/*.tsx"
     ]
 }
