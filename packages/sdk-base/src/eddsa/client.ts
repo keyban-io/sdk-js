@@ -6,23 +6,33 @@ import { EddsaAccount } from './account';
 import type { StorageProviderApi, WasmApi } from './types';
 
 /**
- * Client class for EDDSA Hedera connectivity and general logic.
+ * Client class for EdDSA algorithm connectivity and general logic across multiple blockchains.
+ * 
+ * The EdDSA algorithm is supported by several blockchains, including:
+ * - Stellar
+ * - Cardano
+ * - Algorand
+ * - Tezos
+ * - Solana
+ * 
+ * This client provides a generic interface to interact with the EdDSA algorithm on any compatible blockchain.
  */
 class EddsaClient {
   /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */
-  wasmApi;
+  public wasmApi: WasmApi;
 
   /**
    * The constructor of the `EddsaClient` class.
-   * @param wasmApi - The source of the WebAssembly Rust logic, for web is plain WebAssembly object, for react-native it required bridger
+   * @param wasmApi - The source of the WebAssembly Rust logic. For web, it is a plain WebAssembly object. For react-native, a bridger is required.
    */
   constructor(wasmApi: WasmApi) {
     this.wasmApi = wasmApi;
   }
 
   /**
-   * Function for initialization of EDDSA Account instance.
-   * @param storageProvider - Any storage provider following {@link StorageProviderApi}. For web, it can be local storage, for native AsyncStorage.
+   * Initializes an EdDSA Account instance.
+   * @param storageProvider - Any storage provider following {@link StorageProviderApi}. For web, it can be local storage; for native, AsyncStorage.
+   * @param keyId - The key identifier used for storing and retrieving shares.
    * @returns Instance of {@link EddsaAccount}
    */
   async initialize(
@@ -46,10 +56,14 @@ class EddsaClient {
         e,
       );
     });
-    // 3. return Account instance
+
     return new EddsaAccount(savedShare, this.wasmApi, storageProvider);
   }
 
+  /**
+   * Performs a health check to determine the operational status.
+   * @returns A promise that resolves to either 'operational' or 'down' based on the health check result.
+   */
   async healthCheck(): Promise<'operational' | 'down'> {
     try {
       const res = await healthCheck();
@@ -65,14 +79,16 @@ class EddsaClient {
   }
 
   /**
-   * Function for setting up chain metadata
+   * Function for setting up chain metadata.
+   * This is a placeholder method and has not been implemented yet.
    */
   async setChainMetadata() {
     /**/
   }
 
   /**
-   * Function for connecting to chain provider
+   * Function for connecting to chain provider.
+   * This is a placeholder method and has not been implemented yet.
    */
   async connectToProvider() {
     /**/
