@@ -1,17 +1,16 @@
+import React, {
+  type ReactNode,
+  createContext,
+  useCallback,
+  useRef,
+  useState
+} from 'react';
 import {
   EddsaClient,
   SignerClientError,
   SignerClientErrors,
-  initWasm,
+  initWasm
 } from '@keyban/sdk-base';
-import {
-  type ReactNode,
-  createContext,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
 import { KeybanLocalStorage } from '../storages';
 import type { KeybanEddsaContext } from './types';
 
@@ -27,7 +26,7 @@ const checkIfStorageIsUnsafe = (args: unknown[]) => {
 };
 
 /** React wrapper around EDDSA Client
- * @component
+ *
  * */
 export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   const wasmApiRef = useRef<KeybanEddsaContext['wasmApi'] | null>(null);
@@ -40,7 +39,7 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
     'operational' | 'down' | null
   >(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const init = async () => {
       if (!WebAssembly) {
         throw new Error(

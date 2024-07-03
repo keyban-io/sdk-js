@@ -23,7 +23,6 @@ class EddsaClient {
   /**
    * Function for initialization of EDDSA Account instance.
    * @param storageProvider - Any storage provider following {@link StorageProviderApi}. For web, it can be local storage, for native AsyncStorage.
-   * @param publicKey - public key of saved account that will be used to retrive it from storage. If no result will be returned from storage, the account creation will be performed.
    * @returns Instance of {@link EddsaAccount}
    */
   async initialize(

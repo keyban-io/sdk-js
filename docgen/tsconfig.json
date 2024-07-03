@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "commonjs",
+        "target": "es6",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "types": [
+            "node",
+            "react"
+        ],
+        "baseUrl": ".", // Assurez-vous que le baseUrl est défini
+        "paths": {
+            "~/*": [
+                "../packages/sdk-base/src/*",
+                "../packages/sdk-react/src/*"
+            ],
+            "@keyban/sdk-base": [
+                "../packages/sdk-base/src"
+            ]
+        },
+        "jsx": "react" // Ajouter cette ligne pour supporter JSX/TSX avec React
+    },
+    "include": [
+        "../packages/sdk-base/src/**/*.ts",
+        "../packages/sdk-base/src/**/*.tsx",
+        "../packages/sdk-react/src/**/*.ts",
+        "../packages/sdk-react/src/**/*.tsx"
+    ]
+}
