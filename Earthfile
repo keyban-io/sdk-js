@@ -31,7 +31,8 @@ live:
     FROM +build
     CMD pnpm dev
     ARG --required ref
-    SAVE IMAGE --push ${ref}
+    ARG extra_ref
+    SAVE IMAGE --push ${ref} ${extra_ref}
 
 docs:
     FROM +build
