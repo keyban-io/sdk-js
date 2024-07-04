@@ -44,12 +44,15 @@ export const Main = () => {
     }
   };
 
-  const handleSignature = () => {
+  const handleSignature = async () => {
     const firstAcc = knownAccounts[0];
     if (firstAcc) {
-      firstAcc.signPayload(payload).then((res) => {
-        setSignature(res);
-      });
+      try {
+        const signature = await firstAcc.signPayload(payload);
+        setSignature(signature);
+      } catch (error) {
+        console.error('eddsaSign', error);
+      }
     } else {
       alert('Invoke DKG first');
     }
