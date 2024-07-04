@@ -1,3 +1,4 @@
 packages:
   - 'packages/*'
   - 'apps/web-app'
+  - 'apps/demo-app'
