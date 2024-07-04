@@ -1,7 +1,7 @@
 {
   "name": "docgen",
   "version": "1.0.0",
-  "description": "",
+  "description": "SDK Packages documentation generation.",
   "main": "src/index.ts",
   "scripts": {
     "build": "ts-node src/index.ts"
