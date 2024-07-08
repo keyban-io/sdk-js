@@ -9,7 +9,7 @@ async function main() {
             "../sdk-react/src/eddsa/hooks/index.ts",
             "../sdk-react/src/eddsa/provider/index.ts",
         ],
-        disableSources: true,
+        disableSources: false,
         readme: "none",
         excludePrivate: true,
         excludeProtected: true,
