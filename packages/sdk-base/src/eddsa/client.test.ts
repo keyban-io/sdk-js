@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { EddsaClient, type WasmApi } from '~/eddsa/client';
-import SignerClientError, {
-  SignerClientErrors,
-} from '~/errors/SignerClientError';
 import { initWasm } from '~/wasm';
+import { StorageError } from '..';
 import type { ClientShare } from './types';
 
 describe('EDDSA Client', () => {
@@ -26,8 +24,8 @@ describe('EDDSA Client', () => {
           'test-key-id',
         )
         .catch((e) => e);
-      expect(error instanceof SignerClientError).toEqual(true);
-      expect(error.message).toEqual(SignerClientErrors.FAILED_TO_SAVE_TO_STORE);
+      expect(error instanceof StorageError).toEqual(true);
+      expect(error.title).toEqual(StorageError.types.SaveFailed);
     });
   });
 });

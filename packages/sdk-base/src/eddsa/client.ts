@@ -1,7 +1,5 @@
 import { healthCheck } from '~/api/apiClient';
-import SignerClientError, {
-  SignerClientErrors,
-} from '~/errors/SignerClientError';
+import { StorageError } from '..';
 import { EddsaAccount } from './account';
 import type { StorageProviderApi, WasmApi } from './types';
 
@@ -39,7 +37,13 @@ class EddsaClient {
     storageProvider: StorageProviderApi,
     keyId: string,
   ): Promise<EddsaAccount> {
-    let savedShare = await storageProvider.get(keyId);
+    let savedShare = await storageProvider.get(keyId).catch((e) => {
+      throw new StorageError(
+        StorageError.types.RetrivalFailed,
+        'EddsaClient.initialize',
+        e,
+      );
+    });
 
     if (!savedShare) {
       const dkgResult = await this.wasmApi.dkg(keyId);
@@ -51,8 +55,9 @@ class EddsaClient {
     }
 
     await storageProvider.save(keyId, savedShare).catch((e) => {
-      throw new SignerClientError(
-        SignerClientErrors.FAILED_TO_SAVE_TO_STORE,
+      throw new StorageError(
+        StorageError.types.SaveFailed,
+        'EddsaClient.initialize',
         e,
       );
     });

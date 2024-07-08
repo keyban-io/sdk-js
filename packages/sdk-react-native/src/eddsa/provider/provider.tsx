@@ -1,8 +1,4 @@
-import {
-  EddsaClient,
-  SignerClientError,
-  SignerClientErrors,
-} from '@keyban/sdk-base';
+import { EddsaClient, SdkError } from '@keyban/sdk-base';
 import {
   type FC,
   type ReactNode,
@@ -75,7 +71,10 @@ export const KeybanEddsaProvider: FC<{
   const initialize: KeybanEddsaContext['initialize'] = useCallback(
     async (...args) => {
       if (!initialized || !eddsaClientRef.current) {
-        throw new SignerClientError(SignerClientErrors.CLIENT_NOT_INITIALIZED);
+        throw new SdkError(
+          SdkError.types.ClientNotInitialized,
+          'KeybanEddsaProvider.initialize',
+        );
       }
 
       const account = await eddsaClientRef.current?.initialize(...args);

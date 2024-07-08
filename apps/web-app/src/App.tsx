@@ -31,7 +31,11 @@ export const Main = () => {
 
   const handleAccCreation = async () => {
     if (!userKeyId) return;
-    initialize(keybanLocalStorage, userKeyId);
+    try {
+      await initialize(keybanLocalStorage, userKeyId);
+    } catch (e) {
+      console.error('eddsaInitialize', e);
+    }
   };
 
   const handleAdd = async () => {
