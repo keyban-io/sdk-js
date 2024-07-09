@@ -10,7 +10,7 @@
             "node",
             "react"
         ],
-        "baseUrl": ".", // Assurez-vous que le baseUrl est défini
+        "baseUrl": ".",
         "paths": {
             "~/*": [
                 "../sdk-base/src/*",
@@ -20,7 +20,7 @@
                 "../sdk-base/src"
             ]
         },
-        "jsx": "react" // Ajouter cette ligne pour supporter JSX/TSX avec React
+        "jsx": "react-jsx" // Use the new JSX transform
     },
     "include": [
         "../sdk-base/src/**/*.ts",
