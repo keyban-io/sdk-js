@@ -5,14 +5,14 @@ import type { StorageProviderApi, WasmApi } from './types';
 
 /**
  * Client class for EdDSA algorithm connectivity and general logic across multiple blockchains.
- * 
+ *
  * The EdDSA algorithm is supported by several blockchains, including:
  * - Stellar
  * - Cardano
  * - Algorand
  * - Tezos
  * - Solana
- * 
+ *
  * This client provides a generic interface to interact with the EdDSA algorithm on any compatible blockchain.
  */
 class EddsaClient {

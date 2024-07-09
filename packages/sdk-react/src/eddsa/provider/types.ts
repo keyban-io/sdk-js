@@ -2,7 +2,7 @@ import type { EddsaAccount, EddsaClient, WasmApi, StorageProviderApi } from '@ke
 
 /**
  * @typedef KeybanEddsaContext
- * 
+ *
  * The context type for the Keyban EDDSA client, providing necessary properties and methods to interact with the EDDSA client.
  */
 export type KeybanEddsaContext = {
