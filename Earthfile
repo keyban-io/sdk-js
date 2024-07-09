@@ -5,6 +5,13 @@ get-eddsa-wasm:
     COPY ../signers/eddsa/wasm-client+wasm/pkg /pkg
     SAVE ARTIFACT /pkg AS LOCAL ./packages/sdk-eddsa-wasm
 
+get-ecdsa-wasm:
+    FROM scratch
+    COPY --dir ../signers/ecdsa/+wasm/ecdsa.wasm /pkg/
+    COPY --dir ../signers/ecdsa/+wasm-exec/wasm_exec.js /pkg/
+    SAVE ARTIFACT /pkg/ecdsa.wasm AS LOCAL ./packages/sdk-ecdsa-wasm/ecdsa.wasm
+    SAVE ARTIFACT /pkg/wasm_exec.js AS LOCAL ./packages/sdk-ecdsa-wasm/wasm_exec.js
+
 src:
     FROM ../+node
     WORKDIR /app
@@ -12,6 +19,7 @@ src:
     COPY --dir ./packages/sdk-base/package.json /app/packages/sdk-base/
     COPY --dir ./packages/sdk-react/package.json /app/packages/sdk-react/
     COPY --dir ./packages/sdk-react-native/package.json /app/packages/sdk-react-native/
+    COPY --dir ./packages/sdk-ecdsa-wasm/package.json /app/packages/sdk-ecdsa-wasm/
     COPY --dir ./apps/web-app/package.json /app/apps/web-app/
     COPY --dir +get-eddsa-wasm/pkg/package.json /app/packages/sdk-eddsa-wasm/
     COPY --dir ./packages/docgen/package.json /app/packages/docgen/
@@ -19,6 +27,9 @@ src:
     RUN pnpm install
     COPY --dir ./packages/docgen/src ./packages/docgen/tsconfig.json /app/packages/docgen/
     COPY --dir +get-eddsa-wasm/pkg/* /app/packages/sdk-eddsa-wasm/
+    COPY --dir ./packages/sdk-ecdsa-wasm/* /app/packages/sdk-ecdsa-wasm/
+    COPY --dir +get-ecdsa-wasm/wasm_exec.js /app/packages/sdk-ecdsa-wasm/wasm_exec.js
+    COPY --dir +get-ecdsa-wasm/ecdsa.wasm /app/packages/sdk-ecdsa-wasm/ecdsa.wasm
     COPY --dir run-dev.sh /app
     COPY --dir ./apps/web-app/src ./apps/web-app/public ./apps/web-app/tsconfig.json ./apps/web-app/vite.config.ts ./apps/web-app/index.html ./apps/web-app/tsconfig.node.json /app/apps/web-app/
     COPY --dir ./packages/sdk-base/src ./packages/sdk-base/vitest.config.mts ./packages/sdk-base/tsup.config.ts ./packages/sdk-base/tsconfig.json /app/packages/sdk-base/

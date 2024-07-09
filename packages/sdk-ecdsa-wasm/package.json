@@ -1,0 +1,10 @@
+{
+  "name": "ecdsa-wasm-client",
+  "version": "0.1.0",
+  "files": [
+    "ecdsa.wasm",
+    "ecdsa_wasm_client.js",
+    "wasm_exec.js"
+  ],
+  "module": "ecdsa_wasm_client.js"
+}
