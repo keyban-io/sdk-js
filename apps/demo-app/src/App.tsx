@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { KeybanEddsaProvider, useKeybanEddsa, KeybanLocalStorage } from '@keyban/sdk-react';
 import './App.css';
+import Modal from './Modal';  // Import the Modal component
 
 // The main component of the application
 const AppContent: React.FC = () => {
@@ -10,6 +11,8 @@ const AppContent: React.FC = () => {
   // State hooks to manage the data to be signed and the resulting signature
   const [dataToSign, setDataToSign] = useState('');
   const [signature, setSignature] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   // Function to initialize the EDDSA client
   const handleInitialize = async () => {
@@ -20,7 +23,8 @@ const AppContent: React.FC = () => {
         const keyId = 'my-key-id'; // Replace with your desired key identifier
         await initialize(storageProvider, keyId);
       } catch (error) {
-        console.error('Initialization failed:', error);
+        setModalMessage('Initialization failed: ' + (error as Error).message);
+        setShowModal(true);
       }
     }
   };
@@ -34,7 +38,8 @@ const AppContent: React.FC = () => {
         const sig = await account.signPayload(dataToSign);
         setSignature(sig);
       } catch (error) {
-        console.error('Signing failed:', error);
+        setModalMessage('Signing failed: ' + (error as Error).message);
+        setShowModal(true);
       }
     } else {
       console.log('Cannot sign data: Conditions not met', {
@@ -55,6 +60,10 @@ const AppContent: React.FC = () => {
         <p>Key ID: {account.keyId}</p>
       </div>
     ));
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   // JSX to render the application UI
@@ -87,6 +96,7 @@ const AppContent: React.FC = () => {
           </div>
         )}
       </header>
+      <Modal show={showModal} onClose={handleCloseModal} message={modalMessage} />
     </div>
   );
 };

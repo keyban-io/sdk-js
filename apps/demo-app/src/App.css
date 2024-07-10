@@ -1,9 +1,13 @@
+@import url("./variables.css");
+
+/* Existing CSS content */
+
 .App {
   text-align: center;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: var(--primary-darkest);
   min-height: 100vh;
   display: flex;
   flex-direction: column;

@@ -1,0 +1,10 @@
+/* Import the Outfit font */
+:root {
+  --color-primary: #07689f;
+  --primary-dark: #065e8f;
+  --primary-darker: #065887;
+  --primary-darkest: #05496f;
+  --primary-light: #0872af;
+  --primary-lighter: #0878b7;
+  --primary-lightest: #0987cf;
+}
