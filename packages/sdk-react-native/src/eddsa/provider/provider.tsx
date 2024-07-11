@@ -54,7 +54,6 @@ export const KeybanEddsaProvider: FC<{
     'operational' | 'down' | null
   >(null);
   const { ref, onMessage, emit } = useWebViewMessage(async (message) => {
-    console.log('message', message);
     if (message.type === 'initialized') {
       console.log('WebAssembly initialized inside WebView');
       wasmApiRef.current = new NativeWasm(emit);

@@ -18,7 +18,7 @@ export const KeybanEddsaReactContext = createContext<null | KeybanEddsaContext>(
 /**
  * Checks if any of the provided arguments use KeybanLocalStorage and logs a warning if found.
  * @param args - The arguments to check.
- * @remarks 
+ * @remarks
  * Using KeybanLocalStorage in production is unsafe.
  */
 const checkIfStorageIsUnsafe = (args: unknown[]) => {

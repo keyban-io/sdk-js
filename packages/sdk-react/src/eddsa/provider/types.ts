@@ -1,4 +1,9 @@
-import type { EddsaAccount, EddsaClient, WasmApi, StorageProviderApi } from '@keyban/sdk-base';
+import type {
+  EddsaAccount,
+  EddsaClient,
+  StorageProviderApi,
+  WasmApi,
+} from '@keyban/sdk-base';
 
 /**
  * @typedef KeybanEddsaContext
@@ -10,13 +15,13 @@ export type KeybanEddsaContext = {
   wasmApi: WasmApi | null;
   /** The EDDSA client instance, or null if not initialized. */
   eddsaClient: EddsaClient | null;
-  /** Indicates whether the EDDSA client has been initialized. 
+  /** Indicates whether the EDDSA client has been initialized.
    * Is set automatically to true, when the wasmApi is available.
    */
   initialized: boolean;
   /** An array of known EDDSA accounts. */
   knownAccounts: EddsaAccount[];
-  /** The current status of the EDDSA client, which can be 'operational', 'down', or null. 
+  /** The current status of the EDDSA client, which can be 'operational', 'down', or null.
    * It means that the backend services used by the wasmApi are operational or down.
    */
   clientStatus: 'operational' | 'down' | null;
@@ -33,5 +38,8 @@ export type KeybanEddsaContext = {
  * @returns Instance of {@link EddsaAccount}
 
  */
-  initialize: (storageProvider: StorageProviderApi, keyId: string) => Promise<EddsaAccount>;
+  initialize: (
+    storageProvider: StorageProviderApi,
+    keyId: string,
+  ) => Promise<EddsaAccount>;
 } & Pick<EddsaClient, 'initialize'>;

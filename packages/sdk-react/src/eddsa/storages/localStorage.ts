@@ -5,8 +5,8 @@ import type { ClientShare, StorageProviderApi } from '@keyban/sdk-base';
  *
  * This class implements the StorageProviderApi interface using the localStorage Web API.
  * It provides methods to get and save client shares to localStorage.
- * 
- * @remarks 
+ *
+ * @remarks
  * This storage solution is intended for development environments only and should not be used in production due to the limited security of localStorage.
  */
 export class KeybanLocalStorage implements StorageProviderApi {
