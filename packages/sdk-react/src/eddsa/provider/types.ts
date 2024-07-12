@@ -28,11 +28,11 @@ export type KeybanEddsaContext = {
 
   /**
  * Initializes an EdDSA Account instance.
- * 
+ *
  * This method is exposed from the `EddsaClient` and can be used to initialize
  * the EDDSA client with the necessary configurations. It ensures that the client
  * is properly set up with the given storage provider and key identifier.
- * 
+ *
  * @param storageProvider - Any storage provider following {@link StorageProviderApi}. For web, it can be local storage; for native, AsyncStorage.
  * @param keyId - The key identifier used for storing and retrieving shares.
  * @returns Instance of {@link EddsaAccount}

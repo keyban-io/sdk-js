@@ -2,7 +2,7 @@
 
 ### iOS (easier one)
 
-*Warning: These are main steps for Detox, there might be extra step depending on the CI* 
+*Warning: These are main steps for Detox, there might be extra step depending on the CI*
 
 - Prepare packages for tests
   - `yarn install`
@@ -16,5 +16,5 @@
 - Build Detox
   - `detox build --configuration ios.sim.release`
 - Run E2E tests
-  - `detox test --configuration ios.sim.release` 
+  - `detox test --configuration ios.sim.release`
 
