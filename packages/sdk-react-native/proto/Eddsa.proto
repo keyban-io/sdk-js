@@ -25,6 +25,6 @@ message EddsaDkgResponse {
 }
 
 message EddsaSecretShare {
- required string keypair = 1;
- required string version = 2;
+  required string keypair = 1;
+  required string version = 2;
 }
