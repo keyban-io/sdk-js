@@ -3,11 +3,11 @@ import * as TypeDoc from "typedoc";
 async function main() {
     const app = await TypeDoc.Application.bootstrapWithPlugins({
         entryPoints: [
-            "../sdk-base/src/eddsa/account.ts",
-            "../sdk-base/src/eddsa/client.ts",
-            "../sdk-react/src/eddsa/storages/index.ts",
+            "../sdk-base/src/eddsa/index.ts",
+            "../sdk-base/src/errors/index.ts",
             "../sdk-react/src/eddsa/hooks/index.ts",
             "../sdk-react/src/eddsa/provider/index.ts",
+            "../sdk-react/src/eddsa/storages/index.ts",
         ],
         disableSources: false,
         readme: "none",
