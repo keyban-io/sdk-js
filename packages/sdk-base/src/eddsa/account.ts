@@ -1,4 +1,8 @@
-import type { ClientShare, StorageProviderApi, WasmApi } from '~/eddsa/types';
+import type {
+  ClientShare,
+  StorageProviderApi,
+  WasmApi,
+} from '~/eddsa/eddsa.types';
 
 /**
  * This class represents an account using the EdDSA algorithm. It provides methods for signing payloads and interacting with the WebAssembly API.

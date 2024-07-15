@@ -1,2 +1,2 @@
-export * from './provider';
-export * from './types';
+export * from './ecdsa.provider';
+export * from './ecdsa.types';

@@ -1,4 +1,4 @@
-export * from './client';
-export * from './types';
+export * from './eddsa.client';
+export * from './eddsa.types';
 export * from './account';
-export * from './wasm';
+export * from './eddsa.wasm';

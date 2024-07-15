@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { KeybanEddsaReactContext } from '~/eddsa/provider/provider';
+import { KeybanEddsaReactContext } from '~/eddsa/provider/eddsa.provider';
 
 /**
  * Custom hook to access the KeybanEddsaReactContext.

@@ -6,5 +6,6 @@
     "ecdsa_wasm_client.js",
     "wasm_exec.js"
   ],
+  "main": "ecdsa_wasm_client.js",
   "module": "ecdsa_wasm_client.js"
 }
