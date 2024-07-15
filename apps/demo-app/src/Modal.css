@@ -1,24 +1,24 @@
-@import url("./variables.css");
-
-/* Existing CSS content */
-a.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.modal-button {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.modal {
-  background: var(--primary-lightest);
-  padding: 20px;
-  border-radius: 8px;
+.modal-button:hover {
+  background-color: var(--primary-dark);
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
-.modal-content {
-  text-align: center;
+.modal-button:active {
+  background-color: var(--primary-darker);
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
