@@ -143,9 +143,12 @@ importers:
 
   packages/sdk-base:
     dependencies:
+      ecdsa-wasm-client:
+        specifier: workspace:*
+        version: link:../sdk-ecdsa-wasm
       eddsa-wasm-client:
         specifier: workspace:*
-        version: link:../sdk-eddsa-wasm
+        version: link:../sdk-wasm
     devDependencies:
       '@changesets/changelog-github':
         specifier: ^0.5.0
@@ -174,6 +177,8 @@ importers:
       webdriverio:
         specifier: ^8.38.0
         version: 8.38.0(typescript@5.5.3)
+
+  packages/sdk-ecdsa-wasm: {}
 
   packages/sdk-react:
     dependencies:
@@ -222,7 +227,7 @@ importers:
         version: link:../sdk-base
       eddsa-wasm-client:
         specifier: workspace:*
-        version: link:../sdk-eddsa-wasm
+        version: link:../sdk-wasm
       long:
         specifier: ^5.2.3
         version: 5.2.3
@@ -288,7 +293,7 @@ importers:
         specifier: ^8.38.0
         version: 8.38.0(typescript@5.5.3)
 
-  packages/sdk-eddsa-wasm: {}
+  packages/sdk-wasm: {}
 
 packages:
 
