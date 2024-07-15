@@ -1,7 +1,7 @@
 import initWasmFile, { add, dkg, sign } from 'eddsa-wasm-client';
 import type { WasmApi } from '~/eddsa';
 
-const initWasm = async (): Promise<WasmApi> => {
+const initEddsaWasm = async (): Promise<WasmApi> => {
   await initWasmFile();
   return {
     add: (...args) => Promise.resolve(add(...args)),
@@ -9,4 +9,4 @@ const initWasm = async (): Promise<WasmApi> => {
     dkg: dkg as WasmApi['dkg'],
   };
 };
-export { initWasm };
+export { initEddsaWasm };
