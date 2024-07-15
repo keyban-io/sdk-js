@@ -1,4 +1,4 @@
-import { EddsaClient, SdkError, initEddsaWasm } from '@keyban/sdk-base';
+import { EcdsaClient, SdkError, initEcdsaWasm } from '@keyban/sdk-base';
 import {
   type ReactNode,
   createContext,
@@ -8,10 +8,10 @@ import {
   useState,
 } from 'react';
 import { KeybanLocalStorage } from '../../storages';
-import type { KeybanEddsaContext } from './types';
+import type { KeybanEcdsaContext } from './types';
 
 /** @ignore */
-export const KeybanEddsaReactContext = createContext<null | KeybanEddsaContext>(
+export const KeybanEcdsaReactContext = createContext<null | KeybanEcdsaContext>(
   null,
 );
 
@@ -28,17 +28,17 @@ const checkIfStorageIsUnsafe = (args: unknown[]) => {
 };
 
 /**
- * React wrapper around EdDSA Client.
- * Provides context for interacting with the EdDSA client.
+ * React wrapper around ECDSA Client.
+ * Provides context for interacting with the ECDSA client.
  *
  * @param children - The React children components.
- * @returns A React context provider for the EdDSA client.
+ * @returns A React context provider for the ECDSA client.
  */
-export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
-  const wasmApiRef = useRef<KeybanEddsaContext['wasmApi'] | null>(null);
-  const eddsaClientRef = useRef<KeybanEddsaContext['eddsaClient'] | null>(null);
+export const KeybanEcdsaProvider = ({ children }: { children: ReactNode }) => {
+  const wasmApiRef = useRef<KeybanEcdsaContext['wasmApi'] | null>(null);
+  const ecdsaClientRef = useRef<KeybanEcdsaContext['ecdsaClient'] | null>(null);
   const [knownAccounts, setKnownAccounts] = useState<
-    KeybanEddsaContext['knownAccounts']
+    KeybanEcdsaContext['knownAccounts']
   >([]);
   const [initialized, setInitialized] = useState(false);
   const [clientStatus, setClientStatus] = useState<
@@ -50,13 +50,15 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
       if (!WebAssembly) {
         throw new SdkError(
           SdkError.types.WebAssemblyNotSupported,
-          'KeybanEddsaProvider.init',
+          'KeybanEcdsaProvider.init',
         );
       }
 
-      eddsaClientRef.current = new EddsaClient(await initEddsaWasm());
+      const wasmApi = await initEcdsaWasm();
+
+      ecdsaClientRef.current = new EcdsaClient(wasmApi);
       setInitialized(true);
-      const clientHealth = await eddsaClientRef.current?.healthCheck();
+      const clientHealth = await ecdsaClientRef.current?.healthCheck();
       setClientStatus(clientHealth);
     };
 
@@ -64,23 +66,23 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   /**
-   * Initializes the EdDSA client with the provided arguments.
-   * @param args - The arguments for initializing the EdDSA client.
+   * Initializes the ECDSA client with the provided arguments.
+   * @param args - The arguments for initializing the ECDSA client.
    * @throws SignerClientError if the client is not initialized.
-   * @returns The initialized EdDSA account.
+   * @returns The initialized ECDSA account.
    */
-  const initialize: KeybanEddsaContext['initialize'] = useCallback(
+  const initialize: KeybanEcdsaContext['initialize'] = useCallback(
     async (...args) => {
-      if (!initialized || !eddsaClientRef.current) {
+      if (!initialized || !ecdsaClientRef.current) {
         throw new SdkError(
           SdkError.types.ClientNotInitialized,
-          'KeybanEddsaProvider.initialize',
+          'KeybanEcdsaProvider.initialize',
         );
       }
 
       checkIfStorageIsUnsafe(args);
 
-      const account = await eddsaClientRef.current?.initialize(...args);
+      const account = await ecdsaClientRef.current?.initialize(...args);
 
       setKnownAccounts((prev) => {
         prev.push(account);
@@ -92,9 +94,9 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <KeybanEddsaReactContext.Provider
+    <KeybanEcdsaReactContext.Provider
       value={{
-        eddsaClient: eddsaClientRef.current,
+        ecdsaClient: ecdsaClientRef.current,
         wasmApi: wasmApiRef.current,
         initialized,
         initialize,
@@ -103,6 +105,6 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </KeybanEddsaReactContext.Provider>
+    </KeybanEcdsaReactContext.Provider>
   );
 };
