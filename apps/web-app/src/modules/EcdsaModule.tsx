@@ -3,7 +3,7 @@ import {
   KeybanLocalStorage,
   useKeybanEcdsa,
 } from '@keyban/sdk-react';
-import { ActionBox, AssertionBox, InputBox, styles } from './common';
+import { ActionBox, AssertionBox, styles } from './common';
 
 const keybanLocalStorage = new KeybanLocalStorage();
 

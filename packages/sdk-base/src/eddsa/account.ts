@@ -3,6 +3,7 @@ import type {
   StorageProviderApi,
   WasmApi,
 } from '~/eddsa/eddsa.types';
+import { StorageError } from '~/errors';
 
 /**
  * This class represents an account using the EdDSA algorithm. It provides methods for signing payloads and interacting with the WebAssembly API.
@@ -49,7 +50,10 @@ export class EddsaAccount {
     const share = await this.getClientShare();
 
     if (!share) {
-      throw new Error('Unable to retrieve the share from storage.');
+      throw new StorageError(
+        StorageError.types.RetrivalFailed,
+        'EddsaClient.initialize',
+      );
     }
 
     const signature = await this.wasmApi.signMessage(
