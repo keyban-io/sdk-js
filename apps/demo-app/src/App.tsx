@@ -23,7 +23,8 @@ const AppContent: React.FC = () => {
         const keyId = 'my-key-id'; // Replace with your desired key identifier
         await initialize(storageProvider, keyId);
       } catch (error) {
-        setModalMessage('Initialization failed: ' + (error as Error).message);
+        const message = (error as Error).message ? (error as Error).message : error;
+        setModalMessage(`Initialization failed: ${message}`);
         setShowModal(true);
       }
     }
@@ -38,7 +39,8 @@ const AppContent: React.FC = () => {
         const sig = await account.signPayload(dataToSign);
         setSignature(sig);
       } catch (error) {
-        setModalMessage('Signing failed: ' + (error as Error).message);
+        const message = (error as Error).message ? (error as Error).message : error;
+        setModalMessage(`Signing failed: ${message}`);
         setShowModal(true);
       }
     } else {
@@ -74,7 +76,7 @@ const AppContent: React.FC = () => {
         {initialized ? (
           <div>
             {knownAccounts.length === 0 ? (
-              <button onClick={handleInitialize}>Initialize Client</button>
+              <button type="button" onClick={handleInitialize}>Initialize Client</button>
             ) : (
               <div>
                 <p>Client Status: {clientStatus}</p>
@@ -85,7 +87,7 @@ const AppContent: React.FC = () => {
                   value={dataToSign}
                   onChange={(e) => setDataToSign(e.target.value)}
                 />
-                <button onClick={handleSignData}>Sign Data</button>
+                <button type="button" onClick={handleSignData}>Sign Data</button>
                 {signature && <p>Signature: {signature}</p>}
               </div>
             )}

@@ -45,7 +45,7 @@ export class EddsaAccount {
     const share = await this.getClientShare();
 
     if (!share) {
-      throw new Error('couldnt get share from storage');
+      throw new Error('Unable to retrieve the share from storage.');
     }
 
     const signature = await this.wasmApi.signMessage(

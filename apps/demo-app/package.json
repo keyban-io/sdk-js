@@ -18,7 +18,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "reinstall-wasm": "earthly --no-cache ../../+get-eddsa-wasm && pnpm install",
+    "reintall-packages": "earthly --no-cache ../../+src && pnpm install"
   },
   "eslintConfig": {
     "extends": [
