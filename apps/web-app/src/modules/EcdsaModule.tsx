@@ -83,7 +83,7 @@ export const EcdsaModule = () => {
         <ActionBox
           humanDescription="Button to init ECDSA dkg process"
           actionp="Start dkg"
-          testId="ecdsa-start-ecdsa-dkg-action"
+          testId="ecdsa-start-dkg-action"
           onTap={handleAccCreation}
         />
         {/* <ActionBox */}
