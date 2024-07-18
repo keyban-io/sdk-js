@@ -1,41 +1,29 @@
 import {
+  type EcdsaClientShare,
   KeybanEcdsaReactContext,
   KeybanLocalStorage,
   useKeybanEcdsa,
 } from '@keyban/sdk-react';
-import { ActionBox, AssertionBox, styles } from './common';
+import { useState } from 'react';
+import { ActionBox, AssertionBox, InputBox, styles } from './common';
 
-const keybanLocalStorage = new KeybanLocalStorage();
+const keybanLocalStorage = new KeybanLocalStorage<EcdsaClientShare>();
 
 export const EcdsaModule = () => {
-  // const [userKeyId, setUserKeyId] = useState("dumb");
+  const [userKeyId, setUserKeyId] = useState('dumb');
   // const [signature, setSignature] = useState("");
   // const [payload, setPayload] = useState("");
-  const { clientStatus, ecdsaClient } = useKeybanEcdsa();
+  const { clientStatus, knownAccounts, initialize } = useKeybanEcdsa();
 
-  const handleDumb = async () => {
-    if (ecdsaClient?.wasmApi) {
-      const dumb = await ecdsaClient.wasmApi.dkg('adf');
-      console.log('hello from ecdsa wasm \n', dumb);
+  const handleAccCreation = async () => {
+    if (!userKeyId) return;
+    try {
+      await initialize(keybanLocalStorage, userKeyId);
+    } catch (e) {
+      console.error('ecdsaInitialize', e);
     }
   };
-  // (window as any).ecdsa.dkg().then((res) => console.log(res, "ha"));
 
-  // const handleAccCreation = async () => {
-  //   if (!userKeyId) return;
-  //   try {
-  //     await initialize(keybanLocalStorage, userKeyId);
-  //   } catch (e) {
-  //     console.error("ecdsaInitialize", e);
-  //   }
-  // };
-  //
-  // const handleAdd = async () => {
-  //   if (ecdsaClient) {
-  //     alert(await ecdsaClient?.wasmApi.add(4, 4));
-  //   }
-  // };
-  //
   // const handleSignature = async () => {
   //   const firstAcc = knownAccounts[0];
   //   if (firstAcc) {
@@ -58,31 +46,24 @@ export const EcdsaModule = () => {
       <div style={styles.container}>
         <AssertionBox
           humanDescription="Client health check result"
-          testId="client-health"
+          testId="ecdsa-client-health"
           value={clientStatus}
         />
         <AssertionBox
           humanDescription="Unsafe storage is initialized"
-          testId="unsafe-storage"
+          testId="ecdsa-unsafe-storage"
           value={keybanLocalStorage ? 'on' : 'off'}
         />
-        <ActionBox
-          humanDescription="Button to call dumb heath check with ECDSA dkg"
-          actionp="Start dumb"
-          testId="start-ecdsa-dumb-action"
-          onTap={handleDumb}
-        />
-
         {/* <AssertionBox */}
         {/*   humanDescription="First account client secret share" */}
         {/*   testId="secret-share" */}
         {/*   value={knownAccounts[0]?.secretShare?.keypair} */}
         {/* /> */}
-        {/* <AssertionBox */}
-        {/*   humanDescription="First account client public key" */}
-        {/*   testId="client-pub-key" */}
-        {/*   value={knownAccounts[0]?.clientPublicKey} */}
-        {/* /> */}
+        <AssertionBox
+          humanDescription="First account client public key"
+          testId="ecdsa-client-pub-key"
+          value={knownAccounts[0]?.clientPublicKey}
+        />
         {/* <AssertionBox */}
         {/*   humanDescription="First account server public key" */}
         {/*   testId="server-pub-key" */}
@@ -99,12 +80,12 @@ export const EcdsaModule = () => {
         {/*   testId="start-ecdsa-sign-action" */}
         {/*   onTap={handleSignature} */}
         {/* /> */}
-        {/* <ActionBox */}
-        {/*   humanDescription="Button to init ECDSA dkg process" */}
-        {/*   actionp="Start dkg" */}
-        {/*   testId="start-ecdsa-dkg-action" */}
-        {/*   onTap={handleAccCreation} */}
-        {/* /> */}
+        <ActionBox
+          humanDescription="Button to init ECDSA dkg process"
+          actionp="Start dkg"
+          testId="ecdsa-start-ecdsa-dkg-action"
+          onTap={handleAccCreation}
+        />
         {/* <ActionBox */}
         {/*   humanDescription="Button to sign" */}
         {/*   actionp="Start signing" */}
@@ -117,12 +98,12 @@ export const EcdsaModule = () => {
         {/*   testId="start-ecdsa-add-action" */}
         {/*   onTap={handleAdd} */}
         {/* /> */}
-        {/* <InputBox */}
-        {/*   humanDescription="Provided public key" */}
-        {/*   testId="input-key-id" */}
-        {/*   value={userKeyId} */}
-        {/*   setValue={setUserKeyId} */}
-        {/* /> */}
+        <InputBox
+          humanDescription="Provided public key"
+          testId="ecdsa-input-key-id"
+          value={userKeyId}
+          setValue={setUserKeyId}
+        />
         {/* <InputBox */}
         {/*   humanDescription="Provided payload to signature" */}
         {/*   testId="signature-payload" */}

@@ -14,7 +14,7 @@ async function run(wasmUrl) {
 
   // Timeout mechanism to detect blocking
   const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error("Timeout during go.run()")), 5000)
+    setTimeout(() => reject(new Error("Timeout during go.run()")), 1000)
   );
 
   await Promise.race([go.run(obj.instance), timeoutPromise]).catch((e) =>

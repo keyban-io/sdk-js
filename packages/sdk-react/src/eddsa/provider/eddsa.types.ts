@@ -1,8 +1,9 @@
 import type {
   EddsaAccount,
   EddsaClient,
+  EddsaClientShare,
+  EddsaWasmApi,
   StorageProviderApi,
-  WasmApi,
 } from '@keyban/sdk-base';
 
 /**
@@ -12,8 +13,8 @@ import type {
  */
 export type KeybanEddsaContext = {
   /** The WebAssembly API interface, or null if not initialized. */
-  wasmApi: WasmApi | null;
-  /** The EdDSA client instance, or null if not initialized. */
+  wasmApi: EddsaWasmApi | null;
+  /** The EDDSA client instance, or null if not initialized. */
   eddsaClient: EddsaClient | null;
   /** Indicates whether the EdDSA client has been initialized.
    * Is set automatically to true, when the wasmApi is available.
@@ -39,7 +40,7 @@ export type KeybanEddsaContext = {
 
  */
   initialize: (
-    storageProvider: StorageProviderApi,
+    storageProvider: StorageProviderApi<EddsaClientShare>,
     keyId: string,
   ) => Promise<EddsaAccount>;
 } & Pick<EddsaClient, 'initialize'>;

@@ -1,8 +1,4 @@
-/**
- * Represents a hexadecimal string.
- * @typedef {string} Hex
- */
-export type Hex = string;
+import type { Hex } from '~/types';
 
 /**
  * Interface for the WebAssembly API.
@@ -12,40 +8,25 @@ export type Hex = string;
  * @property {Function} dkg - Executes the distributed key generation (DKG) process for a given key ID.
  * @property {Function} add - Adds two numbers.
  */
-export type WasmApi = {
+export type EddsaWasmApi = {
   signMessage: (
     keyid: string,
     secretShare: SecretShare,
     message: string,
   ) => Promise<Hex>;
-  dkg: (keyId: string) => Promise<ClientShare>;
+  dkg: (keyId: string) => Promise<EddsaClientShare>;
   add: (n1: number, n2: number) => Promise<number>;
 };
 
 /**
- * Interface for the storage provider API.
- * @typedef {Object} StorageProviderApi
- * @property {Function} save - Saves a client share to storage.
- * @property {Function} get - Retrieves a client share from storage.
- */
-export type StorageProviderApi = {
-  save: (
-    key: string,
-    share: ClientShare,
-    password?: string,
-  ) => Promise<boolean>;
-  get: (key: string, password?: string) => Promise<ClientShare | undefined>;
-};
-
-/**
  * Represents a client share containing the secret share and public keys.
- * @typedef {Object} ClientShare
+ * @typedef {Object} EddsaClientShare
  * @property {SecretShare} secret_share - The client's secret share.
  * @property {string} client_pubkey - The client's public key.
  * @property {string} server_pubkey - The server's public key.
  * @property {string} keyId - The key ID associated with the client share.
  */
-export type ClientShare = {
+export type EddsaClientShare = {
   secret_share: SecretShare;
   client_pubkey: string;
   server_pubkey: string;

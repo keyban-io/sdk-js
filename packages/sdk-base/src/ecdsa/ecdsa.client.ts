@@ -1,7 +1,8 @@
 import { healthCheck } from '~/api/apiClient';
+import type { StorageProviderApi } from '~/types';
 import { StorageError } from '..';
-import { EddsaAccount } from '../eddsa/account';
-import type { StorageProviderApi, WasmApi } from '../eddsa/eddsa.types';
+import { EcdsaAccount } from './ecdsa.account';
+import type { EcdsaClientShare, EcdsaWasmApi } from './ecdsa.types';
 
 /**
  * Client class for EcDSA algorithm connectivity and general logic across multiple blockchains.
@@ -12,14 +13,14 @@ import type { StorageProviderApi, WasmApi } from '../eddsa/eddsa.types';
  * This client provides a generic interface to interact with the EcDSA algorithm on any compatible blockchain.
  */
 class EcdsaClient {
-  /** Interface offering the WebAssembly Rust logic following {@link WasmApi} */
-  public wasmApi: WasmApi;
+  /** Interface offering the WebAssembly Rust logic following {@link EcdsaWasmApi} */
+  public wasmApi: EcdsaWasmApi;
 
   /**
    * The constructor of the `EcdsaClient` class.
    * @param wasmApi - The source of the WebAssembly Rust logic. For web, it is a plain WebAssembly object. For react-native, a bridger is required.
    */
-  constructor(wasmApi: WasmApi) {
+  constructor(wasmApi: EcdsaWasmApi) {
     this.wasmApi = wasmApi;
   }
 
@@ -30,35 +31,39 @@ class EcdsaClient {
    * @returns Instance of {@link EcdsaAccount}
    */
   async initialize(
-    storageProvider: StorageProviderApi,
+    storageProvider: StorageProviderApi<EcdsaClientShare>,
     keyId: string,
-  ): Promise<EddsaAccount> {
-    let savedShare = await storageProvider.get(keyId).catch((e) => {
-      throw new StorageError(
-        StorageError.types.RetrivalFailed,
-        'EcdsaClient.initialize',
-        e,
-      );
-    });
+  ): Promise<EcdsaAccount> {
+    let savedShare = await storageProvider
+      .get(EcdsaAccount.getStorageKey(keyId))
+      .catch((e) => {
+        throw new StorageError(
+          StorageError.types.RetrivalFailed,
+          'EcdsaClient.initialize',
+          e,
+        );
+      });
 
     if (!savedShare) {
       const dkgResult = await this.wasmApi.dkg(keyId);
 
       savedShare = {
-        ...dkgResult,
+        ...(JSON.parse(dkgResult) as EcdsaClientShare),
         keyId,
       };
     }
 
-    await storageProvider.save(keyId, savedShare).catch((e) => {
-      throw new StorageError(
-        StorageError.types.SaveFailed,
-        'EcdsaClient.initialize',
-        e,
-      );
-    });
+    await storageProvider
+      .save(EcdsaAccount.getStorageKey(keyId), savedShare)
+      .catch((e) => {
+        throw new StorageError(
+          StorageError.types.SaveFailed,
+          'EcdsaClient.initialize',
+          e,
+        );
+      });
 
-    return new EddsaAccount(savedShare, this.wasmApi, storageProvider);
+    return new EcdsaAccount(savedShare, this.wasmApi, storageProvider);
   }
 
   /**
@@ -96,4 +101,4 @@ class EcdsaClient {
   }
 }
 
-export { type StorageProviderApi, type WasmApi, EcdsaClient };
+export { EcdsaClient };

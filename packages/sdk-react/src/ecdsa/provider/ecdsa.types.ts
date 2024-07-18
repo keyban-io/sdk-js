@@ -1,8 +1,9 @@
 import type {
+  EcdsaAccount,
   EcdsaClient,
-  EddsaAccount,
+  EcdsaClientShare,
+  EcdsaWasmApi,
   StorageProviderApi,
-  WasmApi,
 } from '@keyban/sdk-base';
 
 /**
@@ -12,7 +13,7 @@ import type {
  */
 export type KeybanEcdsaContext = {
   /** The WebAssembly API interface, or null if not initialized. */
-  wasmApi: WasmApi | null;
+  wasmApi: EcdsaWasmApi | null;
   /** The ECDSA client instance, or null if not initialized. */
   ecdsaClient: EcdsaClient | null;
   /** Indicates whether the ECDSA client has been initialized.
@@ -20,7 +21,7 @@ export type KeybanEcdsaContext = {
    */
   initialized: boolean;
   /** An array of known ECDSA accounts. */
-  knownAccounts: EddsaAccount[];
+  knownAccounts: EcdsaAccount[];
   /** The current status of the ECDSA client, which can be 'operational', 'down', or null.
    * It means that the backend services used by the wasmApi are operational or down.
    */
@@ -28,18 +29,18 @@ export type KeybanEcdsaContext = {
 
   /**
  * Initializes an EcDSA Account instance.
- * 
+ *
  * This method is exposed from the `EcdsaClient` and can be used to initialize
  * the ECDSA client with the necessary configurations. It ensures that the client
  * is properly set up with the given storage provider and key identifier.
- * 
+ *
  * @param storageProvider - Any storage provider following {@link StorageProviderApi}. For web, it can be local storage; for native, AsyncStorage.
  * @param keyId - The key identifier used for storing and retrieving shares.
  * @returns Instance of {@link EcdsaAccount}
 
  */
   initialize: (
-    storageProvider: StorageProviderApi,
+    storageProvider: StorageProviderApi<EcdsaClientShare>,
     keyId: string,
-  ) => Promise<EddsaAccount>;
+  ) => Promise<EcdsaAccount>;
 } & Pick<EcdsaClient, 'initialize'>;

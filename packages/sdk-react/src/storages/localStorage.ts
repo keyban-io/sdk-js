@@ -1,4 +1,4 @@
-import type { ClientShare, StorageProviderApi } from '@keyban/sdk-base';
+import type { StorageProviderApi } from '@keyban/sdk-base';
 
 /**
  * @class KeybanLocalStorage
@@ -9,7 +9,7 @@ import type { ClientShare, StorageProviderApi } from '@keyban/sdk-base';
  * @remarks
  * This storage solution is intended for development environments only and should not be used in production due to the limited security of localStorage.
  */
-export class KeybanLocalStorage implements StorageProviderApi {
+export class KeybanLocalStorage<S> implements StorageProviderApi<S> {
   /**
    * The constructor of the `KeybanLocalStorage` class.
    * @throws Error if the environment does not support the localStorage Web API.
@@ -25,12 +25,12 @@ export class KeybanLocalStorage implements StorageProviderApi {
    * @param key - The key used to retrieve the client share.
    * @returns A promise that resolves to the client share, or undefined if not found.
    */
-  get(key: string): Promise<ClientShare | undefined> {
+  get(key: string): Promise<S | undefined> {
     const value = localStorage.getItem(key);
     if (!value) {
       return Promise.resolve(undefined);
     }
-    const savedShares = JSON.parse(value) as ClientShare;
+    const savedShares = JSON.parse(value) as S;
     return Promise.resolve(savedShares);
   }
 
@@ -40,7 +40,7 @@ export class KeybanLocalStorage implements StorageProviderApi {
    * @param share - The client share to be saved.
    * @returns A promise that resolves to true if the client share was successfully saved.
    */
-  save(key: string, share: ClientShare): Promise<boolean> {
+  save(key: string, share: S): Promise<boolean> {
     localStorage.setItem(key, JSON.stringify(share));
     return Promise.resolve(true);
   }

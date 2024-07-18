@@ -53,8 +53,8 @@
   ],
   "scripts": {
     "compile:proto": "./compile.sh",
-    "build": "./compile.sh && NODE_ENV=production tsup && yalc publish",
-    "dev": "./compile.sh && tsup --no-dts --watch --onSuccess 'tsc --emitDeclarationOnly --declaration && yalc push'",
+    "deprecated:build": "./compile.sh && NODE_ENV=production tsup && yalc publish",
+    "deprecated:dev": "./compile.sh && tsup --no-dts --watch --onSuccess 'tsc --emitDeclarationOnly --declaration && yalc push'",
     "format": "biome check --apply ./src",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { EddsaClient, type WasmApi } from '~/eddsa/eddsa.client';
+import { EddsaClient } from '~/eddsa/eddsa.client';
 import { StorageError } from '..';
-import type { ClientShare } from './eddsa.types';
+import type { EddsaClientShare, EddsaWasmApi } from './eddsa.types';
 import { initEddsaWasm } from './eddsa.wasm';
 
 describe('EDDSA Client', () => {
@@ -14,12 +14,12 @@ describe('EDDSA Client', () => {
     it('Should throw error when saving account', async () => {
       const wasmApi = await initEddsaWasm();
 
-      const client = new EddsaClient(wasmApi as unknown as WasmApi);
+      const client = new EddsaClient(wasmApi as unknown as EddsaWasmApi);
       const error = await client
         .initialize(
           {
             ...storage,
-            save: (_: string, _1: ClientShare) => Promise.reject(false),
+            save: (_: string, _1: EddsaClientShare) => Promise.reject(false),
           },
           'test-key-id',
         )
