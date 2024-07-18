@@ -95,13 +95,13 @@ export const Main = () => {
           value={signature}
         />
         <ActionBox
-          humanDescription="Button to sign with EDDSA dkg"
+          humanDescription="Button to sign with EdDSA dkg"
           actionp="Start sign"
           testId="start-eddsa-sign-action"
           onTap={handleSignature}
         />
         <ActionBox
-          humanDescription="Button to init EDDSA dkg process"
+          humanDescription="Button to init EdDSA dkg process"
           actionp="Start dkg"
           testId="start-eddsa-dkg-action"
           onTap={handleAccCreation}

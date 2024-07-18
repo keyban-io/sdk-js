@@ -25,7 +25,7 @@ export const Main = () => {
           value={knownAccounts[0]?.address}
         />
         <ActionBox
-          humanDescription="Button to init EDDSA dkg process"
+          humanDescription="Button to init EdDSA dkg process"
           actionText="Start dkg"
           testId="start-eddsa-dkg-action"
           onTap={handleAccCreation}

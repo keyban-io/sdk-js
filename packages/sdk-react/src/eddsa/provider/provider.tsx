@@ -28,11 +28,11 @@ const checkIfStorageIsUnsafe = (args: unknown[]) => {
 };
 
 /**
- * React wrapper around EDDSA Client.
- * Provides context for interacting with the EDDSA client.
+ * React wrapper around EdDSA Client.
+ * Provides context for interacting with the EdDSA client.
  *
  * @param children - The React children components.
- * @returns A React context provider for the EDDSA client.
+ * @returns A React context provider for the EdDSA client.
  */
 export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   const wasmApiRef = useRef<KeybanEddsaContext['wasmApi'] | null>(null);
@@ -64,10 +64,10 @@ export const KeybanEddsaProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   /**
-   * Initializes the EDDSA client with the provided arguments.
-   * @param args - The arguments for initializing the EDDSA client.
+   * Initializes the EdDSA client with the provided arguments.
+   * @param args - The arguments for initializing the EdDSA client.
    * @throws SignerClientError if the client is not initialized.
-   * @returns The initialized EDDSA account.
+   * @returns The initialized EdDSA account.
    */
   const initialize: KeybanEddsaContext['initialize'] = useCallback(
     async (...args) => {

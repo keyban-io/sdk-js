@@ -14,7 +14,7 @@ const AppContent: React.FC = () => {
   const [modalMessage, setModalMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
 
-  // Function to initialize the EDDSA client
+  // Function to initialize the EdDSA client
   const handleInitialize = async () => {
     if (eddsaClient) {
       try {

@@ -4,7 +4,7 @@ import { KeybanEddsaReactContext } from '~/eddsa/provider/provider';
 /**
  * Custom hook to access the KeybanEddsaReactContext.
  *
- * This hook provides access to the EDDSA client context. It must be used within a KeybanProvider.
+ * This hook provides access to the EdDSA client context. It must be used within a KeybanProvider.
  *
  * @returns The context value from KeybanEddsaReactContext.
  * @throws Error if the hook is used outside of a KeybanProvider.
