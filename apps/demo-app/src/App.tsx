@@ -1,113 +1,21 @@
-import React, { useState } from 'react';
-import { KeybanEddsaProvider, useKeybanEddsa, KeybanLocalStorage } from '@keyban/sdk-react';
-import './App.css';
-import Modal from './Modal';  // Import the Modal component
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SignerSelection from "./SignerSelection";
+import SignerActionsEddsa from "./SignerActionsEddsa";
+import SignerActionsEcdsa from "./SignerActionsEcdsa";
+import { SignerProvider } from "./SignerContext";
+import "./App.css";
 
-// The main component of the application
-const AppContent: React.FC = () => {
-  // Destructuring the necessary values from the KeybanEddsa context
-  const { clientStatus, eddsaClient, initialized, knownAccounts, initialize } = useKeybanEddsa();
-
-  // State hooks to manage the data to be signed and the resulting signature
-  const [dataToSign, setDataToSign] = useState('');
-  const [signature, setSignature] = useState('');
-  const [modalMessage, setModalMessage] = useState('');
-  const [showModal, setShowModal] = useState(false);
-
-  // Function to initialize the EdDSA client
-  const handleInitialize = async () => {
-    if (eddsaClient) {
-      try {
-        // Using KeybanLocalStorage as the storage provider
-        const storageProvider = new KeybanLocalStorage();
-        const keyId = 'my-key-id'; // Replace with your desired key identifier
-        await initialize(storageProvider, keyId);
-      } catch (error) {
-        const message = (error as Error).message ? (error as Error).message : error;
-        setModalMessage(`Initialization failed: ${message}`);
-        setShowModal(true);
-      }
-    }
-  };
-
-  // Function to sign the data
-  const handleSignData = async () => {
-    if (eddsaClient && knownAccounts.length > 0) {
-      try {
-        // Assuming the first known account for signing
-        const account = knownAccounts[0];
-        const sig = await account.signPayload(dataToSign);
-        setSignature(sig);
-      } catch (error) {
-        const message = (error as Error).message ? (error as Error).message : error;
-        setModalMessage(`Signing failed: ${message}`);
-        setShowModal(true);
-      }
-    } else {
-      console.log('Cannot sign data: Conditions not met', {
-        eddsaClient,
-        initialized,
-        knownAccountsLength: knownAccounts.length,
-      });
-    }
-  };
-
-  // Function to render the known accounts
-  const renderKnownAccounts = () => {
-    return knownAccounts.map((account, index) => (
-      <div key={index} className="account-details">
-        <p>Account {index + 1}</p>
-        <p>Server Public Key: {account.serverPublicKey}</p>
-        <p>Client Public Key: {account.clientPublicKey}</p>
-        <p>Key ID: {account.keyId}</p>
-      </div>
-    ));
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  // JSX to render the application UI
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Keyban Demo App</h1>
-        {initialized ? (
-          <div>
-            {knownAccounts.length === 0 ? (
-              <button type="button" onClick={handleInitialize}>Initialize Client</button>
-            ) : (
-              <div>
-                <p>Client Status: {clientStatus}</p>
-                <div>{renderKnownAccounts()}</div>
-                <input
-                  type="text"
-                  placeholder="Data to sign"
-                  value={dataToSign}
-                  onChange={(e) => setDataToSign(e.target.value)}
-                />
-                <button type="button" onClick={handleSignData}>Sign Data</button>
-                {signature && <p>Signature: {signature}</p>}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            <p>Loading...</p>
-          </div>
-        )}
-      </header>
-      <Modal show={showModal} onClose={handleCloseModal} message={modalMessage} />
-    </div>
-  );
-};
-
-// The main App component wrapped in the KeybanEddsaProvider
 const App: React.FC = () => (
-  <KeybanEddsaProvider>
-    <AppContent />
-  </KeybanEddsaProvider>
+  <SignerProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignerSelection />} />
+        <Route path="/actions/eddsa" element={<SignerActionsEddsa />} />
+        <Route path="/actions/ecdsa" element={<SignerActionsEcdsa />} />
+      </Routes>
+    </Router>
+  </SignerProvider>
 );
 
 export default App;
