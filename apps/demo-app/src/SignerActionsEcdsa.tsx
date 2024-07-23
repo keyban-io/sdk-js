@@ -18,7 +18,7 @@ const SignerActionsEcdsaContent: React.FC = () => {
 
   const handleInitialize = async () => {
     try {
-      const keyId = "my-key-id";
+      const keyId = "my-ecdsa-key-id";
       const storageProvider = new KeybanLocalStorage<EcdsaClientShare>();
       if (ecdsaContext.ecdsaClient) {
         await ecdsaContext.initialize(storageProvider, keyId);
