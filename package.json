@@ -7,14 +7,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "base": "pnpm --filter sdk-base",
-    "react": "pnpm --filter sdk-react",
-    "native": "pnpm --filter sdk-react-native",
-    "web": "pnpm --filter web-app",
     "build": "pnpm run -r build",
-    "build:docs": "pnpm --filter docgen build",
     "format": "pnpm run -r format",
-    "dev": "sh ./run-dev.sh",
     "prepare:native": "cd ./apps/mobile-app && make prepare",
     "ios:emu": "cd ./apps/mobile-app && make run-ios",
     "android:emu": "cd ./apps/mobile-app && make run-android"

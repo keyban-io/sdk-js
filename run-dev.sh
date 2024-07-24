@@ -1,12 +1,10 @@
 #!/bin/bash
 
-pnpm base dev &
+pnpm --filter sdk-base dev &
 
 sleep 5
 
-pnpm native dev &
-pnpm react dev &
+pnpm --filter sdk-react-native dev &
+pnpm --filter sdk-react dev &
 
 sleep 2
-
-pnpm web dev
