@@ -29,7 +29,7 @@ export default function EcdsaTest() {
     <>
       <fieldset>
         <legend>Context</legend>
-        <SerializedValue value={keyban} data-test-id="context" />
+        <SerializedValue value={keyban} />
       </fieldset>
 
       <fieldset>
@@ -38,14 +38,14 @@ export default function EcdsaTest() {
       </fieldset>
 
       <fieldset>
-        <legend>Account</legend>
+        <legend>DKG</legend>
 
         <Row>
           <TextField
-            label="Public key ID"
+            label="Public key"
             value={userKeyId}
             onChange={setUserKeyId}
-            data-test-id="key-id-input"
+            data-test-id="pub-key-input"
           />
 
           <button onClick={handleInitDkg} data-test-id="dkg-action">
@@ -57,75 +57,83 @@ export default function EcdsaTest() {
           <SerializedValue
             value={account}
             style={{ marginBlockStart: "1em" }}
-            data-test-id="account"
           />
         )}
       </fieldset>
 
-      <fieldset>
-        <legend>Client public key</legend>
-        <SerializedValue
-          value={account?.clientPublicKey ?? ""}
-          data-test-id="client-pub-key"
-        />
-      </fieldset>
+      {account && (
+        <>
+          <fieldset>
+            <legend>Client public key</legend>
+            <SerializedValue
+              value={account.clientPublicKey}
+              data-test-id="pub-key"
+            />
+          </fieldset>
 
-      <fieldset>
-        <legend>Signature</legend>
+          <fieldset>
+            <legend>Signature</legend>
 
-        <Row>
-          <TextField
-            label="Payload"
-            value={payload}
-            onChange={setPayload}
-            data-test-id="payload-input"
-          />
+            <Row>
+              <TextField
+                label="Payload"
+                value={payload}
+                onChange={setPayload}
+                data-test-id="payload-input"
+              />
 
-          <button onClick={handleSign} data-test-id="sign-action">
-            Sign
-          </button>
-        </Row>
+              <button onClick={handleSign} data-test-id="sign-action">
+                Sign
+              </button>
+            </Row>
 
-        <SerializedValue
-          value={signature}
-          style={{ marginBlockStart: "1em" }}
-          data-test-id="signature"
-        />
-      </fieldset>
+            <SerializedValue
+              value={signature}
+              style={{ marginBlockStart: "1em" }}
+            />
+          </fieldset>
 
-      <fieldset>
-        <legend>Address</legend>
+          <fieldset>
+            <legend>Address</legend>
 
-        <Row>
-          <button onClick={handleGetAddress} data-test-id="getAddress-action">
-            Get address
-          </button>
-        </Row>
+            <Row>
+              <button
+                onClick={handleGetAddress}
+                data-test-id="ecda-getAddress-action"
+              >
+                Get address
+              </button>
+            </Row>
 
-        {address != null && (
-          <SerializedValue
-            value={address.toString()}
-            style={{ marginBlockStart: "1em" }}
-          />
-        )}
-      </fieldset>
+            {address != null && (
+              <SerializedValue
+                value={address.toString()}
+                style={{ marginBlockStart: "1em" }}
+              />
+            )}
+          </fieldset>
 
-      <fieldset>
-        <legend>Balance</legend>
+          <fieldset>
+            <legend>Balance</legend>
 
-        <Row>
-          <button onClick={handleGetBalance} data-test-id="getBalance-action">
-            Get balance
-          </button>
-        </Row>
+            <Row>
+              <button
+                onClick={handleGetBalance}
+                data-test-id="ecda-getBalance-action"
+              >
+                Get balance
+              </button>
+            </Row>
 
-        {balance != null && (
-          <SerializedValue
-            value={balance.toString()}
-            style={{ marginBlockStart: "1em" }}
-          />
-        )}
-      </fieldset>
+            {balance != null && (
+              <SerializedValue
+                value={balance.toString()}
+                style={{ marginBlockStart: "1em" }}
+              />
+            )}
+          </fieldset>
+        </>
+      )}
     </>
   );
 }
