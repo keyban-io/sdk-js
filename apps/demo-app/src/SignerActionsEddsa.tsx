@@ -29,7 +29,7 @@ const SignerActionsEddsaContent: React.FC = () => {
       if (typeof error === 'object' && error !== null) {
         message = JSON.stringify(error);
       } else {
-        message = (error as Error).message ? (error as Error).message : error.toString();
+        message = (error as Error).message ? (error as Error).message : (error as Error).toString();
       }
 
       setModalMessage(`Initialization failed: ${message}`);
@@ -53,7 +53,7 @@ const SignerActionsEddsaContent: React.FC = () => {
       if (typeof error === 'object' && error !== null) {
         message = JSON.stringify(error);
       } else {
-        message = (error as Error).message ? (error as Error).message : error.toString();
+        message = (error as Error).message ? (error as Error).message : (error as Error).toString();
       }
 
       setModalMessage(`Signing failed: ${message}`);
