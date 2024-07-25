@@ -1,25 +1,33 @@
-import './App.css';
-import { KeybanEcdsaProvider, KeybanEddsaProvider } from '@keyban/sdk-react';
-import { EcdsaModule } from './modules/EcdsaModule';
-import { EddsaModule } from './modules/EddsaModule';
+import {
+  KeybanProvider,
+  KeybanSigner,
+  KeybanLocalStorage,
+} from "@keyban/sdk-react";
 
-function App() {
+import styles from "./App.module.css";
+import KeybanTest from "./KeybanTest";
+
+export default function App() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-      <KeybanEddsaProvider>
-        <div>
-          <h1>EDDSA</h1>
-          <EddsaModule />
-        </div>
-      </KeybanEddsaProvider>
-      <KeybanEcdsaProvider>
-        <div>
-          <h1>ECDSA</h1>
-          <EcdsaModule />
-        </div>
-      </KeybanEcdsaProvider>
+    <div className={styles.root}>
+      <div data-test-id="eddsa">
+        <KeybanProvider
+          signer={KeybanSigner.EdDSA}
+          storage={KeybanLocalStorage}
+        >
+          <h1>EdDSA</h1>
+          <KeybanTest />
+        </KeybanProvider>
+      </div>
+      <div data-test-id="ecdsa">
+        <KeybanProvider
+          signer={KeybanSigner.EcDSA}
+          storage={KeybanLocalStorage}
+        >
+          <h1>EcDSA</h1>
+          <KeybanTest />
+        </KeybanProvider>
+      </div>
     </div>
   );
 }
-
-export default App;

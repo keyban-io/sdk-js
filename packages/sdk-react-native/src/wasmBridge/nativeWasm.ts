@@ -3,15 +3,15 @@ import {
   type SecretShare,
   type WasmApi,
   generateUUID,
-  hexToU8a,
   u8aToHex,
-} from '@keyban/sdk-base';
+} from "@keyban/sdk-base";
 import {
   EddsaAddRequest,
   EddsaAddResponse,
   EddsaDkgResponse,
   GenericMessage,
-} from '~/proto_compiled';
+} from "~/proto_compiled";
+import { hexToU8a } from "~/utils/hex";
 
 type PromiseResolveFn = (data: string) => void;
 type EmitFn = (params: { type: keyof WasmApi; data: string }) => void;
@@ -26,7 +26,7 @@ export class NativeWasm implements WasmApi {
 
   //@ts-ignore
   async signMessage(keyId: string, secretShare: SecretShare, message: string) {
-    return Promise.resolve('');
+    return Promise.resolve("");
   }
 
   async add(num1: number, num2: number): Promise<number> {
@@ -39,7 +39,7 @@ export class NativeWasm implements WasmApi {
 
     const resultString = await this.promisifyMessage(() => {
       this.emitFn?.({
-        type: 'add',
+        type: "add",
         data: this.prepareGenericMessage(callId, u8aToHex(addPayload)),
       });
     }, callId);
@@ -53,7 +53,7 @@ export class NativeWasm implements WasmApi {
 
   private ensureEmitFn() {
     if (!this.emitFn) {
-      throw new Error('critical: missing emmit function');
+      throw new Error("critical: missing emmit function");
     }
 
     return true;
@@ -79,7 +79,7 @@ export class NativeWasm implements WasmApi {
 
   private promisifyMessage(
     callback: () => void,
-    callId: string,
+    callId: string
   ): Promise<string> {
     return new Promise((res, rej) => {
       callback();
@@ -95,8 +95,8 @@ export class NativeWasm implements WasmApi {
     const callId = generateUUID(); // this should be random uuid
     const resultString = await this.promisifyMessage(() => {
       this.emitFn?.({
-        type: 'dkg',
-        data: this.prepareGenericMessage(callId, ''),
+        type: "dkg",
+        data: this.prepareGenericMessage(callId, ""),
       });
     }, callId);
 
@@ -104,7 +104,7 @@ export class NativeWasm implements WasmApi {
 
     return {
       // TODO: fix missing keyid
-      keyId: '',
+      keyId: "",
       server_pubkey: response.serverPubkey,
       client_pubkey: response.clientPubkey,
       secret_share: response.secretShare,

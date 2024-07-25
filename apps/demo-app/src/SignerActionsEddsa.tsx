@@ -1,78 +1,52 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  type EddsaClientShare,
-  useKeybanEddsa,
   KeybanLocalStorage,
-  KeybanEddsaProvider
+  KeybanAccount,
+  useKeyban,
+  KeybanSigner,
+  KeybanProvider,
 } from "@keyban/sdk-react";
 import "./App.css";
 import Modal from "./Modal";
 
 const SignerActionsEddsaContent: React.FC = () => {
-  const eddsaContext = useKeybanEddsa();
+  const keyban = useKeyban();
+  const [knownAccounts, setKnownAccounts] = React.useState<KeybanAccount[]>([]);
+
   const [dataToSign, setDataToSign] = useState("");
   const [signature, setSignature] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const handleInitialize = async () => {
-    try {
-      const keyId = "my-eddsa-key-id";
-      const storageProvider = new KeybanLocalStorage<EddsaClientShare>();
-      if (eddsaContext.eddsaClient) {
-        await eddsaContext.initialize(storageProvider, keyId);
-      }
-    } catch (error) {
-      let message = '';
+  const handleError = (error: unknown) => {
+    let message = "";
 
-      if (typeof error === 'object' && error !== null) {
-        message = JSON.stringify(error);
-      } else {
-        message = (error as Error).message ? (error as Error).message : (error as Error).toString();
-      }
-
-      setModalMessage(`Initialization failed: ${message}`);
-      setShowModal(true);
+    if (typeof error === "object" && error !== null) {
+      message = JSON.stringify(error);
+    } else {
+      message = (error as Error).message
+        ? (error as Error).message
+        : (error as Error).toString();
     }
+
+    setModalMessage(message);
+    setShowModal(true);
   };
 
-  const handleSignData = async () => {
-    try {
-      if (
-        eddsaContext.eddsaClient &&
-        eddsaContext.knownAccounts.length > 0
-      ) {
-        const account = eddsaContext.knownAccounts[0];
-        const sig = await account.signPayload(dataToSign);
-        setSignature(sig);
-      }
-    } catch (error) {
-      let message = '';
+  const handleInitialize = () => {
+    keyban.client
+      ?.initialize("my-eddsa-key-id")
+      .then((account) => setKnownAccounts((arr) => [...arr, account]))
+      .catch(handleError);
+  };
 
-      if (typeof error === 'object' && error !== null) {
-        message = JSON.stringify(error);
-      } else {
-        message = (error as Error).message ? (error as Error).message : (error as Error).toString();
-      }
-
-      setModalMessage(`Signing failed: ${message}`);
-      setShowModal(true);
-    }
+  const handleSignData = () => {
+    knownAccounts[0]?.sign(dataToSign).then(setSignature).catch(handleError);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
-  };
-
-  const renderKnownAccounts = () => {
-    return eddsaContext.knownAccounts.map((account, index) => (
-      <div key={index} className="account-details">
-        <p>Account {index + 1}</p>
-        <p>Public Key: {account.clientPublicKey}</p>
-        <p>Key ID: {account.keyId}</p>
-      </div>
-    ));
   };
 
   return (
@@ -83,7 +57,15 @@ const SignerActionsEddsaContent: React.FC = () => {
         <button type="button" onClick={handleInitialize}>
           Initialize EDDSA Client
         </button>
-        {eddsaContext.initialized && renderKnownAccounts()}
+
+        {knownAccounts.map((account, index) => (
+          <div key={account.keyId} className="account-details">
+            <p>Account {index + 1}</p>
+            <p>Public Key: {account.clientPublicKey}</p>
+            <p>Key ID: {account.keyId}</p>
+          </div>
+        ))}
+
         <input
           type="text"
           placeholder="Data to sign"
@@ -95,15 +77,19 @@ const SignerActionsEddsaContent: React.FC = () => {
         </button>
         {signature && <p>Signature: {signature}</p>}
       </header>
-      <Modal show={showModal} onClose={handleCloseModal} message={modalMessage} />
+      <Modal
+        show={showModal}
+        onClose={handleCloseModal}
+        message={modalMessage}
+      />
     </div>
   );
 };
 
 const SignerActionsEddsa: React.FC = () => (
-  <KeybanEddsaProvider>
+  <KeybanProvider signer={KeybanSigner.EdDSA} storage={KeybanLocalStorage}>
     <SignerActionsEddsaContent />
-  </KeybanEddsaProvider>
+  </KeybanProvider>
 );
 
 export default SignerActionsEddsa;

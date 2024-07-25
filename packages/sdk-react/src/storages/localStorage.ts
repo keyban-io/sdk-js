@@ -1,9 +1,9 @@
-import type { StorageProviderApi } from '@keyban/sdk-base';
+import type { KeybanStorage } from "@keyban/sdk-base";
 
 /**
  * @class KeybanLocalStorage
  *
- * This class implements the StorageProviderApi interface using the localStorage Web API.
+ * This class implements the KeybanStorage interface using the localStorage Web API.
  * It provides methods to get and save client shares to localStorage.
  *
  * @remarks
@@ -11,7 +11,7 @@ import type { StorageProviderApi } from '@keyban/sdk-base';
  * LocalStorage provides no encryption or protection against cross-site scripting (XSS) attacks, making it unsuitable for storing sensitive data in a production environment.
  * Ensure to use a more secure storage solution for production deployments.
  */
-export class KeybanLocalStorage<S> implements StorageProviderApi<S> {
+export class KeybanLocalStorage<T> implements KeybanStorage<T> {
   /**
    * The constructor of the `KeybanLocalStorage` class.
    * Initializes the storage provider and checks for the presence of the localStorage API in the environment.
@@ -19,9 +19,10 @@ export class KeybanLocalStorage<S> implements StorageProviderApi<S> {
    * @throws Error if the environment does not support the localStorage Web API.
    */
   constructor() {
-    if (!localStorage) {
+    if (!localStorage)
       throw new Error("Your environment doesn't support localStorage web API");
-    }
+
+    console.warn("IMPORTANT: KEYBAN SDK SHOULDN'T BE USED WITH UNSAFE STORAGE");
   }
 
   /**
@@ -40,13 +41,15 @@ export class KeybanLocalStorage<S> implements StorageProviderApi<S> {
    *   console.log('No client share found for the given key.');
    * }
    */
-  get(key: string): Promise<S | undefined> {
+  async get(key: string): Promise<T | undefined> {
     const value = localStorage.getItem(key);
-    if (!value) {
-      return Promise.resolve(undefined);
+    if (!value) return;
+
+    try {
+      return JSON.parse(value) as T;
+    } catch (err) {
+      return;
     }
-    const savedShares = JSON.parse(value) as S;
-    return Promise.resolve(savedShares);
   }
 
   /**
@@ -67,8 +70,12 @@ export class KeybanLocalStorage<S> implements StorageProviderApi<S> {
    *   console.log('Failed to save client share.');
    * }
    */
-  save(key: string, share: S): Promise<boolean> {
-    localStorage.setItem(key, JSON.stringify(share));
-    return Promise.resolve(true);
+  async set(key: string, share: T): Promise<boolean> {
+    try {
+      localStorage.setItem(key, JSON.stringify(share));
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 }
