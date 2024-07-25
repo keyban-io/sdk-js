@@ -24,9 +24,14 @@ const SignerActionsEddsaContent: React.FC = () => {
         await eddsaContext.initialize(storageProvider, keyId);
       }
     } catch (error) {
-      const message = (error as Error).message
-        ? (error as Error).message
-        : error;
+      let message = '';
+
+      if (typeof error === 'object' && error !== null) {
+        message = JSON.stringify(error);
+      } else {
+        message = (error as Error).message ? (error as Error).message : error.toString();
+      }
+
       setModalMessage(`Initialization failed: ${message}`);
       setShowModal(true);
     }
@@ -43,9 +48,14 @@ const SignerActionsEddsaContent: React.FC = () => {
         setSignature(sig);
       }
     } catch (error) {
-      const message = (error as Error).message
-        ? (error as Error).message
-        : error;
+      let message = '';
+
+      if (typeof error === 'object' && error !== null) {
+        message = JSON.stringify(error);
+      } else {
+        message = (error as Error).message ? (error as Error).message : error.toString();
+      }
+
       setModalMessage(`Signing failed: ${message}`);
       setShowModal(true);
     }

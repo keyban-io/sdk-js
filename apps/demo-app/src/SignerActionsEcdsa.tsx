@@ -24,9 +24,14 @@ const SignerActionsEcdsaContent: React.FC = () => {
         await ecdsaContext.initialize(storageProvider, keyId);
       }
     } catch (error) {
-      const message = (error as Error).message
-        ? (error as Error).message
-        : error;
+      let message = '';
+
+      if (typeof error === 'object' && error !== null) {
+        message = JSON.stringify(error);
+      } else {
+        message = (error as Error).message ? (error as Error).message : error.toString();
+      }
+
       setModalMessage(`Initialization failed: ${message}`);
       setShowModal(true);
     }
@@ -34,18 +39,20 @@ const SignerActionsEcdsaContent: React.FC = () => {
 
   const handleSignData = async () => {
     try {
-      if (
-        ecdsaContext.ecdsaClient &&
-        ecdsaContext.knownAccounts.length > 0
-      ) {
+      if (ecdsaContext.ecdsaClient && ecdsaContext.knownAccounts.length > 0) {
         const account = ecdsaContext.knownAccounts[0];
         const sig = await account.signPayload(dataToSign);
         setSignature(sig);
       }
     } catch (error) {
-      const message = (error as Error).message
-        ? (error as Error).message
-        : error;
+      let message = '';
+
+      if (typeof error === 'object' && error !== null) {
+        message = JSON.stringify(error);
+      } else {
+        message = (error as Error).message ? (error as Error).message : error.toString();
+      }
+
       setModalMessage(`Signing failed: ${message}`);
       setShowModal(true);
     }
