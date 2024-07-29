@@ -10,7 +10,7 @@ import React from "react";
 export * from "@keyban/sdk-base";
 export { KeybanSigner } from "@keyban/sdk-base";
 
-type KeybanContextType = {
+export type KeybanContextType = {
   initialized: boolean;
   client?: KeybanClient;
   apiStatus?: KeybanApiStatus;
