@@ -3,7 +3,6 @@ import { getErrorMessage } from "../utils/errorUtils";
 import { Link } from "react-router-dom";
 import {
   KeybanLocalStorage,
-  KeybanAccount,
   useKeyban,
   KeybanSigner,
   KeybanProvider,
