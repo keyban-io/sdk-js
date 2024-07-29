@@ -14,7 +14,7 @@ import KnownAccounts from "../components/KnownAccounts"; // Import KnownAccounts
 
 const SignerActionsEddsaContent: React.FC = () => {
   const keyban = useKeyban();
-  const [knownAccounts, setKnownAccounts] = React.useState<KeybanAccount[]>([]);
+  const [account, setAccount] = useState<KeybanAccount | null>(null);
 
   const [dataToSign, setDataToSign] = useState("");
   const [signature, setSignature] = useState("");
@@ -30,12 +30,12 @@ const SignerActionsEddsaContent: React.FC = () => {
   const handleInitialize = () => {
     keyban.client
       ?.initialize("my-eddsa-key-id")
-      .then((account) => setKnownAccounts((arr) => [...arr, account]))
+      .then(setAccount)
       .catch(handleError);
   };
 
   const handleSignData = () => {
-    knownAccounts[0]?.sign(dataToSign).then(setSignature).catch(handleError);
+    account?.sign(dataToSign).then(setSignature).catch(handleError);
   };
 
   const handleCloseModal = () => {
@@ -50,7 +50,7 @@ const SignerActionsEddsaContent: React.FC = () => {
         <button type="button" onClick={handleInitialize}>
           Initialize EDDSA Client
         </button>
-        <KnownAccounts accounts={knownAccounts} />{" "}
+        {account && <KnownAccounts accounts={[account]} />}{" "}
         {/* Use KnownAccounts component */}
         <input
           type="text"
