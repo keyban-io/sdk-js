@@ -1,5 +1,5 @@
-import React from 'react';
-import './Modal.css';
+import type React from "react";
+import "./Modal.css";
 
 interface ModalProps {
   show: boolean;
@@ -17,7 +17,9 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, message }) => {
       <div className="modal">
         <div className="modal-content">
           <p>{message}</p>
-          <button type="button" onClick={onClose} className="modal-button">Close</button>
+          <button type="button" onClick={onClose} className="modal-button">
+            Close
+          </button>
         </div>
       </div>
     </div>
