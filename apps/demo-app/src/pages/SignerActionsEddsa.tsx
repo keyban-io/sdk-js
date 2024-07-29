@@ -23,7 +23,6 @@ const SignerActionsEddsaContent: React.FC = () => {
 
   const handleError = (error: unknown) => {
     const message = getErrorMessage(error);
-
     setModalMessage(message);
     setShowModal(true);
   };
