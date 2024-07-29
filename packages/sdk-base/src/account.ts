@@ -41,7 +41,11 @@ export class Account<Share> implements KeybanAccount {
     return publicKeyToAddress(publicKey);
   }
 
-  async getBalance() {
+  /**
+   * Fetches the account balance as a raw bigint value.
+   * @remarks On the Polygon network, the balance is returned in wei units.
+   */
+  async getBalance(): Promise<bigint> {
     const address = await this.getAddress();
     return this.client.publicClient.getBalance({ address });
   }

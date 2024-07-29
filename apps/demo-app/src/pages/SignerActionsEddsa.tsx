@@ -7,7 +7,7 @@ import {
   KeybanSigner,
   KeybanProvider,
 } from "@keyban/sdk-react";
-import { KeybanAccount } from "@keyban/sdk-base";
+import type { KeybanAccount } from "@keyban/sdk-base";
 import "../App.css";
 import Modal from "../Modal";
 import KnownAccounts from "../components/KnownAccounts"; // Import KnownAccounts component
