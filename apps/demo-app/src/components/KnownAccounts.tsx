@@ -4,7 +4,7 @@ interface Account {
   clientPublicKey: string;
   keyId: string;
   getAddress: () => Promise<string>;
-  getBalance: () => Promise<number>;
+  getBalance: () => Promise<bigint>;
 }
 
 interface KnownAccountsProps {
@@ -13,7 +13,7 @@ interface KnownAccountsProps {
 
 const KnownAccounts: React.FC<KnownAccountsProps> = ({ accounts }) => {
   const [addresses, setAddresses] = useState<string[]>([]);
-  const [balances, setBalances] = useState<number[]>([]);
+  const [balances, setBalances] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchAccountData = async () => {
@@ -21,7 +21,7 @@ const KnownAccounts: React.FC<KnownAccountsProps> = ({ accounts }) => {
         accounts.map((account) => account.getAddress())
       );
       const fetchedBalances = await Promise.all(
-        accounts.map((account) => account.getBalance())
+        accounts.map(async (account) => (await account.getBalance()).toString())
       );
       setAddresses(fetchedAddresses);
       setBalances(fetchedBalances);
