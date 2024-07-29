@@ -7,9 +7,10 @@ import {
   KeybanSigner,
   useKeyban,
 } from "@keyban/sdk-react";
+import { KeybanAccount } from "@keyban/sdk-base";
 import "../App.css";
 import Modal from "../Modal";
-import KnownAccounts from "../components/KnownAccounts"; // Import KnownAccounts component
+import KnownAccounts from "../components/KnownAccounts";
 
 const SignerActionsEcdsaContent: React.FC = () => {
   const keyban = useKeyban();
@@ -21,9 +22,9 @@ const SignerActionsEcdsaContent: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleError = (error: unknown) => {
-      const message = getErrorMessage(error);
-      setModalMessage(message);
-      setShowModal(true);
+    const message = getErrorMessage(error);
+    setModalMessage(message);
+    setShowModal(true);
   };
 
   const handleInitialize = () => {
@@ -49,7 +50,8 @@ const SignerActionsEcdsaContent: React.FC = () => {
         <button type="button" onClick={handleInitialize}>
           Initialize ECDSA Client
         </button>
-        <KnownAccounts accounts={knownAccounts} /> {/* Use KnownAccounts component */}
+        <KnownAccounts accounts={knownAccounts} />{" "}
+        {/* Use KnownAccounts component */}
         <input
           type="text"
           placeholder="Data to sign"

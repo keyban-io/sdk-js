@@ -7,6 +7,7 @@ import {
   KeybanSigner,
   KeybanProvider,
 } from "@keyban/sdk-react";
+import { KeybanAccount } from "@keyban/sdk-base";
 import "../App.css";
 import Modal from "../Modal";
 import KnownAccounts from "../components/KnownAccounts"; // Import KnownAccounts component
@@ -50,7 +51,8 @@ const SignerActionsEddsaContent: React.FC = () => {
         <button type="button" onClick={handleInitialize}>
           Initialize EDDSA Client
         </button>
-        <KnownAccounts accounts={knownAccounts} /> {/* Use KnownAccounts component */}
+        <KnownAccounts accounts={knownAccounts} />{" "}
+        {/* Use KnownAccounts component */}
         <input
           type="text"
           placeholder="Data to sign"

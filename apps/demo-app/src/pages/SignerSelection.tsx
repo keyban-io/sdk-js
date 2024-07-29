@@ -19,7 +19,7 @@ export default function SignerSelection() {
             <option value="eddsa">EDDSA</option>
             <option value="ecdsa">ECDSA</option>
           </select>
-          <button onClick={() => navigate(`/actions/${signerType}`)}>
+          <button type="button" onClick={() => navigate(`/actions/${signerType}`)}>
             Proceed
           </button>
         </div>

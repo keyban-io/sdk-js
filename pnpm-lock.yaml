@@ -26,6 +26,9 @@ importers:
 
   apps/demo-app:
     dependencies:
+      '@keyban/sdk-base':
+        specifier: workspace:*
+        version: link:../../packages/sdk-base
       '@keyban/sdk-react':
         specifier: workspace:*
         version: link:../../packages/sdk-react
