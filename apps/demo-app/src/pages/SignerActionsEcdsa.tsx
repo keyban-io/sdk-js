@@ -10,6 +10,7 @@ import {
 } from "@keyban/sdk-react";
 import "../App.css";
 import Modal from "../Modal";
+import KnownAccounts from "../components/KnownAccounts"; // Import KnownAccounts component
 
 const SignerActionsEcdsaContent: React.FC = () => {
   const keyban = useKeyban();
@@ -49,15 +50,7 @@ const SignerActionsEcdsaContent: React.FC = () => {
         <button type="button" onClick={handleInitialize}>
           Initialize ECDSA Client
         </button>
-
-        {knownAccounts.map((account, index) => (
-          <div key={account.keyId} className="account-details">
-            <p>Account {index + 1}</p>
-            <p>Public Key: {account.clientPublicKey}</p>
-            <p>Key ID: {account.keyId}</p>
-          </div>
-        ))}
-
+        <KnownAccounts accounts={knownAccounts} /> {/* Use KnownAccounts component */}
         <input
           type="text"
           placeholder="Data to sign"
