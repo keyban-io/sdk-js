@@ -1,6 +1,7 @@
 import { Hex } from "viem";
 import { publicKeyToAddress } from "viem/accounts";
 import { KeybanClientImpl } from "~/client";
+import { StorageError } from "~/errors";
 
 export interface KeybanAccount {
   keyId: string;
@@ -17,7 +18,6 @@ export class Account<Share> implements KeybanAccount {
   client: KeybanClientImpl<Share>;
 
   keyId: string;
-  clientShare: Share;
   clientPublicKey: string;
 
   constructor(
@@ -28,12 +28,25 @@ export class Account<Share> implements KeybanAccount {
     this.client = client;
 
     this.keyId = keyId;
-    this.clientShare = clientShare;
-    this.clientPublicKey = client.signer.clientPublicKey(this.clientShare);
+    this.clientPublicKey = client.signer.clientPublicKey(clientShare);
+  }
+
+  async #getClientShare() {
+    const storageKey = `${this.client.signer.storagePrefix}-${this.keyId}`;
+    const clientShare = await this.client.storage.get(storageKey);
+
+    if (!clientShare)
+      throw new StorageError(
+        StorageError.types.RetrivalFailed,
+        "Account.getClientShare"
+      );
+
+    return clientShare;
   }
 
   async getPublicKey() {
-    return this.client.signer.publicKey(this.clientShare);
+    const clientShare = await this.#getClientShare();
+    return this.client.signer.publicKey(clientShare);
   }
 
   async getAddress() {
@@ -41,11 +54,7 @@ export class Account<Share> implements KeybanAccount {
     return publicKeyToAddress(publicKey);
   }
 
-  /**
-   * Fetches the account balance as a raw bigint value.
-   * @remarks On the Polygon network, the balance is returned in wei units.
-   */
-  async getBalance(): Promise<bigint> {
+  async getBalance() {
     const address = await this.getAddress();
     return this.client.publicClient.getBalance({ address });
   }
@@ -53,8 +62,9 @@ export class Account<Share> implements KeybanAccount {
   /**
    * Signs a payload using the client's secret share.
    */
-  sign(payload: string) {
-    return this.client.signer.sign(this.keyId, this.clientShare, payload);
+  async sign(payload: string) {
+    const clientShare = await this.#getClientShare();
+    return this.client.signer.sign(this.keyId, clientShare, payload);
   }
 
   /**
