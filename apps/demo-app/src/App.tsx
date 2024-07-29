@@ -1,9 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import SignerSelection from "./SignerSelection";
-import SignerActionsEddsa from "./SignerActionsEddsa";
-import SignerActionsEcdsa from "./SignerActionsEcdsa";
-
+import SignerSelection from "./pages/SignerSelection";
+import SignerActionsEddsa from "./pages/SignerActionsEddsa";
+import SignerActionsEcdsa from "./pages/SignerActionsEcdsa";
 import "./App.css";
 
 const App: React.FC = () => (
