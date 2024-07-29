@@ -1,4 +1,5 @@
-import { KeybanAccount, useKeyban } from "@keyban/sdk-react";
+import type { KeybanAccount } from "@keyban/sdk-react";
+import { useKeyban } from "@keyban/sdk-react";
 import React from "react";
 import SerializedValue from "./components/SerializedValue";
 import Row from "./components/Row";
@@ -48,7 +49,11 @@ export default function EcdsaTest() {
             data-test-id="key-id-input"
           />
 
-          <button onClick={handleInitDkg} data-test-id="dkg-action">
+          <button
+            type="button"
+            onClick={handleInitDkg}
+            data-test-id="dkg-action"
+          >
             Init dkg
           </button>
         </Row>
@@ -81,7 +86,7 @@ export default function EcdsaTest() {
             data-test-id="payload-input"
           />
 
-          <button onClick={handleSign} data-test-id="sign-action">
+          <button type="button" onClick={handleSign} data-test-id="sign-action">
             Sign
           </button>
         </Row>
@@ -97,7 +102,11 @@ export default function EcdsaTest() {
         <legend>Address</legend>
 
         <Row>
-          <button onClick={handleGetAddress} data-test-id="getAddress-action">
+          <button
+            type="button"
+            onClick={handleGetAddress}
+            data-test-id="getAddress-action"
+          >
             Get address
           </button>
         </Row>
@@ -114,7 +123,11 @@ export default function EcdsaTest() {
         <legend>Balance</legend>
 
         <Row>
-          <button onClick={handleGetBalance} data-test-id="getBalance-action">
+          <button
+            type="button"
+            onClick={handleGetBalance}
+            data-test-id="getBalance-action"
+          >
             Get balance
           </button>
         </Row>
