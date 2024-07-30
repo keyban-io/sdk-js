@@ -1,6 +1,5 @@
-import TextareaAutosize, {
-  TextareaAutosizeProps,
-} from "react-textarea-autosize";
+import TextareaAutosize from "react-textarea-autosize";
+import type { TextareaAutosizeProps } from "react-textarea-autosize";
 import styles from "./SerializedValue.module.css";
 
 export type SerializedValueProps = Omit<

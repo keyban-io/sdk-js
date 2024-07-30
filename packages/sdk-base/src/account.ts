@@ -1,5 +1,5 @@
-import { Hex } from "viem";
-import { KeybanClientImpl } from "~/client";
+import type { Hex } from "viem";
+import type { KeybanClientImpl } from "~/client";
 import { StorageError } from "~/errors";
 
 export interface KeybanAccount {

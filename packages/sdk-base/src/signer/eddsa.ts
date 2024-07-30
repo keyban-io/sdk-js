@@ -1,7 +1,8 @@
-import initWasmFile, { add, dkg, InitOutput, sign } from "eddsa-wasm-client";
-import { KeybanSigner } from "~/signer";
+import initWasmFile, { add, dkg, sign } from "eddsa-wasm-client";
+import type { InitOutput } from "eddsa-wasm-client";
+import type { KeybanSigner } from "~/signer";
 import { SdkError } from "~/errors";
-import { Hex } from "viem";
+import type { Hex } from "viem";
 
 export type ClientShare_EdDSA = {
   client_pubkey: string;

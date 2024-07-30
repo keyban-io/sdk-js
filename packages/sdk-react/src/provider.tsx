@@ -1,5 +1,5 @@
-import {
-  KeybanClientImpl,
+import { KeybanClientImpl } from "@keyban/sdk-base";
+import type {
   KeybanApiStatus,
   KeybanClient,
   KeybanSigner,
