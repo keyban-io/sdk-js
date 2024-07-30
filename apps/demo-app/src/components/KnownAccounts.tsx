@@ -23,8 +23,7 @@ export default function KnownAccounts({ accounts }: KnownAccountsProps) {
     <>
       {accounts.map((account, index) => (
         <div key={index} className="account-details">
-          <p>Account {index + 1}</p>
-          <p>Key ID: {account.keyId}</p>
+          <p>Account {account.keyId}</p>
           <p>Address: {account.address}</p>
           <p>
             Balance:{" "}
@@ -32,7 +31,6 @@ export default function KnownAccounts({ accounts }: KnownAccountsProps) {
               <FormattedBalance balance={balances[index]} />
             )}
           </p>
-          <p>Public Key: {account.clientPublicKey}</p>
         </div>
       ))}
     </>

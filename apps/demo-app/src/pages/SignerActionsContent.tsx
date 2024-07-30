@@ -28,13 +28,21 @@ const SignerActionsContent: React.FC<SignerActionsContentProps> = ({
     setShowModal(true);
   }, []);
 
-  const handleInitialize = useCallback(async () => {
-    await keyban.client.initialize(keyId).then(setAccount).catch(handleError);
-  }, [keyban.client, handleError, keyId]);
-
   useEffect(() => {
-    handleInitialize();
-  }, [handleInitialize]);
+    let isMounted = true;
+    keyban.client
+      .initialize(keyId)
+      .then((account) => {
+        if (isMounted) {
+          setAccount(account);
+        }
+      })
+      .catch(handleError);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [keyban.client, keyId, handleError]);
 
   const handleSignData = () => {
     account?.sign(dataToSign).then(setSignature).catch(handleError);
