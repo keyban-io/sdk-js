@@ -1,5 +1,6 @@
 import React from "react";
-import { FormattedBalance, KeybanAccount } from "@keyban/sdk-react";
+import { FormattedBalance } from "@keyban/sdk-react";
+import type { KeybanAccount } from "@keyban/sdk-react";
 
 interface KnownAccountsProps {
   accounts: KeybanAccount[];

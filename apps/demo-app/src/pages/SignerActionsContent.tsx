@@ -1,5 +1,5 @@
 import type React from "react";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getErrorMessage } from "../utils/errorUtils";
 import { Link } from "react-router-dom";
 import { useKeyban } from "@keyban/sdk-react";
