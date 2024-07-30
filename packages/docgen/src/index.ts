@@ -4,7 +4,7 @@ async function main() {
   const app = await TypeDoc.Application.bootstrapWithPlugins({
     entryPoints: [
       "../sdk-base/src/index.ts",
-      "../sdk-base/src/error/index.ts",
+      "../sdk-base/src/errors/index.ts",
       "../sdk-react/src/index.ts",
     ],
     disableSources: false,
