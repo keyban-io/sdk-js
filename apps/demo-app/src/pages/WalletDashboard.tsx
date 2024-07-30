@@ -8,6 +8,8 @@ import {
 } from "@keyban/sdk-react";
 import type { KeybanAccount } from "@keyban/sdk-react";
 import { FormattedBalance } from "@keyban/sdk-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import "./WalletDashboard.css";
 
 const WalletDashboardContent: React.FC = () => {
@@ -16,6 +18,8 @@ const WalletDashboardContent: React.FC = () => {
   const [account, setAccount] = useState<KeybanAccount | null>(null);
   const [balance, setBalance] = useState<bigint | undefined>(undefined);
   const [network, setNetwork] = useState<string>("Polygon Testnet Amoy");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -30,9 +34,14 @@ const WalletDashboardContent: React.FC = () => {
       .then((balance) => {
         if (isMounted) {
           setBalance(balance);
+          setLoading(false);
         }
       })
       .catch((error) => {
+        if (isMounted) {
+          setError("Error fetching account balance");
+          setLoading(false);
+        }
         console.error("Error fetching account balance:", error);
       });
 
@@ -49,6 +58,14 @@ const WalletDashboardContent: React.FC = () => {
     navigate(`/qr-code?address=${account?.address}`);
   };
 
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
+
   return (
     <div className="wallet-dashboard">
       <div className="header">
@@ -57,12 +74,22 @@ const WalletDashboardContent: React.FC = () => {
       </div>
       <div className="section">
         <div>
-          Account: : {account?.keyId || "Loading..."}{" "}
+          Account ID: {account?.keyId || "Loading..."}{" "}
           <button type="button">Rename</button>
         </div>
         <div>
           Address:{" "}
-          <span className="address">{account?.address || "Loading..."}</span>
+          <span className="address">
+            {account?.address || "Loading..."}
+            <button
+              type="button"
+              onClick={() =>
+                navigator.clipboard.writeText(account?.address || "")
+              }
+            >
+              <FontAwesomeIcon icon={faCopy} />
+            </button>
+          </span>
         </div>
         <div>
           Network:
@@ -82,7 +109,12 @@ const WalletDashboardContent: React.FC = () => {
             {balance ? <FormattedBalance balance={balance} /> : "Loading..."}
           </span>
         </div>
-        <button type="button">Send</button>
+        <button
+          type="button"
+          onClick={() => alert("Send functionality coming soon!")}
+        >
+          Send
+        </button>
       </div>
       <div className="section">
         <div>NFTs (Total: 5)</div>

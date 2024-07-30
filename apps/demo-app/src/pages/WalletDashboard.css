@@ -104,3 +104,11 @@ body {
 .wallet-dashboard > button:hover {
   background-color: var(--primary-hover-color);
 }
+
+/* Loading and Error Styles */
+.loading,
+.error {
+  font-size: 1.2em;
+  color: var(--text-color);
+  padding: var(--padding);
+}
