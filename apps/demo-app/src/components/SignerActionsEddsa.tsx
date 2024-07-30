@@ -4,7 +4,7 @@ import {
   KeybanProvider,
   KeybanSigner,
 } from "@keyban/sdk-react";
-import SignerActionsContent from "../components/SignerActionsContent";
+import SignerActionsContent from "../pages/SignerActionsContent";
 
 const SignerActionsEddsa: React.FC = () => (
   <KeybanProvider signer={KeybanSigner.EdDSA} storage={KeybanLocalStorage}>

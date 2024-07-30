@@ -26,7 +26,10 @@ export default function KnownAccounts({ accounts }: KnownAccountsProps) {
           <p>Key ID: {account.keyId}</p>
           <p>Address: {account.address}</p>
           <p>
-            Balance: <FormattedBalance balance={balances[index]} />
+            Balance:{" "}
+            {balances[index] != null && (
+              <FormattedBalance balance={balances[index]} />
+            )}
           </p>
           <p>Public Key: {account.clientPublicKey}</p>
         </div>

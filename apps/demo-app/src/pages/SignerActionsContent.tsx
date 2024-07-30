@@ -1,5 +1,5 @@
 import type React from "react";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { getErrorMessage } from "../utils/errorUtils";
 import { Link } from "react-router-dom";
 import { useKeyban } from "@keyban/sdk-react";
@@ -17,7 +17,6 @@ const SignerActionsContent: React.FC<SignerActionsContentProps> = ({
 }) => {
   const keyban = useKeyban();
   const [account, setAccount] = useState<KeybanAccount | null>(null);
-
   const [dataToSign, setDataToSign] = useState("");
   const [signature, setSignature] = useState("");
   const [modalMessage, setModalMessage] = useState("");
@@ -30,7 +29,7 @@ const SignerActionsContent: React.FC<SignerActionsContentProps> = ({
   }, []);
 
   const handleInitialize = useCallback(async () => {
-    keyban.client?.initialize(keyId).then(setAccount).catch(handleError);
+    await keyban.client?.initialize(keyId).then(setAccount).catch(handleError);
   }, [keyban.client, handleError, keyId]);
 
   useEffect(() => {
