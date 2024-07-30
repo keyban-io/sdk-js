@@ -1,5 +1,5 @@
-import type React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   KeybanProvider,
   KeybanSigner,
@@ -12,6 +12,7 @@ import "./WalletDashboard.css";
 
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
+  const navigate = useNavigate();
   const [account, setAccount] = useState<KeybanAccount | null>(null);
   const [balance, setBalance] = useState<bigint | undefined>(undefined);
   const [network, setNetwork] = useState<string>("Polygon Testnet Amoy");
@@ -44,6 +45,10 @@ const WalletDashboardContent: React.FC = () => {
     setNetwork(event.target.value);
   };
 
+  const handleShareAddressClick = () => {
+    navigate(`/qr-code?address=${account?.address}`);
+  };
+
   return (
     <div className="wallet-dashboard">
       <div className="header">
@@ -66,7 +71,9 @@ const WalletDashboardContent: React.FC = () => {
             <option value="Polygon Mainnet">Polygon Mainnet</option>
           </select>
         </div>
-        <button type="button">Share address</button>
+        <button type="button" onClick={handleShareAddressClick}>
+          Share address
+        </button>
       </div>
       <div className="section">
         <div>
