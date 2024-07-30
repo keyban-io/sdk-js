@@ -8,20 +8,17 @@ import {
 import React from "react";
 
 export type KeybanContextType = {
-  initialized: boolean;
-  client?: KeybanClient;
+  client: KeybanClient;
   apiStatus?: KeybanApiStatus;
 };
-const KeybanContext = React.createContext<KeybanContextType>({
-  initialized: false,
-});
+const KeybanContext = React.createContext<KeybanContextType | null>(null);
 
 export type KeybanProviderProps<
   Share,
   S extends KeybanStorage<Share>
 > = React.PropsWithChildren<{
   apiUrl?: string;
-  signer: () => Promise<KeybanSigner<Share>>;
+  signer: () => KeybanSigner<Share>;
   storage: new () => S;
 }>;
 
@@ -31,12 +28,10 @@ export function KeybanProvider<Share, S extends KeybanStorage<Share>>({
   storage,
   children,
 }: KeybanProviderProps<Share, S>) {
-  const [client, setClient] = React.useState<KeybanClient>();
-  React.useEffect(() => {
-    signer()
-      .then((signer) => new KeybanClientImpl(apiUrl, signer, new storage()))
-      .then(setClient);
-  }, [apiUrl, signer, storage]);
+  const client = React.useMemo(
+    () => new KeybanClientImpl(apiUrl, signer(), new storage()),
+    [apiUrl, signer, storage]
+  );
 
   const [apiStatus, setApiStatus] = React.useState<KeybanApiStatus>();
   React.useEffect(() => {
@@ -45,7 +40,6 @@ export function KeybanProvider<Share, S extends KeybanStorage<Share>>({
 
   const value = React.useMemo(
     () => ({
-      initialized: Boolean(client),
       client,
       apiStatus,
     }),
@@ -57,4 +51,9 @@ export function KeybanProvider<Share, S extends KeybanStorage<Share>>({
   );
 }
 
-export const useKeyban = () => React.useContext(KeybanContext);
+export const useKeyban = () => {
+  const ctx = React.useContext(KeybanContext);
+  if (!ctx)
+    throw new Error("useKeyban hook must be used within a KeybanProvider");
+  return ctx;
+};

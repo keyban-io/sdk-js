@@ -9,24 +9,35 @@ export type ClientShare_ECDSA = {
   ChainKey: string;
 };
 
-export async function KeybanSigner_ECDSA(): Promise<
-  KeybanSigner<ClientShare_ECDSA>
-> {
+let wasmPromise: Promise<void> | undefined;
+
+export function KeybanSigner_ECDSA(): KeybanSigner<ClientShare_ECDSA> {
   if (!WebAssembly)
     throw new SdkError(SdkError.types.WebAssemblyNotSupported, "getSigner");
 
-  await initWasmFile();
+  wasmPromise ??= initWasmFile();
 
-  const { add, dkg, sign, publicKey } = (window as any).ecdsa;
+  const wrap =
+    (fn: Function) =>
+    async (...args: any[]) => {
+      await wasmPromise;
+      return fn(...args);
+    };
 
   return {
     storagePrefix: "KEYBAN-ECDSA",
 
-    add: (...args) => Promise.resolve(add(...args)),
-    dkg: (...args) => dkg(...args).then(JSON.parse),
-    sign: (keyId, clientShare, message) =>
-      sign(keyId, JSON.stringify(clientShare), message),
-    publicKey: (clientShare) => publicKey(JSON.stringify(clientShare)),
+    add: wrap((...args: any[]) => (window as any).ecdsa.add(...args)),
+    dkg: wrap((...args: any[]) =>
+      (window as any).ecdsa.dkg(...args).then(JSON.parse)
+    ),
+    sign: wrap(
+      (keyId: string, clientShare: ClientShare_ECDSA, message: string) =>
+        (window as any).ecdsa.sign(keyId, JSON.stringify(clientShare), message)
+    ),
+    publicKey: wrap((clientShare: ClientShare_ECDSA) =>
+      (window as any).ecdsa.publicKey(JSON.stringify(clientShare))
+    ),
     clientPublicKey: (clientShare) => clientShare.Public,
   };
 }

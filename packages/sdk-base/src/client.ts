@@ -75,6 +75,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
         err
       );
     });
+
     clientShare ??= await this.signer.dkg(keyId);
 
     await this.storage.set(storageKey, clientShare).catch((err) => {

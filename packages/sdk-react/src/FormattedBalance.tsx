@@ -2,10 +2,7 @@ import { formatBalance } from "@keyban/sdk-base";
 import { useKeyban } from "./provider";
 
 export function useFormattedBalance(balance: bigint) {
-  const { client } = useKeyban();
-  if (!client) return null;
-
-  return formatBalance(client, balance);
+  return formatBalance(useKeyban().client, balance);
 }
 
 export type BalanceProps = { balance: bigint };

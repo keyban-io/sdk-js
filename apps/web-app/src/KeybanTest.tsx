@@ -20,7 +20,7 @@ export default function EcdsaTest() {
     setSignature("");
     setBalance(undefined);
 
-    keyban.client?.initialize(userKeyId).then(setAccount).catch(console.error);
+    keyban.client.initialize(userKeyId).then(setAccount).catch(console.error);
   };
 
   const handleSign = () =>

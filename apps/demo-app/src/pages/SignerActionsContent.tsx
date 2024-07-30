@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { getErrorMessage } from "../utils/errorUtils";
 import { Link } from "react-router-dom";
 import { useKeyban } from "@keyban/sdk-react";
-import type { KeybanAccount } from "@keyban/sdk-base";
+import type { KeybanAccount } from "@keyban/sdk-react";
 import "../App.css";
 import Modal from "../Modal";
 import KnownAccounts from "../components/KnownAccounts";
@@ -29,7 +29,7 @@ const SignerActionsContent: React.FC<SignerActionsContentProps> = ({
   }, []);
 
   const handleInitialize = useCallback(async () => {
-    await keyban.client?.initialize(keyId).then(setAccount).catch(handleError);
+    await keyban.client.initialize(keyId).then(setAccount).catch(handleError);
   }, [keyban.client, handleError, keyId]);
 
   useEffect(() => {
