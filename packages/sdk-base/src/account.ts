@@ -1,14 +1,12 @@
 import { Hex } from "viem";
-import { publicKeyToAddress } from "viem/accounts";
 import { KeybanClientImpl } from "~/client";
 import { StorageError } from "~/errors";
 
 export interface KeybanAccount {
   keyId: string;
+  address: Hex;
   clientPublicKey: string;
 
-  getPublicKey(): Promise<Hex>;
-  getAddress(): Promise<Hex>;
   getBalance(): Promise<bigint>;
   sign(payload: string): Promise<string>;
   add(a: number, b: number): Promise<number>;
@@ -18,17 +16,20 @@ export class Account<Share> implements KeybanAccount {
   client: KeybanClientImpl<Share>;
 
   keyId: string;
+  address: Hex;
   clientPublicKey: string;
 
   constructor(
     client: KeybanClientImpl<Share>,
     keyId: string,
-    clientShare: Share
+    address: Hex,
+    clientPublicKey: string
   ) {
     this.client = client;
 
     this.keyId = keyId;
-    this.clientPublicKey = client.signer.clientPublicKey(clientShare);
+    this.address = address;
+    this.clientPublicKey = clientPublicKey;
   }
 
   async #getClientShare() {
@@ -44,19 +45,8 @@ export class Account<Share> implements KeybanAccount {
     return clientShare;
   }
 
-  async getPublicKey() {
-    const clientShare = await this.#getClientShare();
-    return this.client.signer.publicKey(clientShare);
-  }
-
-  async getAddress() {
-    const publicKey = await this.getPublicKey();
-    return publicKeyToAddress(publicKey);
-  }
-
   async getBalance() {
-    const address = await this.getAddress();
-    return this.client.publicClient.getBalance({ address });
+    return this.client.publicClient.getBalance({ address: this.address });
   }
 
   /**

@@ -11,6 +11,7 @@ import { Account, KeybanAccount } from "~/account";
 import { KeybanSigner } from "~/signer";
 import { KeybanStorage } from "~/storage";
 import { StorageError } from "~/errors";
+import { publicKeyToAddress } from "viem/accounts";
 
 export type KeybanApiStatus = "operational" | "down";
 
@@ -79,7 +80,12 @@ export class KeybanClientImpl<Share> implements KeybanClient {
       );
     });
 
-    return new Account(this, keyId, clientShare);
+    const publicKey = await this.signer.publicKey(clientShare);
+    const address = publicKeyToAddress(publicKey);
+
+    const clientPublicKey = this.signer.clientPublicKey(clientShare);
+
+    return new Account(this, keyId, address, clientPublicKey);
   }
 
   /**

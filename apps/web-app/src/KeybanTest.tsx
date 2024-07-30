@@ -14,15 +14,12 @@ export default function EcdsaTest() {
   const [signature, setSignature] = React.useState("");
   const [payload, setPayload] = React.useState("");
 
-  const [address, setAddress] = React.useState<`0x${string}`>();
   const [balance, setBalance] = React.useState<bigint>();
 
   const handleInitDkg = () =>
     keyban.client?.initialize(userKeyId).then(setAccount).catch(console.error);
   const handleSign = () =>
     account?.sign(payload).then(setSignature).catch(console.error);
-  const handleGetAddress = () =>
-    account?.getAddress().then(setAddress).catch(console.error);
   const handleGetBalance = () =>
     account?.getBalance().then(setBalance).catch(console.error);
 
@@ -101,22 +98,11 @@ export default function EcdsaTest() {
       <fieldset>
         <legend>Address</legend>
 
-        <Row>
-          <button
-            type="button"
-            onClick={handleGetAddress}
-            data-test-id="getAddress-action"
-          >
-            Get address
-          </button>
-        </Row>
-
-        {address != null && (
-          <SerializedValue
-            value={address.toString()}
-            style={{ marginBlockStart: "1em" }}
-          />
-        )}
+        <SerializedValue
+          value={account?.address ?? ""}
+          style={{ marginBlockStart: "1em" }}
+          data-test-id="address"
+        />
       </fieldset>
 
       <fieldset>
@@ -132,12 +118,10 @@ export default function EcdsaTest() {
           </button>
         </Row>
 
-        {balance != null && (
-          <SerializedValue
-            value={balance.toString()}
-            style={{ marginBlockStart: "1em" }}
-          />
-        )}
+        <SerializedValue
+          value={balance?.toString() ?? ""}
+          style={{ marginBlockStart: "1em" }}
+        />
       </fieldset>
     </>
   );
