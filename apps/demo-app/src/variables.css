@@ -1,10 +1,22 @@
 /* Import the Outfit font */
 :root {
-  --color-primary: #07689f;
-  --primary-dark: #065e8f;
-  --primary-darker: #065887;
-  --primary-darkest: #05496f;
-  --primary-light: #0872af;
-  --primary-lighter: #0878b7;
-  --primary-lightest: #0987cf;
+  --primary: #a2d4f2;
+  --primary-dark: #7fc4ed;
+  --primary-darker: #6dbbeb;
+  --primary-darkest: #38a3e3;
+  --primary-light: #c5e4f7;
+  --primary-lighter: #d7edf9;
+  --primary-lightest: #ffffff;
+
+
+  --primary-hover-color: var(--primary-darker);
+  --background-color: var(--primary-darkest);
+  --container-background-color: var(--primary-lightest);
+
+  --text-color: #000000;
+  --border-color: #ff7f50;
+  --font-family: "Outfit", sans-serif;
+  --border-radius: 10px;
+  --padding: 12px 24px;
+  --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }

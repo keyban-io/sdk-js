@@ -1,58 +1,50 @@
 @import url("./variables.css");
 
-body {
-  background-color: var(--primary-lightest);
-  color: var(--primary-darkest);
-  margin: 0;
-  padding: 0;
-}
 
 .App-header {
-  background-color: var(--color-primary);
-  padding: 20px;
+  background-color: var(--primary);
+  padding: var(--padding);
   text-align: center;
-  color: white;
+  color: var(--primary-lightest);
 }
 
 button {
-  background-color: var(--color-primary);
-  color: white;
+  background-color: var(--primary);
+  color: var(--primary-lightest);
   border: none;
-  padding: 10px 20px;
+  padding: var(--padding);
   margin: 10px;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s, transform 0.3s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
 button:hover {
-  background-color: var(--primary-dark);
+  background-color: var(--primary-hover-color);
   transform: scale(1.05);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
 button:active {
   background-color: var(--primary-darker);
   transform: scale(0.95);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 input[type="text"] {
-  padding: 10px;
+  padding: var(--padding);
   margin: 10px;
   border: 2px solid var(--primary-dark);
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   font-size: 16px;
 }
 
 .account-details {
   background-color: var(--primary-light);
-  padding: 10px;
+  padding: var(--padding);
   margin: 10px;
-  border-radius: 4px;
-  color: white;
+  border-radius: var(--border-radius);
+  color: var(--text-color);
 }
 
 /* Modal styling */
@@ -70,10 +62,10 @@ input[type="text"] {
 }
 
 .modal {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: var(--primary-lightest);
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
   max-width: 500px;
   width: 100%;
   z-index: 1001; /* Ensure the modal content is on top */

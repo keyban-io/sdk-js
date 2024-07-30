@@ -1,0 +1,87 @@
+@import url("../variables.css");
+
+body {
+  font-family: var(--font-family);
+  background: var(--container-background-color);
+  color: var(--text-color);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.wallet-dashboard {
+  min-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  background: var(--container-background-color);
+}
+
+.header,
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 600px;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.section {
+  align-items: center;
+}
+
+.section button,
+.section select {
+  margin: 10px 0;
+  padding: var(--padding);
+  font-size: 1em;
+  color: var(--text-color);
+  background-color: var(--primary);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  box-shadow: var(--box-shadow);
+  transition: background-color 0.3s ease;
+}
+
+.section button:hover,
+.section select:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.header {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.header span {
+  font-size: 1.2em;
+}
+
+.section div {
+  margin: 5px 0;
+}
+
+.section .crypto {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.section .crypto button {
+  margin-left: 10px;
+}
+
+.section .balance,
+.section .address {
+  font-weight: bold;
+}

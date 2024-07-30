@@ -8,5 +8,9 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
 }
