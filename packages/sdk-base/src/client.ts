@@ -31,6 +31,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
   apiUrl: string;
   signer: KeybanSigner<Share>;
   storage: KeybanStorage<Share>;
+  accounts: Map<string, Promise<Account<Share>>>;
 
   publicClient: PublicClient;
   walletClient: WalletClient;
@@ -49,6 +50,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     this.apiUrl = apiUrl;
     this.signer = signer;
     this.storage = storage;
+    this.accounts = new Map();
 
     this.publicClient = createPublicClient({
       chain: polygonAmoy,
@@ -65,33 +67,43 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    * @param keyId - The key identifier used for storing and retrieving shares.
    * @returns Instance of {@link Account}
    */
-  async initialize(keyId: string): Promise<Account<Share>> {
-    const storageKey = `${this.signer.storagePrefix}-${keyId}`;
+  initialize(keyId: string): Promise<Account<Share>> {
+    const cached = this.accounts.get(keyId);
+    if (cached) return cached;
 
-    let clientShare = await this.storage.get(storageKey).catch((err) => {
-      throw new StorageError(
-        StorageError.types.RetrivalFailed,
-        "Client.initialize",
-        err
-      );
-    });
+    this.accounts.set(
+      keyId,
+      (async () => {
+        const storageKey = `${this.signer.storagePrefix}-${keyId}`;
 
-    clientShare ??= await this.signer.dkg(keyId);
+        let clientShare = await this.storage.get(storageKey).catch((err) => {
+          throw new StorageError(
+            StorageError.types.RetrivalFailed,
+            "Client.initialize",
+            err
+          );
+        });
 
-    await this.storage.set(storageKey, clientShare).catch((err) => {
-      throw new StorageError(
-        StorageError.types.SaveFailed,
-        "Client.initialize",
-        err
-      );
-    });
+        clientShare ??= await this.signer.dkg(keyId);
 
-    const publicKey = await this.signer.publicKey(clientShare);
-    const address = publicKeyToAddress(publicKey);
+        await this.storage.set(storageKey, clientShare).catch((err) => {
+          throw new StorageError(
+            StorageError.types.SaveFailed,
+            "Client.initialize",
+            err
+          );
+        });
 
-    const clientPublicKey = this.signer.clientPublicKey(clientShare);
+        const publicKey = await this.signer.publicKey(clientShare);
+        const address = publicKeyToAddress(publicKey);
 
-    return new Account(this, keyId, address, clientPublicKey);
+        const clientPublicKey = this.signer.clientPublicKey(clientShare);
+
+        return new Account(this, keyId, address, clientPublicKey);
+      })()
+    );
+
+    return this.initialize(keyId);
   }
 
   /**
