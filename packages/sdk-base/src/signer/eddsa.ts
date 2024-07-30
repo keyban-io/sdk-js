@@ -1,6 +1,7 @@
 import initWasmFile, { add, dkg, sign } from "eddsa-wasm-client";
 import { KeybanSigner } from "~/signer";
 import { SdkError } from "~/errors";
+import { Hex } from "viem";
 
 export type ClientShare_EdDSA = {
   client_pubkey: string;
@@ -27,7 +28,9 @@ export async function KeybanSigner_EdDSA(): Promise<
     sign: (keyId, clientShare, message) =>
       sign(keyId, clientShare.secret_share, message),
     publicKey: async () => {
-      throw new Error("Unimplemented: eddsa signer publicKey");
+      // throw new Error("Unimplemented: eddsa signer publicKey");
+      console.warn("Unimplemented: eddsa signer publicKey");
+      return "TODO" as unknown as Hex;
     },
     clientPublicKey: (clientShare) => clientShare.client_pubkey,
   };
