@@ -7,9 +7,6 @@ import {
 } from "@keyban/sdk-base";
 import React from "react";
 
-export * from "@keyban/sdk-base";
-export { KeybanSigner } from "@keyban/sdk-base";
-
 export type KeybanContextType = {
   initialized: boolean;
   client?: KeybanClient;

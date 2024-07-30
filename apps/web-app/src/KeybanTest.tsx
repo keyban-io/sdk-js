@@ -1,5 +1,5 @@
 import type { KeybanAccount } from "@keyban/sdk-react";
-import { useKeyban } from "@keyban/sdk-react";
+import { formatEther, useKeyban } from "@keyban/sdk-react";
 import React from "react";
 import SerializedValue from "./components/SerializedValue";
 import Row from "./components/Row";
@@ -73,6 +73,15 @@ export default function EcdsaTest() {
       </fieldset>
 
       <fieldset>
+        <legend>Address</legend>
+
+        <SerializedValue
+          value={account?.address ?? ""}
+          data-test-id="address"
+        />
+      </fieldset>
+
+      <fieldset>
         <legend>Signature</legend>
 
         <Row>
@@ -96,16 +105,6 @@ export default function EcdsaTest() {
       </fieldset>
 
       <fieldset>
-        <legend>Address</legend>
-
-        <SerializedValue
-          value={account?.address ?? ""}
-          style={{ marginBlockStart: "1em" }}
-          data-test-id="address"
-        />
-      </fieldset>
-
-      <fieldset>
         <legend>Balance</legend>
 
         <Row>
@@ -119,7 +118,7 @@ export default function EcdsaTest() {
         </Row>
 
         <SerializedValue
-          value={balance?.toString() ?? ""}
+          value={balance != null ? formatEther(balance) : ""}
           style={{ marginBlockStart: "1em" }}
         />
       </fieldset>
