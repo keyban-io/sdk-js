@@ -1,5 +1,5 @@
 import type { KeybanAccount } from "@keyban/sdk-react";
-import { formatEther, useKeyban } from "@keyban/sdk-react";
+import { FormattedBalance, useKeyban } from "@keyban/sdk-react";
 import React from "react";
 import SerializedValue from "./components/SerializedValue";
 import Row from "./components/Row";
@@ -13,13 +13,19 @@ export default function EcdsaTest() {
   const [userKeyId, setUserKeyId] = React.useState("dumb");
   const [signature, setSignature] = React.useState("");
   const [payload, setPayload] = React.useState("");
-
   const [balance, setBalance] = React.useState<bigint>();
 
-  const handleInitDkg = () =>
+  const handleInitDkg = () => {
+    setAccount(undefined);
+    setSignature("");
+    setBalance(undefined);
+
     keyban.client?.initialize(userKeyId).then(setAccount).catch(console.error);
+  };
+
   const handleSign = () =>
     account?.sign(payload).then(setSignature).catch(console.error);
+
   const handleGetBalance = () =>
     account?.getBalance().then(setBalance).catch(console.error);
 
@@ -115,12 +121,13 @@ export default function EcdsaTest() {
           >
             Get balance
           </button>
-        </Row>
 
-        <SerializedValue
-          value={balance != null ? formatEther(balance) : ""}
-          style={{ marginBlockStart: "1em" }}
-        />
+          {balance != null && (
+            <div data-test-id="balance">
+              <FormattedBalance balance={balance} />
+            </div>
+          )}
+        </Row>
       </fieldset>
     </>
   );

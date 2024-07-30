@@ -16,6 +16,9 @@ import { publicKeyToAddress } from "viem/accounts";
 export type KeybanApiStatus = "operational" | "down";
 
 export interface KeybanClient {
+  publicClient: PublicClient;
+  walletClient: WalletClient;
+
   initialize(keyId: string): Promise<KeybanAccount>;
   setChainMetadata(): Promise<void>;
   connectToProvider(): Promise<void>;
