@@ -85,3 +85,22 @@ body {
 .section .address {
   font-weight: bold;
 }
+
+/* Specific styling for the Transaction History button */
+.wallet-dashboard > button {
+  align-self: center;
+  margin: 20px 0;
+  padding: var(--padding);
+  font-size: 1em;
+  color: var(--text-color);
+  background-color: var(--primary);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  box-shadow: var(--box-shadow);
+  transition: background-color 0.3s ease;
+}
+
+.wallet-dashboard > button:hover {
+  background-color: var(--primary-hover-color);
+}
