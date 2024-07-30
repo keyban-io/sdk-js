@@ -1,16 +1,16 @@
 import initWasmFile from "ecdsa-wasm-client";
-import { KeybanSigner } from "~/signer";
+import type { KeybanSigner } from "~/signer";
 import { SdkError } from "~/errors";
 
-export type ClientShare_EcDSA = {
+export type ClientShare_ECDSA = {
   Setup: string;
   SecretShare: string;
   Public: string;
   ChainKey: string;
 };
 
-export async function KeybanSigner_EcDSA(): Promise<
-  KeybanSigner<ClientShare_EcDSA>
+export async function KeybanSigner_ECDSA(): Promise<
+  KeybanSigner<ClientShare_ECDSA>
 > {
   if (!WebAssembly)
     throw new SdkError(SdkError.types.WebAssemblyNotSupported, "getSigner");

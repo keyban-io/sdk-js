@@ -1,6 +1,6 @@
-import { Hex } from "viem";
+import type { Hex } from "viem";
 import { KeybanSigner_EdDSA } from "./eddsa";
-import { KeybanSigner_EcDSA } from "./ecdsa";
+import { KeybanSigner_ECDSA } from "./ecdsa";
 
 export interface KeybanSigner<Share> {
   storagePrefix: string;
@@ -13,5 +13,5 @@ export interface KeybanSigner<Share> {
 
 export const KeybanSigner = {
   EdDSA: KeybanSigner_EdDSA,
-  EcDSA: KeybanSigner_EcDSA,
+  ECDSA: KeybanSigner_ECDSA,
 };

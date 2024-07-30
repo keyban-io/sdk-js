@@ -2,7 +2,11 @@ import * as TypeDoc from "typedoc";
 
 async function main() {
   const app = await TypeDoc.Application.bootstrapWithPlugins({
-    entryPoints: ["../sdk-base/src/index.ts", "../sdk-react/src/index.ts"],
+    entryPoints: [
+      "../sdk-base/src/index.ts",
+      "../sdk-base/src/error/index.ts",
+      "../sdk-react/src/index.ts",
+    ],
     disableSources: false,
     readme: "none",
     excludePrivate: true,

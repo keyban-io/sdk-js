@@ -24,7 +24,9 @@ export interface KeybanClient {
   connectToProvider(): Promise<void>;
   apiStatus(): Promise<KeybanApiStatus>;
 }
-
+/**
+ * @private
+ * */
 export class KeybanClientImpl<Share> implements KeybanClient {
   apiUrl: string;
   signer: KeybanSigner<Share>;

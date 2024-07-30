@@ -21,7 +21,7 @@ export default function App() {
       </div>
       <div data-test-id="ecdsa">
         <KeybanProvider
-          signer={KeybanSigner.EcDSA}
+          signer={KeybanSigner.ECDSA}
           storage={KeybanLocalStorage}
         >
           <h1>EcDSA</h1>
