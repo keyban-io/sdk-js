@@ -8,13 +8,15 @@
   --primary-lighter: #d7edf9;
   --primary-lightest: #ffffff;
 
+  --error-color: #ff7f50;
+
 
   --primary-hover-color: var(--primary-darker);
   --background-color: var(--primary-darkest);
   --container-background-color: var(--primary-lightest);
 
   --text-color: #000000;
-  --border-color: #ff7f50;
+  --border-color: var(--error-color);
   --font-family: "Outfit", sans-serif;
   --border-radius: 10px;
   --padding: 12px 24px;

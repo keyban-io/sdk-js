@@ -10,6 +10,7 @@ import type { KeybanAccount } from "@keyban/sdk-react";
 import { FormattedBalance } from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { getErrorMessage } from "@/utils/errorUtils";
 import "./WalletDashboard.css";
 
 const WalletDashboardContent: React.FC = () => {
@@ -39,10 +40,9 @@ const WalletDashboardContent: React.FC = () => {
       })
       .catch((error) => {
         if (isMounted) {
-          setError("Error fetching account balance");
+          setError(getErrorMessage(error));
           setLoading(false);
         }
-        console.error("Error fetching account balance:", error);
       });
 
     return () => {
@@ -72,15 +72,7 @@ const WalletDashboardContent: React.FC = () => {
 
   return (
     <div className="wallet-dashboard">
-      <div className="header">
-        <span>Keyban WAAS Demo</span>
-        <span className="notification">🔔</span>
-      </div>
       <div className="section">
-        <div>
-          Account ID: {account?.keyId || "Loading..."}{" "}
-          <button type="button">Rename</button>
-        </div>
         <div>
           Address:{" "}
           <span className="address">
