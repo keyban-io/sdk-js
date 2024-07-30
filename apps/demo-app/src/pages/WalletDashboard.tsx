@@ -9,7 +9,7 @@ import {
 import type { KeybanAccount } from "@keyban/sdk-react";
 import { FormattedBalance } from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
+import { faCopy, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "./WalletDashboard.css";
 
 const WalletDashboardContent: React.FC = () => {
@@ -59,7 +59,11 @@ const WalletDashboardContent: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="loading">
+        Loading... <FontAwesomeIcon icon={faSpinner} spin />
+      </div>
+    );
   }
 
   if (error) {
