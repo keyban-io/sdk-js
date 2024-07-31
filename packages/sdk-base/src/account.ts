@@ -11,7 +11,9 @@ export interface KeybanAccount {
   sign(payload: string): Promise<string>;
   add(a: number, b: number): Promise<number>;
 }
-
+/**
+ * @private
+ * */
 export class Account<Share> implements KeybanAccount {
   client: KeybanClientImpl<Share>;
 

@@ -1,7 +1,6 @@
 import { createPublicClient, createWalletClient, http } from "viem";
 import type { Chain, PublicClient, WalletClient } from "viem";
 import { polygonAmoy } from "viem/chains";
-
 import { Account } from "~/account";
 import type { KeybanAccount } from "~/account";
 import type { KeybanSigner } from "~/signer";
@@ -11,11 +10,19 @@ import { publicKeyToAddress } from "viem/accounts";
 
 export type KeybanApiStatus = "operational" | "down";
 
+/**
+ * Interface for the KeybanClient class.
+ * This interface defines the methods and properties that a KeybanClient class should implement.
+ */
 export interface KeybanClient {
   chain: Chain;
   publicClient: PublicClient;
   walletClient: WalletClient;
 
+  /**
+   * Initializes a KeybanAccount instance.
+   * @param keyId - The key identifier used for storing and retrieving shares.
+   * */
   initialize(keyId: string): Promise<KeybanAccount>;
   setChainMetadata(): Promise<void>;
   connectToProvider(): Promise<void>;
