@@ -5,9 +5,9 @@ import {
   KeybanSigner,
   useKeyban,
   KeybanLocalStorage,
+  FormattedBalance,
 } from "@keyban/sdk-react";
 import type { KeybanAccount } from "@keyban/sdk-react";
-import { FormattedBalance } from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faCopy, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { getErrorMessage } from "@/utils/errorUtils";

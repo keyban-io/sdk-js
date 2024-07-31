@@ -16,7 +16,6 @@ src:
     FROM ../+node
     WORKDIR /app
     COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
-    COPY ./packages/docgen/package.json                  ./packages/docgen/
     COPY ./packages/sdk-base/package.json                ./packages/sdk-base/
     COPY ./packages/sdk-react/package.json               ./packages/sdk-react/
     COPY ./packages/sdk-react-native/package.json        ./packages/sdk-react-native/
@@ -26,7 +25,6 @@ src:
     COPY ./apps/demo-app/package.json                    ./apps/demo-app/
     DO ../+USEPNPM
     RUN pnpm install
-    COPY --dir ./packages/docgen/src ./packages/docgen/tsconfig.json ./packages/docgen
     COPY +get-eddsa-wasm/pkg/* ./packages/sdk-eddsa-wasm
     COPY ./packages/sdk-ecdsa-wasm ./packages/sdk-ecdsa-wasm
     COPY +get-ecdsa-wasm/wasm_exec.js ./packages/sdk-ecdsa-wasm/wasm_exec.js
@@ -42,6 +40,13 @@ build:
     FROM +src
     RUN pnpm build
 
+docgen:
+    FROM +build
+    RUN mkdir /app/sdk
+    RUN mv /app/packages /app/sdk
+    RUN mv /app/node_modules /app/sdk
+    SAVE ARTIFACT /app/sdk
+
 live-web:
     FROM +build
     CMD sh ./run-dev.sh && pnpm --filter web-app dev
@@ -54,8 +59,3 @@ live-demo:
     CMD sh ./run-dev.sh && pnpm --filter demo-app dev
     ARG --required ref
     SAVE IMAGE --push ${ref}
-
-docgen:
-    FROM +src
-    RUN pnpm --filter docgen build
-    SAVE ARTIFACT ./packages/docgen/docs sdk-docs
