@@ -5,7 +5,7 @@ import { StorageError } from "~/errors";
 export interface KeybanAccount {
   keyId: string;
   address: Hex;
-  clientPublicKey: string;
+  publicKey: string;
 
   getBalance(): Promise<bigint>;
   sign(payload: string): Promise<string>;
@@ -19,19 +19,19 @@ export class Account<Share> implements KeybanAccount {
 
   keyId: string;
   address: Hex;
-  clientPublicKey: string;
+  publicKey: string;
 
   constructor(
     client: KeybanClientImpl<Share>,
     keyId: string,
     address: Hex,
-    clientPublicKey: string
+    publicKey: string
   ) {
     this.client = client;
 
     this.keyId = keyId;
     this.address = address;
-    this.clientPublicKey = clientPublicKey;
+    this.publicKey = publicKey;
   }
 
   async #getClientShare() {

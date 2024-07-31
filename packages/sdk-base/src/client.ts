@@ -104,9 +104,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
         const publicKey = await this.signer.publicKey(clientShare);
         const address = publicKeyToAddress(publicKey);
 
-        const clientPublicKey = this.signer.clientPublicKey(clientShare);
-
-        return new Account(this, keyId, address, clientPublicKey);
+        return new Account(this, keyId, address, publicKey);
       })()
     );
 

@@ -23,10 +23,10 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
 
   const wrap =
     (fn: Function) =>
-    async (...args: any[]) => {
-      await wasmPromise;
-      return fn(...args);
-    };
+      async (...args: any[]) => {
+        await wasmPromise;
+        return fn(...args);
+      };
 
   return {
     storagePrefix: "KEYBAN-EDDSA",
@@ -37,11 +37,15 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
       (keyId: string, clientShare: ClientShare_EdDSA, message: string) =>
         sign(keyId, clientShare.secret_share, message)
     ),
-    publicKey: wrap(async () => {
-      // throw new Error("Unimplemented: eddsa signer publicKey");
-      console.warn("Unimplemented: eddsa signer publicKey");
-      return "TODO" as unknown as Hex;
+    publicKey: wrap((clientShare: ClientShare_EdDSA) => {
+      return new Promise((resolve, reject) => {
+        try {
+          const clientPubKey = clientShare.client_pubkey as Hex;
+          resolve(clientPubKey);
+        } catch (error) {
+          reject(error);
+        }
+      });
     }),
-    clientPublicKey: (clientShare) => clientShare.client_pubkey,
   };
 }

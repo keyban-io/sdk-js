@@ -79,7 +79,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
       <fieldset>
         <legend>Client public key</legend>
         <SerializedValue
-          value={account?.clientPublicKey ?? ""}
+          value={account?.publicKey ?? ""}
           data-test-id={`${testId}:client-pub-key`}
         />
       </fieldset>

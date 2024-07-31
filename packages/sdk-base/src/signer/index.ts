@@ -8,7 +8,6 @@ export interface KeybanSigner<Share> {
   dkg(keyId: string): Promise<Share>;
   sign(keyId: string, clientShare: Share, message: string): Promise<string>;
   publicKey(clientShare: Share): Promise<Hex>;
-  clientPublicKey: (clientShare: Share) => string;
 }
 
 export const KeybanSigner = {
