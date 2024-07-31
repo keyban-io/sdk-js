@@ -9,7 +9,7 @@ import {
 import type { KeybanAccount } from "@keyban/sdk-react";
 import { FormattedBalance } from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faCopy, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { getErrorMessage } from "@/utils/errorUtils";
 import "./WalletDashboard.css";
 
@@ -61,7 +61,8 @@ const WalletDashboardContent: React.FC = () => {
   if (loading) {
     return (
       <div className="loading">
-        Loading... <FontAwesomeIcon icon={faSpinner} spin />
+        <FontAwesomeIcon icon={faSpinner} spin />
+        Loading...
       </div>
     );
   }
@@ -72,11 +73,21 @@ const WalletDashboardContent: React.FC = () => {
 
   return (
     <div className="wallet-dashboard">
+      <div className="header">
+        <span>Keyban WAAS Demo</span>
+        <span className="notification">
+          <FontAwesomeIcon icon={faBell} />
+        </span>
+      </div>
       <div className="section">
+        <div>
+          Account:{" "}
+          <span className="account">{account?.keyId || "No account"}</span>
+        </div>
         <div>
           Address:{" "}
           <span className="address">
-            {account?.address || "Loading..."}
+            {account?.address || "No address found"}
             <button
               type="button"
               onClick={() =>
@@ -102,7 +113,7 @@ const WalletDashboardContent: React.FC = () => {
         <div>
           Native Balance:{" "}
           <span className="balance">
-            {balance ? <FormattedBalance balance={balance} /> : "Loading..."}
+            {balance != null && <FormattedBalance balance={balance} />}
           </span>
         </div>
         <button
