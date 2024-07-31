@@ -10,22 +10,22 @@ import KeybanTest from "./KeybanTest";
 export default function App() {
   return (
     <div className={styles.root}>
-      <div data-test-id="eddsa">
+      <div>
         <KeybanProvider
           signer={KeybanSigner.EdDSA}
           storage={KeybanLocalStorage}
         >
           <h1>EdDSA</h1>
-          <KeybanTest />
+          <KeybanTest testId="eddsa" />
         </KeybanProvider>
       </div>
-      <div data-test-id="ecdsa">
+      <div>
         <KeybanProvider
           signer={KeybanSigner.ECDSA}
           storage={KeybanLocalStorage}
         >
           <h1>EcDSA</h1>
-          <KeybanTest />
+          <KeybanTest testId="ecdsa" />
         </KeybanProvider>
       </div>
     </div>

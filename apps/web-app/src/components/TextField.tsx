@@ -18,11 +18,12 @@ export default function TextField({
   props.id ??= id;
 
   return (
-    <Row>
+    <Row style={{ flexGrow: 1 }}>
       {label && <label htmlFor={props.id}>{label}:</label>}
       <input
         type="text"
         {...props}
+        style={{ flexGrow: 1, ...props.style }}
         onChange={(e) => onChange(e.target.value)}
       />
     </Row>

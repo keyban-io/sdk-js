@@ -5,7 +5,10 @@ import SerializedValue from "./components/SerializedValue";
 import Row from "./components/Row";
 import TextField from "./components/TextField";
 
-export default function EcdsaTest() {
+export type KeybanTestProps = {
+  testId: string;
+};
+export default function KeybanTest({ testId }: KeybanTestProps) {
   const keyban = useKeyban();
 
   const [account, setAccount] = React.useState<KeybanAccount>();
@@ -33,12 +36,15 @@ export default function EcdsaTest() {
     <>
       <fieldset>
         <legend>Context</legend>
-        <SerializedValue value={keyban} data-test-id="context" />
+        <SerializedValue value={keyban} data-test-id={`${testId}:context`} />
       </fieldset>
 
       <fieldset>
         <legend>API status</legend>
-        <SerializedValue value={keyban.apiStatus} data-test-id="api-status" />
+        <SerializedValue
+          value={keyban.apiStatus}
+          data-test-id={`${testId}:api-status`}
+        />
       </fieldset>
 
       <fieldset>
@@ -49,13 +55,13 @@ export default function EcdsaTest() {
             label="Public key ID"
             value={userKeyId}
             onChange={setUserKeyId}
-            data-test-id="key-id-input"
+            data-test-id={`${testId}:key-id-input`}
           />
 
           <button
             type="button"
             onClick={handleInitDkg}
-            data-test-id="dkg-action"
+            data-test-id={`${testId}:dkg-action`}
           >
             Init dkg
           </button>
@@ -65,7 +71,7 @@ export default function EcdsaTest() {
           <SerializedValue
             value={account}
             style={{ marginBlockStart: "1em" }}
-            data-test-id="account"
+            data-test-id={`${testId}:account`}
           />
         )}
       </fieldset>
@@ -74,7 +80,7 @@ export default function EcdsaTest() {
         <legend>Client public key</legend>
         <SerializedValue
           value={account?.clientPublicKey ?? ""}
-          data-test-id="client-pub-key"
+          data-test-id={`${testId}:client-pub-key`}
         />
       </fieldset>
 
@@ -83,7 +89,7 @@ export default function EcdsaTest() {
 
         <SerializedValue
           value={account?.address ?? ""}
-          data-test-id="address"
+          data-test-id={`${testId}:address`}
         />
       </fieldset>
 
@@ -95,10 +101,14 @@ export default function EcdsaTest() {
             label="Payload"
             value={payload}
             onChange={setPayload}
-            data-test-id="payload-input"
+            data-test-id={`${testId}:payload-input`}
           />
 
-          <button type="button" onClick={handleSign} data-test-id="sign-action">
+          <button
+            type="button"
+            onClick={handleSign}
+            data-test-id={`${testId}:sign-action`}
+          >
             Sign
           </button>
         </Row>
@@ -106,7 +116,7 @@ export default function EcdsaTest() {
         <SerializedValue
           value={signature}
           style={{ marginBlockStart: "1em" }}
-          data-test-id="signature"
+          data-test-id={`${testId}:signature`}
         />
       </fieldset>
 
@@ -117,16 +127,52 @@ export default function EcdsaTest() {
           <button
             type="button"
             onClick={handleGetBalance}
-            data-test-id="getBalance-action"
+            data-test-id={`${testId}:getBalance-action`}
           >
             Get balance
           </button>
+        </Row>
 
-          {balance != null && (
-            <div data-test-id="balance">
-              <FormattedBalance balance={balance} />
-            </div>
-          )}
+        {balance != null && (
+          <>
+            <Row>
+              <span>Balance:</span>
+              <div data-test-id={`${testId}:balance`}>
+                <FormattedBalance balance={balance} />
+              </div>
+            </Row>
+
+            <Row>
+              <span>Raw balance:</span>
+              <SerializedValue
+                value={balance?.toString()}
+                style={{ flexGrow: 1 }}
+                data-test-id={`${testId}:raw-balance`}
+              />
+            </Row>
+          </>
+        )}
+      </fieldset>
+
+      <fieldset>
+        <legend>Currency</legend>
+
+        <Row>
+          <span>Currency name:</span>
+          <SerializedValue
+            value={keyban.client.chain.nativeCurrency.name}
+            style={{ flexGrow: 1 }}
+            data-test-id={`${testId}:currency-name`}
+          />
+        </Row>
+
+        <Row>
+          <span>Currency decimals:</span>
+          <SerializedValue
+            value={keyban.client.chain.nativeCurrency.decimals}
+            style={{ flexGrow: 1 }}
+            data-test-id={`${testId}:currency-decimals`}
+          />
         </Row>
       </fieldset>
     </>
