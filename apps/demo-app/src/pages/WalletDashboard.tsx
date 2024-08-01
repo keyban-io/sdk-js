@@ -41,46 +41,37 @@ const WalletDashboardContent: React.FC = () => {
 
   useEffect(() => {
     let isMounted = true;
-    keyban.client
-      .initialize("my-ecdsa-key-id")
-      .then((account) => {
+
+    const fetchData = async () => {
+      try {
+        const [account, rate] = await Promise.all([
+          keyban.client.initialize("my-ecdsa-key-id").then((account) => {
+            setAccount(account);
+            return account.getBalance();
+          }),
+          fetchMaticToEuroRate(),
+        ]);
+
         if (isMounted) {
-          setAccount(account);
-          return account.getBalance();
-        }
-      })
-      .then((balance) => {
-        if (isMounted) {
-          setBalance(balance);
+          const balanceInEuro = (Number(account) / 1e18) * rate;
+          setBalance(account);
+          setEuroBalance(balanceInEuro);
           setLoading(false);
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         if (isMounted) {
           setError(getErrorMessage(error));
           setLoading(false);
         }
-      });
+      }
+    };
+
+    fetchData();
 
     return () => {
       isMounted = false;
     };
   }, [keyban.client]);
-
-  useEffect(() => {
-    if (balance !== undefined) {
-      const getConversionRate = async () => {
-        try {
-          const rate = await fetchMaticToEuroRate();
-          const balanceInEuro = (Number(balance) / 1e18) * rate;
-          setEuroBalance(balanceInEuro);
-        } catch (error) {
-          console.error("Failed to fetch conversion rate:", error);
-        }
-      };
-      getConversionRate();
-    }
-  }, [balance]);
 
   const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setNetwork(event.target.value);
