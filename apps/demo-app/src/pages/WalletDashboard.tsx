@@ -1,4 +1,3 @@
-// src/pages/WalletDashboard.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -38,6 +37,7 @@ const WalletDashboardContent: React.FC = () => {
   });
   const [euroBalance, setEuroBalance] = useState<number | null>(null);
   const copyButtonRef = useRef<HTMLButtonElement>(null);
+  const shareButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -49,7 +49,7 @@ const WalletDashboardContent: React.FC = () => {
             setAccount(account);
             return account.getBalance();
           }),
-          fetchMaticToEuroRate().catch(setEuroBalance.bind(null, null)),
+          fetchMaticToEuroRate(),
         ]);
 
         if (isMounted) {
@@ -59,8 +59,10 @@ const WalletDashboardContent: React.FC = () => {
           setLoading(false);
         }
       } catch (error) {
-        setError(getErrorMessage(error));
-        setLoading(false);
+        if (isMounted) {
+          setError(getErrorMessage(error));
+          setLoading(false);
+        }
       }
     };
 
@@ -123,6 +125,14 @@ const WalletDashboardContent: React.FC = () => {
           >
             <FontAwesomeIcon icon={faCopy} />
           </button>
+          <button
+            type="button"
+            onClick={handleShareAddressClick}
+            ref={shareButtonRef}
+            className="share-button"
+          >
+            <FontAwesomeIcon icon={faQrcode} />
+          </button>
         </div>
         <div className="network-select">
           <label htmlFor="network">Network:</label>
@@ -131,10 +141,6 @@ const WalletDashboardContent: React.FC = () => {
             <option value="Polygon Mainnet">Polygon Mainnet</option>
           </select>
         </div>
-        <button type="button" onClick={handleShareAddressClick}>
-          Share address
-          <FontAwesomeIcon className="fa" icon={faQrcode} />
-        </button>
       </div>
       <div className="section">
         <div className="balance-container">

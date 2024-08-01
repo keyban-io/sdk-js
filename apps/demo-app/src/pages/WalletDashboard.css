@@ -173,7 +173,8 @@ button .fa {
   margin-right: 10px;
 }
 
-.copy-button {
+.copy-button,
+.share-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -182,6 +183,7 @@ button .fa {
   height: 24px;
   width: 24px;
   padding: 0 !important;
+  color: #007bff;
 }
 
 .copy-hint {
