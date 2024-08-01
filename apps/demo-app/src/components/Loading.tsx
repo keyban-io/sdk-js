@@ -1,12 +1,14 @@
+// src/components/Loading.tsx
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import './Loading.css';
 
-const Loading: React.FC = () => (
-  <div className="loading">
-    <FontAwesomeIcon icon={faSpinner} spin />
-    Loading...
-  </div>
-);
+const Loading: React.FC = () => {
+  return (
+    <div className="loading">
+      <div className="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  );
+};
 
 export default Loading;
