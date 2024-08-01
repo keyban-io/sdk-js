@@ -4,7 +4,6 @@ import QRCode from "qrcode.react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import "./QRCodePage.css";
-import "./WalletDashboard.css";
 
 const QRCodePage: React.FC = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
-import React from "react";
+import type React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import WalletDashboard from "./pages/WalletDashboard";
-import QRCodePage from "./pages/QRCodePage";
+import WalletDashboard from "./pages/WalletDashboard/WalletDashboard";
+import QRCodePage from "./pages/QRCodePage/QRCodePage";
 
 const App: React.FC = () => {
   return (
