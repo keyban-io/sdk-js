@@ -21,6 +21,15 @@ import { getErrorMessage } from "@/utils/errorUtils";
 import "./WalletDashboard.css";
 import { formatEthereumAddress } from "@/utils/formatEthereumAddress"; // Adjust the import path as needed
 
+// Function to fetch the Matic to Euro conversion rate
+const fetchMaticToEuroRate = async () => {
+  const response = await fetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=eur"
+  );
+  const data = await response.json();
+  return data["matic-network"].eur;
+};
+
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
   const navigate = useNavigate();
@@ -34,6 +43,7 @@ const WalletDashboardContent: React.FC = () => {
     x: 0,
     y: 0,
   });
+  const [euroBalance, setEuroBalance] = useState<number | null>(null);
   const copyButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -64,6 +74,21 @@ const WalletDashboardContent: React.FC = () => {
     };
   }, [keyban.client]);
 
+  useEffect(() => {
+    if (balance !== undefined) {
+      const getConversionRate = async () => {
+        try {
+          const rate = await fetchMaticToEuroRate();
+          const balanceInEuro = (Number(balance) / 1e18) * rate;
+          setEuroBalance(balanceInEuro);
+        } catch (error) {
+          console.error("Failed to fetch conversion rate:", error);
+        }
+      };
+      getConversionRate();
+    }
+  }, [balance]);
+
   const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setNetwork(event.target.value);
   };
@@ -80,7 +105,7 @@ const WalletDashboardContent: React.FC = () => {
       setHintVisible(true);
       setTimeout(() => {
         setHintVisible(false);
-      }, 2000); // Le hint disparaîtra après 2 secondes
+      }, 2000); // Hint will disappear after 2 seconds
     }
   };
 
@@ -135,6 +160,7 @@ const WalletDashboardContent: React.FC = () => {
         <div>
           <span className="balance">
             {balance != null && <FormattedBalance balance={balance} />}
+            {euroBalance != null && <span> (€{euroBalance.toFixed(2)})</span>}
           </span>
         </div>
         <button
