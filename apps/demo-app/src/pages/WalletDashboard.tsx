@@ -1,5 +1,5 @@
-import type React from "react";
-import { useState, useEffect, useRef } from "react";
+// src/pages/WalletDashboard.tsx
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   KeybanProvider,
@@ -13,22 +13,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
   faCopy,
-  faSpinner,
   faQrcode,
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { getErrorMessage } from "@/utils/errorUtils";
+import { fetchMaticToEuroRate } from "@/utils/apiUtils";
+import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
+import Loading from "@/components/Loading";
+import CustomError from "@/components/Error";
 import "./WalletDashboard.css";
-import { formatEthereumAddress } from "@/utils/formatEthereumAddress"; // Adjust the import path as needed
-
-// Function to fetch the Matic to Euro conversion rate
-const fetchMaticToEuroRate = async () => {
-  const response = await fetch(
-    "https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=eur"
-  );
-  const data = await response.json();
-  return data["matic-network"].eur;
-};
 
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
@@ -110,16 +103,11 @@ const WalletDashboardContent: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <div className="loading">
-        <FontAwesomeIcon icon={faSpinner} spin />
-        Loading...
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
-    return <div className="error">{error}</div>;
+    return <CustomError message={error} />;
   }
 
   return (
