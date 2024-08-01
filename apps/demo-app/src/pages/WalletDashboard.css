@@ -123,7 +123,7 @@ body {
 .error {
   color: var(--error-color);
   white-space: pre-wrap; /* Pour permettre l'affichage sur plusieurs lignes */
-  background-color: #ffe6e6; /* Fond rouge clair pour améliorer la lisibilité */
+  background-color: #ffe6e6; /* Fond rouge clair pour amÃ©liorer la lisibilitÃ© */
   padding: 10px;
   border-radius: 5px;
   margin: 10px 0;
@@ -132,7 +132,7 @@ body {
 
 /* Ajout de styles pour le hint de copie */
 .copy-hint {
-  position: fixed; /* Utilisez fixed pour le positionnement par rapport à la fenêtre */
+  position: fixed; /* Utilisez fixed pour le positionnement par rapport Ã  la fenÃªtre */
   background-color: var(--hint-background-color); /* Ajoutez cette variable dans variables.css */
   color: var(--hint-text-color); /* Ajoutez cette variable dans variables.css */
   padding: 10px;
@@ -141,4 +141,9 @@ body {
   opacity: 0.9;
   z-index: 1000;
   transition: opacity 0.3s ease;
+}
+
+/* Espace entre le texte et l'icône dans les boutons */
+button .fa {
+  margin-left: 8px;
 }

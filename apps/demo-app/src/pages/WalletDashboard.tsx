@@ -10,7 +10,13 @@ import {
 } from "@keyban/sdk-react";
 import type { KeybanAccount } from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faCopy, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBell,
+  faCopy,
+  faSpinner,
+  faQrcode,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
 import { getErrorMessage } from "@/utils/errorUtils";
 import "./WalletDashboard.css";
 import { formatEthereumAddress } from "@/utils/formatEthereumAddress"; // Adjust the import path as needed
@@ -122,6 +128,7 @@ const WalletDashboardContent: React.FC = () => {
         </div>
         <button type="button" onClick={handleShareAddressClick}>
           Share address
+          <FontAwesomeIcon className="fa" icon={faQrcode} />
         </button>
       </div>
       <div className="section">
@@ -135,6 +142,7 @@ const WalletDashboardContent: React.FC = () => {
           onClick={() => alert("Send functionality coming soon!")}
         >
           Send
+          <FontAwesomeIcon className="fa" icon={faPaperPlane} />
         </button>
       </div>
       <div className="section">
@@ -144,10 +152,16 @@ const WalletDashboardContent: React.FC = () => {
       <div className="section">
         <div>Non-Native Cryptocurrencies</div>
         <div className="crypto">
-          - AAVE: 0.005 <button type="button">Send</button>
+          - AAVE: 0.005{" "}
+          <button type="button">
+            Send <FontAwesomeIcon className="fa" icon={faPaperPlane} />
+          </button>
         </div>
         <div className="crypto">
-          - LINK: 0.2 <button type="button">Send</button>
+          - LINK: 0.2{" "}
+          <button type="button">
+            Send <FontAwesomeIcon className="fa" icon={faPaperPlane} />
+          </button>
         </div>
         <button type="button">View All</button>
       </div>
