@@ -44,12 +44,13 @@ const WalletDashboardContent: React.FC = () => {
 
     const fetchData = async () => {
       try {
+        const self = this;
         const [account, rate] = await Promise.all([
           keyban.client.initialize("my-ecdsa-key-id").then((account) => {
             setAccount(account);
             return account.getBalance();
           }),
-          fetchMaticToEuroRate(),
+          fetchMaticToEuroRate().catch(setEuroBalance.bind(self, 0)),
         ]);
 
         if (isMounted) {
