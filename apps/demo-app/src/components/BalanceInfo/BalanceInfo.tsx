@@ -1,5 +1,5 @@
 // src/components/BalanceInfo/BalanceInfo.tsx
-import React from 'react';
+import type React from 'react';
 import { FormattedBalance } from '@keyban/sdk-react';
 
 interface BalanceInfoProps {
