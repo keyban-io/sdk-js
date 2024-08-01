@@ -175,18 +175,6 @@ button .fa {
   margin-right: 10px;
 }
 
-.copy-button,
-.share-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 4px;
-  height: 24px;
-  width: 24px;
-  padding: 0 !important;
-  color: #007bff;
-}
 
 .copy-hint {
   position: absolute;

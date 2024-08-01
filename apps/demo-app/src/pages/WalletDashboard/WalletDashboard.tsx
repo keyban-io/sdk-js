@@ -1,27 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   KeybanProvider,
   KeybanSigner,
   useKeyban,
   KeybanLocalStorage,
-  FormattedBalance,
 } from '@keyban/sdk-react';
 import type { KeybanAccount } from '@keyban/sdk-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBell,
-  faCopy,
-  faQrcode,
-  faPaperPlane,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBell, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { getErrorMessage } from '@/utils/errorUtils';
 import { fetchMaticToEuroRate } from '@/utils/apiUtils';
-import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
 import Loading from '@/components/Loading';
 import CustomError from '@/components/CustomError';
 import './WalletDashboard.css';
 import TransactionList from '../../components/TransactionList/TransactionList';
+import AccountInfo from '../../components/AccountInfo/AccountInfo';
+import NetworkSelector from '../../components/NetworkSelector/NetworkSelector';
+import BalanceInfo from '../../components/BalanceInfo/BalanceInfo';
+import NFTSection from '../../components/NFTSection/NFTSection';
+import CryptoSection from '../../components/CryptoSection/CryptoSection';
 
 interface Transaction {
   id: string;
@@ -85,8 +83,6 @@ const WalletDashboardContent: React.FC = () => {
     y: 0,
   });
   const [euroBalance, setEuroBalance] = useState<number | null>(null);
-  const copyButtonRef = useRef<HTMLButtonElement>(null);
-  const shareButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -158,76 +154,25 @@ const WalletDashboardContent: React.FC = () => {
           <FontAwesomeIcon icon={faBell} />
         </span>
       </div>
-      <div className="section">
-        <div className="account-address-container">
-          <div className="account">{account?.keyId || 'No account'}</div>
-          <span className="account-address">
-            {account
-              ? formatEthereumAddress(account.address)
-              : 'No address found'}
-          </span>
-          <button
-            type="button"
-            onClick={handleCopyClick}
-            ref={copyButtonRef}
-            className="copy-button"
-          >
-            <FontAwesomeIcon icon={faCopy} />
-          </button>
-          <button
-            type="button"
-            onClick={handleShareAddressClick}
-            ref={shareButtonRef}
-            className="share-button"
-          >
-            <FontAwesomeIcon icon={faQrcode} />
-          </button>
-        </div>
-        <div className="network-select">
-          <label htmlFor="network">Network:</label>
-          <select id="network" value={network} onChange={handleNetworkChange}>
-            <option value="Polygon Testnet Amoy">Polygon Testnet Amoy</option>
-            <option value="Polygon Mainnet">Polygon Mainnet</option>
-          </select>
-        </div>
-      </div>
-      <div className="section">
-        <div className="balance-container">
-          <span className="balance">
-            {balance != null && <FormattedBalance balance={balance} />}
-          </span>
-          <span className="euro-balance">
-            {euroBalance != null && <span>€{euroBalance.toFixed(2)}</span>}
-          </span>
-        </div>
-        <button
-          type="button"
-          onClick={() => alert('Send functionality coming soon!')}
-        >
-          Send
-          <FontAwesomeIcon className="fa" icon={faPaperPlane} />
-        </button>
-      </div>
-      <div className="section">
-        <div>NFTs (Total: 5)</div>
-        <button type="button">View NFTs</button>
-      </div>
-      <div className="section">
-        <div>Non-Native Cryptocurrencies</div>
-        <div className="crypto">
-          - AAVE: 0.005{' '}
-          <button type="button">
-            Send <FontAwesomeIcon className="fa" icon={faPaperPlane} />
-          </button>
-        </div>
-        <div className="crypto">
-          - LINK: 0.2{' '}
-          <button type="button">
-            Send <FontAwesomeIcon className="fa" icon={faPaperPlane} />
-          </button>
-        </div>
-        <button type="button">View All</button>
-      </div>
+      <AccountInfo
+        account={account}
+        onCopyClick={handleCopyClick}
+        onShareClick={handleShareAddressClick}
+      />
+      <NetworkSelector
+        network={network}
+        onNetworkChange={handleNetworkChange}
+      />
+      <BalanceInfo balance={balance} euroBalance={euroBalance} />
+      <button
+        type="button"
+        onClick={() => alert('Send functionality coming soon!')}
+      >
+        Send
+        <FontAwesomeIcon className="fa" icon={faPaperPlane} />
+      </button>
+      <NFTSection />
+      <CryptoSection />
       <TransactionList transactions={transactions} />
       <button type="button">Transaction History</button>
       {hintVisible && (
