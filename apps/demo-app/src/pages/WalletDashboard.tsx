@@ -20,7 +20,7 @@ import { getErrorMessage } from "@/utils/errorUtils";
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
 import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
 import Loading from "@/components/Loading";
-import CustomError from "@/components/Error";
+import CustomError from "@/components/CustomError";
 import "./WalletDashboard.css";
 
 const WalletDashboardContent: React.FC = () => {
