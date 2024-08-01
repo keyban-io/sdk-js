@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import type React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   KeybanProvider,
@@ -21,8 +22,57 @@ import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
 import Loading from '@/components/Loading';
 import CustomError from '@/components/CustomError';
 import './WalletDashboard.css';
+import TransactionList from '../../components/TransctionList/TransactionList';
+
+interface Transaction {
+  id: string;
+  date: string;
+  type: string;
+  crypto: string;
+  toFrom: string;
+  amount: string;
+  status: string;
+}
 
 const WalletDashboardContent: React.FC = () => {
+  const transactions: Transaction[] = [
+    {
+      id: '1',
+      date: '2024-07-21',
+      type: 'Sent',
+      crypto: 'Non-Native',
+      toFrom: '0x...',
+      amount: '5 DAI',
+      status: 'Sent',
+    },
+    {
+      id: '2',
+      date: '2024-07-20',
+      type: 'Pending',
+      crypto: 'Native',
+      toFrom: '0x...',
+      amount: '0.1 MATIC',
+      status: 'Pending',
+    },
+    {
+      id: '3',
+      date: '2024-07-20',
+      type: 'Received',
+      crypto: 'NFT',
+      toFrom: '0x...',
+      amount: 'Cool Art 1',
+      status: 'Received',
+    },
+    {
+      id: '4',
+      date: '2024-07-19',
+      type: 'Received',
+      crypto: 'Non-Native',
+      toFrom: '0x...',
+      amount: '0.5 ETH',
+      status: 'Received',
+    },
+  ];
   const keyban = useKeyban();
   const navigate = useNavigate();
   const [account, setAccount] = useState<KeybanAccount | null>(null);
@@ -179,6 +229,7 @@ const WalletDashboardContent: React.FC = () => {
         </div>
         <button type="button">View All</button>
       </div>
+      <TransactionList transactions={transactions} />
       <button type="button">Transaction History</button>
       {hintVisible && (
         <div
