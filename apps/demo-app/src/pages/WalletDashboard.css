@@ -1,3 +1,4 @@
+/* src/pages/WalletDashboard.css */
 @import url("../variables.css");
 
 body {
@@ -123,7 +124,7 @@ body {
 .error {
   color: var(--error-color);
   white-space: pre-wrap; /* Pour permettre l'affichage sur plusieurs lignes */
-  background-color: #ffe6e6; /* Fond rouge clair pour amÃ©liorer la lisibilitÃ© */
+  background-color: #ffe6e6; /* Fond rouge clair pour améliorer la lisibilité */
   padding: 10px;
   border-radius: 5px;
   margin: 10px 0;
@@ -132,7 +133,7 @@ body {
 
 /* Ajout de styles pour le hint de copie */
 .copy-hint {
-  position: fixed; /* Utilisez fixed pour le positionnement par rapport Ã  la fenÃªtre */
+  position: fixed; /* Utilisez fixed pour le positionnement par rapport à la fenêtre */
   background-color: var(--hint-background-color); /* Ajoutez cette variable dans variables.css */
   color: var(--hint-text-color); /* Ajoutez cette variable dans variables.css */
   padding: 10px;
@@ -149,23 +150,36 @@ button .fa {
 }
 
 /* New styles for account, address, and button on the same line */
-.account-address-button {
+.account-address-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
 }
 
-.account-address-button .account,
-.account-address-button .address {
-  flex: 1;
+.account-address {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
   margin-right: 10px;
 }
 
-.account-address-button button {
-  margin-left: 10px;
+.copy-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  height: 24px;
+  width: 24px;
+  padding: 0 !important;
 }
 
+.copy-hint {
+  position: absolute;
+  background-color: #000;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+}
 
 .balance-container {
   display: flex;

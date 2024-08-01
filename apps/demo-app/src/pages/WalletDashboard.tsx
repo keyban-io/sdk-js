@@ -1,3 +1,4 @@
+// src/pages/WalletDashboard.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -48,7 +49,7 @@ const WalletDashboardContent: React.FC = () => {
             setAccount(account);
             return account.getBalance();
           }),
-          fetchMaticToEuroRate(),
+          fetchMaticToEuroRate().catch(setEuroBalance.bind(null, null)),
         ]);
 
         if (isMounted) {
@@ -58,10 +59,8 @@ const WalletDashboardContent: React.FC = () => {
           setLoading(false);
         }
       } catch (error) {
-        if (isMounted) {
-          setError(getErrorMessage(error));
-          setLoading(false);
-        }
+        setError(getErrorMessage(error));
+        setLoading(false);
       }
     };
 
@@ -109,20 +108,25 @@ const WalletDashboardContent: React.FC = () => {
         </span>
       </div>
       <div className="section">
-        <div className="account-address-button">
+        <div className="account-address-container">
           <div className="account">{account?.keyId || "No account"}</div>
-          <div className="address">
+          <span className="account-address">
             {account
               ? formatEthereumAddress(account.address)
               : "No address found"}
-          </div>
-          <button type="button" onClick={handleCopyClick} ref={copyButtonRef}>
+          </span>
+          <button
+            type="button"
+            onClick={handleCopyClick}
+            ref={copyButtonRef}
+            className="copy-button"
+          >
             <FontAwesomeIcon icon={faCopy} />
           </button>
         </div>
-        <div>
-          Network:
-          <select value={network} onChange={handleNetworkChange}>
+        <div className="network-select">
+          <label htmlFor="network">Network:</label>
+          <select id="network" value={network} onChange={handleNetworkChange}>
             <option value="Polygon Testnet Amoy">Polygon Testnet Amoy</option>
             <option value="Polygon Mainnet">Polygon Mainnet</option>
           </select>
@@ -138,7 +142,7 @@ const WalletDashboardContent: React.FC = () => {
             {balance != null && <FormattedBalance balance={balance} />}
           </span>
           <span className="euro-balance">
-            {euroBalance != null && <span> (€{euroBalance.toFixed(2)})</span>}
+            {euroBalance != null && <span>€{euroBalance.toFixed(2)}</span>}
           </span>
         </div>
         <button
