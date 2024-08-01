@@ -147,3 +147,39 @@ body {
 button .fa {
   margin-left: 8px;
 }
+
+/* New styles for account, address, and button on the same line */
+.account-address-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.account-address-button .account,
+.account-address-button .address {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.account-address-button button {
+  margin-left: 10px;
+}
+
+
+.balance-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center-aligns the content horizontally */
+}
+
+.balance-container .balance {
+  font-size: 1.5em; /* Adjust as needed */
+  text-align: center; /* Center-aligns the text */
+}
+
+.balance-container .euro-balance {
+  font-size: 1em; /* Adjust as needed */
+  text-align: center; /* Center-aligns the text */
+  margin-top: 5px;
+}

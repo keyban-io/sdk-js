@@ -1,4 +1,3 @@
-// src/pages/WalletDashboard.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -110,18 +109,16 @@ const WalletDashboardContent: React.FC = () => {
         </span>
       </div>
       <div className="section">
-        <div>
-          <span className="account">{account?.keyId || "No account"}</span>
-        </div>
-        <div>
-          <span className="address">
+        <div className="account-address-button">
+          <div className="account">{account?.keyId || "No account"}</div>
+          <div className="address">
             {account
               ? formatEthereumAddress(account.address)
               : "No address found"}
-            <button type="button" onClick={handleCopyClick} ref={copyButtonRef}>
-              <FontAwesomeIcon icon={faCopy} />
-            </button>
-          </span>
+          </div>
+          <button type="button" onClick={handleCopyClick} ref={copyButtonRef}>
+            <FontAwesomeIcon icon={faCopy} />
+          </button>
         </div>
         <div>
           Network:
@@ -136,9 +133,11 @@ const WalletDashboardContent: React.FC = () => {
         </button>
       </div>
       <div className="section">
-        <div>
+        <div className="balance-container">
           <span className="balance">
             {balance != null && <FormattedBalance balance={balance} />}
+          </span>
+          <span className="euro-balance">
             {euroBalance != null && <span> (€{euroBalance.toFixed(2)})</span>}
           </span>
         </div>
