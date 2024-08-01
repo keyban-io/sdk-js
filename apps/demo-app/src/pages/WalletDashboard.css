@@ -1,4 +1,3 @@
-/* src/pages/WalletDashboard.css */
 @import url("../variables.css");
 
 body {
@@ -152,7 +151,20 @@ button .fa {
 /* New styles for account, address, and button on the same line */
 .account-address-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
+}
+
+.account {
+  flex: 1;
+  text-align: left;
+}
+
+.account-address-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .account-address {
