@@ -1,5 +1,4 @@
-import type React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   KeybanProvider,
@@ -22,7 +21,7 @@ import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
 import Loading from '@/components/Loading';
 import CustomError from '@/components/CustomError';
 import './WalletDashboard.css';
-import TransactionList from '../../components/TransctionList/TransactionList';
+import TransactionList from '../../components/TransactionList/TransactionList';
 
 interface Transaction {
   id: string;
