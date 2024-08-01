@@ -81,7 +81,8 @@ body {
 }
 
 .section .balance,
-.section .address {
+.section .address,
+.section .account {
   font-weight: bold;
 }
 

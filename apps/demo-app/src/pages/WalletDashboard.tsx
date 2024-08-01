@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import type React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   KeybanProvider,
@@ -11,6 +12,7 @@ import type { KeybanAccount } from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faCopy, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { getErrorMessage } from "@/utils/errorUtils";
+import { formatEthereumAddress } from "@/utils/formatEthereumAddress"; // Adjust the import path as needed
 import "./WalletDashboard.css";
 
 const WalletDashboardContent: React.FC = () => {
@@ -81,13 +83,14 @@ const WalletDashboardContent: React.FC = () => {
       </div>
       <div className="section">
         <div>
-          Account:{" "}
+          {" "}
           <span className="account">{account?.keyId || "No account"}</span>
         </div>
         <div>
-          Address:{" "}
           <span className="address">
-            {account?.address || "No address found"}
+            {account
+              ? formatEthereumAddress(account.address)
+              : "No address found"}
             <button
               type="button"
               onClick={() =>
@@ -111,7 +114,7 @@ const WalletDashboardContent: React.FC = () => {
       </div>
       <div className="section">
         <div>
-          Native Balance:{" "}
+          {" "}
           <span className="balance">
             {balance != null && <FormattedBalance balance={balance} />}
           </span>
