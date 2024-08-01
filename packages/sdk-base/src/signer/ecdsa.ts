@@ -18,24 +18,23 @@ export function KeybanSigner_ECDSA(): KeybanSigner<ClientShare_ECDSA> {
   wasmPromise ??= initWasmFile();
 
   const wrap =
-    (fn: Function) =>
-      async (...args: any[]) => {
-        await wasmPromise;
-        return fn(...args);
-      };
+    <Args extends any[], Ret = unknown>(
+      fn: (...args: Args) => Ret | Promise<Ret>
+    ) =>
+    async (...args: Args) => {
+      await wasmPromise;
+      return fn(...args);
+    };
 
   return {
     storagePrefix: "KEYBAN-ECDSA",
 
-    add: wrap((...args: any[]) => (window as any).ecdsa.add(...args)),
-    dkg: wrap((...args: any[]) =>
-      (window as any).ecdsa.dkg(...args).then(JSON.parse)
+    add: wrap((...args) => (window as any).ecdsa.add(...args)),
+    dkg: wrap((...args) => (window as any).ecdsa.dkg(...args).then(JSON.parse)),
+    sign: wrap((keyId, clientShare, message) =>
+      (window as any).ecdsa.sign(keyId, JSON.stringify(clientShare), message)
     ),
-    sign: wrap(
-      (keyId: string, clientShare: ClientShare_ECDSA, message: string) =>
-        (window as any).ecdsa.sign(keyId, JSON.stringify(clientShare), message)
-    ),
-    publicKey: wrap((clientShare: ClientShare_ECDSA) =>
+    publicKey: wrap((clientShare) =>
       (window as any).ecdsa.publicKey(JSON.stringify(clientShare))
     ),
   };

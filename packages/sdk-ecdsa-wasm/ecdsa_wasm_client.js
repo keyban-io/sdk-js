@@ -1,10 +1,6 @@
 import * as _ from "./wasm_exec.js";
 
-async function run(wasmUrl) {
-  if (wasmUrl === undefined) {
-    wasmUrl = new URL("ecdsa.wasm", import.meta.url);
-  }
-
+async function run(wasmUrl = new URL("ecdsa.wasm", import.meta.url)) {
   const go = new Go();
 
   const obj = await WebAssembly.instantiateStreaming(
@@ -12,14 +8,8 @@ async function run(wasmUrl) {
     go.importObject
   );
 
-  // Timeout mechanism to detect blocking
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error("Timeout during go.run()")), 500)
-  );
-
-  await Promise.race([go.run(obj.instance), timeoutPromise]).catch((e) =>
-    console.error("Error during go.run:", e)
-  );
+  // Go program will stall waiting on an never ending channel; don't wait for the program promise to resolve ever
+  go.run(obj.instance).catch(console.error);
 }
 
 export default run;

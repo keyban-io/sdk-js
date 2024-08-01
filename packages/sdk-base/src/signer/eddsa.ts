@@ -22,30 +22,22 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
   wasmPromise ??= initWasmFile();
 
   const wrap =
-    (fn: Function) =>
-      async (...args: any[]) => {
-        await wasmPromise;
-        return fn(...args);
-      };
+    <Args extends any[], Ret = unknown>(
+      fn: (...args: Args) => Ret | Promise<Ret>
+    ) =>
+    async (...args: Args) => {
+      await wasmPromise;
+      return fn(...args);
+    };
 
   return {
     storagePrefix: "KEYBAN-EDDSA",
 
     add: wrap(add),
     dkg: wrap(dkg),
-    sign: wrap(
-      (keyId: string, clientShare: ClientShare_EdDSA, message: string) =>
-        sign(keyId, clientShare.secret_share, message)
+    sign: wrap((keyId, clientShare, message) =>
+      sign(keyId, clientShare.secret_share, message)
     ),
-    publicKey: wrap((clientShare: ClientShare_EdDSA) => {
-      return new Promise((resolve, reject) => {
-        try {
-          const clientPubKey = clientShare.client_pubkey as Hex;
-          resolve(clientPubKey);
-        } catch (error) {
-          reject(error);
-        }
-      });
-    }),
+    publicKey: wrap((clientShare) => clientShare.client_pubkey as Hex),
   };
 }
