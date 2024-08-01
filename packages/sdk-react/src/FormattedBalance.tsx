@@ -28,8 +28,6 @@ export type BalanceProps = { balance: bigint };
  * This is typically used to display the balance of an account, as retrieved by
  * {@link KeybanAccount.getBalance | KeybanAccount.getBalance()}.
  *
- * @param props - The component properties.
- * @param props.balance - The balance as a bigint.
  * @returns A JSX element displaying the formatted balance.
  *
  * @example
