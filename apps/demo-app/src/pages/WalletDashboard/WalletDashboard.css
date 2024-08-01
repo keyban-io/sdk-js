@@ -1,4 +1,4 @@
-@import url("../../variables.css");
+@import url('../../variables.css');
 
 body {
   font-family: var(--font-family);
@@ -133,7 +133,9 @@ body {
 /* Ajout de styles pour le hint de copie */
 .copy-hint {
   position: fixed; /* Utilisez fixed pour le positionnement par rapport à la fenêtre */
-  background-color: var(--hint-background-color); /* Ajoutez cette variable dans variables.css */
+  background-color: var(
+    --hint-background-color
+  ); /* Ajoutez cette variable dans variables.css */
   color: var(--hint-text-color); /* Ajoutez cette variable dans variables.css */
   padding: 10px;
   border-radius: 5px;

@@ -1,33 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   KeybanProvider,
   KeybanSigner,
   useKeyban,
   KeybanLocalStorage,
   FormattedBalance,
-} from "@keyban/sdk-react";
-import type { KeybanAccount } from "@keyban/sdk-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '@keyban/sdk-react';
+import type { KeybanAccount } from '@keyban/sdk-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBell,
   faCopy,
   faQrcode,
   faPaperPlane,
-} from "@fortawesome/free-solid-svg-icons";
-import { getErrorMessage } from "@/utils/errorUtils";
-import { fetchMaticToEuroRate } from "@/utils/apiUtils";
-import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
-import Loading from "@/components/Loading";
-import CustomError from "@/components/CustomError";
-import "./WalletDashboard.css";
+} from '@fortawesome/free-solid-svg-icons';
+import { getErrorMessage } from '@/utils/errorUtils';
+import { fetchMaticToEuroRate } from '@/utils/apiUtils';
+import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
+import Loading from '@/components/Loading';
+import CustomError from '@/components/CustomError';
+import './WalletDashboard.css';
 
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
   const navigate = useNavigate();
   const [account, setAccount] = useState<KeybanAccount | null>(null);
   const [balance, setBalance] = useState<bigint | undefined>(undefined);
-  const [network, setNetwork] = useState<string>("Polygon Testnet Amoy");
+  const [network, setNetwork] = useState<string>('Polygon Testnet Amoy');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hintVisible, setHintVisible] = useState<boolean>(false);
@@ -44,13 +44,12 @@ const WalletDashboardContent: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        const self = this;
         const [account, rate] = await Promise.all([
-          keyban.client.initialize("my-ecdsa-key-id").then((account) => {
+          keyban.client.initialize('my-ecdsa-key-id').then((account) => {
             setAccount(account);
             return account.getBalance();
           }),
-          fetchMaticToEuroRate().catch(setEuroBalance.bind(self, 0)),
+          fetchMaticToEuroRate().catch(setEuroBalance.bind(null, 0)),
         ]);
 
         if (isMounted) {
@@ -112,11 +111,11 @@ const WalletDashboardContent: React.FC = () => {
       </div>
       <div className="section">
         <div className="account-address-container">
-          <div className="account">{account?.keyId || "No account"}</div>
+          <div className="account">{account?.keyId || 'No account'}</div>
           <span className="account-address">
             {account
               ? formatEthereumAddress(account.address)
-              : "No address found"}
+              : 'No address found'}
           </span>
           <button
             type="button"
@@ -154,7 +153,7 @@ const WalletDashboardContent: React.FC = () => {
         </div>
         <button
           type="button"
-          onClick={() => alert("Send functionality coming soon!")}
+          onClick={() => alert('Send functionality coming soon!')}
         >
           Send
           <FontAwesomeIcon className="fa" icon={faPaperPlane} />
@@ -167,13 +166,13 @@ const WalletDashboardContent: React.FC = () => {
       <div className="section">
         <div>Non-Native Cryptocurrencies</div>
         <div className="crypto">
-          - AAVE: 0.005{" "}
+          - AAVE: 0.005{' '}
           <button type="button">
             Send <FontAwesomeIcon className="fa" icon={faPaperPlane} />
           </button>
         </div>
         <div className="crypto">
-          - LINK: 0.2{" "}
+          - LINK: 0.2{' '}
           <button type="button">
             Send <FontAwesomeIcon className="fa" icon={faPaperPlane} />
           </button>

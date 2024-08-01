@@ -1,5 +1,5 @@
-import type React from "react";
-import "./Modal.css";
+import type React from 'react';
+import './Modal.css';
 
 interface ModalProps {
   show: boolean;

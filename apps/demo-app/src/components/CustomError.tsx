@@ -1,5 +1,5 @@
 // components/Error.tsx
-import type React from "react";
+import type React from 'react';
 
 interface CustomErrorProps {
   message: string;

@@ -1,17 +1,17 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import QRCode from "qrcode.react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
-import "./QRCodePage.css";
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import QRCode from 'qrcode.react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import './QRCodePage.css';
 
 const QRCodePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const address = new URLSearchParams(location.search).get("address");
+  const address = new URLSearchParams(location.search).get('address');
 
   const handleBackClick = () => {
-    navigate("/");
+    navigate('/');
   };
 
   return (
