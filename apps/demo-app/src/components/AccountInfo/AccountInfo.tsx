@@ -5,7 +5,7 @@ import { faCopy, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
 
 interface AccountInfoProps {
-  account: AccountType;
+  account: AccountType | null;
   onCopyClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onShareClick: () => void;
 }
