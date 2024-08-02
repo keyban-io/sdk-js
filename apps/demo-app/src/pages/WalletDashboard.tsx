@@ -13,13 +13,13 @@ import { getErrorMessage } from '@/utils/errorUtils';
 import { fetchMaticToEuroRate } from '@/utils/apiUtils';
 import Loading from '@/components/Loading';
 import CustomError from '@/components/CustomError';
-import './WalletDashboard.css';
-import TransactionList from '../../components/TransactionList/TransactionList';
-import AccountInfo from '../../components/AccountInfo/AccountInfo';
-import NetworkSelector from '../../components/NetworkSelector/NetworkSelector';
-import BalanceInfo from '../../components/BalanceInfo/BalanceInfo';
-import NFTSection from '../../components/NFTSection/NFTSection';
-import CryptoSection from '../../components/CryptoSection/CryptoSection';
+import styled from 'styled-components';
+import TransactionList from '../components/TransactionList';
+import AccountInfo from '../components/AccountInfo';
+import NetworkSelector from '../components/NetworkSelector';
+import BalanceInfo from '../components/BalanceInfo';
+import NFTSection from '../components/NFTSection';
+import CryptoSection from '../components/CryptoSection';
 
 interface Transaction {
   id: string;
@@ -30,6 +30,59 @@ interface Transaction {
   amount: string;
   status: string;
 }
+
+const WalletDashboardWrapper = styled.div`
+  padding: 20px;
+  background-color: var(--primary-lightest);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+`;
+
+const Notification = styled.span`
+  cursor: pointer;
+  color: var(--primary);
+`;
+
+const Button = styled.button`
+  margin: 10px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+
+  &:hover {
+    background-color: var(--primary-hover-color);
+  }
+
+  .fa {
+    margin-left: 5px;
+  }
+`;
+
+const CopyHint = styled.div`
+  position: absolute;
+  background-color: var(--primary);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8em;
+`;
 
 const WalletDashboardContent: React.FC = () => {
   const transactions: Transaction[] = [
@@ -147,13 +200,13 @@ const WalletDashboardContent: React.FC = () => {
   }
 
   return (
-    <div className="wallet-dashboard">
-      <div className="header">
+    <WalletDashboardWrapper>
+      <Header>
         <span>Keyban WAAS Demo</span>
-        <span className="notification">
+        <Notification>
           <FontAwesomeIcon icon={faBell} />
-        </span>
-      </div>
+        </Notification>
+      </Header>
       <AccountInfo
         account={account}
         onCopyClick={handleCopyClick}
@@ -164,26 +217,25 @@ const WalletDashboardContent: React.FC = () => {
         onNetworkChange={handleNetworkChange}
       />
       <BalanceInfo balance={balance} euroBalance={euroBalance} />
-      <button
+      <Button
         type="button"
         onClick={() => alert('Send functionality coming soon!')}
       >
         Send
         <FontAwesomeIcon className="fa" icon={faPaperPlane} />
-      </button>
+      </Button>
       <NFTSection />
       <CryptoSection />
       <TransactionList transactions={transactions} />
-      <button type="button">Transaction History</button>
+      <Button type="button">Transaction History</Button>
       {hintVisible && (
-        <div
-          className="copy-hint"
+        <CopyHint
           style={{ top: hintPosition.y - 20, left: hintPosition.x + 10 }}
         >
           Copied!
-        </div>
+        </CopyHint>
       )}
-    </div>
+    </WalletDashboardWrapper>
   );
 };
 

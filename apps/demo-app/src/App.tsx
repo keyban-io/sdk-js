@@ -2,8 +2,8 @@ import type React from 'react';
 import { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Loading from './components/Loading';
-import WalletDashboard from './pages/WalletDashboard/WalletDashboard';
-import QRCodePage from './pages/QRCodePage/QRCodePage';
+import WalletDashboard from './pages/WalletDashboard';
+import QRCodePage from './pages/QRCodePage';
 
 const App: React.FC = () => {
   return (

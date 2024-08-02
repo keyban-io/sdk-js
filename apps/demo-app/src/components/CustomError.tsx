@@ -1,12 +1,19 @@
-// components/Error.tsx
+// src/components/CustomError.tsx
+
 import type React from 'react';
+import styled from 'styled-components';
 
 interface CustomErrorProps {
   message: string;
 }
 
-const CustomError: React.FC<CustomErrorProps> = ({ message }) => (
-  <div className="customError">{message}</div>
-);
+const ErrorWrapper = styled.div`
+  color: red;
+  font-weight: bold;
+`;
+
+const CustomError: React.FC<CustomErrorProps> = ({ message }) => {
+  return <ErrorWrapper>{message}</ErrorWrapper>;
+};
 
 export default CustomError;
