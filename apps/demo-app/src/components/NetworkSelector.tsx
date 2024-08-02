@@ -20,6 +20,7 @@ const SelectorContainer = styled.div`
   background-color: var(--container-background-color);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
+  margin-bottom: 20px; /* Espacement des éléments */
 `;
 
 const Label = styled.label`

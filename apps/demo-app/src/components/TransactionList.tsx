@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import styled from 'styled-components';
 import { Tooltip } from '@material-ui/core';
 
@@ -25,13 +25,14 @@ const TableHeader = styled.th`
   background-color: var(--table-header-background-color);
   color: var(--table-header-color);
   padding: 0.5rem;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid var(--border-color);
 `;
 
 const TableCell = styled.td`
   padding: 0.5rem;
   border-bottom: 1px solid var(--border-color);
+  text-align: center; /* Center align all table cells for better alignment */
 `;
 
 const TransactionRow = styled.tr`
