@@ -65,10 +65,6 @@ export const testNetworks = [
     id: '2',
     name: 'Polygon',
   },
-  {
-    id: '3',
-    name: 'Binance Smart Chain',
-  },
 ];
 
 export const testCryptos = [

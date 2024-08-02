@@ -8,28 +8,34 @@ const spin = keyframes`
 
 const LoadingWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  font-size: 20px;
-  color: var(--primary);
+  justify-content: center;
+  height: 100vh; /* Assure que l'indicateur de chargement est centré verticalement */
+  background-color: var(--primary-lightest);
 `;
 
 const Spinner = styled.div`
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid var(--primary);
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--primary);
   border-radius: 50%;
   width: 40px;
   height: 40px;
   animation: ${spin} 1s linear infinite;
-  margin-right: 10px;
+`;
+
+const LoadingText = styled.p`
+  margin-top: 10px;
+  font-size: 1.2em;
+  color: var(--primary);
 `;
 
 const Loading: React.FC = () => {
   return (
     <LoadingWrapper>
-      <Spinner />
-      Loading...
+      <div>
+        <Spinner />
+        <LoadingText>Loading...</LoadingText>
+      </div>
     </LoadingWrapper>
   );
 };

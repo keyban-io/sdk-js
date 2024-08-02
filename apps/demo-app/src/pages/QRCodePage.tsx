@@ -54,6 +54,15 @@ const AddressText = styled.h2`
   margin-bottom: 20px;
   word-wrap: break-word;
   font-size: 1.2em;
+  color: var(--primary);
+`;
+
+const QRCodeContainer = styled.div`
+  padding: 20px;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  display: inline-block;
 `;
 
 const QRCodePage: React.FC = () => {
@@ -74,9 +83,11 @@ const QRCodePage: React.FC = () => {
         </Notification>
       </Header>
       <Section>
-        <AddressText>{address}</AddressText>
+        <AddressText>{address || 'No address provided'}</AddressText>
         {address ? (
-          <QRCode value={address} size={256} />
+          <QRCodeContainer>
+            <QRCode value={address} size={256} level="H" />
+          </QRCodeContainer>
         ) : (
           <p>Loading address...</p>
         )}

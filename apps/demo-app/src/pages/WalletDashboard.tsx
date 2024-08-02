@@ -8,7 +8,7 @@ import {
 } from '@keyban/sdk-react';
 import type { KeybanAccount } from '@keyban/sdk-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { getErrorMessage } from '@/utils/errorUtils';
 import { fetchMaticToEuroRate } from '@/utils/apiUtils';
 import Loading from '@/components/Loading';
@@ -20,12 +20,13 @@ import NetworkSelector from '../components/NetworkSelector';
 import BalanceInfo from '../components/BalanceInfo';
 import NFTSection from '../components/NFTSection';
 import CryptoSection from '../components/CryptoSection';
+import Modal from '../components/Modal';
 import {
   testNFTs,
   testTransactions,
   testNetworks,
   testCryptos,
-} from './testData.ts';
+} from './testData';
 
 const WalletDashboardWrapper = styled.div`
   padding: 20px;
@@ -96,6 +97,7 @@ const WalletDashboardContent: React.FC = () => {
   const [selectedNetworkId, setSelectedNetworkId] = useState(
     testNetworks[0].id
   );
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -151,8 +153,16 @@ const WalletDashboardContent: React.FC = () => {
     setSelectedNetworkId(networkId);
   };
 
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
   const handleSendCrypto = (crypto: { name: string; balance: number }) => {
     console.log(`Sending ${crypto.name}`);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   if (loading) {
@@ -181,14 +191,12 @@ const WalletDashboardContent: React.FC = () => {
         selectedNetworkId={selectedNetworkId}
         onSelectNetwork={handleSelectNetwork}
       />
-      <BalanceInfo balance={balance} euroBalance={euroBalance} />
-      <Button
-        type="button"
-        onClick={() => alert('Send functionality coming soon!')}
-      >
-        Send
-        <FontAwesomeIcon className="fa" icon={faPaperPlane} />
-      </Button>
+      <BalanceInfo
+        balance={balance}
+        euroBalance={euroBalance}
+        onSend={handleOpenModal}
+      />
+
       <NFTSection nfts={testNFTs} />
       <CryptoSection cryptos={testCryptos} onSend={handleSendCrypto} />
       <TransactionList transactions={testTransactions} />
@@ -201,6 +209,9 @@ const WalletDashboardContent: React.FC = () => {
           Copied!
         </CopyHint>
       )}
+      <Modal show={showModal} onClose={handleCloseModal} title="Send Crypto">
+        <p>Send functionality coming soon!</p>
+      </Modal>
     </WalletDashboardWrapper>
   );
 };

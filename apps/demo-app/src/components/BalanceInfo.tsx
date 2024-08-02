@@ -2,16 +2,19 @@ import type React from 'react';
 import { FormattedBalance } from '@keyban/sdk-react';
 import styled from 'styled-components';
 import { Tooltip } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 interface BalanceInfoProps {
   balance: bigint | undefined;
   euroBalance: number | null;
+  onSend: () => void;
 }
 
 const BalanceContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center; /* Ajout pour centrer horizontalement */
   padding: 10px;
   background-color: var(--container-background-color);
   border: 1px solid var(--border-color);
@@ -26,12 +29,13 @@ const BalanceContainer = styled.div`
 const BalanceDetails = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin-left: 10px;
+  align-items: center;
+  margin-bottom: 10px;
 `;
 
 const Balance = styled.span`
   font-size: 1.2em;
+  margin-bottom: 5px;
 `;
 
 const EuroBalance = styled.span`
@@ -39,7 +43,30 @@ const EuroBalance = styled.span`
   color: var(--primary);
 `;
 
-const BalanceInfo: React.FC<BalanceInfoProps> = ({ balance, euroBalance }) => {
+const SendButton = styled.button`
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+
+  &:hover {
+    color: var(--primary-hover-color);
+  }
+
+  .fa {
+    margin-left: 5px;
+  }
+`;
+
+const BalanceInfo: React.FC<BalanceInfoProps> = ({
+  balance,
+  euroBalance,
+  onSend,
+}) => {
   return (
     <BalanceContainer>
       <BalanceDetails>
@@ -54,6 +81,12 @@ const BalanceInfo: React.FC<BalanceInfoProps> = ({ balance, euroBalance }) => {
           </EuroBalance>
         </Tooltip>
       </BalanceDetails>
+      <Tooltip title="Send" arrow>
+        <SendButton type="button" onClick={onSend}>
+          Send
+          <FontAwesomeIcon className="fa" icon={faPaperPlane} />
+        </SendButton>
+      </Tooltip>
     </BalanceContainer>
   );
 };
