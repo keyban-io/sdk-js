@@ -1,6 +1,5 @@
-import React from 'react';
+import type React from 'react';
 import styled from 'styled-components';
-import { Tooltip } from '@material-ui/core';
 
 interface NFT {
   id: string;
@@ -52,14 +51,12 @@ const NFTSection: React.FC<NFTSectionProps> = ({ nfts }) => {
   return (
     <NFTContainer>
       {nfts.map((nft) => (
-        <Tooltip key={nft.id} title={nft.name} arrow>
-          <NFTCard>
-            <NFTImage src={nft.imageUrl} alt={nft.name} />
-            <NFTDetails>
-              <NFTName>{nft.name}</NFTName>
-            </NFTDetails>
-          </NFTCard>
-        </Tooltip>
+        <NFTCard key={nft.id}>
+          <NFTImage src={nft.imageUrl} alt={nft.name} />
+          <NFTDetails>
+            <NFTName>{nft.name}</NFTName>
+          </NFTDetails>
+        </NFTCard>
       ))}
     </NFTContainer>
   );
