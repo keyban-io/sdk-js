@@ -9,7 +9,6 @@ import {
 import type { KeybanAccount } from '@keyban/sdk-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
-import { getErrorMessage } from '@/utils/errorUtils';
 import { fetchMaticToEuroRate } from '@/utils/apiUtils';
 import Loading from '@/components/Loading';
 import CustomError from '@/components/CustomError';
@@ -91,7 +90,7 @@ const WalletDashboardContent: React.FC = () => {
   const [account, setAccount] = useState<KeybanAccount | null>(null);
   const [balance, setBalance] = useState<bigint | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [hintVisible, setHintVisible] = useState<boolean>(false);
   const [hintPosition, setHintPosition] = useState<{ x: number; y: number }>({
     x: 0,
@@ -124,7 +123,19 @@ const WalletDashboardContent: React.FC = () => {
         }
       } catch (error) {
         if (isMounted) {
-          setError(getErrorMessage(error));
+          // Traiter l'erreur en fonction de son type
+          let processedError: Error | undefined;
+          if (error instanceof Error) {
+            processedError = error;
+          } else if (typeof error === 'string') {
+            // Si l'erreur est une chaîne, créer une nouvelle erreur avec ce message
+            processedError = new Error(error);
+          } else {
+            // Si l'erreur est d'un autre type, la convertir en chaîne JSON
+            processedError = new Error(JSON.stringify(error));
+          }
+
+          setError(processedError);
           setLoading(false);
         }
       }
@@ -169,12 +180,18 @@ const WalletDashboardContent: React.FC = () => {
     setShowModal(false);
   };
 
+  const handleRenameKeyId = (newKeyId: string) => {
+    if (account) {
+      setAccount({ ...account, keyId: newKeyId });
+    }
+  };
+
   if (loading) {
     return <Loading />;
   }
 
   if (error) {
-    return <CustomError message={error} />;
+    return <CustomError error={error} />;
   }
 
   return (
@@ -190,6 +207,7 @@ const WalletDashboardContent: React.FC = () => {
           account={account}
           onCopyClick={handleCopyClick}
           onShareClick={handleShareAddressClick}
+          onRenameKeyId={handleRenameKeyId}
         />
       </Section>
       <Section>
