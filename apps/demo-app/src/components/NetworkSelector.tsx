@@ -1,50 +1,63 @@
-import type React from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { Tooltip } from '@material-ui/core';
 
-interface NetworkSelectorProps {
-  network: string;
-  onNetworkChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+interface Network {
+  id: string;
+  name: string;
 }
 
-const NetworkSelectContainer = styled.div`
+interface NetworkSelectorProps {
+  networks: Network[];
+  selectedNetworkId: string;
+  onSelectNetwork: (networkId: string) => void;
+}
+
+const SelectorContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 10px 0;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--container-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
 `;
 
 const Label = styled.label`
-  margin-bottom: 5px;
-  font-weight: bold;
+  margin-right: 10px;
+  font-size: 1em;
+  color: var(--primary);
 `;
 
 const Select = styled.select`
-  padding: 10px;
-  border-radius: var(--border-radius);
+  padding: 5px;
   border: 1px solid var(--border-color);
-  background-color: var(--primary);
-  color: white;
-
-  &:focus {
-    outline: none;
-    border-color: var(--primary);
-  }
-  &:hover {
-    background-color: var(--primary-hover-color);
-  }
+  border-radius: var(--border-radius);
+  background-color: #fff;
+  color: var(--primary);
 `;
 
 const NetworkSelector: React.FC<NetworkSelectorProps> = ({
-  network,
-  onNetworkChange,
+  networks,
+  selectedNetworkId,
+  onSelectNetwork,
 }) => {
   return (
-    <NetworkSelectContainer>
-      <Label htmlFor="network">Network:</Label>
-      <Select id="network" value={network} onChange={onNetworkChange}>
-        <option value="Polygon Testnet Amoy">Polygon Testnet Amoy</option>
-        <option value="Polygon Mainnet">Polygon Mainnet</option>
+    <SelectorContainer>
+      <Tooltip title="Select Network" arrow>
+        <Label htmlFor="network-select">Network:</Label>
+      </Tooltip>
+      <Select
+        id="network-select"
+        value={selectedNetworkId}
+        onChange={(e) => onSelectNetwork(e.target.value)}
+      >
+        {networks.map((network) => (
+          <option key={network.id} value={network.id}>
+            {network.name}
+          </option>
+        ))}
       </Select>
-    </NetworkSelectContainer>
+    </SelectorContainer>
   );
 };
 

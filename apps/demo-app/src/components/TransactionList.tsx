@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Tooltip } from '@material-ui/core';
 
 interface Transaction {
-  id: string;
   date: string;
   type: string;
   crypto: string;
@@ -15,55 +15,72 @@ interface TransactionListProps {
   transactions: Transaction[];
 }
 
-const TransactionListWrapper = styled.div`
-  padding: 20px;
-  background-color: var(--primary-lightest);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
 `;
 
-const TransactionHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  font-weight: bold;
+const TableHeader = styled.th`
+  background-color: var(--table-header-background-color);
+  color: var(--table-header-color);
+  padding: 0.5rem;
+  text-align: left;
   border-bottom: 1px solid var(--border-color);
 `;
 
-const TransactionItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
+const TableCell = styled.td`
+  padding: 0.5rem;
   border-bottom: 1px solid var(--border-color);
 `;
 
-const TransactionField = styled.span`
-  flex: 1;
-  text-align: center;
+const TransactionRow = styled.tr`
+  &:hover {
+    background-color: var(--table-row-hover-background-color);
+  }
+`;
+
+const Status = styled.span<{ status: string }>`
+  color: ${(props) =>
+    props.status === 'Pending'
+      ? 'orange'
+      : props.status === 'Sent'
+        ? 'green'
+        : 'red'};
 `;
 
 const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
   return (
-    <TransactionListWrapper>
-      <TransactionHeader>
-        <TransactionField>Date</TransactionField>
-        <TransactionField>Type</TransactionField>
-        <TransactionField>Crypto</TransactionField>
-        <TransactionField>To/From</TransactionField>
-        <TransactionField>Amount</TransactionField>
-        <TransactionField>Status</TransactionField>
-      </TransactionHeader>
-      {transactions.map((transaction) => (
-        <TransactionItem key={transaction.id}>
-          <TransactionField>{transaction.date}</TransactionField>
-          <TransactionField>{transaction.type}</TransactionField>
-          <TransactionField>{transaction.crypto}</TransactionField>
-          <TransactionField>{transaction.toFrom}</TransactionField>
-          <TransactionField>{transaction.amount}</TransactionField>
-          <TransactionField>{transaction.status}</TransactionField>
-        </TransactionItem>
-      ))}
-    </TransactionListWrapper>
+    <Table>
+      <thead>
+        <tr>
+          <TableHeader>Date</TableHeader>
+          <TableHeader>Type</TableHeader>
+          <TableHeader>Crypto</TableHeader>
+          <TableHeader>To/From</TableHeader>
+          <TableHeader>Amount</TableHeader>
+          <TableHeader>Status</TableHeader>
+        </tr>
+      </thead>
+      <tbody>
+        {transactions.map((transaction, index) => (
+          <TransactionRow key={index}>
+            <TableCell>{transaction.date}</TableCell>
+            <TableCell>{transaction.type}</TableCell>
+            <TableCell>{transaction.crypto}</TableCell>
+            <TableCell>
+              <Tooltip title={transaction.toFrom} arrow>
+                <span>{transaction.toFrom}</span>
+              </Tooltip>
+            </TableCell>
+            <TableCell>{transaction.amount}</TableCell>
+            <TableCell>
+              <Status status={transaction.status}>{transaction.status}</Status>
+            </TableCell>
+          </TransactionRow>
+        ))}
+      </tbody>
+    </Table>
   );
 };
 

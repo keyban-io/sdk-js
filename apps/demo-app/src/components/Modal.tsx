@@ -1,54 +1,84 @@
-// src/components/Modal/Modal.tsx
-
-import type React from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface ModalProps {
-  isOpen: boolean;
+  show: boolean;
   onClose: () => void;
+  title: string;
   children: React.ReactNode;
 }
 
-const ModalWrapper = styled.div`
+const ModalOverlay = styled.div<{ show: boolean }>`
+  display: ${(props) => (props.show ? 'block' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
 `;
 
-const ModalContent = styled.div`
+const ModalContainer = styled.div<{ show: boolean }>`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 500px;
   background-color: #fff;
-  padding: 20px;
   border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  opacity: ${(props) => (props.show ? '1' : '0')};
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+`;
+
+const ModalTitle = styled.h2`
+  margin: 0;
+  font-size: 1.5em;
+  color: var(--primary);
 `;
 
 const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background: none;
   border: none;
-  font-size: 20px;
+  color: var(--primary);
   cursor: pointer;
+  font-size: 1.2em;
 `;
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
+const ModalBody = styled.div`
+  padding: 1rem;
+`;
 
+const Modal: React.FC<ModalProps> = ({ show, onClose, title, children }) => {
   return (
-    <ModalWrapper>
-      <ModalContent>
-        <CloseButton onClick={onClose}>&times;</CloseButton>
-        {children}
-      </ModalContent>
-    </ModalWrapper>
+    <>
+      <ModalOverlay show={show} onClick={onClose} />
+      <ModalContainer show={show}>
+        <ModalHeader>
+          <ModalTitle>{title}</ModalTitle>
+          <CloseButton onClick={onClose}>
+            <FontAwesomeIcon icon={faTimes} />
+          </CloseButton>
+        </ModalHeader>
+        <ModalBody>{children}</ModalBody>
+      </ModalContainer>
+    </>
   );
 };
 

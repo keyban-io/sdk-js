@@ -20,16 +20,12 @@ import NetworkSelector from '../components/NetworkSelector';
 import BalanceInfo from '../components/BalanceInfo';
 import NFTSection from '../components/NFTSection';
 import CryptoSection from '../components/CryptoSection';
-
-interface Transaction {
-  id: string;
-  date: string;
-  type: string;
-  crypto: string;
-  toFrom: string;
-  amount: string;
-  status: string;
-}
+import {
+  testNFTs,
+  testTransactions,
+  testNetworks,
+  testCryptos,
+} from './testData.ts';
 
 const WalletDashboardWrapper = styled.div`
   padding: 20px;
@@ -85,49 +81,10 @@ const CopyHint = styled.div`
 `;
 
 const WalletDashboardContent: React.FC = () => {
-  const transactions: Transaction[] = [
-    {
-      id: '1',
-      date: '2024-07-21',
-      type: 'Sent',
-      crypto: 'Non-Native',
-      toFrom: '0x...',
-      amount: '5 DAI',
-      status: 'Sent',
-    },
-    {
-      id: '2',
-      date: '2024-07-20',
-      type: 'Pending',
-      crypto: 'Native',
-      toFrom: '0x...',
-      amount: '0.1 MATIC',
-      status: 'Pending',
-    },
-    {
-      id: '3',
-      date: '2024-07-20',
-      type: 'Received',
-      crypto: 'NFT',
-      toFrom: '0x...',
-      amount: 'Cool Art 1',
-      status: 'Received',
-    },
-    {
-      id: '4',
-      date: '2024-07-19',
-      type: 'Received',
-      crypto: 'Non-Native',
-      toFrom: '0x...',
-      amount: '0.5 ETH',
-      status: 'Received',
-    },
-  ];
   const keyban = useKeyban();
   const navigate = useNavigate();
   const [account, setAccount] = useState<KeybanAccount | null>(null);
   const [balance, setBalance] = useState<bigint | undefined>(undefined);
-  const [network, setNetwork] = useState<string>('Polygon Testnet Amoy');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hintVisible, setHintVisible] = useState<boolean>(false);
@@ -136,6 +93,9 @@ const WalletDashboardContent: React.FC = () => {
     y: 0,
   });
   const [euroBalance, setEuroBalance] = useState<number | null>(null);
+  const [selectedNetworkId, setSelectedNetworkId] = useState(
+    testNetworks[0].id
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -171,10 +131,6 @@ const WalletDashboardContent: React.FC = () => {
     };
   }, [keyban.client]);
 
-  const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setNetwork(event.target.value);
-  };
-
   const handleShareAddressClick = () => {
     navigate(`/qr-code?address=${account?.address}`);
   };
@@ -189,6 +145,14 @@ const WalletDashboardContent: React.FC = () => {
         setHintVisible(false);
       }, 2000); // Hint will disappear after 2 seconds
     }
+  };
+
+  const handleSelectNetwork = (networkId: string) => {
+    setSelectedNetworkId(networkId);
+  };
+
+  const handleSendCrypto = (crypto: { name: string; balance: number }) => {
+    console.log(`Sending ${crypto.name}`);
   };
 
   if (loading) {
@@ -213,8 +177,9 @@ const WalletDashboardContent: React.FC = () => {
         onShareClick={handleShareAddressClick}
       />
       <NetworkSelector
-        network={network}
-        onNetworkChange={handleNetworkChange}
+        networks={testNetworks}
+        selectedNetworkId={selectedNetworkId}
+        onSelectNetwork={handleSelectNetwork}
       />
       <BalanceInfo balance={balance} euroBalance={euroBalance} />
       <Button
@@ -224,9 +189,10 @@ const WalletDashboardContent: React.FC = () => {
         Send
         <FontAwesomeIcon className="fa" icon={faPaperPlane} />
       </Button>
-      <NFTSection />
-      <CryptoSection />
-      <TransactionList transactions={transactions} />
+      <NFTSection nfts={testNFTs} />
+      <CryptoSection cryptos={testCryptos} onSend={handleSendCrypto} />
+      <TransactionList transactions={testTransactions} />
+
       <Button type="button">Transaction History</Button>
       {hintVisible && (
         <CopyHint

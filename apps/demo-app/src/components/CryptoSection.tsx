@@ -1,99 +1,85 @@
-import type React from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import { Tooltip } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import styled from 'styled-components';
 
-const Section = styled.div`
-  padding: 20px;
-  background-color: var(--primary-lightest);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  margin-bottom: 5px;
-`;
+interface Crypto {
+  name: string;
+  balance: number;
+}
 
-const CryptoTitle = styled.div`
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  font-weight: bold;
-`;
+interface CryptoSectionProps {
+  cryptos: Crypto[];
+  onSend: (crypto: Crypto) => void;
+}
 
-const CryptoList = styled.div`
-  margin-bottom: 20px;
-`;
-
-const CryptoItem = styled.div`
+const CryptoContainer = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+`;
+
+const CryptoCard = styled.div`
+  display: flex;
   justify-content: space-between;
-  margin: 10px 0;
-  padding: 10px;
-  background-color: var(--container-background-color);
+  align-items: center;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
+  padding: 1rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    background-color: #f9f9f9;
+  }
+`;
+
+const CryptoDetails = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const CryptoName = styled.span`
   font-size: 1.2em;
+  font-weight: bold;
 `;
 
-const CryptoAmount = styled.span`
-  font-size: 1.2em;
-  margin-right: 20px;
+const CryptoBalance = styled.span`
+  font-size: 1em;
+  color: var(--primary);
 `;
 
 const SendButton = styled.button`
-  background-color: var(--primary);
-  color: white;
+  background: none;
   border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
+  color: var(--primary);
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--primary-hover-color);
-  }
-
-  .fa {
-    margin-left: 5px;
-  }
+  font-size: 1.2em;
 `;
 
-const ViewAllButton = styled.button`
-  margin-top: 20px;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--primary-hover-color);
-  }
-`;
-
-const CryptoSection: React.FC = () => {
+const CryptoSection: React.FC<CryptoSectionProps> = ({ cryptos, onSend }) => {
   return (
-    <Section>
-      <CryptoTitle>Non-Native Cryptocurrencies</CryptoTitle>
-      <CryptoList>
-        <CryptoItem>
-          <CryptoName>AAVE:</CryptoName>
-          <CryptoAmount>0.005</CryptoAmount>
-          <SendButton type="button">
-            Send <FontAwesomeIcon className="fa" icon={faPaperPlane} />
-          </SendButton>
-        </CryptoItem>
-        <CryptoItem>
-          <CryptoName>LINK:</CryptoName>
-          <CryptoAmount>0.2</CryptoAmount>
-          <SendButton type="button">
-            Send <FontAwesomeIcon className="fa" icon={faPaperPlane} />
-          </SendButton>
-        </CryptoItem>
-      </CryptoList>
-      <ViewAllButton type="button">View All</ViewAllButton>
-    </Section>
+    <CryptoContainer>
+      {cryptos.map((crypto) => (
+        <CryptoCard key={crypto.name}>
+          <CryptoDetails>
+            <Tooltip title={crypto.name} arrow>
+              <CryptoName>{crypto.name}</CryptoName>
+            </Tooltip>
+            <Tooltip title="Balance" arrow>
+              <CryptoBalance>{crypto.balance}</CryptoBalance>
+            </Tooltip>
+          </CryptoDetails>
+          <Tooltip title="Send" arrow>
+            <SendButton onClick={() => onSend(crypto)}>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </SendButton>
+          </Tooltip>
+        </CryptoCard>
+      ))}
+    </CryptoContainer>
   );
 };
 
