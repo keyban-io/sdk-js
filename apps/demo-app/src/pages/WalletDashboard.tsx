@@ -81,6 +81,10 @@ const CopyHint = styled.div`
   font-size: 0.8em;
 `;
 
+const Section = styled.div`
+  margin-bottom: 20px;
+`;
+
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
   const navigate = useNavigate();
@@ -153,12 +157,12 @@ const WalletDashboardContent: React.FC = () => {
     setSelectedNetworkId(networkId);
   };
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
   const handleSendCrypto = (crypto: { name: string; balance: number }) => {
     console.log(`Sending ${crypto.name}`);
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {
@@ -181,26 +185,36 @@ const WalletDashboardContent: React.FC = () => {
           <FontAwesomeIcon icon={faBell} />
         </Notification>
       </Header>
-      <AccountInfo
-        account={account}
-        onCopyClick={handleCopyClick}
-        onShareClick={handleShareAddressClick}
-      />
-      <NetworkSelector
-        networks={testNetworks}
-        selectedNetworkId={selectedNetworkId}
-        onSelectNetwork={handleSelectNetwork}
-      />
-      <BalanceInfo
-        balance={balance}
-        euroBalance={euroBalance}
-        onSend={handleOpenModal}
-      />
-
-      <NFTSection nfts={testNFTs} />
-      <CryptoSection cryptos={testCryptos} onSend={handleSendCrypto} />
-      <TransactionList transactions={testTransactions} />
-
+      <Section>
+        <AccountInfo
+          account={account}
+          onCopyClick={handleCopyClick}
+          onShareClick={handleShareAddressClick}
+        />
+      </Section>
+      <Section>
+        <NetworkSelector
+          networks={testNetworks}
+          selectedNetworkId={selectedNetworkId}
+          onSelectNetwork={handleSelectNetwork}
+        />
+      </Section>
+      <Section>
+        <BalanceInfo
+          balance={balance}
+          euroBalance={euroBalance}
+          onSend={handleOpenModal}
+        />
+      </Section>
+      <Section>
+        <NFTSection nfts={testNFTs} />
+      </Section>
+      <Section>
+        <CryptoSection cryptos={testCryptos} onSend={handleSendCrypto} />
+      </Section>
+      <Section>
+        <TransactionList transactions={testTransactions} />
+      </Section>
       <Button type="button">Transaction History</Button>
       {hintVisible && (
         <CopyHint

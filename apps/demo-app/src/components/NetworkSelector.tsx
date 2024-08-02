@@ -35,6 +35,11 @@ const Select = styled.select`
   border-radius: var(--border-radius);
   background-color: #fff;
   color: var(--primary);
+  outline: none;
+
+  &:focus {
+    border-color: var(--primary-hover-color);
+  }
 `;
 
 const NetworkSelector: React.FC<NetworkSelectorProps> = ({

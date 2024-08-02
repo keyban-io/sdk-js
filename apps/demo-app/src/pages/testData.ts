@@ -59,7 +59,7 @@ export const testTransactions = [
 export const testNetworks = [
   {
     id: '1',
-    name: 'Ethereum Mainnet',
+    name: 'Polygon Amoy Testnet',
   },
   {
     id: '2',
