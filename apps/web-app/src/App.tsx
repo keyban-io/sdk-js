@@ -1,11 +1,11 @@
 import {
+  KeybanLocalStorage,
   KeybanProvider,
   KeybanSigner,
-  KeybanLocalStorage,
-} from "@keyban/sdk-react";
+} from '@keyban/sdk-react';
 
-import styles from "./App.module.css";
-import KeybanTest from "./KeybanTest";
+import styles from './App.module.css';
+import KeybanTest from './KeybanTest';
 
 export default function App() {
   return (

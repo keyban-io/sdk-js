@@ -1,1 +1,1 @@
-export * from "./formatBalance";
+export * from './formatBalance';

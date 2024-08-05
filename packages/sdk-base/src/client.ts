@@ -1,14 +1,14 @@
-import { createPublicClient, createWalletClient, http } from "viem";
-import type { Chain, PublicClient, WalletClient } from "viem";
-import { polygonAmoy } from "viem/chains";
-import { Account } from "~/account";
-import type { KeybanAccount } from "~/account";
-import type { KeybanSigner } from "~/signer";
-import type { KeybanStorage } from "~/storage";
-import { KeybanBaseError, StorageError } from "~/errors";
-import { publicKeyToAddress } from "viem/accounts";
+import { http, createPublicClient, createWalletClient } from 'viem';
+import type { Chain, PublicClient, WalletClient } from 'viem';
+import { publicKeyToAddress } from 'viem/accounts';
+import { polygonAmoy } from 'viem/chains';
+import { Account } from '~/account';
+import type { KeybanAccount } from '~/account';
+import { KeybanBaseError, StorageError } from '~/errors';
+import type { KeybanSigner } from '~/signer';
+import type { KeybanStorage } from '~/storage';
 
-export type KeybanApiStatus = "operational" | "down";
+export type KeybanApiStatus = 'operational' | 'down';
 
 /**
  * Interface for the KeybanClient class.
@@ -51,7 +51,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
   constructor(
     apiUrl: string,
     signer: KeybanSigner<Share>,
-    storage: KeybanStorage<Share>
+    storage: KeybanStorage<Share>,
   ) {
     this.apiUrl = apiUrl;
     this.signer = signer;
@@ -81,25 +81,25 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     const promise = (async () => {
       const storageKey = `${this.signer.storagePrefix}-${keyId}`;
 
-      let clientShare = await this.storage.get(storageKey).catch((err) => {
-        throw new StorageError(
-          StorageError.types.RetrivalFailed,
-          "Client.initialize",
-          err
-        );
-      });
+        let clientShare = await this.storage.get(storageKey).catch((err) => {
+          throw new StorageError(
+            StorageError.types.RetrivalFailed,
+            'Client.initialize',
+            err,
+          );
+        });
 
         clientShare ??= await this.signer.dkg(keyId).catch((err) => {
           throw new KeybanBaseError(err);
         });
 
-      await this.storage.set(storageKey, clientShare).catch((err) => {
-        throw new StorageError(
-          StorageError.types.SaveFailed,
-          "Client.initialize",
-          err
-        );
-      });
+        await this.storage.set(storageKey, clientShare).catch((err) => {
+          throw new StorageError(
+            StorageError.types.SaveFailed,
+            'Client.initialize',
+            err,
+          );
+        });
 
       const publicKey = await this.signer.publicKey(clientShare);
       const address = publicKeyToAddress(publicKey);
@@ -119,7 +119,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    */
   async setChainMetadata() {
     // TODO: implement me
-    throw new Error("Not implemented: Client.setChainMetadata");
+    throw new Error('Not implemented: Client.setChainMetadata');
   }
 
   /**
@@ -128,7 +128,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    */
   async connectToProvider() {
     // TODO: implement me
-    throw new Error("Not implemented: Client.connectToProvider");
+    throw new Error('Not implemented: Client.connectToProvider');
   }
 
   /**
@@ -137,10 +137,10 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    */
   async apiStatus(): Promise<KeybanApiStatus> {
     return fetch(`${this.apiUrl}/api/health`)
-      .then((res) => (res.ok ? "operational" : "down"))
+      .then((res) => (res.ok ? 'operational' : 'down'))
       .catch((err) => {
-        console.error("Failed to perform health check", err);
-        return "down";
+        console.error('Failed to perform health check', err);
+        return 'down';
       });
   }
 }

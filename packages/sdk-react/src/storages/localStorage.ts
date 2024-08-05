@@ -1,4 +1,4 @@
-import type { KeybanStorage } from "@keyban/sdk-base";
+import type { KeybanStorage } from '@keyban/sdk-base';
 
 /**
  * @class KeybanLocalStorage

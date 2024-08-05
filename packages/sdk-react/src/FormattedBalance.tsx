@@ -1,5 +1,5 @@
-import { formatBalance } from "@keyban/sdk-base";
-import { useKeyban } from "./provider";
+import { formatBalance } from '@keyban/sdk-base';
+import { useKeyban } from './provider';
 
 /**
  * Formats a balance in a human-readable format using the Keyban client.

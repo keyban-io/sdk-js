@@ -1,9 +1,9 @@
-import React from "react";
-import Row from "./Row";
+import React from 'react';
+import Row from './Row';
 
 export type TextFieldProps = Omit<
   React.HTMLProps<HTMLInputElement>,
-  "onChange"
+  'onChange'
 > & {
   label?: React.ReactNode;
   onChange: (value: string) => void;

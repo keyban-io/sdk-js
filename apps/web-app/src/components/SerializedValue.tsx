@@ -1,13 +1,13 @@
-import TextareaAutosize from "react-textarea-autosize";
-import type { TextareaAutosizeProps } from "react-textarea-autosize";
-import styles from "./SerializedValue.module.css";
-import React from "react";
+import React from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
+import type { TextareaAutosizeProps } from 'react-textarea-autosize';
+import styles from './SerializedValue.module.css';
 
 export type SerializedValueProps = Omit<
   TextareaAutosizeProps,
-  "value" | "onChange"
+  'value' | 'onChange'
 > & {
-  value: string | Parameters<JSON["stringify"]>[0];
+  value: string | Parameters<JSON['stringify']>[0];
 };
 
 export default function SerializedValue({
@@ -16,7 +16,7 @@ export default function SerializedValue({
   ...props
 }: SerializedValueProps) {
   const textValue =
-    typeof value === "string" ? value : JSON.stringify(value, null, 2);
+    typeof value === 'string' ? value : JSON.stringify(value, null, 2);
 
   const handleCopy = React.useCallback(() => {
     navigator.clipboard.writeText(textValue);

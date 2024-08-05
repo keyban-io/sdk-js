@@ -1,6 +1,6 @@
-import type { Hex } from "viem";
-import type { KeybanClientImpl } from "~/client";
-import { KeybanBaseError, StorageError } from "~/errors";
+import type { Hex } from 'viem';
+import type { KeybanClientImpl } from '~/client';
+import { KeybanBaseError, StorageError } from '~/errors';
 
 export interface KeybanAccount {
   keyId: string;
@@ -25,7 +25,7 @@ export class Account<Share> implements KeybanAccount {
     client: KeybanClientImpl<Share>,
     keyId: string,
     address: Hex,
-    publicKey: string
+    publicKey: string,
   ) {
     this.client = client;
 
@@ -41,7 +41,7 @@ export class Account<Share> implements KeybanAccount {
     if (!clientShare)
       throw new StorageError(
         StorageError.types.RetrivalFailed,
-        "Account.getClientShare"
+        'Account.getClientShare',
       );
 
     return clientShare;
@@ -59,7 +59,6 @@ export class Account<Share> implements KeybanAccount {
     return this.client.signer
       .sign(this.keyId, clientShare, payload)
       .catch((err) => {
-        console.log("test", err);
         throw new KeybanBaseError(err);
       });
   }

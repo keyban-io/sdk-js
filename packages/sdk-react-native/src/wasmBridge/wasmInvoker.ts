@@ -1,4 +1,4 @@
-import { type WasmApi, u8aToHex } from "@keyban/sdk-base";
+import { type WasmApi, u8aToHex } from '@keyban/sdk-base';
 import {
   EddsaAddRequest,
   EddsaAddResponse,
@@ -6,8 +6,8 @@ import {
   EddsaSignMessageRequest,
   EddsaSignMessageResponse,
   GenericMessage,
-} from "~/proto_compiled";
-import { hexToU8a } from "~/utils/hex";
+} from '~/proto_compiled';
+import { hexToU8a } from '~/utils/hex';
 
 if (!global.Buffer) {
   global.Buffer = Buffer as typeof global.Buffer;
@@ -35,7 +35,7 @@ export class WasmInvoker {
   async dkg(protoPayload: string) {
     const { callId } = GenericMessage.decode(hexToU8a(protoPayload));
     const { secret_share, server_pubkey, client_pubkey } =
-      await this.wasmApi.dkg("keyid");
+      await this.wasmApi.dkg('keyid');
 
     const responseBytes = EddsaDkgResponse.encode({
       secretShare: secret_share,
@@ -49,7 +49,7 @@ export class WasmInvoker {
     // const { payload: signaturePayload, secretShare } =
     EddsaSignMessageRequest.decode(hexToU8a(payload));
 
-    const signature = "signature";
+    const signature = 'signature';
     // await this.wasmApi.signMessage(
     // secretShare,
     // signaturePayload

@@ -1,9 +1,9 @@
-import type { KeybanAccount } from "@keyban/sdk-react";
-import { FormattedBalance, useKeyban } from "@keyban/sdk-react";
-import React from "react";
-import SerializedValue from "./components/SerializedValue";
-import Row from "./components/Row";
-import TextField from "./components/TextField";
+import type { KeybanAccount } from '@keyban/sdk-react';
+import { FormattedBalance, useKeyban } from '@keyban/sdk-react';
+import React from 'react';
+import Row from './components/Row';
+import SerializedValue from './components/SerializedValue';
+import TextField from './components/TextField';
 
 export type KeybanTestProps = {
   testId: string;
@@ -13,14 +13,14 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
 
   const [account, setAccount] = React.useState<KeybanAccount>();
 
-  const [userKeyId, setUserKeyId] = React.useState("dumb");
-  const [signature, setSignature] = React.useState("");
-  const [payload, setPayload] = React.useState("");
+  const [userKeyId, setUserKeyId] = React.useState('dumb');
+  const [signature, setSignature] = React.useState('');
+  const [payload, setPayload] = React.useState('');
   const [balance, setBalance] = React.useState<bigint>();
 
   const handleInitDkg = () => {
     setAccount(undefined);
-    setSignature("");
+    setSignature('');
     setBalance(undefined);
 
     keyban.client.initialize(userKeyId).then(setAccount).catch(console.error);
@@ -70,7 +70,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         {account && (
           <SerializedValue
             value={account}
-            style={{ marginBlockStart: "1em" }}
+            style={{ marginBlockStart: '1em' }}
             data-test-id={`${testId}:account`}
           />
         )}
@@ -79,7 +79,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
       <fieldset>
         <legend>Client public key</legend>
         <SerializedValue
-          value={account?.publicKey ?? ""}
+          value={account?.publicKey ?? ''}
           data-test-id={`${testId}:client-pub-key`}
         />
       </fieldset>
@@ -88,7 +88,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <legend>Address</legend>
 
         <SerializedValue
-          value={account?.address ?? ""}
+          value={account?.address ?? ''}
           data-test-id={`${testId}:address`}
         />
       </fieldset>
@@ -115,7 +115,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
 
         <SerializedValue
           value={signature}
-          style={{ marginBlockStart: "1em" }}
+          style={{ marginBlockStart: '1em' }}
           data-test-id={`${testId}:signature`}
         />
       </fieldset>
