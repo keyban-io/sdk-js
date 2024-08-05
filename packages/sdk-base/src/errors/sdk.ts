@@ -20,7 +20,7 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
   static types = SdkErrorTypes;
 
   constructor(type: SdkErrorTypes, instance: string, rootError?: Error) {
-    super(type, instance, rootError);
+    super({ type, instance, rootError });
     this.detail = this.getDescription(type);
   }
 

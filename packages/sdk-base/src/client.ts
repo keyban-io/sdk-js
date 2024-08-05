@@ -5,7 +5,7 @@ import { Account } from "~/account";
 import type { KeybanAccount } from "~/account";
 import type { KeybanSigner } from "~/signer";
 import type { KeybanStorage } from "~/storage";
-import { StorageError } from "~/errors";
+import { KeybanBaseError, StorageError } from "~/errors";
 import { publicKeyToAddress } from "viem/accounts";
 
 export type KeybanApiStatus = "operational" | "down";
@@ -89,7 +89,9 @@ export class KeybanClientImpl<Share> implements KeybanClient {
         );
       });
 
-      clientShare ??= await this.signer.dkg(keyId);
+        clientShare ??= await this.signer.dkg(keyId).catch((err) => {
+          throw new KeybanBaseError(err);
+        });
 
       await this.storage.set(storageKey, clientShare).catch((err) => {
         throw new StorageError(

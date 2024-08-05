@@ -1,6 +1,6 @@
 import type { Hex } from "viem";
 import type { KeybanClientImpl } from "~/client";
-import { StorageError } from "~/errors";
+import { KeybanBaseError, StorageError } from "~/errors";
 
 export interface KeybanAccount {
   keyId: string;
@@ -56,7 +56,12 @@ export class Account<Share> implements KeybanAccount {
    */
   async sign(payload: string) {
     const clientShare = await this.#getClientShare();
-    return this.client.signer.sign(this.keyId, clientShare, payload);
+    return this.client.signer
+      .sign(this.keyId, clientShare, payload)
+      .catch((err) => {
+        console.log("test", err);
+        throw new KeybanBaseError(err);
+      });
   }
 
   /**
