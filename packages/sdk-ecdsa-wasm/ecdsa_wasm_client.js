@@ -1,6 +1,6 @@
 import * as _ from "./wasm_exec.js";
 
-async function run(wasmUrl = new URL("ecdsa.wasm", import.meta.url)) {
+async function initWasm(wasmUrl = new URL("ecdsa.wasm", import.meta.url)) {
   const go = new Go();
 
   const obj = await WebAssembly.instantiateStreaming(
@@ -12,4 +12,4 @@ async function run(wasmUrl = new URL("ecdsa.wasm", import.meta.url)) {
   go.run(obj.instance).catch(console.error);
 }
 
-export default run;
+export default initWasm;

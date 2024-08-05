@@ -29,13 +29,13 @@ export function KeybanSigner_ECDSA(): KeybanSigner<ClientShare_ECDSA> {
   return {
     storagePrefix: "KEYBAN-ECDSA",
 
-    add: wrap((...args) => (window as any).ecdsa.add(...args)),
-    dkg: wrap((...args) => (window as any).ecdsa.dkg(...args).then(JSON.parse)),
+    add: wrap((...args) => globalThis.ecdsa.add(...args)),
+    dkg: wrap((...args) => globalThis.ecdsa.dkg(...args).then(JSON.parse)),
     sign: wrap((keyId, clientShare, message) =>
-      (window as any).ecdsa.sign(keyId, JSON.stringify(clientShare), message)
+      globalThis.ecdsa.sign(keyId, JSON.stringify(clientShare), message)
     ),
     publicKey: wrap((clientShare) =>
-      (window as any).ecdsa.publicKey(JSON.stringify(clientShare))
+      globalThis.ecdsa.publicKey(JSON.stringify(clientShare))
     ),
   };
 }

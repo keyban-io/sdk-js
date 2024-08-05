@@ -1,0 +1,13 @@
+declare module "ecdsa-wasm-client";
+
+export declare global {
+  var ecdsa: {
+    add(a: number, b: number): number;
+    dkg(...args): Promise<string>;
+    dkg(keyId: string): Promise<Share>;
+    sign(keyId: string, clientShare: string, message: string): Promise<string>;
+    publicKey(clientShare: string): Promise<`0x${string}`>;
+  };
+}
+
+export default function initWasm(): Promise<void>;

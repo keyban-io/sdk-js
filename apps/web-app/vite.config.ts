@@ -9,4 +9,8 @@ export default defineConfig({
     host: true,
     port: 3005,
   },
+  preview: {
+    host: true,
+    port: 80,
+  },
 });

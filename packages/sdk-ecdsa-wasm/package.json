@@ -4,8 +4,10 @@
   "files": [
     "ecdsa.wasm",
     "ecdsa_wasm_client.js",
+    "ecdsa_wasm_client.d.ts",
     "wasm_exec.js"
   ],
   "main": "ecdsa_wasm_client.js",
-  "module": "ecdsa_wasm_client.js"
+  "module": "ecdsa_wasm_client.js",
+  "types": "ecdsa_wasm_client.d.ts"
 }

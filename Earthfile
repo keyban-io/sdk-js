@@ -7,55 +7,65 @@ get-eddsa-wasm:
 
 get-ecdsa-wasm:
     FROM scratch
-    COPY --dir ../signers/ecdsa/+wasm/ecdsa.wasm /pkg/
-    COPY --dir ../signers/ecdsa/+wasm-exec/wasm_exec.js /pkg/
+    COPY ./packages/sdk-ecdsa-wasm/* /pkg/
+    COPY ../signers/ecdsa/+wasm/ecdsa.wasm /pkg/
+    COPY ../signers/ecdsa/+wasm-exec/wasm_exec.js /pkg/
     SAVE ARTIFACT /pkg/ecdsa.wasm AS LOCAL ./packages/sdk-ecdsa-wasm/ecdsa.wasm
     SAVE ARTIFACT /pkg/wasm_exec.js AS LOCAL ./packages/sdk-ecdsa-wasm/wasm_exec.js
+    SAVE ARTIFACT /pkg
 
-src:
+sdk-base:
     FROM ../+node
+    DO ../+USEPNPM
+
     WORKDIR /app
     COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
+
+    COPY +get-eddsa-wasm/pkg/package.json                ./packages/sdk-eddsa-wasm/
+    COPY +get-ecdsa-wasm/pkg/package.json                ./packages/sdk-ecdsa-wasm/
     COPY ./packages/sdk-base/package.json                ./packages/sdk-base/
     COPY ./packages/sdk-react/package.json               ./packages/sdk-react/
-    COPY ./packages/sdk-react-native/package.json        ./packages/sdk-react-native/
-    COPY ./packages/sdk-ecdsa-wasm/package.json          ./packages/sdk-ecdsa-wasm/
-    COPY +get-eddsa-wasm/pkg/package.json                ./packages/sdk-eddsa-wasm/
-    COPY ./apps/web-app/package.json                     ./apps/web-app/
-    COPY ./apps/demo-app/package.json                    ./apps/demo-app/
-    DO ../+USEPNPM
-    RUN pnpm install
-    COPY +get-eddsa-wasm/pkg/* ./packages/sdk-eddsa-wasm
-    COPY ./packages/sdk-ecdsa-wasm ./packages/sdk-ecdsa-wasm
-    COPY +get-ecdsa-wasm/wasm_exec.js ./packages/sdk-ecdsa-wasm/wasm_exec.js
-    COPY +get-ecdsa-wasm/ecdsa.wasm ./packages/sdk-ecdsa-wasm/ecdsa.wasm
-    COPY run-dev.sh .
-    COPY ./apps/web-app ./apps/web-app
-    COPY ./apps/demo-app ./apps/demo-app
-    COPY --dir ./packages/sdk-base/src ./packages/sdk-base/vitest.config.mts ./packages/sdk-base/tsup.config.ts ./packages/sdk-base/tsconfig.json /app/packages/sdk-base/
-    COPY --dir ./packages/sdk-react/src ./packages/sdk-react/vitest.config.mts ./packages/sdk-react/tsup.config.ts ./packages/sdk-react/tsconfig.json /app/packages/sdk-react/
-    COPY --dir ./packages/sdk-react-native/src ./packages/sdk-react-native/proto ./packages/sdk-react-native/compile.sh ./packages/sdk-react-native/vitest.config.mts ./packages/sdk-react-native/tsup.config.ts ./packages/sdk-react-native/tsconfig.json /app/packages/sdk-react-native/
+    # COPY ./packages/sdk-react-native/package.json        ./packages/sdk-react-native/
 
-build:
-    FROM +src
+    RUN pnpm install
+
+    COPY +get-eddsa-wasm/pkg/*        ./packages/sdk-eddsa-wasm
+    COPY +get-ecdsa-wasm/pkg/*        ./packages/sdk-ecdsa-wasm
+    COPY ./packages/sdk-base          ./packages/sdk-base
+    COPY ./packages/sdk-react         ./packages/sdk-react
+    # COPY ./packages/sdk-react-native  ./packages/sdk-react-native
+
     RUN pnpm build
 
-docgen:
-    FROM +build
-    RUN mkdir /app/sdk
-    RUN mv /app/packages /app/sdk
-    RUN mv /app/node_modules /app/sdk
-    SAVE ARTIFACT /app/sdk
+app-base:
+    FROM +sdk-base
+    ARG --required app
+    COPY ./apps/${app}/package.json ./apps/${app}/
 
-live-web:
-    FROM +build
-    CMD sh ./run-dev.sh && pnpm --filter web-app dev
+    RUN pnpm install
+
+    COPY ./apps/${app} ./apps/${app}
+
+live:
+    ARG --required app
+    FROM +app-base --app=${app}
+    CMD pnpm --parallel --filter ${app}... dev
     ARG --required ref
     ARG extra_ref
     SAVE IMAGE --push ${ref} ${extra_ref}
 
-live-demo:
-    FROM +build
-    CMD sh ./run-dev.sh && pnpm --filter demo-app dev
+build:
+    ARG --required app
+    FROM +app-base --app=${app}
+    RUN pnpm --filter ${app}... build
+    CMD pnpm --filter ${app} preview
     ARG --required ref
-    SAVE IMAGE --push ${ref}
+    ARG extra_ref
+    SAVE IMAGE --push ${ref} ${extra_ref}
+
+docgen:
+    FROM +sdk-base
+    RUN mkdir /app/sdk
+    RUN mv /app/packages /app/sdk
+    RUN mv /app/node_modules /app/sdk
+    SAVE ARTIFACT /app/sdk

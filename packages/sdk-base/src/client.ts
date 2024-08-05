@@ -78,35 +78,35 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     const cached = this.accounts.get(keyId);
     if (cached) return cached;
 
-    this.accounts.set(
-      keyId,
-      (async () => {
-        const storageKey = `${this.signer.storagePrefix}-${keyId}`;
+    const promise = (async () => {
+      const storageKey = `${this.signer.storagePrefix}-${keyId}`;
 
-        let clientShare = await this.storage.get(storageKey).catch((err) => {
-          throw new StorageError(
-            StorageError.types.RetrivalFailed,
-            "Client.initialize",
-            err
-          );
-        });
+      let clientShare = await this.storage.get(storageKey).catch((err) => {
+        throw new StorageError(
+          StorageError.types.RetrivalFailed,
+          "Client.initialize",
+          err
+        );
+      });
 
-        clientShare ??= await this.signer.dkg(keyId);
+      clientShare ??= await this.signer.dkg(keyId);
 
-        await this.storage.set(storageKey, clientShare).catch((err) => {
-          throw new StorageError(
-            StorageError.types.SaveFailed,
-            "Client.initialize",
-            err
-          );
-        });
+      await this.storage.set(storageKey, clientShare).catch((err) => {
+        throw new StorageError(
+          StorageError.types.SaveFailed,
+          "Client.initialize",
+          err
+        );
+      });
 
-        const publicKey = await this.signer.publicKey(clientShare);
-        const address = publicKeyToAddress(publicKey);
+      const publicKey = await this.signer.publicKey(clientShare);
+      const address = publicKeyToAddress(publicKey);
 
-        return new Account(this, keyId, address, publicKey);
-      })()
-    );
+      return new Account(this, keyId, address, publicKey);
+    })();
+
+    this.accounts.set(keyId, promise);
+    promise.finally(() => this.accounts.delete(keyId));
 
     return this.initialize(keyId);
   }
