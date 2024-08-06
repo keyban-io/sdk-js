@@ -106,7 +106,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     })();
 
     this.accounts.set(keyId, promise);
-    promise.finally(() => this.accounts.delete(keyId));
+    promise.catch(() => {}).finally(() => this.accounts.delete(keyId));
 
     return this.initialize(keyId);
   }
