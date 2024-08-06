@@ -58,7 +58,19 @@ build:
     ARG --required app
     FROM +app-base --app=${app}
     RUN pnpm --filter ${app}... build
-    CMD pnpm --filter ${app} preview
+
+dist:
+    ARG --required app
+    FROM +build --app="${app}"
+    SAVE ARTIFACT /app/apps/${app}/dist
+
+docker:
+    FROM ../+sws
+    COPY ./sws.toml /
+    WORKDIR /public
+    CMD static-web-server --config-file /sws.toml --page-fallback /public/index.html
+    ARG --required app
+    COPY (+dist/dist/ --app="${app}") /public/
     ARG --required ref
     ARG extra_ref
     SAVE IMAGE --push ${ref} ${extra_ref}
