@@ -14,7 +14,7 @@ get-ecdsa-wasm:
     SAVE ARTIFACT /pkg/wasm_exec.js AS LOCAL ./packages/sdk-ecdsa-wasm/wasm_exec.js
     SAVE ARTIFACT /pkg
 
-sdk-base:
+sdk-build:
     FROM ../+node
     DO ../+USEPNPM
 
@@ -38,7 +38,7 @@ sdk-base:
     RUN pnpm build
 
 app-base:
-    FROM +sdk-base
+    FROM +sdk-build
     ARG --required app
     COPY ./apps/${app}/package.json ./apps/${app}/
 
@@ -74,10 +74,3 @@ docker:
     ARG --required ref
     ARG extra_ref
     SAVE IMAGE --push ${ref} ${extra_ref}
-
-docgen:
-    FROM +sdk-base
-    RUN mkdir /app/sdk
-    RUN mv /app/packages /app/sdk
-    RUN mv /app/node_modules /app/sdk
-    SAVE ARTIFACT /app/sdk
