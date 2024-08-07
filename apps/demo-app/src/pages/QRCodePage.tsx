@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'qrcode.react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const WalletDashboard = styled.div`
   padding: 20px;

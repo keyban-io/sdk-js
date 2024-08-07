@@ -1,6 +1,6 @@
 import type React from 'react';
-import styled from 'styled-components';
-import { Tooltip } from '@material-ui/core';
+import styled from '@emotion/styled';
+import { Tooltip } from '@mui/material';
 
 interface Transaction {
   date: string;

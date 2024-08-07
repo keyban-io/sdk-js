@@ -1,3 +1,5 @@
 packages:
   - 'packages/*'
   - 'apps/*'
+  - '!packages/sdk-react-native'
+  - '!apps/mobile-app'

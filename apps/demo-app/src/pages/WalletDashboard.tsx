@@ -12,20 +12,20 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { fetchMaticToEuroRate } from '@/utils/apiUtils';
 import Loading from '@/components/Loading';
 import CustomError from '@/components/CustomError';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import TransactionList from '../components/TransactionList';
 import AccountInfo from '../components/AccountInfo';
 import NetworkSelector from '../components/NetworkSelector';
 import BalanceInfo from '../components/BalanceInfo';
 import NFTSection from '../components/NFTSection';
 import CryptoSection from '../components/CryptoSection';
-import Modal from '../components/Modal';
 import {
   testNFTs,
   testTransactions,
   testNetworks,
   testCryptos,
 } from './testData';
+import Modal from '@/components/Modal';
 
 const WalletDashboardWrapper = styled.div`
   padding: 20px;

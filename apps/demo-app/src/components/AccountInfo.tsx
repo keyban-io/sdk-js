@@ -8,8 +8,8 @@ import {
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
-import styled from 'styled-components';
-import { Tooltip } from '@material-ui/core';
+import styled from '@emotion/styled';
+import { Tooltip } from '@mui/material';
 
 interface AccountInfoProps {
   account: AccountType | null;
