@@ -4,6 +4,8 @@ import React from 'react';
 import Row from './components/Row';
 import SerializedValue from './components/SerializedValue';
 import TextField from './components/TextField';
+import BigIntField from "./components/BigIntField";
+import { Address } from "viem";
 
 export type KeybanTestProps = {
   testId: string;
@@ -17,6 +19,9 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
   const [signature, setSignature] = React.useState('');
   const [payload, setPayload] = React.useState('');
   const [balance, setBalance] = React.useState<bigint>();
+  const [transferValue, setTransferValue] = React.useState<bigint>(BigInt(0));
+  const [transferRecipient, setTransferRecipient] = React.useState("");
+  const [txHash, setTxHash] = React.useState("");
 
   const handleInitDkg = () => {
     setAccount(undefined);
@@ -32,6 +37,8 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
   const handleGetBalance = () =>
     account?.getBalance().then(setBalance).catch(console.error);
 
+  const handleTransfer = () =>
+    account?.transfer(transferRecipient as Address, transferValue).then(setTxHash).catch(console.error);
   return (
     <>
       <fieldset>
@@ -174,6 +181,39 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
             data-test-id={`${testId}:currency-decimals`}
           />
         </Row>
+      </fieldset>
+      <fieldset>
+        <legend>Transfer MATIC</legend>
+
+        <Row>
+          <BigIntField
+            label="Value"
+            value={transferValue?.toString()}
+            onChange={setTransferValue}
+            data-test-id={`${testId}:transfer-value-input`}
+          />
+
+          <TextField
+            label="TransferRecipient"
+            value={transferRecipient}
+            onChange={setTransferRecipient}
+            data-test-id={`${testId}:transfer-recipient-input`}
+          />
+
+          <button
+            type="button"
+            onClick={handleTransfer}
+            data-test-id={`${testId}:transfer-action`}
+          >
+            Transfer
+          </button>
+        </Row>
+
+        <SerializedValue
+          value={txHash}
+          style={{ marginBlockStart: "1em" }}
+          data-test-id={`${testId}:tx-hash`}
+        />
       </fieldset>
     </>
   );

@@ -166,6 +166,9 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.5.3
+      viem:
+        specifier: ^2.17.11
+        version: 2.17.11(typescript@5.5.3)
       vite:
         specifier: ^5.3.4
         version: 5.3.4(@types/node@20.12.12)(terser@5.31.0)
@@ -180,7 +183,7 @@ importers:
         version: link:../sdk-ecdsa-wasm
       eddsa-wasm-client:
         specifier: workspace:*
-        version: link:../sdk-eddsa-wasm
+        version: link:../sdk-wasm
       viem:
         specifier: ^2.17.11
         version: 2.17.11(typescript@5.5.3)
@@ -256,6 +259,81 @@ importers:
       vitest:
         specifier: ^1.4.0
         version: 1.6.0(@types/node@20.12.12)(@vitest/browser@1.6.0)(jsdom@24.1.0)(terser@5.31.0)
+
+  packages/sdk-react-native:
+    dependencies:
+      '@keyban/sdk-base':
+        specifier: workspace:*
+        version: link:../sdk-base
+      eddsa-wasm-client:
+        specifier: workspace:*
+        version: link:../sdk-wasm
+      long:
+        specifier: ^5.2.3
+        version: 5.2.3
+      react:
+        specifier: '*'
+        version: 18.3.1
+      react-dom:
+        specifier: '*'
+        version: 18.3.1(react@18.3.1)
+      react-native:
+        specifier: '*'
+        version: 0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@types/react@18.3.3)(react@18.3.1)
+      react-native-buffer:
+        specifier: ^6.0.3
+        version: 6.0.3(react-native-fast-base64@0.1.2(react-native@0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+      react-native-react-bridge:
+        specifier: '*'
+        version: 0.11.2(react-native-webview@13.10.2(react-native@0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+      react-native-webview:
+        specifier: '*'
+        version: 13.10.2(react-native@0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@changesets/changelog-github':
+        specifier: ^0.5.0
+        version: 0.5.0
+      '@changesets/cli':
+        specifier: ^2.27.1
+        version: 2.27.3
+      '@react-native-async-storage/async-storage':
+        specifier: ^1.23.1
+        version: 1.23.1(react-native@0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@types/react@18.3.3)(react@18.3.1))
+      '@types/node':
+        specifier: ^20.12.7
+        version: 20.12.12
+      '@types/react':
+        specifier: ^18.0.21
+        version: 18.3.3
+      '@vitest/browser':
+        specifier: ^1.6.0
+        version: 1.6.0(vitest@1.6.0)(webdriverio@8.38.0(typescript@5.5.3))
+      '@vitest/coverage-v8':
+        specifier: ^1.4.0
+        version: 1.6.0(vitest@1.6.0(@types/node@20.12.12)(@vitest/browser@1.6.0)(jsdom@24.1.0)(terser@5.31.0))
+      protobufjs:
+        specifier: ^7.2.6
+        version: 7.3.0
+      protobufjs-cli:
+        specifier: ^1.1.2
+        version: 1.1.2(protobufjs@7.3.0)
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(@swc/core@1.7.0)(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.7.0)(@types/node@20.12.12)(typescript@5.5.3))(typescript@5.5.3)
+      typescript:
+        specifier: ^5.4.5
+        version: 5.5.3
+      vite-plugin-node-polyfills:
+        specifier: ^0.22.0
+        version: 0.22.0(rollup@4.18.0)(vite@5.3.4(@types/node@20.12.12)(terser@5.31.0))
+      vitest:
+        specifier: ^1.4.0
+        version: 1.6.0(@types/node@20.12.12)(@vitest/browser@1.6.0)(jsdom@24.1.0)(terser@5.31.0)
+      webdriverio:
+        specifier: ^8.38.0
+        version: 8.38.0(typescript@5.5.3)
+
+  packages/sdk-wasm: {}
 
 packages:
 

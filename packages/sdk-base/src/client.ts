@@ -1,12 +1,12 @@
-import { http, createPublicClient, createWalletClient } from 'viem';
-import type { Chain, PublicClient, WalletClient } from 'viem';
-import { publicKeyToAddress } from 'viem/accounts';
-import { polygonAmoy } from 'viem/chains';
-import { Account } from '~/account';
-import type { KeybanAccount } from '~/account';
 import { KeybanBaseError, StorageError } from '~/errors';
 import type { KeybanSigner } from '~/signer';
 import type { KeybanStorage } from '~/storage';
+import { createPublicClient, http } from "viem";
+import type { Chain, PublicClient } from "viem";
+import { polygonAmoy } from "viem/chains";
+import { Account } from "~/account";
+import type { KeybanAccount } from "~/account";
+import { publicKeyToAddress } from "viem/accounts";
 
 export type KeybanApiStatus = 'operational' | 'down';
 
@@ -17,7 +17,6 @@ export type KeybanApiStatus = 'operational' | 'down';
 export interface KeybanClient {
   chain: Chain;
   publicClient: PublicClient;
-  walletClient: WalletClient;
 
   /**
    * Initializes a KeybanAccount instance.
@@ -40,7 +39,6 @@ export class KeybanClientImpl<Share> implements KeybanClient {
 
   chain: Chain;
   publicClient: PublicClient;
-  walletClient: WalletClient;
 
   /**
    *
@@ -60,10 +58,6 @@ export class KeybanClientImpl<Share> implements KeybanClient {
 
     this.chain = polygonAmoy;
     this.publicClient = createPublicClient({
-      chain: this.chain,
-      transport: http(),
-    });
-    this.walletClient = createWalletClient({
       chain: this.chain,
       transport: http(),
     });
@@ -108,7 +102,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     })();
 
     this.accounts.set(keyId, promise);
-    promise.catch(() => {}).finally(() => this.accounts.delete(keyId));
+    promise.catch(() => { }).finally(() => this.accounts.delete(keyId));
 
     return this.initialize(keyId);
   }
