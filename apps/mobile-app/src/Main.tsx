@@ -1,6 +1,6 @@
-import { KeybanAsyncStorage, useKeybanEddsa } from "@keyban/sdk-react-native";
-import type { ReactNode } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { KeybanAsyncStorage, useKeybanEddsa } from '@keyban/sdk-react-native';
+import type { ReactNode } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const keybanAsyncStorage = new KeybanAsyncStorage();
 
@@ -37,13 +37,13 @@ export const Main = () => {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: 30,
     marginTop: 20,
-    overflow: "scroll",
-    height: "100%",
+    overflow: 'scroll',
+    height: '100%',
   },
 });
 
@@ -64,17 +64,17 @@ const ActionBox = ({
         marginTop: 20,
       }}
     >
-      <Text style={{ textAlign: "center" }}>{humanDescription}</Text>
+      <Text style={{ textAlign: 'center' }}>{humanDescription}</Text>
       <TouchableOpacity onPress={onTap} testID={testId}>
         <Text
           style={{
-            borderStyle: "solid",
-            borderColor: "purple",
+            borderStyle: 'solid',
+            borderColor: 'purple',
             borderWidth: 1,
             padding: 10,
             marginTop: 20,
             marginBottom: 50,
-            textAlign: "center",
+            textAlign: 'center',
           }}
         >
           {actionText}
@@ -99,17 +99,17 @@ const AssertionBox = ({
         marginTop: 20,
       }}
     >
-      <Text style={{ textAlign: "center" }}>{humanDescription}</Text>
+      <Text style={{ textAlign: 'center' }}>{humanDescription}</Text>
       <Text
         testID={testId}
         style={{
-          borderStyle: "solid",
-          borderColor: "purple",
+          borderStyle: 'solid',
+          borderColor: 'purple',
           borderWidth: 1,
           padding: 10,
           marginTop: 20,
           marginBottom: 50,
-          textAlign: "center",
+          textAlign: 'center',
         }}
       >
         {value}

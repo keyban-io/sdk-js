@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useState } from "react";
+import { type ReactNode, createContext, useState } from 'react';
 
 export const TestContext = createContext<{
   value: string;
@@ -6,7 +6,7 @@ export const TestContext = createContext<{
 } | null>(null);
 
 export const Providerr = (props: { children: ReactNode }) => {
-  const [state, setState] = useState<string>("");
+  const [state, setState] = useState<string>('');
   return (
     <TestContext.Provider
       value={{

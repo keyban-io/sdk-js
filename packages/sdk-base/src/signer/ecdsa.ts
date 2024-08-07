@@ -32,10 +32,10 @@ export function KeybanSigner_ECDSA(): KeybanSigner<ClientShare_ECDSA> {
     add: wrap((...args) => globalThis.ecdsa.add(...args)),
     dkg: wrap((...args) => globalThis.ecdsa.dkg(...args).then(JSON.parse)),
     sign: wrap((keyId, clientShare, message) =>
-      globalThis.ecdsa.sign(keyId, JSON.stringify(clientShare), message)
+      globalThis.ecdsa.sign(keyId, JSON.stringify(clientShare), message),
     ),
     publicKey: wrap((clientShare) =>
-      globalThis.ecdsa.publicKey(JSON.stringify(clientShare))
+      globalThis.ecdsa.publicKey(JSON.stringify(clientShare)),
     ),
   };
 }

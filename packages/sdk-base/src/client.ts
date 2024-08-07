@@ -81,25 +81,25 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     const promise = (async () => {
       const storageKey = `${this.signer.storagePrefix}-${keyId}`;
 
-        let clientShare = await this.storage.get(storageKey).catch((err) => {
-          throw new StorageError(
-            StorageError.types.RetrivalFailed,
-            'Client.initialize',
-            err,
-          );
-        });
+      let clientShare = await this.storage.get(storageKey).catch((err) => {
+        throw new StorageError(
+          StorageError.types.RetrivalFailed,
+          'Client.initialize',
+          err,
+        );
+      });
 
-        clientShare ??= await this.signer.dkg(keyId).catch((err) => {
-          throw new KeybanBaseError(err);
-        });
+      clientShare ??= await this.signer.dkg(keyId).catch((err) => {
+        throw new KeybanBaseError(err);
+      });
 
-        await this.storage.set(storageKey, clientShare).catch((err) => {
-          throw new StorageError(
-            StorageError.types.SaveFailed,
-            'Client.initialize',
-            err,
-          );
-        });
+      await this.storage.set(storageKey, clientShare).catch((err) => {
+        throw new StorageError(
+          StorageError.types.SaveFailed,
+          'Client.initialize',
+          err,
+        );
+      });
 
       const publicKey = await this.signer.publicKey(clientShare);
       const address = publicKeyToAddress(publicKey);
