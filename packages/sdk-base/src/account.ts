@@ -1,6 +1,6 @@
 import type { KeybanClientImpl } from '~/client';
 import { KeybanBaseError, StorageError } from '~/errors';
-import type { Address, CustomSource, Hash, Hex, WalletClient } from 'viem';
+import type { Address, Chain, CustomSource, Hash, Hex, Transport, WalletClient, Account as ViemAccount } from 'viem';
 import {
   createWalletClient,
   hashMessage,
@@ -32,7 +32,7 @@ export class Account<Share> implements KeybanAccount {
   publicKey: string;
 
   #client: KeybanClientImpl<Share>;
-  #walletClient: WalletClient;
+  #walletClient: WalletClient<Transport, Chain, ViemAccount>;
 
   constructor(
     client: KeybanClientImpl<Share>,
@@ -126,9 +126,11 @@ export class Account<Share> implements KeybanAccount {
     return this.#client.signer.sign(this.keyId, clientShare, hash);
   };
 
+  /**
+   * Transfers native tokens to another address.
+   */
   transfer(to: Address, value: bigint): Promise<Hash> {
-    // @ts-expect-error: account is already setup in wallet client
-    return this.#walletClient.sendTransaction({ to, value });
+    return this.#walletClient.sendTransaction({ to, value, type: 'eip1559' });
   }
 
   /**
