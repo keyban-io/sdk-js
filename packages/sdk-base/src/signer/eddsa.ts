@@ -1,6 +1,5 @@
 import initWasmFile, { add, dkg, sign } from 'eddsa-wasm-client';
 import type { InitOutput } from 'eddsa-wasm-client';
-import type { Hex } from 'viem';
 import { SdkError } from '~/errors';
 import type { KeybanSigner } from '~/signer';
 
@@ -40,6 +39,6 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
         (str) => `0x${str}` as const
       )
     ),
-    publicKey: wrap((clientShare) => clientShare.client_pubkey as Hex),
+    publicKey: wrap((clientShare) => `0x${clientShare.client_pubkey}` as const),
   };
 }
