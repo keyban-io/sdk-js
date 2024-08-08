@@ -23,7 +23,7 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
 
   const wrap =
     <Args extends any[], Ret = unknown>(
-      fn: (...args: Args) => Ret | Promise<Ret>,
+      fn: (...args: Args) => Ret | Promise<Ret>
     ) =>
     async (...args: Args) => {
       await wasmPromise;
@@ -36,7 +36,9 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
     add: wrap(add),
     dkg: wrap(dkg),
     sign: wrap((keyId, clientShare, message) =>
-      sign(keyId, clientShare.secret_share, message),
+      sign(keyId, clientShare.secret_share, message).then(
+        (str) => `0x${str}` as const
+      )
     ),
     publicKey: wrap((clientShare) => clientShare.client_pubkey as Hex),
   };
