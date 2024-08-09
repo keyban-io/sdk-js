@@ -1,4 +1,4 @@
-import initWasmFile, { add, dkg, sign } from 'eddsa-wasm-client';
+import initWasmFile, { dkg, sign } from 'eddsa-wasm-client';
 import type { InitOutput } from 'eddsa-wasm-client';
 import { SdkError } from '~/errors';
 import type { KeybanSigner } from '~/signer';
@@ -24,15 +24,14 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
     <Args extends any[], Ret = unknown>(
       fn: (...args: Args) => Ret | Promise<Ret>
     ) =>
-    async (...args: Args) => {
-      await wasmPromise;
-      return fn(...args);
-    };
+      async (...args: Args) => {
+        await wasmPromise;
+        return fn(...args);
+      };
 
   return {
     storagePrefix: 'KEYBAN-EDDSA',
 
-    add: wrap(add),
     dkg: wrap(dkg),
     sign: wrap((keyId, clientShare, message) =>
       sign(keyId, clientShare.secret_share, message).then(

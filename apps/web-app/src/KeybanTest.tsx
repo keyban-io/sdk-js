@@ -17,7 +17,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
 
   const [userKeyId, setUserKeyId] = React.useState('dumb');
   const [signature, setSignature] = React.useState('');
-  const [payload, setPayload] = React.useState('');
+  const [message, setMessage] = React.useState('');
   const [balance, setBalance] = React.useState<bigint>();
   const [transferValue, setTransferValue] = React.useState<bigint>(BigInt(0));
   const [transferRecipient, setTransferRecipient] = React.useState("");
@@ -32,7 +32,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
   };
 
   const handleSign = () =>
-    account?.sign(payload).then(setSignature).catch(console.error);
+    account?.signMessage(message).then(setSignature).catch(console.error);
 
   const handleGetBalance = () =>
     account?.getBalance().then(setBalance).catch(console.error);
@@ -105,10 +105,10 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
 
         <Row>
           <TextField
-            label="Payload"
-            value={payload}
-            onChange={setPayload}
-            data-test-id={`${testId}:payload-input`}
+            label="Message"
+            value={message}
+            onChange={setMessage}
+            data-test-id={`${testId}:message-input`}
           />
 
           <button

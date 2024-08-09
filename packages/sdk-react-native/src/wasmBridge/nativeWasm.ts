@@ -6,8 +6,6 @@ import {
   u8aToHex,
 } from '@keyban/sdk-base';
 import {
-  EddsaAddRequest,
-  EddsaAddResponse,
   EddsaDkgResponse,
   GenericMessage,
 } from '~/proto_compiled';
@@ -27,26 +25,6 @@ export class NativeWasm implements WasmApi {
   //@ts-ignore
   async signMessage(keyId: string, secretShare: SecretShare, message: string) {
     return Promise.resolve('');
-  }
-
-  async add(num1: number, num2: number): Promise<number> {
-    this.ensureEmitFn();
-    const callId = generateUUID(); // this should be random uuid
-    const addPayload = EddsaAddRequest.encode({
-      num1,
-      num2,
-    }).finish();
-
-    const resultString = await this.promisifyMessage(() => {
-      this.emitFn?.({
-        type: 'add',
-        data: this.prepareGenericMessage(callId, u8aToHex(addPayload)),
-      });
-    }, callId);
-
-    const decodedResult = EddsaAddResponse.decode(hexToU8a(resultString));
-
-    return decodedResult.sum;
   }
 
   // UTILS

@@ -1,5 +1,5 @@
 import type { KeybanClientImpl } from '~/client';
-import { KeybanBaseError, StorageError } from '~/errors';
+import { StorageError } from '~/errors';
 import type { Address, Chain, CustomSource, Hash, Hex, Transport, WalletClient, Account as ViemAccount } from 'viem';
 import {
   createWalletClient,
@@ -19,8 +19,7 @@ export interface KeybanAccount {
 
   getBalance(): Promise<bigint>;
   transfer(to: Address, value: bigint): Promise<Hash>;
-  sign(payload: string): Promise<string>;
-  add(a: number, b: number): Promise<number>;
+  signMessage(message: string): Promise<Hex>;
 }
 
 /**
@@ -75,15 +74,13 @@ export class Account<Share> implements KeybanAccount {
   }
 
   /**
-   * Signs a payload using the client's secret share.
+   * Signs an Ethereum message using the client's secret share.
    */
-  async sign(payload: string) {
-    const clientShare = await this.#getClientShare();
-    return this.#client.signer
-      .sign(this.keyId, clientShare, payload)
-      .catch((err) => {
-        throw new KeybanBaseError(err);
-      });
+  async signMessage(message: string): Promise<Hex> {
+    // For now even EDDSA messages are prefixed with Ethereum message prefix
+    // To be updated when the eddsa signer is associated with a specific chain (e.g. Solana)
+    // Account should be aware of the chain it is associated with not only the signer
+    return this.#signMessage({ message });
   }
 
   #signMessage: CustomSource['signMessage'] = async ({ message }) => {
@@ -131,12 +128,5 @@ export class Account<Share> implements KeybanAccount {
    */
   transfer(to: Address, value: bigint): Promise<Hash> {
     return this.#walletClient.sendTransaction({ to, value, type: 'eip1559' });
-  }
-
-  /**
-   * Sums two numbers using the WebAssembly API. This method is for testing purposes only.
-   */
-  add(a: number, b: number) {
-    return this.#client.signer.add(a, b);
   }
 }

@@ -4,7 +4,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { NativeWasm } from './nativeWasm';
 import { WasmInvoker } from './wasmInvoker';
 
-class MyEmitter extends EventEmitter {}
+class MyEmitter extends EventEmitter { }
 const myEmitter = new MyEmitter();
 
 describe('Native bridge', () => {
@@ -32,11 +32,6 @@ describe('Native bridge', () => {
       async (message: { type: string; data: string }) => {
         console.log('Received message from native:', message);
         switch (message.type as keyof WasmApi) {
-          case 'add': {
-            const result = await wasmInvoker.add(message.data as string);
-            myEmitter.emit('webViewToNative', { type: 'add', data: result });
-            break;
-          }
           case 'dkg': {
             const result = await wasmInvoker.dkg(message.data as string);
             myEmitter.emit('webViewToNative', {
@@ -58,11 +53,6 @@ describe('Native bridge', () => {
         }
       },
     );
-  });
-
-  it('Add', async () => {
-    const res = await nativeWasm.add(3, 3);
-    expect(3 + 3).toEqual(res);
   });
 
   it('DKG', async () => {

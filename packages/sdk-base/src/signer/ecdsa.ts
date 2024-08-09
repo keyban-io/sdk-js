@@ -21,15 +21,14 @@ export function KeybanSigner_ECDSA(): KeybanSigner<ClientShare_ECDSA> {
     <Args extends any[], Ret = unknown>(
       fn: (...args: Args) => Ret | Promise<Ret>,
     ) =>
-    async (...args: Args) => {
-      await wasmPromise;
-      return fn(...args);
-    };
+      async (...args: Args) => {
+        await wasmPromise;
+        return fn(...args);
+      };
 
   return {
     storagePrefix: 'KEYBAN-ECDSA',
 
-    add: wrap((...args) => globalThis.ecdsa.add(...args)),
     dkg: wrap((...args) => globalThis.ecdsa.dkg(...args).then(JSON.parse)),
     sign: wrap((keyId, clientShare, message) =>
       globalThis.ecdsa.sign(keyId, JSON.stringify(clientShare), message),

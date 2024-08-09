@@ -24,7 +24,7 @@ export default function App() {
           signer={KeybanSigner.ECDSA}
           storage={KeybanLocalStorage}
         >
-          <h1>EcDSA</h1>
+          <h1>ECDSA</h1>
           <KeybanTest testId="ecdsa" />
         </KeybanProvider>
       </div>

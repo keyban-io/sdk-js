@@ -29,11 +29,6 @@ export const WebViewRoot = () => {
     if (!instance) return;
 
     switch (message.type as keyof WasmApi) {
-      case 'add': {
-        const result = await instance.add(message.data as string);
-        emit({ type: 'add', data: result });
-        break;
-      }
       case 'dkg': {
         const result = await instance.dkg(message.data as string);
         emit({ type: 'dkg', data: result });
