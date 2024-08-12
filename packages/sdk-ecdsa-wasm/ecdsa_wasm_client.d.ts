@@ -2,8 +2,7 @@ declare module "ecdsa-wasm-client";
 
 export declare global {
   var ecdsa: {
-    dkg(...args): Promise<string>;
-    dkg(keyId: string): Promise<Share>;
+    dkg(keyId: string): Promise<string>;
     sign(
       keyId: string,
       clientShare: string,

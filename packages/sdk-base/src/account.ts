@@ -1,6 +1,15 @@
 import type { KeybanClientImpl } from '~/client';
 import { StorageError } from '~/errors';
-import type { Address, Chain, CustomSource, Hash, Hex, Transport, WalletClient, Account as ViemAccount } from 'viem';
+import type {
+  Address,
+  Chain,
+  CustomSource,
+  Hash,
+  Hex,
+  Transport,
+  WalletClient,
+  Account as ViemAccount,
+} from 'viem';
 import {
   createWalletClient,
   hashMessage,
@@ -45,7 +54,7 @@ export class Account<Share> implements KeybanAccount {
 
     this.#client = client;
     this.#walletClient = createWalletClient({
-      chain: client.chain,
+      chain: client.publicClient.chain,
       transport: http(),
       account: toAccount({
         address: this.address,

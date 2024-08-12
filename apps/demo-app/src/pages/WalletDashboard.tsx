@@ -5,6 +5,7 @@ import {
   KeybanSigner,
   useKeyban,
   KeybanLocalStorage,
+  KeybanChain,
 } from '@keyban/sdk-react';
 import type { KeybanAccount } from '@keyban/sdk-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -249,7 +250,11 @@ const WalletDashboardContent: React.FC = () => {
 };
 
 const WalletDashboard: React.FC = () => (
-  <KeybanProvider signer={KeybanSigner.ECDSA} storage={KeybanLocalStorage}>
+  <KeybanProvider
+    chain={KeybanChain.polygonAmoy}
+    signer={KeybanSigner.ECDSA}
+    storage={KeybanLocalStorage}
+  >
     <WalletDashboardContent />
   </KeybanProvider>
 );

@@ -1,12 +1,13 @@
 import { KeybanBaseError, StorageError } from '~/errors';
 import type { KeybanSigner } from '~/signer';
 import type { KeybanStorage } from '~/storage';
-import { createPublicClient, http } from "viem";
-import type { Chain, PublicClient } from "viem";
-import { polygonAmoy } from "viem/chains";
-import { Account } from "~/account";
-import type { KeybanAccount } from "~/account";
-import { publicKeyToAddress } from "viem/accounts";
+import { createPublicClient, http } from 'viem';
+import type { Chain, PublicClient, Transport } from 'viem';
+import * as chains from 'viem/chains';
+import { Account } from '~/account';
+import type { KeybanAccount } from '~/account';
+import { publicKeyToAddress } from 'viem/accounts';
+import { KeybanChain } from '~/chains';
 
 export type KeybanApiStatus = 'operational' | 'down';
 
@@ -15,8 +16,8 @@ export type KeybanApiStatus = 'operational' | 'down';
  * This interface defines the methods and properties that a KeybanClient class should implement.
  */
 export interface KeybanClient {
-  chain: Chain;
-  publicClient: PublicClient;
+  chain: KeybanChain;
+  publicClient: PublicClient<Transport, Chain>;
 
   /**
    * Initializes a KeybanAccount instance.
@@ -37,8 +38,8 @@ export class KeybanClientImpl<Share> implements KeybanClient {
   storage: KeybanStorage<Share>;
   accounts: Map<string, Promise<Account<Share>>>;
 
-  chain: Chain;
-  publicClient: PublicClient;
+  chain: KeybanChain;
+  publicClient: PublicClient<Transport, Chain>;
 
   /**
    *
@@ -48,17 +49,20 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    */
   constructor(
     apiUrl: string,
-    signer: KeybanSigner<Share>,
-    storage: KeybanStorage<Share>,
+    chain: KeybanChain,
+    signer: () => KeybanSigner<Share>,
+    storage: new <T>() => KeybanStorage<T>
   ) {
     this.apiUrl = apiUrl;
-    this.signer = signer;
-    this.storage = storage;
+    this.signer = signer();
+    this.storage = new storage();
     this.accounts = new Map();
 
-    this.chain = polygonAmoy;
+    this.chain = chain;
     this.publicClient = createPublicClient({
-      chain: this.chain,
+      chain: {
+        [KeybanChain.polygonAmoy]: chains.polygonAmoy,
+      }[this.chain],
       transport: http(),
     });
   }
@@ -79,7 +83,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
         throw new StorageError(
           StorageError.types.RetrivalFailed,
           'Client.initialize',
-          err,
+          err
         );
       });
 
@@ -91,7 +95,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
         throw new StorageError(
           StorageError.types.SaveFailed,
           'Client.initialize',
-          err,
+          err
         );
       });
 
@@ -102,7 +106,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     })();
 
     this.accounts.set(keyId, promise);
-    promise.catch(() => { }).finally(() => this.accounts.delete(keyId));
+    promise.catch(() => {}).finally(() => this.accounts.delete(keyId));
 
     return this.initialize(keyId);
   }

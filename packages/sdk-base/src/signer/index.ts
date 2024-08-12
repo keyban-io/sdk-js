@@ -12,4 +12,4 @@ export interface KeybanSigner<Share> {
 export const KeybanSigner = {
   EdDSA: KeybanSigner_EdDSA,
   ECDSA: KeybanSigner_ECDSA,
-};
+} as const;

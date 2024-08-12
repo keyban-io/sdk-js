@@ -24,10 +24,10 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
     <Args extends any[], Ret = unknown>(
       fn: (...args: Args) => Ret | Promise<Ret>
     ) =>
-      async (...args: Args) => {
-        await wasmPromise;
-        return fn(...args);
-      };
+    async (...args: Args) => {
+      await wasmPromise;
+      return fn(...args);
+    };
 
   return {
     storagePrefix: 'KEYBAN-EDDSA',

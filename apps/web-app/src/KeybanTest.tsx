@@ -1,9 +1,9 @@
-import type { KeybanAccount } from '@keyban/sdk-react';
-import { FormattedBalance, useKeyban } from '@keyban/sdk-react';
-import React from 'react';
-import Row from './components/Row';
-import SerializedValue from './components/SerializedValue';
-import TextField from './components/TextField';
+import type { KeybanAccount } from "@keyban/sdk-react";
+import { FormattedBalance, useKeyban } from "@keyban/sdk-react";
+import React from "react";
+import Row from "./components/Row";
+import SerializedValue from "./components/SerializedValue";
+import TextField from "./components/TextField";
 import BigIntField from "./components/BigIntField";
 import { Address } from "viem";
 
@@ -15,9 +15,9 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
 
   const [account, setAccount] = React.useState<KeybanAccount>();
 
-  const [userKeyId, setUserKeyId] = React.useState('dumb');
-  const [signature, setSignature] = React.useState('');
-  const [message, setMessage] = React.useState('');
+  const [userKeyId, setUserKeyId] = React.useState("dumb");
+  const [signature, setSignature] = React.useState("");
+  const [message, setMessage] = React.useState("");
   const [balance, setBalance] = React.useState<bigint>();
   const [transferValue, setTransferValue] = React.useState<bigint>(BigInt(0));
   const [transferRecipient, setTransferRecipient] = React.useState("");
@@ -25,7 +25,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
 
   const handleInitDkg = () => {
     setAccount(undefined);
-    setSignature('');
+    setSignature("");
     setBalance(undefined);
 
     keyban.client.initialize(userKeyId).then(setAccount).catch(console.error);
@@ -38,7 +38,11 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
     account?.getBalance().then(setBalance).catch(console.error);
 
   const handleTransfer = () =>
-    account?.transfer(transferRecipient as Address, transferValue).then(setTxHash).catch(console.error);
+    account
+      ?.transfer(transferRecipient as Address, transferValue)
+      .then(setTxHash)
+      .catch(console.error);
+
   return (
     <>
       <fieldset>
@@ -77,7 +81,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         {account && (
           <SerializedValue
             value={account}
-            style={{ marginBlockStart: '1em' }}
+            style={{ marginBlockStart: "1em" }}
             data-test-id={`${testId}:account`}
           />
         )}
@@ -86,7 +90,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
       <fieldset>
         <legend>Client public key</legend>
         <SerializedValue
-          value={account?.publicKey ?? ''}
+          value={account?.publicKey ?? ""}
           data-test-id={`${testId}:client-pub-key`}
         />
       </fieldset>
@@ -95,7 +99,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <legend>Address</legend>
 
         <SerializedValue
-          value={account?.address ?? ''}
+          value={account?.address ?? ""}
           data-test-id={`${testId}:address`}
         />
       </fieldset>
@@ -122,7 +126,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
 
         <SerializedValue
           value={signature}
-          style={{ marginBlockStart: '1em' }}
+          style={{ marginBlockStart: "1em" }}
           data-test-id={`${testId}:signature`}
         />
       </fieldset>
@@ -167,7 +171,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <Row>
           <span>Currency name:</span>
           <SerializedValue
-            value={keyban.client.chain.nativeCurrency.name}
+            value={keyban.client.publicClient.chain.nativeCurrency.name}
             style={{ flexGrow: 1 }}
             data-test-id={`${testId}:currency-name`}
           />
@@ -176,7 +180,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <Row>
           <span>Currency decimals:</span>
           <SerializedValue
-            value={keyban.client.chain.nativeCurrency.decimals}
+            value={keyban.client.publicClient.chain.nativeCurrency.decimals}
             style={{ flexGrow: 1 }}
             data-test-id={`${testId}:currency-decimals`}
           />

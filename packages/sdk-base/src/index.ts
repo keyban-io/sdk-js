@@ -3,3 +3,4 @@ export * from './account';
 export * from './client';
 export * from './storage';
 export * from './utils';
+export * from './chains';
