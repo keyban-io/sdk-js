@@ -187,7 +187,9 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         </Row>
       </fieldset>
       <fieldset>
-        <legend>Transfer MATIC</legend>
+        <legend>
+          Transfer {keyban.client.publicClient.chain.nativeCurrency.name}
+        </legend>
 
         <Row>
           <BigIntField

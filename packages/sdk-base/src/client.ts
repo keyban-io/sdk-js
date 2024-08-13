@@ -10,14 +10,12 @@ import type { KeybanSigner } from '~/signer';
 import type { KeybanStorage } from '~/storage';
 
 export type KeybanApiStatus = 'operational' | 'down';
-export const KeybanApiUrl = 'https://keyban.io';
 
 /**
  * Interface for the KeybanClient class.
  * This interface defines the methods and properties that a KeybanClient class should implement.
  */
 export interface KeybanClient {
-  apiUrl: string;
   chain: KeybanChain;
   publicClient: PublicClient<Transport, Chain>;
 
@@ -31,6 +29,14 @@ export interface KeybanClient {
   apiStatus(): Promise<KeybanApiStatus>;
 }
 
+export type KeybanClientConfig<Share> = {
+  apiUrl?: string;
+  chain: KeybanChain;
+  chainUrl?: string;
+  signer: () => KeybanSigner<Share>;
+  storage: new () => KeybanStorage<Share>;
+};
+
 /**
  * @private
  */
@@ -41,6 +47,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
   accounts: Map<string, Promise<Account<Share>>>;
 
   chain: KeybanChain;
+  chainUrl?: string;
   publicClient: PublicClient<Transport, Chain>;
 
   /**
@@ -49,23 +56,23 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    * @param signer
    * @param storage - Any storage provider following {@link KeybanStorage}. For web, it can be local storage; for native, AsyncStorage.
    */
-  constructor(
-    apiUrl: string,
-    chain: KeybanChain,
-    signer: () => KeybanSigner<Share>,
-    storage: new <T>() => KeybanStorage<T>
-  ) {
+  constructor({
+    apiUrl = 'https://keyban.io',
+    chain,
+    chainUrl,
+    signer,
+    storage,
+  }: KeybanClientConfig<Share>) {
     this.apiUrl = apiUrl;
     this.signer = signer();
     this.storage = new storage();
     this.accounts = new Map();
 
     this.chain = chain;
+    this.chainUrl = chainUrl;
     this.publicClient = createPublicClient({
-      chain: {
-        [KeybanChain.polygonAmoy]: chains.polygonAmoy,
-      }[this.chain],
-      transport: http(),
+      chain: chains[this.chain],
+      transport: http(chainUrl),
     });
   }
 

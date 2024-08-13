@@ -1,10 +1,8 @@
-import { KeybanApiUrl, KeybanClientImpl } from "@keyban/sdk-base";
+import { KeybanClientImpl } from "@keyban/sdk-base";
 import type {
   KeybanApiStatus,
-  KeybanChain,
   KeybanClient,
-  KeybanSigner,
-  KeybanStorage,
+  KeybanClientConfig,
 } from "@keyban/sdk-base";
 import React from "react";
 
@@ -14,28 +12,28 @@ export type KeybanContextType = {
 };
 const KeybanContext = React.createContext<KeybanContextType | null>(null);
 
-export type KeybanProviderProps<Share> = React.PropsWithChildren<{
-  apiUrl?: string;
-  chain: KeybanChain;
-  signer: () => KeybanSigner<Share>;
-  storage: new <T>() => KeybanStorage<T>;
-}>;
+export type KeybanProviderProps<Share> = React.PropsWithChildren<
+  KeybanClientConfig<Share>
+>;
 
 export function KeybanProvider<Share>({
-  apiUrl = KeybanApiUrl,
-  chain,
-  signer,
-  storage,
   children,
+  ...clientConfig
 }: KeybanProviderProps<Share>) {
   const client = React.useMemo(
-    () => new KeybanClientImpl(apiUrl, chain, signer, storage),
-    [apiUrl, signer, storage],
+    () => new KeybanClientImpl(clientConfig),
+    [Object.values(clientConfig)],
   );
 
   const [apiStatus, setApiStatus] = React.useState<KeybanApiStatus>();
   React.useEffect(() => {
-    client.apiStatus().then(setApiStatus);
+    let canceled = false;
+    client.apiStatus().then((status) => {
+      if (!canceled) setApiStatus(status);
+    });
+    return () => {
+      canceled = true;
+    };
   }, [client]);
 
   const value = React.useMemo(

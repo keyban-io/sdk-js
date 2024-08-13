@@ -1,21 +1,21 @@
 import type {
-    Address,
-    Chain,
-    CustomSource,
-    Hash,
-    Hex,
-    Transport,
-    Account as ViemAccount,
-    WalletClient,
+  Address,
+  Chain,
+  CustomSource,
+  Hash,
+  Hex,
+  Transport,
+  Account as ViemAccount,
+  WalletClient,
 } from 'viem';
 import {
-    createWalletClient,
-    hashMessage,
-    hashTypedData,
-    http,
-    keccak256,
-    parseSignature,
-    serializeTransaction,
+  createWalletClient,
+  hashMessage,
+  hashTypedData,
+  http,
+  keccak256,
+  parseSignature,
+  serializeTransaction,
 } from 'viem';
 import { toAccount } from 'viem/accounts';
 import type { KeybanClientImpl } from '~/client';
@@ -55,7 +55,7 @@ export class Account<Share> implements KeybanAccount {
     this.#client = client;
     this.#walletClient = createWalletClient({
       chain: client.publicClient.chain,
-      transport: http(),
+      transport: http(client.chainUrl),
       account: toAccount({
         address: this.address,
         signMessage: this.#signMessage.bind(this),

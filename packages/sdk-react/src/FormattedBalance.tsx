@@ -1,5 +1,5 @@
-import { formatBalance } from '@keyban/sdk-base';
-import { useKeyban } from './provider';
+import { formatBalance } from "@keyban/sdk-base";
+import { useKeyban } from "./provider";
 
 /**
  * Formats a balance in a human-readable format using the Keyban client.
@@ -14,7 +14,7 @@ import { useKeyban } from './provider';
  * import { useFormattedBalance } from "@keyban/sdk-react";
  *
  * const formattedBalance = useFormattedBalance(BigInt(0x2c68af0bb140000));
- * console.log(formattedBalance); // "0.2 MATIC"
+ * console.log(formattedBalance); // "0.2 ETH"
  * ```
  */
 export function useFormattedBalance(balance: bigint) {
