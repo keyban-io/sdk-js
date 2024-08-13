@@ -1,4 +1,4 @@
-import { KeybanClientImpl } from "@keyban/sdk-base";
+import { KeybanApiUrl, KeybanClientImpl } from "@keyban/sdk-base";
 import type {
   KeybanApiStatus,
   KeybanChain,
@@ -22,7 +22,7 @@ export type KeybanProviderProps<Share> = React.PropsWithChildren<{
 }>;
 
 export function KeybanProvider<Share>({
-  apiUrl = "https://keyban.localtest.me",
+  apiUrl = KeybanApiUrl,
   chain,
   signer,
   storage,

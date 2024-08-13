@@ -1,13 +1,13 @@
 .root {
   display: grid;
-  grid-template-areas: 
-    "chain chain"
+  grid-template-areas:
+    "config config"
     "eddsa ecdsa";
   gap: 0.5rem;
 }
 
-.chain {
-  grid-area: chain;
+.config {
+  grid-area: config;
 }
 
 .eddsa {

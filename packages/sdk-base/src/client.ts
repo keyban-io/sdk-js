@@ -10,6 +10,7 @@ import { publicKeyToAddress } from 'viem/accounts';
 import { KeybanChain } from '~/chains';
 
 export type KeybanApiStatus = 'operational' | 'down';
+export const KeybanApiUrl = 'https://keyban.io';
 
 /**
  * Interface for the KeybanClient class.
@@ -106,7 +107,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     })();
 
     this.accounts.set(keyId, promise);
-    promise.catch(() => {}).finally(() => this.accounts.delete(keyId));
+    promise.catch(() => { }).finally(() => this.accounts.delete(keyId));
 
     return this.initialize(keyId);
   }
