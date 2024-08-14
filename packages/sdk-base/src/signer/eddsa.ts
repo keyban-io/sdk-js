@@ -33,8 +33,8 @@ export function KeybanSigner_EdDSA(): KeybanSigner<ClientShare_EdDSA> {
     storagePrefix: 'KEYBAN-EDDSA',
 
     dkg: wrap(dkg),
-    sign: wrap((keyId, clientShare, message) =>
-      sign(keyId, clientShare.secret_share, message).then(
+    sign: wrap((keyId, clientShare, message, apiUrl) =>
+      sign(keyId, clientShare.secret_share, message, apiUrl).then(
         (str) => `0x${str}` as const
       )
     ),

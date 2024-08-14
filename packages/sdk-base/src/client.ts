@@ -17,6 +17,7 @@ export const KeybanApiUrl = 'https://keyban.io';
  * This interface defines the methods and properties that a KeybanClient class should implement.
  */
 export interface KeybanClient {
+  apiUrl: string;
   chain: KeybanChain;
   publicClient: PublicClient<Transport, Chain>;
 
@@ -88,7 +89,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
         );
       });
 
-      clientShare ??= await this.signer.dkg(keyId).catch((err) => {
+      clientShare ??= await this.signer.dkg(keyId, this.apiUrl).catch((err) => {
         throw new KeybanBaseError(err);
       });
 

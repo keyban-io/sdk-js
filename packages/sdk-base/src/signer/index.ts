@@ -4,8 +4,13 @@ import { KeybanSigner_EdDSA } from './eddsa';
 
 export interface KeybanSigner<Share> {
   storagePrefix: string;
-  dkg(keyId: string): Promise<Share>;
-  sign(keyId: string, clientShare: Share, message: string): Promise<Hex>;
+  dkg(keyId: string, apiUrl: string): Promise<Share>;
+  sign(
+    keyId: string,
+    clientShare: Share,
+    message: string,
+    apiUrl: string
+  ): Promise<Hex>;
   publicKey(clientShare: Share): Promise<Hex>;
 }
 

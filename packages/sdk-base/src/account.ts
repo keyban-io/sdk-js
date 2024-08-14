@@ -95,7 +95,12 @@ export class Account<Share> implements KeybanAccount {
   #signMessage: CustomSource['signMessage'] = async ({ message }) => {
     const clientShare = await this.#getClientShare();
     const hash = hashMessage(message, 'hex');
-    return this.#client.signer.sign(this.keyId, clientShare, hash);
+    return this.#client.signer.sign(
+      this.keyId,
+      clientShare,
+      hash,
+      this.#client.apiUrl
+    );
   };
 
   /**
@@ -117,7 +122,8 @@ export class Account<Share> implements KeybanAccount {
     const hexSignature = await this.#client.signer.sign(
       this.keyId,
       await this.#getClientShare(),
-      keccak256(serializer(signableTransaction))
+      keccak256(serializer(signableTransaction)),
+      this.#client.apiUrl
     );
     const signature = parseSignature(hexSignature);
 
@@ -129,7 +135,12 @@ export class Account<Share> implements KeybanAccount {
   ) => {
     const clientShare = await this.#getClientShare();
     const hash = hashTypedData(typedDataDefinition);
-    return this.#client.signer.sign(this.keyId, clientShare, hash);
+    return this.#client.signer.sign(
+      this.keyId,
+      clientShare,
+      hash,
+      this.#client.apiUrl
+    );
   };
 
   /**

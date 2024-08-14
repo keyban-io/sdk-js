@@ -30,8 +30,8 @@ export function KeybanSigner_ECDSA(): KeybanSigner<ClientShare_ECDSA> {
     storagePrefix: 'KEYBAN-ECDSA',
 
     dkg: wrap((...args) => globalThis.ecdsa.dkg(...args).then(JSON.parse)),
-    sign: wrap((keyId, clientShare, message) =>
-      globalThis.ecdsa.sign(keyId, JSON.stringify(clientShare), message)
+    sign: wrap((keyId, clientShare, message, apiUrl) =>
+      globalThis.ecdsa.sign(keyId, JSON.stringify(clientShare), message, apiUrl)
     ),
     publicKey: wrap((clientShare) =>
       globalThis.ecdsa.publicKey(JSON.stringify(clientShare))
