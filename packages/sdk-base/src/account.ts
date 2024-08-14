@@ -1,25 +1,25 @@
-import type { KeybanClientImpl } from '~/client';
-import { StorageError } from '~/errors';
 import type {
-  Address,
-  Chain,
-  CustomSource,
-  Hash,
-  Hex,
-  Transport,
-  WalletClient,
-  Account as ViemAccount,
+    Address,
+    Chain,
+    CustomSource,
+    Hash,
+    Hex,
+    Transport,
+    Account as ViemAccount,
+    WalletClient,
 } from 'viem';
 import {
-  createWalletClient,
-  hashMessage,
-  hashTypedData,
-  http,
-  keccak256,
-  parseSignature,
-  serializeTransaction,
+    createWalletClient,
+    hashMessage,
+    hashTypedData,
+    http,
+    keccak256,
+    parseSignature,
+    serializeTransaction,
 } from 'viem';
 import { toAccount } from 'viem/accounts';
+import type { KeybanClientImpl } from '~/client';
+import { StorageError } from '~/errors';
 
 export interface KeybanAccount {
   keyId: string;

@@ -1,5 +1,5 @@
-import initWasmFile, { dkg, sign } from 'eddsa-wasm-client';
 import type { InitOutput } from 'eddsa-wasm-client';
+import initWasmFile, { dkg, sign } from 'eddsa-wasm-client';
 import { SdkError } from '~/errors';
 import type { KeybanSigner } from '~/signer';
 

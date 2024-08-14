@@ -1,13 +1,13 @@
+import type { Chain, PublicClient, Transport } from 'viem';
+import { createPublicClient, http } from 'viem';
+import { publicKeyToAddress } from 'viem/accounts';
+import * as chains from 'viem/chains';
+import type { KeybanAccount } from '~/account';
+import { Account } from '~/account';
+import { KeybanChain } from '~/chains';
 import { KeybanBaseError, StorageError } from '~/errors';
 import type { KeybanSigner } from '~/signer';
 import type { KeybanStorage } from '~/storage';
-import { createPublicClient, http } from 'viem';
-import type { Chain, PublicClient, Transport } from 'viem';
-import * as chains from 'viem/chains';
-import { Account } from '~/account';
-import type { KeybanAccount } from '~/account';
-import { publicKeyToAddress } from 'viem/accounts';
-import { KeybanChain } from '~/chains';
 
 export type KeybanApiStatus = 'operational' | 'down';
 export const KeybanApiUrl = 'https://keyban.io';
@@ -108,7 +108,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     })();
 
     this.accounts.set(keyId, promise);
-    promise.catch(() => { }).finally(() => this.accounts.delete(keyId));
+    promise.catch(() => {}).finally(() => this.accounts.delete(keyId));
 
     return this.initialize(keyId);
   }
