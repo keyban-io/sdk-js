@@ -17,6 +17,7 @@ import styled from '@emotion/styled';
 import TransactionList from '../components/TransactionList';
 import AccountInfo from '../components/AccountInfo';
 import NetworkSelector from '../components/NetworkSelector';
+import EnvSelector from '../components/EnvSelector';
 import BalanceInfo from '../components/BalanceInfo';
 import NFTSection from '../components/NFTSection';
 import CryptoSection from '../components/CryptoSection';
@@ -24,6 +25,7 @@ import {
   testNFTs,
   testTransactions,
   testNetworks,
+  testEnvs,
   testCryptos,
 } from './testData';
 import Modal from '@/components/Modal';
@@ -85,6 +87,8 @@ const Section = styled.div`
   margin-bottom: 20px;
 `;
 
+const keyId = 'my-ecdsa-key-' + Date.now().toString();
+
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
   const navigate = useNavigate();
@@ -101,6 +105,9 @@ const WalletDashboardContent: React.FC = () => {
   const [selectedNetworkId, setSelectedNetworkId] = useState(
     testNetworks[0].id
   );
+  const [selectedEnvId, setSelectedEnvId] = useState(
+    testEnvs[0].id
+  );
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -109,7 +116,7 @@ const WalletDashboardContent: React.FC = () => {
     const fetchData = async () => {
       try {
         const [account, rate] = await Promise.all([
-          keyban.client.initialize('my-ecdsa-key-id').then((account) => {
+          keyban.client.initialize(keyId).then((account) => {
             setAccount(account);
             return account.getBalance();
           }),
@@ -169,6 +176,10 @@ const WalletDashboardContent: React.FC = () => {
     setSelectedNetworkId(networkId);
   };
 
+  const handleSelectEnv = (envId: string) => {
+    setSelectedEnvId(envId);
+  };
+
   const handleSendCrypto = (crypto: { name: string; balance: number }) => {
     console.log(`Sending ${crypto.name}`);
   };
@@ -217,6 +228,11 @@ const WalletDashboardContent: React.FC = () => {
           selectedNetworkId={selectedNetworkId}
           onSelectNetwork={handleSelectNetwork}
         />
+        <EnvSelector
+          envs={testEnvs}
+          selectedEnvId={selectedEnvId}
+          onSelectEnv={handleSelectEnv}
+        />
       </Section>
       <Section>
         <BalanceInfo
@@ -254,6 +270,7 @@ const WalletDashboard: React.FC = () => (
     chain={KeybanChain.polygonAmoy}
     signer={KeybanSigner.ECDSA}
     storage={KeybanLocalStorage}
+    apiUrl='https://keyban.localtest.me'
   >
     <WalletDashboardContent />
   </KeybanProvider>
