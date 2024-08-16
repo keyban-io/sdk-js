@@ -76,7 +76,7 @@ export const testEnvs = [
   {
     id: "2",
     name: "Testing",
-    apiUrl: "https://test.keyban.io",
+    apiUrl: "https://testing.keyban.io",
   },
 ];
 
