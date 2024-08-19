@@ -154,7 +154,7 @@ const WalletDashboardContent: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [keyban.client]);
+  }, [keyId]);
 
   const handleShareAddressClick = () => {
     navigate(`/qr-code?address=${account?.address}`);
