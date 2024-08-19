@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import type React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   KeybanProvider,
@@ -87,7 +88,7 @@ const Section = styled.div`
   margin-bottom: 20px;
 `;
 
-const keyId = 'my-ecdsa-key-' + Date.now().toString();
+const keyId = 'my-ecdsa-key';
 
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
@@ -105,9 +106,7 @@ const WalletDashboardContent: React.FC = () => {
   const [selectedNetworkId, setSelectedNetworkId] = useState(
     testNetworks[0].id
   );
-  const [selectedEnvId, setSelectedEnvId] = useState(
-    testEnvs[0].id
-  );
+  const [selectedEnvId, setSelectedEnvId] = useState(testEnvs[0].id);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -270,7 +269,7 @@ const WalletDashboard: React.FC = () => (
     chain={KeybanChain.polygonAmoy}
     signer={KeybanSigner.ECDSA}
     storage={KeybanLocalStorage}
-    apiUrl='https://keyban.localtest.me'
+    apiUrl="https://keyban.localtest.me"
   >
     <WalletDashboardContent />
   </KeybanProvider>
