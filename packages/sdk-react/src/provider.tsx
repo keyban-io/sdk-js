@@ -18,11 +18,11 @@ export type KeybanProviderProps<Share> = React.PropsWithChildren<
 
 export function KeybanProvider<Share>({
   children,
-  ...clientConfig
+  ...KeybanClientConfig
 }: KeybanProviderProps<Share>) {
   const client = React.useMemo(
-    () => new KeybanClientImpl(clientConfig),
-    [Object.values(clientConfig)],
+    () => new KeybanClientImpl(KeybanClientConfig),
+    [Object.values(KeybanClientConfig)],
   );
 
   const [apiStatus, setApiStatus] = React.useState<KeybanApiStatus>();
