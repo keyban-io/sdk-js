@@ -16,7 +16,7 @@ get-ecdsa-wasm:
 
 GET_PACKAGE_JSON:
     FUNCTION
-    COPY package.json pnpm-workspace.yaml .
+    COPY pnpm-workspace.yaml .
     COPY +get-eddsa-wasm/pkg/package.json                ./packages/sdk-eddsa-wasm/
     COPY +get-ecdsa-wasm/pkg/package.json                ./packages/sdk-ecdsa-wasm/
     COPY ./packages/sdk-base/package.json                ./packages/sdk-base/
@@ -53,7 +53,7 @@ sdk-build:
     COPY ./packages/sdk-react         ./packages/sdk-react
     # COPY ./packages/sdk-react-native  ./packages/sdk-react-native
 
-    RUN pnpm build
+    RUN pnpm -r build
 
 app-base:
     FROM +sdk-build
