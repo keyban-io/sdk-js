@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import {
+  KeybanProvider,
+  useKeyban,
+  KeybanChain,
+  KeybanSigner,
+  KeybanLocalStorage,
+} from '@keyban/sdk-react';
 import type { KeybanAccount } from '@keyban/sdk-react';
+import { Address } from 'viem';
 
-const WalletDashboard = styled.div`
+const TranserMaticPage = styled.div`
   padding: 20px;
   background-color: var(--primary-lightest);
   border: 1px solid var(--border-color);
@@ -99,32 +107,47 @@ const SuccessMessage = styled.p`
   margin-top: 20px;
 `;
 
-const TransferMatic: React.FC = () => {
+const TransferMaticContent: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [account, setAccount] = useState<KeybanAccount | null>(null);
+  const [loading, setLoading] = useState(true);
+  const keyban = useKeyban();
+
+  useEffect(() => {
+    if (state?.keyId) {
+      keyban.client
+        .initialize(state.keyId)
+        .then((initializedAccount) => {
+          setAccount(initializedAccount);
+          setLoading(false);
+        })
+        .catch((error) => {
+          setError(`Failed to initialize account: ${error.message}`);
+          setLoading(false);
+        });
+    } else {
+      setError('Key ID not provided');
+      setLoading(false);
+    }
+  }, [state?.keyId]);
 
   const handleTransfer = async () => {
     setError(null);
     setTransactionHash(null);
 
+    if (!account) {
+      setError('Account not initialized');
+      return;
+    }
+
     try {
-      if (!state?.account) {
-        throw new Error('Account not provided');
-      }
-
-      // Debugging: Check if the transfer method is available
-      console.log(state.account);
-
-      if (typeof state.account.transfer !== 'function') {
-        throw new Error('Transfer method not available on account object');
-      }
-
-      const valueInWei = BigInt(Number(amount) * 10 ** 18); // Convert MATIC to Wei
-      const txHash = await state.account.transfer(recipient, valueInWei);
+      const valueInWei = BigInt(Number(amount) * 10 ** 18);
+      const txHash = await account.transfer(recipient as Address, valueInWei);
       setTransactionHash(txHash);
     } catch (err) {
       setError(`Transfer failed: ${(err as Error).message}`);
@@ -135,8 +158,12 @@ const TransferMatic: React.FC = () => {
     navigate('/');
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <WalletDashboard>
+    <TranserMaticPage>
       <Header>
         <span>Keyban WAAS Demo</span>
         <Notification>
@@ -171,8 +198,19 @@ const TransferMatic: React.FC = () => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <BackButton onClick={handleBackClick}>Back to Dashboard</BackButton>
       </Section>
-    </WalletDashboard>
+    </TranserMaticPage>
   );
 };
+
+const TransferMatic: React.FC = () => (
+  <KeybanProvider
+    chain={KeybanChain.polygonAmoy}
+    signer={KeybanSigner.ECDSA}
+    storage={KeybanLocalStorage}
+    apiUrl="https://keyban.localtest.me"
+  >
+    <TransferMaticContent />
+  </KeybanProvider>
+);
 
 export default TransferMatic;

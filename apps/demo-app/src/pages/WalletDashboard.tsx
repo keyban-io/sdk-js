@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   KeybanProvider,
   KeybanSigner,
@@ -181,7 +180,11 @@ const WalletDashboardContent: React.FC = () => {
   };
 
   const handleTransferCrypto = () => {
-    navigate("/transfer-matic");
+    if (account?.keyId) {
+      navigate("/transfer-matic", { state: { keyId: account.keyId } });
+    } else {
+      console.error("Key ID not found on account");
+    }
   };
 
   const handleOpenModal = () => {

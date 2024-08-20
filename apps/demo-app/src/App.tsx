@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Loading from "./components/Loading";
 import WalletDashboard from "./pages/WalletDashboard";
 import QRCodePage from "./pages/QRCodePage";
-import TransferMatic from "./components/TransferMatic"; // Importation du nouveau composant
+import TransferMatic from "./pages/TransferMatic"; // Importation du nouveau composant
 
 const App: React.FC = () => {
   return (
