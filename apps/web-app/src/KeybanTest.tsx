@@ -1,11 +1,14 @@
-import type { KeybanAccount } from "@keyban/sdk-react";
-import { FormattedBalance, useKeyban } from "@keyban/sdk-react";
+import {
+  KeybanAccount,
+  Address,
+  FormattedBalance,
+  useKeyban,
+} from "@keyban/sdk-react";
 import React from "react";
 import Row from "./components/Row";
 import SerializedValue from "./components/SerializedValue";
 import TextField from "./components/TextField";
 import BigIntField from "./components/BigIntField";
-import { Address } from "viem";
 
 export type KeybanTestProps = {
   testId: string;

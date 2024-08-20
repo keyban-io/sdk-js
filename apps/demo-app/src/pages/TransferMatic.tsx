@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import styled from "@emotion/styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
   KeybanProvider,
   useKeyban,
   KeybanChain,
   KeybanSigner,
   KeybanLocalStorage,
-} from '@keyban/sdk-react';
-import type { KeybanAccount } from '@keyban/sdk-react';
-import { Address } from 'viem';
+} from "@keyban/sdk-react";
+import type { Address, KeybanAccount } from "@keyban/sdk-react";
 
 const TranserMaticPage = styled.div`
   padding: 20px;
@@ -132,8 +131,8 @@ const TransactionLink = styled.a`
 const TransferMaticContent: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [recipient, setRecipient] = useState('');
-  const [amount, setAmount] = useState('');
+  const [recipient, setRecipient] = useState("");
+  const [amount, setAmount] = useState("");
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [account, setAccount] = useState<KeybanAccount | null>(null);
@@ -154,10 +153,10 @@ const TransferMaticContent: React.FC = () => {
           setLoading(false);
         });
     } else {
-      setError('Key ID not provided');
+      setError("Key ID not provided");
       setLoading(false);
     }
-  }, [state?.keyId]);
+  }, [keyban.client, state?.keyId]);
 
   const handleTransfer = async () => {
     setError(null);
@@ -165,7 +164,7 @@ const TransferMaticContent: React.FC = () => {
     setIsTransferring(true);
 
     if (!account) {
-      setError('Account not initialized');
+      setError("Account not initialized");
       setIsTransferring(false);
       return;
     }
@@ -182,7 +181,7 @@ const TransferMaticContent: React.FC = () => {
   };
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate("/");
   };
 
   if (loading) {
@@ -222,7 +221,7 @@ const TransferMaticContent: React.FC = () => {
         </Button>
         {transactionHash && (
           <SuccessMessage>
-            Transaction successful! Hash:{' '}
+            Transaction successful! Hash:{" "}
             <TransactionLink
               href={`https://amoy.polygonscan.com/tx/${transactionHash}`}
               target="_blank"

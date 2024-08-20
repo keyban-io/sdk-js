@@ -4,3 +4,5 @@ export * from "./client";
 export * from "./storage";
 export * from "./utils";
 export * from "./chains";
+
+export { Address, Hex } from "viem";
