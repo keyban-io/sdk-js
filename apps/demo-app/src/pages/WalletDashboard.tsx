@@ -88,7 +88,7 @@ const Section = styled.div`
   margin-bottom: 20px;
 `;
 
-const keyId = "my-ecdsa-key-" + Date.now().toString();
+const keyId = "my-ecdsa-key";
 
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
