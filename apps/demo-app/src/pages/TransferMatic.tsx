@@ -120,6 +120,15 @@ const LoadingIcon = styled(FontAwesomeIcon)`
   }
 `;
 
+const TransactionLink = styled.a`
+  color: var(--primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const TransferMaticContent: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -213,7 +222,14 @@ const TransferMaticContent: React.FC = () => {
         </Button>
         {transactionHash && (
           <SuccessMessage>
-            Transaction successful! Hash: {transactionHash}
+            Transaction successful! Hash:{' '}
+            <TransactionLink
+              href={`https://amoy.polygonscan.com/tx/${transactionHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {transactionHash}
+            </TransactionLink>
           </SuccessMessage>
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
