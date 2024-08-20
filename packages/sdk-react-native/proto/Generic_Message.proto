@@ -1,7 +1,0 @@
-syntax = "proto2";
-
-message GenericMessage {
-  required string callId = 1;
-  required string payload = 2;
-}
-

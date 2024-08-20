@@ -1,3 +1,2 @@
 **/node_modules
 **/dist
-./packages/sdk-react-native/src/proto_compiled/

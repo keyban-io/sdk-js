@@ -21,7 +21,6 @@ GET_PACKAGE_JSON:
     COPY +get-ecdsa-wasm/pkg/package.json                ./packages/sdk-ecdsa-wasm/
     COPY ./packages/sdk-base/package.json                ./packages/sdk-base/
     COPY ./packages/sdk-react/package.json               ./packages/sdk-react/
-    # COPY ./packages/sdk-react-native/package.json        ./packages/sdk-react-native/
 
 update-lock-file:
     FROM ../+node
@@ -51,7 +50,6 @@ sdk-build:
     COPY +get-ecdsa-wasm/pkg/*        ./packages/sdk-ecdsa-wasm
     COPY ./packages/sdk-base          ./packages/sdk-base
     COPY ./packages/sdk-react         ./packages/sdk-react
-    # COPY ./packages/sdk-react-native  ./packages/sdk-react-native
 
     RUN pnpm -r build
 
