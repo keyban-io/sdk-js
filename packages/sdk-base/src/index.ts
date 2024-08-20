@@ -5,4 +5,4 @@ export * from "./storage";
 export * from "./utils";
 export * from "./chains";
 
-export { Address, Hex } from "viem";
+export type { Address, Hex } from "viem";
