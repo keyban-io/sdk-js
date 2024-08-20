@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
   KeybanProvider,
   useKeyban,
@@ -107,6 +107,19 @@ const SuccessMessage = styled.p`
   margin-top: 20px;
 `;
 
+const LoadingIcon = styled(FontAwesomeIcon)`
+  margin-left: 10px;
+  animation: spin 1s infinite linear;
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
 const TransferMaticContent: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -116,6 +129,7 @@ const TransferMaticContent: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [account, setAccount] = useState<KeybanAccount | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isTransferring, setIsTransferring] = useState(false);
   const keyban = useKeyban();
 
   useEffect(() => {
@@ -139,9 +153,11 @@ const TransferMaticContent: React.FC = () => {
   const handleTransfer = async () => {
     setError(null);
     setTransactionHash(null);
+    setIsTransferring(true);
 
     if (!account) {
       setError('Account not initialized');
+      setIsTransferring(false);
       return;
     }
 
@@ -151,6 +167,8 @@ const TransferMaticContent: React.FC = () => {
       setTransactionHash(txHash);
     } catch (err) {
       setError(`Transfer failed: ${(err as Error).message}`);
+    } finally {
+      setIsTransferring(false);
     }
   };
 
@@ -189,7 +207,10 @@ const TransferMaticContent: React.FC = () => {
             placeholder="Amount"
           />
         </FormField>
-        <Button onClick={handleTransfer}>Send MATIC</Button>
+        <Button onClick={handleTransfer} disabled={isTransferring}>
+          Send MATIC
+          {isTransferring && <LoadingIcon icon={faSpinner} />}
+        </Button>
         {transactionHash && (
           <SuccessMessage>
             Transaction successful! Hash: {transactionHash}
