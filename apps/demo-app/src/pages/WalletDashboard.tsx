@@ -22,6 +22,7 @@ import EnvSelector from "../components/EnvSelector";
 import BalanceInfo from "../components/BalanceInfo";
 import NFTSection from "../components/NFTSection";
 import CryptoSection from "../components/CryptoSection";
+
 import {
   testNFTs,
   testTransactions,
@@ -179,8 +180,8 @@ const WalletDashboardContent: React.FC = () => {
     setSelectedEnvId(envId);
   };
 
-  const handleSendCrypto = (crypto: { name: string; balance: number }) => {
-    console.log(`Sending ${crypto.name}`);
+  const handleTransferCrypto = () => {
+    navigate("/transfer-matic");
   };
 
   const handleOpenModal = () => {
@@ -193,7 +194,7 @@ const WalletDashboardContent: React.FC = () => {
 
   const handleRenameKeyId = (newKeyId: string) => {
     if (account) {
-      setAccount({ ...account, keyId: newKeyId });
+      console.warn(`Renaming Key ID ${newKeyId} is not implemented.`);
     }
   };
 
@@ -237,14 +238,14 @@ const WalletDashboardContent: React.FC = () => {
         <BalanceInfo
           balance={balance}
           euroBalance={euroBalance}
-          onSend={handleOpenModal}
+          onSend={handleTransferCrypto}
         />
       </Section>
       <Section>
         <NFTSection nfts={testNFTs} />
       </Section>
       <Section>
-        <CryptoSection cryptos={testCryptos} onSend={handleSendCrypto} />
+        <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
       </Section>
       <Section>
         <TransactionList transactions={testTransactions} />

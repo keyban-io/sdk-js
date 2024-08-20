@@ -44,6 +44,7 @@ const BackButton = styled.button`
   cursor: pointer;
   display: block;
   margin: 20px auto;
+  min-width: 30%;
 
   &:hover {
     background-color: var(--primary-hover-color);
