@@ -44,26 +44,20 @@
   "scripts": {
     "build": "NODE_ENV=production tsup",
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
-    "format": "biome check --apply ./src",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest watch",
+    "format": "prettier --write ./src",
     "changeset": "changeset"
   },
   "dependencies": {
-    "@keyban/sdk-base": "workspace:*",
-    "long": "^5.2.3"
+    "@keyban/sdk-base": "workspace:*"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
-    "@types/node": "^20.12.7",
-    "@vitest/coverage-v8": "^1.4.0",
+    "@types/node": "22.4.1",
     "@types/react": "^18.0.21",
-    "react": "^18.3.1",
+    "prettier": "^3.3.3",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.5",
-    "vitest": "^1.4.0"
+    "typescript": "^5.4.5"
   },
   "publishConfig": {
     "access": "restricted"

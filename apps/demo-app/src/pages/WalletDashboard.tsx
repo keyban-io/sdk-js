@@ -1,35 +1,35 @@
-import type React from 'react';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   KeybanProvider,
   KeybanSigner,
   useKeyban,
   KeybanLocalStorage,
   KeybanChain,
-} from '@keyban/sdk-react';
-import type { KeybanAccount } from '@keyban/sdk-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
-import { fetchMaticToEuroRate } from '@/utils/apiUtils';
-import Loading from '@/components/Loading';
-import CustomError from '@/components/CustomError';
-import styled from '@emotion/styled';
-import TransactionList from '../components/TransactionList';
-import AccountInfo from '../components/AccountInfo';
-import NetworkSelector from '../components/NetworkSelector';
-import EnvSelector from '../components/EnvSelector';
-import BalanceInfo from '../components/BalanceInfo';
-import NFTSection from '../components/NFTSection';
-import CryptoSection from '../components/CryptoSection';
+} from "@keyban/sdk-react";
+import type { KeybanAccount } from "@keyban/sdk-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { fetchMaticToEuroRate } from "@/utils/apiUtils";
+import Loading from "@/components/Loading";
+import CustomError from "@/components/CustomError";
+import styled from "@emotion/styled";
+import TransactionList from "../components/TransactionList";
+import AccountInfo from "../components/AccountInfo";
+import NetworkSelector from "../components/NetworkSelector";
+import EnvSelector from "../components/EnvSelector";
+import BalanceInfo from "../components/BalanceInfo";
+import NFTSection from "../components/NFTSection";
+import CryptoSection from "../components/CryptoSection";
 import {
   testNFTs,
   testTransactions,
   testNetworks,
   testEnvs,
   testCryptos,
-} from './testData';
-import Modal from '@/components/Modal';
+} from "./testData";
+import Modal from "@/components/Modal";
 
 const WalletDashboardWrapper = styled.div`
   padding: 20px;
@@ -88,7 +88,7 @@ const Section = styled.div`
   margin-bottom: 20px;
 `;
 
-const keyId = 'my-ecdsa-key';
+const keyId = "my-ecdsa-key-" + Date.now().toString();
 
 const WalletDashboardContent: React.FC = () => {
   const keyban = useKeyban();
@@ -104,7 +104,7 @@ const WalletDashboardContent: React.FC = () => {
   });
   const [euroBalance, setEuroBalance] = useState<number | null>(null);
   const [selectedNetworkId, setSelectedNetworkId] = useState(
-    testNetworks[0].id
+    testNetworks[0].id,
   );
   const [selectedEnvId, setSelectedEnvId] = useState(testEnvs[0].id);
   const [showModal, setShowModal] = useState(false);
@@ -134,7 +134,7 @@ const WalletDashboardContent: React.FC = () => {
           let processedError: Error | undefined;
           if (error instanceof Error) {
             processedError = error;
-          } else if (typeof error === 'string') {
+          } else if (typeof error === "string") {
             // Si l'erreur est une chaîne, créer une nouvelle erreur avec ce message
             processedError = new Error(error);
           } else {
@@ -153,7 +153,7 @@ const WalletDashboardContent: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [keyId]);
+  }, [keyban.client]);
 
   const handleShareAddressClick = () => {
     navigate(`/qr-code?address=${account?.address}`);

@@ -1,6 +1,6 @@
-import type React from 'react';
-import styled from '@emotion/styled';
-import { Tooltip } from '@mui/material';
+import type React from "react";
+import styled from "@emotion/styled";
+import { Tooltip } from "@mui/material";
 
 interface Transaction {
   date: string;
@@ -43,11 +43,11 @@ const TransactionRow = styled.tr`
 
 const Status = styled.span<{ status: string }>`
   color: ${(props) =>
-    props.status === 'Pending'
-      ? 'orange'
-      : props.status === 'Sent'
-        ? 'green'
-        : 'red'};
+    props.status === "Pending"
+      ? "orange"
+      : props.status === "Sent"
+        ? "green"
+        : "red"};
 `;
 
 const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {

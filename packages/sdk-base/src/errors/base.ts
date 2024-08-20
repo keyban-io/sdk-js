@@ -22,7 +22,7 @@ export class KeybanBaseError<T> {
   /**
    * A human-readable explanation specific to this occurrence of the problem. This field helps the client understand and potentially correct the issue
    */
-  detail = '';
+  detail = "";
 
   /**
    * A URI reference that identifies the specific occurrence of the problem. This provides a unique identifier for the particular instance of the error.
@@ -57,7 +57,7 @@ export class KeybanBaseError<T> {
     this.title = (title ?? type) as string;
     this.type = type;
     this.instance = instance;
-    this.detail = detail ?? '';
+    this.detail = detail ?? "";
     this.status = status ?? null;
     this.timestamp = new Date().toISOString();
     this.rootError = rootError ?? null;

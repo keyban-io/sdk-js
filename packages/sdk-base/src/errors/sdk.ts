@@ -1,4 +1,4 @@
-import { KeybanBaseError } from './base';
+import { KeybanBaseError } from "./base";
 
 /**
  * @enum
@@ -9,11 +9,11 @@ export enum SdkErrorTypes {
   /**
    * Client was not initialized properly. Make sure that your enviroment supports WebAssembly.
    */
-  ClientNotInitialized = 'ClientNotInitialized',
+  ClientNotInitialized = "ClientNotInitialized",
   /**
    * Enviroment that was used doesn't support WebAssembly module.
    */
-  WebAssemblyNotSupported = 'WebAssemblyNotSupported',
+  WebAssemblyNotSupported = "WebAssemblyNotSupported",
 }
 
 export class SdkError extends KeybanBaseError<SdkErrorTypes> {
@@ -27,13 +27,13 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
   getDescription(errorType: SdkErrorTypes) {
     switch (errorType) {
       case SdkErrorTypes.ClientNotInitialized:
-        return 'Client was not initialized properly. Make sure that your enviroment supports WebAssembly.';
+        return "Client was not initialized properly. Make sure that your enviroment supports WebAssembly.";
 
       case SdkErrorTypes.WebAssemblyNotSupported:
         return "Enviroment that was used doesn't support WebAssembly module.";
 
       default:
-        return 'Unknown error type';
+        return "Unknown error type";
     }
   }
 }

@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { Tooltip } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import React from "react";
+import styled from "@emotion/styled";
+import { Tooltip } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 interface Crypto {
   name: string;

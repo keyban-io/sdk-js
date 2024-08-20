@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { CircularProgress } from '@mui/material';
+import React from "react";
+import styled from "@emotion/styled";
+import { CircularProgress } from "@mui/material";
 
 const LoadingWrapper = styled.div`
   display: flex;

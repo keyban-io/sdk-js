@@ -1,4 +1,4 @@
 export enum KeybanChain {
-  polygonAmoy = 'polygonAmoy',
-  anvil = 'anvil',
+  polygonAmoy = "polygonAmoy",
+  anvil = "anvil",
 }

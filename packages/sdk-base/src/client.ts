@@ -1,15 +1,15 @@
-import type { Chain, PublicClient, Transport } from 'viem';
-import { createPublicClient, http } from 'viem';
-import { publicKeyToAddress } from 'viem/accounts';
-import * as chains from 'viem/chains';
-import type { KeybanAccount } from '~/account';
-import { Account } from '~/account';
-import { KeybanChain } from '~/chains';
-import { KeybanBaseError, StorageError } from '~/errors';
-import type { KeybanSigner } from '~/signer';
-import type { KeybanStorage } from '~/storage';
+import type { Chain, PublicClient, Transport } from "viem";
+import { createPublicClient, http } from "viem";
+import { publicKeyToAddress } from "viem/accounts";
+import * as chains from "viem/chains";
+import type { KeybanAccount } from "~/account";
+import { Account } from "~/account";
+import { KeybanChain } from "~/chains";
+import { KeybanBaseError, StorageError } from "~/errors";
+import type { KeybanSigner } from "~/signer";
+import type { KeybanStorage } from "~/storage";
 
-export type KeybanApiStatus = 'operational' | 'down';
+export type KeybanApiStatus = "operational" | "down";
 
 /**
  * Interface for the KeybanClient class.
@@ -57,7 +57,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    * @param storage - Any storage provider following {@link KeybanStorage}. For web, it can be local storage; for native, AsyncStorage.
    */
   constructor({
-    apiUrl = 'https://keyban.io',
+    apiUrl = "https://keyban.io",
     chain,
     chainUrl,
     signer,
@@ -91,8 +91,8 @@ export class KeybanClientImpl<Share> implements KeybanClient {
       let clientShare = await this.storage.get(storageKey).catch((err) => {
         throw new StorageError(
           StorageError.types.RetrivalFailed,
-          'Client.initialize',
-          err
+          "Client.initialize",
+          err,
         );
       });
 
@@ -103,8 +103,8 @@ export class KeybanClientImpl<Share> implements KeybanClient {
       await this.storage.set(storageKey, clientShare).catch((err) => {
         throw new StorageError(
           StorageError.types.SaveFailed,
-          'Client.initialize',
-          err
+          "Client.initialize",
+          err,
         );
       });
 
@@ -126,7 +126,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    */
   async setChainMetadata() {
     // TODO: implement me
-    throw new Error('Not implemented: Client.setChainMetadata');
+    throw new Error("Not implemented: Client.setChainMetadata");
   }
 
   /**
@@ -135,7 +135,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    */
   async connectToProvider() {
     // TODO: implement me
-    throw new Error('Not implemented: Client.connectToProvider');
+    throw new Error("Not implemented: Client.connectToProvider");
   }
 
   /**
@@ -144,10 +144,10 @@ export class KeybanClientImpl<Share> implements KeybanClient {
    */
   async apiStatus(): Promise<KeybanApiStatus> {
     return fetch(`${this.apiUrl}/api/health`)
-      .then((res) => (res.ok ? 'operational' : 'down'))
+      .then((res) => (res.ok ? "operational" : "down"))
       .catch((err) => {
-        console.error('Failed to perform health check', err);
-        return 'down';
+        console.error("Failed to perform health check", err);
+        return "down";
       });
   }
 }

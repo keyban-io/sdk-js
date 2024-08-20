@@ -1,15 +1,15 @@
-import type React from 'react';
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type React from "react";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCopy,
   faQrcode,
   faEdit,
   faCheck,
-} from '@fortawesome/free-solid-svg-icons';
-import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
-import styled from '@emotion/styled';
-import { Tooltip } from '@mui/material';
+} from "@fortawesome/free-solid-svg-icons";
+import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
+import styled from "@emotion/styled";
+import { Tooltip } from "@mui/material";
 
 interface AccountInfoProps {
   account: AccountType | null;
@@ -72,7 +72,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   onRenameKeyId,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [keyId, setKeyId] = useState(account?.keyId || '');
+  const [keyId, setKeyId] = useState(account?.keyId || "");
 
   const handleKeyIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyId(e.target.value);
@@ -86,7 +86,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleRenameClick();
     }
   };
@@ -104,7 +104,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
               autoFocus
             />
           ) : (
-            keyId || 'No account'
+            keyId || "No account"
           )}
           <Button type="button" onClick={handleRenameClick}>
             <FontAwesomeIcon icon={isEditing ? faCheck : faEdit} />
@@ -115,7 +115,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
         <AccountAddress>
           {account
             ? formatEthereumAddress(account.address)
-            : 'No address found'}
+            : "No address found"}
         </AccountAddress>
       </Tooltip>
       <Tooltip title="Copy Address" arrow>

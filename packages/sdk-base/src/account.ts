@@ -7,7 +7,7 @@ import type {
   Transport,
   Account as ViemAccount,
   WalletClient,
-} from 'viem';
+} from "viem";
 import {
   createWalletClient,
   hashMessage,
@@ -16,10 +16,10 @@ import {
   keccak256,
   parseSignature,
   serializeTransaction,
-} from 'viem';
-import { toAccount } from 'viem/accounts';
-import type { KeybanClientImpl } from '~/client';
-import { StorageError } from '~/errors';
+} from "viem";
+import { toAccount } from "viem/accounts";
+import type { KeybanClientImpl } from "~/client";
+import { StorageError } from "~/errors";
 
 export interface KeybanAccount {
   keyId: string;
@@ -46,7 +46,7 @@ export class Account<Share> implements KeybanAccount {
     client: KeybanClientImpl<Share>,
     keyId: string,
     address: Hex,
-    publicKey: string
+    publicKey: string,
   ) {
     this.keyId = keyId;
     this.address = address;
@@ -72,7 +72,7 @@ export class Account<Share> implements KeybanAccount {
     if (!clientShare)
       throw new StorageError(
         StorageError.types.RetrivalFailed,
-        'Account.getClientShare'
+        "Account.getClientShare",
       );
 
     return clientShare;
@@ -92,30 +92,30 @@ export class Account<Share> implements KeybanAccount {
     return this.#signMessage({ message });
   }
 
-  #signMessage: CustomSource['signMessage'] = async ({ message }) => {
+  #signMessage: CustomSource["signMessage"] = async ({ message }) => {
     const clientShare = await this.#getClientShare();
-    const hash = hashMessage(message, 'hex');
+    const hash = hashMessage(message, "hex");
     return this.#client.signer.sign(
       this.keyId,
       clientShare,
       hash,
-      this.#client.apiUrl
+      this.#client.apiUrl,
     );
   };
 
   /**
    *  Signs a transaction using the client's secret share.
    */
-  #signTransaction: CustomSource['signTransaction'] = async (
+  #signTransaction: CustomSource["signTransaction"] = async (
     transaction,
-    args
+    args,
   ) => {
     const serializer = args?.serializer ?? serializeTransaction;
 
     // For EIP-4844 Transactions, we want to sign the transaction payload body (tx_payload_body) without the sidecars (ie. without the network wrapper).
     // See: https://github.com/ethereum/EIPs/blob/e00f4daa66bd56e2dbd5f1d36d09fd613811a48b/EIPS/eip-4844.md#networking
     const signableTransaction =
-      transaction.type === 'eip4844'
+      transaction.type === "eip4844"
         ? { ...transaction, sidecars: false }
         : transaction;
 
@@ -123,15 +123,15 @@ export class Account<Share> implements KeybanAccount {
       this.keyId,
       await this.#getClientShare(),
       keccak256(serializer(signableTransaction)),
-      this.#client.apiUrl
+      this.#client.apiUrl,
     );
     const signature = parseSignature(hexSignature);
 
     return serializer(transaction, signature);
   };
 
-  #signTypedData: CustomSource['signTypedData'] = async (
-    typedDataDefinition
+  #signTypedData: CustomSource["signTypedData"] = async (
+    typedDataDefinition,
   ) => {
     const clientShare = await this.#getClientShare();
     const hash = hashTypedData(typedDataDefinition);
@@ -139,7 +139,7 @@ export class Account<Share> implements KeybanAccount {
       this.keyId,
       clientShare,
       hash,
-      this.#client.apiUrl
+      this.#client.apiUrl,
     );
   };
 
@@ -147,6 +147,6 @@ export class Account<Share> implements KeybanAccount {
    * Transfers native tokens to another address.
    */
   transfer(to: Address, value: bigint): Promise<Hash> {
-    return this.#walletClient.sendTransaction({ to, value, type: 'eip1559' });
+    return this.#walletClient.sendTransaction({ to, value, type: "eip1559" });
   }
 }

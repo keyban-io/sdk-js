@@ -19,7 +19,6 @@ import { WasmInvoker } from '~/wasmBridge';
  * ```
  * */
 export const WebViewRoot = () => {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const [instance, setInstance] = useState<any | null>(null);
   const [error] = useState<string[]>([]);
 
@@ -55,7 +54,6 @@ export const WebViewRoot = () => {
   return (
     <div>
       {error.map((er, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <h1 key={index}>{er}</h1>
       ))}
     </div>

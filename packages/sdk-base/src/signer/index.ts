@@ -1,6 +1,6 @@
-import type { Hex } from 'viem';
-import { KeybanSigner_ECDSA } from './ecdsa';
-import { KeybanSigner_EdDSA } from './eddsa';
+import type { Hex } from "viem";
+import { KeybanSigner_ECDSA } from "./ecdsa";
+import { KeybanSigner_EdDSA } from "./eddsa";
 
 export interface KeybanSigner<Share> {
   storagePrefix: string;
@@ -9,7 +9,7 @@ export interface KeybanSigner<Share> {
     keyId: string,
     clientShare: Share,
     message: string,
-    apiUrl: string
+    apiUrl: string,
   ): Promise<Hex>;
   publicKey(clientShare: Share): Promise<Hex>;
 }

@@ -1,9 +1,9 @@
-import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import QRCode from 'qrcode.react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
-import styled from '@emotion/styled';
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import QRCode from "qrcode.react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import styled from "@emotion/styled";
 
 const WalletDashboard = styled.div`
   padding: 20px;
@@ -68,10 +68,10 @@ const QRCodeContainer = styled.div`
 const QRCodePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const address = new URLSearchParams(location.search).get('address');
+  const address = new URLSearchParams(location.search).get("address");
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -83,7 +83,7 @@ const QRCodePage: React.FC = () => {
         </Notification>
       </Header>
       <Section>
-        <AddressText>{address || 'No address provided'}</AddressText>
+        <AddressText>{address || "No address provided"}</AddressText>
         {address ? (
           <QRCodeContainer>
             <QRCode value={address} size={256} level="H" />
