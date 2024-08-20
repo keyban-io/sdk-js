@@ -14,18 +14,36 @@ get-ecdsa-wasm:
     SAVE ARTIFACT /pkg/wasm_exec.js AS LOCAL ./packages/sdk-ecdsa-wasm/wasm_exec.js
     SAVE ARTIFACT /pkg
 
-sdk-build:
-    FROM ../+node
-    DO ../+USEPNPM
-
-    WORKDIR /app
-    COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
-
+GET_PACKAGE_JSON:
+    FUNCTION
+    COPY package.json pnpm-workspace.yaml .
     COPY +get-eddsa-wasm/pkg/package.json                ./packages/sdk-eddsa-wasm/
     COPY +get-ecdsa-wasm/pkg/package.json                ./packages/sdk-ecdsa-wasm/
     COPY ./packages/sdk-base/package.json                ./packages/sdk-base/
     COPY ./packages/sdk-react/package.json               ./packages/sdk-react/
     # COPY ./packages/sdk-react-native/package.json        ./packages/sdk-react-native/
+
+update-lock-file:
+    FROM ../+node
+    DO ../+USEPNPM
+
+    WORKDIR /app
+
+    DO +GET_PACKAGE_JSON
+    COPY ./apps/demo-app/package.json                    ./apps/demo-app/
+    COPY ./apps/web-app/package.json                     ./apps/web-app/
+
+    RUN pnpm install
+    SAVE ARTIFACT pnpm-lock.yaml AS LOCAL pnpm-lock.yaml
+
+sdk-build:
+    FROM ../+node
+    DO ../+USEPNPM
+
+    WORKDIR /app
+    COPY pnpm-lock.yaml .
+
+    DO +GET_PACKAGE_JSON
 
     RUN pnpm install
 
