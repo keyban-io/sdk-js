@@ -110,8 +110,6 @@ const WalletDashboardContent: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    let isMounted = true;
-
     const fetchData = async () => {
       try {
         const [account, rate] = await Promise.all([
@@ -122,37 +120,26 @@ const WalletDashboardContent: React.FC = () => {
           fetchMaticToEuroRate().catch(setEuroBalance.bind(null, 0)),
         ]);
 
-        if (isMounted) {
-          const balanceInEuro = (Number(account) / 1e18) * rate;
-          setBalance(account);
-          setEuroBalance(balanceInEuro);
-          setLoading(false);
-        }
+        const balanceInEuro = (Number(account) / 1e18) * rate;
+        setBalance(account);
+        setEuroBalance(balanceInEuro);
+        setLoading(false);
       } catch (error) {
-        if (isMounted) {
-          // Traiter l'erreur en fonction de son type
-          let processedError: Error | undefined;
-          if (error instanceof Error) {
-            processedError = error;
-          } else if (typeof error === "string") {
-            // Si l'erreur est une chaîne, créer une nouvelle erreur avec ce message
-            processedError = new Error(error);
-          } else {
-            // Si l'erreur est d'un autre type, la convertir en chaîne JSON
-            processedError = new Error(JSON.stringify(error));
-          }
-
-          setError(processedError);
-          setLoading(false);
+        let processedError: Error | undefined;
+        if (error instanceof Error) {
+          processedError = error;
+        } else if (typeof error === "string") {
+          processedError = new Error(error);
+        } else {
+          processedError = new Error(JSON.stringify(error));
         }
+        setError(processedError);
+
+        setLoading(false);
       }
     };
 
     fetchData();
-
-    return () => {
-      isMounted = false;
-    };
   }, [keyban.client]);
 
   const handleShareAddressClick = () => {
