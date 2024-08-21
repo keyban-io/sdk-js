@@ -10,22 +10,22 @@ import { KeybanSigner_EdDSA } from "./eddsa";
  * The signer is used by the Keyban client to sign messages and generate public keys.
  * @private
  */
-export interface KeybanSigner<Share> {
+export interface KeybanSigner {
   storagePrefix: string;
-  dkg(keyId: string, apiUrl: string): Promise<Share>;
+  dkg(keyId: string, apiUrl: string): Promise<string>;
   sign(
     keyId: string,
-    clientShare: Share,
+    clientShare: string,
     message: string,
     apiUrl: string,
   ): Promise<Hex>;
-  publicKey(clientShare: Share): Promise<Hex>;
+  publicKey(clientShare: string): Promise<Hex>;
 }
 
 /**
  * Object that contains the Keyban signers.
  */
-export const KeybanSigner = {
+export const KeybanSigner: Record<string, new () => KeybanSigner> = {
   EdDSA: KeybanSigner_EdDSA,
   ECDSA: KeybanSigner_ECDSA,
-} as const;
+};

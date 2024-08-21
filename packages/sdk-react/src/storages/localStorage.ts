@@ -11,7 +11,7 @@ import type { KeybanStorage } from "@keyban/sdk-base";
  * LocalStorage provides no encryption or protection against cross-site scripting (XSS) attacks, making it unsuitable for storing sensitive data in a production environment.
  * Ensure to use a more secure storage solution for production deployments.
  */
-export class KeybanLocalStorage<T> implements KeybanStorage<T> {
+export class KeybanLocalStorage implements KeybanStorage {
   /**
    * The constructor of the `KeybanLocalStorage` class.
    * Initializes the storage provider and checks for the presence of the localStorage API in the environment.
@@ -26,56 +26,26 @@ export class KeybanLocalStorage<T> implements KeybanStorage<T> {
   }
 
   /**
-   * Retrieves a client share from localStorage.
-   * This method fetches the stored client share using the provided key.
+   * Retrieves a value from localStorage.
+   * This method fetches the stored value using the provided key.
    *
-   * @param key - The key used to retrieve the client share.
-   * @returns A promise that resolves to the client share, or undefined if not found.
-   *
-   * @example
-   * const storage = new KeybanLocalStorage<EcdsaClientShare>();
-   * const share = await storage.get('my-key-id');
-   * if (share) {
-   *   console.log('Client share retrieved:', share);
-   * } else {
-   *   console.log('No client share found for the given key.');
-   * }
+   * @param key - The key used to retrieve the value.
+   * @returns A promise that resolves to the value, or null if not found.
    */
-  async get(key: string): Promise<T | undefined> {
+  async get(key: string) {
     const value = localStorage.getItem(key);
-    if (!value) return;
-
-    try {
-      return JSON.parse(value) as T;
-    } catch (err) {
-      return;
-    }
+    return value;
   }
 
   /**
-   * Saves a client share to localStorage.
-   * This method stores the client share using the provided key.
+   * Saves a value to localStorage.
+   * This method stores the value using the provided key.
    *
-   * @param key - The key used to save the client share.
-   * @param share - The client share to be saved.
-   * @returns A promise that resolves to true if the client share was successfully saved.
-   *
-   * @example
-   * const storage = new KeybanLocalStorage<EcdsaClientShare>();
-   * const share: EcdsaClientShare = { ... }; // Your client share object
-   * const success = await storage.save('my-key-id', share);
-   * if (success) {
-   *   console.log('Client share saved successfully.');
-   * } else {
-   *   console.log('Failed to save client share.');
-   * }
+   * @param key - The key used to save the value.
+   * @param value - The value to be saved.
+   * @returns A promise that resolves when the value is successfully saved.
    */
-  async set(key: string, share: T): Promise<boolean> {
-    try {
-      localStorage.setItem(key, JSON.stringify(share));
-      return true;
-    } catch (err) {
-      return false;
-    }
+  async set(key: string, value: string): Promise<void> {
+    localStorage.setItem(key, value);
   }
 }

@@ -1,45 +1,22 @@
 import initWasmFile from "ecdsa-wasm-client";
-import { SdkError } from "~/errors";
-import type { KeybanSigner } from "~/signer";
+import { type KeybanSigner } from "~/signer";
+import { WasmKeybanSigner } from "~/signer/wasm";
 
-export type ClientShare_ECDSA = {
-  Setup: string;
-  SecretShare: string;
-  Public: string;
-  ChainKey: string;
-};
+export class KeybanSigner_ECDSA
+  extends WasmKeybanSigner(initWasmFile)
+  implements KeybanSigner
+{
+  storagePrefix = "KEYBAN-ECDSA";
 
-let wasmPromise: Promise<void> | undefined;
+  dkg: KeybanSigner["dkg"] = KeybanSigner_ECDSA.wrap((...args) =>
+    globalThis.ecdsa.dkg(...args),
+  );
 
-export function KeybanSigner_ECDSA(): KeybanSigner<ClientShare_ECDSA> {
-  if (!WebAssembly)
-    throw new SdkError(SdkError.types.WebAssemblyNotSupported, "getSigner");
+  sign: KeybanSigner["sign"] = KeybanSigner_ECDSA.wrap((...args) =>
+    globalThis.ecdsa.sign(...args),
+  );
 
-  wasmPromise ??= initWasmFile();
-
-  const wrap =
-    <Args extends any[], Ret = unknown>(
-      fn: (...args: Args) => Ret | Promise<Ret>,
-    ) =>
-    async (...args: Args) => {
-      await wasmPromise;
-      return fn(...args);
-    };
-
-  return {
-    storagePrefix: "KEYBAN-ECDSA",
-
-    dkg: wrap((...args) => globalThis.ecdsa.dkg(...args).then(JSON.parse)),
-    sign: wrap((keyId, clientShare, message, apiUrl) =>
-      globalThis.ecdsa.sign(
-        keyId,
-        JSON.stringify(clientShare),
-        message,
-        apiUrl,
-      ),
-    ),
-    publicKey: wrap((clientShare) =>
-      globalThis.ecdsa.publicKey(JSON.stringify(clientShare)),
-    ),
-  };
+  publicKey: KeybanSigner["publicKey"] = KeybanSigner_ECDSA.wrap((...args) =>
+    globalThis.ecdsa.publicKey(...args),
+  );
 }

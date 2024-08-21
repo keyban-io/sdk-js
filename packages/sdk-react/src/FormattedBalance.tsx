@@ -13,7 +13,7 @@ import { useKeyban } from "./provider";
  * ```tsx
  * import { useFormattedBalance } from "@keyban/sdk-react";
  *
- * const formattedBalance = useFormattedBalance(BigInt(0x2c68af0bb140000));
+ * const formattedBalance = useFormattedBalance(BigInt(2e17));
  * console.log(formattedBalance); // "0.2 ETH"
  * ```
  */
@@ -21,7 +21,7 @@ export function useFormattedBalance(balance: bigint) {
   return formatBalance(useKeyban().client, balance);
 }
 
-export type BalanceProps = { balance: bigint };
+export type FormatedBalanceProps = { balance: bigint };
 
 /**
  * Component to display a formatted balance.
@@ -35,17 +35,14 @@ export type BalanceProps = { balance: bigint };
  * import { FormattedBalance } from "@keyban/sdk-react";
  *
  * function BalanceDisplay() {
- *   const balance = BigInt(0x2c68af0bb140000);
  *   return (
- *     <div>
- *       <p>Native Balance: <FormattedBalance balance={balance} /></p>
- *     </div>
+ *     <p>Native Balance: <FormattedBalance balance={BigInt(2e17)} /></p>
  *   );
  * }
  *
  * export default BalanceDisplay;
  * ```
  */
-export function FormattedBalance({ balance }: BalanceProps) {
+export function FormattedBalance({ balance }: FormatedBalanceProps) {
   return useFormattedBalance(balance);
 }

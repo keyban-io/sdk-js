@@ -2,59 +2,36 @@ import type { Chain, PublicClient, Transport } from "viem";
 import { createPublicClient, http } from "viem";
 import { publicKeyToAddress } from "viem/accounts";
 import * as chains from "viem/chains";
-import type { KeybanAccount } from "~/account";
-import { Account } from "~/account";
+
+import { KeybanAccount } from "~/account";
+import { KeybanApiStatus } from "~/api";
 import { KeybanChain } from "~/chains";
 import { KeybanBaseError, StorageError } from "~/errors";
 import type { KeybanSigner } from "~/signer";
 import type { KeybanStorage } from "~/storage";
 
-export type KeybanApiStatus = "operational" | "down";
-
-/**
- * Interface for the KeybanClient class.
- * This interface defines the methods and properties that a KeybanClient class should implement.
- */
-export interface KeybanClient {
-  chain: KeybanChain;
-  publicClient: PublicClient<Transport, Chain>;
-
-  /**
-   * Initializes a KeybanAccount instance.
-   * @param keyId - The key identifier used for storing and retrieving shares.
-   * */
-  initialize(keyId: string): Promise<KeybanAccount>;
-  setChainMetadata(): Promise<void>;
-  connectToProvider(): Promise<void>;
-  apiStatus(): Promise<KeybanApiStatus>;
-}
-
-export type KeybanClientConfig<Share> = {
+export type KeybanClientConfig = {
   apiUrl?: string;
   chain: KeybanChain;
   chainUrl?: string;
-  signer: () => KeybanSigner<Share>;
-  storage: new () => KeybanStorage<Share>;
+  signer: new () => KeybanSigner;
+  storage: new () => KeybanStorage;
 };
 
-/**
- * @private
- */
-export class KeybanClientImpl<Share> implements KeybanClient {
+export class KeybanClient {
   apiUrl: string;
-  signer: KeybanSigner<Share>;
-  storage: KeybanStorage<Share>;
-  accounts: Map<string, Promise<Account<Share>>>;
+  signer: KeybanSigner;
+  storage: KeybanStorage;
+  accounts: Map<string, Promise<KeybanAccount>>;
 
   chain: KeybanChain;
   chainUrl?: string;
   publicClient: PublicClient<Transport, Chain>;
 
   /**
-   *
-   * @param apiUrl
-   * @param signer
-   * @param storage - Any storage provider following {@link KeybanStorage}. For web, it can be local storage; for native, AsyncStorage.
+   * @param config.apiUrl
+   * @param config.signer - Any signer builder
+   * @param config.storage - Any storage provider following {@link KeybanStorage}. For web, it can be localStorage; for native, AsyncStorage.
    */
   constructor({
     apiUrl = "https://keyban.io",
@@ -62,9 +39,9 @@ export class KeybanClientImpl<Share> implements KeybanClient {
     chainUrl,
     signer,
     storage,
-  }: KeybanClientConfig<Share>) {
+  }: KeybanClientConfig) {
     this.apiUrl = apiUrl;
-    this.signer = signer();
+    this.signer = new signer();
     this.storage = new storage();
     this.accounts = new Map();
 
@@ -79,9 +56,9 @@ export class KeybanClientImpl<Share> implements KeybanClient {
   /**
    * Initializes a KeybanAccount instance.
    * @param keyId - The key identifier used for storing and retrieving shares.
-   * @returns Instance of {@link Account}
+   * @returns Instance of {@link KeybanAccount}
    */
-  initialize(keyId: string): Promise<Account<Share>> {
+  initialize(keyId: string): Promise<KeybanAccount> {
     const cached = this.accounts.get(keyId);
     if (cached) return cached;
 
@@ -111,7 +88,7 @@ export class KeybanClientImpl<Share> implements KeybanClient {
       const publicKey = await this.signer.publicKey(clientShare);
       const address = publicKeyToAddress(publicKey);
 
-      return new Account(this, keyId, address, publicKey);
+      return new KeybanAccount(this, keyId, address, publicKey);
     })();
 
     this.accounts.set(keyId, promise);
@@ -121,26 +98,8 @@ export class KeybanClientImpl<Share> implements KeybanClient {
   }
 
   /**
-   * Function for setting up chain metadata.
-   * This is a placeholder method and has not been implemented yet.
-   */
-  async setChainMetadata() {
-    // TODO: implement me
-    throw new Error("Not implemented: Client.setChainMetadata");
-  }
-
-  /**
-   * Function for connecting to chain provider.
-   * This is a placeholder method and has not been implemented yet.
-   */
-  async connectToProvider() {
-    // TODO: implement me
-    throw new Error("Not implemented: Client.connectToProvider");
-  }
-
-  /**
    * Performs a health check to determine the operational status.
-   * @returns A promise that resolves to either 'operational' or 'down' based on the health check result.
+   * @returns A promise that resolves to either {@link KeybanApiStatus} based on the health check result.
    */
   async apiStatus(): Promise<KeybanApiStatus> {
     return fetch(`${this.apiUrl}/api/health`)

@@ -18,32 +18,19 @@ import {
   serializeTransaction,
 } from "viem";
 import { toAccount } from "viem/accounts";
-import type { KeybanClientImpl } from "~/client";
+import { KeybanClient } from "~/client";
 import { StorageError } from "~/errors";
 
-export interface KeybanAccount {
+export class KeybanAccount implements KeybanAccount {
   keyId: string;
   address: Hex;
   publicKey: string;
 
-  getBalance(): Promise<bigint>;
-  transfer(to: Address, value: bigint): Promise<Hash>;
-  signMessage(message: string): Promise<Hex>;
-}
-
-/**
- * @private
- */
-export class Account<Share> implements KeybanAccount {
-  keyId: string;
-  address: Hex;
-  publicKey: string;
-
-  #client: KeybanClientImpl<Share>;
+  #client: KeybanClient;
   #walletClient: WalletClient<Transport, Chain, ViemAccount>;
 
   constructor(
-    client: KeybanClientImpl<Share>,
+    client: KeybanClient,
     keyId: string,
     address: Hex,
     publicKey: string,

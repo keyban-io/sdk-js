@@ -1,12 +1,11 @@
-import { KeybanClientImpl } from "@keyban/sdk-base";
-import type {
+import {
   KeybanApiStatus,
   KeybanClient,
   KeybanClientConfig,
 } from "@keyban/sdk-base";
 import React from "react";
 
-export type KeybanContextType = {
+type KeybanContextType = {
   client: KeybanClient;
   apiStatus?: KeybanApiStatus;
 };
@@ -15,9 +14,7 @@ const KeybanContext = React.createContext<KeybanContextType | null>(null);
 /**
  * @private
  */
-export type KeybanProviderProps<Share> = React.PropsWithChildren<
-  KeybanClientConfig<Share>
->;
+export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
 
 /**
  * Provider component for the Keyban SDK.
@@ -44,13 +41,11 @@ export type KeybanProviderProps<Share> = React.PropsWithChildren<
  * );
  * ```
  */
-export function KeybanProvider<Share>({
-  children,
-  ...KeybanClientConfig
-}: KeybanProviderProps<Share>) {
+
+export function KeybanProvider({ children, ...config }: KeybanProviderProps) {
   const client = React.useMemo(
-    () => new KeybanClientImpl(KeybanClientConfig),
-    [Object.values(KeybanClientConfig)],
+    () => new KeybanClient(config),
+    [Object.values(config)],
   );
 
   const [apiStatus, setApiStatus] = React.useState<KeybanApiStatus>();
