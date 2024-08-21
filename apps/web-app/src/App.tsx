@@ -1,33 +1,31 @@
+import React from "react";
 import {
   KeybanLocalStorage,
   KeybanProvider,
   KeybanChain,
   KeybanSigner,
 } from "@keyban/sdk-react";
+import { useSearchParams } from "react-router-dom";
 
 import styles from "./App.module.css";
 import KeybanTest from "./KeybanTest";
-import React from "react";
 import Row from "@/components/Row";
-import { useDebounce } from "@uidotdev/usehooks";
 import TextField from "@/components/TextField";
 
 export default function App() {
-  const [chain, setChain] = React.useState(KeybanChain.anvil);
-  const [chainUrl, setChainUrl] = React.useState<string>(
-    "https://anvil.keyban.localtest.me",
+  const [searchParams] = useSearchParams();
+
+  const [apiUrl, setApiUrl] = React.useState(
+    searchParams.get("apiUrl") ?? "https://keyban.localtest.me",
   );
-  const [apiUrl, setApiUrl] = React.useState<string>(
-    "https://keyban.localtest.me",
+  const [chain, setChain] = React.useState(
+    (searchParams.get("chain") as KeybanChain) ?? KeybanChain.anvil,
+  );
+  const [chainUrl, setChainUrl] = React.useState(
+    searchParams.get("chainUrl") ?? "https://anvil.keyban.localtest.me",
   );
 
-  const config = useDebounce(
-    React.useMemo(
-      () => ({ apiUrl, chain, chainUrl, storage: KeybanLocalStorage }),
-      [apiUrl, chain, chainUrl],
-    ),
-    10,
-  );
+  const config = { apiUrl, chain, chainUrl, storage: KeybanLocalStorage };
 
   return (
     <div className={styles.root}>
