@@ -3,13 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import {
-  KeybanProvider,
-  useKeyban,
-  KeybanChain,
-  KeybanSigner,
-  KeybanLocalStorage,
-} from "@keyban/sdk-react";
+import { useKeybanClient } from "@keyban/sdk-react";
 import type { Address, KeybanAccount } from "@keyban/sdk-react";
 
 const TranserMaticPage = styled.div`
@@ -128,7 +122,7 @@ const TransactionLink = styled.a`
   }
 `;
 
-const TransferMaticContent: React.FC = () => {
+const TransferMatic: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [recipient, setRecipient] = useState("");
@@ -138,11 +132,11 @@ const TransferMaticContent: React.FC = () => {
   const [account, setAccount] = useState<KeybanAccount | null>(null);
   const [loading, setLoading] = useState(true);
   const [isTransferring, setIsTransferring] = useState(false);
-  const keyban = useKeyban();
+  const client = useKeybanClient();
 
   useEffect(() => {
     if (state?.keyId) {
-      keyban.client
+      client
         .initialize(state.keyId)
         .then((initializedAccount) => {
           setAccount(initializedAccount);
@@ -156,7 +150,7 @@ const TransferMaticContent: React.FC = () => {
       setError("Key ID not provided");
       setLoading(false);
     }
-  }, [keyban.client, state?.keyId]);
+  }, [client, state?.keyId]);
 
   const handleTransfer = async () => {
     setError(null);
@@ -237,16 +231,5 @@ const TransferMaticContent: React.FC = () => {
     </TranserMaticPage>
   );
 };
-
-const TransferMatic: React.FC = () => (
-  <KeybanProvider
-    chain={KeybanChain.polygonAmoy}
-    signer={KeybanSigner.ECDSA}
-    storage={KeybanLocalStorage}
-    apiUrl="https://keyban.localtest.me"
-  >
-    <TransferMaticContent />
-  </KeybanProvider>
-);
 
 export default TransferMatic;

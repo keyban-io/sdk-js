@@ -1,15 +1,8 @@
-import {
-  KeybanApiStatus,
-  KeybanClient,
-  KeybanClientConfig,
-} from "@keyban/sdk-base";
+import { KeybanClient, KeybanClientConfig } from "@keyban/sdk-base";
 import React from "react";
+import { PromiseCacheProvider } from "./promise";
 
-type KeybanContextType = {
-  client: KeybanClient;
-  apiStatus?: KeybanApiStatus;
-};
-const KeybanContext = React.createContext<KeybanContextType | null>(null);
+const KeybanContext = React.createContext<KeybanClient | null>(null);
 
 /**
  * @private
@@ -48,33 +41,21 @@ export function KeybanProvider({ children, ...config }: KeybanProviderProps) {
     [Object.values(config)],
   );
 
-  const [apiStatus, setApiStatus] = React.useState<KeybanApiStatus>();
-  React.useEffect(() => {
-    let canceled = false;
-    client.apiStatus().then((status) => {
-      if (!canceled) setApiStatus(status);
-    });
-    return () => {
-      canceled = true;
-    };
-  }, [client]);
-
-  const value = React.useMemo(
-    () => ({ client, apiStatus }),
-    [client, apiStatus],
-  );
-
   return (
-    <KeybanContext.Provider value={value}>{children}</KeybanContext.Provider>
+    <PromiseCacheProvider>
+      <KeybanContext.Provider value={client}>{children}</KeybanContext.Provider>
+    </PromiseCacheProvider>
   );
 }
 /**
  * Hook to access the Keyban SDK functionalities within a component
  * @throws Error if the hook is used outside of a {@link KeybanProvider}
  */
-export const useKeyban = () => {
+export const useKeybanClient = () => {
   const ctx = React.useContext(KeybanContext);
   if (!ctx)
-    throw new Error("useKeyban hook must be used within a KeybanProvider");
+    throw new Error(
+      "useKeybanClient hook must be used within a KeybanProvider",
+    );
   return ctx;
 };

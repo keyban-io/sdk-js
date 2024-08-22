@@ -1,5 +1,5 @@
 import { formatBalance } from "@keyban/sdk-base";
-import { useKeyban } from "./provider";
+import { useKeybanClient } from "./provider";
 
 /**
  * Formats a balance in a human-readable format using the Keyban client.
@@ -18,7 +18,7 @@ import { useKeyban } from "./provider";
  * ```
  */
 export function useFormattedBalance(balance: bigint) {
-  return formatBalance(useKeyban().client, balance);
+  return formatBalance(useKeybanClient(), balance);
 }
 
 export type FormatedBalanceProps = { balance: bigint };

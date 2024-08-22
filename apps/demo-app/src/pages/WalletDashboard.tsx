@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  KeybanProvider,
-  KeybanSigner,
-  useKeyban,
-  KeybanLocalStorage,
-  KeybanChain,
-} from "@keyban/sdk-react";
-import type { KeybanAccount } from "@keyban/sdk-react";
+import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
 import Loading from "@/components/Loading";
-import CustomError from "@/components/CustomError";
 import styled from "@emotion/styled";
 import TransactionList from "../components/TransactionList";
 import AccountInfo from "../components/AccountInfo";
@@ -91,18 +83,24 @@ const Section = styled.div`
 const keyId = "my-ecdsa-key";
 
 const WalletDashboardContent: React.FC = () => {
-  const keyban = useKeyban();
   const navigate = useNavigate();
-  const [account, setAccount] = useState<KeybanAccount | null>(null);
-  const [balance, setBalance] = useState<bigint | undefined>(undefined);
+
+  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+  if (accountError) throw accountError;
+
+  const [balance, balanceError, { refresh: refreshBalance }] =
+    useKeybanAccountBalance(account, { suspense: true });
+  if (balanceError) throw balanceError;
+
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
   const [hintVisible, setHintVisible] = useState<boolean>(false);
   const [hintPosition, setHintPosition] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
   });
-  const [euroBalance, setEuroBalance] = useState<number | null>(null);
+
+  const [maticToEuroRate, setMaticToEuroRate] = useState<number>(0);
+
   const [selectedNetworkId, setSelectedNetworkId] = useState(
     testNetworks[0].id,
   );
@@ -110,37 +108,11 @@ const WalletDashboardContent: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [account, rate] = await Promise.all([
-          keyban.client.initialize(keyId).then((account) => {
-            setAccount(account);
-            return account.getBalance();
-          }),
-          fetchMaticToEuroRate().catch(setEuroBalance.bind(null, 0)),
-        ]);
-
-        const balanceInEuro = (Number(account) / 1e18) * rate;
-        setBalance(account);
-        setEuroBalance(balanceInEuro);
-        setLoading(false);
-      } catch (error) {
-        let processedError: Error | undefined;
-        if (error instanceof Error) {
-          processedError = error;
-        } else if (typeof error === "string") {
-          processedError = new Error(error);
-        } else {
-          processedError = new Error(JSON.stringify(error));
-        }
-        setError(processedError);
-
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [keyban.client]);
+    fetchMaticToEuroRate()
+      .then(setMaticToEuroRate)
+      .catch(setMaticToEuroRate.bind(null, 0))
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleShareAddressClick = () => {
     navigate(`/qr-code?address=${account?.address}`);
@@ -192,10 +164,6 @@ const WalletDashboardContent: React.FC = () => {
     return <Loading />;
   }
 
-  if (error) {
-    return <CustomError error={error} />;
-  }
-
   return (
     <WalletDashboardWrapper>
       <Header>
@@ -227,9 +195,10 @@ const WalletDashboardContent: React.FC = () => {
       <Section>
         <BalanceInfo
           balance={balance}
-          euroBalance={euroBalance}
+          euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
           onSend={handleTransferCrypto}
         />
+        <button onClick={refreshBalance}>refresh</button>
       </Section>
       <Section>
         <NFTSection nfts={testNFTs} />
@@ -255,15 +224,4 @@ const WalletDashboardContent: React.FC = () => {
   );
 };
 
-const WalletDashboard: React.FC = () => (
-  <KeybanProvider
-    chain={KeybanChain.polygonAmoy}
-    signer={KeybanSigner.ECDSA}
-    storage={KeybanLocalStorage}
-    apiUrl="https://keyban.localtest.me"
-  >
-    <WalletDashboardContent />
-  </KeybanProvider>
-);
-
-export default WalletDashboard;
+export default WalletDashboardContent;

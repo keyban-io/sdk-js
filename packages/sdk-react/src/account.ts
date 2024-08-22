@@ -1,22 +1,58 @@
-import React from "react";
-import { useKeyban } from "./provider";
 import { KeybanAccount } from "@keyban/sdk-base";
 
-export function useKeybanAccount(keyId: string) {
-  const keyban = useKeyban();
-  const [account, setAccount] = React.useState<KeybanAccount>();
+import { useKeybanClient } from "~/provider";
+import {
+  useWrappedPromise,
+  WrappedPromiseResult,
+  WrappedPromiseResultExtra,
+} from "~/promise";
 
-  React.useEffect(() => {
-    let canceled = false;
+export function useKeybanAccount(
+  keyId: string,
+  options: { suspense: true },
+): WrappedPromiseResult<KeybanAccount>;
+export function useKeybanAccount(
+  keyId: string,
+  options?: { suspense?: false },
+):
+  | WrappedPromiseResult<KeybanAccount>
+  | [null, null, WrappedPromiseResultExtra];
 
-    keyban.client.initialize(keyId).then((account) => {
-      if (!canceled) setAccount(account);
-    });
+export function useKeybanAccount(
+  keyId: string,
+  options?: { suspense?: boolean },
+) {
+  const client = useKeybanClient();
 
-    return () => {
-      canceled = true;
-    };
-  }, [keyId]);
+  try {
+    return useWrappedPromise(`account:${keyId}`, () =>
+      client.initialize(keyId),
+    );
+  } catch (suspended) {
+    if (options?.suspense) throw suspended;
+    return [null, null, { refresh: () => {}, isLoading: true }];
+  }
+}
 
-  return account;
+export function useKeybanAccountBalance(
+  account: KeybanAccount,
+  options: { suspense: true },
+): WrappedPromiseResult<bigint>;
+export function useKeybanAccountBalance(
+  account: KeybanAccount,
+  options?: { suspense?: false },
+): WrappedPromiseResult<bigint> | [null, null, WrappedPromiseResultExtra];
+
+export function useKeybanAccountBalance(
+  account: KeybanAccount,
+  options?: { suspense?: boolean },
+) {
+  try {
+    return useWrappedPromise(`account-balance:${account.keyId}`, () =>
+      account.getBalance(),
+    );
+  } catch (suspended) {
+    if (options?.suspense) throw suspended;
+    return [null, null, { refresh: () => {}, isLoading: true }];
+  }
 }

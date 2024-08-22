@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { Tooltip } from "@mui/material";
 
 interface AccountInfoProps {
-  account: AccountType | null;
+  account?: AccountType;
   onCopyClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onShareClick: () => void;
   onRenameKeyId: (newKeyId: string) => void;
