@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
@@ -22,6 +23,7 @@ import {
   testCryptos,
 } from "./testData";
 import Modal from "@/components/Modal";
+import { useErrorBoundary } from "react-error-boundary";
 
 const WalletDashboardWrapper = styled.div`
   padding: 20px;
@@ -93,6 +95,7 @@ const WalletDashboardContent: React.FC = () => {
   if (balanceError) throw balanceError;
 
   const [loading, setLoading] = useState<boolean>(true);
+  const { showBoundary } = useErrorBoundary();
   const [hintVisible, setHintVisible] = useState<boolean>(false);
   const [hintPosition, setHintPosition] = useState<{ x: number; y: number }>({
     x: 0,
@@ -110,7 +113,7 @@ const WalletDashboardContent: React.FC = () => {
   useEffect(() => {
     fetchMaticToEuroRate()
       .then(setMaticToEuroRate)
-      .catch(setMaticToEuroRate.bind(null, 0))
+      .catch((error) => showBoundary(error))
       .finally(() => setLoading(false));
   }, []);
 

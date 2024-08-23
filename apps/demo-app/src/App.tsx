@@ -11,25 +11,29 @@ import {
   KeybanProvider,
   KeybanSigner,
 } from "@keyban/sdk-react";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallback } from "./components/ErrorFallback";
 
 const App: React.FC = () => {
   return (
-    <KeybanProvider
-      chain={KeybanChain.polygonAmoy}
-      signer={KeybanSigner.ECDSA}
-      storage={KeybanLocalStorage}
-      apiUrl="https://keyban.localtest.me"
-    >
-      <Router>
-        <Suspense fallback={<Loading />}>
-          <Routes>
-            <Route path="/" element={<WalletDashboard />} />
-            <Route path="/qr-code" element={<QRCodePage />} />
-            <Route path="/transfer-matic" element={<TransferMatic />} />{" "}
-          </Routes>
-        </Suspense>
-      </Router>
-    </KeybanProvider>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <KeybanProvider
+        chain={KeybanChain.polygonAmoy}
+        signer={KeybanSigner.ECDSA}
+        storage={KeybanLocalStorage}
+        apiUrl="https://keyban.localtest.me"
+      >
+        <Router>
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="/" element={<WalletDashboard />} />
+              <Route path="/qr-code" element={<QRCodePage />} />
+              <Route path="/transfer-matic" element={<TransferMatic />} />{" "}
+            </Routes>
+          </Suspense>
+        </Router>
+      </KeybanProvider>
+    </ErrorBoundary>
   );
 };
 
