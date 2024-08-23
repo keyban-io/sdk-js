@@ -115,7 +115,7 @@ const WalletDashboardContent: React.FC = () => {
       .then(setMaticToEuroRate)
       .catch((error) => showBoundary(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [showBoundary]);
 
   const handleShareAddressClick = () => {
     navigate(`/qr-code?address=${account?.address}`);
