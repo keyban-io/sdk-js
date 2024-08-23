@@ -10,6 +10,7 @@ import Row from "./components/Row";
 import SerializedValue from "./components/SerializedValue";
 import TextField from "./components/TextField";
 import BigIntField from "./components/BigIntField";
+import * as chains from "viem/chains";
 
 export type KeybanTestProps = {
   testId: string;
@@ -175,7 +176,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <Row>
           <span>Currency name:</span>
           <SerializedValue
-            value={client.publicClient.chain.nativeCurrency.name}
+            value={chains[client.chain].nativeCurrency.name}
             style={{ flexGrow: 1 }}
             data-test-id={`${testId}:currency-name`}
           />
@@ -184,16 +185,14 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <Row>
           <span>Currency decimals:</span>
           <SerializedValue
-            value={client.publicClient.chain.nativeCurrency.decimals}
+            value={chains[client.chain].nativeCurrency.decimals}
             style={{ flexGrow: 1 }}
             data-test-id={`${testId}:currency-decimals`}
           />
         </Row>
       </fieldset>
       <fieldset>
-        <legend>
-          Transfer {client.publicClient.chain.nativeCurrency.name}
-        </legend>
+        <legend>Transfer {chains[client.chain].nativeCurrency.name}</legend>
 
         <Row>
           <BigIntField

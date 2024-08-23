@@ -1,4 +1,6 @@
 import { formatUnits } from "viem";
+import * as chains from "viem/chains";
+
 import type { KeybanClient } from "~/client";
 
 /**
@@ -9,9 +11,8 @@ import type { KeybanClient } from "~/client";
  * @param client - The Keyban client to use for formatting.
  * @param balance - The balance as a bigint.
  * @returns The formatted balance as a string.
- *
  */
 export function formatBalance(client: KeybanClient, balance: bigint) {
-  const { decimals, symbol } = client.publicClient.chain.nativeCurrency;
+  const { decimals, symbol } = chains[client.chain].nativeCurrency;
   return `${formatUnits(balance, decimals)} ${symbol}`;
 }

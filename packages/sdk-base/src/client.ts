@@ -7,6 +7,7 @@ import { KeybanAccount } from "~/account";
 import { KeybanApiStatus } from "~/api";
 import { KeybanChain } from "~/chains";
 import { KeybanBaseError, StorageError } from "~/errors";
+import { Address } from "~/index";
 import type { KeybanSigner } from "~/signer";
 import type { KeybanStorage } from "~/storage";
 
@@ -28,16 +29,15 @@ export class KeybanClient {
   apiUrl: string;
   signer: KeybanSigner;
   storage: KeybanStorage;
-  accounts: Map<string, Promise<KeybanAccount>>;
 
   chain: KeybanChain;
   chainUrl?: string;
-  publicClient: PublicClient<Transport, Chain>;
+
+  #accounts: Map<string, Promise<KeybanAccount>>;
+  #publicClient: PublicClient<Transport, Chain>;
 
   /**
-   * @param config.apiUrl
-   * @param config.signer - Any signer builder
-   * @param config.storage - Any storage provider following {@link KeybanStorage}. For web, it can be localStorage; for native, AsyncStorage.
+   * @param {Object} config The client config object
    */
   constructor({
     apiUrl = "https://keyban.io",
@@ -49,11 +49,12 @@ export class KeybanClient {
     this.apiUrl = apiUrl;
     this.signer = new signer();
     this.storage = new storage();
-    this.accounts = new Map();
 
     this.chain = chain;
     this.chainUrl = chainUrl;
-    this.publicClient = createPublicClient({
+
+    this.#accounts = new Map();
+    this.#publicClient = createPublicClient({
       chain: chains[this.chain],
       transport: http(chainUrl),
     });
@@ -65,7 +66,7 @@ export class KeybanClient {
    * @returns Instance of {@link KeybanAccount}
    */
   initialize(keyId: string): Promise<KeybanAccount> {
-    const cached = this.accounts.get(keyId);
+    const cached = this.#accounts.get(keyId);
     if (cached) return cached;
 
     const promise = (async () => {
@@ -97,10 +98,14 @@ export class KeybanClient {
       return new KeybanAccount(this, keyId, address, publicKey);
     })();
 
-    this.accounts.set(keyId, promise);
-    promise.catch(() => {}).finally(() => this.accounts.delete(keyId));
+    this.#accounts.set(keyId, promise);
+    promise.catch(() => {}).finally(() => this.#accounts.delete(keyId));
 
     return this.initialize(keyId);
+  }
+
+  async getBalance(address: Address) {
+    return this.#publicClient.getBalance({ address });
   }
 
   /**

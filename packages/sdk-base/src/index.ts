@@ -6,4 +6,6 @@ export { KeybanSigner } from "./signer";
 export { KeybanStorage } from "./storage";
 export * from "./utils";
 
-export type { Address, Hex } from "viem";
+export type Address = `0x${string}`;
+export type Hash = `0x${string}`;
+export type Hex = `0x${string}`;

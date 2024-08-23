@@ -1,4 +1,4 @@
-import type { Hex } from "viem";
+import { Hex } from "~/index";
 import { KeybanSigner_ECDSA } from "./ecdsa";
 import { KeybanSigner_EdDSA } from "./eddsa";
 

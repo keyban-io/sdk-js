@@ -1,11 +1,8 @@
 import type {
-  Address,
   Chain,
   CustomSource,
-  Hash,
-  Hex,
   Transport,
-  Account as ViemAccount,
+  Account,
   WalletClient,
 } from "viem";
 import {
@@ -17,10 +14,12 @@ import {
   parseSignature,
   serializeTransaction,
 } from "viem";
+import * as chains from "viem/chains";
 import { toAccount } from "viem/accounts";
 import { KeybanClient } from "~/client";
 import { StorageError } from "~/errors";
 import { getSdk, Sdk } from "./account.generated";
+import { Address, Hash, Hex } from "~/index";
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
@@ -28,7 +27,7 @@ export class KeybanAccount implements KeybanAccount {
   publicKey: string;
 
   #client: KeybanClient;
-  #walletClient: WalletClient<Transport, Chain, ViemAccount>;
+  #walletClient: WalletClient<Transport, Chain, Account>;
   #graphql: Sdk;
 
   constructor(
@@ -43,7 +42,7 @@ export class KeybanAccount implements KeybanAccount {
 
     this.#client = client;
     this.#walletClient = createWalletClient({
-      chain: client.publicClient.chain,
+      chain: chains[client.chain],
       transport: http(client.chainUrl),
       account: toAccount({
         address: this.address,
@@ -69,7 +68,7 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   async getBalance() {
-    return this.#client.publicClient.getBalance({ address: this.address });
+    return this.#client.getBalance(this.address);
   }
 
   /**
