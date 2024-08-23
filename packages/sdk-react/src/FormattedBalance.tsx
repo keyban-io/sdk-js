@@ -21,6 +21,10 @@ export function useFormattedBalance(balance: bigint) {
   return formatBalance(useKeybanClient(), balance);
 }
 
+/**
+ * Props for the FormattedBalance component.
+ * @see {@link FormattedBalance}
+ */
 export type FormatedBalanceProps = { balance: bigint };
 
 /**

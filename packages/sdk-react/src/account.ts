@@ -7,6 +7,10 @@ import {
   WrappedPromiseResultExtra,
 } from "~/promise";
 
+/**
+ * Fetches the account information for the given keyId.
+ *
+ */
 export function useKeybanAccount(
   keyId: string,
   options: { suspense: true },
@@ -34,6 +38,16 @@ export function useKeybanAccount(
   }
 }
 
+/**
+ * Return the native balance of an account.
+ *
+ * @example
+ * ```tsx
+ * const [account, accountError] = useKeybanAccount("keyId");
+ * const [balance, balanceError] = useKeybanAccountBalance(account);
+ * ```
+ * @see {@link useFormattedBalance}
+ */
 export function useKeybanAccountBalance(
   account: KeybanAccount,
   options: { suspense: true },

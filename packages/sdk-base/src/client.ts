@@ -10,6 +10,12 @@ import { KeybanBaseError, StorageError } from "~/errors";
 import type { KeybanSigner } from "~/signer";
 import type { KeybanStorage } from "~/storage";
 
+/**
+ * Configuration object for the Keyban client.
+ *
+ * @see {@link KeybanChain}
+ * @see {@link KeybanStorage}
+ */
 export type KeybanClientConfig = {
   apiUrl?: string;
   chain: KeybanChain;

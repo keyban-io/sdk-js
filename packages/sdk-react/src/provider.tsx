@@ -34,7 +34,6 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * );
  * ```
  */
-
 export function KeybanProvider({ children, ...config }: KeybanProviderProps) {
   const client = React.useMemo(
     () => new KeybanClient(config),
@@ -49,6 +48,7 @@ export function KeybanProvider({ children, ...config }: KeybanProviderProps) {
 }
 /**
  * Hook to access the Keyban SDK functionalities within a component
+ * @private
  * @throws Error if the hook is used outside of a {@link KeybanProvider}
  */
 export const useKeybanClient = () => {

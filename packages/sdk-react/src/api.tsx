@@ -2,6 +2,10 @@ import React from "react";
 import { useKeybanClient } from "./provider";
 import { KeybanApiStatus } from "@keyban/sdk-base";
 
+/**
+ *
+ * @private
+ */
 export function useKeybanApiStatus() {
   const client = useKeybanClient();
 
