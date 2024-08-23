@@ -1,0 +1,12 @@
+{
+  "name": "create-keyban-app",
+  "version": "1.0.0",
+  "description": "CLI to create a Keyban React app with Vite",
+  "main": "index.js",
+  "bin": {
+    "create-keyban-app": "./index.js"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2"
+  }
+}
