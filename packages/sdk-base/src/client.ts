@@ -109,4 +109,26 @@ export class KeybanClient {
         return "down";
       });
   }
+
+  /**
+   * @private
+   */
+  requester = async <R, V>(query: string, variables?: V) =>
+    fetch(
+      "https://swapi-graphql.netlify.app/.netlify/functions/index",
+      // this.apiUrl + "/graphql",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/graphql-response+json",
+        },
+        body: JSON.stringify({ query, variables }),
+      },
+    )
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then(({ data }) => data as R);
 }

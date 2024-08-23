@@ -20,6 +20,7 @@ import {
 import { toAccount } from "viem/accounts";
 import { KeybanClient } from "~/client";
 import { StorageError } from "~/errors";
+import { getSdk, Sdk } from "./account.generated";
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
@@ -28,6 +29,7 @@ export class KeybanAccount implements KeybanAccount {
 
   #client: KeybanClient;
   #walletClient: WalletClient<Transport, Chain, ViemAccount>;
+  #graphql: Sdk;
 
   constructor(
     client: KeybanClient,
@@ -50,6 +52,7 @@ export class KeybanAccount implements KeybanAccount {
         signTypedData: this.#signTypedData.bind(this),
       }),
     });
+    this.#graphql = getSdk(this.#client.requester);
   }
 
   async #getClientShare() {
@@ -135,5 +138,9 @@ export class KeybanAccount implements KeybanAccount {
    */
   transfer(to: Address, value: bigint): Promise<Hash> {
     return this.#walletClient.sendTransaction({ to, value, type: "eip1559" });
+  }
+
+  listTransactions() {
+    return this.#graphql.KeybanAccount_listTransactions();
   }
 }

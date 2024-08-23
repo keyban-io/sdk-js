@@ -42,6 +42,7 @@
     "README.md"
   ],
   "scripts": {
+    "prebuild": "graphql-codegen",
     "build": "NODE_ENV=production tsup",
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "format": "prettier --write ./src",
@@ -50,11 +51,14 @@
   "dependencies": {
     "ecdsa-wasm-client": "workspace:*",
     "eddsa-wasm-client": "workspace:*",
-    "viem": "^2.17.11"
+    "viem": "^2.20.0"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/near-operation-file-preset": "^3.0.0",
+    "@graphql-codegen/typescript-generic-sdk": "^4.0.1",
     "@types/node": "^20.16.0",
     "prettier": "^3.3.3",
     "tsup": "^8.0.2",
