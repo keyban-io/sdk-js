@@ -45,14 +45,12 @@ export function useWrappedPromise<T>(
         .then((result) => {
           wrapped.status = PromiseState.Fulfilled;
           wrapped.value = result;
-          setIsLoading(false);
 
           return result;
         })
         .catch((error) => {
           wrapped.status = PromiseState.Rejected;
           wrapped.value = error;
-          setIsLoading(false);
 
           throw error;
         }),
@@ -69,6 +67,8 @@ export function useWrappedPromise<T>(
   );
 
   const refresh = React.useCallback(() => {
+    setIsLoading(true);
+
     cached.promise = promise()
       .then((result) => {
         cached.status = PromiseState.Fulfilled;
