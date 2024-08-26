@@ -6,7 +6,7 @@ import { faBell, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useKeybanClient } from "@keyban/sdk-react";
 import type { Address, KeybanAccount } from "@keyban/sdk-react";
 
-const TranserMaticPage = styled.div`
+const TransferNativeCryptoPage = styled.div`
   padding: 20px;
   background-color: var(--primary-lightest);
   border: 1px solid var(--border-color);
@@ -122,7 +122,7 @@ const TransactionLink = styled.a`
   }
 `;
 
-const TransferMatic: React.FC = () => {
+const TransferNativeCrypto: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [recipient, setRecipient] = useState("");
@@ -183,7 +183,7 @@ const TransferMatic: React.FC = () => {
   }
 
   return (
-    <TranserMaticPage>
+    <TransferNativeCryptoPage>
       <Header>
         <span>Keyban WAAS Demo</span>
         <Notification>
@@ -201,7 +201,7 @@ const TransferMatic: React.FC = () => {
           />
         </FormField>
         <FormField>
-          <Label>Amount (MATIC)</Label>
+          <Label>Amount (POL)</Label>
           <Input
             type="number"
             value={amount}
@@ -210,7 +210,7 @@ const TransferMatic: React.FC = () => {
           />
         </FormField>
         <Button onClick={handleTransfer} disabled={isTransferring}>
-          Send MATIC
+          Send POL
           {isTransferring && <LoadingIcon icon={faSpinner} />}
         </Button>
         {transactionHash && (
@@ -228,8 +228,8 @@ const TransferMatic: React.FC = () => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <BackButton onClick={handleBackClick}>Back to Dashboard</BackButton>
       </Section>
-    </TranserMaticPage>
+    </TransferNativeCryptoPage>
   );
 };
 
-export default TransferMatic;
+export default TransferNativeCrypto;

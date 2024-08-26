@@ -116,7 +116,7 @@ const WalletDashboardContent: React.FC = () => {
 
   const handleTransferCrypto = () => {
     if (account?.keyId) {
-      navigate("/transfer-matic", { state: { keyId: account.keyId } });
+      navigate("/transfer-native-crypto", { state: { keyId: account.keyId } });
     } else {
       console.error("Key ID not found on account");
     }

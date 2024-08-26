@@ -35,7 +35,7 @@ export const testTransactions = [
     type: "Pending",
     crypto: "Native",
     toFrom: "0x5678...efgh",
-    amount: "0.1 MATIC",
+    amount: "0.1 POL",
     status: "Pending",
   },
   {
