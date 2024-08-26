@@ -8,8 +8,14 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
-import styled from "@emotion/styled";
-import { Tooltip } from "@mui/material";
+import {
+  Tooltip,
+  Typography,
+  IconButton,
+  TextField,
+  Container,
+  Grid,
+} from "@mui/material";
 
 interface AccountInfoProps {
   account?: AccountType;
@@ -22,48 +28,6 @@ type AccountType = {
   keyId: string;
   address: string;
 };
-
-const AccountAddressContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: var(--container-background-color);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-`;
-
-const Account = styled.div`
-  display: flex;
-  align-items: center;
-  flex: 1;
-  font-weight: bold;
-  text-align: left;
-`;
-
-const AccountAddress = styled.span`
-  flex: 2;
-  margin-left: 10px;
-  text-align: right;
-`;
-
-const Button = styled.button`
-  margin-left: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--primary);
-`;
-
-const KeyIdInput = styled.input`
-  border: none;
-  background: none;
-  color: var(--primary);
-  font-weight: bold;
-  text-align: left;
-  &:focus {
-    outline: none;
-  }
-`;
 
 const AccountInfo: React.FC<AccountInfoProps> = ({
   account,
@@ -92,43 +56,65 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   };
 
   return (
-    <AccountAddressContainer>
-      <Tooltip title="Key ID" arrow>
-        <Account>
-          {isEditing ? (
-            <KeyIdInput
-              value={keyId}
-              onChange={handleKeyIdChange}
-              onBlur={handleRenameClick}
-              onKeyDown={handleKeyDown}
-              autoFocus
-            />
-          ) : (
-            keyId || "No account"
-          )}
-          <Button type="button" onClick={handleRenameClick}>
+    <Container>
+      <Grid container spacing={0}>
+        <Grid item xs={2} sx={{ alignContent: "center" }}>
+          <Tooltip title="Key ID" arrow>
+            {isEditing ? (
+              <TextField
+                id="standard-basic"
+                // label="Rename Key ID"
+                variant="standard"
+                value={keyId}
+                onChange={handleKeyIdChange}
+                onBlur={handleRenameClick}
+                onKeyDown={handleKeyDown}
+                autoFocus
+              />
+            ) : (
+              <Typography variant="body1">{keyId || "No account"}</Typography>
+            )}
+          </Tooltip>
+        </Grid>
+        <Grid item xs={1}>
+          <IconButton color="primary" onClick={handleRenameClick}>
             <FontAwesomeIcon icon={isEditing ? faCheck : faEdit} />
-          </Button>
-        </Account>
-      </Tooltip>
-      <Tooltip title="Ethereum Address" arrow>
-        <AccountAddress>
-          {account
-            ? formatEthereumAddress(account.address)
-            : "No address found"}
-        </AccountAddress>
-      </Tooltip>
-      <Tooltip title="Copy Address" arrow>
-        <Button type="button" onClick={onCopyClick} className="copy-button">
-          <FontAwesomeIcon icon={faCopy} />
-        </Button>
-      </Tooltip>
-      <Tooltip title="Share Address" arrow>
-        <Button type="button" onClick={onShareClick} className="share-button">
-          <FontAwesomeIcon icon={faQrcode} />
-        </Button>
-      </Tooltip>
-    </AccountAddressContainer>
+          </IconButton>
+        </Grid>
+        <Grid item xs sx={{ alignContent: "center" }}>
+          <Tooltip title="Ethereum Address" arrow>
+            <Typography variant="body1">
+              {account
+                ? formatEthereumAddress(account.address)
+                : "No address found"}
+            </Typography>
+          </Tooltip>
+        </Grid>
+
+        <Grid item xs={1}>
+          <Tooltip title="Copy Address" arrow>
+            <IconButton
+              color="primary"
+              onClick={onCopyClick}
+              className="copy-button"
+            >
+              <FontAwesomeIcon icon={faCopy} />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+        <Grid item xs={1}>
+          <Tooltip title="Share Address" arrow>
+            <IconButton
+              color="primary"
+              onClick={onShareClick}
+              className="share-button"
+            >
+              <FontAwesomeIcon icon={faQrcode} />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
