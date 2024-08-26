@@ -21,19 +21,10 @@ import {
   testNetworks,
   testEnvs,
   testCryptos,
-} from "./testData";
+} from "../lib/testData";
 import Modal from "@/components/Modal";
 import { useErrorBoundary } from "react-error-boundary";
-
-const WalletDashboardWrapper = styled.div`
-  padding: 20px;
-  background-color: var(--primary-lightest);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-`;
+import { Card, CardContent } from "@mui/material";
 
 const Header = styled.div`
   display: flex;
@@ -168,62 +159,64 @@ const WalletDashboardContent: React.FC = () => {
   }
 
   return (
-    <WalletDashboardWrapper>
-      <Header>
-        <span>Keyban WAAS Demo</span>
-        <Notification>
-          <FontAwesomeIcon icon={faBell} />
-        </Notification>
-      </Header>
-      <Section>
-        <AccountInfo
-          account={account}
-          onCopyClick={handleCopyClick}
-          onShareClick={handleShareAddressClick}
-          onRenameKeyId={handleRenameKeyId}
-        />
-      </Section>
-      <Section>
-        <NetworkSelector
-          networks={testNetworks}
-          selectedNetworkId={selectedNetworkId}
-          onSelectNetwork={handleSelectNetwork}
-        />
-        <EnvSelector
-          envs={testEnvs}
-          selectedEnvId={selectedEnvId}
-          onSelectEnv={handleSelectEnv}
-        />
-      </Section>
-      <Section>
-        <BalanceInfo
-          balance={balance}
-          euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
-          onSend={handleTransferCrypto}
-        />
-        <button onClick={refreshBalance}>refresh</button>
-      </Section>
-      <Section>
-        <NFTSection nfts={testNFTs} />
-      </Section>
-      <Section>
-        <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
-      </Section>
-      <Section>
-        <TransactionList transactions={testTransactions} />
-      </Section>
-      <Button type="button">Transaction History</Button>
-      {hintVisible && (
-        <CopyHint
-          style={{ top: hintPosition.y - 20, left: hintPosition.x + 10 }}
-        >
-          Copied!
-        </CopyHint>
-      )}
-      <Modal show={showModal} onClose={handleCloseModal} title="Send Crypto">
-        <p>Send functionality coming soon!</p>
-      </Modal>
-    </WalletDashboardWrapper>
+    <Card>
+      <CardContent>
+        <Header>
+          <span>Keyban WAAS Demo</span>
+          <Notification>
+            <FontAwesomeIcon icon={faBell} />
+          </Notification>
+        </Header>
+        <Section>
+          <AccountInfo
+            account={account}
+            onCopyClick={handleCopyClick}
+            onShareClick={handleShareAddressClick}
+            onRenameKeyId={handleRenameKeyId}
+          />
+        </Section>
+        <Section>
+          <NetworkSelector
+            networks={testNetworks}
+            selectedNetworkId={selectedNetworkId}
+            onSelectNetwork={handleSelectNetwork}
+          />
+          <EnvSelector
+            envs={testEnvs}
+            selectedEnvId={selectedEnvId}
+            onSelectEnv={handleSelectEnv}
+          />
+        </Section>
+        <Section>
+          <BalanceInfo
+            balance={balance}
+            euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
+            onSend={handleTransferCrypto}
+          />
+          <button onClick={refreshBalance}>refresh</button>
+        </Section>
+        <Section>
+          <NFTSection nfts={testNFTs} />
+        </Section>
+        <Section>
+          <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
+        </Section>
+        <Section>
+          <TransactionList transactions={testTransactions} />
+        </Section>
+        <Button type="button">Transaction History</Button>
+        {hintVisible && (
+          <CopyHint
+            style={{ top: hintPosition.y - 20, left: hintPosition.x + 10 }}
+          >
+            Copied!
+          </CopyHint>
+        )}
+        <Modal show={showModal} onClose={handleCloseModal} title="Send Crypto">
+          <p>Send functionality coming soon!</p>
+        </Modal>
+      </CardContent>
+    </Card>
   );
 };
 

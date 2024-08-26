@@ -3,7 +3,7 @@
  *
  * @template T - The enum type of the specific error.
  */
-export class KeybanBaseError<T> {
+export class KeybanBaseError<T> extends Error {
   /**
    * A URI reference that identifies the problem type. This member is mandatory and provides a machine-readable identifier for the error.
    */
@@ -54,7 +54,11 @@ export class KeybanBaseError<T> {
     detail?: string;
     status?: number;
   }) {
-    this.title = (title ?? type) as string;
+    const message = title ?? (type as string);
+
+    super(message);
+
+    this.title = message;
     this.type = type;
     this.instance = instance;
     this.detail = detail ?? "";
