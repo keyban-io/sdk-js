@@ -42,9 +42,9 @@
     "README.md"
   ],
   "scripts": {
-    "prebuild": "graphql-codegen",
-    "build": "NODE_ENV=production tsup",
+    "codegen": "graphql-codegen",
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
+    "build": "NODE_ENV=production tsup",
     "format": "prettier --write ./src",
     "changeset": "changeset"
   },

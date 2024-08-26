@@ -7,7 +7,7 @@ export type SerializedValueProps = Omit<
   TextareaAutosizeProps,
   "value" | "onChange"
 > & {
-  value: string | Parameters<JSON["stringify"]>[0];
+  value: string | bigint | Parameters<JSON["stringify"]>[0];
 };
 
 export default function SerializedValue({
@@ -15,8 +15,10 @@ export default function SerializedValue({
   style,
   ...props
 }: SerializedValueProps) {
-  const textValue =
-    typeof value === "string" ? value : JSON.stringify(value, null, 2);
+  let textValue: string;
+  if (typeof value === "string") textValue = value;
+  else if (typeof value === "bigint") textValue = value.toString();
+  else textValue = JSON.stringify(value, null, 2);
 
   const handleCopy = React.useCallback(() => {
     navigator.clipboard.writeText(textValue);

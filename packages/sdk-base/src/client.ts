@@ -1,6 +1,15 @@
 import type { Chain, PublicClient, Transport } from "viem";
-import { createPublicClient, http } from "viem";
-import { publicKeyToAddress } from "viem/accounts";
+import {
+  createPublicClient,
+  createWalletClient,
+  hashMessage,
+  hashTypedData,
+  http,
+  keccak256,
+  parseSignature,
+  serializeTransaction,
+} from "viem";
+import { publicKeyToAddress, toAccount } from "viem/accounts";
 import * as chains from "viem/chains";
 
 import { KeybanAccount } from "~/account";
@@ -26,13 +35,12 @@ export type KeybanClientConfig = {
 };
 
 export class KeybanClient {
-  apiUrl: string;
-  signer: KeybanSigner;
-  storage: KeybanStorage;
-
   chain: KeybanChain;
   chainUrl?: string;
+  apiUrl: string;
 
+  #signer: KeybanSigner;
+  #storage: KeybanStorage;
   #accounts: Map<string, Promise<KeybanAccount>>;
   #publicClient: PublicClient<Transport, Chain>;
 
@@ -40,23 +48,22 @@ export class KeybanClient {
    * @param {Object} config The client config object
    */
   constructor({
-    apiUrl = "https://keyban.io",
     chain,
     chainUrl,
+    apiUrl = "https://keyban.io",
     signer,
     storage,
   }: KeybanClientConfig) {
     this.apiUrl = apiUrl;
-    this.signer = new signer();
-    this.storage = new storage();
-
     this.chain = chain;
     this.chainUrl = chainUrl;
 
+    this.#signer = new signer();
+    this.#storage = new storage();
     this.#accounts = new Map();
     this.#publicClient = createPublicClient({
       chain: chains[this.chain],
-      transport: http(chainUrl),
+      transport: http(this.chainUrl),
     });
   }
 
@@ -70,9 +77,9 @@ export class KeybanClient {
     if (cached) return cached;
 
     const promise = (async () => {
-      const storageKey = `${this.signer.storagePrefix}-${keyId}`;
+      const storageKey = `${this.#signer.storagePrefix}-${keyId}`;
 
-      let clientShare = await this.storage.get(storageKey).catch((err) => {
+      let clientShare = await this.#storage.get(storageKey).catch((err) => {
         throw new StorageError(
           StorageError.types.RetrivalFailed,
           "Client.initialize",
@@ -80,11 +87,13 @@ export class KeybanClient {
         );
       });
 
-      clientShare ??= await this.signer.dkg(keyId, this.apiUrl).catch((err) => {
-        throw new KeybanBaseError(err);
-      });
+      clientShare ??= await this.#signer
+        .dkg(keyId, this.apiUrl)
+        .catch((err) => {
+          throw new KeybanBaseError(err);
+        });
 
-      await this.storage.set(storageKey, clientShare).catch((err) => {
+      await this.#storage.set(storageKey, clientShare).catch((err) => {
         throw new StorageError(
           StorageError.types.SaveFailed,
           "Client.initialize",
@@ -92,10 +101,50 @@ export class KeybanClient {
         );
       });
 
-      const publicKey = await this.signer.publicKey(clientShare);
-      const address = publicKeyToAddress(publicKey);
+      const publicKey = await this.#signer.publicKey(clientShare);
 
-      return new KeybanAccount(this, keyId, address, publicKey);
+      const walletClient = createWalletClient({
+        chain: chains[this.chain],
+        transport: http(this.chainUrl),
+        account: toAccount({
+          address: publicKeyToAddress(publicKey),
+          signMessage: ({ message }) => {
+            const hash = hashMessage(message, "hex");
+            return this.#signer.sign(keyId, clientShare, hash, this.apiUrl);
+          },
+          signTransaction: async (transaction, options) => {
+            const serializer = options?.serializer ?? serializeTransaction;
+
+            // For EIP-4844 Transactions, we want to sign the transaction payload body (tx_payload_body) without the sidecars (ie. without the network wrapper).
+            // See: https://github.com/ethereum/EIPs/blob/e00f4daa66bd56e2dbd5f1d36d09fd613811a48b/EIPS/eip-4844.md#networking
+            const signableTransaction =
+              transaction.type === "eip4844"
+                ? { ...transaction, sidecars: false }
+                : transaction;
+
+            const hexSignature = await this.#signer.sign(
+              keyId,
+              clientShare,
+              keccak256(serializer(signableTransaction)),
+              this.apiUrl,
+            );
+            const signature = parseSignature(hexSignature);
+
+            return serializer(transaction, signature);
+          },
+          signTypedData: async (typedDataDefinition) => {
+            const hash = hashTypedData(typedDataDefinition);
+            return this.#signer.sign(keyId, clientShare, hash, this.apiUrl);
+          },
+        }),
+      });
+
+      return new KeybanAccount(
+        keyId,
+        publicKey,
+        this.#publicClient,
+        walletClient,
+      );
     })();
 
     this.#accounts.set(keyId, promise);
@@ -106,6 +155,22 @@ export class KeybanClient {
 
   async getBalance(address: Address) {
     return this.#publicClient.getBalance({ address });
+  }
+
+  async listTokens(): Promise<
+    {
+      address: Address;
+      decimals: string;
+      name: string;
+      symbol: string;
+    }[]
+  > {
+    const url = new URL("/api/blockscout/api/v2/tokens", this.apiUrl);
+    url.searchParams.set("type", "ERC-20");
+
+    return fetch(url, { headers: { Accept: "application/json" } })
+      .then((res) => res.json())
+      .then(({ items }) => items);
   }
 
   /**
@@ -124,7 +189,7 @@ export class KeybanClient {
   /**
    * @private
    */
-  requester = async <R, V>(query: string, variables?: V) =>
+  gqlRequester = async <R, V>(query: string, variables?: V) =>
     fetch(
       "https://swapi-graphql.netlify.app/.netlify/functions/index",
       // this.apiUrl + "/graphql",

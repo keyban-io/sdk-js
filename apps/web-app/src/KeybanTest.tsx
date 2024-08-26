@@ -4,6 +4,7 @@ import {
   FormattedBalance,
   useKeybanClient,
   useKeybanApiStatus,
+  KeybanClient,
 } from "@keyban/sdk-react";
 import React from "react";
 import Row from "./components/Row";
@@ -17,6 +18,9 @@ export type KeybanTestProps = {
 };
 export default function KeybanTest({ testId }: KeybanTestProps) {
   const client = useKeybanClient();
+  const { nativeCurrency } = (chains as Record<string, chains.Chain>)[
+    client.chain
+  ];
 
   const [account, setAccount] = React.useState<KeybanAccount>();
 
@@ -27,6 +31,29 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
   const [transferValue, setTransferValue] = React.useState<bigint>(BigInt(0));
   const [transferRecipient, setTransferRecipient] = React.useState("");
   const [txHash, setTxHash] = React.useState("");
+
+  const [tokensBalances, setTokensBalances] = React.useState<
+    [Awaited<ReturnType<KeybanClient["listTokens"]>>[0], bigint][]
+  >([]);
+
+  React.useEffect(() => {
+    if (!account) return;
+
+    client
+      .listTokens()
+      .then((tokens) =>
+        Promise.all(
+          tokens.map((token) =>
+            account
+              .getNonNativeBalance(token.address)
+              .then(
+                (balance) => [token, balance] as (typeof tokensBalances)[0],
+              ),
+          ),
+        ),
+      )
+      .then(setTokensBalances);
+  }, [client, account]);
 
   const handleInitDkg = () => {
     setAccount(undefined);
@@ -161,7 +188,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
             <Row>
               <span>Raw balance:</span>
               <SerializedValue
-                value={balance?.toString()}
+                value={balance}
                 style={{ flexGrow: 1 }}
                 data-test-id={`${testId}:raw-balance`}
               />
@@ -176,7 +203,7 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <Row>
           <span>Currency name:</span>
           <SerializedValue
-            value={chains[client.chain].nativeCurrency.name}
+            value={nativeCurrency.name}
             style={{ flexGrow: 1 }}
             data-test-id={`${testId}:currency-name`}
           />
@@ -185,14 +212,14 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <Row>
           <span>Currency decimals:</span>
           <SerializedValue
-            value={chains[client.chain].nativeCurrency.decimals}
+            value={nativeCurrency.decimals}
             style={{ flexGrow: 1 }}
             data-test-id={`${testId}:currency-decimals`}
           />
         </Row>
       </fieldset>
       <fieldset>
-        <legend>Transfer {chains[client.chain].nativeCurrency.name}</legend>
+        <legend>Transfer {nativeCurrency.name}</legend>
 
         <Row>
           <BigIntField
@@ -223,6 +250,22 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
           style={{ marginBlockStart: "1em" }}
           data-test-id={`${testId}:tx-hash`}
         />
+      </fieldset>
+
+      <fieldset>
+        <legend>Non native currency</legend>
+
+        {tokensBalances.map(([{ address, name, symbol }, balance]) => (
+          <Row key={address}>
+            <span>Balance {name}:</span>
+            <SerializedValue
+              value={balance}
+              style={{ flexGrow: 1 }}
+              data-test-id={`${testId}:raw-balance:${name}`}
+            />
+            <span>{symbol}</span>
+          </Row>
+        ))}
       </fieldset>
     </>
   );
