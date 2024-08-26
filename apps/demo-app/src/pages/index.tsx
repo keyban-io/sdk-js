@@ -24,21 +24,7 @@ import {
 } from "../lib/testData";
 import Modal from "@/components/Modal";
 import { useErrorBoundary } from "react-error-boundary";
-import { Card, CardContent } from "@mui/material";
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 20px;
-`;
-
-const Notification = styled.span`
-  cursor: pointer;
-  color: var(--primary);
-`;
+import { Card, CardContent, CardHeader, IconButton } from "@mui/material";
 
 const Button = styled.button`
   margin: 10px;
@@ -67,10 +53,6 @@ const CopyHint = styled.div`
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 0.8em;
-`;
-
-const Section = styled.div`
-  margin-bottom: 20px;
 `;
 
 const keyId = "my-ecdsa-key";
@@ -160,50 +142,55 @@ const WalletDashboardContent: React.FC = () => {
 
   return (
     <Card>
-      <CardContent>
-        <Header>
-          <span>Keyban WAAS Demo</span>
-          <Notification>
+      <CardHeader
+        title="Keyban WAAS Demo"
+        action={
+          <IconButton color="primary">
             <FontAwesomeIcon icon={faBell} />
-          </Notification>
-        </Header>
-        <Section>
-          <AccountInfo
-            account={account}
-            onCopyClick={handleCopyClick}
-            onShareClick={handleShareAddressClick}
-            onRenameKeyId={handleRenameKeyId}
-          />
-        </Section>
-        <Section>
-          <NetworkSelector
-            networks={testNetworks}
-            selectedNetworkId={selectedNetworkId}
-            onSelectNetwork={handleSelectNetwork}
-          />
-          <EnvSelector
-            envs={testEnvs}
-            selectedEnvId={selectedEnvId}
-            onSelectEnv={handleSelectEnv}
-          />
-        </Section>
-        <Section>
-          <BalanceInfo
-            balance={balance}
-            euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
-            onSend={handleTransferCrypto}
-          />
-          <button onClick={refreshBalance}>refresh</button>
-        </Section>
-        <Section>
-          <NFTSection nfts={testNFTs} />
-        </Section>
-        <Section>
-          <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
-        </Section>
-        <Section>
-          <TransactionList transactions={testTransactions} />
-        </Section>
+          </IconButton>
+        }
+      />
+      <CardContent>
+        <AccountInfo
+          account={account}
+          onCopyClick={handleCopyClick}
+          onShareClick={handleShareAddressClick}
+          onRenameKeyId={handleRenameKeyId}
+        />
+      </CardContent>
+
+      <CardContent>
+        <NetworkSelector
+          networks={testNetworks}
+          selectedNetworkId={selectedNetworkId}
+          onSelectNetwork={handleSelectNetwork}
+        />
+        <EnvSelector
+          envs={testEnvs}
+          selectedEnvId={selectedEnvId}
+          onSelectEnv={handleSelectEnv}
+        />
+      </CardContent>
+
+      <CardContent>
+        <BalanceInfo
+          balance={balance}
+          euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
+          onSend={handleTransferCrypto}
+        />
+        <button onClick={refreshBalance}>refresh</button>
+      </CardContent>
+
+      <CardContent>
+        <NFTSection nfts={testNFTs} />
+      </CardContent>
+
+      <CardContent>
+        <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
+      </CardContent>
+
+      <CardContent>
+        <TransactionList transactions={testTransactions} />
         <Button type="button">Transaction History</Button>
         {hintVisible && (
           <CopyHint
@@ -212,10 +199,11 @@ const WalletDashboardContent: React.FC = () => {
             Copied!
           </CopyHint>
         )}
-        <Modal show={showModal} onClose={handleCloseModal} title="Send Crypto">
-          <p>Send functionality coming soon!</p>
-        </Modal>
       </CardContent>
+
+      <Modal show={showModal} onClose={handleCloseModal} title="Send Crypto">
+        <p>Send functionality coming soon!</p>
+      </Modal>
     </Card>
   );
 };
