@@ -13,8 +13,7 @@ import {
   Typography,
   IconButton,
   TextField,
-  Container,
-  Grid,
+  Stack,
 } from "@mui/material";
 
 interface AccountInfoProps {
@@ -56,65 +55,57 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   };
 
   return (
-    <Container>
-      <Grid container spacing={0}>
-        <Grid item xs={2} sx={{ alignContent: "center" }}>
-          <Tooltip title="Key ID" arrow>
-            {isEditing ? (
-              <TextField
-                id="standard-basic"
-                // label="Rename Key ID"
-                variant="standard"
-                value={keyId}
-                onChange={handleKeyIdChange}
-                onBlur={handleRenameClick}
-                onKeyDown={handleKeyDown}
-                autoFocus
-              />
-            ) : (
-              <Typography variant="body1">{keyId || "No account"}</Typography>
-            )}
-          </Tooltip>
-        </Grid>
-        <Grid item xs={1}>
+    <Stack direction="row" justifyContent="space-between">
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Tooltip title="Key ID" arrow>
+          {isEditing ? (
+            <TextField
+              id="standard-basic"
+              variant="standard"
+              value={keyId}
+              onChange={handleKeyIdChange}
+              onBlur={handleRenameClick}
+              onKeyDown={handleKeyDown}
+              autoFocus
+            />
+          ) : (
+            <Typography variant="body1">{keyId || "No account"}</Typography>
+          )}
+        </Tooltip>
+        <Tooltip title="Edit Key ID" arrow>
           <IconButton color="primary" onClick={handleRenameClick}>
             <FontAwesomeIcon icon={isEditing ? faCheck : faEdit} />
           </IconButton>
-        </Grid>
-        <Grid item xs sx={{ alignContent: "center" }}>
-          <Tooltip title="Ethereum Address" arrow>
-            <Typography variant="body1">
-              {account
-                ? formatEthereumAddress(account.address)
-                : "No address found"}
-            </Typography>
-          </Tooltip>
-        </Grid>
-
-        <Grid item xs={1}>
-          <Tooltip title="Copy Address" arrow>
-            <IconButton
-              color="primary"
-              onClick={onCopyClick}
-              className="copy-button"
-            >
-              <FontAwesomeIcon icon={faCopy} />
-            </IconButton>
-          </Tooltip>
-        </Grid>
-        <Grid item xs={1}>
-          <Tooltip title="Share Address" arrow>
-            <IconButton
-              color="primary"
-              onClick={onShareClick}
-              className="share-button"
-            >
-              <FontAwesomeIcon icon={faQrcode} />
-            </IconButton>
-          </Tooltip>
-        </Grid>
-      </Grid>
-    </Container>
+        </Tooltip>
+      </Stack>
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Tooltip title="Ethereum Address" arrow>
+          <Typography variant="body1">
+            {account
+              ? formatEthereumAddress(account.address)
+              : "No address found"}
+          </Typography>
+        </Tooltip>
+        <Tooltip title="Copy Address" arrow>
+          <IconButton
+            color="primary"
+            onClick={onCopyClick}
+            className="copy-button"
+          >
+            <FontAwesomeIcon icon={faCopy} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Share Address" arrow>
+          <IconButton
+            color="primary"
+            onClick={onShareClick}
+            className="share-button"
+          >
+            <FontAwesomeIcon icon={faQrcode} />
+          </IconButton>
+        </Tooltip>
+      </Stack>
+    </Stack>
   );
 };
 

@@ -141,12 +141,14 @@ const WalletDashboardContent: React.FC = () => {
         }
       />
 
-      <AccountInfo
-        account={account}
-        onCopyClick={handleCopyClick}
-        onShareClick={handleShareAddressClick}
-        onRenameKeyId={handleRenameKeyId}
-      />
+      <CardContent>
+        <AccountInfo
+          account={account}
+          onCopyClick={handleCopyClick}
+          onShareClick={handleShareAddressClick}
+          onRenameKeyId={handleRenameKeyId}
+        />
+      </CardContent>
       <CardContent>
         <NetworkSelector
           networks={testNetworks}
