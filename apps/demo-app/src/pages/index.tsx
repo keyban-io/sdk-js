@@ -149,12 +149,15 @@ const WalletDashboardContent: React.FC = () => {
           onRenameKeyId={handleRenameKeyId}
         />
       </CardContent>
+
       <CardContent>
         <NetworkSelector
           networks={testNetworks}
           selectedNetworkId={selectedNetworkId}
           onSelectNetwork={handleSelectNetwork}
         />
+      </CardContent>
+      <CardContent>
         <EnvSelector
           envs={testEnvs}
           selectedEnvId={selectedEnvId}

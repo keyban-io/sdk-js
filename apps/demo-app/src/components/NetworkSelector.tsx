@@ -1,6 +1,5 @@
-import React from "react";
-import styled from "@emotion/styled";
-import { Tooltip } from "@mui/material";
+import type React from "react";
+import { Select, MenuItem, FormControl, FormHelperText } from "@mui/material";
 
 interface Network {
   id: string;
@@ -13,57 +12,28 @@ interface NetworkSelectorProps {
   onSelectNetwork: (networkId: string) => void;
 }
 
-const SelectorContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: var(--container-background-color);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  margin-bottom: 20px; /* Espacement des éléments */
-`;
-
-const Label = styled.label`
-  margin-right: 10px;
-  font-size: 1em;
-  color: var(--primary);
-`;
-
-const Select = styled.select`
-  padding: 5px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  background-color: #fff;
-  color: var(--primary);
-  outline: none;
-
-  &:focus {
-    border-color: var(--primary-hover-color);
-  }
-`;
-
 const NetworkSelector: React.FC<NetworkSelectorProps> = ({
   networks,
   selectedNetworkId,
   onSelectNetwork,
 }) => {
   return (
-    <SelectorContainer>
-      <Tooltip title="Select Network" arrow>
-        <Label htmlFor="network-select">Network:</Label>
-      </Tooltip>
+    <FormControl fullWidth size="small">
       <Select
+        variant="standard"
         id="network-select"
+        label="Network"
         value={selectedNetworkId}
         onChange={(e) => onSelectNetwork(e.target.value)}
       >
         {networks.map((network) => (
-          <option key={network.id} value={network.id}>
+          <MenuItem key={network.id} value={network.id}>
             {network.name}
-          </option>
+          </MenuItem>
         ))}
       </Select>
-    </SelectorContainer>
+      <FormHelperText>Network</FormHelperText>
+    </FormControl>
   );
 };
 
