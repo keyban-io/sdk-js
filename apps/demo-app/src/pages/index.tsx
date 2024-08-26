@@ -24,13 +24,7 @@ import {
 } from "../lib/testData";
 import Modal from "@/components/Modal";
 import { useErrorBoundary } from "react-error-boundary";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  IconButton,
-  Button,
-} from "@mui/material";
+import { Stack, Typography, IconButton, Button } from "@mui/material";
 
 const CopyHint = styled.div`
   position: absolute;
@@ -131,60 +125,40 @@ const WalletDashboardContent: React.FC = () => {
   }
 
   return (
-    <Card>
-      <CardHeader
-        title="Keyban WAAS Demo"
-        action={
-          <IconButton color="primary">
-            <FontAwesomeIcon icon={faBell} />
-          </IconButton>
-        }
-      />
-
-      <CardContent>
+    <Stack>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography variant="h4">Keyban WAAS Demo</Typography>
+        <IconButton color="primary">
+          <FontAwesomeIcon icon={faBell} />
+        </IconButton>
+      </Stack>
+      <Stack spacing={2}>
         <AccountInfo
           account={account}
           onCopyClick={handleCopyClick}
           onShareClick={handleShareAddressClick}
           onRenameKeyId={handleRenameKeyId}
         />
-      </CardContent>
-
-      <CardContent>
         <NetworkSelector
           networks={testNetworks}
           selectedNetworkId={selectedNetworkId}
           onSelectNetwork={handleSelectNetwork}
         />
-      </CardContent>
-      <CardContent>
         <EnvSelector
           envs={testEnvs}
           selectedEnvId={selectedEnvId}
           onSelectEnv={handleSelectEnv}
         />
-      </CardContent>
-
-      <CardContent>
         <BalanceInfo
           balance={balance}
           euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
           onSend={handleTransferCrypto}
           onRefreshBalance={refreshBalance}
         />
-      </CardContent>
-
-      <CardContent>
         <NFTSection nfts={testNFTs} />
-      </CardContent>
-
-      <CardContent>
         <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
-      </CardContent>
-
-      <CardContent>
         <TransactionList transactions={testTransactions} />
-        <Button type="button">Transaction History</Button>
+        <Button variant="contained">Transaction History</Button>
         {hintVisible && (
           <CopyHint
             style={{ top: hintPosition.y - 20, left: hintPosition.x + 10 }}
@@ -192,12 +166,12 @@ const WalletDashboardContent: React.FC = () => {
             Copied!
           </CopyHint>
         )}
-      </CardContent>
+      </Stack>
 
       <Modal show={showModal} onClose={handleCloseModal} title="Send Crypto">
         <p>Send functionality coming soon!</p>
       </Modal>
-    </Card>
+    </Stack>
   );
 };
 
