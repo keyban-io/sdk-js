@@ -170,10 +170,8 @@ const WalletDashboardContent: React.FC = () => {
           balance={balance}
           euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
           onSend={handleTransferCrypto}
+          onRefreshBalance={refreshBalance}
         />
-        <Button variant="contained" onClick={refreshBalance}>
-          refresh
-        </Button>
       </CardContent>
 
       <CardContent>
