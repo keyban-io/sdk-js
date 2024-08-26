@@ -24,27 +24,13 @@ import {
 } from "../lib/testData";
 import Modal from "@/components/Modal";
 import { useErrorBoundary } from "react-error-boundary";
-import { Card, CardContent, CardHeader, IconButton } from "@mui/material";
-
-const Button = styled.button`
-  margin: 10px;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  cursor: pointer;
-  display: block;
-  margin: 20px auto;
-
-  &:hover {
-    background-color: var(--primary-hover-color);
-  }
-
-  .fa {
-    margin-left: 5px;
-  }
-`;
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
+  Button,
+} from "@mui/material";
 
 const CopyHint = styled.div`
   position: absolute;
@@ -86,7 +72,11 @@ const WalletDashboardContent: React.FC = () => {
   useEffect(() => {
     fetchMaticToEuroRate()
       .then(setMaticToEuroRate)
-      .catch((error) => showBoundary(error))
+      .catch((error) => {
+        if (error.message === "Failed to fetch") {
+          console.error("Failed to fetch Matic to Euro rate");
+        } else showBoundary(error);
+      })
       .finally(() => setLoading(false));
   }, [showBoundary]);
 
@@ -150,15 +140,13 @@ const WalletDashboardContent: React.FC = () => {
           </IconButton>
         }
       />
-      <CardContent>
-        <AccountInfo
-          account={account}
-          onCopyClick={handleCopyClick}
-          onShareClick={handleShareAddressClick}
-          onRenameKeyId={handleRenameKeyId}
-        />
-      </CardContent>
 
+      <AccountInfo
+        account={account}
+        onCopyClick={handleCopyClick}
+        onShareClick={handleShareAddressClick}
+        onRenameKeyId={handleRenameKeyId}
+      />
       <CardContent>
         <NetworkSelector
           networks={testNetworks}
@@ -178,7 +166,9 @@ const WalletDashboardContent: React.FC = () => {
           euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
           onSend={handleTransferCrypto}
         />
-        <button onClick={refreshBalance}>refresh</button>
+        <Button variant="contained" onClick={refreshBalance}>
+          refresh
+        </Button>
       </CardContent>
 
       <CardContent>
