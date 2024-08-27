@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import type React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   KeybanChain,
   useKeybanAccount,
@@ -9,7 +9,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
-import Loading from "@/components/Loading";
 import styled from "@emotion/styled";
 import TransactionList from "../components/TransactionList";
 import AccountInfo from "../components/AccountInfo";
@@ -27,7 +26,13 @@ import {
 } from "../lib/testData";
 import Modal from "@/components/Modal";
 import { useErrorBoundary } from "react-error-boundary";
-import { Stack, Typography, IconButton, Button } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  IconButton,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 
 const CopyHint = styled.div`
   position: absolute;
@@ -124,7 +129,7 @@ const WalletDashboardContent: React.FC = () => {
   };
 
   if (loading) {
-    return <Loading />;
+    return <CircularProgress />;
   }
 
   return (

@@ -1,9 +1,8 @@
-import { Container } from "@mui/material";
+import { CircularProgress, Container, Stack, Typography } from "@mui/material";
 import React from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "@/components/ErrorFallback";
-import Loading from "@/components/Loading";
 
 const mapFilepath = (filepath: string) =>
   filepath
@@ -21,9 +20,22 @@ const pages = Object.entries(
 const router = createBrowserRouter([
   {
     element: React.createElement(() => (
-      <Container fixed sx={{ py: [2, 3] }}>
+      <Container maxWidth="md">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <React.Suspense fallback={<Loading />}>
+          <React.Suspense
+            fallback={
+              <Stack
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
+              >
+                <CircularProgress />
+                <Typography variant="h6">Loading...</Typography>
+              </Stack>
+            }
+          >
             <Outlet />
           </React.Suspense>
         </ErrorBoundary>

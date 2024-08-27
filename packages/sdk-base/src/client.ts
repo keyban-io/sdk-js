@@ -34,6 +34,9 @@ export type KeybanClientConfig = {
   storage: new () => KeybanStorage;
 };
 
+/**
+ * @see {@link userKeybanClient}
+ */
 export class KeybanClient {
   chain: KeybanChain;
   chainUrl?: string;

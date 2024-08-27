@@ -11,6 +11,9 @@ import type { KeybanClient } from "~/client";
  * @param client - The Keyban client to use for formatting.
  * @param balance - The balance as a bigint.
  * @returns The formatted balance as a string.
+ *
+ * @see {@link KeybanClient}
+ * @see {@link useKeybanClient}
  */
 export function formatBalance(client: KeybanClient, balance: bigint) {
   const { decimals, symbol } = chains[client.chain].nativeCurrency;
