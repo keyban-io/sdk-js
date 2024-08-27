@@ -56,17 +56,6 @@ export const testTransactions = [
   },
 ];
 
-export const testNetworks = [
-  {
-    id: "1",
-    name: "Polygon Amoy Testnet",
-  },
-  {
-    id: "2",
-    name: "Polygon",
-  },
-];
-
 export const testEnvs = [
   {
     id: "1",

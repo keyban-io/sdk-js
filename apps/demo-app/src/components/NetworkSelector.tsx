@@ -1,21 +1,15 @@
 import type React from "react";
+import { KeybanChain } from "@keyban/sdk-base"; // Import the KeybanChain type from the correct module
 import { Select, MenuItem, FormControl, FormHelperText } from "@mui/material";
 
-interface Network {
-  id: string;
-  name: string;
-}
-
 interface NetworkSelectorProps {
-  networks: Network[];
-  selectedNetworkId: string;
-  onSelectNetwork: (networkId: string) => void;
+  selectedChainId: KeybanChain;
+  onSelectChain: (chainId: KeybanChain) => void;
 }
 
 const NetworkSelector: React.FC<NetworkSelectorProps> = ({
-  networks,
-  selectedNetworkId,
-  onSelectNetwork,
+  selectedChainId,
+  onSelectChain,
 }) => {
   return (
     <FormControl fullWidth size="small">
@@ -23,12 +17,12 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
         variant="standard"
         id="network-select"
         label="Network"
-        value={selectedNetworkId}
-        onChange={(e) => onSelectNetwork(e.target.value)}
+        value={selectedChainId}
+        onChange={(e) => onSelectChain(e.target.value as KeybanChain)}
       >
-        {networks.map((network) => (
-          <MenuItem key={network.id} value={network.id}>
-            {network.name}
+        {Object.values(KeybanChain).map((chain) => (
+          <MenuItem key={chain} value={chain}>
+            {chain}
           </MenuItem>
         ))}
       </Select>

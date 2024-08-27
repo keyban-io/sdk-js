@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
+import {
+  KeybanChain,
+  useKeybanAccount,
+  useKeybanAccountBalance,
+} from "@keyban/sdk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
@@ -18,7 +22,6 @@ import CryptoSection from "../components/CryptoSection";
 import {
   testNFTs,
   testTransactions,
-  testNetworks,
   testEnvs,
   testCryptos,
 } from "../lib/testData";
@@ -57,8 +60,8 @@ const WalletDashboardContent: React.FC = () => {
 
   const [maticToEuroRate, setMaticToEuroRate] = useState<number>(0);
 
-  const [selectedNetworkId, setSelectedNetworkId] = useState(
-    testNetworks[0].id,
+  const [selectedChainId, setSelectedChainId] = useState(
+    KeybanChain.polygonAmoy,
   );
   const [selectedEnvId, setSelectedEnvId] = useState(testEnvs[0].id);
   const [showModal, setShowModal] = useState(false);
@@ -90,8 +93,8 @@ const WalletDashboardContent: React.FC = () => {
     }
   };
 
-  const handleSelectNetwork = (networkId: string) => {
-    setSelectedNetworkId(networkId);
+  const handleSelectChain = (chainId: KeybanChain) => {
+    setSelectedChainId(chainId);
   };
 
   const handleSelectEnv = (envId: string) => {
@@ -140,9 +143,8 @@ const WalletDashboardContent: React.FC = () => {
           onRenameKeyId={handleRenameKeyId}
         />
         <NetworkSelector
-          networks={testNetworks}
-          selectedNetworkId={selectedNetworkId}
-          onSelectNetwork={handleSelectNetwork}
+          selectedChainId={selectedChainId}
+          onSelectChain={handleSelectChain}
         />
         <EnvSelector
           envs={testEnvs}
