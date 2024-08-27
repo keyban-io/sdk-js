@@ -1,5 +1,12 @@
 import type React from "react";
-import styled from "@emotion/styled";
+import {
+  Stack,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Typography,
+} from "@mui/material";
 
 interface NFT {
   id: string;
@@ -11,54 +18,33 @@ interface NFTSectionProps {
   nfts: NFT[];
 }
 
-const NFTContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem;
-`;
-
-const NFTCard = styled.div`
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  width: 200px;
-
-  &:hover {
-    transform: scale(1.05);
-    background-color: #f9f9f9;
-  }
-`;
-
-const NFTImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-`;
-
-const NFTDetails = styled.div`
-  padding: 0.5rem;
-`;
-
-const NFTName = styled.h3`
-  font-size: 1em;
-  margin: 0;
-  color: var(--primary);
-`;
-
 const NFTSection: React.FC<NFTSectionProps> = ({ nfts }) => {
+  const rows = Math.ceil(nfts.length / 3);
+
   return (
-    <NFTContainer>
-      {nfts.map((nft) => (
-        <NFTCard key={nft.id}>
-          <NFTImage src={nft.imageUrl} alt={nft.name} />
-          <NFTDetails>
-            <NFTName>{nft.name}</NFTName>
-          </NFTDetails>
-        </NFTCard>
+    <Stack spacing={2} alignItems="center">
+      {Array.from({ length: rows }).map((_, rowIndex) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+        <Stack key={rowIndex} direction="row" spacing={2}>
+          {nfts.slice(rowIndex * 3, rowIndex * 3 + 3).map((nft) => (
+            <Card key={nft.id} sx={{ maxWidth: 200 }}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  image={nft.imageUrl}
+                  alt={nft.name}
+                />
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {nft.name}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))}
+        </Stack>
       ))}
-    </NFTContainer>
+    </Stack>
   );
 };
 

@@ -19,6 +19,11 @@ export const testNFTs = [
     name: "NFT Artwork 4",
     imageUrl: "https://via.placeholder.com/200x200.png?text=NFT+4",
   },
+  {
+    id: "5",
+    name: "NFT Artwork 5",
+    imageUrl: "https://via.placeholder.com/200x200.png?text=NFT+5",
+  },
 ];
 
 export const testTransactions = [
