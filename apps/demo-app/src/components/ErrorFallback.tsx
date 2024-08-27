@@ -1,7 +1,12 @@
-import { FallbackProps } from "react-error-boundary";
-import { Alert, AlertTitle, IconButton } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import type { FallbackProps } from 'react-error-boundary';
+
+import { faRefresh } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Alert,
+  AlertTitle,
+  IconButton,
+} from '@mui/material';
 
 export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (

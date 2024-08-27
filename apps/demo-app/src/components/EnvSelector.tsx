@@ -1,5 +1,11 @@
-import React from "react";
-import { Select, MenuItem, FormControl, FormHelperText } from "@mui/material";
+import type React from 'react';
+
+import {
+  FormControl,
+  FormHelperText,
+  MenuItem,
+  Select,
+} from '@mui/material';
 
 interface Env {
   id: string;

@@ -1,11 +1,12 @@
-import type React from "react";
+import type React from 'react';
+
+import { AppRouter } from '@/lib/router';
 import {
   KeybanChain,
   KeybanLocalStorage,
   KeybanProvider,
   KeybanSigner,
-} from "@keyban/sdk-react";
-import { AppRouter } from "@/lib/router";
+} from '@keyban/sdk-react';
 
 const App: React.FC = () => {
   return (

@@ -1,4 +1,8 @@
-import type { Chain, PublicClient, Transport } from "viem";
+import type {
+  Chain,
+  PublicClient,
+  Transport,
+} from 'viem';
 import {
   createPublicClient,
   createWalletClient,
@@ -8,17 +12,22 @@ import {
   keccak256,
   parseSignature,
   serializeTransaction,
-} from "viem";
-import { publicKeyToAddress, toAccount } from "viem/accounts";
-import * as chains from "viem/chains";
-
-import { KeybanAccount } from "~/account";
-import { KeybanApiStatus } from "~/api";
-import { KeybanChain } from "~/chains";
-import { KeybanBaseError, StorageError } from "~/errors";
-import { Address } from "~/index";
-import type { KeybanSigner } from "~/signer";
-import type { KeybanStorage } from "~/storage";
+} from 'viem';
+import {
+  publicKeyToAddress,
+  toAccount,
+} from 'viem/accounts';
+import * as chains from 'viem/chains';
+import { KeybanAccount } from '~/account';
+import { KeybanApiStatus } from '~/api';
+import { KeybanChain } from '~/chains';
+import {
+  KeybanBaseError,
+  StorageError,
+} from '~/errors';
+import { Address } from '~/index';
+import type { KeybanSigner } from '~/signer';
+import type { KeybanStorage } from '~/storage';
 
 /**
  * Configuration object for the Keyban client.

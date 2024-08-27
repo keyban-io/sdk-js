@@ -1,12 +1,13 @@
-import type React from "react";
+import type React from 'react';
+
 import {
-  Stack,
   Card,
   CardActionArea,
-  CardMedia,
   CardContent,
+  CardMedia,
+  Stack,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 interface NFT {
   id: string;

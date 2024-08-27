@@ -1,14 +1,18 @@
-import "@fontsource/outfit/300.css";
-import "@fontsource/outfit/400.css";
-import "@fontsource/outfit/500.css";
-import "@fontsource/outfit/700.css";
+import '@fontsource/outfit/300.css';
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/700.css';
 
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import React from 'react';
 
-import App from "@/App.tsx";
+import ReactDOM from 'react-dom/client';
+
+import App from '@/App.tsx';
+import CssBaseline from '@mui/material/CssBaseline';
+import {
+  createTheme,
+  ThemeProvider,
+} from '@mui/material/styles';
 
 // Créer un thème personnalisé avec la police "Outfit"
 const theme = createTheme({

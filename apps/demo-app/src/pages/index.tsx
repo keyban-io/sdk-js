@@ -1,38 +1,43 @@
-import type React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import type React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
+
+import { useErrorBoundary } from 'react-error-boundary';
+import { useNavigate } from 'react-router-dom';
+
+import Modal from '@/components/Modal';
+import { fetchMaticToEuroRate } from '@/utils/apiUtils';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   KeybanChain,
   useKeybanAccount,
   useKeybanAccountBalance,
-} from "@keyban/sdk-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
-import { fetchMaticToEuroRate } from "@/utils/apiUtils";
-import TransactionList from "../components/TransactionList";
-import AccountInfo from "../components/AccountInfo";
-import NetworkSelector from "../components/NetworkSelector";
-import EnvSelector from "../components/EnvSelector";
-import BalanceInfo from "../components/BalanceInfo";
-import NFTSection from "../components/NFTSection";
-import CryptoSection from "../components/CryptoSection";
-
+} from '@keyban/sdk-react';
 import {
-  testNFTs,
-  testTransactions,
-  testEnvs,
-  testCryptos,
-} from "../lib/testData";
-import Modal from "@/components/Modal";
-import { useErrorBoundary } from "react-error-boundary";
-import {
-  Stack,
-  Typography,
-  IconButton,
   Button,
   CircularProgress,
   Divider,
-} from "@mui/material";
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
+
+import AccountInfo from '../components/AccountInfo';
+import BalanceInfo from '../components/BalanceInfo';
+import CryptoSection from '../components/CryptoSection';
+import EnvSelector from '../components/EnvSelector';
+import NetworkSelector from '../components/NetworkSelector';
+import NFTSection from '../components/NFTSection';
+import TransactionList from '../components/TransactionList';
+import {
+  testCryptos,
+  testEnvs,
+  testNFTs,
+  testTransactions,
+} from '../lib/testData';
 
 const keyId = "my-ecdsa-key";
 

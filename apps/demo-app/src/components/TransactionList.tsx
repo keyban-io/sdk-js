@@ -1,15 +1,16 @@
-import type React from "react";
+import type React from 'react';
+
 import {
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Tooltip,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 interface Transaction {
   date: string;
@@ -41,6 +42,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
         <TableBody>
           {transactions.map((transaction, index) => (
             <TableRow
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={index}
               hover
               sx={{

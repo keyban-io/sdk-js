@@ -1,8 +1,19 @@
-import { CircularProgress, Container, Stack, Typography } from "@mui/material";
-import React from "react";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "@/components/ErrorFallback";
+import React from 'react';
+
+import { ErrorBoundary } from 'react-error-boundary';
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+} from 'react-router-dom';
+
+import { ErrorFallback } from '@/components/ErrorFallback';
+import {
+  CircularProgress,
+  Container,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 const mapFilepath = (filepath: string) =>
   filepath

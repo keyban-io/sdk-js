@@ -1,23 +1,37 @@
-import type React from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import type React from 'react';
+import { useState } from 'react';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from 'react-router-dom';
+
+import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
 import {
-  faCopy,
-  faQrcode,
-  faEdit,
   faCheck,
-} from "@fortawesome/free-solid-svg-icons";
-import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
+  faCopy,
+  faEdit,
+  faQrcode,
+  faSliders,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useKeybanAccount } from '@keyban/sdk-react';
 import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Stack,
+  TextField,
   Tooltip,
   Typography,
-  IconButton,
-  TextField,
-  Stack,
-} from "@mui/material";
-import { useKeybanAccount } from "@keyban/sdk-react";
+} from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
 
 interface AccountInfoProps {
   keyId: string;
@@ -25,6 +39,7 @@ interface AccountInfoProps {
 
 const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [account, accountError] = useKeybanAccount(keyId, {
     suspense: true,
@@ -57,6 +72,25 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
     }
   };
 
+  const [age, setAge] = useState<number | string>("");
+
+  const handleChange = (event: SelectChangeEvent<typeof age>) => {
+    setAge(Number(event.target.value) || "");
+  };
+
+  const handleOpenAdvancedOption = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    _event: React.SyntheticEvent<unknown>,
+    reason?: string,
+  ) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
+
   return (
     <Stack direction="row" justifyContent="space-between">
       <Stack direction="row" spacing={1} alignItems="center">
@@ -76,7 +110,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
           )}
         </Tooltip>
         <Tooltip title="Edit Key ID" arrow>
-          <IconButton color="primary" onClick={handleRenameClick}>
+          <IconButton color="primary" size="small" onClick={handleRenameClick}>
             <FontAwesomeIcon icon={isEditing ? faCheck : faEdit} />
           </IconButton>
         </Tooltip>
@@ -90,23 +124,71 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
           </Typography>
         </Tooltip>
         <Tooltip title="Copy Address" arrow>
-          <IconButton
-            color="primary"
-            onClick={handleCopyClick}
-            className="copy-button"
-          >
+          <IconButton color="primary" size="small" onClick={handleCopyClick}>
             <FontAwesomeIcon icon={faCopy} />
           </IconButton>
         </Tooltip>
         <Tooltip title="Share Address" arrow>
           <IconButton
             color="primary"
+            size="small"
             onClick={handleShareAddressClick}
-            className="share-button"
           >
             <FontAwesomeIcon icon={faQrcode} />
           </IconButton>
         </Tooltip>
+        <Tooltip title="Advanced options" arrow>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={handleOpenAdvancedOption}
+          >
+            <FontAwesomeIcon icon={faSliders} />
+          </IconButton>
+        </Tooltip>
+
+        <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+          <DialogTitle>Fill the form</DialogTitle>
+          <DialogContent>
+            <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel htmlFor="demo-dialog-native">Age</InputLabel>
+                <Select
+                  native
+                  value={age}
+                  onChange={handleChange}
+                  input={<OutlinedInput label="Age" id="demo-dialog-native" />}
+                >
+                  <option aria-label="None" value="" />
+                  <option value={10}>Ten</option>
+                  <option value={20}>Twenty</option>
+                  <option value={30}>Thirty</option>
+                </Select>
+              </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-dialog-select-label">Age</InputLabel>
+                <Select
+                  labelId="demo-dialog-select-label"
+                  id="demo-dialog-select"
+                  value={age}
+                  onChange={handleChange}
+                  input={<OutlinedInput label="Age" />}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Ok</Button>
+          </DialogActions>
+        </Dialog>
       </Stack>
     </Stack>
   );

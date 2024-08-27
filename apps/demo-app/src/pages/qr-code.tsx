@@ -1,9 +1,19 @@
-import type React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import QRCode from "qrcode.react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
-import { Stack, Typography, IconButton, Button } from "@mui/material";
+import type React from 'react';
+
+import QRCode from 'qrcode.react';
+import {
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
+
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Button,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 const QRCodePage: React.FC = () => {
   const navigate = useNavigate();

@@ -1,8 +1,14 @@
-import React from "react";
-import { IconButton } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { Stack, Typography, Card, CardContent } from "@mui/material";
+import type React from 'react';
+
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Card,
+  CardContent,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 interface Crypto {
   name: string;
