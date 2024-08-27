@@ -9,7 +9,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
-import styled from "@emotion/styled";
 import TransactionList from "../components/TransactionList";
 import AccountInfo from "../components/AccountInfo";
 import NetworkSelector from "../components/NetworkSelector";
@@ -34,15 +33,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-const CopyHint = styled.div`
-  position: absolute;
-  background-color: var(--primary);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 0.8em;
-`;
-
 const keyId = "my-ecdsa-key";
 
 const WalletDashboardContent: React.FC = () => {
@@ -57,11 +47,6 @@ const WalletDashboardContent: React.FC = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const { showBoundary } = useErrorBoundary();
-  const [hintVisible, setHintVisible] = useState<boolean>(false);
-  const [hintPosition, setHintPosition] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
 
   const [maticToEuroRate, setMaticToEuroRate] = useState<number>(0);
 
@@ -81,22 +66,6 @@ const WalletDashboardContent: React.FC = () => {
       })
       .finally(() => setLoading(false));
   }, [showBoundary]);
-
-  const handleShareAddressClick = () => {
-    navigate(`/qr-code?address=${account?.address}`);
-  };
-
-  const handleCopyClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (account?.address) {
-      navigator.clipboard.writeText(account.address);
-      const buttonRect = event.currentTarget.getBoundingClientRect();
-      setHintPosition({ x: buttonRect.right, y: buttonRect.top });
-      setHintVisible(true);
-      setTimeout(() => {
-        setHintVisible(false);
-      }, 2000); // Hint will disappear after 2 seconds
-    }
-  };
 
   const handleSelectChain = (chainId: KeybanChain) => {
     setSelectedChainId(chainId);
@@ -122,12 +91,6 @@ const WalletDashboardContent: React.FC = () => {
     setShowModal(false);
   };
 
-  const handleRenameKeyId = (newKeyId: string) => {
-    if (account) {
-      console.warn(`Renaming Key ID ${newKeyId} is not implemented.`);
-    }
-  };
-
   if (loading) {
     return <CircularProgress />;
   }
@@ -141,12 +104,7 @@ const WalletDashboardContent: React.FC = () => {
         </IconButton>
       </Stack>
       <Stack spacing={2}>
-        <AccountInfo
-          account={account}
-          onCopyClick={handleCopyClick}
-          onShareClick={handleShareAddressClick}
-          onRenameKeyId={handleRenameKeyId}
-        />
+        <AccountInfo keyId={keyId} />
         <NetworkSelector
           selectedChainId={selectedChainId}
           onSelectChain={handleSelectChain}
@@ -166,13 +124,6 @@ const WalletDashboardContent: React.FC = () => {
         <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
         <TransactionList transactions={testTransactions} />
         <Button variant="contained">Transaction History</Button>
-        {hintVisible && (
-          <CopyHint
-            style={{ top: hintPosition.y - 20, left: hintPosition.x + 10 }}
-          >
-            Copied!
-          </CopyHint>
-        )}
       </Stack>
 
       <Modal show={showModal} onClose={handleCloseModal} title="Send Crypto">

@@ -1,5 +1,7 @@
 import type React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCopy,
@@ -15,35 +17,30 @@ import {
   TextField,
   Stack,
 } from "@mui/material";
+import { useKeybanAccount } from "@keyban/sdk-react";
 
 interface AccountInfoProps {
-  account?: AccountType;
-  onCopyClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  onShareClick: () => void;
-  onRenameKeyId: (newKeyId: string) => void;
+  keyId: string;
 }
 
-type AccountType = {
-  keyId: string;
-  address: string;
-};
-
-const AccountInfo: React.FC<AccountInfoProps> = ({
-  account,
-  onCopyClick,
-  onShareClick,
-  onRenameKeyId,
-}) => {
+const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [keyId, setKeyId] = useState(account?.keyId || "");
+  const [account, accountError] = useKeybanAccount(keyId, {
+    suspense: true,
+  });
+  if (accountError) throw accountError;
 
-  const handleKeyIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyId(e.target.value);
+  const handleShareAddressClick = () => {
+    navigate(`/qr-code?address=${account?.address}`);
+  };
+  const handleKeyIdChange = () => {
+    console.log("Key edition is still not implemented");
   };
 
   const handleRenameClick = () => {
     if (isEditing) {
-      onRenameKeyId(keyId);
+      console.log("Key edition is still not implemented");
     }
     setIsEditing(!isEditing);
   };
@@ -51,6 +48,12 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleRenameClick();
+    }
+  };
+
+  const handleCopyClick = () => {
+    if (account?.address) {
+      navigator.clipboard.writeText(account.address);
     }
   };
 
@@ -89,7 +92,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
         <Tooltip title="Copy Address" arrow>
           <IconButton
             color="primary"
-            onClick={onCopyClick}
+            onClick={handleCopyClick}
             className="copy-button"
           >
             <FontAwesomeIcon icon={faCopy} />
@@ -98,7 +101,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({
         <Tooltip title="Share Address" arrow>
           <IconButton
             color="primary"
-            onClick={onShareClick}
+            onClick={handleShareAddressClick}
             className="share-button"
           >
             <FontAwesomeIcon icon={faQrcode} />
