@@ -31,6 +31,7 @@ import {
   IconButton,
   Button,
   CircularProgress,
+  Divider,
 } from "@mui/material";
 
 const keyId = "my-ecdsa-key";
@@ -120,13 +121,21 @@ const WalletDashboardContent: React.FC = () => {
           onSend={handleTransferCrypto}
           onRefreshBalance={refreshBalance}
         />
+        <Divider />
         <NFTSection nfts={testNFTs} />
+        <Divider />
         <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
+        <Divider />
+
         <TransactionList transactions={testTransactions} />
         <Button variant="contained">Transaction History</Button>
       </Stack>
 
-      <Modal show={showModal} onClose={handleCloseModal} title="Send Crypto">
+      <Modal
+        show={showModal}
+        onClose={handleCloseModal}
+        title="Send non native crypto"
+      >
         <p>Send functionality coming soon!</p>
       </Modal>
     </Stack>
