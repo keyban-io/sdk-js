@@ -30,7 +30,7 @@ const QRCodePage: React.FC = () => {
       >
         <Typography variant="h6">
           {address
-            ? "Share this address with your friends scan the QR code."
+            ? "Share this QR code with your friends so they can easily access your address."
             : null}
         </Typography>
         <Typography variant="body1">
