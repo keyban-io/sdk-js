@@ -82,7 +82,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
         </Tooltip>
       </Stack>
       <Stack direction="row" spacing={1} alignItems="center">
-        <Tooltip title="Ethereum Address" arrow>
+        <Tooltip title={account?.address} arrow>
           <Typography variant="body1">
             {account
               ? formatEthereumAddress(account.address)
