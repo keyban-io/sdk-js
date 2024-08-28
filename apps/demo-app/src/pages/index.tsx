@@ -12,7 +12,6 @@ import { fetchMaticToEuroRate } from '@/utils/apiUtils';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  KeybanChain,
   useKeybanAccount,
   useKeybanAccountBalance,
 } from '@keyban/sdk-react';
@@ -28,13 +27,10 @@ import {
 import AccountInfo from '../components/AccountInfo';
 import BalanceInfo from '../components/BalanceInfo';
 import CryptoSection from '../components/CryptoSection';
-import EnvSelector from '../components/EnvSelector';
-import NetworkSelector from '../components/NetworkSelector';
 import NFTSection from '../components/NFTSection';
 import TransactionList from '../components/TransactionList';
 import {
   testCryptos,
-  testEnvs,
   testNFTs,
   testTransactions,
 } from '../lib/testData';
@@ -56,10 +52,6 @@ const WalletDashboardContent: React.FC = () => {
 
   const [maticToEuroRate, setMaticToEuroRate] = useState<number>(0);
 
-  const [selectedChainId, setSelectedChainId] = useState(
-    KeybanChain.polygonAmoy,
-  );
-  const [selectedEnvId, setSelectedEnvId] = useState(testEnvs[0].id);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -72,14 +64,6 @@ const WalletDashboardContent: React.FC = () => {
       })
       .finally(() => setLoading(false));
   }, [showBoundary]);
-
-  const handleSelectChain = (chainId: KeybanChain) => {
-    setSelectedChainId(chainId);
-  };
-
-  const handleSelectEnv = (envId: string) => {
-    setSelectedEnvId(envId);
-  };
 
   const handleTransferCrypto = () => {
     if (account?.keyId) {
@@ -111,15 +95,6 @@ const WalletDashboardContent: React.FC = () => {
       </Stack>
       <Stack spacing={2}>
         <AccountInfo keyId={keyId} />
-        <NetworkSelector
-          selectedChainId={selectedChainId}
-          onSelectChain={handleSelectChain}
-        />
-        <EnvSelector
-          envs={testEnvs}
-          selectedEnvId={selectedEnvId}
-          onSelectEnv={handleSelectEnv}
-        />
         <BalanceInfo
           balance={balance}
           euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
@@ -131,7 +106,6 @@ const WalletDashboardContent: React.FC = () => {
         <Divider />
         <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
         <Divider />
-
         <TransactionList transactions={testTransactions} />
         <Button variant="contained">Transaction History</Button>
       </Stack>

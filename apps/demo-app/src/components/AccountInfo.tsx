@@ -12,26 +12,26 @@ import {
   faSliders,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useKeybanAccount } from '@keyban/sdk-react';
 import {
-  Box,
+  KeybanChain,
+  useKeybanAccount,
+} from '@keyban/sdk-react';
+import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   IconButton,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
   Stack,
   TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
-import type { SelectChangeEvent } from '@mui/material/Select';
+
+import { testEnvs } from '../lib/testData';
+import EnvSelector from './EnvSelector';
+import NetworkSelector from './NetworkSelector';
 
 interface AccountInfoProps {
   keyId: string;
@@ -41,6 +41,10 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedChainId, setSelectedChainId] = useState(
+    KeybanChain.polygonAmoy,
+  );
+  const [selectedEnvId, setSelectedEnvId] = useState(testEnvs[0].id);
   const [account, accountError] = useKeybanAccount(keyId, {
     suspense: true,
   });
@@ -72,12 +76,6 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
     }
   };
 
-  const [age, setAge] = useState<number | string>("");
-
-  const handleChange = (event: SelectChangeEvent<typeof age>) => {
-    setAge(Number(event.target.value) || "");
-  };
-
   const handleOpenAdvancedOption = () => {
     setOpen(true);
   };
@@ -89,6 +87,14 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
     if (reason !== "backdropClick") {
       setOpen(false);
     }
+  };
+
+  const handleSelectChain = (chainId: KeybanChain) => {
+    setSelectedChainId(chainId);
+  };
+
+  const handleSelectEnv = (envId: string) => {
+    setSelectedEnvId(envId);
   };
 
   return (
@@ -148,41 +154,19 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
         </Tooltip>
 
         <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-          <DialogTitle>Fill the form</DialogTitle>
+          <DialogTitle>Advanced options</DialogTitle>
           <DialogContent>
-            <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel htmlFor="demo-dialog-native">Age</InputLabel>
-                <Select
-                  native
-                  value={age}
-                  onChange={handleChange}
-                  input={<OutlinedInput label="Age" id="demo-dialog-native" />}
-                >
-                  <option aria-label="None" value="" />
-                  <option value={10}>Ten</option>
-                  <option value={20}>Twenty</option>
-                  <option value={30}>Thirty</option>
-                </Select>
-              </FormControl>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-dialog-select-label">Age</InputLabel>
-                <Select
-                  labelId="demo-dialog-select-label"
-                  id="demo-dialog-select"
-                  value={age}
-                  onChange={handleChange}
-                  input={<OutlinedInput label="Age" />}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+            <Stack>
+              <NetworkSelector
+                selectedChainId={selectedChainId}
+                onSelectChain={handleSelectChain}
+              />
+              <EnvSelector
+                envs={testEnvs}
+                selectedEnvId={selectedEnvId}
+                onSelectEnv={handleSelectEnv}
+              />
+            </Stack>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
