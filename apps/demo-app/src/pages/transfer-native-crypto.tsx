@@ -126,7 +126,7 @@ Balance: ${formatBalance(client, balance)}`}
         <Button
           variant="contained"
           onClick={handleTransfer}
-          disabled={!!(isTransferring || error || transactionHash)}
+          disabled={!!(isTransferring || error || transactionHash || recipient === "" || amount === "")}
           sx={buttonSx}
         >
           Send POL
