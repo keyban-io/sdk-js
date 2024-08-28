@@ -37,7 +37,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
 export function KeybanProvider({ children, ...config }: KeybanProviderProps) {
   const client = React.useMemo(
     () => new KeybanClient(config),
-    [Object.values(config)],
+    Object.values(config),
   );
 
   return (

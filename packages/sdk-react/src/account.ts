@@ -1,41 +1,21 @@
 import { KeybanAccount } from "@keyban/sdk-base";
 
 import { useKeybanClient } from "~/provider";
-import {
-  useWrappedPromise,
-  WrappedPromiseResult,
-  WrappedPromiseResultExtra,
-} from "~/promise";
+import { usePromise, UsePromiseOptions } from "~/promise";
 
 /**
  * Fetches the account information for the given keyId.
- *
  */
-export function useKeybanAccount(
+export function useKeybanAccount<B extends boolean>(
   keyId: string,
-  options: { suspense: true },
-): WrappedPromiseResult<KeybanAccount>;
-export function useKeybanAccount(
-  keyId: string,
-  options?: { suspense?: false },
-):
-  | WrappedPromiseResult<KeybanAccount>
-  | [null, null, WrappedPromiseResultExtra];
-
-export function useKeybanAccount(
-  keyId: string,
-  options?: { suspense?: boolean },
+  options?: UsePromiseOptions<B>,
 ) {
   const client = useKeybanClient();
-
-  try {
-    return useWrappedPromise(`account:${keyId}`, () =>
-      client.initialize(keyId),
-    );
-  } catch (suspended) {
-    if (options?.suspense) throw suspended;
-    return [null, null, { refresh: () => {}, isLoading: true }];
-  }
+  return usePromise(
+    `account:${keyId}`,
+    () => client.initialize(keyId),
+    options,
+  );
 }
 
 /**
@@ -48,25 +28,34 @@ export function useKeybanAccount(
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountBalance(
+export function useKeybanAccountBalance<B extends boolean>(
   account: KeybanAccount,
-  options: { suspense: true },
-): WrappedPromiseResult<bigint>;
-export function useKeybanAccountBalance(
-  account: KeybanAccount,
-  options?: { suspense?: false },
-): WrappedPromiseResult<bigint> | [null, null, WrappedPromiseResultExtra];
-
-export function useKeybanAccountBalance(
-  account: KeybanAccount,
-  options?: { suspense?: boolean },
+  options?: UsePromiseOptions<B>,
 ) {
-  try {
-    return useWrappedPromise(`account-balance:${account.keyId}`, () =>
-      account.getBalance(),
-    );
-  } catch (suspended) {
-    if (options?.suspense) throw suspended;
-    return [null, null, { refresh: () => {}, isLoading: true }];
-  }
+  return usePromise(
+    `account-balance:${account.keyId}`,
+    () => account.getBalance(),
+    options,
+  );
+}
+
+/**
+ * Return the native balance of an account.
+ *
+ * @example
+ * ```tsx
+ * const [account, accountError] = useKeybanAccount("keyId");
+ * const [balance, balanceError] = useKeybanAccountTokenBalances(account);
+ * ```
+ * @see {@link useFormattedBalance}
+ */
+export function useKeybanAccountTokenBalances<B extends boolean>(
+  account: KeybanAccount,
+  options?: UsePromiseOptions<B>,
+) {
+  return usePromise(
+    `account-token-balances:${account.keyId}`,
+    () => account.getTokenBalances(),
+    options,
+  );
 }
