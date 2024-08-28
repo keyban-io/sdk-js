@@ -1,39 +1,41 @@
 import type {
   Chain,
   Transport,
-  Account,
   WalletClient,
   PublicClient,
+  LocalAccount,
 } from "viem";
-import { erc20Abi, getContract } from "viem";
-import { Address, Hash, Hex } from "~/index";
+import { Address, Hash, Hex, KeybanClient } from "~/index";
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
-  publicKey: string;
 
+  #client: KeybanClient;
   #publicClient: PublicClient<Transport, Chain>;
-  #walletClient: WalletClient<Transport, Chain, Account>;
+  #walletClient: WalletClient<Transport, Chain, LocalAccount>;
 
   /**
    * @private
    */
   constructor(
     keyId: string,
-    publicKey: string,
+    client: KeybanClient,
     publicClient: PublicClient<Transport, Chain>,
-    walletClient: WalletClient<Transport, Chain, Account>,
+    walletClient: WalletClient<Transport, Chain, LocalAccount>,
   ) {
     this.keyId = keyId;
-    this.publicKey = publicKey;
 
+    this.#client = client;
     this.#publicClient = publicClient;
     this.#walletClient = walletClient;
   }
 
   get address(): Address {
-    this.#walletClient.account.publicKey;
     return this.#walletClient.account.address;
+  }
+
+  get publicKey(): Hex {
+    return this.#walletClient.account.publicKey;
   }
 
   /**
@@ -50,17 +52,33 @@ export class KeybanAccount implements KeybanAccount {
     return this.#publicClient.getBalance({ address: this.address });
   }
 
-  getNonNativeBalance(contractAddress: Address) {
-    const contract = getContract({
-      address: contractAddress,
-      abi: erc20Abi,
-      client: {
-        public: this.#publicClient,
-        wallet: this.#walletClient,
-      },
-    });
+  async getTokenBalances() {
+    type ApiTokenBalance = {
+      token: {
+        address: Address;
+        name: string;
+        symbol: string;
+        decimals: number;
+        icon_url: string | null;
+      };
+      value: string;
+    };
 
-    return contract.read.balanceOf([this.address]);
+    const tokenBalances =
+      (await this.#client.blockscoutRequester<ApiTokenBalance[]>(
+        `/addresses/${this.address}/token-balances`,
+      )) ?? [];
+
+    return tokenBalances.map(({ token, value }) => ({
+      token: {
+        address: token.address,
+        name: token.name,
+        symbol: token.symbol,
+        decimals: token.decimals,
+        iconUrl: token.icon_url,
+      },
+      balance: BigInt(value),
+    }));
   }
 
   /**

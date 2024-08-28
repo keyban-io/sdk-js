@@ -4,7 +4,6 @@ import {
   FormattedBalance,
   useKeybanClient,
   useKeybanApiStatus,
-  KeybanClient,
 } from "@keyban/sdk-react";
 import React from "react";
 import Row from "./components/Row";
@@ -32,27 +31,12 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
   const [transferRecipient, setTransferRecipient] = React.useState("");
   const [txHash, setTxHash] = React.useState("");
 
-  const [tokensBalances, setTokensBalances] = React.useState<
-    [Awaited<ReturnType<KeybanClient["listTokens"]>>[0], bigint][]
+  const [tokenBalances, setTokenBalances] = React.useState<
+    Awaited<ReturnType<KeybanAccount["getTokenBalances"]>>
   >([]);
 
   React.useEffect(() => {
-    if (!account) return;
-
-    client
-      .listTokens()
-      .then((tokens) =>
-        Promise.all(
-          tokens.map((token) =>
-            account
-              .getNonNativeBalance(token.address)
-              .then(
-                (balance) => [token, balance] as (typeof tokensBalances)[0],
-              ),
-          ),
-        ),
-      )
-      .then(setTokensBalances);
+    account?.getTokenBalances().then(setTokenBalances);
   }, [client, account]);
 
   const handleInitDkg = () => {
@@ -255,15 +239,15 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
       <fieldset>
         <legend>Non native currency</legend>
 
-        {tokensBalances.map(([{ address, name, symbol }, balance]) => (
-          <Row key={address}>
-            <span>Balance {name}:</span>
+        {tokenBalances.map(({ token, balance }) => (
+          <Row key={token.address}>
+            <span>Balance {token.name}:</span>
             <SerializedValue
               value={balance}
               style={{ flexGrow: 1 }}
-              data-test-id={`${testId}:raw-balance:${name}`}
+              data-test-id={`${testId}:raw-balance:${token.name}`}
             />
-            <span>{symbol}</span>
+            <span>{token.symbol}</span>
           </Row>
         ))}
       </fieldset>

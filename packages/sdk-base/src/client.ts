@@ -114,49 +114,49 @@ export class KeybanClient {
       });
 
       const publicKey = await this.#signer.publicKey(clientShare);
+      const account = toAccount({
+        address: publicKeyToAddress(publicKey),
+        signMessage: ({ message }) => {
+          const hash = hashMessage(message, "hex");
+          return this.#signer.sign(keyId, clientShare, hash, this.apiUrl);
+        },
+        signTransaction: async (transaction, options) => {
+          const serializer = options?.serializer ?? serializeTransaction;
 
-      const walletClient = createWalletClient({
-        chain: chains[this.chain],
-        transport: http(this.chainUrl),
-        account: toAccount({
-          address: publicKeyToAddress(publicKey),
-          signMessage: ({ message }) => {
-            const hash = hashMessage(message, "hex");
-            return this.#signer.sign(keyId, clientShare, hash, this.apiUrl);
-          },
-          signTransaction: async (transaction, options) => {
-            const serializer = options?.serializer ?? serializeTransaction;
+          // For EIP-4844 Transactions, we want to sign the transaction payload body (tx_payload_body) without the sidecars (ie. without the network wrapper).
+          // See: https://github.com/ethereum/EIPs/blob/e00f4daa66bd56e2dbd5f1d36d09fd613811a48b/EIPS/eip-4844.md#networking
+          const signableTransaction =
+            transaction.type === "eip4844"
+              ? { ...transaction, sidecars: false }
+              : transaction;
 
-            // For EIP-4844 Transactions, we want to sign the transaction payload body (tx_payload_body) without the sidecars (ie. without the network wrapper).
-            // See: https://github.com/ethereum/EIPs/blob/e00f4daa66bd56e2dbd5f1d36d09fd613811a48b/EIPS/eip-4844.md#networking
-            const signableTransaction =
-              transaction.type === "eip4844"
-                ? { ...transaction, sidecars: false }
-                : transaction;
-
-            const hexSignature = await this.#signer.sign(
+          const signature = await this.#signer
+            .sign(
               keyId,
               clientShare,
               keccak256(serializer(signableTransaction)),
               this.apiUrl,
-            );
-            const signature = parseSignature(hexSignature);
+            )
+            .then(parseSignature);
 
-            return serializer(transaction, signature);
-          },
-          signTypedData: async (typedDataDefinition) => {
-            const hash = hashTypedData(typedDataDefinition);
-            return this.#signer.sign(keyId, clientShare, hash, this.apiUrl);
-          },
-        }),
+          return serializer(transaction, signature);
+        },
+        signTypedData: async (typedDataDefinition) => {
+          const hash = hashTypedData(typedDataDefinition);
+          return this.#signer.sign(keyId, clientShare, hash, this.apiUrl);
+        },
       });
 
-      return new KeybanAccount(
-        keyId,
-        publicKey,
-        this.#publicClient,
-        walletClient,
-      );
+      // Did viem forgot to fill the publicKey?
+      account.publicKey = publicKey;
+
+      const walletClient = createWalletClient({
+        chain: chains[this.chain],
+        transport: http(this.chainUrl),
+        account,
+      });
+
+      return new KeybanAccount(keyId, this, this.#publicClient, walletClient);
     })();
 
     this.#accounts.set(keyId, promise);
@@ -167,22 +167,6 @@ export class KeybanClient {
 
   async getBalance(address: Address) {
     return this.#publicClient.getBalance({ address });
-  }
-
-  async listTokens(): Promise<
-    {
-      address: Address;
-      decimals: string;
-      name: string;
-      symbol: string;
-    }[]
-  > {
-    const url = new URL("/api/blockscout/api/v2/tokens", this.apiUrl);
-    url.searchParams.set("type", "ERC-20");
-
-    return fetch(url, { headers: { Accept: "application/json" } })
-      .then((res) => res.json())
-      .then(({ items }) => items);
   }
 
   /**
@@ -197,6 +181,31 @@ export class KeybanClient {
         return "down";
       });
   }
+
+  /**
+   * @private
+   */
+  blockscoutRequester = async <T>(
+    path: string,
+    searchParams: Record<string, string> = {},
+  ): Promise<T | null> => {
+    const url = new URL(`/api/blockscout/api/v2${path}`, this.apiUrl);
+    for (const [key, value] of Object.entries(searchParams)) {
+      url.searchParams.set(key, value);
+    }
+
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    const data = await res.json();
+    if (res.ok) return data;
+
+    switch (res.status) {
+      case 404:
+        return null;
+
+      default:
+        throw new Error(data.message);
+    }
+  };
 
   /**
    * @private
