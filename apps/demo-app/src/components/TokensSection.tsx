@@ -1,26 +1,26 @@
-import type React from "react";
+import type React from 'react';
 
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   FormattedBalance,
   useKeybanAccount,
   useKeybanAccountTokenBalances,
-} from "@keyban/sdk-react";
+} from '@keyban/sdk-react';
 import {
   Card,
   CardContent,
   IconButton,
   Stack,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-interface CryptoSectionProps {
+interface TokensSectionProps {
   keyId: string;
   onSend: () => void;
 }
 
-const CryptoSection: React.FC<CryptoSectionProps> = ({ keyId, onSend }) => {
+const TokensSection: React.FC<TokensSectionProps> = ({ keyId, onSend }) => {
   const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
   if (accountError) throw accountError;
   const [tokenBalances, tokenBalancesError] = useKeybanAccountTokenBalances(
@@ -71,4 +71,4 @@ const CryptoSection: React.FC<CryptoSectionProps> = ({ keyId, onSend }) => {
   );
 };
 
-export default CryptoSection;
+export default TokensSection;
