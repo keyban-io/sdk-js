@@ -2,27 +2,27 @@ export const testNFTs = [
   {
     id: "1",
     name: "NFT Artwork 1",
-    imageUrl: "./src/assets/images/nft-1.webp",
+    imageUrl: "./images/nft-1.webp",
   },
   {
     id: "2",
     name: "NFT Artwork 2",
-    imageUrl: "./src/assets/images/nft-2.webp",
+    imageUrl: "./images/nft-2.webp",
   },
   {
     id: "3",
     name: "NFT Artwork 3",
-    imageUrl: "./src/assets/images/nft-3.webp",
+    imageUrl: "./images/nft-3.webp",
   },
   {
     id: "4",
     name: "NFT Artwork 4",
-    imageUrl: "./src/assets/images/nft-4.webp",
+    imageUrl: "./images/nft-4.webp",
   },
   {
     id: "5",
     name: "NFT Artwork 5",
-    imageUrl: "./src/assets/images/nft-5.webp",
+    imageUrl: "./images/nft-5.webp",
   },
 ];
 
