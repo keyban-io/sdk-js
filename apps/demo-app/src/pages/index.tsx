@@ -30,7 +30,6 @@ import CryptoSection from '../components/CryptoSection';
 import NFTSection from '../components/NFTSection';
 import TransactionList from '../components/TransactionList';
 import {
-  testCryptos,
   testNFTs,
   testTransactions,
 } from '../lib/testData';
@@ -104,7 +103,7 @@ const WalletDashboardContent: React.FC = () => {
         <Divider />
         <NFTSection nfts={testNFTs} />
         <Divider />
-        <CryptoSection cryptos={testCryptos} onSend={handleOpenModal} />
+        <CryptoSection keyId={keyId} onSend={handleOpenModal} />
         <Divider />
         <TransactionList transactions={testTransactions} />
         <Button variant="contained">Transaction History</Button>

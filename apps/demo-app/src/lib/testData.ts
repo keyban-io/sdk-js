@@ -73,14 +73,3 @@ export const testEnvs = [
     apiUrl: "https://testing.keyban.io",
   },
 ];
-
-export const testCryptos = [
-  {
-    name: "AAVE",
-    balance: 0.005,
-  },
-  {
-    name: "LINK",
-    balance: 0.2,
-  },
-];

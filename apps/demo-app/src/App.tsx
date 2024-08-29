@@ -11,7 +11,7 @@ import {
 const App: React.FC = () => {
   return (
     <KeybanProvider
-      chain={KeybanChain.polygonAmoy}
+      chain={KeybanChain.anvil}
       signer={KeybanSigner.ECDSA}
       storage={KeybanLocalStorage}
       apiUrl="https://keyban.localtest.me"

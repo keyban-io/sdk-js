@@ -3,6 +3,11 @@ import type React from 'react';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  FormattedBalance,
+  useKeybanAccount,
+  useKeybanAccountTokenBalances,
+} from '@keyban/sdk-react';
+import {
   Card,
   CardContent,
   IconButton,
@@ -10,21 +15,23 @@ import {
   Typography,
 } from '@mui/material';
 
-interface Crypto {
-  name: string;
-  balance: number;
-}
-
 interface CryptoSectionProps {
-  cryptos: Crypto[];
-  onSend: (crypto: Crypto) => void;
+  keyId: string;
+  onSend: () => void;
 }
 
-const CryptoSection: React.FC<CryptoSectionProps> = ({ cryptos, onSend }) => {
+const CryptoSection: React.FC<CryptoSectionProps> = ({ keyId, onSend }) => {
+  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+  if (accountError) throw accountError;
+  const [balance, balanceError] = useKeybanAccountTokenBalances(account, {
+    suspense: true,
+  });
+  if (balanceError) throw balanceError;
+
   return (
     <Stack direction="column" spacing={2}>
-      {cryptos.map((crypto) => (
-        <Card key={crypto.name}>
+      {balance.map((token) => (
+        <Card key={token.token.address}>
           <CardContent>
             <Stack
               alignItems="center"
@@ -35,7 +42,7 @@ const CryptoSection: React.FC<CryptoSectionProps> = ({ cryptos, onSend }) => {
               }}
             >
               <Typography variant="h5" component="div">
-                {crypto.name}
+                {token.token.name}
               </Typography>
               <Stack
                 direction="row"
@@ -45,12 +52,14 @@ const CryptoSection: React.FC<CryptoSectionProps> = ({ cryptos, onSend }) => {
                 }}
               >
                 <Typography variant="body1" component="div">
-                  {crypto.balance}
+                  {token.balance != null && (
+                    <FormattedBalance balance={token.balance} />
+                  )}
                 </Typography>
                 <IconButton
                   color="primary"
-                  aria-label={`Send ${crypto.name}`}
-                  onClick={() => onSend(crypto)}
+                  aria-label={`Send ${token.token.symbol}`}
+                  onClick={() => onSend()}
                 >
                   <FontAwesomeIcon icon={faPaperPlane} />
                 </IconButton>
