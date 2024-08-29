@@ -48,26 +48,27 @@ export class KeybanAccount implements KeybanAccount {
     return this.#publicClient.getBalance({ address: this.address });
   }
 
-  async getTokenBalances() {
+  async getTokenBalances(): Promise<KeybanAccountTokenBalance[]> {
+    type ApiTokenInfo = {
+      address: Address;
+      name: string;
+      symbol: string;
+      decimals: number;
+      icon_url: string | null;
+    };
+
     type ApiTokenBalance = {
-      token: {
-        address: Address;
-        name: string;
-        symbol: string;
-        decimals: number;
-        icon_url: string | null;
-      };
+      token: ApiTokenInfo;
       value: string;
     };
 
+    const url = `/addresses/${this.address}/token-balances`;
     const tokenBalances =
-      (await this.#client.blockscoutRequester<ApiTokenBalance[]>(
-        `/addresses/${this.address}/token-balances`,
-      )) ?? [];
+      await this.#client.blockscoutRequester<ApiTokenBalance[]>(url);
 
-    return tokenBalances.map(({ token, value }) => ({
+    return (tokenBalances ?? []).map(({ token, value }) => ({
       token: {
-        address: token.address.toLowerCase(),
+        address: token.address.toLowerCase() as Address,
         name: token.name,
         symbol: token.symbol,
         decimals: token.decimals,
@@ -84,3 +85,14 @@ export class KeybanAccount implements KeybanAccount {
     return this.#walletClient.sendTransaction({ to, value, type: "eip1559" });
   }
 }
+
+export type KeybanAccountTokenBalance = {
+  token: {
+    address: Address;
+    name: string;
+    symbol: string;
+    decimals: number;
+    iconUrl: string | null;
+  };
+  balance: bigint;
+};

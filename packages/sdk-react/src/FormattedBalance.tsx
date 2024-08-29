@@ -1,4 +1,4 @@
-import { formatBalance } from "@keyban/sdk-base";
+import { formatBalance, KeybanAccountTokenBalance } from "@keyban/sdk-base";
 import { useKeybanClient } from "./provider";
 
 /**
@@ -17,7 +17,9 @@ import { useKeybanClient } from "./provider";
  * console.log(formattedBalance); // "0.2 ETH"
  * ```
  */
-export function useFormattedBalance(balance: bigint) {
+export function useFormattedBalance(
+  balance: bigint | KeybanAccountTokenBalance,
+) {
   return formatBalance(useKeybanClient(), balance);
 }
 
@@ -25,7 +27,9 @@ export function useFormattedBalance(balance: bigint) {
  * Props for the FormattedBalance component.
  * @see {@link FormattedBalance}
  */
-export type FormatedBalanceProps = { balance: bigint };
+export type FormatedBalanceProps = {
+  balance: bigint | KeybanAccountTokenBalance;
+};
 
 /**
  * Component to display a formatted balance.
