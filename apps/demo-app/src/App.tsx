@@ -12,6 +12,7 @@ const App: React.FC = () => {
   return (
     <KeybanProvider
       chain={KeybanChain.anvil}
+      chainUrl="https://anvil.keyban.localtest.me"
       signer={KeybanSigner.ECDSA}
       storage={KeybanLocalStorage}
       apiUrl="https://keyban.localtest.me"
