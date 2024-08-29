@@ -240,15 +240,34 @@ export default function KeybanTest({ testId }: KeybanTestProps) {
         <legend>Non native currency</legend>
 
         {tokenBalances.map(({ token, balance }) => (
-          <Row key={token.address}>
-            <span>Balance {token.name}:</span>
-            <SerializedValue
-              value={balance}
-              style={{ flexGrow: 1 }}
-              data-test-id={`${testId}:raw-balance:${token.name}`}
-            />
-            <span>{token.symbol}</span>
-          </Row>
+          <fieldset
+            key={token.address}
+            data-test-id={`${testId}:token:${token.address}`}
+          >
+            <legend>{token.name}</legend>
+
+            <Row>
+              <span>Address:</span>
+              <SerializedValue
+                value={token.address}
+                style={{ flexGrow: 1 }}
+                data-test-id={`${testId}:token-address`}
+              />
+            </Row>
+
+            <Row style={{ marginBlockStart: "1em" }}>
+              <span>Balance:</span>
+              <SerializedValue
+                value={balance}
+                style={{ flexGrow: 1 }}
+                data-test-id={`${testId}:token-balance`}
+              />
+              <SerializedValue
+                value={token.symbol}
+                data-test-id={`${testId}:token-symbol`}
+              />
+            </Row>
+          </fieldset>
         ))}
       </fieldset>
     </>

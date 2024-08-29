@@ -9,6 +9,8 @@ import { Address, Hash, Hex, KeybanClient } from "~/index";
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
+  address: Address;
+  publicKey: Hex;
 
   #client: KeybanClient;
   #publicClient: PublicClient<Transport, Chain>;
@@ -24,18 +26,12 @@ export class KeybanAccount implements KeybanAccount {
     walletClient: WalletClient<Transport, Chain, LocalAccount>,
   ) {
     this.keyId = keyId;
+    this.address = walletClient.account.address.toLowerCase() as Address;
+    this.publicKey = walletClient.account.publicKey.toLowerCase() as Hex;
 
     this.#client = client;
     this.#publicClient = publicClient;
     this.#walletClient = walletClient;
-  }
-
-  get address(): Address {
-    return this.#walletClient.account.address;
-  }
-
-  get publicKey(): Hex {
-    return this.#walletClient.account.publicKey;
   }
 
   /**
@@ -71,7 +67,7 @@ export class KeybanAccount implements KeybanAccount {
 
     return tokenBalances.map(({ token, value }) => ({
       token: {
-        address: token.address,
+        address: token.address.toLowerCase(),
         name: token.name,
         symbol: token.symbol,
         decimals: token.decimals,
