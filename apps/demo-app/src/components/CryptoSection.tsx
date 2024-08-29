@@ -1,19 +1,19 @@
-import type React from 'react';
+import type React from "react";
 
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   FormattedBalance,
   useKeybanAccount,
   useKeybanAccountTokenBalances,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 import {
   Card,
   CardContent,
   IconButton,
   Stack,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 interface CryptoSectionProps {
   keyId: string;
@@ -23,15 +23,16 @@ interface CryptoSectionProps {
 const CryptoSection: React.FC<CryptoSectionProps> = ({ keyId, onSend }) => {
   const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
   if (accountError) throw accountError;
-  const [balance, balanceError] = useKeybanAccountTokenBalances(account, {
-    suspense: true,
-  });
-  if (balanceError) throw balanceError;
+  const [tokenBalances, tokenBalancesError] = useKeybanAccountTokenBalances(
+    account,
+    { suspense: true },
+  );
+  if (tokenBalancesError) throw tokenBalancesError;
 
   return (
     <Stack direction="column" spacing={2}>
-      {balance.map((token) => (
-        <Card key={token.token.address}>
+      {tokenBalances.map((balance) => (
+        <Card key={balance.token.address}>
           <CardContent>
             <Stack
               alignItems="center"
@@ -42,7 +43,7 @@ const CryptoSection: React.FC<CryptoSectionProps> = ({ keyId, onSend }) => {
               }}
             >
               <Typography variant="h5" component="div">
-                {token.token.name}
+                {balance.token.name}
               </Typography>
               <Stack
                 direction="row"
@@ -52,13 +53,11 @@ const CryptoSection: React.FC<CryptoSectionProps> = ({ keyId, onSend }) => {
                 }}
               >
                 <Typography variant="body1" component="div">
-                  {token.balance != null && (
-                    <FormattedBalance balance={token.balance} />
-                  )}
+                  <FormattedBalance balance={balance} />
                 </Typography>
                 <IconButton
                   color="primary"
-                  aria-label={`Send ${token.token.symbol}`}
+                  aria-label={`Send ${balance.token.symbol}`}
                   onClick={() => onSend()}
                 >
                   <FontAwesomeIcon icon={faPaperPlane} />
