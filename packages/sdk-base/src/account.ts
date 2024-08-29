@@ -1,11 +1,13 @@
-import type {
-  Chain,
-  Transport,
-  WalletClient,
-  PublicClient,
-  LocalAccount,
+import {
+  type Chain,
+  type Transport,
+  type WalletClient,
+  type PublicClient,
+  type LocalAccount,
+  isAddress,
 } from "viem";
 import { Address, Hash, Hex, KeybanClient } from "~/index";
+import { SdkError, SdkErrorTypes } from "./errors";
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
@@ -82,6 +84,20 @@ export class KeybanAccount implements KeybanAccount {
    * Transfers native tokens to another address.
    */
   transfer(to: Address, value: bigint): Promise<Hash> {
+    if (!isAddress(to)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "AddressInvalid",
+      );
+    }
+
+    if (value <= 0n) {
+      throw new SdkError(
+        SdkErrorTypes.AmountInvalid,
+        "AmountInvalid",
+      );
+    }
+
     return this.#walletClient.sendTransaction({ to, value, type: "eip1559" });
   }
 }
