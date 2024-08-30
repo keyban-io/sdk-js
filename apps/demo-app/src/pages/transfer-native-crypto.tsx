@@ -73,10 +73,7 @@ const TransferNativeCrypto: React.FC = () => {
 
     try {
       const valueInWei = BigInt(Number(amount) * 10 ** 18);
-      console.log("recipient", recipient);
-      console.log("valueInWei", valueInWei);
       const txHash = await account.transfer(recipient as Address, valueInWei);
-      console.log("txHash", txHash);
       setTransactionHash(txHash);
     } catch (err) {
       setError(`Transfer failed: ${(err as Error).message}`);
@@ -148,7 +145,8 @@ Balance: ${formatBalance(client, balance)}`}
             Transaction successful! Hash:{" "}
             <Link
               underline="always"
-              href={`https://amoy.polygonscan.com/tx/${transactionHash}`}
+              // href={`https://amoy.polygonscan.com/tx/${transactionHash}`}
+              href={`https://blockscout.keyban.localtest.me/tx/${transactionHash}`}
               target="_blank"
               rel="noopener noreferrer"
             >
