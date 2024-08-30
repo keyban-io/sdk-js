@@ -1,0 +1,12 @@
+query KeybanAccount_addressTokenBalances($address: Address!) {
+  addressTokenBalances(address: $address) {
+    token {
+      address
+      name
+      symbol
+      decimals
+      iconUrl
+    }
+    balance
+  }
+}

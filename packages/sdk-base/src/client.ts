@@ -180,47 +180,30 @@ export class KeybanClient {
   /**
    * @private
    */
-  blockscoutRequester = async <T>(
-    path: string,
-    searchParams: Record<string, string> = {},
-  ): Promise<T | null> => {
-    const url = new URL(`/api/blockscout/api/v2${path}`, this.apiUrl);
-    for (const [key, value] of Object.entries(searchParams)) {
-      url.searchParams.set(key, value);
-    }
-
-    const res = await fetch(url, { headers: { Accept: "application/json" } });
-    const data = await res.json();
-    if (res.ok) return data;
-
-    switch (res.status) {
-      case 404:
-        return null;
-
-      default:
-        throw new Error(data.message);
-    }
-  };
-
-  /**
-   * @private
-   */
-  gqlRequester = async <R, V>(query: string, variables?: V) =>
-    fetch(
-      "https://swapi-graphql.netlify.app/.netlify/functions/index",
-      // this.apiUrl + "/graphql",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/graphql-response+json",
-        },
-        body: JSON.stringify({ query, variables }),
+  gqlRequester = async <R, V>(query: string, variables?: V) => {
+    const res = await fetch(new URL("/api/graphql", this.apiUrl), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/graphql-response+json",
       },
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then(({ data }) => data as R);
+      body: JSON.stringify({ query, variables }, (_, value) => {
+        if (typeof value === "bigint") return value.toString();
+
+        return value;
+      }),
+    });
+
+    if (!res.ok) throw new Error("Network response was not ok");
+
+    const text = await res.text();
+    const { data } = JSON.parse(text, (_, value) => {
+      if (typeof value === "object" && value?.__typename === "BigIntScalar")
+        return BigInt(value.value);
+
+      return value;
+    });
+
+    return data as R;
+  };
 }

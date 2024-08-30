@@ -1,7 +1,14 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
+const scalars = {
+  Address: "`0x${string}`",
+  Hash: "`0x${string}`",
+  Hex: "`0x${string}`",
+  BigInt: "bigint",
+};
+
 const config: CodegenConfig = {
-  schema: "https://swapi-graphql.netlify.app/.netlify/functions/index",
+  schema: "https://keyban.localtest.me/api/graphql",
   documents: ["src/**/*.gql"],
   ignoreNoDocuments: true,
   generates: {
@@ -10,6 +17,8 @@ const config: CodegenConfig = {
       config: {
         typesPrefix: "Gql",
         namingConvention: "keep",
+        strictScalars: true,
+        scalars,
       },
     },
 
@@ -22,19 +31,20 @@ const config: CodegenConfig = {
       plugins: [
         "typescript-operations",
         "typescript-generic-sdk",
-        {
-          // Previous plugins will always import gql-types.ts, which
-          // might not be used and will result in a TypeScript
-          // compilation error at build time. Since these files are
-          // auto-generated, there's no point to typecheck them.
-          add: { content: "// @ts-nocheck" },
-        },
+        // Previous plugins will always import gql-types.ts, which
+        // might not be used and will result in a TypeScript
+        // compilation error at build time. Since these files are
+        // auto-generated, there's no point to typecheck them.
+        { add: { content: "// @ts-nocheck", placement: "prepend" } },
+        { add: { content: "\n", placement: "append" } },
       ],
       config: {
         typesPrefix: "Gql",
         namingConvention: "keep",
         printFieldsOnNewLines: true,
         documentMode: "string",
+        strictScalars: true,
+        scalars,
       },
     },
   },

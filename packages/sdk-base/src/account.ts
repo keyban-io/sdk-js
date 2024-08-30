@@ -5,18 +5,14 @@ import {
   type PublicClient,
   type Transport,
   type WalletClient,
-} from 'viem';
+} from "viem";
+import { Address, Hash, Hex, KeybanClient } from "~/index";
+import { SdkError, SdkErrorTypes } from "~/errors";
 import {
-  Address,
-  Hash,
-  Hex,
-  KeybanClient,
-} from '~/index';
-
-import {
-  SdkError,
-  SdkErrorTypes,
-} from './errors';
+  getSdk,
+  GqlKeybanAccount_addressTokenBalancesQuery,
+  Sdk,
+} from "~/account.generated";
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
@@ -26,6 +22,7 @@ export class KeybanAccount implements KeybanAccount {
   #client: KeybanClient;
   #publicClient: PublicClient<Transport, Chain>;
   #walletClient: WalletClient<Transport, Chain, LocalAccount>;
+  #graphql: Sdk;
 
   /**
    * @private
@@ -43,6 +40,7 @@ export class KeybanAccount implements KeybanAccount {
     this.#client = client;
     this.#publicClient = publicClient;
     this.#walletClient = walletClient;
+    this.#graphql = getSdk(this.#client.gqlRequester);
   }
 
   /**
@@ -59,34 +57,13 @@ export class KeybanAccount implements KeybanAccount {
     return this.#publicClient.getBalance({ address: this.address });
   }
 
-  async getTokenBalances(): Promise<KeybanAccountTokenBalance[]> {
-    type ApiTokenInfo = {
-      address: Address;
-      name: string;
-      symbol: string;
-      decimals: number;
-      icon_url: string | null;
-    };
+  async getTokenBalances() {
+    const { addressTokenBalances } =
+      await this.#graphql.KeybanAccount_addressTokenBalances({
+        address: this.address,
+      });
 
-    type ApiTokenBalance = {
-      token: ApiTokenInfo;
-      value: string;
-    };
-
-    const url = `/addresses/${this.address}/token-balances`;
-    const tokenBalances =
-      await this.#client.blockscoutRequester<ApiTokenBalance[]>(url);
-
-    return (tokenBalances ?? []).map(({ token, value }) => ({
-      token: {
-        address: token.address.toLowerCase() as Address,
-        name: token.name,
-        symbol: token.symbol,
-        decimals: token.decimals,
-        iconUrl: token.icon_url,
-      },
-      balance: BigInt(value),
-    }));
+    return addressTokenBalances;
   }
 
   /**
@@ -123,13 +100,5 @@ export class KeybanAccount implements KeybanAccount {
   }
 }
 
-export type KeybanAccountTokenBalance = {
-  token: {
-    address: Address;
-    name: string;
-    symbol: string;
-    decimals: number;
-    iconUrl: string | null;
-  };
-  balance: bigint;
-};
+export type KeybanAccountTokenBalance =
+  GqlKeybanAccount_addressTokenBalancesQuery["addressTokenBalances"][0];
