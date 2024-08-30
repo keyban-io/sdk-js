@@ -1,13 +1,22 @@
 import {
   type Chain,
+  isAddress,
+  type LocalAccount,
+  type PublicClient,
   type Transport,
   type WalletClient,
-  type PublicClient,
-  type LocalAccount,
-  isAddress,
-} from "viem";
-import { Address, Hash, Hex, KeybanClient } from "~/index";
-import { SdkError, SdkErrorTypes } from "./errors";
+} from 'viem';
+import {
+  Address,
+  Hash,
+  Hex,
+  KeybanClient,
+} from '~/index';
+
+import {
+  SdkError,
+  SdkErrorTypes,
+} from './errors';
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
@@ -82,6 +91,21 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Transfers native tokens to another address.
+   *
+   * @example
+   * ```ts
+   * const handleTransfer = async () => {
+   *   // amount, account, recipient, setTransactionHash are state variables
+   *   try {
+   *     const valueInWei = BigInt(Number(amount) * 10 ** 18);
+   *     const txHash = await account.transfer(recipient as Address, valueInWei);
+   *     setTransactionHash(txHash);
+   *   } catch (err) {
+   *     console.log(err);
+   *   }
+   * };
+   * ```
+  };
    */
   transfer(to: Address, value: bigint): Promise<Hash> {
     if (!isAddress(to)) {
