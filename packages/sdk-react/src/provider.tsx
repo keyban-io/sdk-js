@@ -41,9 +41,9 @@ export function KeybanProvider({ children, ...config }: KeybanProviderProps) {
   );
 
   return (
-    <PromiseCacheProvider>
-      <KeybanContext.Provider value={client}>{children}</KeybanContext.Provider>
-    </PromiseCacheProvider>
+    <KeybanContext.Provider value={client}>
+      <PromiseCacheProvider>{children}</PromiseCacheProvider>
+    </KeybanContext.Provider>
   );
 }
 /**

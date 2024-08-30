@@ -1,9 +1,10 @@
 import React from "react";
+import { useKeybanClient } from "~/provider";
 
 const CacheContext = React.createContext(new Map());
 
 export function PromiseCacheProvider({ children }: React.PropsWithChildren) {
-  const cache = React.useMemo(() => new Map(), []);
+  const cache = React.useMemo(() => new Map(), [useKeybanClient()]); // clear cache whenever the client changes
   return React.createElement(CacheContext.Provider, { value: cache }, children);
 }
 
