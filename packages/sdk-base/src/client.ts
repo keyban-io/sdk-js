@@ -1,8 +1,4 @@
-import type {
-  Chain,
-  PublicClient,
-  Transport,
-} from 'viem';
+import type { Chain, PublicClient, Transport } from "viem";
 import {
   createPublicClient,
   createWalletClient,
@@ -12,22 +8,16 @@ import {
   keccak256,
   parseSignature,
   serializeTransaction,
-} from 'viem';
-import {
-  publicKeyToAddress,
-  toAccount,
-} from 'viem/accounts';
-import * as chains from 'viem/chains';
-import { KeybanAccount } from '~/account';
-import { KeybanApiStatus } from '~/api';
-import { KeybanChain } from '~/chains';
-import {
-  KeybanBaseError,
-  StorageError,
-} from '~/errors';
-import { Address } from '~/index';
-import type { KeybanSigner } from '~/signer';
-import type { KeybanStorage } from '~/storage';
+} from "viem";
+import { publicKeyToAddress, toAccount } from "viem/accounts";
+import * as chains from "viem/chains";
+import { KeybanAccount } from "~/account";
+import { KeybanApiStatus } from "~/api";
+import { KeybanChain } from "~/chains";
+import { KeybanBaseError, StorageError } from "~/errors";
+import { Address } from "~/index";
+import type { KeybanSigner } from "~/signer";
+import type { KeybanStorage } from "~/storage";
 
 /**
  * Configuration object for the Keyban client.
@@ -94,7 +84,7 @@ export class KeybanClient {
       let clientShare = await this.#storage.get(storageKey).catch((err) => {
         throw new StorageError(
           StorageError.types.RetrivalFailed,
-          "Client.initialize",
+          "KeybanClient.initialize",
           err,
         );
       });
@@ -108,12 +98,17 @@ export class KeybanClient {
       await this.#storage.set(storageKey, clientShare).catch((err) => {
         throw new StorageError(
           StorageError.types.SaveFailed,
-          "Client.initialize",
+          "KeybanClient.initialize",
           err,
         );
       });
 
-      const publicKey = await this.#signer.publicKey(clientShare);
+      const publicKey = await this.#signer
+        .publicKey(clientShare)
+        .catch((err) => {
+          throw new KeybanBaseError(err);
+        });
+
       const account = toAccount({
         address: publicKeyToAddress(publicKey),
         signMessage: ({ message }) => {

@@ -31,11 +31,15 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
   static types = SdkErrorTypes;
 
   constructor(type: SdkErrorTypes, instance: string, rootError?: Error) {
-    super({ type, instance, rootError });
-    this.detail = this.getDescription(type);
+    super({
+      type,
+      instance,
+      rootError,
+      detail: SdkError.#getDescription(type),
+    });
   }
 
-  getDescription(errorType: SdkErrorTypes) {
+  static #getDescription(errorType: SdkErrorTypes) {
     switch (errorType) {
       case SdkErrorTypes.ClientNotInitialized:
         return "Client was not initialized properly. Make sure that your environment supports WebAssembly.";
@@ -50,7 +54,7 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
         return "Amount has to be greater than 0.";
 
       default:
-        return "Unknown error type";
+        return `Unknown error type: ${errorType}`;
     }
   }
 }

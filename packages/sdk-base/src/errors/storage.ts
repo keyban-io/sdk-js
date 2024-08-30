@@ -24,11 +24,15 @@ export class StorageError extends KeybanBaseError<StorageErrorTypes> {
   static types = StorageErrorTypes;
 
   constructor(type: StorageErrorTypes, instance: string, rootError?: Error) {
-    super({ type, instance, rootError });
-    this.detail = this.getDescription(type);
+    super({
+      type,
+      instance,
+      rootError,
+      detail: StorageError.#getDescription(type),
+    });
   }
 
-  getDescription(errorType: StorageErrorTypes) {
+  static #getDescription(errorType: StorageErrorTypes) {
     switch (errorType) {
       case StorageErrorTypes.SaveFailed:
         return "SDK encontered an error when trying to save your share into storage.";
@@ -38,7 +42,7 @@ export class StorageError extends KeybanBaseError<StorageErrorTypes> {
         return "SDK was unable to connect to your storage solution.";
 
       default:
-        return "Unknown error type";
+        return `Unknown error type: ${errorType}`;
     }
   }
 }

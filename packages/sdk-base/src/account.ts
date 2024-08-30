@@ -87,15 +87,12 @@ export class KeybanAccount implements KeybanAccount {
     if (!isAddress(to)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
-        "AddressInvalid",
+        "KeybanAccount.transfer",
       );
     }
 
     if (value <= 0n) {
-      throw new SdkError(
-        SdkErrorTypes.AmountInvalid,
-        "AmountInvalid",
-      );
+      throw new SdkError(SdkErrorTypes.AmountInvalid, "KeybanAccount.transfer");
     }
 
     return this.#walletClient.sendTransaction({ to, value, type: "eip1559" });
