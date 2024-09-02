@@ -4,78 +4,70 @@ import {
   KeybanProvider,
   KeybanChain,
   KeybanSigner,
+  KeybanClientConfig,
 } from "@keyban/sdk-react";
 import { useSearchParams } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
 
-import styles from "./App.module.css";
 import KeybanTest from "./KeybanTest";
-import Row from "@/components/Row";
-import TextField from "@/components/TextField";
+import ConfigEditor from "@/components/organisms/ConfigEditor";
+import RefreshButton from "@/components/atoms/RefreshButton";
+
+const DEFAULT_API_URL = "https://keyban.localtest.me";
+const DEFAULT_CHAIN_URL = "https://anvil.keyban.localtest.me";
+
+const getSignerName = (config: KeybanClientConfig) =>
+  Object.entries(KeybanSigner).find(
+    ([, value]) => value === config.signer,
+  )?.[0];
 
 export default function App() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [config, setConfig] = React.useState<KeybanClientConfig>({
+    apiUrl: searchParams.get("apiUrl") ?? DEFAULT_API_URL,
+    chain: (searchParams.get("chain") as KeybanChain) ?? KeybanChain.anvil,
+    chainUrl: searchParams.get("chainUrl") ?? DEFAULT_CHAIN_URL,
+    signer: KeybanSigner.ECDSA,
+    storage: KeybanLocalStorage,
+  });
 
-  const [apiUrl, setApiUrl] = React.useState(
-    searchParams.get("apiUrl") ?? "https://keyban.localtest.me",
-  );
-  const [chain, setChain] = React.useState(
-    (searchParams.get("chain") as KeybanChain) ?? KeybanChain.anvil,
-  );
-  const [chainUrl, setChainUrl] = React.useState(
-    searchParams.get("chainUrl") ?? "https://anvil.keyban.localtest.me",
-  );
-
-  const config = { apiUrl, chain, chainUrl, storage: KeybanLocalStorage };
+  React.useEffect(() => {
+    setSearchParams((prev) => ({
+      ...prev,
+      apiUrl: config.apiUrl,
+      chain: config.chain,
+      chainUrl: config.chainUrl,
+      signer: getSignerName(config),
+    }));
+  }, [config, setSearchParams]);
 
   return (
-    <div className={styles.root}>
-      <fieldset className={styles.config}>
-        <legend>Config</legend>
+    <>
+      <ConfigEditor config={config} onChange={setConfig} />
 
-        <TextField
-          label="API URL"
-          value={apiUrl}
-          onChange={setApiUrl}
-          data-test-id="api-url-input"
-        />
+      <ErrorBoundary
+        fallbackRender={({ error, resetErrorBoundary }) => {
+          console.error(error);
 
-        <Row>
-          <label htmlFor="chain-select">Chain</label>
-          <select
-            value={chain}
-            onChange={(evt) => setChain(evt.currentTarget.value as KeybanChain)}
-            id="chain-select"
-            data-test-id="chain-select"
-          >
-            {Object.entries(KeybanChain).map(([key, value]) => (
-              <option key={key} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
-        </Row>
-
-        <TextField
-          label="Chain URL"
-          value={chainUrl}
-          onChange={setChainUrl}
-          data-test-id="chain-url-input"
-        />
-      </fieldset>
-
-      <div className={styles.eddsa}>
-        <KeybanProvider signer={KeybanSigner.EdDSA} {...config}>
-          <h1>EdDSA</h1>
-          <KeybanTest testId="eddsa" />
+          return (
+            <fieldset data-test-id="error">
+              <legend>
+                <span data-test-id="error:message">{error.message}</span>
+                <RefreshButton
+                  onClick={resetErrorBoundary}
+                  style={{ marginInlineStart: "0.5ch" }}
+                  data-test-id="error:retry"
+                />
+              </legend>
+              <pre data-test-id="error:stack">{error.stack}</pre>
+            </fieldset>
+          );
+        }}
+      >
+        <KeybanProvider {...config}>
+          <KeybanTest />
         </KeybanProvider>
-      </div>
-
-      <div className={styles.ecdsa}>
-        <KeybanProvider signer={KeybanSigner.ECDSA} {...config}>
-          <h1>ECDSA</h1>
-          <KeybanTest testId="ecdsa" />
-        </KeybanProvider>
-      </div>
-    </div>
+      </ErrorBoundary>
+    </>
   );
 }

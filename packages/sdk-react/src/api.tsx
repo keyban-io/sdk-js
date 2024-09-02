@@ -1,24 +1,12 @@
-import React from "react";
 import { useKeybanClient } from "./provider";
-import { KeybanApiStatus } from "@keyban/sdk-base";
+import { usePromise, UsePromiseOptions } from "~/promise";
 
 /**
- *
  * @private
  */
-export function useKeybanApiStatus() {
+export function useKeybanApiStatus<B extends boolean>(
+  options?: UsePromiseOptions<B>,
+) {
   const client = useKeybanClient();
-
-  const [apiStatus, setApiStatus] = React.useState<KeybanApiStatus>();
-  React.useEffect(() => {
-    let canceled = false;
-    client.apiStatus().then((status) => {
-      if (!canceled) setApiStatus(status);
-    });
-    return () => {
-      canceled = true;
-    };
-  }, [client]);
-
-  return apiStatus;
+  return usePromise("api-status", () => client.apiStatus(), options);
 }

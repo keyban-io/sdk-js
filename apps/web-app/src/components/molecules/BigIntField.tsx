@@ -1,5 +1,5 @@
 import React from "react";
-import Row from "./Row";
+import Row from "../atoms/Row";
 
 export type NumberFieldProps = Omit<
   React.HTMLProps<HTMLInputElement>,

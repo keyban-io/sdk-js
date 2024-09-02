@@ -14,6 +14,7 @@
     "@keyban/sdk-react": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-error-boundary": "^4.0.13",
     "react-router-dom": "^6.25.1",
     "react-textarea-autosize": "^8.5.3",
     "viem": "^2.20.0"
