@@ -17,10 +17,9 @@ export default function Balance({ keyId }: BalanceProps) {
   });
   if (accountError) throw accountError;
 
-  const [balance, balanceError, { refresh }] = useKeybanAccountBalance(
-    account,
-    { suspense: true },
-  );
+  const [balance, balanceError, { reset }] = useKeybanAccountBalance(account, {
+    suspense: true,
+  });
   if (balanceError) throw balanceError;
 
   return (
@@ -28,9 +27,9 @@ export default function Balance({ keyId }: BalanceProps) {
       <legend>
         Balance
         <RefreshButton
-          onClick={refresh}
+          onClick={reset}
           style={{ marginInlineStart: "0.5ch" }}
-          data-test-id="Balance:refresh"
+          data-test-id="Balance:reset"
         />
       </legend>
 

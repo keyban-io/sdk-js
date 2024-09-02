@@ -25,6 +25,7 @@ export type UsePromiseOptions<B extends boolean> = {
 
 type PromiseResultExtra = {
   refresh: () => void;
+  reset: () => void;
   isLoading: boolean;
 };
 
@@ -92,7 +93,12 @@ export function usePromise<T, B extends boolean>(
     updateWrappedPromise(cached);
   }, [cached, promise]);
 
-  const extra: PromiseResultExtra = { refresh, isLoading };
+  const reset = React.useCallback(() => {
+    setIsLoading(true);
+    cache.delete(key);
+  }, [cached, promise]);
+
+  const extra: PromiseResultExtra = { refresh, reset, isLoading };
 
   switch (cached.status) {
     case PromiseState.Pending:
