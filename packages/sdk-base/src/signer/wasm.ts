@@ -1,4 +1,4 @@
-import { SdkError } from "~/errors";
+import { KeybanBaseError, SdkError } from "~/errors";
 
 export const WasmKeybanSigner = (initWasmFile: () => Promise<unknown>) => {
   abstract class AbstractWasmKeybanSigner {
@@ -14,11 +14,13 @@ export const WasmKeybanSigner = (initWasmFile: () => Promise<unknown>) => {
 
     static wrap =
       <Args extends any[], Ret = unknown>(
-        fn: (...args: Args) => Ret | Promise<Ret>,
+        fn: (...args: Args) => Promise<Ret>,
       ) =>
       async (...args: Args) => {
         await AbstractWasmKeybanSigner.#wasmPromise;
-        return fn(...args);
+        return fn(...args).catch((err) => {
+          throw new KeybanBaseError(err);
+        });
       };
   }
 
