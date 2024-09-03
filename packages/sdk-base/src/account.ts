@@ -50,9 +50,7 @@ export class KeybanAccount implements KeybanAccount {
     // For now even EDDSA messages are prefixed with Ethereum message prefix
     // To be updated when the eddsa signer is associated with a specific chain (e.g. Solana)
     // Account should be aware of the chain it is associated with not only the signer
-    return this.#walletClient.signMessage({ message }).catch((err) => {
-      throw err.cause;
-    });
+    return this.#walletClient.signMessage({ message });
   }
 
   getBalance() {
