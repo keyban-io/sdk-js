@@ -74,7 +74,7 @@ export class KeybanAccount implements KeybanAccount {
    * const handleTransfer = async () => {
    *   // amount, account, recipient, setTransactionHash are state variables
    *   try {
-   *     const valueInWei = BigInt(Number(amount) * 10 ** 18);
+   *     const valueInWei = BigInt(Number(amount) * 1e18);
    *     const txHash = await account.transfer(recipient as Address, valueInWei);
    *     setTransactionHash(txHash);
    *   } catch (err) {

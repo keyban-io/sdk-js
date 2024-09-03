@@ -1,3 +1,5 @@
+// @ts-nocheck
+import { Address, Hash, Hex } from "~/index";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -12,7 +14,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Address: { input: `0x${string}`; output: `0x${string}`; }
+  Address: { input: Address; output: Address; }
   BigInt: { input: bigint; output: bigint; }
 };
 

@@ -1,9 +1,10 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
+const IMPORT_SCALARS = 'import type { Address, Hash, Hex } from "~/index";';
 const scalars = {
-  Address: "`0x${string}`",
-  Hash: "`0x${string}`",
-  Hex: "`0x${string}`",
+  Address: "Address",
+  Hash: "Hash",
+  Hex: "Hex",
   BigInt: "bigint",
 };
 
@@ -13,7 +14,11 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
   generates: {
     "src/gql-types.ts": {
-      plugins: ["typescript"],
+      plugins: [
+        "typescript",
+        { add: { content: "// @ts-nocheck" } },
+        { add: { content: IMPORT_SCALARS } },
+      ],
       config: {
         typesPrefix: "Gql",
         namingConvention: "keep",
@@ -35,12 +40,13 @@ const config: CodegenConfig = {
         // might not be used and will result in a TypeScript
         // compilation error at build time. Since these files are
         // auto-generated, there's no point to typecheck them.
-        { add: { content: "// @ts-nocheck", placement: "prepend" } },
+        { add: { content: "// @ts-nocheck" } },
         { add: { content: "\n", placement: "append" } },
       ],
       config: {
         typesPrefix: "Gql",
         namingConvention: "keep",
+        skipTypename: true,
         printFieldsOnNewLines: true,
         documentMode: "string",
         strictScalars: true,

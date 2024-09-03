@@ -7,13 +7,10 @@ export type GqlKeybanAccount_addressTokenBalancesQueryVariables = Types.Exact<{
 
 
 export type GqlKeybanAccount_addressTokenBalancesQuery = {
-  __typename?: 'Query',
   addressTokenBalances: Array<{
-    __typename?: 'TokenBalance',
     balance: bigint,
     token: {
-      __typename?: 'Token',
-      address: `0x${string}`,
+      address: Address,
       name: string,
       symbol: string,
       decimals: number,
