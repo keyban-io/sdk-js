@@ -117,12 +117,21 @@ importers:
       '@mui/material':
         specifier: ^6.0.2
         version: 6.0.2(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      qrcode.react:
+        specifier: ^3.1.0
+        version: 3.1.0(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      react-error-boundary:
+        specifier: ^4.0.13
+        version: 4.0.13(react@18.3.1)
+      react-router-dom:
+        specifier: ^6.25.1
+        version: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@eslint/js':
         specifier: ^9.9.0
