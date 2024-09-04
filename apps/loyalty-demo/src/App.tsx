@@ -49,7 +49,7 @@ export default function App() {
 
   return (
     <Container fixed>
-      <Typography variant="h1">Fid Demo</Typography>
+      <Typography variant="h1">Loyalty Demo</Typography>
 
       {error && (
         <Alert severity="error">
