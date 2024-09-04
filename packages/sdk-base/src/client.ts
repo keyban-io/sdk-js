@@ -52,7 +52,7 @@ export class KeybanClient {
   constructor({
     chain,
     chainUrl,
-    apiUrl = "https://keyban.io",
+    apiUrl = "https://api.keyban.io",
     signer,
     storage,
   }: KeybanClientConfig) {
@@ -169,7 +169,7 @@ export class KeybanClient {
    * @returns A promise that resolves to either {@link KeybanApiStatus} based on the health check result.
    */
   async apiStatus(): Promise<KeybanApiStatus> {
-    return fetch(`${this.apiUrl}/api/health`)
+    return fetch(`${this.apiUrl}/health`)
       .then((res) => (res.ok ? "operational" : "down"))
       .catch((err) => {
         console.error("Failed to perform health check", err);
@@ -181,7 +181,7 @@ export class KeybanClient {
    * @private
    */
   gqlRequester = async <R, V>(query: string, variables?: V) => {
-    const res = await fetch(new URL("/api/graphql", this.apiUrl), {
+    const res = await fetch(new URL("/graphql", this.apiUrl), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

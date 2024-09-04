@@ -1,12 +1,12 @@
-import type React from 'react';
+import type React from "react";
 
-import { AppRouter } from '@/lib/router';
+import { AppRouter } from "@/lib/router";
 import {
   KeybanChain,
   KeybanLocalStorage,
   KeybanProvider,
   KeybanSigner,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 
 const App: React.FC = () => {
   return (
@@ -15,7 +15,7 @@ const App: React.FC = () => {
       chainUrl="https://anvil.keyban.localtest.me"
       signer={KeybanSigner.ECDSA}
       storage={KeybanLocalStorage}
-      apiUrl="https://keyban.localtest.me"
+      apiUrl="https://api.keyban.localtest.me"
     >
       <AppRouter />
     </KeybanProvider>

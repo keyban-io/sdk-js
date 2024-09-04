@@ -9,11 +9,11 @@ import {
 import { useSearchParams } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 
-import KeybanTest from "./KeybanTest";
+import KeybanTest from "@/KeybanTest";
 import ConfigEditor from "@/components/organisms/ConfigEditor";
 import RefreshButton from "@/components/atoms/RefreshButton";
 
-const DEFAULT_API_URL = "https://keyban.localtest.me";
+const DEFAULT_API_URL = "https://api.keyban.localtest.me";
 const DEFAULT_CHAIN_URL = "https://anvil.keyban.localtest.me";
 
 const getSignerName = (config: KeybanClientConfig) =>

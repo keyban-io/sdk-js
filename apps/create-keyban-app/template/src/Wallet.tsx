@@ -1,21 +1,15 @@
-import React, { Suspense } from 'react';
+import React, { Suspense } from "react";
 
-import {
-  ErrorBoundary,
-  useErrorBoundary,
-} from 'react-error-boundary';
+import { ErrorBoundary, useErrorBoundary } from "react-error-boundary";
 
-import {
-  KeybanChain,
-  KeybanSigner,
-} from '@keyban/sdk-base';
+import { KeybanChain, KeybanSigner } from "@keyban/sdk-base";
 import {
   FormattedBalance,
   KeybanLocalStorage,
   KeybanProvider,
   useKeybanAccount,
   useKeybanAccountBalance,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 
 // Key ID used to create or retrieve an account
 const keyId = "a-random-ecdsa-key";
@@ -75,7 +69,7 @@ const Wallet: React.FC = () => (
       chain={KeybanChain.polygonAmoy} // Specifies the Polygon Amoy testnet as the blockchain network
       signer={KeybanSigner.ECDSA} // Specifies the ECDSA signer to be used
       storage={KeybanLocalStorage} // Uses local storage to persist wallet data
-      apiUrl="https://keyban.localtest.me" // API URL for interacting with the Keyban backend
+      apiUrl="https://api.keyban.localtest.me" // API URL for interacting with the Keyban backend
     >
       <Suspense fallback={<div>Loading...</div>}>
         {" "}

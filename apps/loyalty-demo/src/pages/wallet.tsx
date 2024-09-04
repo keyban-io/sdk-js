@@ -10,9 +10,9 @@ type UserInfo = {
 };
 
 const API_URL = {
-  "https://loyalty-demo.testing.keyban.io": "https://testing.keyban.io",
-  "https://loyalty-demo.keyban.localtest.me": "https://keyban.localtest.me",
-  "http://localhost:4200": "https://keyban.localtest.me",
+  "https://loyalty-demo.testing.keyban.io": "https://api.testing.keyban.io",
+  "https://loyalty-demo.keyban.localtest.me": "https://api.keyban.localtest.me",
+  "http://localhost:4200": "https://api.keyban.localtest.me",
 }[window.location.origin];
 
 const WalletButton = React.lazy(async () => {
@@ -26,7 +26,7 @@ const WalletButton = React.lazy(async () => {
 
   const { email }: UserInfo = await fetch(url).then((res) => res.json());
 
-  const walletLink = await fetch(new URL("/api/loyalty/wallets", API_URL), {
+  const walletLink = await fetch(new URL("/loyalty/wallets", API_URL), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
