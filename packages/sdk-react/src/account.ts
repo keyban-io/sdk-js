@@ -1,7 +1,10 @@
-import { KeybanAccount } from "@keyban/sdk-base";
+import {
+  usePromise,
+  UsePromiseOptions,
+} from '~/promise';
+import { useKeybanClient } from '~/provider';
 
-import { useKeybanClient } from "~/provider";
-import { usePromise, UsePromiseOptions } from "~/promise";
+import { KeybanAccount } from '@keyban/sdk-base';
 
 /**
  * Fetches the account information for the given keyId.
@@ -24,7 +27,7 @@ export function useKeybanAccount<B extends boolean>(
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount("keyId");
- * const [balance, balanceError] = useKeybanAccountBalance(account);
+ * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountBalance(account);
  * ```
  * @see {@link useFormattedBalance}
  */
@@ -45,7 +48,7 @@ export function useKeybanAccountBalance<B extends boolean>(
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount("keyId");
- * const [balance, balanceError] = useKeybanAccountTokenBalances(account);
+ * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountTokenBalances(account);
  * ```
  * @see {@link useFormattedBalance}
  */
