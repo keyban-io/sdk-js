@@ -27,7 +27,8 @@ export default function App() {
     apiUrl: searchParams.get("apiUrl") ?? DEFAULT_API_URL,
     chain: (searchParams.get("chain") as KeybanChain) ?? KeybanChain.anvil,
     chainUrl: searchParams.get("chainUrl") ?? DEFAULT_CHAIN_URL,
-    signer: KeybanSigner.ECDSA,
+    signer:
+      KeybanSigner[searchParams.get("signer") ?? "EDCSA"] ?? KeybanSigner.ECDSA,
     storage: KeybanLocalStorage,
   });
 
