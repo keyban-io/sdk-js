@@ -1,5 +1,5 @@
-import React from "react";
 import { Button, Typography } from "@mui/material";
+import React from "react";
 
 type UserInfo = {
   id: string;
@@ -10,9 +10,9 @@ type UserInfo = {
 };
 
 const API_URL = {
-  "https://loyalty-demo.demo.keyban.io": "https://api.demo.keyban.io",
-  "https://loyalty-demo.testing.keyban.io": "https://api.testing.keyban.io",
-  "https://loyalty-demo.keyban.localtest.me": "https://api.keyban.localtest.me",
+  "https://loyalty.demo.keyban.io": "https://api.demo.keyban.io",
+  "https://loyalty.testing.keyban.io": "https://api.testing.keyban.io",
+  "https://loyalty.keyban.localtest.me": "https://api.keyban.localtest.me",
   "http://localhost:4200": "https://api.keyban.localtest.me",
 }[window.location.origin];
 
