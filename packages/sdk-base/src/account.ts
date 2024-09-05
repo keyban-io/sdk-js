@@ -84,7 +84,7 @@ export class KeybanAccount implements KeybanAccount {
    * ```
   };
    */
-  transfer(to: Address, value: bigint): Promise<Hash> {
+  async transfer(to: Address, value: bigint): Promise<Hash> {
     if (!isAddress(to)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,

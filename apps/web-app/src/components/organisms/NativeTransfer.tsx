@@ -36,12 +36,13 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
 
         <button
           type="button"
-          onClick={() =>
+          onClick={() => {
+            setHash("");
             account
               .transfer(recipient as Address, value)
               .then(setHash)
-              .catch(console.error)
-          }
+              .catch(console.error);
+          }}
           data-test-id="NativeTransfer:submit"
         >
           Transfer
