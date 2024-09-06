@@ -61,10 +61,10 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
         <SerializedValue
           value={transferCost}
           style={{ flexGrow: 1 }}
-          data-test-id="Balance:rawValue"
+          data-test-id="EstimatedFees:rawValue"
         />
         <span>Formatted:</span>
-        <div data-test-id="NativeTransfer:formattedValue">
+        <div data-test-id="EstimatedFees:formattedValue">
           <FormattedBalance balance={transferCost} />
         </div>
       </Row>
