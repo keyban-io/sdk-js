@@ -14,6 +14,7 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
   const [value, setValue] = React.useState<bigint>(0n);
   const [recipient, setRecipient] = React.useState<string>("");
   const [hash, setHash] = React.useState<string>("");
+  const [transferCost, setTransferCost] = React.useState<bigint>(0n);
 
   return (
     <fieldset>
@@ -39,6 +40,33 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           onChange={setRecipient}
           data-test-id="NativeTransfer:recipient"
         />
+      </Row>
+
+      <Row>
+        <button
+          type="button"
+          onClick={() =>
+            account
+              .estimateTransfer(recipient as Address, value)
+              .then((estimation: any) => setTransferCost(estimation.maxCost))
+              .catch(console.error)
+          }
+          data-test-id="EstimateNativeTransfer:submit"
+        >
+          Estimate max tx fees
+        </button>
+      </Row>
+      <Row>
+        <span>Raw estimation:</span>
+        <SerializedValue
+          value={transferCost}
+          style={{ flexGrow: 1 }}
+          data-test-id="EstimatedFees:rawValue"
+        />
+        <span>Formatted:</span>
+        <div data-test-id="EstimatedFees:formattedValue">
+          <FormattedBalance balance={transferCost} />
+        </div>
       </Row>
 
       <Row>
