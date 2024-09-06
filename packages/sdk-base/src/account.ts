@@ -1,5 +1,6 @@
 import {
   type Chain,
+  FeeValuesEIP1559,
   isAddress,
   type LocalAccount,
   type PublicClient,
@@ -13,6 +14,15 @@ import {
   GqlKeybanAccount_addressTokenBalancesQuery,
   Sdk,
 } from "~/account.generated";
+
+export type TransactionEstimation = {
+  maxFees: bigint;
+  details: {
+    maxFeePerGas: bigint;
+    maxPriorityFeePerGas: bigint;
+    gasCost: bigint;
+  }
+}
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
@@ -53,10 +63,16 @@ export class KeybanAccount implements KeybanAccount {
     return this.#walletClient.signMessage({ message });
   }
 
+  /**
+   * @returns The account balance in native tokens.
+   */
   getBalance() {
     return this.#publicClient.getBalance({ address: this.address });
   }
 
+  /**
+   * @returns The account balance in ERC20 tokens.
+   */
   async getTokenBalances() {
     const { addressTokenBalances } =
       await this.#graphql.KeybanAccount_addressTokenBalances({
@@ -101,6 +117,28 @@ export class KeybanAccount implements KeybanAccount {
       .catch((err) => {
         throw err.cause;
       });
+  }
+
+  /**
+   * Estimates the cost of transferring native tokens to another address.
+   * @param to transfer recipient
+   * @param value transfer amount in wei
+   */
+  async estimateTransfer(to: Address, value?: bigint): Promise<TransactionEstimation> {
+    return Promise.all([
+      this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
+      this.#publicClient.estimateGas({ to, account: this.address, value }),
+    ]).then(([fees, gasCost]) => {
+      const { maxFeePerGas, maxPriorityFeePerGas } = fees as FeeValuesEIP1559<bigint>;
+      return {
+        maxFees: maxFeePerGas * gasCost,
+        details: {
+          maxFeePerGas,
+          maxPriorityFeePerGas,
+          gasCost
+        }
+      };
+    });
   }
 }
 
