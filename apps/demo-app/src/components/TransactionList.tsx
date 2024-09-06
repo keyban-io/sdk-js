@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from "react";
 
 import {
   Paper,
@@ -10,7 +10,8 @@ import {
   TableRow,
   Tooltip,
   Typography,
-} from '@mui/material';
+  useTheme,
+} from "@mui/material";
 
 interface Transaction {
   date: string;
@@ -26,17 +27,30 @@ interface TransactionListProps {
 }
 
 const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
+  const theme = useTheme();
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "Pending":
+        return theme.palette.warning.main;
+      case "Sent":
+        return theme.palette.success.main;
+      case "Received":
+        return theme.palette.primary.main;
+      default:
+        return theme.palette.error.main;
+    }
+  };
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell align="center">Date</TableCell>
-            <TableCell align="center">Type</TableCell>
-            <TableCell align="center">Crypto</TableCell>
             <TableCell align="center">To/From</TableCell>
-            <TableCell align="center">Amount</TableCell>
             <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Amount</TableCell>
+            <TableCell align="center">Crypto</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -52,8 +66,6 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
               }}
             >
               <TableCell align="center">{transaction.date}</TableCell>
-              <TableCell align="center">{transaction.type}</TableCell>
-              <TableCell align="center">{transaction.crypto}</TableCell>
               <TableCell align="center">
                 <Tooltip title={transaction.toFrom} arrow>
                   <Typography variant="body2" noWrap>
@@ -61,22 +73,16 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                   </Typography>
                 </Tooltip>
               </TableCell>
-              <TableCell align="center">{transaction.amount}</TableCell>
               <TableCell align="center">
                 <Typography
                   variant="body2"
-                  sx={{
-                    color:
-                      transaction.status === "Pending"
-                        ? "orange"
-                        : transaction.status === "Sent"
-                          ? "green"
-                          : "red",
-                  }}
+                  style={{ color: getStatusColor(transaction.status) }}
                 >
                   {transaction.status}
                 </Typography>
               </TableCell>
+              <TableCell align="center">{transaction.amount}</TableCell>
+              <TableCell align="center">{transaction.crypto}</TableCell>
             </TableRow>
           ))}
         </TableBody>

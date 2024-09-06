@@ -1,0 +1,28 @@
+{
+  "name": "@keyban/mui-theme",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [
+    "mui",
+    "theme",
+    "custom",
+    "keyban"
+  ],
+  "author": "Keyban Team",
+  "license": "ISC",
+  "description": "A custom MUI theme for Keyban projects",
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/chivo": "^5.0.15",
+    "@fontsource/nunito": "^5.0.20",
+    "@mui/material": "^6.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}

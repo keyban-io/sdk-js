@@ -20,9 +20,6 @@ importers:
       '@emotion/styled':
         specifier: ^11.13.0
         version: 11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
-      '@fontsource/outfit':
-        specifier: ^5.0.14
-        version: 5.0.14
       '@fortawesome/fontawesome-svg-core':
         specifier: ^6.6.0
         version: 6.6.0
@@ -35,6 +32,9 @@ importers:
       '@fortawesome/react-fontawesome':
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.6.0)(react@18.3.1)
+      '@keyban/mui-theme':
+        specifier: workspace:*
+        version: link:../../packages/mui-theme
       '@keyban/sdk-base':
         specifier: workspace:*
         version: link:../../packages/sdk-base
@@ -170,6 +170,58 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1))
 
+  apps/playground/my-second-app:
+    dependencies:
+      '@keyban/sdk-base':
+        specifier: workspace:*
+        version: link:../../../packages/sdk-base
+      '@keyban/sdk-react':
+        specifier: workspace:*
+        version: link:../../../packages/sdk-react
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-error-boundary:
+        specifier: ^4.0.13
+        version: 4.0.13(react@18.3.1)
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.9.0
+        version: 9.9.0
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      '@vitejs/plugin-react':
+        specifier: ^4.3.1
+        version: 4.3.1(vite@5.4.1(@types/node@22.4.1))
+      eslint:
+        specifier: ^9.9.0
+        version: 9.9.0(jiti@1.21.6)
+      eslint-plugin-react-hooks:
+        specifier: ^5.1.0-rc.0
+        version: 5.1.0-rc-fb9a90fa48-20240614(eslint@9.9.0(jiti@1.21.6))
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.9
+        version: 0.4.9(eslint@9.9.0(jiti@1.21.6))
+      globals:
+        specifier: ^15.9.0
+        version: 15.9.0
+      typescript:
+        specifier: ^5.5.3
+        version: 5.5.4
+      typescript-eslint:
+        specifier: ^8.0.1
+        version: 8.2.0(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)
+      vite:
+        specifier: ^5.4.1
+        version: 5.4.1(@types/node@22.4.1)
+
   apps/web-app:
     dependencies:
       '@keyban/sdk-react':
@@ -233,6 +285,28 @@ importers:
       vite-tsconfig-paths:
         specifier: ^5.0.1
         version: 5.0.1(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1))
+
+  packages/mui-theme:
+    dependencies:
+      '@emotion/react':
+        specifier: ^11.13.3
+        version: 11.13.3(@types/react@18.3.3)(react@18.3.1)
+      '@emotion/styled':
+        specifier: ^11.13.0
+        version: 11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@fontsource/chivo':
+        specifier: ^5.0.15
+        version: 5.0.15
+      '@fontsource/nunito':
+        specifier: ^5.0.20
+        version: 5.0.20
+      '@mui/material':
+        specifier: ^6.0.2
+        version: 6.0.2(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      typescript:
+        specifier: ^5.5.4
+        version: 5.5.4
 
   packages/sdk-base:
     dependencies:
@@ -565,6 +639,18 @@ packages:
 
   '@babel/plugin-transform-react-display-name@7.24.7':
     resolution: {integrity: sha512-H/Snz9PFxKsS1JLI4dJLtnJgCJRoo0AUm3chP6NYr+9En1JMKloheEiLIhlp5MDVznWo+H3AAC1Mc8lmUEpsgg==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+
+  '@babel/plugin-transform-react-jsx-self@7.24.7':
+    resolution: {integrity: sha512-fOPQYbGSgH0HUp4UJO4sMBFjY6DuWq+2i8rixyUMb3CdGixs/gccURvYOAhajBdKDoGajFr3mUq5rH3phtkGzw==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+
+  '@babel/plugin-transform-react-jsx-source@7.24.7':
+    resolution: {integrity: sha512-J2z+MWzZHVOemyLweMqngXrgGC42jQ//R0KdxqkIz/OrbVIIlhFI3WigZ5fO+nwFvBlncr4MGapd8vTyc7RPNQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -1046,8 +1132,11 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@fontsource/outfit@5.0.14':
-    resolution: {integrity: sha512-GVxAiTRl4lqvM2nNaW03sDPk1QL/4wOF2TZZOLghH5f4j4+yyZDrNXA16kietWaxnFqnZFnmctQTBQ1T8mi7OQ==}
+  '@fontsource/chivo@5.0.15':
+    resolution: {integrity: sha512-5TLsVcl32U5xdSL83TB3axjdcorJEc3XPgNQhxYMlcB4oF7jISn2jGUb69RdOP1Hle7Hq/KoMaQPVTNgLcX97w==}
+
+  '@fontsource/nunito@5.0.20':
+    resolution: {integrity: sha512-jbWa1rztKTsR3GGJHHHJ4a2Gcvpb+7aIRq1II1RKG787jmVKOt3/lsRIY93hyIgmldhaq1DJbzCuY4ZkK4u9OA==}
 
   '@fontsource/roboto@5.0.14':
     resolution: {integrity: sha512-zHAxlTTm9RuRn9/StwclFJChf3z9+fBrOxC3fw71htjHP1BgXNISwRjdJtAKAmMe5S2BzgpnjkQR93P9EZYI/Q==}
@@ -1751,6 +1840,18 @@ packages:
   '@swc/types@0.1.12':
     resolution: {integrity: sha512-wBJA+SdtkbFhHjTMYH+dEH1y4VpfGdAc2Kw/LK09i9bXd/K6j6PkDcFCEzb6iVfZMkPRrl/q0e3toqTAJdkIVA==}
 
+  '@types/babel__core@7.20.5':
+    resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
+
+  '@types/babel__generator@7.6.8':
+    resolution: {integrity: sha512-ASsj+tpEDsEiFr1arWrlN6V3mdfjRMZt6LtK/Vp/kreFLnr5QH5+DhvD5nINYZXzwJvXeGq+05iUXcAzVrqWtw==}
+
+  '@types/babel__template@7.4.4':
+    resolution: {integrity: sha512-h/NUaSyG5EyxBIp8YRxo4RMe2/qQgvyowRwVMzhYhBCONbW8PUsg4lkFMrhgZhUe5z3L3MiLDuvyJ/CaPa2A8A==}
+
+  '@types/babel__traverse@7.20.6':
+    resolution: {integrity: sha512-r1bzfrm0tomOI8g1SzvCaQHo6Lcv6zu0EA+W2kHrt8dyrHQxGzBBL4kdkzIS+jBMV+EYcMAEAqXqYaLJq5rOZg==}
+
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
@@ -1848,6 +1949,12 @@ packages:
     resolution: {integrity: sha512-yrknSb3Dci6svCd/qhHqhFPDSw0QtjumcqdKMoNNzmOl5lMXTTiqzjWtG4Qask2HdvvzaNgSunbQGet8/GrKdA==}
     peerDependencies:
       vite: ^4 || ^5
+
+  '@vitejs/plugin-react@4.3.1':
+    resolution: {integrity: sha512-m/V2syj5CuVnaxcUJOQRel/Wr31FFXRFlnOoq1TVtkCxsY5veGMTEmpWHndrhB2U8ScHtCQB1e+4hWYExQc6Lg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: ^4.2.0 || ^5.0.0
 
   '@whatwg-node/events@0.0.3':
     resolution: {integrity: sha512-IqnKIDWfXBJkvy/k6tzskWTc2NK3LcqHlb+KHGCrjOCH4jfQckRX0NAiIcC/vIqQkzLYw2r2CTSwAxcrtcD6lA==}
@@ -3138,6 +3245,10 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
+  react-refresh@0.14.2:
+    resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
+    engines: {node: '>=0.10.0'}
+
   react-router-dom@6.26.1:
     resolution: {integrity: sha512-veut7m41S1fLql4pLhxeSW3jlqs+4MtjRLj0xvuCEXsxusJCbs6I8yn9BxzzDX2XDgafrccY6hwjmd/bL54tFw==}
     engines: {node: '>=14.0.0'}
@@ -3751,8 +3862,8 @@ snapshots:
   '@ardatan/relay-compiler@12.0.0(graphql@16.9.0)':
     dependencies:
       '@babel/core': 7.25.2
-      '@babel/generator': 7.25.0
-      '@babel/parser': 7.25.3
+      '@babel/generator': 7.25.5
+      '@babel/parser': 7.25.4
       '@babel/runtime': 7.25.0
       '@babel/traverse': 7.25.4
       '@babel/types': 7.25.4
@@ -3789,14 +3900,14 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@babel/code-frame': 7.24.7
-      '@babel/generator': 7.25.0
+      '@babel/generator': 7.25.5
       '@babel/helper-compilation-targets': 7.25.2
       '@babel/helper-module-transforms': 7.25.2(@babel/core@7.25.2)
       '@babel/helpers': 7.25.0
-      '@babel/parser': 7.25.3
+      '@babel/parser': 7.25.4
       '@babel/template': 7.25.0
-      '@babel/traverse': 7.25.3
-      '@babel/types': 7.25.2
+      '@babel/traverse': 7.25.4
+      '@babel/types': 7.25.4
       convert-source-map: 2.0.0
       debug: 4.3.6
       gensync: 1.0.0-beta.2
@@ -4064,6 +4175,16 @@ snapshots:
       '@babel/helper-plugin-utils': 7.24.8
 
   '@babel/plugin-transform-react-display-name@7.24.7(@babel/core@7.25.2)':
+    dependencies:
+      '@babel/core': 7.25.2
+      '@babel/helper-plugin-utils': 7.24.8
+
+  '@babel/plugin-transform-react-jsx-self@7.24.7(@babel/core@7.25.2)':
+    dependencies:
+      '@babel/core': 7.25.2
+      '@babel/helper-plugin-utils': 7.24.8
+
+  '@babel/plugin-transform-react-jsx-source@7.24.7(@babel/core@7.25.2)':
     dependencies:
       '@babel/core': 7.25.2
       '@babel/helper-plugin-utils': 7.24.8
@@ -4581,7 +4702,9 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@fontsource/outfit@5.0.14': {}
+  '@fontsource/chivo@5.0.15': {}
+
+  '@fontsource/nunito@5.0.20': {}
 
   '@fontsource/roboto@5.0.14': {}
 
@@ -5490,6 +5613,27 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
+  '@types/babel__core@7.20.5':
+    dependencies:
+      '@babel/parser': 7.25.4
+      '@babel/types': 7.25.4
+      '@types/babel__generator': 7.6.8
+      '@types/babel__template': 7.4.4
+      '@types/babel__traverse': 7.20.6
+
+  '@types/babel__generator@7.6.8':
+    dependencies:
+      '@babel/types': 7.25.4
+
+  '@types/babel__template@7.4.4':
+    dependencies:
+      '@babel/parser': 7.25.4
+      '@babel/types': 7.25.4
+
+  '@types/babel__traverse@7.20.6':
+    dependencies:
+      '@babel/types': 7.25.4
+
   '@types/estree@1.0.5': {}
 
   '@types/js-yaml@4.0.9': {}
@@ -5615,6 +5759,17 @@ snapshots:
       vite: 5.4.1(@types/node@22.4.1)
     transitivePeerDependencies:
       - '@swc/helpers'
+
+  '@vitejs/plugin-react@4.3.1(vite@5.4.1(@types/node@22.4.1))':
+    dependencies:
+      '@babel/core': 7.25.2
+      '@babel/plugin-transform-react-jsx-self': 7.24.7(@babel/core@7.25.2)
+      '@babel/plugin-transform-react-jsx-source': 7.24.7(@babel/core@7.25.2)
+      '@types/babel__core': 7.20.5
+      react-refresh: 0.14.2
+      vite: 5.4.1(@types/node@22.4.1)
+    transitivePeerDependencies:
+      - supports-color
 
   '@whatwg-node/events@0.0.3': {}
 
@@ -6984,6 +7139,8 @@ snapshots:
   react-is@16.13.1: {}
 
   react-is@18.3.1: {}
+
+  react-refresh@0.14.2: {}
 
   react-router-dom@6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
