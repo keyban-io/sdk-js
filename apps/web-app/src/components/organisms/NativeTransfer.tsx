@@ -22,12 +22,11 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
 
       <Row>
         <BigIntField
-          label="Raw value"
+          label="Value"
           value={value?.toString()}
           onChange={setValue}
-          data-test-id="NativeTransfer:value"
+          data-test-id="NativeTransfer:rawValue"
         />
-        <span>Formatted:</span>
         <div data-test-id="NativeTransfer:formattedValue">
           <FormattedBalance balance={value} />
         </div>
@@ -48,23 +47,22 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           onClick={() =>
             account
               .estimateTransfer(recipient as Address, value)
-              .then((estimation: any) => setTransferCost(estimation.maxCost))
+              .then((estimation) => setTransferCost(estimation.maxFees))
               .catch(console.error)
           }
-          data-test-id="EstimateNativeTransfer:submit"
+          data-test-id="NativeTransfer:estimate:submit"
         >
           Estimate max tx fees
         </button>
       </Row>
       <Row>
-        <span>Raw estimation:</span>
+        <span>Estimation:</span>
         <SerializedValue
           value={transferCost}
           style={{ flexGrow: 1 }}
-          data-test-id="EstimatedFees:rawValue"
+          data-test-id="NativeTransfer:estimate:rawValue"
         />
-        <span>Formatted:</span>
-        <div data-test-id="EstimatedFees:formattedValue">
+        <div data-test-id="NativeTransfer:estimate:formattedValue">
           <FormattedBalance balance={transferCost} />
         </div>
       </Row>
@@ -87,11 +85,10 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
         <span>Hash:</span>
         <SerializedValue
           value={hash}
-            style={{ flexGrow: 1 }}
+          style={{ flexGrow: 1 }}
           data-test-id="NativeTransfer:hash"
         />
       </Row>
-
     </fieldset>
   );
 }

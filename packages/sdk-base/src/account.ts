@@ -1,6 +1,5 @@
 import {
   type Chain,
-  FeeValuesEIP1559,
   isAddress,
   type LocalAccount,
   type PublicClient,
@@ -15,14 +14,17 @@ import {
   Sdk,
 } from "~/account.generated";
 
-export type TransactionEstimation = {
+export type TransferEstimation = {
   maxFees: bigint;
   details: {
     maxFeePerGas: bigint;
     maxPriorityFeePerGas: bigint;
     gasCost: bigint;
-  }
-}
+  };
+};
+
+export type KeybanAccountTokenBalance =
+  GqlKeybanAccount_addressTokenBalancesQuery["addressTokenBalances"][0];
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
@@ -124,23 +126,24 @@ export class KeybanAccount implements KeybanAccount {
    * @param to transfer recipient
    * @param value transfer amount in wei
    */
-  async estimateTransfer(to: Address, value?: bigint): Promise<TransactionEstimation> {
-    return Promise.all([
-      this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
-      this.#publicClient.estimateGas({ to, account: this.address, value }),
-    ]).then(([fees, gasCost]) => {
-      const { maxFeePerGas, maxPriorityFeePerGas } = fees as FeeValuesEIP1559<bigint>;
-      return {
-        maxFees: maxFeePerGas * gasCost,
-        details: {
-          maxFeePerGas,
-          maxPriorityFeePerGas,
-          gasCost
-        }
-      };
-    });
+  async estimateTransfer(
+    to: Address,
+    value?: bigint,
+  ): Promise<TransferEstimation> {
+    const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
+      [
+        this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
+        this.#publicClient.estimateGas({ to, account: this.address, value }),
+      ],
+    );
+
+    return {
+      maxFees: maxFeePerGas * gasCost,
+      details: {
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+        gasCost,
+      },
+    };
   }
 }
-
-export type KeybanAccountTokenBalance =
-  GqlKeybanAccount_addressTokenBalancesQuery["addressTokenBalances"][0];
