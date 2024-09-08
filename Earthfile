@@ -73,7 +73,7 @@ live:
 build:
     ARG --required app
     FROM +app-base --app=${app}
-    RUN pnpm --filter ${app}... build
+    RUN pnpm --filter ${app} build
 
 dist:
     ARG --required app
