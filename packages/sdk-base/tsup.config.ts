@@ -1,9 +1,6 @@
 import { defineConfig } from "tsup";
 
-const isProduction = process.env.NODE_ENV === "production";
-
 export default defineConfig(({ watch = false }) => ({
-  clean: true,
   dts: true,
   entry: {
     index: "src/index.ts",
@@ -11,11 +8,8 @@ export default defineConfig(({ watch = false }) => ({
   external: [],
   format: ["cjs", "esm"],
   plugins: [],
-  treeshake: isProduction,
-  minify: isProduction,
-  sourcemap: isProduction,
+  treeshake: true,
+  minify: true,
+  sourcemap: true,
   watch,
-  loader: {
-    ".wasm": "binary",
-  },
 }));

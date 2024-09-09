@@ -25,7 +25,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * // Main Wallet component wrapped with KeybanProvider to supply SDK context
  * const Wallet: React.FC = () => (
  *   <KeybanProvider
- *     chain={KeybanChain.polygonAmoy} // Specifies the blockchain network (Polygon)
+ *     chain={KeybanChain.PolygonAmoy} // Specifies the blockchain network (Polygon)
  *     signer={KeybanSigner.ECDSA} // Specifies the signing algorithm (ECDSA)
  *     storage={KeybanLocalStorage} // Specifies the storage mechanism (LocalStorage)
  *   >

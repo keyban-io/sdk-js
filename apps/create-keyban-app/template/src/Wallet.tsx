@@ -66,7 +66,7 @@ const WalletContent: React.FC = () => {
 const Wallet: React.FC = () => (
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <KeybanProvider
-      chain={KeybanChain.polygonAmoy} // Specifies the Polygon Amoy testnet as the blockchain network
+      chain={KeybanChain.PolygonAmoy} // Specifies the Polygon Amoy testnet as the blockchain network
       signer={KeybanSigner.ECDSA} // Specifies the ECDSA signer to be used
       storage={KeybanLocalStorage} // Uses local storage to persist wallet data
       apiUrl="https://api.keyban.localtest.me" // API URL for interacting with the Keyban backend

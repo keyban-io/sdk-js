@@ -2,35 +2,40 @@
 import * as Types from './gql-types';
 
 export type GqlKeybanAccount_addressTokenBalancesQueryVariables = Types.Exact<{
+  chainType: Types.GqlChainType;
   address: Types.Scalars['Address']['input'];
 }>;
 
 
 export type GqlKeybanAccount_addressTokenBalancesQuery = {
-  addressTokenBalances: Array<{
-    balance: bigint,
-    token: {
-      address: Address,
-      name: string,
-      symbol: string,
-      decimals: number,
-      iconUrl?: string | null
-    }
-  }>
+  chain: {
+    addressTokenBalances: Array<{
+      balance: Types.Scalars['BigInt']['output'],
+      token: {
+        address: Types.Scalars['Address']['output'],
+        name: string,
+        symbol: string,
+        decimals: number,
+        iconUrl?: string | null
+      }
+    }>
+  }
 };
 
 
 export const KeybanAccount_addressTokenBalancesDocument = `
-    query KeybanAccount_addressTokenBalances($address: Address!) {
-  addressTokenBalances(address: $address) {
-    token {
-      address
-      name
-      symbol
-      decimals
-      iconUrl
+    query KeybanAccount_addressTokenBalances($chainType: ChainType!, $address: Address!) {
+  chain(type: $chainType) {
+    addressTokenBalances(address: $address) {
+      token {
+        address
+        name
+        symbol
+        decimals
+        iconUrl
+      }
+      balance
     }
-    balance
   }
 }
     `;

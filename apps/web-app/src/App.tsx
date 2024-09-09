@@ -14,7 +14,7 @@ import ConfigEditor from "@/components/organisms/ConfigEditor";
 import RefreshButton from "@/components/atoms/RefreshButton";
 
 const DEFAULT_API_URL = "https://api.keyban.localtest.me";
-const DEFAULT_CHAIN_URL = "https://anvil.keyban.localtest.me";
+const DEFAULT_CHAIN = KeybanChain.KeybanTestnet;
 
 const getSignerName = (config: KeybanClientConfig) =>
   Object.entries(KeybanSigner).find(
@@ -25,8 +25,7 @@ export default function App() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [config, setConfig] = React.useState<KeybanClientConfig>({
     apiUrl: searchParams.get("apiUrl") ?? DEFAULT_API_URL,
-    chain: (searchParams.get("chain") as KeybanChain) ?? KeybanChain.anvil,
-    chainUrl: searchParams.get("chainUrl") ?? DEFAULT_CHAIN_URL,
+    chain: (searchParams.get("chain") as KeybanChain) ?? DEFAULT_CHAIN,
     signer:
       KeybanSigner[searchParams.get("signer") ?? "EDCSA"] ?? KeybanSigner.ECDSA,
     storage: KeybanLocalStorage,
@@ -37,7 +36,6 @@ export default function App() {
       ...prev,
       apiUrl: config.apiUrl,
       chain: config.chain,
-      chainUrl: config.chainUrl,
       signer: getSignerName(config),
     }));
   }, [config, setSearchParams]);

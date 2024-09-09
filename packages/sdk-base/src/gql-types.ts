@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Address, Hash, Hex } from "~/index";
+import type { Address, Hash, Hex } from "~/index";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -18,14 +18,31 @@ export type Scalars = {
   BigInt: { input: bigint; output: bigint; }
 };
 
-export type GqlQuery = {
-  __typename?: 'Query';
+export type GqlChain = {
+  __typename?: 'Chain';
   addressTokenBalances: Array<GqlTokenBalance>;
+  rpcUrl: Scalars['String']['output'];
+  type: GqlChainType;
 };
 
 
-export type GqlQueryaddressTokenBalancesArgs = {
+export type GqlChainaddressTokenBalancesArgs = {
   address: Scalars['Address']['input'];
+};
+
+export enum GqlChainType {
+  KeybanTestnet = 'KeybanTestnet',
+  PolygonAmoy = 'PolygonAmoy'
+}
+
+export type GqlQuery = {
+  __typename?: 'Query';
+  chain: GqlChain;
+};
+
+
+export type GqlQuerychainArgs = {
+  type: GqlChainType;
 };
 
 export type GqlToken = {

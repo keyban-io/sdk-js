@@ -1,17 +1,14 @@
 import { defineConfig } from "tsup";
 
-const isProduction = process.env.NODE_ENV === "production";
-
 export default defineConfig(({ watch = false }) => ({
-  clean: true,
   dts: true,
   entry: {
     index: "src/index.ts",
   },
-  external: ["react-dom"],
+  external: [],
   format: ["cjs", "esm"],
-  treeshake: isProduction,
-  minify: isProduction,
-  sourcemap: isProduction,
+  treeshake: true,
+  minify: true,
+  sourcemap: true,
   watch,
 }));

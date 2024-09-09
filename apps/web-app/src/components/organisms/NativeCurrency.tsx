@@ -1,5 +1,5 @@
 import * as chains from "viem/chains";
-import { useKeybanClient } from "@keyban/sdk-react";
+import { KeybanChain, useKeybanClient } from "@keyban/sdk-react";
 
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
@@ -7,7 +7,10 @@ import SerializedValue from "@/components/atoms/SerializedValue";
 export default function NativeCurrency() {
   const client = useKeybanClient();
 
-  const chain = (chains as Record<string, chains.Chain>)[client.chain];
+  const chain = {
+    [KeybanChain.KeybanTestnet]: chains.anvil,
+    [KeybanChain.PolygonAmoy]: chains.polygonAmoy,
+  }[client.chain];
   const { nativeCurrency } = chain;
 
   return (

@@ -9,7 +9,7 @@ const scalars = {
 };
 
 const config: CodegenConfig = {
-  schema: "https://keyban.localtest.me/api/graphql",
+  schema: "https://api.keyban.localtest.me/graphql",
   documents: ["src/**/*.gql"],
   ignoreNoDocuments: true,
   generates: {
@@ -50,7 +50,13 @@ const config: CodegenConfig = {
         printFieldsOnNewLines: true,
         documentMode: "string",
         strictScalars: true,
-        scalars,
+        scalars: Object.keys(scalars).reduce(
+          (acc, name) =>
+            Object.assign(acc, {
+              [name]: `Types.Scalars['${name}']['output']`,
+            }),
+          {},
+        ),
       },
     },
   },

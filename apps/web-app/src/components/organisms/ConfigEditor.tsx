@@ -43,13 +43,6 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
         ))}
       </SelectField>
 
-      <TextField
-        label="Chain URL"
-        value={config.chainUrl}
-        onChange={(chainUrl) => onChange({ ...config, chainUrl })}
-        data-test-id="ConfigEditor:chainUrl"
-      />
-
       <Row>
         <span>Signer:</span>
         {Object.entries(KeybanSigner).map(([key, value]) => (

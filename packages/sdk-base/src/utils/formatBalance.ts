@@ -1,5 +1,5 @@
 import { formatUnits } from "viem";
-import * as chains from "viem/chains";
+import { chainsMap } from "~/chains";
 
 import type { KeybanClient, KeybanAccountTokenBalance } from "~/index";
 
@@ -20,7 +20,7 @@ export function formatBalance(
   client: KeybanClient,
   balance: bigint | KeybanAccountTokenBalance,
 ) {
-  const nativeCurrency = chains[client.chain].nativeCurrency;
+  const nativeCurrency = chainsMap[client.chain].nativeCurrency;
   let decimals: number = nativeCurrency.decimals;
   let symbol: string = nativeCurrency.symbol;
 

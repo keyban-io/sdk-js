@@ -44,7 +44,7 @@
   "scripts": {
     "codegen": "graphql-codegen",
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
-    "build": "NODE_ENV=production tsup",
+    "build": "tsup",
     "format": "prettier --write ./src",
     "changeset": "changeset"
   },

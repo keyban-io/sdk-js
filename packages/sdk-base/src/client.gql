@@ -1,0 +1,5 @@
+query KeybanClient_chain($chain: ChainType!) {
+  chain(type: $chain) {
+    rpcUrl
+  }
+}

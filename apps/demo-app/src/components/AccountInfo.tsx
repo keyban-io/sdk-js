@@ -1,21 +1,18 @@
-import type React from 'react';
-import { useState } from 'react';
+import type React from "react";
+import { useState } from "react";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
+import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
 import {
   faCheck,
   faCopy,
   faEdit,
   faQrcode,
   faSliders,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  KeybanChain,
-  useKeybanAccount,
-} from '@keyban/sdk-react';
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { KeybanChain, useKeybanAccount } from "@keyban/sdk-react";
 import {
   Button,
   Dialog,
@@ -27,11 +24,11 @@ import {
   TextField,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-import { testEnvs } from '../lib/testData';
-import EnvSelector from './EnvSelector';
-import NetworkSelector from './NetworkSelector';
+import { testEnvs } from "../lib/testData";
+import EnvSelector from "./EnvSelector";
+import NetworkSelector from "./NetworkSelector";
 
 interface AccountInfoProps {
   keyId: string;
@@ -42,7 +39,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
   const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedChainId, setSelectedChainId] = useState(
-    KeybanChain.polygonAmoy,
+    KeybanChain.PolygonAmoy,
   );
   const [selectedEnvId, setSelectedEnvId] = useState(testEnvs[0].id);
   const [account, accountError] = useKeybanAccount(keyId, {

@@ -10,14 +10,14 @@ import {
   serializeTransaction,
 } from "viem";
 import { publicKeyToAddress, toAccount } from "viem/accounts";
-import * as chains from "viem/chains";
-import { KeybanAccount } from "~/account";
-import { KeybanApiStatus } from "~/api";
-import { KeybanChain } from "~/chains";
-import { KeybanBaseError, StorageError } from "~/errors";
-import { Address } from "~/index";
-import type { KeybanSigner } from "~/signer";
-import type { KeybanStorage } from "~/storage";
+import { KeybanAccount } from "./account";
+import { KeybanApiStatus } from "./api";
+import { StorageError } from "./errors";
+import { Address, KeybanChain } from "./index";
+import type { KeybanSigner } from "./signer";
+import type { KeybanStorage } from "./storage";
+import { chainsMap } from "~/chains";
+import { getSdk, Sdk } from "~/client.generated";
 
 /**
  * Configuration object for the Keyban client.
@@ -28,7 +28,6 @@ import type { KeybanStorage } from "~/storage";
 export type KeybanClientConfig = {
   apiUrl?: string;
   chain: KeybanChain;
-  chainUrl?: string;
   signer: new () => KeybanSigner;
   storage: new () => KeybanStorage;
 };
@@ -38,35 +37,44 @@ export type KeybanClientConfig = {
  */
 export class KeybanClient {
   chain: KeybanChain;
-  chainUrl?: string;
   apiUrl: string;
 
   #signer: KeybanSigner;
   #storage: KeybanStorage;
+  #graphql: Sdk;
+
   #accounts: Map<string, Promise<KeybanAccount>>;
-  #publicClient: PublicClient<Transport, Chain>;
+
+  #transport: Promise<Transport>;
+  #publicClient: Promise<PublicClient<Transport, Chain>>;
 
   /**
    * @param {Object} config The client config object
    */
   constructor({
-    chain,
-    chainUrl,
     apiUrl = "https://api.keyban.io",
+    chain,
     signer,
     storage,
   }: KeybanClientConfig) {
     this.apiUrl = apiUrl;
     this.chain = chain;
-    this.chainUrl = chainUrl;
 
     this.#signer = new signer();
     this.#storage = new storage();
+    this.#graphql = getSdk(this.gqlRequester);
+
     this.#accounts = new Map();
-    this.#publicClient = createPublicClient({
-      chain: chains[this.chain],
-      transport: http(this.chainUrl),
-    });
+
+    this.#transport = this.#graphql
+      .KeybanClient_chain({ chain })
+      .then(({ chain }) => http(chain.rpcUrl));
+    this.#publicClient = this.#transport.then((transport) =>
+      createPublicClient({
+        chain: chainsMap[this.chain],
+        transport,
+      }),
+    );
   }
 
   /**
@@ -89,11 +97,7 @@ export class KeybanClient {
         );
       });
 
-      clientShare ??= await this.#signer
-        .dkg(keyId, this.apiUrl)
-        .catch((err) => {
-          throw new KeybanBaseError(err);
-        });
+      clientShare ??= await this.#signer.dkg(keyId, this.apiUrl);
 
       await this.#storage.set(storageKey, clientShare).catch((err) => {
         throw new StorageError(
@@ -103,11 +107,7 @@ export class KeybanClient {
         );
       });
 
-      const publicKey = await this.#signer
-        .publicKey(clientShare)
-        .catch((err) => {
-          throw new KeybanBaseError(err);
-        });
+      const publicKey = await this.#signer.publicKey(clientShare);
 
       const account = toAccount({
         address: publicKeyToAddress(publicKey),
@@ -145,13 +145,14 @@ export class KeybanClient {
       // Did viem forgot to fill the publicKey?
       account.publicKey = publicKey;
 
+      const publicClient = await this.#publicClient;
       const walletClient = createWalletClient({
-        chain: chains[this.chain],
-        transport: http(this.chainUrl),
+        chain: publicClient.chain,
+        transport: await this.#transport,
         account,
       });
 
-      return new KeybanAccount(keyId, this, this.#publicClient, walletClient);
+      return new KeybanAccount(keyId, this, publicClient, walletClient);
     })();
 
     this.#accounts.set(keyId, promise);
@@ -161,7 +162,8 @@ export class KeybanClient {
   }
 
   async getBalance(address: Address) {
-    return this.#publicClient.getBalance({ address });
+    const publicClient = await this.#publicClient;
+    return publicClient.getBalance({ address });
   }
 
   /**

@@ -24,7 +24,7 @@ export type TransferEstimation = {
 };
 
 export type KeybanAccountTokenBalance =
-  GqlKeybanAccount_addressTokenBalancesQuery["addressTokenBalances"][0];
+  GqlKeybanAccount_addressTokenBalancesQuery["chain"]["addressTokenBalances"][0];
 
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
@@ -76,12 +76,12 @@ export class KeybanAccount implements KeybanAccount {
    * @returns The account balance in ERC20 tokens.
    */
   async getTokenBalances() {
-    const { addressTokenBalances } =
-      await this.#graphql.KeybanAccount_addressTokenBalances({
-        address: this.address,
-      });
+    const { chain } = await this.#graphql.KeybanAccount_addressTokenBalances({
+      chainType: this.#client.chain,
+      address: this.address,
+    });
 
-    return addressTokenBalances;
+    return chain.addressTokenBalances;
   }
 
   /**
