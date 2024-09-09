@@ -19,6 +19,12 @@ import type {
 
 /**
  * Represents the estimation of the fees required for a token transfer.
+ * @property {bigint} maxFees - The total maximum fees for the transaction, including gas cost and priority fees
+ * @property {Object} details - The breakdown of gas-related fees
+ * @property {bigint} details.maxFeePerGas - The maximum fee per unit of gas
+ * @property {bigint} details.maxPriorityFeePerGas - The maximum priority fee per unit of gas
+ * @property {bigint} details.gasCost - The estimated gas cost for the transaction
+ * @see {@link KeybanAccount#estimateTransfer}
  */
 export type TransferEstimation = {
   maxFees: bigint; // The total maximum fees for the transaction
