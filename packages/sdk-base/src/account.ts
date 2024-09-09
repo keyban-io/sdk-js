@@ -5,16 +5,27 @@ import {
   type PublicClient,
   type Transport,
   type WalletClient,
-} from "viem";
-import { Address, Hash, Hex, KeybanClient } from "~/index";
-import { SdkError, SdkErrorTypes } from "~/errors";
+} from 'viem';
+import {
+  SdkError,
+  SdkErrorTypes,
+} from '~/errors';
+import type {
+  Address,
+  Hash,
+  Hex,
+  KeybanClient,
+} from '~/index';
 
+/**
+ * Represents the estimation of the fees required for a token transfer.
+ */
 export type TransferEstimation = {
-  maxFees: bigint;
+  maxFees: bigint; // The total maximum fees for the transaction
   details: {
-    maxFeePerGas: bigint;
-    maxPriorityFeePerGas: bigint;
-    gasCost: bigint;
+    maxFeePerGas: bigint; // The maximum fee per unit of gas
+    maxPriorityFeePerGas: bigint; // The maximum priority fee per unit of gas
+    gasCost: bigint; // The estimated gas cost for the transaction
   };
 };
 
@@ -108,8 +119,10 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring native tokens to another address.
-   * @param to transfer recipient
-   * @param value transfer amount in wei
+   *
+   * @param to - The recipient address for the transfer.
+   * @param value - The transfer amount in wei.
+   * @returns A promise that resolves to a `TransferEstimation` object containing the fee details.
    */
   async estimateTransfer(
     to: Address,

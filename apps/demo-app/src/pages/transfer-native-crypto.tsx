@@ -39,6 +39,8 @@ const TransferNativeCrypto: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [, setLoading] = useState(true);
   const [isTransferring, setIsTransferring] = useState(false);
+  const [feeEstimate, setFeeEstimate] = useState<string | null>(null); // Ajoutez un état pour les frais estimés
+  const [debounceTimeout, setDebounceTimeout] = useState<number | null>(null); // Ajoutez un état pour gérer le timeout
 
   const buttonSx = {
     ...(transactionHash && {
@@ -65,6 +67,46 @@ const TransferNativeCrypto: React.FC = () => {
       setLoading(false);
     }
   }, [account]);
+
+  // Nouvelle fonction pour estimer les frais
+  const estimateFees = async (recipient: Address, amount: string) => {
+    if (!amount || !recipient) {
+      setFeeEstimate(null);
+      return;
+    }
+    try {
+      const valueInWei = BigInt(Number(amount) * 10 ** 18);
+      const estimation = await account.estimateTransfer(recipient, valueInWei);
+      console.log("Estimation", estimation);
+      setFeeEstimate(`${formatBalance(client, estimation.maxFees)}`); // Formatage des frais
+    } catch (err) {
+      console.error("Failed to estimate fees", err);
+      setFeeEstimate(null);
+    }
+  };
+
+  // Gestion du délai de 300ms pour l'estimation des frais
+  useEffect(() => {
+    // Annule le timeout précédent si l'utilisateur continue à taper
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+
+    // Déclenche l'estimation après 300ms
+    if (amount && recipient) {
+      const timeout = setTimeout(() => {
+        estimateFees(recipient as Address, amount);
+      }, 300); // 300ms de délai
+      setDebounceTimeout(timeout);
+    }
+
+    // Cleanup du timeout lors du démontage
+    return () => {
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout);
+      }
+    };
+  }, [amount, recipient, debounceTimeout]); // Recalculer à chaque fois que le montant ou le destinataire change
 
   const handleTransfer = async () => {
     setError(null);
@@ -110,7 +152,9 @@ Balance: ${formatBalance(client, balance)}`}
           id="recipient-address"
           type="number"
           label="You will send (POL)"
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => {
+            setAmount(e.target.value);
+          }}
           placeholder="0"
         />
         <TextField
@@ -120,6 +164,13 @@ Balance: ${formatBalance(client, balance)}`}
           onChange={(e) => setRecipient(e.target.value)}
           defaultValue={recipient}
         />
+
+        {feeEstimate && (
+          <Typography color="textSecondary">
+            Estimated transaction fees: {feeEstimate}
+          </Typography>
+        )}
+
         <Button
           variant="contained"
           onClick={handleTransfer}
@@ -145,7 +196,6 @@ Balance: ${formatBalance(client, balance)}`}
             Transaction successful! Hash:{" "}
             <Link
               underline="always"
-              // href={`https://amoy.polygonscan.com/tx/${transactionHash}`}
               href={`https://blockscout.keyban.localtest.me/tx/${transactionHash}`}
               target="_blank"
               rel="noopener noreferrer"
