@@ -1,10 +1,13 @@
-import { AppRouter } from "@/lib/router";
-import { AppThemeProvider } from "@/lib/theme";
+import { AppRouter } from '@/lib/router';
+import KeybanTheme from '@keyban/mui-theme';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
 
 export default function App() {
   return (
-    <AppThemeProvider>
+    <ThemeProvider theme={KeybanTheme}>
+      <CssBaseline />
       <AppRouter />
-    </AppThemeProvider>
+    </ThemeProvider>
   );
 }

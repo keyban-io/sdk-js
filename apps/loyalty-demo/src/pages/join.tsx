@@ -1,5 +1,11 @@
-import React from "react";
-import { Button, SvgIcon, Typography } from "@mui/material";
+import React from 'react';
+
+import {
+  Box,
+  Button,
+  SvgIcon,
+  Typography,
+} from '@mui/material';
 
 const GOOGLE_OAUTH_CLIENT_ID =
   "441240382343-o3fnq28ms148dv3h8f1j70nc9865no95.apps.googleusercontent.com";
@@ -20,8 +26,20 @@ export default function JoinPage() {
 
   return (
     <>
-      <Typography align="center">
-        Welcome to the [Brand Name] loyalty program
+      <Box
+        component="img"
+        sx={{
+          height: 236,
+          width: 236,
+          maxHeight: { xs: 236, md: 100 },
+          maxWidth: { xs: 236, md: 100 },
+        }}
+        alt="Keyban logo"
+        src="/keyban-logo-small.svg"
+      />
+
+      <Typography align="center" variant="h5">
+        Welcome to the Keyban loyalty program demo
       </Typography>
 
       <Typography align="center">
@@ -30,7 +48,7 @@ export default function JoinPage() {
       </Typography>
 
       <Typography align="center">
-        Click the button below to continue:
+        Login with your Google account to join the loyalty program:
       </Typography>
 
       <Button

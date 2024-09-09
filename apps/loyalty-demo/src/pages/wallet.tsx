@@ -1,5 +1,11 @@
-import { Button, SvgIcon, Typography } from "@mui/material";
-import React from "react";
+import React from 'react';
+
+import {
+  Box,
+  Button,
+  SvgIcon,
+  Typography,
+} from '@mui/material';
 
 type UserInfo = {
   id: string;
@@ -19,9 +25,22 @@ const API_URL = {
 export default function WalletPage() {
   return (
     <>
-      <Typography align="center">Your fid [Brand Name] card</Typography>
-      <Typography align="center">
-        Loyalty points: <code>1234</code>
+      <Box
+        component="img"
+        sx={{
+          height: 236,
+          width: 236,
+          maxHeight: { xs: 236, md: 100 },
+          maxWidth: { xs: 236, md: 100 },
+        }}
+        alt="Keyban logo"
+        src="/keyban-logo-small.svg"
+      />
+      <Typography align="center" variant="h6">
+        Your Keyban demo loyalty card
+      </Typography>
+      <Typography align="center" variant="h6">
+        Loyalty points: <code>10</code>
       </Typography>
       <Typography align="center">
         <GoogleWalletButton />

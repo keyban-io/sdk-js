@@ -1,4 +1,4 @@
-import type React from "react";
+import type React from 'react';
 
 import {
   Paper,
@@ -11,11 +11,10 @@ import {
   Tooltip,
   Typography,
   useTheme,
-} from "@mui/material";
+} from '@mui/material';
 
 interface Transaction {
   date: string;
-  type: string;
   crypto: string;
   toFrom: string;
   amount: string;
