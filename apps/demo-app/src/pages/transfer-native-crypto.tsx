@@ -1,5 +1,6 @@
 import type React from 'react';
 import {
+  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -27,10 +28,27 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from '@mui/material';
-import { green } from '@mui/material/colors';
+
+function useDebounce(value: string, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 const TransferNativeCrypto: React.FC = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const { state } = useLocation();
   const [recipient, setRecipient] = useState("");
@@ -39,14 +57,17 @@ const TransferNativeCrypto: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [, setLoading] = useState(true);
   const [isTransferring, setIsTransferring] = useState(false);
-  const [feeEstimate, setFeeEstimate] = useState<string | null>(null); // Ajoutez un état pour les frais estimés
-  const [debounceTimeout, setDebounceTimeout] = useState<number | null>(null); // Ajoutez un état pour gérer le timeout
+  const [feeEstimate, setFeeEstimate] = useState<string | null>(null);
+  const [isEstimatingFees, setIsEstimatingFees] = useState(false);
+
+  const debouncedAmount = useDebounce(amount, 300);
+  const debouncedRecipient = useDebounce(recipient, 300);
 
   const buttonSx = {
     ...(transactionHash && {
-      bgcolor: green[500],
+      bgcolor: theme.palette.success.main,
       "&:hover": {
-        bgcolor: green[700],
+        bgcolor: theme.palette.success.dark,
       },
     }),
   };
@@ -68,55 +89,48 @@ const TransferNativeCrypto: React.FC = () => {
     }
   }, [account]);
 
-  // Nouvelle fonction pour estimer les frais
-  const estimateFees = async (recipient: Address, amount: string) => {
-    if (!amount || !recipient) {
-      setFeeEstimate(null);
-      return;
-    }
-    try {
-      const valueInWei = BigInt(Number(amount) * 10 ** 18);
-      const estimation = await account.estimateTransfer(recipient, valueInWei);
-      console.log("Estimation", estimation);
-      setFeeEstimate(`${formatBalance(client, estimation.maxFees)}`); // Formatage des frais
-    } catch (err) {
-      console.error("Failed to estimate fees", err);
-      setFeeEstimate(null);
-    }
-  };
-
-  // Gestion du délai de 300ms pour l'estimation des frais
-  useEffect(() => {
-    // Annule le timeout précédent si l'utilisateur continue à taper
-    if (debounceTimeout) {
-      clearTimeout(debounceTimeout);
-    }
-
-    // Déclenche l'estimation après 300ms
-    if (amount && recipient) {
-      const timeout = setTimeout(() => {
-        estimateFees(recipient as Address, amount);
-      }, 300); // 300ms de délai
-      setDebounceTimeout(timeout);
-    }
-
-    // Cleanup du timeout lors du démontage
-    return () => {
-      if (debounceTimeout) {
-        clearTimeout(debounceTimeout);
+  const estimateFees = useCallback(
+    async (recipient: Address, amount: string) => {
+      if (!amount || !recipient) {
+        setFeeEstimate(null);
+        return;
       }
-    };
-  }, [amount, recipient, debounceTimeout]); // Recalculer à chaque fois que le montant ou le destinataire change
+      setIsEstimatingFees(true);
+      try {
+        const valueInWei = BigInt(Number(amount) * 10 ** 18);
+        const estimation = await account.estimateTransfer(
+          recipient,
+          valueInWei,
+        );
+        setFeeEstimate(`${formatBalance(client, estimation.maxFees)}`);
+      } catch (err) {
+        console.error("Failed to estimate fees", err);
+        setFeeEstimate(null);
+      } finally {
+        setIsEstimatingFees(false);
+      }
+    },
+    [account, client],
+  );
+
+  useEffect(() => {
+    if (debouncedAmount && debouncedRecipient) {
+      estimateFees(debouncedRecipient as Address, debouncedAmount);
+    }
+  }, [debouncedAmount, debouncedRecipient, estimateFees]);
 
   const handleTransfer = async () => {
     setError(null);
     setTransactionHash(null);
+
     setIsTransferring(true);
 
     try {
       const valueInWei = BigInt(Number(amount) * 10 ** 18);
       const txHash = await account.transfer(recipient as Address, valueInWei);
       setTransactionHash(txHash);
+      setRecipient("");
+      setAmount("");
     } catch (err) {
       setError(`Transfer failed: ${(err as Error).message}`);
     } finally {
@@ -143,18 +157,15 @@ const TransferNativeCrypto: React.FC = () => {
           maxRows={3}
           id="from-address"
           label="From this address"
-          onChange={(e) => setRecipient(e.target.value)}
           defaultValue={`${account.address}
 Account ID:${account.keyId}
 Balance: ${formatBalance(client, balance)}`}
         />
         <TextField
-          id="recipient-address"
+          id="amount"
           type="number"
-          label="You will send (POL)"
-          onChange={(e) => {
-            setAmount(e.target.value);
-          }}
+          label="You will send (ETH)"
+          onChange={(e) => setAmount(e.target.value)}
           placeholder="0"
         />
         <TextField
@@ -162,22 +173,32 @@ Balance: ${formatBalance(client, balance)}`}
           label="To this Address"
           placeholder="0xRecipientAddress"
           onChange={(e) => setRecipient(e.target.value)}
-          defaultValue={recipient}
+          value={recipient}
         />
-
-        {feeEstimate && (
-          <Typography color="textSecondary">
-            Estimated transaction fees: {feeEstimate}
-          </Typography>
+        {isEstimatingFees ? (
+          <CircularProgress size={24} />
+        ) : (
+          amount &&
+          recipient &&
+          feeEstimate && (
+            <Alert severity="info">
+              You are about to send {amount} ETH to {recipient}.
+              <br />
+              Maximum estimated transaction fees: {feeEstimate}.
+              <br />
+              Total amount (including fees):{" "}
+              {Number.parseFloat(amount) + Number.parseFloat(feeEstimate)} ETH
+            </Alert>
+          )
         )}
 
         <Button
           variant="contained"
           onClick={handleTransfer}
-          disabled={!!(isTransferring || error || transactionHash)}
+          disabled={isTransferring || !amount || !recipient || !!error}
           sx={buttonSx}
         >
-          Send POL
+          {isTransferring ? "Transferring..." : "Send"}
           {isTransferring && (
             <CircularProgress
               size={24}
@@ -191,6 +212,7 @@ Balance: ${formatBalance(client, balance)}`}
             />
           )}
         </Button>
+
         {transactionHash && (
           <Alert severity="success">
             Transaction successful! Hash:{" "}
@@ -204,6 +226,7 @@ Balance: ${formatBalance(client, balance)}`}
             </Link>
           </Alert>
         )}
+
         {error && <Alert severity="error">{error}</Alert>}
         <Button variant="contained" onClick={handleBackClick}>
           Back to Dashboard
