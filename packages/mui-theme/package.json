@@ -1,20 +1,10 @@
 {
-  "name": "@keyban/mui-theme",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+  "author": {
+    "email": "keyban@google.com",
+    "name": "Keyban",
+    "url": "https://keyban.com"
   },
-  "keywords": [
-    "mui",
-    "theme",
-    "custom",
-    "keyban"
-  ],
-  "author": "Keyban Team",
-  "license": "ISC",
-  "description": "A custom MUI theme for Keyban projects",
+  "bugs": "https://github.com/keyban-io/dap/issues",
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -22,7 +12,49 @@
     "@fontsource/nunito": "^5.0.20",
     "@mui/material": "^6.0.2"
   },
+  "description": "A custom MUI theme for Keyban projects",
   "devDependencies": {
-    "typescript": "^5.5.4"
-  }
+    "tsup": "^8.0.2",
+    "typescript": "^5.5.4",
+    "jest": "^29.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*",
+    "LICENSE",
+    "README.md"
+  ],
+  "homepage": "https://github.com/keyban-io/dap",
+  "keywords": [
+    "mui",
+    "theme",
+    "custom",
+    "keyban"
+  ],
+  "license": "MIT",
+  "main": "dist/index.ts",
+  "module": "./dist/index.mjs",
+  "name": "@keyban/mui-theme",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keyban-io/dap.git"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production tsup",
+    "test": "jest"
+  },
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {}
+  },
+  "version": "1.0.0"
 }

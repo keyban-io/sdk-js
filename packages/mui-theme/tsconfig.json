@@ -2,12 +2,13 @@
   "compilerOptions": {
     "outDir": "./dist",
     "sourceMap": true,
-    "module": "commonjs",
-    "target": "es5",
+    "module": "esnext",
+    "target": "es6",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node" // Ajout de la résolution de module node
   },
   "include": ["./**/*.ts"],
   "exclude": ["./dist"]

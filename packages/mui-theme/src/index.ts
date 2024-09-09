@@ -11,41 +11,41 @@ import { createTheme } from '@mui/material/styles';
 
 const KeybanTheme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#07689f',
-      light: '#a2d5f2',
-      dark: '#283149',
+      main: "#07689f",
+      light: "#a2d5f2",
+      dark: "#283149",
     },
     secondary: {
-      main: '#a2d5f2',
-      dark: '#ffffff',
+      main: "#a2d5f2",
+      dark: "#ffffff",
     },
     background: {
-      default: '#edf1f4',
+      default: "#edf1f4",
     },
     text: {
-      primary: '#707070',
-      secondary: '#07689F',
-      disabled: '#707070',
+      primary: "#707070",
+      secondary: "#07689F",
+      disabled: "#707070",
     },
     error: {
-      main: '#d32f2f',
+      main: "#d32f2f",
     },
     warning: {
-      main: '#ed6c02',
+      main: "#ed6c02",
     },
     success: {
-      main: '#2e7d32',
+      main: "#2e7d32",
     },
     info: {
-      main: '#07689f',
+      main: "#07689f",
     },
   },
   typography: {
-    fontFamily: '"Nunito", "Helvetica", "Arial", sans-serif', // Default font family for all text
+    fontFamily: '"Nunito", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif', // Titles (h1 to h6) will use Chivo
+      fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
     },
     h2: {
       fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
@@ -62,10 +62,7 @@ const KeybanTheme = createTheme({
     h6: {
       fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
     },
-    code: {
-      fontSize: '95%',
-    }
-  }
+  },
 });
 
 export default KeybanTheme;
