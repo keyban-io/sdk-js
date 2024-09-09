@@ -6,7 +6,7 @@ This is a custom MUI (Material UI) theme developed for Keyban projects. It provi
 
 Install the theme via npm:
 
-```
+```js
 npm install @keyban/mui-theme
 ```
 
@@ -17,10 +17,12 @@ After installing the package, you can use the theme in your MUI-based React proj
 ```tsx
 import { ThemeProvider } from '@mui/material/styles';
 import KeybanTheme from '@keyban/mui-theme';
+import CssBaseline from '@mui/material/CssBaseline';
 
 function App() {
   return (
     <ThemeProvider theme={KeybanTheme}>
+    <CssBaseline />
       {/* Your application components */}
     </ThemeProvider>
   );
