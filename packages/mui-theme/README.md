@@ -1,18 +1,18 @@
 # Keyban MUI Theme
 
-This is a custom MUI (Material UI) theme developed for Keyban projects. It provides a light theme with custom typography and palette settings.
+**Keyban MUI Theme** is a custom Material UI (MUI) theme, specifically designed for Keyban projects. It provides a light theme with customized typography and color palette settings.
 
 ## Installation
 
-Install the theme via npm:
+To install the theme via npm, run the following command:
 
-```js
+```bash
 npm install @keyban/mui-theme
 ```
 
 ## Usage
 
-After installing the package, you can use the theme in your MUI-based React project as follows:
+After installing the package, you can integrate the theme into your MUI-based React project as follows:
 
 ```tsx
 import { ThemeProvider } from '@mui/material/styles';
@@ -22,11 +22,38 @@ import CssBaseline from '@mui/material/CssBaseline';
 function App() {
   return (
     <ThemeProvider theme={KeybanTheme}>
-    <CssBaseline />
+      <CssBaseline />
       {/* Your application components */}
     </ThemeProvider>
   );
 }
 
 export default App;
+```
+
+### Accessing Colors and Typography
+
+To access theme properties like colors or typography, use MUI's `useTheme` hook. Here's an example of how to access the color palette:
+
+```tsx
+import { useTheme } from '@mui/material/styles';
+
+function MyComponent() {
+  const theme = useTheme();
+
+  return (
+    <div style={{ backgroundColor: theme.palette.success.main }}>
+      {/* Your component content */}
+    </div>
+  );
+}
+```
+
+### Custom Typography
+
+The theme also includes custom typography settings. You can access different typography styles in a similar way:
+
+```tsx
+const theme = useTheme();
+console.log(theme.typography.h1); // Access the styling for h1 headers
 ```
