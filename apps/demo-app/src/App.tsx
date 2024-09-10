@@ -12,19 +12,11 @@ import {
 import { ClientConfigProvider } from './context/ClientConfigContext';
 import { useClientConfig } from './hooks/useClientConfig';
 
-export default function App() {
-  return (
-    <ClientConfigProvider>
-      <MainApp />
-    </ClientConfigProvider>
-  );
-}
-
 function MainApp() {
   const { config, setConfig } = useClientConfig();
 
   const handleChainSelect = (chainId: KeybanChain) => {
-    setConfig((prevConfig) => ({ ...prevConfig, chain: chainId })); // Mise à jour de la chaîne sélectionnée
+    setConfig((prevConfig) => ({ ...prevConfig, chain: chainId }));
   };
 
   return (
@@ -39,5 +31,13 @@ function MainApp() {
         </KeybanProvider>
       </Stack>
     </Container>
+  );
+}
+
+export default function App() {
+  return (
+    <ClientConfigProvider>
+      <MainApp />
+    </ClientConfigProvider>
   );
 }
