@@ -14,7 +14,7 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
   const [value, setValue] = React.useState<bigint>(0n);
   const [recipient, setRecipient] = React.useState<string>("");
   const [hash, setHash] = React.useState<string>("");
-  const [transferCost, setTransferCost] = React.useState<bigint>(0n);
+  const [transferCost, setTransferCost] = React.useState<string>("");
 
   return (
     <fieldset>
@@ -47,7 +47,7 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           onClick={() =>
             account
               .estimateTransfer(recipient as Address, value)
-              .then((estimation) => setTransferCost(estimation.maxFees))
+              .then((estimation) => setTransferCost(estimation.maxFees.toString()))
               .catch(console.error)
           }
           data-test-id="NativeTransfer:estimate:submit"
@@ -63,7 +63,7 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           data-test-id="NativeTransfer:estimate:rawValue"
         />
         <div data-test-id="NativeTransfer:estimate:formattedValue">
-          <FormattedBalance balance={transferCost} />
+          <FormattedBalance balance={BigInt(transferCost)} />
         </div>
       </Row>
 
