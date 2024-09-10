@@ -171,7 +171,7 @@ Balance: ${formatBalance(client, balance)}`}
         <TextField
           id="amount"
           type="number"
-          label={`You will send ${formattedAmount.slice(formattedAmount.lastIndexOf(" ") + 1)}`}
+          label={`You will send ${client.nativeCurrency.symbol}`}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="0"
         />
@@ -197,7 +197,8 @@ Balance: ${formatBalance(client, balance)}`}
               </Typography>
               <Typography>
                 Total amount (including fees):{" "}
-                {Number.parseFloat(amount) + feeEstimateFormatted} ETH
+                {Number.parseFloat(amount) + feeEstimateFormatted}{" "}
+                {client.nativeCurrency.symbol}
               </Typography>
             </Alert>
           )
