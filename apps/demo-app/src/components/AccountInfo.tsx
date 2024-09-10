@@ -12,7 +12,7 @@ import {
   faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { KeybanChain, useKeybanAccount } from "@keyban/sdk-react";
+import { useKeybanAccount } from "@keyban/sdk-react";
 import {
   Button,
   Dialog,
@@ -26,9 +26,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import { testEnvs } from "../lib/testData";
-import EnvSelector from "./EnvSelector";
 import NetworkSelector from "./NetworkSelector";
+import { useChain } from "@/App";
 
 interface AccountInfoProps {
   keyId: string;
@@ -38,10 +37,6 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedChainId, setSelectedChainId] = useState(
-    KeybanChain.PolygonAmoy,
-  );
-  const [selectedEnvId, setSelectedEnvId] = useState(testEnvs[0].id);
   const [account, accountError] = useKeybanAccount(keyId, {
     suspense: true,
   });
@@ -86,13 +81,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
     }
   };
 
-  const handleSelectChain = (chainId: KeybanChain) => {
-    setSelectedChainId(chainId);
-  };
-
-  const handleSelectEnv = (envId: string) => {
-    setSelectedEnvId(envId);
-  };
+  const [chain, setChain] = useChain();
 
   return (
     <Stack direction="row" justifyContent="space-between">
@@ -153,17 +142,7 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
         <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
           <DialogTitle>Advanced options</DialogTitle>
           <DialogContent>
-            <Stack>
-              <NetworkSelector
-                selectedChainId={selectedChainId}
-                onSelectChain={handleSelectChain}
-              />
-              <EnvSelector
-                envs={testEnvs}
-                selectedEnvId={selectedEnvId}
-                onSelectEnv={handleSelectEnv}
-              />
-            </Stack>
+            <NetworkSelector selectedChainId={chain} onSelectChain={setChain} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

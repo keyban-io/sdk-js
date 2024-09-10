@@ -115,16 +115,3 @@ export const testTransactions = [
     status: "Unknown",
   },
 ];
-
-export const testEnvs = [
-  {
-    id: "1",
-    name: "Dev",
-    apiUrl: "https://keyban.localtest.me",
-  },
-  {
-    id: "2",
-    name: "Testing",
-    apiUrl: "https://testing.keyban.io",
-  },
-];

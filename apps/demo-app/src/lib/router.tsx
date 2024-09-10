@@ -1,19 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { ErrorBoundary } from 'react-error-boundary';
-import {
-  createBrowserRouter,
-  Outlet,
-  RouterProvider,
-} from 'react-router-dom';
+import { ErrorBoundary } from "react-error-boundary";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
-import { ErrorFallback } from '@/components/ErrorFallback';
-import {
-  CircularProgress,
-  Container,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { ErrorFallback } from "@/components/ErrorFallback";
+import { CircularProgress, Container, Stack, Typography } from "@mui/material";
 
 const mapFilepath = (filepath: string) =>
   filepath
@@ -21,17 +12,15 @@ const mapFilepath = (filepath: string) =>
     .replace(/\[(.*?)\]/g, ":$1") // route params handling
     .replace(/\/_404$/, "/*");
 
-const pages = Object.entries(
-  import.meta.glob("../pages/**/*.tsx") as Record<
-    string,
-    () => Promise<{ default: React.ComponentType }>
-  >,
-);
+const pages = import.meta.glob("../pages/**/*.tsx") as Record<
+  string,
+  () => Promise<{ default: React.ComponentType }>
+>;
 
 const router = createBrowserRouter([
   {
     element: React.createElement(() => (
-      <Container maxWidth="md">
+      <Container maxWidth="md" sx={{ py: [2, 3] }}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <React.Suspense
             fallback={
@@ -52,7 +41,7 @@ const router = createBrowserRouter([
         </ErrorBoundary>
       </Container>
     )),
-    children: pages.map(([filePath, factory]) => ({
+    children: Object.entries(pages).map(([filePath, factory]) => ({
       path: mapFilepath(filePath),
       element: React.createElement(React.lazy(factory)),
     })),

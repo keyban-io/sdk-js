@@ -1,14 +1,7 @@
-import type React from 'react';
+import type React from "react";
 
-import {
-  KeybanChain,
-} from '@keyban/sdk-base'; // Import the KeybanChain type from the correct module
-import {
-  FormControl,
-  FormHelperText,
-  MenuItem,
-  Select,
-} from '@mui/material';
+import { KeybanChain } from "@keyban/sdk-react"; // Import the KeybanChain type from the correct module
+import { FormControl, FormHelperText, MenuItem, Select } from "@mui/material";
 
 interface NetworkSelectorProps {
   selectedChainId: KeybanChain;
