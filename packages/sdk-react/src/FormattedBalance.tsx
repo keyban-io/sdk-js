@@ -1,4 +1,4 @@
-import { formatBalance, KeybanAccountTokenBalance } from "@keyban/sdk-base";
+import { formatBalance, KeybanTokenBalance } from "@keyban/sdk-base";
 import { useKeybanClient } from "./provider";
 
 /**
@@ -17,9 +17,7 @@ import { useKeybanClient } from "./provider";
  * console.log(formattedBalance); // "0.2 ETH"
  * ```
  */
-export function useFormattedBalance(
-  balance: bigint | KeybanAccountTokenBalance,
-) {
+export function useFormattedBalance(balance: bigint | KeybanTokenBalance) {
   return formatBalance(useKeybanClient(), balance);
 }
 
@@ -28,7 +26,7 @@ export function useFormattedBalance(
  * @see {@link FormattedBalance}
  */
 export type FormatedBalanceProps = {
-  balance: bigint | KeybanAccountTokenBalance;
+  balance: bigint | KeybanTokenBalance;
 };
 
 /**

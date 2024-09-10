@@ -3,3 +3,21 @@ query KeybanClient_chain($chain: ChainType!) {
     rpcUrl
   }
 }
+
+query KeybanClient_addressTokenBalances(
+  $chainType: ChainType!
+  $address: Address!
+) {
+  chain(type: $chainType) {
+    addressTokenBalances(address: $address) {
+      token {
+        address
+        name
+        symbol
+        decimals
+        iconUrl
+      }
+      balance
+    }
+  }
+}

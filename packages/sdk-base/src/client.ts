@@ -17,7 +17,11 @@ import { Address, KeybanChain } from "./index";
 import type { KeybanSigner } from "./signer";
 import type { KeybanStorage } from "./storage";
 import { viemChainsMap } from "~/chains";
-import { getSdk, Sdk } from "~/client.generated";
+import {
+  getSdk,
+  GqlKeybanClient_addressTokenBalancesQuery,
+  Sdk,
+} from "~/client.generated";
 
 /**
  * Configuration object for the Keyban client.
@@ -173,6 +177,18 @@ export class KeybanClient {
   }
 
   /**
+   * @returns An account balance in ERC20 tokens.
+   */
+  async getTokenBalances(address: Address) {
+    const { chain } = await this.#graphql.KeybanClient_addressTokenBalances({
+      chainType: this.chain,
+      address,
+    });
+
+    return chain.addressTokenBalances;
+  }
+
+  /**
    * Performs a health check to determine the operational status.
    * @returns A promise that resolves to either {@link KeybanApiStatus} based on the health check result.
    */
@@ -217,3 +233,6 @@ export class KeybanClient {
     return data as R;
   };
 }
+
+export type KeybanTokenBalance =
+  GqlKeybanClient_addressTokenBalancesQuery["chain"]["addressTokenBalances"][0];

@@ -1,7 +1,7 @@
-export { KeybanAccount, KeybanAccountTokenBalance } from "./account";
+export { KeybanAccount } from "./account";
 export { KeybanApiStatus } from "./api";
 export { KeybanChain } from "./chains";
-export { KeybanClient, KeybanClientConfig } from "./client";
+export { KeybanClient, KeybanClientConfig, KeybanTokenBalance } from "./client";
 export { KeybanSigner } from "./signer";
 export { KeybanStorage } from "./storage";
 export * from "./utils";

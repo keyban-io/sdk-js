@@ -8,11 +8,6 @@ import {
 } from "viem";
 import { Address, Hash, Hex, KeybanClient } from "~/index";
 import { SdkError, SdkErrorTypes } from "~/errors";
-import {
-  getSdk,
-  GqlKeybanAccount_addressTokenBalancesQuery,
-  Sdk,
-} from "~/account.generated";
 
 export type TransferEstimation = {
   maxFees: bigint;
@@ -23,9 +18,6 @@ export type TransferEstimation = {
   };
 };
 
-export type KeybanAccountTokenBalance =
-  GqlKeybanAccount_addressTokenBalancesQuery["chain"]["addressTokenBalances"][0];
-
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
   address: Address;
@@ -34,7 +26,6 @@ export class KeybanAccount implements KeybanAccount {
   #client: KeybanClient;
   #publicClient: PublicClient<Transport, Chain>;
   #walletClient: WalletClient<Transport, Chain, LocalAccount>;
-  #graphql: Sdk;
 
   /**
    * @private
@@ -52,7 +43,6 @@ export class KeybanAccount implements KeybanAccount {
     this.#client = client;
     this.#publicClient = publicClient;
     this.#walletClient = walletClient;
-    this.#graphql = getSdk(this.#client.gqlRequester);
   }
 
   /**
@@ -76,12 +66,7 @@ export class KeybanAccount implements KeybanAccount {
    * @returns The account balance in ERC20 tokens.
    */
   async getTokenBalances() {
-    const { chain } = await this.#graphql.KeybanAccount_addressTokenBalances({
-      chainType: this.#client.chain,
-      address: this.address,
-    });
-
-    return chain.addressTokenBalances;
+    return this.#client.getTokenBalances(this.address);
   }
 
   /**
