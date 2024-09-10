@@ -37,8 +37,11 @@ import type { KeybanStorage } from './storage';
 /**
  * Configuration object for the Keyban client.
  *
- * @see {@link KeybanChain}
- * @see {@link KeybanStorage}
+ * @property {string} [apiUrl] - The URL for the Keyban API. Defaults to "https://api.keyban.io" if not provided.
+ * @property {KeybanChain} chain - The blockchain Keyban operates on.
+ * @property {string} [chainUrl] - The URL for the chain, which can override the default chain URL.
+ * @property {new () => KeybanSigner} signer - Constructor for the Keyban-specific signer.
+ * @property {new () => KeybanStorage} storage - Constructor for the Keyban-specific storage handler.
  */
 export type KeybanClientConfig = {
   apiUrl?: string;
@@ -46,9 +49,14 @@ export type KeybanClientConfig = {
   signer: new () => KeybanSigner;
   storage: new () => KeybanStorage;
 };
-
 /**
- * @see {@link userKeybanClient}
+ * Main client for interacting with the Keyban API and associated services.
+ *
+ * @property {KeybanChain} chain - The blockchain used by Keyban.
+ * @property {string} [chainUrl] - Optional URL for the chain, overriding the default.
+ * @property {string} apiUrl - The Keyban API URL, defaulting to "https://api.keyban.io".
+ *
+ * @class
  */
 export class KeybanClient {
   apiUrl: string;
@@ -69,7 +77,9 @@ export class KeybanClient {
   #publicClient: Promise<PublicClient<Transport, Chain>>;
 
   /**
-   * @param {Object} config The client config object
+   * Creates a new instance of `KeybanClient`.
+   *
+   * @param {KeybanClientConfig} config - The configuration object to initialize the client.
    */
   constructor({
     apiUrl = "https://api.keyban.io",
@@ -99,9 +109,10 @@ export class KeybanClient {
   }
 
   /**
-   * Initializes a KeybanAccount instance.
-   * @param keyId - The key identifier used for storing and retrieving shares.
-   * @returns Instance of {@link KeybanAccount}
+   * Initializes a KeybanAccount associated with a specific key ID.
+   *
+   * @param {string} keyId - The key ID used to retrieve stored shares.
+   * @returns {Promise<KeybanAccount>} - A promise that resolves to an instance of `KeybanAccount`.
    */
   initialize(keyId: string): Promise<KeybanAccount> {
     const cached = this.#accounts.get(keyId);
@@ -182,6 +193,12 @@ export class KeybanClient {
     return this.initialize(keyId);
   }
 
+  /**
+   * Retrieves the balance for a given address.
+   *
+   * @param {Address} address - The address for which to retrieve the balance.
+   * @returns {Promise<BigInt>} - A promise resolving to the balance as a BigInt.
+   */
   async getBalance(address: Address) {
     const publicClient = await this.#publicClient;
     return publicClient.getBalance({ address });
@@ -200,8 +217,9 @@ export class KeybanClient {
   }
 
   /**
-   * Performs a health check to determine the operational status.
-   * @returns A promise that resolves to either {@link KeybanApiStatus} based on the health check result.
+   * Performs a health check on the Keyban API to determine its operational status.
+   *
+   * @returns {Promise<KeybanApiStatus>} - The API status, either "operational" or "down".
    */
   async apiStatus(): Promise<KeybanApiStatus> {
     return fetch(`${this.apiUrl}/health`)
@@ -213,6 +231,13 @@ export class KeybanClient {
   }
 
   /**
+   * Performs a GraphQL request to the Keyban API.
+   *
+   * @template R - Expected response type.
+   * @template V - Variables passed with the query.
+   * @param {string} query - The GraphQL query string.
+   * @param {V} [variables] - Variables to pass with the query.
+   * @returns {Promise<R>} - A promise resolving to the data returned from the server.
    * @private
    */
   gqlRequester = async <R, V>(query: string, variables?: V) => {
