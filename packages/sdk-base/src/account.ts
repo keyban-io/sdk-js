@@ -35,14 +35,9 @@ export type TransferEstimation = {
   };
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
 /**
  * Represents the balance of an ERC20 token in a Keyban account.
  */
->>>>>>> 7974c43 (chore: Update KeybanAccountTokenBalance type documentation)
 export type KeybanAccountTokenBalance =
   GqlKeybanAccount_addressTokenBalancesQuery["addressTokenBalances"][0];
 
@@ -50,7 +45,6 @@ export type KeybanAccountTokenBalance =
  * The Keyban account is the entry class to access all features related to an account
  * such as balance, token balances, transfers, estimate fees, and sign messages.
  */
->>>>>>> 93efaa5 (chore: comment update)
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
   address: Address;
