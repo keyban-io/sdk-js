@@ -1,43 +1,41 @@
-import React from 'react';
-
 import ApplicationHeader from '@/components/ApplicationHeader';
 import { AppRouter } from '@/lib/router';
 import {
-  KeybanChain,
-  KeybanLocalStorage,
+  type KeybanChain,
   KeybanProvider,
-  KeybanSigner,
 } from '@keyban/sdk-react';
 import {
   Container,
   Stack,
 } from '@mui/material';
 
-import { ChainContext } from './hooks/useChain';
+import { ClientConfigProvider } from './context/ClientConfigContext';
+import { useClientConfig } from './hooks/useClientConfig';
 
 export default function App() {
-  const chainState = React.useState(KeybanChain.KeybanTestnet);
+  return (
+    <ClientConfigProvider>
+      <MainApp />
+    </ClientConfigProvider>
+  );
+}
+
+function MainApp() {
+  const { config, setConfig } = useClientConfig();
 
   const handleChainSelect = (chainId: KeybanChain) => {
-    chainState[1](chainId);
+    setConfig((prevConfig) => ({ ...prevConfig, chain: chainId })); // Mise à jour de la chaîne sélectionnée
   };
 
   return (
     <Container maxWidth="md" sx={{ py: [2, 5] }}>
       <Stack spacing={2}>
         <ApplicationHeader
-          selectedChainId={chainState[0]}
+          selectedChainId={config.chain}
           onSelectChain={handleChainSelect}
         />
-        <KeybanProvider
-          chain={chainState[0]}
-          signer={KeybanSigner.ECDSA}
-          storage={KeybanLocalStorage}
-          apiUrl="https://api.keyban.localtest.me"
-        >
-          <ChainContext.Provider value={chainState}>
-            <AppRouter />
-          </ChainContext.Provider>
+        <KeybanProvider {...config}>
+          <AppRouter />
         </KeybanProvider>
       </Stack>
     </Container>
