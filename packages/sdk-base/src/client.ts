@@ -49,6 +49,7 @@ export type KeybanClientConfig = {
   signer: new () => KeybanSigner;
   storage: new () => KeybanStorage;
 };
+
 /**
  * Main client for interacting with the Keyban API and associated services.
  *
@@ -56,7 +57,7 @@ export type KeybanClientConfig = {
  * @property {string} [chainUrl] - Optional URL for the chain, overriding the default.
  * @property {string} apiUrl - The Keyban API URL, defaulting to "https://api.keyban.io".
  *
- * @see {@link userKeybanClient}
+ * @see {@link useKeybanClient}
  *
  * @class
  */
