@@ -35,6 +35,16 @@ export type TransferEstimation = {
   };
 };
 
+<<<<<<< HEAD
+=======
+export type KeybanAccountTokenBalance =
+  GqlKeybanAccount_addressTokenBalancesQuery["addressTokenBalances"][0];
+
+/**
+ * The Keyban account is the entry class to access all features related to an account
+ * such as balance, token balances, transfers, estimate fees, and sign messages.
+ */
+>>>>>>> 93efaa5 (chore: comment update)
 export class KeybanAccount implements KeybanAccount {
   keyId: string;
   address: Address;
@@ -46,6 +56,10 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * @private
+   * @param keyId - The unique identifier for the Keyban account.
+   * @param client - The Keyban client for making requests.
+   * @param publicClient - The client for public interactions (e.g., fetching balances).
+   * @param walletClient - The wallet client used for signing and sending transactions.
    */
   constructor(
     keyId: string,
@@ -64,16 +78,20 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Signs an Ethereum message.
+   *
+   * @param message - The message to be signed.
+   * @returns The signed message as a hex string.
+   * @throws {Error} If the message is empty or there is an issue during signing.
    */
   async signMessage(message: string): Promise<Hex> {
-    // For now even EDDSA messages are prefixed with Ethereum message prefix
-    // To be updated when the eddsa signer is associated with a specific chain (e.g. Solana)
-    // Account should be aware of the chain it is associated with not only the signer
+    // For now, even EDDSA messages are prefixed with the Ethereum message prefix.
+    // This may need to be updated when the eddsa signer is associated with a specific chain (e.g., Solana).
     return this.#walletClient.signMessage({ message });
   }
 
   /**
    * @returns The account balance in native tokens.
+   * @see {@link useKeybanAccountBalance}
    */
   getBalance() {
     return this.#publicClient.getBalance({ address: this.address });
@@ -81,6 +99,7 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * @returns The account balance in ERC20 tokens.
+   * @see {@link useKeybanAccountTokenBalances}
    */
   async getTokenBalances() {
     return this.#client.getTokenBalances(this.address);
@@ -88,6 +107,11 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Transfers native tokens to another address.
+   *
+   * @param to - The recipient's address.
+   * @param value - The transfer amount in wei (must be greater than 0).
+   * @returns A promise that resolves to the transaction hash.
+   * @throws {SdkError} If the recipient's address is invalid or the transfer amount is invalid.
    *
    * @example
    * ```ts
@@ -102,7 +126,6 @@ export class KeybanAccount implements KeybanAccount {
    *   }
    * };
    * ```
-  };
    */
   async transfer(to: Address, value: bigint): Promise<Hash> {
     if (!isAddress(to)) {
@@ -126,9 +149,10 @@ export class KeybanAccount implements KeybanAccount {
   /**
    * Estimates the cost of transferring native tokens to another address.
    *
-   * @param to - The recipient address for the transfer.
+   * @param to - The recipient's address.
    * @param value - The transfer amount in wei.
    * @returns A promise that resolves to a `TransferEstimation` object containing the fee details.
+   * @throws {Error} If there is an issue with estimating the gas or fees.
    */
   async estimateTransfer(
     to: Address,

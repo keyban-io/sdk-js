@@ -1,4 +1,8 @@
-export { KeybanAccount, TransferEstimation } from './account';
+export {
+  KeybanAccount,
+  KeybanAccountTokenBalance,
+  TransferEstimation,
+} from './account';
 export { KeybanApiStatus } from './api';
 export { KeybanChain } from './chains';
 export { KeybanClient, KeybanClientConfig, KeybanTokenBalance } from './client';
