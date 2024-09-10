@@ -2,7 +2,7 @@ import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import BigIntField from "@/components/molecules/BigIntField";
 import TextField from "@/components/molecules/TextField";
-import { Address, FormattedBalance, useKeybanAccount } from "@keyban/sdk-react";
+import { Address, FormattedBalance, useKeybanAccount, TransferEstimation } from "@keyban/sdk-react";
 import React from "react";
 
 export type NativeTransferProps = { keyId: string };
@@ -15,6 +15,8 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
   const [recipient, setRecipient] = React.useState<string>("");
   const [hash, setHash] = React.useState<string>("");
   const [transferCost, setTransferCost] = React.useState<string>("");
+  const [maxFeePerGas, setMaxFeePerGas] = React.useState<string>("");
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = React.useState<string>("");
 
   return (
     <fieldset>
@@ -47,7 +49,11 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           onClick={() =>
             account
               .estimateTransfer(recipient as Address, value)
-              .then((estimation) => setTransferCost(estimation.maxFees.toString()))
+              .then((estimation: TransferEstimation) => {
+                setTransferCost(estimation.maxFees.toString());
+                setMaxFeePerGas(estimation.details.maxFeePerGas.toString());
+                setMaxPriorityFeePerGas(estimation.details.maxPriorityFeePerGas.toString());
+              })
               .catch(console.error)
           }
           data-test-id="NativeTransfer:estimate:submit"
@@ -72,7 +78,14 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           type="button"
           onClick={() =>
             account
-              .transfer(recipient as Address, value)
+              .transfer(
+                recipient as Address,
+                value,
+                {
+                  maxFeePerGas: maxFeePerGas? BigInt(maxFeePerGas): undefined,
+                  maxPriorityFeePerGas: maxPriorityFeePerGas? BigInt(maxPriorityFeePerGas): undefined
+                }
+              )
               .then(setHash)
               .catch(console.error)
           }

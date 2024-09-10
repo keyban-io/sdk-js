@@ -19,11 +19,11 @@ import type {
 
 /**
  * Represents the estimation of the fees required for a token transfer.
- * @property {bigint} maxFees - The total maximum fees for the transaction, including gas cost and priority fees
+ * @property {bigint} maxFees - The total maximum fees for the transaction
  * @property {Object} details - The breakdown of gas-related fees
  * @property {bigint} details.maxFeePerGas - The maximum fee per unit of gas
  * @property {bigint} details.maxPriorityFeePerGas - The maximum priority fee per unit of gas
- * @property {bigint} details.gasCost - The estimated gas cost for the transaction
+ * @property {bigint} details.gasCost - The estimated gas units to be consumed by the transaction
  * @see {@link KeybanAccount#estimateTransfer}
  */
 export type TransferEstimation = {
@@ -121,7 +121,7 @@ export class KeybanAccount implements KeybanAccount {
    * };
    * ```
    */
-  async transfer(to: Address, value: bigint): Promise<Hash> {
+  async transfer(to: Address, value: bigint, txOptions?: { maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint }): Promise<Hash> {
     if (!isAddress(to)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
@@ -134,7 +134,13 @@ export class KeybanAccount implements KeybanAccount {
     }
 
     return this.#walletClient
-      .sendTransaction({ to, value, type: "eip1559" })
+      .sendTransaction({
+        to,
+        value,
+        type: "eip1559",
+        maxFeePerGas: txOptions?.maxFeePerGas,
+        maxPriorityFeePerGas: txOptions?.maxPriorityFeePerGas
+      })
       .catch((err) => {
         throw err.cause;
       });
