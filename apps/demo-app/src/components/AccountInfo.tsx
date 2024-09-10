@@ -1,33 +1,24 @@
-import type React from "react";
-import { useState } from "react";
+import type React from 'react';
+import { useState } from 'react';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
+import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
 import {
   faCheck,
   faCopy,
   faEdit,
   faQrcode,
-  faSliders,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useKeybanAccount } from "@keyban/sdk-react";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useKeybanAccount } from '@keyban/sdk-react';
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   IconButton,
   Stack,
   TextField,
   Tooltip,
   Typography,
-} from "@mui/material";
-
-import NetworkSelector from "./NetworkSelector";
-import { useChain } from "@/App";
+} from '@mui/material';
 
 interface AccountInfoProps {
   keyId: string;
@@ -35,7 +26,6 @@ interface AccountInfoProps {
 
 const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [account, accountError] = useKeybanAccount(keyId, {
     suspense: true,
@@ -67,21 +57,6 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
       navigator.clipboard.writeText(account.address);
     }
   };
-
-  const handleOpenAdvancedOption = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (
-    _event: React.SyntheticEvent<unknown>,
-    reason?: string,
-  ) => {
-    if (reason !== "backdropClick") {
-      setOpen(false);
-    }
-  };
-
-  const [chain, setChain] = useChain();
 
   return (
     <Stack direction="row" justifyContent="space-between">
@@ -129,26 +104,6 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
             <FontAwesomeIcon icon={faQrcode} />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Advanced options" arrow>
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={handleOpenAdvancedOption}
-          >
-            <FontAwesomeIcon icon={faSliders} />
-          </IconButton>
-        </Tooltip>
-
-        <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-          <DialogTitle>Advanced options</DialogTitle>
-          <DialogContent>
-            <NetworkSelector selectedChainId={chain} onSelectChain={setChain} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Ok</Button>
-          </DialogActions>
-        </Dialog>
       </Stack>
     </Stack>
   );

@@ -1,10 +1,18 @@
-import React from "react";
+import React from 'react';
 
-import { ErrorBoundary } from "react-error-boundary";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { ErrorBoundary } from 'react-error-boundary';
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+} from 'react-router-dom';
 
-import { ErrorFallback } from "@/components/ErrorFallback";
-import { CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { ErrorFallback } from '@/components/ErrorFallback';
+import {
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 const mapFilepath = (filepath: string) =>
   filepath
@@ -20,26 +28,24 @@ const pages = import.meta.glob("../pages/**/*.tsx") as Record<
 const router = createBrowserRouter([
   {
     element: React.createElement(() => (
-      <Container maxWidth="md" sx={{ py: [2, 3] }}>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <React.Suspense
-            fallback={
-              <Stack
-                sx={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100vh",
-                }}
-              >
-                <CircularProgress />
-                <Typography variant="h6">Loading...</Typography>
-              </Stack>
-            }
-          >
-            <Outlet />
-          </React.Suspense>
-        </ErrorBoundary>
-      </Container>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <React.Suspense
+          fallback={
+            <Stack
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}
+            >
+              <CircularProgress />
+              <Typography variant="h6">Loading...</Typography>
+            </Stack>
+          }
+        >
+          <Outlet />
+        </React.Suspense>
+      </ErrorBoundary>
     )),
     children: Object.entries(pages).map(([filePath, factory]) => ({
       path: mapFilepath(filePath),

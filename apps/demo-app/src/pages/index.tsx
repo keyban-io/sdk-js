@@ -9,8 +9,6 @@ import { useNavigate } from 'react-router-dom';
 
 import Modal from '@/components/Modal';
 import { fetchMaticToEuroRate } from '@/utils/apiUtils';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   useKeybanAccount,
   useKeybanAccountBalance,
@@ -19,9 +17,7 @@ import {
   Button,
   CircularProgress,
   Divider,
-  IconButton,
   Stack,
-  Typography,
 } from '@mui/material';
 
 import AccountInfo from '../components/AccountInfo';
@@ -85,13 +81,7 @@ const WalletDashboardContent: React.FC = () => {
   }
 
   return (
-    <Stack>
-      <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h4">Keyban WAAS Demo</Typography>
-        <IconButton color="primary">
-          <FontAwesomeIcon icon={faBell} />
-        </IconButton>
-      </Stack>
+    <>
       <Stack spacing={2}>
         <AccountInfo keyId={keyId} />
         <BalanceInfo
@@ -116,7 +106,7 @@ const WalletDashboardContent: React.FC = () => {
       >
         <p>Send functionality coming soon!</p>
       </Modal>
-    </Stack>
+    </>
   );
 };
 

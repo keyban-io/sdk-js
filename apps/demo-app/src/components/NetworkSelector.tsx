@@ -1,7 +1,13 @@
-import type React from "react";
+import type React from 'react';
 
-import { KeybanChain } from "@keyban/sdk-react"; // Import the KeybanChain type from the correct module
-import { FormControl, FormHelperText, MenuItem, Select } from "@mui/material";
+import { KeybanChain } from '@keyban/sdk-react';
+import type { SelectChangeEvent } from '@mui/material';
+import {
+  FormControl,
+  MenuItem,
+  Select,
+  Tooltip,
+} from '@mui/material';
 
 interface NetworkSelectorProps {
   selectedChainId: KeybanChain;
@@ -12,23 +18,32 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
   selectedChainId,
   onSelectChain,
 }) => {
+  const handleChange = (event: SelectChangeEvent<KeybanChain>) => {
+    const { value } = event.target;
+    const chainId = value as KeybanChain;
+    onSelectChain(chainId);
+  };
+
   return (
-    <FormControl fullWidth size="small">
-      <Select
-        variant="standard"
-        id="network-select"
-        label="Network"
-        value={selectedChainId}
-        onChange={(e) => onSelectChain(e.target.value as KeybanChain)}
-      >
-        {Object.values(KeybanChain).map((chain) => (
-          <MenuItem key={chain} value={chain}>
-            {chain}
-          </MenuItem>
-        ))}
-      </Select>
-      <FormHelperText>Network</FormHelperText>
-    </FormControl>
+    <Tooltip title="Current blockchain" placement="left-start" arrow>
+      <FormControl fullWidth size="small">
+        <Select
+          variant="standard"
+          id="network-select"
+          label="Network"
+          value={selectedChainId}
+          onChange={handleChange}
+          labelId="network-select-label"
+          inputProps={{ "aria-label": "Network Selector" }}
+        >
+          {Object.values(KeybanChain).map((chain) => (
+            <MenuItem key={chain} value={chain}>
+              {chain}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Tooltip>
   );
 };
 
