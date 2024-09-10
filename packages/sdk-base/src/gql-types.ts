@@ -32,7 +32,8 @@ export type GqlChainaddressTokenBalancesArgs = {
 
 export enum GqlChainType {
   KeybanTestnet = 'KeybanTestnet',
-  PolygonAmoy = 'PolygonAmoy'
+  PolygonAmoy = 'PolygonAmoy',
+  Sepolia = 'Sepolia'
 }
 
 export type GqlQuery = {

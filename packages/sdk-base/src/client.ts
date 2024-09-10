@@ -16,7 +16,7 @@ import { StorageError } from "./errors";
 import { Address, KeybanChain } from "./index";
 import type { KeybanSigner } from "./signer";
 import type { KeybanStorage } from "./storage";
-import { chainsMap } from "~/chains";
+import { viemChainsMap } from "~/chains";
 import { getSdk, Sdk } from "~/client.generated";
 
 /**
@@ -36,8 +36,13 @@ export type KeybanClientConfig = {
  * @see {@link userKeybanClient}
  */
 export class KeybanClient {
-  chain: KeybanChain;
   apiUrl: string;
+  chain: KeybanChain;
+  nativeCurrency: {
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
 
   #signer: KeybanSigner;
   #storage: KeybanStorage;
@@ -59,6 +64,7 @@ export class KeybanClient {
   }: KeybanClientConfig) {
     this.apiUrl = apiUrl;
     this.chain = chain;
+    this.nativeCurrency = viemChainsMap[this.chain].nativeCurrency;
 
     this.#signer = new signer();
     this.#storage = new storage();
@@ -71,7 +77,7 @@ export class KeybanClient {
       .then(({ chain }) => http(chain.rpcUrl));
     this.#publicClient = this.#transport.then((transport) =>
       createPublicClient({
-        chain: chainsMap[this.chain],
+        chain: viemChainsMap[this.chain],
         transport,
       }),
     );
