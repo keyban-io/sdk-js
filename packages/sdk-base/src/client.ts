@@ -19,10 +19,10 @@ import {
 } from 'viem/accounts';
 import { viemChainsMap } from '~/chains';
 import type {
-  getSdk,
   GqlKeybanClient_addressTokenBalancesQuery,
   Sdk,
 } from '~/client.generated';
+import { getSdk } from '~/client.generated';
 
 import { KeybanAccount } from './account';
 import type { KeybanApiStatus } from './api';
@@ -55,6 +55,8 @@ export type KeybanClientConfig = {
  * @property {KeybanChain} chain - The blockchain used by Keyban.
  * @property {string} [chainUrl] - Optional URL for the chain, overriding the default.
  * @property {string} apiUrl - The Keyban API URL, defaulting to "https://api.keyban.io".
+ *
+ * @see {@link userKeybanClient}
  *
  * @class
  */
