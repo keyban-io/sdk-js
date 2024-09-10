@@ -199,12 +199,14 @@ export class KeybanClient {
     if (!res.ok) throw new Error("Network response was not ok");
 
     const text = await res.text();
-    const { data } = JSON.parse(text, (_, value) => {
+    const { data, errors } = JSON.parse(text, (_, value) => {
       if (typeof value === "object" && value?.__typename === "BigIntScalar")
         return BigInt(value.value);
 
       return value;
     });
+
+    if (errors?.length) throw new Error(errors[0].message);
 
     return data as R;
   };
