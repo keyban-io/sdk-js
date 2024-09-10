@@ -36,7 +36,13 @@ export type TransferEstimation = {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+/**
+ * Represents the balance of an ERC20 token in a Keyban account.
+ */
+>>>>>>> 7974c43 (chore: Update KeybanAccountTokenBalance type documentation)
 export type KeybanAccountTokenBalance =
   GqlKeybanAccount_addressTokenBalancesQuery["addressTokenBalances"][0];
 
