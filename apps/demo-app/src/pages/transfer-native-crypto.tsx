@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { Address } from '@keyban/sdk-react';
 import {
   formatBalance,
+  useFormattedBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanClient,
@@ -142,6 +143,12 @@ const TransferNativeCrypto: React.FC = () => {
     navigate("/");
   };
 
+  // Ensure hooks are called consistently
+  const formattedAmount = useFormattedBalance(
+    amount ? BigInt(Math.floor(Number(amount) * 10 ** 18)) : BigInt(0),
+  );
+  const feeEstimateFormatted = feeEstimate ? Number.parseFloat(feeEstimate) : 0;
+
   return (
     <Stack spacing={2}>
       <Stack direction="row" justifyContent="space-between">
@@ -164,7 +171,7 @@ Balance: ${formatBalance(client, balance)}`}
         <TextField
           id="amount"
           type="number"
-          label="You will send (ETH)"
+          label={`You will send ${formattedAmount.slice(formattedAmount.lastIndexOf(" ") + 1)}`}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="0"
         />
@@ -182,12 +189,16 @@ Balance: ${formatBalance(client, balance)}`}
           recipient &&
           feeEstimate && (
             <Alert severity="info">
-              You are about to send {amount} ETH to {recipient}.
-              <br />
-              Maximum estimated transaction fees: {feeEstimate}.
-              <br />
-              Total amount (including fees):{" "}
-              {Number.parseFloat(amount) + Number.parseFloat(feeEstimate)} ETH
+              <Typography>
+                You are about to send {formattedAmount} to {recipient}.
+              </Typography>
+              <Typography>
+                Maximum estimated transaction fees: {feeEstimate}.
+              </Typography>
+              <Typography>
+                Total amount (including fees):{" "}
+                {Number.parseFloat(amount) + feeEstimateFormatted} ETH
+              </Typography>
             </Alert>
           )
         )}
@@ -227,7 +238,11 @@ Balance: ${formatBalance(client, balance)}`}
           </Alert>
         )}
 
-        {error && <Alert severity="error">{error}</Alert>}
+        {error && (
+          <Alert severity="error">
+            <Typography>{error}</Typography>
+          </Alert>
+        )}
         <Button variant="contained" onClick={handleBackClick}>
           Back to Dashboard
         </Button>
