@@ -1,8 +1,8 @@
-import React from 'react';
+import type React from 'react';
 
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { KeybanChain } from '@keyban/sdk-react';
+import type { KeybanChain } from '@keyban/sdk-react';
 import {
   IconButton,
   Stack,

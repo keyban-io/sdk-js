@@ -1,17 +1,18 @@
-import React from "react";
+import React from 'react';
+
+import { ErrorBoundary } from 'react-error-boundary';
+import { useSearchParams } from 'react-router-dom';
+
+import RefreshButton from '@/components/atoms/RefreshButton';
+import ConfigEditor from '@/components/organisms/ConfigEditor';
+import KeybanTest from '@/KeybanTest';
 import {
+  KeybanChain,
+  type KeybanClientConfig,
   KeybanLocalStorage,
   KeybanProvider,
-  KeybanChain,
   KeybanSigner,
-  KeybanClientConfig,
-} from "@keyban/sdk-react";
-import { useSearchParams } from "react-router-dom";
-import { ErrorBoundary } from "react-error-boundary";
-
-import KeybanTest from "@/KeybanTest";
-import ConfigEditor from "@/components/organisms/ConfigEditor";
-import RefreshButton from "@/components/atoms/RefreshButton";
+} from '@keyban/sdk-react';
 
 const DEFAULT_API_URL = "https://api.keyban.localtest.me";
 const DEFAULT_CHAIN = KeybanChain.KeybanTestnet;
