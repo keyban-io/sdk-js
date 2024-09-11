@@ -1,8 +1,4 @@
-import type {
-  Chain,
-  PublicClient,
-  Transport,
-} from 'viem';
+import type { Chain, PublicClient, Transport } from "viem";
 import {
   createPublicClient,
   createWalletClient,
@@ -12,27 +8,21 @@ import {
   keccak256,
   parseSignature,
   serializeTransaction,
-} from 'viem';
-import {
-  publicKeyToAddress,
-  toAccount,
-} from 'viem/accounts';
-import { viemChainsMap } from '~/chains';
+} from "viem";
+import { publicKeyToAddress, toAccount } from "viem/accounts";
+import { signersChainMap, viemChainsMap } from "~/chains";
 import type {
   GqlKeybanClient_addressTokenBalancesQuery,
   Sdk,
-} from '~/client.generated';
-import { getSdk } from '~/client.generated';
+} from "~/client.generated";
+import { getSdk } from "~/client.generated";
 
-import { KeybanAccount } from './account';
-import type { KeybanApiStatus } from './api';
-import { StorageError } from './errors';
-import type {
-  Address,
-  KeybanChain,
-} from './index';
-import type { KeybanSigner } from './signer';
-import type { KeybanStorage } from './storage';
+import { KeybanAccount } from "./account";
+import type { KeybanApiStatus } from "./api";
+import { StorageError } from "./errors";
+import type { Address, KeybanChain } from "./index";
+import type { IKeybanSigner } from "./signer";
+import type { KeybanStorage } from "./storage";
 
 /**
  * Configuration object for the Keyban client.
@@ -46,7 +36,7 @@ import type { KeybanStorage } from './storage';
 export type KeybanClientConfig = {
   apiUrl?: string;
   chain: KeybanChain;
-  signer: new () => KeybanSigner;
+  signer?: new () => IKeybanSigner;
   storage: new () => KeybanStorage;
 };
 
@@ -70,7 +60,7 @@ export class KeybanClient {
     decimals: number;
   };
 
-  #signer: KeybanSigner;
+  #signer: IKeybanSigner;
   #storage: KeybanStorage;
   #graphql: Sdk;
 
@@ -84,12 +74,10 @@ export class KeybanClient {
    *
    * @param {KeybanClientConfig} config - The configuration object to initialize the client.
    */
-  constructor({
-    apiUrl = "https://api.keyban.io",
-    chain,
-    signer,
-    storage,
-  }: KeybanClientConfig) {
+  constructor({ apiUrl, chain, signer, storage }: KeybanClientConfig) {
+    apiUrl ??= "https://api.keyban.io";
+    signer ??= signersChainMap[chain];
+
     this.apiUrl = apiUrl;
     this.chain = chain;
     this.nativeCurrency = viemChainsMap[this.chain].nativeCurrency;

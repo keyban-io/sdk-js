@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import {
-  KeybanClient,
-  type KeybanClientConfig,
-} from '@keyban/sdk-base';
+import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
 
-import { PromiseCacheProvider } from './promise';
+import { PromiseCacheProvider } from "./promise";
 
 const KeybanContext = React.createContext<KeybanClient | null>(null);
 
@@ -67,7 +64,6 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *       <KeybanProvider
  *         apiUrl="https://api.keyban.localtest.me"
  *         chain={chain}
- *         signer={KeybanSigner.ECDSA}
  *         storage={KeybanLocalStorage}
  *       >
  *         <AppRouter />  // The application router component

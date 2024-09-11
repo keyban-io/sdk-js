@@ -27,8 +27,7 @@ export default function App() {
   const [config, setConfig] = React.useState<KeybanClientConfig>({
     apiUrl: searchParams.get("apiUrl") ?? DEFAULT_API_URL,
     chain: (searchParams.get("chain") as KeybanChain) ?? DEFAULT_CHAIN,
-    signer:
-      KeybanSigner[searchParams.get("signer") ?? "EDCSA"] ?? KeybanSigner.ECDSA,
+    signer: KeybanSigner[searchParams.get("signer") ?? ""],
     storage: KeybanLocalStorage,
   });
 
