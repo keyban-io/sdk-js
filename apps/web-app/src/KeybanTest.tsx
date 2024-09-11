@@ -1,16 +1,18 @@
 import React from "react";
-import { useKeybanClient } from "@keyban/sdk-react";
 
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import TextField from "@/components/molecules/TextField";
 import AccountInfo from "@/components/organisms/AccountInfo";
-import Signature from "@/components/organisms/Signature";
+import ApiStatus from "@/components/organisms/ApiStatus";
 import Balance from "@/components/organisms/Balance";
 import NativeCurrency from "@/components/organisms/NativeCurrency";
-import ApiStatus from "@/components/organisms/ApiStatus";
 import NativeTransfer from "@/components/organisms/NativeTransfer";
+import Signature from "@/components/organisms/Signature";
 import TokenBalances from "@/components/organisms/TokenBalances";
+import { useKeybanClient } from "@keyban/sdk-react";
+
+import ERC20Transfer from "./components/organisms/ERC20Transfer";
 
 export default function KeybanTest() {
   const client = useKeybanClient();
@@ -73,6 +75,10 @@ export default function KeybanTest() {
 
       <React.Suspense fallback={<div>Loading...</div>}>
         {keyId && <TokenBalances keyId={keyId} />}
+      </React.Suspense>
+
+      <React.Suspense fallback={<div>Loading...</div>}>
+        {keyId && <ERC20Transfer keyId={keyId} />}
       </React.Suspense>
     </>
   );
