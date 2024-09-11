@@ -89,11 +89,11 @@ const WalletDashboardContent: React.FC = () => {
           euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
           onSend={handleTransferCrypto}
           onRefreshBalance={refreshBalance}
-        />
-        <Divider />
-        <NFTSection nfts={testNFTs} />
+        />{" "}
         <Divider />
         <TokensSection keyId={keyId} onSend={handleOpenModal} />
+        <Divider />
+        <NFTSection nfts={testNFTs} />
         <Divider />
         <TransactionList transactions={testTransactions} />
         <Button variant="contained">Transaction History</Button>

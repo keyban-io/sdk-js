@@ -39,9 +39,6 @@ const TokensSection: React.FC<TokensSectionProps> = ({ keyId, onSend }) => {
           <Typography variant="h6" component="div">
             No tokens available in this account.
           </Typography>
-          <Typography variant="body2">
-            It looks like this account doesn't have any tokens.
-          </Typography>
         </Alert>
       ) : (
         tokenBalances.map((balance) => (
