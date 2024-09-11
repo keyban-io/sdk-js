@@ -2,7 +2,7 @@ export {
   KeybanAccount,
   TransactionOptions,
   TransferERC20Params,
-  TransferEstimation,
+  FeesEstimation,
 } from './account';
 export { KeybanApiStatus } from './api';
 export { KeybanChain } from './chains';

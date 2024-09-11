@@ -28,7 +28,7 @@ import type {
  * @property {bigint} details.gasCost - The estimated gas units to be consumed by the transaction
  * @see {@link KeybanAccount#estimateTransfer}
  */
-export type TransferEstimation = {
+export type FeesEstimation = {
   maxFees: bigint; // The total maximum fees for the transaction
   details: {
     maxFeePerGas: bigint; // The maximum fee per unit of gas
@@ -62,6 +62,11 @@ export type TransferERC20Params = {
   value: bigint;
   txOptions?: TransactionOptions
 }
+
+/**
+ * Represents the parameters for estimating the cost of transferring ERC20 tokens.
+ */
+export type EstimateERC20TransferParams = Omit<TransferERC20Params, "txOptions">;
 
 /**
  * The Keyban account is the entry class to access all features related to an account
@@ -179,13 +184,13 @@ export class KeybanAccount implements KeybanAccount {
    *
    * @param to - The recipient's address.
    * @param value - The transfer amount in wei.
-   * @returns A promise that resolves to a `TransferEstimation` object containing the fee details.
+   * @returns A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    */
   async estimateTransfer(
     to: Address,
     value?: bigint,
-  ): Promise<TransferEstimation> {
+  ): Promise<FeesEstimation> {
     const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
       [
         this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
@@ -255,9 +260,57 @@ export class KeybanAccount implements KeybanAccount {
     });
 
     return erc20Contract.write
-      .transfer([to, BigInt(value)], txOptions)
+      .transfer([to, value], txOptions)
       .catch((err) => {
         throw err.cause;
       });
+  }
+
+
+  /**
+   * Estimates the cost of transferring ERC20 tokens to another address.
+   * @param  object:  The parameters for estimating the ERC20 transfer.
+   * @returns  A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @throws {Error} If there is an issue with estimating the gas or fees.
+   * @example
+   * ```ts
+   * const handleEstimate = async () => {
+   * // account, recipient, contractAddress, amount, setTransferCost are state variables
+   * try {
+   *  const valueInWei = BigInt(Number(amount) * 1e18);
+   *  const estimation = await account.estimateTransferERC20({
+   *    contractAddress: contractAddress as Address,
+   *    to: recipient as Address,
+   *    value: valueInWei,
+   *  });
+   *  setTransferCost(estimation.maxFees.toString());
+   *  } catch (err) {
+   *    console.log(err);
+   *  }
+   * };
+   * ```
+   */
+  async estimateERC20Transfer({ contractAddress, to, value }: EstimateERC20TransferParams): Promise<FeesEstimation> {
+    const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
+      [
+        this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
+        this.#publicClient.estimateContractGas({
+          address: contractAddress,
+          abi: erc20Abi,
+          functionName: 'transfer',
+          args: [to, value],
+          account: this.address,
+        })
+      ],
+    );
+
+    return {
+      maxFees: maxFeePerGas * gasCost,
+      details: {
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+        gasCost,
+      },
+    };
   }
 }

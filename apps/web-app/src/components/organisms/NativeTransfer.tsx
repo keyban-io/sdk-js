@@ -2,7 +2,7 @@ import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import BigIntField from "@/components/molecules/BigIntField";
 import TextField from "@/components/molecules/TextField";
-import { Address, FormattedBalance, useKeybanAccount, TransferEstimation } from "@keyban/sdk-react";
+import { Address, FormattedBalance, useKeybanAccount, FeesEstimation } from "@keyban/sdk-react";
 import React from "react";
 
 export type NativeTransferProps = { keyId: string };
@@ -49,7 +49,7 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           onClick={() =>
             account
               .estimateTransfer(recipient as Address, value)
-              .then((estimation: TransferEstimation) => {
+              .then((estimation: FeesEstimation) => {
                 setTransferCost(estimation.maxFees.toString());
                 setMaxFeePerGas(estimation.details.maxFeePerGas.toString());
                 setMaxPriorityFeePerGas(estimation.details.maxPriorityFeePerGas.toString());
@@ -82,8 +82,8 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
                 recipient as Address,
                 value,
                 {
-                  maxFeePerGas: maxFeePerGas? BigInt(maxFeePerGas): undefined,
-                  maxPriorityFeePerGas: maxPriorityFeePerGas? BigInt(maxPriorityFeePerGas): undefined
+                    maxFeePerGas: maxFeePerGas? BigInt(maxFeePerGas): undefined,
+                    maxPriorityFeePerGas: maxPriorityFeePerGas? BigInt(maxPriorityFeePerGas): undefined
                 }
               )
               .then(setHash)
