@@ -1,5 +1,7 @@
 import {
   type Chain,
+  erc20Abi,
+  getContract,
   isAddress,
   type LocalAccount,
   type PublicClient,
@@ -34,6 +36,32 @@ export type TransferEstimation = {
     gasCost: bigint; // The estimated gas cost for the transaction
   };
 };
+
+/**
+ * Represents the options for a transaction.
+ * @property {bigint} maxFeePerGas - The maximum fee per unit of gas
+ * @property {bigint} maxPriorityFeePerGas - The maximum priority fee per unit of gas
+ * see {@link KeybanAccount#transfer}
+ */
+export type TransactionOptions = {
+  maxFeePerGas?: bigint,
+  maxPriorityFeePerGas?: bigint
+}
+
+/**
+ * Represents the parameters for transferring ERC20 tokens.
+ * @property {Address} contractAddress - The address of the ERC20 token contract
+ * @property {Address} to - The recipient's address
+ * @property {bigint} value - The transfer amount in the smallest token unit
+ * @property {TransactionOptions} txOptions - The transaction options
+ * @see {@link KeybanAccount#transferERC20}
+ */
+export type TransferERC20Params = {
+  contractAddress: Address;
+  to: Address;
+  value: bigint;
+  txOptions?: TransactionOptions
+}
 
 /**
  * The Keyban account is the entry class to access all features related to an account
@@ -121,7 +149,7 @@ export class KeybanAccount implements KeybanAccount {
    * };
    * ```
    */
-  async transfer(to: Address, value: bigint, txOptions?: { maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint }): Promise<Hash> {
+  async transfer(to: Address, value: bigint, txOptions?: TransactionOptions): Promise<Hash> {
     if (!isAddress(to)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
@@ -173,5 +201,63 @@ export class KeybanAccount implements KeybanAccount {
         gasCost,
       },
     };
+  }
+
+  /**
+   *  Transfers ERC20 tokens to another address.
+   * @param param0  - The parameters for the ERC20 transfer.
+   * @returns A promise that resolves to the transaction hash.
+   * @throws {SdkError} If the recipient's address is invalid, the contract address is invalid, or the transfer amount is invalid.
+   * @example
+   * ```ts
+   * const handleTransfer = async () => {
+   *  // amount, account, recipient, contractAddress, setTransactionHash are state variables
+   *  try {
+   *   const valueInWei = BigInt(Number(amount) * 1e18);
+   *   const txHash = await account.transferERC20({
+   *   contractAddress: contractAddress as Address,
+   *   to: recipient as Address,
+   *   value: valueInWei,
+   *   });
+   *   setTransactionHash(txHash);
+   *  } catch (err) {
+   *   console.log(err);
+   *  }
+   * };
+   * ```
+   *
+   */
+  async transferERC20({ contractAddress, to, value, txOptions }: TransferERC20Params): Promise<Hash> {
+    if (!isAddress(to)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanAccount.transferERC20",
+      );
+    }
+    if (!isAddress(contractAddress)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanAccount.transferERC20",
+      );
+    }
+
+    if (value <= 0n) {
+      throw new SdkError(SdkErrorTypes.AmountInvalid, "KeybanAccount.transferERC20");
+    }
+
+    const erc20Contract = getContract({
+      address: contractAddress,
+      abi: erc20Abi,
+      client: {
+        public: this.#publicClient,
+        wallet: this.#walletClient
+      },
+    });
+
+    return erc20Contract.write
+      .transfer([to, BigInt(value)], txOptions)
+      .catch((err) => {
+        throw err.cause;
+      });
   }
 }
