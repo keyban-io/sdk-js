@@ -8,6 +8,7 @@ import {
   useKeybanAccountTokenBalances,
 } from '@keyban/sdk-react';
 import {
+  Alert,
   Card,
   CardContent,
   IconButton,
@@ -23,6 +24,7 @@ interface TokensSectionProps {
 const TokensSection: React.FC<TokensSectionProps> = ({ keyId, onSend }) => {
   const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
   if (accountError) throw accountError;
+
   const [tokenBalances, tokenBalancesError] = useKeybanAccountTokenBalances(
     account,
     { suspense: true },
@@ -31,42 +33,54 @@ const TokensSection: React.FC<TokensSectionProps> = ({ keyId, onSend }) => {
 
   return (
     <Stack direction="column" spacing={2}>
-      {tokenBalances.map((balance) => (
-        <Card key={balance.token.address}>
-          <CardContent>
-            <Stack
-              alignItems="center"
-              direction="row"
-              sx={{
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="h5" component="div">
-                {balance.token.name}
-              </Typography>
+      {/* Afficher un message si aucun token n'est présent */}
+      {tokenBalances.length === 0 ? (
+        <Alert severity="info">
+          <Typography variant="h6" component="div">
+            No tokens available in this account.
+          </Typography>
+          <Typography variant="body2">
+            It looks like this account doesn't have any tokens.
+          </Typography>
+        </Alert>
+      ) : (
+        tokenBalances.map((balance) => (
+          <Card key={balance.token.address}>
+            <CardContent>
               <Stack
+                alignItems="center"
                 direction="row"
                 sx={{
                   justifyContent: "space-between",
                   alignItems: "center",
                 }}
               >
-                <Typography variant="body1" component="div">
-                  <FormattedBalance balance={balance} />
+                <Typography variant="h5" component="div">
+                  {balance.token.name}
                 </Typography>
-                <IconButton
-                  color="primary"
-                  aria-label={`Send ${balance.token.symbol}`}
-                  onClick={() => onSend()}
+                <Stack
+                  direction="row"
+                  sx={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  <FontAwesomeIcon icon={faPaperPlane} />
-                </IconButton>
+                  <Typography variant="body1" component="div">
+                    <FormattedBalance balance={balance} />
+                  </Typography>
+                  <IconButton
+                    color="primary"
+                    aria-label={`Send ${balance.token.symbol}`}
+                    onClick={() => onSend()}
+                  >
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                  </IconButton>
+                </Stack>
               </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
-      ))}
+            </CardContent>
+          </Card>
+        ))
+      )}
     </Stack>
   );
 };
