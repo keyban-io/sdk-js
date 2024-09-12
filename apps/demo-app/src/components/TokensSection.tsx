@@ -6,7 +6,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   FormattedBalance,
-  KeybanTokenBalance,
+  type KeybanTokenBalance,
   useKeybanAccount,
   useKeybanAccountTokenBalances,
 } from '@keyban/sdk-react';
