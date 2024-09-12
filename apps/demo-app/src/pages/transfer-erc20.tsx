@@ -70,7 +70,14 @@ const TransferERC20: React.FC = () => {
 
   useEffect(() => {
     const estimateFeesAsync = async () => {
-      if (!debouncedAmount || !debouncedRecipient || !token) return;
+      if (
+        !debouncedAmount ||
+        !debouncedRecipient ||
+        !token ||
+        !locationState?.contractAddress ||
+        !account
+      )
+        return;
 
       dispatch({ type: "START_FEE_ESTIMATION" });
 
@@ -78,7 +85,7 @@ const TransferERC20: React.FC = () => {
         const valueInWei = BigInt(
           Number(debouncedAmount) * 10 ** token.token.decimals,
         );
-        const estimation = await account?.estimateERC20Transfer({
+        const estimation = await account.estimateERC20Transfer({
           contractAddress: locationState.contractAddress as Address,
           to: debouncedRecipient as Address,
           value: valueInWei,
@@ -94,8 +101,18 @@ const TransferERC20: React.FC = () => {
         });
       }
     };
+
     estimateFeesAsync();
-  }, [debouncedAmount, debouncedRecipient, token]);
+
+    // Ajout de toutes les dépendances
+  }, [
+    debouncedAmount,
+    debouncedRecipient,
+    token,
+    account,
+    dispatch,
+    locationState?.contractAddress,
+  ]);
 
   const handleTransfer = async () => {
     dispatch({ type: "START_TRANSFER" });
