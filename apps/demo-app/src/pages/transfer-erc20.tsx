@@ -17,6 +17,7 @@ import {
   formatBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
+  useKeybanAccountTokenBalances,
   useKeybanClient,
 } from '@keyban/sdk-react';
 import {
@@ -29,7 +30,7 @@ import {
   Typography,
 } from '@mui/material';
 
-const TransferNativeCrypto: React.FC = () => {
+const TransferERC20: React.FC = () => {
   const { state: locationState } = useLocation();
   const navigate = useNavigate();
   const [recipient, setRecipient] = useState<string>("");
@@ -45,7 +46,6 @@ const TransferNativeCrypto: React.FC = () => {
     transactionHistory,
   } = useTransferReducer();
 
-  const client = useKeybanClient();
   const [account, accountError] = useKeybanAccount(locationState?.keyId, {
     suspense: true,
   });
@@ -56,24 +56,33 @@ const TransferNativeCrypto: React.FC = () => {
   });
   if (balanceError) throw balanceError;
 
+  const [tokenBalances, tokenBalancesError] = useKeybanAccountTokenBalances(
+    account,
+    { suspense: true },
+  );
+  if (tokenBalancesError) throw tokenBalancesError;
+
+  const token = tokenBalances.find(
+    (item) => item.token.address === locationState?.contractAddress,
+  );
+
+  const client = useKeybanClient();
+
   useEffect(() => {
     const estimateFeesAsync = async () => {
-      if (!debouncedAmount || !debouncedRecipient) {
-        dispatch({ type: "FEE_ESTIMATION_FAIL", payload: "" });
-        return;
-      }
+      if (!debouncedAmount || !debouncedRecipient || !token) return;
 
       dispatch({ type: "START_FEE_ESTIMATION" });
+
       try {
         const valueInWei = BigInt(
-          Number(debouncedAmount) * 10 ** client.nativeCurrency.decimals,
+          Number(debouncedAmount) * 10 ** token.token.decimals,
         );
-        const estimation =
-          account &&
-          (await account.estimateTransfer(
-            debouncedRecipient as Address,
-            valueInWei,
-          ));
+        const estimation = await account?.estimateERC20Transfer({
+          contractAddress: locationState.contractAddress as Address,
+          to: debouncedRecipient as Address,
+          value: valueInWei,
+        });
         dispatch({
           type: "FEE_ESTIMATION_SUCCESS",
           payload: `${estimation.maxFees}`,
@@ -86,20 +95,21 @@ const TransferNativeCrypto: React.FC = () => {
       }
     };
     estimateFeesAsync();
-  }, [debouncedAmount, debouncedRecipient, account, client]);
+  }, [debouncedAmount, debouncedRecipient, token]);
 
   const handleTransfer = async () => {
     dispatch({ type: "START_TRANSFER" });
     try {
-      const valueInWei = BigInt(
-        Number(amount) * 10 ** client.nativeCurrency.decimals,
-      );
-      const txHash = await account.transfer(
-        debouncedRecipient as Address,
-        valueInWei,
-      );
-      handleSuccess(txHash);
-      resetForm();
+      if (amount && account && token) {
+        const value = BigInt(Number(amount) * 10 ** token.token.decimals);
+        const txHash = await account.transferERC20({
+          contractAddress: locationState.contractAddress as Address,
+          to: recipient as Address,
+          value: value,
+        });
+        handleSuccess(txHash);
+        resetForm();
+      }
     } catch (err) {
       dispatch({
         type: "TRANSFER_FAIL",
@@ -115,13 +125,16 @@ const TransferNativeCrypto: React.FC = () => {
         <br />
         Account ID: {account.keyId}
         <br />
-        Balance: {formatBalance(client, balance)}
+        {token?.token.name} Balance:{" "}
+        {(token && formatBalance(client, token)) ?? "0"}
+        <br />
+        Native Balance (for the fees): {formatBalance(client, balance)}
       </Typography>
 
       <TextField
         id="amount"
         type="number"
-        label={`You will send ${client.nativeCurrency.symbol}`}
+        label={`You will send ${token?.token.name}`}
         onChange={(e) => setAmount(e.target.value)}
         placeholder="0"
         value={amount}
@@ -129,7 +142,7 @@ const TransferNativeCrypto: React.FC = () => {
 
       <TextField
         id="recipient-address"
-        label="Recipient Address"
+        label="To this Address"
         placeholder="0xRecipientAddress"
         onChange={(e) => setRecipient(e.target.value)}
         value={recipient}
@@ -141,6 +154,7 @@ const TransferNativeCrypto: React.FC = () => {
         amount={amount}
         recipient={recipient}
         rawMaxFees={transferState.feeEstimate}
+        tokenBalance={token}
       />
 
       <Button
@@ -150,7 +164,7 @@ const TransferNativeCrypto: React.FC = () => {
       >
         {transferState.isTransferring ? (
           <>
-            Transferring...{" "}
+            Transferring...
             <CircularProgress
               size={24}
               sx={{
@@ -199,4 +213,4 @@ const TransferNativeCrypto: React.FC = () => {
   );
 };
 
-export default TransferNativeCrypto;
+export default TransferERC20;

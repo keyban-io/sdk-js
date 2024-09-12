@@ -1,6 +1,8 @@
-import { formatUnits } from "viem";
-
-import type { KeybanClient, KeybanTokenBalance } from "~/index";
+import { formatUnits } from 'viem';
+import type {
+  KeybanClient,
+  KeybanTokenBalance,
+} from '~/index';
 
 /**
  * Formats a balance in a human-readable format using the Keyban client.
@@ -14,7 +16,6 @@ import type { KeybanClient, KeybanTokenBalance } from "~/index";
  * @see {@link KeybanClient}
  * @see {@link useKeybanClient}
  */
-
 export function formatBalance(
   client: KeybanClient,
   balance: bigint | KeybanTokenBalance,

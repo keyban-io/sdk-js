@@ -7,7 +7,6 @@ import {
 import { useErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
 
-import Modal from '@/components/Modal';
 import { fetchMaticToEuroRate } from '@/utils/apiUtils';
 import {
   useKeybanAccount,
@@ -47,8 +46,6 @@ const WalletDashboardContent: React.FC = () => {
 
   const [maticToEuroRate, setMaticToEuroRate] = useState<number>(0);
 
-  const [showModal, setShowModal] = useState(false);
-
   useEffect(() => {
     fetchMaticToEuroRate()
       .then(setMaticToEuroRate)
@@ -68,14 +65,6 @@ const WalletDashboardContent: React.FC = () => {
     }
   };
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   if (loading) {
     return <CircularProgress />;
   }
@@ -91,21 +80,13 @@ const WalletDashboardContent: React.FC = () => {
           onRefreshBalance={refreshBalance}
         />{" "}
         <Divider />
-        <TokensSection keyId={keyId} onSend={handleOpenModal} />
+        <TokensSection keyId={keyId} />
         <Divider />
         <NFTSection nfts={testNFTs} />
         <Divider />
         <TransactionList transactions={testTransactions} />
         <Button variant="contained">Transaction History</Button>
       </Stack>
-
-      <Modal
-        show={showModal}
-        onClose={handleCloseModal}
-        title="Send non native crypto"
-      >
-        <p>Send functionality coming soon!</p>
-      </Modal>
     </>
   );
 };
