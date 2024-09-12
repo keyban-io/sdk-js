@@ -64,7 +64,11 @@ export default function ERC20Transfer({ keyId }: ERC20TransferProps) {
           type="button"
           onClick={() =>
             account
-              .estimateTransfer(recipient as Address, value)
+              .estimateERC20Transfer({
+                contractAddress: contractAddress as Address,
+                to: recipient as Address,
+                value,
+              })
               .then((estimation: FeesEstimation) => {
                 setTransferCost(estimation.maxFees.toString());
                 setMaxFeePerGas(estimation.details.maxFeePerGas.toString());
