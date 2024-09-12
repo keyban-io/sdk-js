@@ -7,17 +7,17 @@ import {
   type PublicClient,
   type Transport,
   type WalletClient,
-} from 'viem';
+} from "viem";
 import {
   SdkError,
   SdkErrorTypes,
-} from '~/errors';
+} from "~/errors";
 import type {
   Address,
   Hash,
   Hex,
   KeybanClient,
-} from '~/index';
+} from "~/index";
 
 /**
  * Represents the estimation of the fees required for a token transfer.
@@ -247,7 +247,7 @@ export class KeybanAccount implements KeybanAccount {
     }
     if (to === this.address) {
       throw new SdkError(
-        SdkErrorTypes.AddressInvalid,
+        SdkErrorTypes.RecipientAddressEqualsSender,
         "KeybanAccount.transferERC20",
       );
     }

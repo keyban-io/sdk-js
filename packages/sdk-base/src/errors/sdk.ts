@@ -20,6 +20,11 @@ export enum SdkErrorTypes {
    * Amount is invalid.
    */
   AmountInvalid = "AmountInvalid",
+
+  /**
+   * Recipient address same as sender address.
+   */
+  RecipientAddressEqualsSender = "RecipientAddressEqualsSender",
 }
 
 export class SdkError extends KeybanBaseError<SdkErrorTypes> {
@@ -44,6 +49,9 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
 
       case SdkErrorTypes.AmountInvalid:
         return "Amount has to be greater than 0.";
+
+      case SdkErrorTypes.RecipientAddressEqualsSender:
+        return "Recipient address is the same as the sender.";
 
       default:
         return `Unknown error type: ${errorType}`;
