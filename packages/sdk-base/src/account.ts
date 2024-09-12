@@ -245,6 +245,12 @@ export class KeybanAccount implements KeybanAccount {
         "KeybanAccount.transferERC20",
       );
     }
+    if (to === this.address) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanAccount.transferERC20",
+      );
+    }
 
     if (value <= 0n) {
       throw new SdkError(SdkErrorTypes.AmountInvalid, "KeybanAccount.transferERC20");
