@@ -3,9 +3,12 @@ import SerializedValue from "@/components/atoms/SerializedValue";
 import TextField from "@/components/molecules/TextField";
 import { useKeybanAccount } from "@keyban/sdk-react";
 import React from "react";
+import { useErrorBoundary } from "react-error-boundary";
 
 export type SignatureProps = { keyId: string };
 export default function Signature({ keyId }: SignatureProps) {
+  const { showBoundary } = useErrorBoundary();
+
   const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
   if (accountError) throw accountError;
 
@@ -30,7 +33,7 @@ export default function Signature({ keyId }: SignatureProps) {
             account
               .signMessage(message)
               .then(setSignedMessage)
-              .catch(console.error)
+              .catch(showBoundary)
           }
           data-test-id="Signature:submit"
         >

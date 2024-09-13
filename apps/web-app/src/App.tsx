@@ -1,18 +1,17 @@
-import React from 'react';
+import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { useSearchParams } from "react-router-dom";
 
-import { ErrorBoundary } from 'react-error-boundary';
-import { useSearchParams } from 'react-router-dom';
-
-import RefreshButton from '@/components/atoms/RefreshButton';
-import ConfigEditor from '@/components/organisms/ConfigEditor';
-import KeybanTest from '@/KeybanTest';
+import ConfigEditor from "@/components/organisms/ConfigEditor";
+import KeybanTest from "@/KeybanTest";
 import {
   KeybanChain,
   type KeybanClientConfig,
   KeybanLocalStorage,
   KeybanProvider,
   KeybanSigner,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
+import AppError from "@/components/molecules/AppError";
 
 const DEFAULT_API_URL = "https://api.keyban.localtest.me";
 const DEFAULT_CHAIN = KeybanChain.KeybanTestnet;
@@ -44,25 +43,7 @@ export default function App() {
     <>
       <ConfigEditor config={config} onChange={setConfig} />
 
-      <ErrorBoundary
-        fallbackRender={({ error, resetErrorBoundary }) => {
-          console.error(error);
-
-          return (
-            <fieldset data-test-id="error">
-              <legend>
-                <span data-test-id="error:message">{error.message}</span>
-                <RefreshButton
-                  onClick={resetErrorBoundary}
-                  style={{ marginInlineStart: "0.5ch" }}
-                  data-test-id="error:retry"
-                />
-              </legend>
-              <pre data-test-id="error:stack">{error.stack}</pre>
-            </fieldset>
-          );
-        }}
-      >
+      <ErrorBoundary FallbackComponent={AppError}>
         <KeybanProvider {...config}>
           <KeybanTest />
         </KeybanProvider>

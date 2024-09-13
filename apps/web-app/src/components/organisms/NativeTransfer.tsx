@@ -2,7 +2,12 @@ import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import BigIntField from "@/components/molecules/BigIntField";
 import TextField from "@/components/molecules/TextField";
-import { Address, FormattedBalance, useKeybanAccount, FeesEstimation } from "@keyban/sdk-react";
+import {
+  Address,
+  FormattedBalance,
+  useKeybanAccount,
+  FeesEstimation,
+} from "@keyban/sdk-react";
 import React from "react";
 
 export type NativeTransferProps = { keyId: string };
@@ -16,7 +21,8 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
   const [hash, setHash] = React.useState<string>("");
   const [transferCost, setTransferCost] = React.useState<string>("");
   const [maxFeePerGas, setMaxFeePerGas] = React.useState<string>("");
-  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = React.useState<string>("");
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] =
+    React.useState<string>("");
 
   return (
     <fieldset>
@@ -27,7 +33,7 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           label="Value"
           value={value?.toString()}
           onChange={setValue}
-          data-test-id="NativeTransfer:rawValue"
+          data-test-id="NativeTransfer:value:input"
         />
         <div data-test-id="NativeTransfer:formattedValue">
           <FormattedBalance balance={value} />
@@ -52,7 +58,9 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
               .then((estimation: FeesEstimation) => {
                 setTransferCost(estimation.maxFees.toString());
                 setMaxFeePerGas(estimation.details.maxFeePerGas.toString());
-                setMaxPriorityFeePerGas(estimation.details.maxPriorityFeePerGas.toString());
+                setMaxPriorityFeePerGas(
+                  estimation.details.maxPriorityFeePerGas.toString(),
+                );
               })
               .catch(console.error)
           }
@@ -78,14 +86,12 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           type="button"
           onClick={() =>
             account
-              .transfer(
-                recipient as Address,
-                value,
-                {
-                    maxFeePerGas: maxFeePerGas? BigInt(maxFeePerGas): undefined,
-                    maxPriorityFeePerGas: maxPriorityFeePerGas? BigInt(maxPriorityFeePerGas): undefined
-                }
-              )
+              .transfer(recipient as Address, value, {
+                maxFeePerGas: maxFeePerGas ? BigInt(maxFeePerGas) : undefined,
+                maxPriorityFeePerGas: maxPriorityFeePerGas
+                  ? BigInt(maxPriorityFeePerGas)
+                  : undefined,
+              })
               .then(setHash)
               .catch(console.error)
           }
