@@ -1,11 +1,9 @@
 import * as chains from "viem/chains";
 
 import { type IKeybanSigner, KeybanSigner } from "~/signer";
-import { GqlChainType } from "~/gql-types";
-// export { GqlChainType as KeybanChain } from "~/gql-types";
+import { GqlChainType as KeybanChain } from "~/gql-types";
 
-export type KeybanChain = GqlChainType;
-export const KeybanChain = GqlChainType;
+export { type GqlChainType as KeybanChain } from "~/gql-types";
 
 export const viemChainsMap: { [C in KeybanChain]: chains.Chain } = {
   [KeybanChain.KeybanTestnet]: chains.anvil,
