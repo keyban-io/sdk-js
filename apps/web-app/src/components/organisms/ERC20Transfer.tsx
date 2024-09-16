@@ -17,13 +17,11 @@ export default function ERC20Transfer({ keyId }: ERC20TransferProps) {
   const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
   if (accountError) throw accountError;
 
-  const [value, setValue] = React.useState<bigint>(0n);
-  const [contractAddress, setContractAddress] = React.useState<string>("");
-  const [recipient, setRecipient] = React.useState<string>("");
-  const [hash, setHash] = React.useState<string>("");
-  const [transferCost, setTransferCost] = React.useState<string>("");
-  const [maxFeePerGas, setMaxFeePerGas] = React.useState<string>("");
-  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = React.useState<string>("");
+  const [value, setValue] = React.useState(0n);
+  const [contractAddress, setContractAddress] = React.useState("");
+  const [recipient, setRecipient] = React.useState("");
+  const [hash, setHash] = React.useState("");
+  const [estimation, setEstimation] = React.useState<FeesEstimation>();
 
   return (
     <fieldset>
@@ -69,11 +67,7 @@ export default function ERC20Transfer({ keyId }: ERC20TransferProps) {
                 to: recipient as Address,
                 value,
               })
-              .then((estimation: FeesEstimation) => {
-                setTransferCost(estimation.maxFees.toString());
-                setMaxFeePerGas(estimation.details.maxFeePerGas.toString());
-                setMaxPriorityFeePerGas(estimation.details.maxPriorityFeePerGas.toString());
-              })
+              .then(setEstimation)
               .catch(console.error)
           }
           data-test-id="ERC20Transfer:estimate:submit"
@@ -81,17 +75,20 @@ export default function ERC20Transfer({ keyId }: ERC20TransferProps) {
           Estimate max tx fees
         </button>
       </Row>
-      <Row>
-        <span>Estimation:</span>
-        <SerializedValue
-          value={transferCost}
-          style={{ flexGrow: 1 }}
-          data-test-id="ERC20Transfer:estimate:rawValue"
-        />
-        <div data-test-id="ERC20Transfer:estimate:formattedValue">
-          <FormattedBalance balance={BigInt(transferCost)} />
-        </div>
-      </Row>
+
+      {estimation && (
+        <Row>
+          <span>Estimation:</span>
+          <SerializedValue
+            value={estimation.maxFees}
+            style={{ flexGrow: 1 }}
+            data-test-id="ERC20Transfer:estimate:rawValue"
+          />
+          <div data-test-id="ERC20Transfer:estimate:formattedValue">
+            <FormattedBalance balance={estimation.maxFees} />
+          </div>
+        </Row>
+      )}
 
       <Row>
         <button
@@ -99,15 +96,15 @@ export default function ERC20Transfer({ keyId }: ERC20TransferProps) {
           onClick={() =>
             account
               .transferERC20({
-                  contractAddress: contractAddress as Address,
-                  to: recipient as Address,
-                  value,
-                  txOptions: {
-                    maxFeePerGas: maxFeePerGas? BigInt(maxFeePerGas): undefined,
-                    maxPriorityFeePerGas: maxPriorityFeePerGas? BigInt(maxPriorityFeePerGas): undefined
-                  }
-                }
-              )
+                contractAddress: contractAddress as Address,
+                to: recipient as Address,
+                value,
+                txOptions: {
+                  maxFeePerGas: estimation?.details.maxFeePerGas,
+                  maxPriorityFeePerGas:
+                    estimation?.details.maxPriorityFeePerGas,
+                },
+              })
               .then(setHash)
               .catch(console.error)
           }
@@ -116,6 +113,7 @@ export default function ERC20Transfer({ keyId }: ERC20TransferProps) {
           Transfer
         </button>
       </Row>
+
       <Row>
         <span>Hash:</span>
         <SerializedValue

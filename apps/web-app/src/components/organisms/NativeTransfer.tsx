@@ -16,13 +16,10 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
   const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
   if (accountError) throw accountError;
 
-  const [value, setValue] = React.useState<bigint>(0n);
-  const [recipient, setRecipient] = React.useState<string>("");
-  const [hash, setHash] = React.useState<string>("");
-  const [transferCost, setTransferCost] = React.useState<string>("");
-  const [maxFeePerGas, setMaxFeePerGas] = React.useState<string>("");
-  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] =
-    React.useState<string>("");
+  const [value, setValue] = React.useState(0n);
+  const [recipient, setRecipient] = React.useState("");
+  const [hash, setHash] = React.useState("");
+  const [estimation, setEstimation] = React.useState<FeesEstimation>();
 
   return (
     <fieldset>
@@ -55,13 +52,7 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           onClick={() =>
             account
               .estimateTransfer(recipient as Address, value)
-              .then((estimation: FeesEstimation) => {
-                setTransferCost(estimation.maxFees.toString());
-                setMaxFeePerGas(estimation.details.maxFeePerGas.toString());
-                setMaxPriorityFeePerGas(
-                  estimation.details.maxPriorityFeePerGas.toString(),
-                );
-              })
+              .then(setEstimation)
               .catch(console.error)
           }
           data-test-id="NativeTransfer:estimate:submit"
@@ -69,17 +60,21 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           Estimate max tx fees
         </button>
       </Row>
-      <Row>
-        <span>Estimation:</span>
-        <SerializedValue
-          value={transferCost}
-          style={{ flexGrow: 1 }}
-          data-test-id="NativeTransfer:estimate:rawValue"
-        />
-        <div data-test-id="NativeTransfer:estimate:formattedValue">
-          <FormattedBalance balance={BigInt(transferCost)} />
-        </div>
-      </Row>
+
+      {estimation && (
+        <Row>
+          <span>Estimation:</span>
+          <SerializedValue
+            value={estimation.maxFees}
+            style={{ flexGrow: 1 }}
+            data-test-id="NativeTransfer:estimate:rawValue"
+          />
+
+          <div data-test-id="NativeTransfer:estimate:formattedValue">
+            <FormattedBalance balance={BigInt(estimation.maxFees)} />
+          </div>
+        </Row>
+      )}
 
       <Row>
         <button
@@ -87,10 +82,8 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           onClick={() =>
             account
               .transfer(recipient as Address, value, {
-                maxFeePerGas: maxFeePerGas ? BigInt(maxFeePerGas) : undefined,
-                maxPriorityFeePerGas: maxPriorityFeePerGas
-                  ? BigInt(maxPriorityFeePerGas)
-                  : undefined,
+                maxFeePerGas: estimation?.details.maxFeePerGas,
+                maxPriorityFeePerGas: estimation?.details.maxPriorityFeePerGas,
               })
               .then(setHash)
               .catch(console.error)
@@ -100,6 +93,7 @@ export default function NativeTransfer({ keyId }: NativeTransferProps) {
           Transfer
         </button>
       </Row>
+
       <Row>
         <span>Hash:</span>
         <SerializedValue
