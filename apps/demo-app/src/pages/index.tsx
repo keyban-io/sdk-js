@@ -17,6 +17,7 @@ import {
   CircularProgress,
   Divider,
   Stack,
+  Typography,
 } from '@mui/material';
 
 import AccountInfo from '../components/AccountInfo';
@@ -66,7 +67,18 @@ const WalletDashboardContent: React.FC = () => {
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Stack
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+        <Typography variant="h6">Loading...</Typography>
+      </Stack>
+    );
   }
 
   return (

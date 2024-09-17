@@ -7,6 +7,7 @@ import {
   MenuItem,
   Select,
   Tooltip,
+  useTheme,
 } from '@mui/material';
 
 interface NetworkSelectorProps {
@@ -24,6 +25,8 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
     onSelectChain(chainId);
   };
 
+  const theme = useTheme();
+
   return (
     <Tooltip title="Current blockchain" placement="left-start" arrow>
       <FormControl fullWidth size="small">
@@ -35,6 +38,7 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
           onChange={handleChange}
           labelId="network-select-label"
           inputProps={{ "aria-label": "Network Selector" }}
+          sx={{ maxWidth: 140, color: theme.palette.secondary.dark, mr: 1 }}
         >
           {Object.values(KeybanChain).map((chain) => (
             <MenuItem key={chain} value={chain}>
