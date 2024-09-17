@@ -1,9 +1,9 @@
-import type { KeybanStorage } from "@keyban/sdk-base";
+import type { IKeybanStorage } from "@keyban/sdk-base";
 
 /**
  * @class KeybanLocalStorage
  *
- * This class implements the KeybanStorage interface using the localStorage Web API.
+ * This class implements the IKeybanStorage interface using the localStorage Web API.
  * It provides methods to get and save client shares to localStorage.
  *
  * @remarks
@@ -11,7 +11,7 @@ import type { KeybanStorage } from "@keyban/sdk-base";
  * LocalStorage provides no encryption or protection against cross-site scripting (XSS) attacks, making it unsuitable for storing sensitive data in a production environment.
  * Ensure to use a more secure storage solution for production deployments.
  */
-export class KeybanLocalStorage implements KeybanStorage {
+export class KeybanLocalStorage implements IKeybanStorage {
   /**
    * The constructor of the `KeybanLocalStorage` class.
    * Initializes the storage provider and checks for the presence of the localStorage API in the environment.

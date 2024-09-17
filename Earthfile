@@ -17,11 +17,11 @@ get-ecdsa-wasm:
 GET_PACKAGE_JSON:
     FUNCTION
     COPY pnpm-workspace.yaml .
-    COPY +get-eddsa-wasm/pkg/package.json                ./packages/sdk-eddsa-wasm/
-    COPY +get-ecdsa-wasm/pkg/package.json                ./packages/sdk-ecdsa-wasm/
-    COPY ./packages/sdk-base/package.json                ./packages/sdk-base/
-    COPY ./packages/sdk-react/package.json               ./packages/sdk-react/
-    COPY ./packages/mui-theme/package.json               ./packages/mui-theme/
+    COPY +get-eddsa-wasm/pkg/package.json   ./packages/sdk-eddsa-wasm/
+    COPY +get-ecdsa-wasm/pkg/package.json   ./packages/sdk-ecdsa-wasm/
+    COPY ./packages/sdk-base/package.json   ./packages/sdk-base/
+    COPY ./packages/sdk-react/package.json  ./packages/sdk-react/
+    COPY ./packages/mui-theme/package.json  ./packages/mui-theme/
 
 update-lock-file:
     FROM ../+node
@@ -30,8 +30,8 @@ update-lock-file:
     WORKDIR /app
 
     DO +GET_PACKAGE_JSON
-    COPY ./apps/demo-app/package.json                    ./apps/demo-app/
-    COPY ./apps/web-app/package.json                     ./apps/web-app/
+    COPY ./apps/demo-app/package.json  ./apps/demo-app/
+    COPY ./apps/web-app/package.json   ./apps/web-app/
 
     RUN pnpm install
     SAVE ARTIFACT pnpm-lock.yaml AS LOCAL pnpm-lock.yaml
@@ -47,11 +47,11 @@ sdk-build:
 
     RUN pnpm install
 
-    COPY +get-eddsa-wasm/pkg/*        ./packages/sdk-eddsa-wasm
-    COPY +get-ecdsa-wasm/pkg/*        ./packages/sdk-ecdsa-wasm
-    COPY ./packages/sdk-base          ./packages/sdk-base
-    COPY ./packages/sdk-react         ./packages/sdk-react
-    COPY ./packages/mui-theme         ./packages/mui-theme
+    COPY +get-eddsa-wasm/pkg/*  ./packages/sdk-eddsa-wasm
+    COPY +get-ecdsa-wasm/pkg/*  ./packages/sdk-ecdsa-wasm
+    COPY ./packages/sdk-base    ./packages/sdk-base
+    COPY ./packages/sdk-react   ./packages/sdk-react
+    COPY ./packages/mui-theme   ./packages/mui-theme
 
     RUN pnpm -r build
 

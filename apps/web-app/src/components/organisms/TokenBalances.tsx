@@ -7,10 +7,8 @@ import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import RefreshButton from "@/components/atoms/RefreshButton";
 
-export type TokenBalancesProps = { keyId: string };
-
-export default function TokenBalances({ keyId }: TokenBalancesProps) {
-  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+export default function TokenBalances() {
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [tokenBalances, tokenBalancesError, { refresh }] =

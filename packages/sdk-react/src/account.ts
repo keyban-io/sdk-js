@@ -1,24 +1,16 @@
-import {
-  usePromise,
-  UsePromiseOptions,
-} from '~/promise';
-import { useKeybanClient } from '~/provider';
+import { usePromise, UsePromiseOptions } from "~/promise";
+import { useKeybanClient } from "~/provider";
 
-import { KeybanAccount } from '@keyban/sdk-base';
+import { KeybanAccount } from "@keyban/sdk-base";
 
 /**
  * Fetches the account information for the given keyId.
  */
 export function useKeybanAccount<B extends boolean>(
-  keyId: string,
   options?: UsePromiseOptions<B>,
 ) {
   const client = useKeybanClient();
-  return usePromise(
-    `account:${keyId}`,
-    () => client.initialize(keyId),
-    options,
-  );
+  return usePromise(`account`, () => client.initialize(), options);
 }
 
 /**
@@ -26,7 +18,7 @@ export function useKeybanAccount<B extends boolean>(
  *
  * @example
  * ```tsx
- * const [account, accountError] = useKeybanAccount("keyId");
+ * const [account, accountError] = useKeybanAccount();
  * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountBalance(account);
  * ```
  * @see {@link useFormattedBalance}
@@ -36,7 +28,7 @@ export function useKeybanAccountBalance<B extends boolean>(
   options?: UsePromiseOptions<B>,
 ) {
   return usePromise(
-    `account-balance:${account.keyId}`,
+    `account-balance:${account.sub}`,
     () => account.getBalance(),
     options,
   );
@@ -47,7 +39,7 @@ export function useKeybanAccountBalance<B extends boolean>(
  *
  * @example
  * ```tsx
- * const [account, accountError] = useKeybanAccount("keyId");
+ * const [account, accountError] = useKeybanAccount();
  * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountTokenBalances(account);
  * ```
  * @see {@link useFormattedBalance}
@@ -57,7 +49,7 @@ export function useKeybanAccountTokenBalances<B extends boolean>(
   options?: UsePromiseOptions<B>,
 ) {
   return usePromise(
-    `account-token-balances:${account.keyId}`,
+    `account-token-balances:${account.sub}`,
     () => account.getTokenBalances(),
     options,
   );

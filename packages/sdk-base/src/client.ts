@@ -22,22 +22,24 @@ import type { KeybanApiStatus } from "./api";
 import { StorageError } from "./errors";
 import type { Address, KeybanChain } from "./index";
 import type { IKeybanSigner } from "./signer";
-import type { KeybanStorage } from "./storage";
+import type { IKeybanStorage } from "./storage";
+import { parseJwt } from "~/utils/jwt";
 
 /**
  * Configuration object for the Keyban client.
  *
  * @property {string} [apiUrl] - The URL for the Keyban API. Defaults to "https://api.keyban.io" if not provided.
  * @property {KeybanChain} chain - The blockchain Keyban operates on.
- * @property {string} [chainUrl] - The URL for the chain, which can override the default chain URL.
- * @property {new () => KeybanSigner} signer - Constructor for the Keyban-specific signer.
- * @property {new () => KeybanStorage} storage - Constructor for the Keyban-specific storage handler.
+ * @property {new () => IKeybanSigner} signer - Constructor for the Keyban-specific signer.
+ * @property {new () => IKeybanStorage} storage - Constructor for the Keyban-specific storage handler.
  */
 export type KeybanClientConfig = {
   apiUrl?: string;
+  appId: string;
+  accessTokenProvider: () => string | Promise<string>;
   chain: KeybanChain;
   signer?: new () => IKeybanSigner;
-  storage: new () => KeybanStorage;
+  storage: new () => IKeybanStorage;
 };
 
 /**
@@ -53,6 +55,7 @@ export type KeybanClientConfig = {
  */
 export class KeybanClient {
   apiUrl: string;
+  appId: string;
   chain: KeybanChain;
   nativeCurrency: {
     name: string;
@@ -60,8 +63,10 @@ export class KeybanClient {
     decimals: number;
   };
 
+  #accessTokenProvider: () => string | Promise<string>;
+
   #signer: IKeybanSigner;
-  #storage: KeybanStorage;
+  #storage: IKeybanStorage;
   #graphql: Sdk;
 
   #accounts: Map<string, Promise<KeybanAccount>>;
@@ -74,13 +79,23 @@ export class KeybanClient {
    *
    * @param {KeybanClientConfig} config - The configuration object to initialize the client.
    */
-  constructor({ apiUrl, chain, signer, storage }: KeybanClientConfig) {
+  constructor({
+    apiUrl,
+    appId,
+    accessTokenProvider,
+    chain,
+    signer,
+    storage,
+  }: KeybanClientConfig) {
     apiUrl ??= "https://api.keyban.io";
     signer ??= signersChainMap[chain];
 
     this.apiUrl = apiUrl;
+    this.appId = appId;
     this.chain = chain;
     this.nativeCurrency = viemChainsMap[this.chain].nativeCurrency;
+
+    this.#accessTokenProvider = accessTokenProvider;
 
     this.#signer = new signer();
     this.#storage = new storage();
@@ -102,15 +117,17 @@ export class KeybanClient {
   /**
    * Initializes a KeybanAccount associated with a specific key ID.
    *
-   * @param {string} keyId - The key ID used to retrieve stored shares.
    * @returns {Promise<KeybanAccount>} - A promise that resolves to an instance of `KeybanAccount`.
    */
-  initialize(keyId: string): Promise<KeybanAccount> {
-    const cached = this.#accounts.get(keyId);
+  async initialize(): Promise<KeybanAccount> {
+    const accessToken = await this.#accessTokenProvider();
+    const { sub } = parseJwt(accessToken);
+
+    const cached = this.#accounts.get(sub);
     if (cached) return cached;
 
     const promise = (async () => {
-      const storageKey = `${this.#signer.storagePrefix}-${keyId}`;
+      const storageKey = `${this.#signer.storagePrefix}-${sub}`;
 
       let clientShare = await this.#storage.get(storageKey).catch((err) => {
         throw new StorageError(
@@ -120,7 +137,11 @@ export class KeybanClient {
         );
       });
 
-      clientShare ??= await this.#signer.dkg(keyId, this.apiUrl);
+      clientShare ??= await this.#signer.dkg(
+        this.apiUrl,
+        this.appId,
+        await this.#accessTokenProvider(),
+      );
 
       await this.#storage.set(storageKey, clientShare).catch((err) => {
         throw new StorageError(
@@ -134,9 +155,15 @@ export class KeybanClient {
 
       const account = toAccount({
         address: publicKeyToAddress(publicKey),
-        signMessage: ({ message }) => {
+        signMessage: async ({ message }) => {
           const hash = hashMessage(message, "hex");
-          return this.#signer.sign(keyId, clientShare, hash, this.apiUrl);
+          return this.#signer.sign(
+            this.apiUrl,
+            this.appId,
+            await this.#accessTokenProvider(),
+            clientShare,
+            hash,
+          );
         },
         signTransaction: async (transaction, options) => {
           const serializer = options?.serializer ?? serializeTransaction;
@@ -150,10 +177,11 @@ export class KeybanClient {
 
           const signature = await this.#signer
             .sign(
-              keyId,
+              this.apiUrl,
+              this.appId,
+              await this.#accessTokenProvider(),
               clientShare,
               keccak256(serializer(signableTransaction)),
-              this.apiUrl,
             )
             .then(parseSignature);
 
@@ -161,7 +189,13 @@ export class KeybanClient {
         },
         signTypedData: async (typedDataDefinition) => {
           const hash = hashTypedData(typedDataDefinition);
-          return this.#signer.sign(keyId, clientShare, hash, this.apiUrl);
+          return this.#signer.sign(
+            this.apiUrl,
+            this.appId,
+            await this.#accessTokenProvider(),
+            clientShare,
+            hash,
+          );
         },
       });
 
@@ -175,13 +209,13 @@ export class KeybanClient {
         account,
       });
 
-      return new KeybanAccount(keyId, this, publicClient, walletClient);
+      return new KeybanAccount(sub, this, publicClient, walletClient);
     })();
 
-    this.#accounts.set(keyId, promise);
-    promise.catch(() => {}).finally(() => this.#accounts.delete(keyId));
+    this.#accounts.set(sub, promise);
+    promise.catch(() => {}).finally(() => this.#accounts.delete(sub));
 
-    return this.initialize(keyId);
+    return this.initialize();
   }
 
   /**

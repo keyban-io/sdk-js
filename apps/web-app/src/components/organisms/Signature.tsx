@@ -5,11 +5,10 @@ import { useKeybanAccount } from "@keyban/sdk-react";
 import React from "react";
 import { useErrorBoundary } from "react-error-boundary";
 
-export type SignatureProps = { keyId: string };
-export default function Signature({ keyId }: SignatureProps) {
+export default function Signature() {
   const { showBoundary } = useErrorBoundary();
 
-  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [message, setMessage] = React.useState("");

@@ -8,12 +8,16 @@ import {
 } from "@keyban/sdk-react";
 import React from "react";
 
+type Config = Omit<KeybanClientConfig, "accessTokenProvider"> & {
+  accessToken: string;
+};
+
 export type ConfigEditorProps = Omit<
   React.HTMLProps<HTMLFieldSetElement>,
   "children" | "onChange"
 > & {
-  config: KeybanClientConfig;
-  onChange: (config: KeybanClientConfig) => void;
+  config: Config;
+  onChange: (config: Config) => void;
 };
 
 export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
@@ -26,6 +30,20 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
         value={config.apiUrl}
         onChange={(apiUrl) => onChange({ ...config, apiUrl })}
         data-test-id="ConfigEditor:apiUrl"
+      />
+
+      <TextField
+        label="App ID"
+        value={config.appId}
+        onChange={(appId) => onChange({ ...config, appId })}
+        data-test-id="ConfigEditor:appId"
+      />
+
+      <TextField
+        label="Access token"
+        value={config.accessToken}
+        onChange={(accessToken) => onChange({ ...config, accessToken })}
+        data-test-id="ConfigEditor:accessToken"
       />
 
       <SelectField

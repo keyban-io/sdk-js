@@ -10,16 +10,8 @@ import {
   type Transport,
   type WalletClient,
 } from "viem";
-import {
-  SdkError,
-  SdkErrorTypes,
-} from "~/errors";
-import type {
-  Address,
-  Hash,
-  Hex,
-  KeybanClient,
-} from "~/index";
+import { SdkError, SdkErrorTypes } from "~/errors";
+import type { Address, Hash, Hex, KeybanClient } from "~/index";
 
 /**
  * Represents the estimation of the fees required for a token transfer.
@@ -46,9 +38,9 @@ export type FeesEstimation = {
  * see {@link KeybanAccount#transfer}
  */
 export type TransactionOptions = {
-  maxFeePerGas?: bigint,
-  maxPriorityFeePerGas?: bigint
-}
+  maxFeePerGas?: bigint;
+  maxPriorityFeePerGas?: bigint;
+};
 
 /**
  * Represents the parameters for transferring ERC20 tokens.
@@ -62,20 +54,23 @@ export type TransferERC20Params = {
   contractAddress: Address;
   to: Address;
   value: bigint;
-  txOptions?: TransactionOptions
-}
+  txOptions?: TransactionOptions;
+};
 
 /**
  * Represents the parameters for estimating the cost of transferring ERC20 tokens.
  */
-export type EstimateERC20TransferParams = Omit<TransferERC20Params, "txOptions">;
+export type EstimateERC20TransferParams = Omit<
+  TransferERC20Params,
+  "txOptions"
+>;
 
 /**
  * The Keyban account is the entry class to access all features related to an account
  * such as balance, token balances, transfers, estimate fees, and sign messages.
  */
 export class KeybanAccount implements KeybanAccount {
-  keyId: string;
+  sub: string;
   address: Address;
   publicKey: Hex;
 
@@ -85,18 +80,18 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * @private
-   * @param keyId - The unique identifier for the Keyban account.
+   * @param sub - The unique identifier for the Keyban account.
    * @param client - The Keyban client for making requests.
    * @param publicClient - The client for public interactions (e.g., fetching balances).
    * @param walletClient - The wallet client used for signing and sending transactions.
    */
   constructor(
-    keyId: string,
+    sub: string,
     client: KeybanClient,
     publicClient: PublicClient<Transport, Chain>,
     walletClient: WalletClient<Transport, Chain, LocalAccount>,
   ) {
-    this.keyId = keyId;
+    this.sub = sub;
     this.address = walletClient.account.address.toLowerCase() as Address;
     this.publicKey = walletClient.account.publicKey.toLowerCase() as Hex;
 
@@ -156,7 +151,11 @@ export class KeybanAccount implements KeybanAccount {
    * };
    * ```
    */
-  async transfer(to: Address, value: bigint, txOptions?: TransactionOptions): Promise<Hash> {
+  async transfer(
+    to: Address,
+    value: bigint,
+    txOptions?: TransactionOptions,
+  ): Promise<Hash> {
     if (!isAddress(to)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
@@ -174,7 +173,7 @@ export class KeybanAccount implements KeybanAccount {
         value,
         type: "eip1559",
         maxFeePerGas: txOptions?.maxFeePerGas,
-        maxPriorityFeePerGas: txOptions?.maxPriorityFeePerGas
+        maxPriorityFeePerGas: txOptions?.maxPriorityFeePerGas,
       })
       .catch((err) => {
         throw err.cause;
@@ -189,10 +188,7 @@ export class KeybanAccount implements KeybanAccount {
    * @returns A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    */
-  async estimateTransfer(
-    to: Address,
-    value?: bigint,
-  ): Promise<FeesEstimation> {
+  async estimateTransfer(to: Address, value?: bigint): Promise<FeesEstimation> {
     const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
       [
         this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
@@ -234,7 +230,12 @@ export class KeybanAccount implements KeybanAccount {
    * ```
    *
    */
-  async transferERC20({ contractAddress, to, value, txOptions }: TransferERC20Params): Promise<Hash> {
+  async transferERC20({
+    contractAddress,
+    to,
+    value,
+    txOptions,
+  }: TransferERC20Params): Promise<Hash> {
     if (!isAddress(to)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
@@ -255,7 +256,10 @@ export class KeybanAccount implements KeybanAccount {
     }
 
     if (value <= 0n) {
-      throw new SdkError(SdkErrorTypes.AmountInvalid, "KeybanAccount.transferERC20");
+      throw new SdkError(
+        SdkErrorTypes.AmountInvalid,
+        "KeybanAccount.transferERC20",
+      );
     }
 
     const erc20Contract = getContract({
@@ -263,7 +267,7 @@ export class KeybanAccount implements KeybanAccount {
       abi: erc20Abi,
       client: {
         public: this.#publicClient,
-        wallet: this.#walletClient
+        wallet: this.#walletClient,
       },
     });
 
@@ -271,13 +275,15 @@ export class KeybanAccount implements KeybanAccount {
       .transfer([to, value], txOptions)
       .catch((err: TransactionExecutionErrorType) => {
         if (err.cause.cause instanceof EstimateGasExecutionError) {
-          throw new SdkError(SdkErrorTypes.EstimateGasExecution, "KeybanAccount.transfer");
+          throw new SdkError(
+            SdkErrorTypes.EstimateGasExecution,
+            "KeybanAccount.transfer",
+          );
         }
 
         throw err.cause;
       });
   }
-
 
   /**
    * Estimates the cost of transferring ERC20 tokens to another address.
@@ -302,17 +308,21 @@ export class KeybanAccount implements KeybanAccount {
    * };
    * ```
    */
-  async estimateERC20Transfer({ contractAddress, to, value }: EstimateERC20TransferParams): Promise<FeesEstimation> {
+  async estimateERC20Transfer({
+    contractAddress,
+    to,
+    value,
+  }: EstimateERC20TransferParams): Promise<FeesEstimation> {
     const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
       [
         this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
         this.#publicClient.estimateContractGas({
           address: contractAddress,
           abi: erc20Abi,
-          functionName: 'transfer',
+          functionName: "transfer",
           args: [to, value],
           account: this.address,
-        })
+        }),
       ],
     );
 

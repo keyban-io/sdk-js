@@ -2,9 +2,8 @@ import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import { useKeybanAccount } from "@keyban/sdk-react";
 
-export type AccountInfoProps = { keyId: string };
-export default function AccountInfo({ keyId }: AccountInfoProps) {
-  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+export default function AccountInfo() {
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   return (
@@ -12,11 +11,11 @@ export default function AccountInfo({ keyId }: AccountInfoProps) {
       <legend>Account infos:</legend>
 
       <Row>
-        <span>Key ID:</span>
+        <span>Sub:</span>
         <SerializedValue
-          value={account.keyId}
+          value={account.sub}
           style={{ flexGrow: 1 }}
-          data-test-id="AccountInfo:keyId"
+          data-test-id="AccountInfo:sub"
         />
       </Row>
 

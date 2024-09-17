@@ -13,9 +13,15 @@ export class KeybanSigner_EdDSA
   );
 
   sign: IKeybanSigner["sign"] = KeybanSigner_EdDSA.wrap(
-    async (keyId, clientShare, message, apiUrl) => {
+    async (apiUrl, appId, accessToken, clientShare, message) => {
       const { secret_share } = JSON.parse(clientShare);
-      const hash = await sign(keyId, secret_share, message, apiUrl);
+      const hash = await sign(
+        apiUrl,
+        appId,
+        accessToken,
+        secret_share,
+        message,
+      );
       return `0x${hash}` as const;
     },
   );

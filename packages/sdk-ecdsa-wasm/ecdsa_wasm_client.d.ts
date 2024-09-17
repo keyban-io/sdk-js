@@ -1,13 +1,14 @@
 declare module "ecdsa-wasm-client";
 
-export declare global {
+declare global {
   var ecdsa: {
-    dkg(keyId: string, apiUrl: string): Promise<string>;
+    dkg(apiUrl: string, appId: string, accessToken: string): Promise<string>;
     sign(
-      keyId: string,
+      apiUrl: string,
+      appId: string,
+      accessToken: string,
       clientShare: string,
       message: string,
-      apiUrl: string,
     ): Promise<`0x${string}`>;
     publicKey(clientShare: string): Promise<`0x${string}`>;
   };

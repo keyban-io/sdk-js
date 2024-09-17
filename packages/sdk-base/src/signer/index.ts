@@ -1,6 +1,6 @@
 import { Hex } from "~/index";
 import { KeybanSigner_ECDSA } from "./ecdsa";
-import { KeybanSigner_EdDSA } from "./eddsa";
+// import { KeybanSigner_EdDSA } from "./eddsa";
 
 /**
  * Interface for the Keyban signer.
@@ -12,12 +12,13 @@ import { KeybanSigner_EdDSA } from "./eddsa";
  */
 export interface IKeybanSigner {
   storagePrefix: string;
-  dkg(keyId: string, apiUrl: string): Promise<string>;
+  dkg(apiUrl: string, keyId: string, accessToken: string): Promise<string>;
   sign(
-    keyId: string,
+    apiUrl: string,
+    appId: string,
+    accessToken: string,
     clientShare: string,
     message: string,
-    apiUrl: string,
   ): Promise<Hex>;
   publicKey(clientShare: string): Promise<Hex>;
 }
@@ -26,6 +27,6 @@ export interface IKeybanSigner {
  * Object that contains the Keyban signers.
  */
 export const KeybanSigner: Record<string, new () => IKeybanSigner> = {
-  EdDSA: KeybanSigner_EdDSA,
   ECDSA: KeybanSigner_ECDSA,
+  // EdDSA: KeybanSigner_EdDSA,
 };

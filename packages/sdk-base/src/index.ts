@@ -3,12 +3,12 @@ export {
   TransactionOptions,
   TransferERC20Params,
   FeesEstimation,
-} from './account';
-export { KeybanApiStatus } from './api';
-export { KeybanChain } from './chains';
-export { KeybanClient, KeybanClientConfig, KeybanTokenBalance } from './client';
-export { KeybanSigner } from './signer';
-export { KeybanStorage } from './storage';
+} from "./account";
+export { KeybanApiStatus } from "./api";
+export { KeybanChain } from "./chains";
+export { KeybanClient, KeybanClientConfig, KeybanTokenBalance } from "./client";
+export { IKeybanSigner, KeybanSigner } from "./signer";
+export { IKeybanStorage } from "./storage";
 export * from "./utils";
 
 /**

@@ -7,14 +7,8 @@ import {
   useKeybanAccountBalance,
 } from "@keyban/sdk-react";
 
-export type BalanceProps = {
-  keyId: string;
-};
-
-export default function Balance({ keyId }: BalanceProps) {
-  const [account, accountError] = useKeybanAccount(keyId, {
-    suspense: true,
-  });
+export default function Balance() {
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [balance, balanceError, { reset }] = useKeybanAccountBalance(account, {

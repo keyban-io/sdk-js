@@ -11,10 +11,8 @@ import {
   useKeybanAccount,
 } from "@keyban/sdk-react";
 
-export type ERC20TransferProps = { keyId: string };
-
-export default function ERC20Transfer({ keyId }: ERC20TransferProps) {
-  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+export default function ERC20Transfer() {
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [value, setValue] = React.useState(0n);

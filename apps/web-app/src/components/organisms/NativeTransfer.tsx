@@ -10,10 +10,8 @@ import {
 } from "@keyban/sdk-react";
 import React from "react";
 
-export type NativeTransferProps = { keyId: string };
-
-export default function NativeTransfer({ keyId }: NativeTransferProps) {
-  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+export default function NativeTransfer() {
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [value, setValue] = React.useState(0n);
