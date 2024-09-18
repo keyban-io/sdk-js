@@ -1,10 +1,12 @@
 import {
   type Chain,
   erc20Abi,
+  EstimateGasExecutionError,
   getContract,
   isAddress,
   type LocalAccount,
   type PublicClient,
+  TransactionExecutionErrorType,
   type Transport,
   type WalletClient,
 } from "viem";
@@ -267,7 +269,11 @@ export class KeybanAccount implements KeybanAccount {
 
     return erc20Contract.write
       .transfer([to, value], txOptions)
-      .catch((err) => {
+      .catch((err: TransactionExecutionErrorType) => {
+        if (err.cause.cause instanceof EstimateGasExecutionError) {
+          throw new SdkError(SdkErrorTypes.EstimateGasExecution, "KeybanAccount.transfer");
+        }
+
         throw err.cause;
       });
   }
