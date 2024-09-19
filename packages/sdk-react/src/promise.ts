@@ -1,11 +1,12 @@
 import React from "react";
 import { useKeybanClient } from "~/provider";
 
-const CacheContext = React.createContext(new Map());
+const CacheContext = React.createContext({ current: new Map() });
 
 export function PromiseCacheProvider({ children }: React.PropsWithChildren) {
-  const cache = React.useMemo(() => new Map(), [useKeybanClient()]); // clear cache whenever the client changes
-  return React.createElement(CacheContext.Provider, { value: cache }, children);
+  const value = React.useRef(new Map());
+  React.useImperativeHandle(value, () => new Map(), [useKeybanClient()]);
+  return React.createElement(CacheContext.Provider, { value }, children);
 }
 
 enum PromiseState {
@@ -63,7 +64,8 @@ export function usePromise<T, B extends boolean>(
   promise: () => Promise<T>,
   options?: UsePromiseOptions<B>,
 ): UsePromiseResult<T, B> {
-  const cache: Map<string, WrappedPromise<T>> = React.useContext(CacheContext);
+  const cacheRef = React.useContext(CacheContext);
+  const cache: Map<string, WrappedPromise<T>> = cacheRef.current;
 
   let cached = cache.get(key);
 

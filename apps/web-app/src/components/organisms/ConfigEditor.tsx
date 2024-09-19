@@ -17,7 +17,7 @@ export type ConfigEditorProps = Omit<
   "children" | "onChange"
 > & {
   config: Config;
-  onChange: (config: Config) => void;
+  onChange: (config: Config) => unknown;
 };
 
 export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
@@ -42,7 +42,7 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
         />
 
         <button
-          onClick={() => {
+          onClick={() =>
             fetch(new URL("/applications", config.apiUrl), {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -51,8 +51,8 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
               }),
             })
               .then((res) => res.json())
-              .then(({ app_id }) => onChange({ ...config, appId: app_id }));
-          }}
+              .then(({ app_id }) => onChange({ ...config, appId: app_id }))
+          }
         >
           Create an App ID
         </button>
