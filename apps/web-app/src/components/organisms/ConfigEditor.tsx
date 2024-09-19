@@ -32,12 +32,30 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
         data-test-id="ConfigEditor:apiUrl"
       />
 
-      <TextField
-        label="App ID"
-        value={config.appId}
-        onChange={(appId) => onChange({ ...config, appId })}
-        data-test-id="ConfigEditor:appId"
-      />
+      <Row>
+        <TextField
+          label="App ID"
+          value={config.appId}
+          onChange={(appId) => onChange({ ...config, appId })}
+          data-test-id="ConfigEditor:appId"
+        />
+
+        <button
+          onClick={() => {
+            fetch(new URL("/applications", config.apiUrl), {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                jwksUri: "http://localhost:3000/public/jwks.json",
+              }),
+            })
+              .then((res) => res.json())
+              .then(({ app_id }) => onChange({ ...config, appId: app_id }));
+          }}
+        >
+          Create App ID
+        </button>
+      </Row>
 
       <TextField
         label="Access token"

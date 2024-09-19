@@ -12,6 +12,11 @@ export enum SdkErrorTypes {
   WebAssemblyNotSupported = "WebAssemblyNotSupported",
 
   /**
+   * You provided an invalid access token.
+   */
+  InvalidAccessToken = "InvalidAccessToken",
+
+  /**
    * Address is invalid.
    */
   AddressInvalid = "AddressInvalid",
@@ -48,6 +53,9 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
     switch (errorType) {
       case SdkErrorTypes.WebAssemblyNotSupported:
         return "Environment that was used doesn't support WebAssembly module.";
+
+      case SdkErrorTypes.InvalidAccessToken:
+        return "You provided an invalid access token.";
 
       case SdkErrorTypes.AddressInvalid:
         return "Address is invalid.";
