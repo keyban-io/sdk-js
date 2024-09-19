@@ -45,29 +45,29 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
       type,
       instance,
       rootError,
-      detail: SdkError.#getDescription(type),
+      title: SdkError.#getTitle(type),
     });
   }
 
-  static #getDescription(errorType: SdkErrorTypes) {
+  static #getTitle(errorType: SdkErrorTypes) {
     switch (errorType) {
       case SdkErrorTypes.WebAssemblyNotSupported:
-        return "Environment that was used doesn't support WebAssembly module.";
+        return "Environment that was used doesn't support WebAssembly module";
 
       case SdkErrorTypes.InvalidAccessToken:
-        return "You provided an invalid access token.";
+        return "You provided an invalid access token";
 
       case SdkErrorTypes.AddressInvalid:
-        return "Address is invalid.";
+        return "Address is invalid";
 
       case SdkErrorTypes.AmountInvalid:
-        return "Amount has to be greater than 0.";
+        return "Amount has to be greater than 0";
 
       case SdkErrorTypes.RecipientAddressEqualsSender:
-        return "Recipient address is the same as the sender.";
+        return "Recipient address is the same as the sender";
 
       case SdkErrorTypes.EstimateGasExecution:
-        return "Insufficient funds.";
+        return "Insufficient funds";
 
       default:
         return `Unknown error type: ${errorType}`;

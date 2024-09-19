@@ -28,18 +28,18 @@ export class StorageError extends KeybanBaseError<StorageErrorTypes> {
       type,
       instance,
       rootError,
-      detail: StorageError.#getDescription(type),
+      title: StorageError.#getTitle(type),
     });
   }
 
-  static #getDescription(errorType: StorageErrorTypes) {
+  static #getTitle(errorType: StorageErrorTypes) {
     switch (errorType) {
       case StorageErrorTypes.SaveFailed:
-        return "SDK encontered an error when trying to save your share into storage.";
+        return "SDK encontered an error when trying to save your share into storage";
       case StorageErrorTypes.RetrivalFailed:
-        return "Retrival of the share from storage failed ungracefully. Storage provider might be implement incorrectly.";
+        return "Retrival of the share from storage failed ungracefully. Storage provider might be implement incorrectly";
       case StorageErrorTypes.ConnectionError:
-        return "SDK was unable to connect to your storage solution.";
+        return "SDK was unable to connect to your storage solution";
 
       default:
         return `Unknown error type: ${errorType}`;

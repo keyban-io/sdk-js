@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import {
-  KeybanClient,
-  type KeybanClientConfig,
-} from '@keyban/sdk-base';
+import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
 
-import { PromiseCacheProvider } from './promise';
+import { PromiseCacheProvider } from "./promise";
 
 const KeybanContext = React.createContext<KeybanClient | null>(null);
 
@@ -85,21 +82,16 @@ export function KeybanProvider({
   accessTokenProvider,
   ...config
 }: KeybanProviderProps) {
-  const accessTokenProviderRef = React.useRef(accessTokenProvider);
-  React.useImperativeHandle(accessTokenProviderRef, () => accessTokenProvider, [
+  const atProviderRef = React.useRef(accessTokenProvider);
+  React.useImperativeHandle(atProviderRef, () => accessTokenProvider, [
     accessTokenProvider,
   ]);
-
-  const accessTokenProviderMemo = React.useCallback(
-    () => accessTokenProviderRef.current(),
-    [],
-  );
 
   const client = React.useMemo(
     () =>
       new KeybanClient({
         ...config,
-        accessTokenProvider: accessTokenProviderMemo,
+        accessTokenProvider: () => atProviderRef.current(),
       }),
     Object.values(config),
   );

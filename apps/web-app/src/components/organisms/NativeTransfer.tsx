@@ -1,16 +1,20 @@
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
-import BigIntField from "@/components/molecules/BigIntField";
-import TextField from "@/components/molecules/TextField";
+import React from "react";
+import { useErrorBoundary } from "react-error-boundary";
 import {
   Address,
   FormattedBalance,
   useKeybanAccount,
   FeesEstimation,
 } from "@keyban/sdk-react";
-import React from "react";
+
+import Row from "@/components/atoms/Row";
+import SerializedValue from "@/components/atoms/SerializedValue";
+import BigIntField from "@/components/molecules/BigIntField";
+import TextField from "@/components/molecules/TextField";
 
 export default function NativeTransfer() {
+  const { showBoundary } = useErrorBoundary();
+
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
@@ -50,7 +54,7 @@ export default function NativeTransfer() {
             account
               .estimateTransfer(recipient as Address, value)
               .then(setEstimation)
-              .catch(console.error)
+              .catch(showBoundary)
           }
           data-test-id="NativeTransfer:estimate:submit"
         >
@@ -83,7 +87,7 @@ export default function NativeTransfer() {
                 maxPriorityFeePerGas: estimation?.details.maxPriorityFeePerGas,
               })
               .then(setHash)
-              .catch(console.error)
+              .catch(showBoundary)
           }
           data-test-id="NativeTransfer:submit"
         >

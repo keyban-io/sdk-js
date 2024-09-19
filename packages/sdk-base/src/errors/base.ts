@@ -54,12 +54,10 @@ export class KeybanBaseError<T extends string> extends Error {
     detail?: KeybanBaseError<T>["detail"];
     status?: KeybanBaseError<T>["status"];
   }) {
-    const message = title ?? type;
-
-    super(message);
+    super(detail ?? title ?? type);
 
     this.type = type;
-    this.title = message;
+    this.title = title ?? type;
     this.instance = instance;
     this.detail = detail;
     this.status = status;

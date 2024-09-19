@@ -37,11 +37,6 @@ export default function App() {
     storage: KeybanLocalStorage,
   });
 
-  const accessTokenProvider = React.useCallback(
-    () => searchParams.get("accessToken") ?? DEFAULT_ACCESS_TOKEN,
-    [searchParams],
-  );
-
   React.useEffect(() => {
     setSearchParams((prev) => ({
       ...prev,
@@ -58,7 +53,10 @@ export default function App() {
       <ConfigEditor config={config} onChange={setConfig} />
 
       <ErrorBoundary FallbackComponent={AppError}>
-        <KeybanProvider {...config} accessTokenProvider={accessTokenProvider}>
+        <KeybanProvider
+          {...config}
+          accessTokenProvider={() => config.accessToken}
+        >
           <KeybanTest />
         </KeybanProvider>
       </ErrorBoundary>

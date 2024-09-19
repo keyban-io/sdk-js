@@ -1,9 +1,5 @@
 import React from "react";
-
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
-import BigIntField from "@/components/molecules/BigIntField";
-import TextField from "@/components/molecules/TextField";
+import { useErrorBoundary } from "react-error-boundary";
 import {
   Address,
   FormattedBalance,
@@ -11,7 +7,14 @@ import {
   useKeybanAccount,
 } from "@keyban/sdk-react";
 
+import Row from "@/components/atoms/Row";
+import SerializedValue from "@/components/atoms/SerializedValue";
+import BigIntField from "@/components/molecules/BigIntField";
+import TextField from "@/components/molecules/TextField";
+
 export default function ERC20Transfer() {
+  const { showBoundary } = useErrorBoundary();
+
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
@@ -63,7 +66,7 @@ export default function ERC20Transfer() {
                 value,
               })
               .then(setEstimation)
-              .catch(console.error)
+              .catch(showBoundary)
           }
           data-test-id="ERC20Transfer:estimate:submit"
         >
@@ -101,7 +104,7 @@ export default function ERC20Transfer() {
                 },
               })
               .then(setHash)
-              .catch(console.error)
+              .catch(showBoundary)
           }
           data-test-id="ERC20Transfer:submit"
         >
