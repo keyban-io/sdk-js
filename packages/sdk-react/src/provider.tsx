@@ -1,8 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
+import {
+  KeybanClient,
+  type KeybanClientConfig,
+} from '@keyban/sdk-base';
 
-import { PromiseCacheProvider } from "./promise";
+import { PromiseCacheProvider } from './promise';
 
 const KeybanContext = React.createContext<KeybanClient | null>(null);
 
@@ -77,9 +80,27 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * - The blockchain network (`chain`) can be dynamically updated using the `handleChainSelect` function.
  * - The `ChainSelector` component is responsible for triggering updates to the `chain` configuration, and it is placed outside the `KeybanProvider` to ensure proper re-initialization of the provider.
  */
-export function KeybanProvider({ children, ...config }: KeybanProviderProps) {
+export function KeybanProvider({
+  children,
+  accessTokenProvider,
+  ...config
+}: KeybanProviderProps) {
+  const accessTokenProviderRef = React.useRef(accessTokenProvider);
+  React.useImperativeHandle(accessTokenProviderRef, () => accessTokenProvider, [
+    accessTokenProvider,
+  ]);
+
+  const accessTokenProviderMemo = React.useCallback(
+    () => accessTokenProviderRef.current(),
+    [],
+  );
+
   const client = React.useMemo(
-    () => new KeybanClient(config),
+    () =>
+      new KeybanClient({
+        ...config,
+        accessTokenProvider: accessTokenProviderMemo,
+      }),
     Object.values(config),
   );
 
