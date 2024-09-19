@@ -1,14 +1,14 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 
-import ApplicationHeader from "@/components/ApplicationHeader";
-import { AppRouter } from "@/lib/router";
-import { useAuth0 } from "@auth0/auth0-react";
+import ApplicationHeader from '@/components/ApplicationHeader';
+import { AppRouter } from '@/lib/router';
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   KeybanChain,
   KeybanLocalStorage,
   KeybanProvider,
   KeybanSigner,
-} from "@keyban/sdk-react";
+} from '@keyban/sdk-react';
 import {
   Box,
   Button,
@@ -16,18 +16,19 @@ import {
   Container,
   Stack,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 const DEFAULT_CONFIG = {
   apiUrl: "https://api.keyban.localtest.me",
-  appId: "TEST_APP_ID",
-  accessTokenProvider: () => "INVALID_ACCESS_TOKEN",
+  appId: "8febdb3d-75d4-409c-8453-aa5d81e92926",
   chain: KeybanChain.KeybanTestnet,
   signer: KeybanSigner.ECDSA,
   storage: KeybanLocalStorage,
 };
 
 export default function App() {
+  const { getAccessTokenSilently } = useAuth0();
+
   const [chain, setChain] = useState<KeybanChain>(DEFAULT_CONFIG.chain);
 
   const handleChainSelect = (chainId: KeybanChain) => setChain(chainId);
@@ -96,7 +97,11 @@ export default function App() {
             selectedChainId={chain}
             onSelectChain={handleChainSelect}
           />
-          <KeybanProvider {...DEFAULT_CONFIG} chain={chain}>
+          <KeybanProvider
+            {...DEFAULT_CONFIG}
+            chain={chain}
+            accessTokenProvider={getAccessTokenSilently}
+          >
             <AppRouter />
           </KeybanProvider>
         </Stack>

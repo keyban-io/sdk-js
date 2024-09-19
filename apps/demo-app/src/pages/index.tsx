@@ -1,25 +1,34 @@
-import type React from "react";
-import { useEffect, useState } from "react";
+import type React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useErrorBoundary } from "react-error-boundary";
-import { useNavigate } from "react-router-dom";
+import { useErrorBoundary } from 'react-error-boundary';
+import { useNavigate } from 'react-router-dom';
 
-import { fetchMaticToEuroRate } from "@/utils/apiUtils";
-import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
+import { fetchMaticToEuroRate } from '@/utils/apiUtils';
+import {
+  useKeybanAccount,
+  useKeybanAccountBalance,
+} from '@keyban/sdk-react';
 import {
   Button,
   CircularProgress,
   Divider,
   Stack,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import AccountInfo from "../components/AccountInfo";
-import BalanceInfo from "../components/BalanceInfo";
-import NFTSection from "../components/NFTSection";
-import TokensSection from "../components/TokensSection";
-import TransactionList from "../components/TransactionList";
-import { testNFTs, testTransactions } from "../lib/testData";
+import AccountInfo from '../components/AccountInfo';
+import BalanceInfo from '../components/BalanceInfo';
+import NFTSection from '../components/NFTSection';
+import TokensSection from '../components/TokensSection';
+import TransactionList from '../components/TransactionList';
+import {
+  testNFTs,
+  testTransactions,
+} from '../lib/testData';
 
 const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();

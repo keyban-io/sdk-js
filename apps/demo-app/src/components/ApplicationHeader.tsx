@@ -38,14 +38,13 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
     setAnchorElUser(null);
   };
 
-  const handleLogout = () => {
+  const logoutWithRedirect = () =>
     logout({
       logoutParams: {
         returnTo: window.location.origin,
       },
       openUrl: false,
     });
-  };
 
   return (
     <AppBar position="static">
@@ -112,7 +111,8 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
             open={Boolean(anchorElUser)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={handleLogout}>
+            <MenuItem onClick={() => logoutWithRedirect()}>
+              {" "}
               <Typography sx={{ textAlign: "center" }}>Logout</Typography>
             </MenuItem>
           </Menu>

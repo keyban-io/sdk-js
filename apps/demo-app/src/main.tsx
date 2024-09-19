@@ -16,9 +16,10 @@ if (rootElement) {
         <CssBaseline />
         <Auth0Provider
           domain="dev-dgn0003beuaahtmi.eu.auth0.com"
-          clientId="mDVEZLQ7mYdtWkS8LLYAHAhKsLZFoWxQ"
+          clientId="8VD9NHScJBXRh4AvynJAR2vmbT7imYKh"
           authorizationParams={{
             redirect_uri: window.location.origin,
+            audience: "keyban",
           }}
         >
           <App />
