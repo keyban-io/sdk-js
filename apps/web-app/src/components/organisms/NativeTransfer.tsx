@@ -28,6 +28,7 @@ export default function NativeTransfer() {
           label="Value"
           value={value?.toString()}
           onChange={setValue}
+          style={{ marginBlock: 0 }}
           data-test-id="NativeTransfer:value:input"
         />
         <div data-test-id="NativeTransfer:formattedValue">
@@ -35,14 +36,12 @@ export default function NativeTransfer() {
         </div>
       </Row>
 
-      <Row>
-        <TextField
-          label="Recipient"
-          value={recipient}
-          onChange={setRecipient}
-          data-test-id="NativeTransfer:recipient"
-        />
-      </Row>
+      <TextField
+        label="Recipient"
+        value={recipient}
+        onChange={setRecipient}
+        data-test-id="NativeTransfer:recipient"
+      />
 
       <Row>
         <button

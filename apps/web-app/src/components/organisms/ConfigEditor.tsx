@@ -37,6 +37,7 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
           label="App ID"
           value={config.appId}
           onChange={(appId) => onChange({ ...config, appId })}
+          style={{ marginBlock: 0 }}
           data-test-id="ConfigEditor:appId"
         />
 
@@ -53,7 +54,7 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
               .then(({ app_id }) => onChange({ ...config, appId: app_id }));
           }}
         >
-          Create App ID
+          Create an App ID
         </button>
       </Row>
 

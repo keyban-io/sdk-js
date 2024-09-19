@@ -8,7 +8,7 @@ export default function AccountInfo() {
 
   return (
     <fieldset>
-      <legend>Account infos:</legend>
+      <legend>Account infos</legend>
 
       <Row>
         <span>Sub:</span>

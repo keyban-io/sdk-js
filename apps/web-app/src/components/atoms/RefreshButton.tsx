@@ -8,7 +8,7 @@ export type RefreshButtonProps = Omit<
 export default function RefreshButton(props: RefreshButtonProps) {
   return (
     <button className={styles.root} title="Refresh" {...props}>
-      🗘
+      ↻
     </button>
   );
 }

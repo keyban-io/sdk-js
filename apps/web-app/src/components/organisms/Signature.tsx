@@ -23,6 +23,7 @@ export default function Signature() {
           label="Message"
           value={message}
           onChange={setMessage}
+          style={{ marginBlock: 0 }}
           data-test-id="Signature:message"
         />
 

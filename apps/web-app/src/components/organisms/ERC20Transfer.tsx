@@ -25,20 +25,19 @@ export default function ERC20Transfer() {
     <fieldset>
       <legend>ERC20 transfer</legend>
 
-      <Row>
-        <TextField
-          label="Contract Address"
-          value={contractAddress}
-          onChange={setContractAddress}
-          data-test-id="ERC20Transfer:contractAddress"
-        />
-      </Row>
+      <TextField
+        label="Contract Address"
+        value={contractAddress}
+        onChange={setContractAddress}
+        data-test-id="ERC20Transfer:contractAddress"
+      />
 
       <Row>
         <BigIntField
           label="Value"
           value={value?.toString()}
           onChange={setValue}
+          style={{ marginBlock: 0 }}
           data-test-id="ERC20Transfer:rawValue"
         />
         <div data-test-id="ERC20Transfer:formattedValue">
@@ -46,14 +45,12 @@ export default function ERC20Transfer() {
         </div>
       </Row>
 
-      <Row>
-        <TextField
-          label="Recipient"
-          value={recipient}
-          onChange={setRecipient}
-          data-test-id="ERC20Transfer:recipient"
-        />
-      </Row>
+      <TextField
+        label="Recipient"
+        value={recipient}
+        onChange={setRecipient}
+        data-test-id="ERC20Transfer:recipient"
+      />
 
       <Row>
         <button

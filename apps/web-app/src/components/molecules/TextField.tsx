@@ -1,5 +1,5 @@
 import React from "react";
-import Row from "../atoms/Row";
+import Row from "@/components/atoms/Row";
 
 export type TextFieldProps = Omit<
   React.HTMLProps<HTMLInputElement>,
@@ -15,13 +15,13 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     props.id ??= id;
 
     return (
-      <Row style={{ flexGrow: 1 }}>
+      <Row style={{ flexGrow: 1, ...props.style }}>
         {label && <label htmlFor={props.id}>{label}:</label>}
         <input
           ref={ref}
           type="text"
           {...props}
-          style={{ flexGrow: 1, ...props.style }}
+          style={{ flexGrow: 1 }}
           onChange={(e) => onChange?.(e.target.value)}
         />
       </Row>
