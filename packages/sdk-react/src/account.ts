@@ -4,7 +4,7 @@ import { useKeybanClient } from "~/provider";
 import { KeybanAccount } from "@keyban/sdk-base";
 
 /**
- * Fetches the account information for the given keyId.
+ * Fetches the account information.
  */
 export function useKeybanAccount<B extends boolean>(
   options?: UsePromiseOptions<B>,

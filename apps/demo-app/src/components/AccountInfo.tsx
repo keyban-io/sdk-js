@@ -1,35 +1,29 @@
-import type React from 'react';
-import { useState } from 'react';
+import type React from "react";
+import { useState } from "react";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import { formatEthereumAddress } from '@/utils/formatEthereumAddress';
+import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
 import {
   faCheck,
   faCopy,
   faEdit,
   faQrcode,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useKeybanAccount } from '@keyban/sdk-react';
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useKeybanAccount } from "@keyban/sdk-react";
 import {
   IconButton,
   Stack,
   TextField,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-interface AccountInfoProps {
-  keyId: string;
-}
-
-const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
+const AccountInfo: React.FC = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [account, accountError] = useKeybanAccount(keyId, {
-    suspense: true,
-  });
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const handleShareAddressClick = () => {
@@ -66,14 +60,14 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ keyId }) => {
             <TextField
               id="standard-basic"
               variant="standard"
-              value={keyId}
+              value={account.sub}
               onChange={handleKeyIdChange}
               onBlur={handleRenameClick}
               onKeyDown={handleKeyDown}
               autoFocus
             />
           ) : (
-            <Typography variant="body1">{keyId || "No account"}</Typography>
+            <Typography variant="body1">{account.sub}</Typography>
           )}
         </Tooltip>
         <Tooltip title="Edit Key ID" arrow>

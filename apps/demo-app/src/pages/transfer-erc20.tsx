@@ -1,25 +1,19 @@
-import type React from 'react';
-import {
-  useEffect,
-  useState,
-} from 'react';
+import type React from "react";
+import { useEffect, useState } from "react";
 
-import {
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { Location, useLocation, useNavigate } from "react-router-dom";
 
-import TransferAlert from '@/components/TransferAlert';
-import { useDebounce } from '@/hooks/useDebounce';
-import { useTransferReducer } from '@/hooks/useTransferReducer';
-import type { Address } from '@keyban/sdk-react';
+import TransferAlert from "@/components/TransferAlert";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useTransferReducer } from "@/hooks/useTransferReducer";
+import type { Address } from "@keyban/sdk-react";
 import {
   formatBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanAccountTokenBalances,
   useKeybanClient,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 import {
   Alert,
   Button,
@@ -28,10 +22,10 @@ import {
   Stack,
   TextField,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 const TransferERC20: React.FC = () => {
-  const { state: locationState } = useLocation();
+  const location: Location<{ contractAddress: Address }> = useLocation();
   const navigate = useNavigate();
   const [recipient, setRecipient] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
@@ -46,9 +40,7 @@ const TransferERC20: React.FC = () => {
     transactionHistory,
   } = useTransferReducer();
 
-  const [account, accountError] = useKeybanAccount(locationState?.keyId, {
-    suspense: true,
-  });
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [balance, balanceError] = useKeybanAccountBalance(account, {
@@ -63,7 +55,7 @@ const TransferERC20: React.FC = () => {
   if (tokenBalancesError) throw tokenBalancesError;
 
   const token = tokenBalances.find(
-    (item) => item.token.address === locationState?.contractAddress,
+    (item) => item.token.address === location.state.contractAddress,
   );
 
   const client = useKeybanClient();
@@ -74,7 +66,7 @@ const TransferERC20: React.FC = () => {
         !debouncedAmount ||
         !debouncedRecipient ||
         !token ||
-        !locationState?.contractAddress ||
+        !location.state.contractAddress ||
         !account
       )
         return;
@@ -86,7 +78,7 @@ const TransferERC20: React.FC = () => {
           Number(debouncedAmount) * 10 ** token.token.decimals,
         );
         const estimation = await account.estimateERC20Transfer({
-          contractAddress: locationState.contractAddress as Address,
+          contractAddress: location.state.contractAddress as Address,
           to: debouncedRecipient as Address,
           value: valueInWei,
         });
@@ -111,7 +103,7 @@ const TransferERC20: React.FC = () => {
     token,
     account,
     dispatch,
-    locationState?.contractAddress,
+    location.state.contractAddress,
   ]);
 
   const handleTransfer = async () => {
@@ -120,7 +112,7 @@ const TransferERC20: React.FC = () => {
       if (amount && account && token) {
         const value = BigInt(Number(amount) * 10 ** token.token.decimals);
         const txHash = await account.transferERC20({
-          contractAddress: locationState.contractAddress as Address,
+          contractAddress: location.state.contractAddress as Address,
           to: recipient as Address,
           value: value,
         });
@@ -140,7 +132,7 @@ const TransferERC20: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        Account ID: {account.keyId}
+        Account ID: {account.sub}
         <br />
         {token?.token.name} Balance:{" "}
         {(token && formatBalance(client, token)) ?? "0"}

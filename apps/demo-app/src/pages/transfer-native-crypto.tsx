@@ -1,24 +1,17 @@
-import type React from 'react';
-import {
-  useEffect,
-  useState,
-} from 'react';
+import type React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import {
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
-
-import TransferAlert from '@/components/TransferAlert';
-import { useDebounce } from '@/hooks/useDebounce';
-import { useTransferReducer } from '@/hooks/useTransferReducer';
-import type { Address } from '@keyban/sdk-react';
+import TransferAlert from "@/components/TransferAlert";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useTransferReducer } from "@/hooks/useTransferReducer";
+import type { Address } from "@keyban/sdk-react";
 import {
   formatBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanClient,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 import {
   Alert,
   Button,
@@ -27,10 +20,9 @@ import {
   Stack,
   TextField,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 const TransferNativeCrypto: React.FC = () => {
-  const { state: locationState } = useLocation();
   const navigate = useNavigate();
   const [recipient, setRecipient] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
@@ -46,9 +38,7 @@ const TransferNativeCrypto: React.FC = () => {
   } = useTransferReducer();
 
   const client = useKeybanClient();
-  const [account, accountError] = useKeybanAccount(locationState?.keyId, {
-    suspense: true,
-  });
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [balance, balanceError] = useKeybanAccountBalance(account, {
@@ -113,7 +103,7 @@ const TransferNativeCrypto: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        Account ID: {account.keyId}
+        Account ID: {account.sub}
         <br />
         Balance: {formatBalance(client, balance)}
       </Typography>

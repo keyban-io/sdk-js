@@ -1,15 +1,15 @@
-import type React from 'react';
+import type React from "react";
 
-import { useNavigate } from 'react-router-dom'; // Ajout pour la navigation
+import { useNavigate } from "react-router-dom"; // Ajout pour la navigation
 
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   FormattedBalance,
   type KeybanTokenBalance,
   useKeybanAccount,
   useKeybanAccountTokenBalances,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 import {
   Alert,
   Card,
@@ -17,16 +17,12 @@ import {
   IconButton,
   Stack,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-interface TokensSectionProps {
-  keyId: string;
-}
-
-const TokensSection: React.FC<TokensSectionProps> = ({ keyId }) => {
-  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+const TokensSection: React.FC = () => {
   const navigate = useNavigate(); // Hook de navigation
 
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [tokenBalances, tokenBalancesError] = useKeybanAccountTokenBalances(
@@ -35,18 +31,10 @@ const TokensSection: React.FC<TokensSectionProps> = ({ keyId }) => {
   );
   if (tokenBalancesError) throw tokenBalancesError;
 
-  const handleSend = (balance: KeybanTokenBalance) => {
-    if (account?.keyId) {
-      navigate("/transfer-erc20", {
-        state: {
-          keyId: account.keyId,
-          contractAddress: balance.token.address,
-          tokenName: balance.token.name,
-        },
-      });
-    } else {
-      console.error("Key ID not found on account");
-    }
+  const handleSend = ({ token }: KeybanTokenBalance) => {
+    navigate("/transfer-erc20", {
+      state: { contractAddress: token.address },
+    });
   };
 
   return (

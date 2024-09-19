@@ -46,7 +46,7 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                jwksUri: "http://localhost:3000/public/jwks.json",
+                jwksUri: new URL("/public/jwks.json", "http://localhost:3000"),
               }),
             })
               .then((res) => res.json())

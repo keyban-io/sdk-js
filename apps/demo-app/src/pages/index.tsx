@@ -1,41 +1,31 @@
-import type React from 'react';
-import {
-  useEffect,
-  useState,
-} from 'react';
+import type React from "react";
+import { useEffect, useState } from "react";
 
-import { useErrorBoundary } from 'react-error-boundary';
-import { useNavigate } from 'react-router-dom';
+import { useErrorBoundary } from "react-error-boundary";
+import { useNavigate } from "react-router-dom";
 
-import { fetchMaticToEuroRate } from '@/utils/apiUtils';
-import {
-  useKeybanAccount,
-  useKeybanAccountBalance,
-} from '@keyban/sdk-react';
+import { fetchMaticToEuroRate } from "@/utils/apiUtils";
+import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
 import {
   Button,
   CircularProgress,
   Divider,
   Stack,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-import AccountInfo from '../components/AccountInfo';
-import BalanceInfo from '../components/BalanceInfo';
-import NFTSection from '../components/NFTSection';
-import TokensSection from '../components/TokensSection';
-import TransactionList from '../components/TransactionList';
-import {
-  testNFTs,
-  testTransactions,
-} from '../lib/testData';
-
-const keyId = "my-ecdsa-key";
+import AccountInfo from "../components/AccountInfo";
+import BalanceInfo from "../components/BalanceInfo";
+import NFTSection from "../components/NFTSection";
+import TokensSection from "../components/TokensSection";
+import TransactionList from "../components/TransactionList";
+import { testNFTs, testTransactions } from "../lib/testData";
 
 const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();
+  const { showBoundary } = useErrorBoundary();
 
-  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const [balance, balanceError, { refresh: refreshBalance }] =
@@ -43,10 +33,7 @@ const WalletDashboardContent: React.FC = () => {
   if (balanceError) throw balanceError;
 
   const [loading, setLoading] = useState<boolean>(true);
-  const { showBoundary } = useErrorBoundary();
-
   const [maticToEuroRate, setMaticToEuroRate] = useState<number>(0);
-
   useEffect(() => {
     fetchMaticToEuroRate()
       .then(setMaticToEuroRate)
@@ -59,11 +46,7 @@ const WalletDashboardContent: React.FC = () => {
   }, [showBoundary]);
 
   const handleTransferCrypto = () => {
-    if (account?.keyId) {
-      navigate("/transfer-native-crypto", { state: { keyId: account.keyId } });
-    } else {
-      console.error("Key ID not found on account");
-    }
+    navigate("/transfer-native-crypto");
   };
 
   if (loading) {
@@ -84,7 +67,7 @@ const WalletDashboardContent: React.FC = () => {
   return (
     <>
       <Stack spacing={2}>
-        <AccountInfo keyId={keyId} />
+        <AccountInfo />
         <BalanceInfo
           balance={balance}
           euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
@@ -92,7 +75,7 @@ const WalletDashboardContent: React.FC = () => {
           onRefreshBalance={refreshBalance}
         />{" "}
         <Divider />
-        <TokensSection keyId={keyId} />
+        <TokensSection />
         <Divider />
         <NFTSection nfts={testNFTs} />
         <Divider />
