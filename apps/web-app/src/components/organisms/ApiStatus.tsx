@@ -15,7 +15,7 @@ export default function ApiStatus() {
         <RefreshButton
           onClick={reset}
           style={{ marginInlineStart: "0.5ch" }}
-          data-test-id="Balance:reset"
+          data-test-id="ApiStatus:reset"
         />
       </legend>
       <SerializedValue value={apiStatus} data-test-id="ApiStatus:value" />
