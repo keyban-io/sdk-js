@@ -30,7 +30,7 @@ update-lock-file:
     WORKDIR /app
 
     DO +GET_PACKAGE_JSON
-    COPY ./apps/demo-app/package.json  ./apps/demo-app/
+    COPY ./apps/waas-demo/package.json  ./apps/waas-demo/
     COPY ./apps/web-app/package.json   ./apps/web-app/
 
     RUN pnpm install
