@@ -215,7 +215,7 @@ export class KeybanClient {
     this.#accounts.set(sub, promise);
     promise.catch(() => {}).finally(() => this.#accounts.delete(sub));
 
-    return this.initialize();
+    return promise;
   }
 
   /**
