@@ -1,87 +1,51 @@
-import type React from "react";
-import { useState } from "react";
+import type React from 'react';
+import { useState } from 'react';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import { formatEthereumAddress } from "@/utils/formatEthereumAddress";
 import {
-  faCheck,
   faCopy,
-  faEdit,
   faQrcode,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useKeybanAccount } from "@keyban/sdk-react";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useKeybanAccount } from '@keyban/sdk-react';
 import {
+  Alert,
   IconButton,
+  Snackbar,
   Stack,
-  TextField,
   Tooltip,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 const AccountInfo: React.FC = () => {
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
   const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [openSnackbar, setOpenSnackbar] = useState(false); // État pour le Snackbar
+
   if (accountError) throw accountError;
 
   const handleShareAddressClick = () => {
     navigate(`/qr-code?address=${account?.address}`);
   };
-  const handleKeyIdChange = () => {
-    console.log("Key edition is still not implemented");
-  };
-
-  const handleRenameClick = () => {
-    if (isEditing) {
-      console.log("Key edition is still not implemented");
-    }
-    setIsEditing(!isEditing);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleRenameClick();
-    }
-  };
 
   const handleCopyClick = () => {
     if (account?.address) {
       navigator.clipboard.writeText(account.address);
+      setOpenSnackbar(true); // Affiche le Snackbar après la copie
     }
   };
 
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false); // Ferme le Snackbar
+  };
+
   return (
-    <Stack direction="row" justifyContent="space-between">
+    <Stack direction="column" justifyContent="center" alignItems="center">
       <Stack direction="row" spacing={1} alignItems="center">
-        <Tooltip title="Key ID" arrow>
-          {isEditing ? (
-            <TextField
-              id="standard-basic"
-              variant="standard"
-              value={account.sub}
-              onChange={handleKeyIdChange}
-              onBlur={handleRenameClick}
-              onKeyDown={handleKeyDown}
-              autoFocus
-            />
-          ) : (
-            <Typography variant="body1">{account.sub}</Typography>
-          )}
-        </Tooltip>
-        <Tooltip title="Edit Key ID" arrow>
-          <IconButton color="primary" size="small" onClick={handleRenameClick}>
-            <FontAwesomeIcon icon={isEditing ? faCheck : faEdit} />
-          </IconButton>
-        </Tooltip>
-      </Stack>
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Tooltip title={account?.address} arrow>
+        <Tooltip title="Your wallet address" arrow>
           <Typography variant="body1">
-            {account
-              ? formatEthereumAddress(account.address)
-              : "No address found"}
+            {account ? account.address : "No address found"}
           </Typography>
         </Tooltip>
         <Tooltip title="Copy Address" arrow>
@@ -99,6 +63,22 @@ const AccountInfo: React.FC = () => {
           </IconButton>
         </Tooltip>
       </Stack>
+
+      {/* Ajout du Snackbar */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Address copied to clipboard!
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 };
