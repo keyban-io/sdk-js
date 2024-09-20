@@ -32,9 +32,14 @@ export enum SdkErrorTypes {
   RecipientAddressEqualsSender = "RecipientAddressEqualsSender",
 
   /**
-   * Insufficient funds.
+   * Gas estimation failed.
    */
   EstimateGasExecution = "EstimateGasExecution",
+
+  /**
+   * Insufficient funds.
+   */
+  InsufficientFunds = "InsufficientFunds",
 }
 
 export class SdkError extends KeybanBaseError<SdkErrorTypes> {
@@ -67,6 +72,9 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
         return "Recipient address is the same as the sender";
 
       case SdkErrorTypes.EstimateGasExecution:
+        return "Gas estimation failed";
+
+      case SdkErrorTypes.InsufficientFunds:
         return "Insufficient funds";
 
       default:

@@ -1,17 +1,26 @@
 import {
   type Chain,
+  ContractFunctionExecutionErrorType,
   erc20Abi,
   EstimateGasExecutionError,
   getContract,
+  InsufficientFundsError,
   isAddress,
   type LocalAccount,
   type PublicClient,
-  TransactionExecutionErrorType,
   type Transport,
   type WalletClient,
 } from "viem";
-import { SdkError, SdkErrorTypes } from "~/errors";
-import type { Address, Hash, Hex, KeybanClient } from "~/index";
+import {
+  SdkError,
+  SdkErrorTypes,
+} from "~/errors";
+import type {
+  Address,
+  Hash,
+  Hex,
+  KeybanClient,
+} from "~/index";
 
 /**
  * Represents the estimation of the fees required for a token transfer.
@@ -273,15 +282,21 @@ export class KeybanAccount implements KeybanAccount {
 
     return erc20Contract.write
       .transfer([to, value], txOptions)
-      .catch((err: TransactionExecutionErrorType) => {
-        if (err.cause.cause instanceof EstimateGasExecutionError) {
-          throw new SdkError(
-            SdkErrorTypes.EstimateGasExecution,
-            "KeybanAccount.transfer",
-          );
-        }
+      .catch((err: ContractFunctionExecutionErrorType) => {
+        switch (true) {
+          case err.cause.cause instanceof InsufficientFundsError:
+          case err.cause.cause instanceof EstimateGasExecutionError:
 
-        throw err.cause;
+            throw new SdkError(
+              SdkErrorTypes.InsufficientFunds,
+              "KeybanAccount.transfer",
+            );
+            break;
+
+          default:
+            throw err.cause;
+            break;
+        }
       });
   }
 
