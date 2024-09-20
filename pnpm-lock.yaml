@@ -276,9 +276,6 @@ importers:
       ecdsa-wasm-client:
         specifier: workspace:*
         version: link:../sdk-ecdsa-wasm
-      eddsa-wasm-client:
-        specifier: workspace:*
-        version: link:../sdk-eddsa-wasm
       viem:
         specifier: ^2.20.0
         version: 2.20.0(typescript@5.5.4)
@@ -312,8 +309,6 @@ importers:
         version: 5.5.4
 
   packages/sdk-ecdsa-wasm: {}
-
-  packages/sdk-eddsa-wasm: {}
 
   packages/sdk-react:
     dependencies:

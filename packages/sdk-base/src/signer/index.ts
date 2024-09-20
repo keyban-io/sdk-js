@@ -1,6 +1,5 @@
 import { Hex } from "~/index";
 import { KeybanSigner_ECDSA } from "./ecdsa";
-// import { KeybanSigner_EdDSA } from "./eddsa";
 
 /**
  * Interface for the Keyban signer.
@@ -28,5 +27,4 @@ export interface IKeybanSigner {
  */
 export const KeybanSigner: Record<string, new () => IKeybanSigner> = {
   ECDSA: KeybanSigner_ECDSA,
-  // EdDSA: KeybanSigner_EdDSA,
 };

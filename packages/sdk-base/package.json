@@ -16,7 +16,6 @@
   "keywords": [
     "hedera",
     "plygon",
-    "eddsa",
     "ecdsa",
     "mpc",
     "crypto"
@@ -50,7 +49,6 @@
   },
   "dependencies": {
     "ecdsa-wasm-client": "workspace:*",
-    "eddsa-wasm-client": "workspace:*",
     "viem": "^2.20.0"
   },
   "devDependencies": {

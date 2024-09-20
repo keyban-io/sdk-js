@@ -1,10 +1,5 @@
 VERSION 0.8
 
-get-eddsa-wasm:
-    FROM scratch
-    COPY ../signers/eddsa/wasm-client+wasm/pkg /pkg
-    SAVE ARTIFACT /pkg AS LOCAL ./packages/sdk-eddsa-wasm
-
 get-ecdsa-wasm:
     FROM scratch
     COPY ./packages/sdk-ecdsa-wasm/* /pkg/
@@ -17,7 +12,6 @@ get-ecdsa-wasm:
 GET_PACKAGE_JSON:
     FUNCTION
     COPY pnpm-workspace.yaml .
-    COPY +get-eddsa-wasm/pkg/package.json   ./packages/sdk-eddsa-wasm/
     COPY +get-ecdsa-wasm/pkg/package.json   ./packages/sdk-ecdsa-wasm/
     COPY ./packages/sdk-base/package.json   ./packages/sdk-base/
     COPY ./packages/sdk-react/package.json  ./packages/sdk-react/
@@ -47,7 +41,6 @@ sdk-build:
 
     RUN pnpm install
 
-    COPY +get-eddsa-wasm/pkg/*  ./packages/sdk-eddsa-wasm
     COPY +get-ecdsa-wasm/pkg/*  ./packages/sdk-ecdsa-wasm
     COPY ./packages/sdk-base    ./packages/sdk-base
     COPY ./packages/sdk-react   ./packages/sdk-react
