@@ -69,8 +69,6 @@ export class KeybanClient {
   #storage: IKeybanStorage;
   #graphql: Sdk;
 
-  #accounts: Map<string, Promise<KeybanAccount>>;
-
   #transport: Promise<Transport>;
   #publicClient: Promise<PublicClient<Transport, Chain>>;
 
@@ -101,8 +99,6 @@ export class KeybanClient {
     this.#storage = new storage();
     this.#graphql = getSdk(this.gqlRequester);
 
-    this.#accounts = new Map();
-
     this.#transport = this.#graphql
       .KeybanClient_chain({ chain })
       .then(({ chain }) => http(chain.rpcUrl));
@@ -114,6 +110,7 @@ export class KeybanClient {
     );
   }
 
+  #pendingAccounts: Map<string, Promise<KeybanAccount>> = new Map();
   /**
    * Initializes a KeybanAccount associated with a specific key ID.
    *
@@ -123,8 +120,8 @@ export class KeybanClient {
     const accessToken = await this.#accessTokenProvider();
     const { sub } = parseJwt(accessToken);
 
-    const cached = this.#accounts.get(sub);
-    if (cached) return cached;
+    const pending = this.#pendingAccounts.get(sub);
+    if (pending) return pending;
 
     const promise = (async () => {
       const storageKey = `${this.#signer.storagePrefix}-${sub}`;
@@ -212,8 +209,8 @@ export class KeybanClient {
       return new KeybanAccount(sub, this, publicClient, walletClient);
     })();
 
-    this.#accounts.set(sub, promise);
-    promise.catch(() => {}).finally(() => this.#accounts.delete(sub));
+    this.#pendingAccounts.set(sub, promise);
+    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
 
     return promise;
   }
