@@ -286,16 +286,13 @@ export class KeybanAccount implements KeybanAccount {
         switch (true) {
           case err.cause.cause instanceof InsufficientFundsError:
           case err.cause.cause instanceof EstimateGasExecutionError:
-
             throw new SdkError(
               SdkErrorTypes.InsufficientFunds,
               "KeybanAccount.transfer",
             );
-            break;
 
           default:
             throw err.cause;
-            break;
         }
       });
   }
