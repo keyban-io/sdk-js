@@ -1,14 +1,15 @@
 import React from "react";
+
 import * as jose from "jose";
+
+import Row from "@/components/atoms/Row";
+import SelectField from "@/components/molecules/SelectField";
+import TextField from "@/components/molecules/TextField";
 import {
   KeybanChain,
   KeybanClientConfig,
   KeybanSigner,
 } from "@keyban/sdk-react";
-
-import Row from "@/components/atoms/Row";
-import SelectField from "@/components/molecules/SelectField";
-import TextField from "@/components/molecules/TextField";
 
 type Config = Omit<KeybanClientConfig, "accessTokenProvider"> & {
   accessToken: string;
@@ -63,7 +64,7 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
       .setJti(crypto.randomUUID())
       .setIssuedAt()
       .setIssuer("KEYBAN_WEB_APP")
-      .setAudience(config.apiUrl)
+      .setAudience(config.apiUrl ?? "https://api.keyban.io")
       .setExpirationTime("2h")
       .setSubject(crypto.randomUUID())
       .sign(privateKey);
