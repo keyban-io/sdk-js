@@ -1,19 +1,26 @@
-import type React from "react";
-import { useEffect, useState } from "react";
+import type React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { Location, useLocation, useNavigate } from "react-router-dom";
+import {
+  Location,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 
-import TransferAlert from "@/components/TransferAlert";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useTransferReducer } from "@/hooks/useTransferReducer";
-import type { Address } from "@keyban/sdk-react";
+import TransferAlert from '@/components/TransferAlert';
+import { useDebounce } from '@/hooks/useDebounce';
+import { useTransferReducer } from '@/hooks/useTransferReducer';
+import type { Address } from '@keyban/sdk-react';
 import {
   formatBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanAccountTokenBalances,
   useKeybanClient,
-} from "@keyban/sdk-react";
+} from '@keyban/sdk-react';
 import {
   Alert,
   Button,
@@ -22,7 +29,7 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 const TransferERC20: React.FC = () => {
   const location: Location<{ contractAddress: Address }> = useLocation();
@@ -131,8 +138,6 @@ const TransferERC20: React.FC = () => {
     <Stack spacing={2}>
       <Typography>
         From this address: {account.address}
-        <br />
-        Account ID: {account.sub}
         <br />
         {token?.token.name} Balance:{" "}
         {(token && formatBalance(client, token)) ?? "0"}

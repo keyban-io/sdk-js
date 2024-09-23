@@ -18,9 +18,11 @@ import {
   Typography,
 } from '@mui/material';
 
+import config from './config.json';
+
 const DEFAULT_CONFIG = {
   apiUrl: "https://api.keyban.localtest.me",
-  appId: "8febdb3d-75d4-409c-8453-aa5d81e92926",
+  appId: config.appId,
   chain: KeybanChain.KeybanTestnet,
   signer: KeybanSigner.ECDSA,
   storage: KeybanLocalStorage,

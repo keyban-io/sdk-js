@@ -43,7 +43,6 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
       logoutParams: {
         returnTo: window.location.origin,
       },
-      openUrl: false,
     });
 
   return (

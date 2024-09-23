@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# README
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Steps to Run the Demo
 
-Currently, two official plugins are available:
+1. **Build the project**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+   At the root of the project, run the following Earthly command to build the WAAS demo:
 
-## Expanding the ESLint configuration
+   ```bash
+   earthly ./tools+build-waas-demo
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2. **Obtain your own `appId`**
 
-- Configure the top-level `parserOptions` property like this:
+   If you want to generate your own `appId`, use this `curl` command. Replace `{your app domain}` with your actual Auth0 domain:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+   ```bash
+   curl -s -X POST -H "Content-Type: application/json" -d '{"jwksUri":"https://{your app domain}.eu.auth0.com/.well-known/jwks.json"}' https://api.keyban.localtest.me/applications | jq .
+   ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+   **Example:**
+
+   ```bash
+   curl -s -X POST -H "Content-Type: application/json" -d '{"jwksUri":"https://dev-dgn0003beuaahtmi.eu.auth0.com/.well-known/jwks.json"}' https://api.keyban.localtest.me/applications | jq .
+   ```
+
+   The command will return a JSON object containing the `appId`. 
+
+3. **Copy and update the configuration file**
+
+   Copy the `config.json.exemple` file and rename it to `config.json`. Then update the `appId` value in the file:
+
+   ```json
+   {
+     "appId": "{your app id, check the auth0 dashboard}"
+   }
+   ```
+
+4. **Run the demo**
+
+   Finally, run the demo using the following command:
+
+   ```bash
+   pnpm run dev
+   ```

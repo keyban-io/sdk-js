@@ -1,17 +1,21 @@
-import type React from "react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import type React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import TransferAlert from "@/components/TransferAlert";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useTransferReducer } from "@/hooks/useTransferReducer";
-import type { Address } from "@keyban/sdk-react";
+import { useNavigate } from 'react-router-dom';
+
+import TransferAlert from '@/components/TransferAlert';
+import { useDebounce } from '@/hooks/useDebounce';
+import { useTransferReducer } from '@/hooks/useTransferReducer';
+import type { Address } from '@keyban/sdk-react';
 import {
   formatBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanClient,
-} from "@keyban/sdk-react";
+} from '@keyban/sdk-react';
 import {
   Alert,
   Button,
@@ -20,7 +24,7 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 const TransferNativeCrypto: React.FC = () => {
   const navigate = useNavigate();
@@ -102,8 +106,6 @@ const TransferNativeCrypto: React.FC = () => {
     <Stack spacing={2}>
       <Typography>
         From this address: {account.address}
-        <br />
-        Account ID: {account.sub}
         <br />
         Balance: {formatBalance(client, balance)}
       </Typography>
