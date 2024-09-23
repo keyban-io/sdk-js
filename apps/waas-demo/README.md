@@ -26,14 +26,12 @@
 
    The command will return a JSON object containing the `appId`. 
 
-3. **Copy and update the configuration file**
+3. **Set the `appId` in the `.env` file**
 
-   Copy the `config.json.exemple` file and rename it to `config.json`. Then update the `appId` value in the file:
+   Copy the `.env.exemple` file at the root of the project and rename it to `.env`. Then, update the `VITE_APP_ID` value in the file:
 
-   ```json
-   {
-     "appId": "{your app id, check the auth0 dashboard}"
-   }
+   ```bash
+   VITE_APP_ID={your app id, check the auth0 dashboard}
    ```
 
 4. **Run the demo**

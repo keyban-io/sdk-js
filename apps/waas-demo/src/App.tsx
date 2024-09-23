@@ -18,17 +18,16 @@ import {
   Typography,
 } from '@mui/material';
 
-import config from './config.json';
-
 const DEFAULT_CONFIG = {
   apiUrl: "https://api.keyban.localtest.me",
-  appId: config.appId,
+  appId: import.meta.env.VITE_APP_ID,
   chain: KeybanChain.KeybanTestnet,
   signer: KeybanSigner.ECDSA,
   storage: KeybanLocalStorage,
 };
 
 export default function App() {
+  console.log(DEFAULT_CONFIG);
   const { getAccessTokenSilently } = useAuth0();
 
   const [chain, setChain] = useState<KeybanChain>(DEFAULT_CONFIG.chain);
