@@ -48,16 +48,5 @@ for (const file of fs.readdirSync(srcPath)) {
     fs.copyFileSync(path.join(srcPath, file), path.join(destPath, file));
 }
 
-// Step 6: Move the .env file to the root of the project
-const envFileSrc = path.join(destPath, '.env.template');
-const envFileDest = path.join(process.cwd(), '.env');
-
-if (fs.existsSync(envFileSrc)) {
-  fs.renameSync(envFileSrc, envFileDest);
-  console.log('.env file has been moved to the root of the project.');
-} else {
-  console.log('No .env file found in src.');
-}
-
 // Step 7: Run the development server
 execSync('npm run dev', { stdio: 'inherit' });

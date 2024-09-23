@@ -1,7 +1,5 @@
 import './App.css'; // Fichier CSS séparé
 
-import React from 'react';
-
 import { useAuth0 } from '@auth0/auth0-react';
 
 import Wallet from './Wallet';
@@ -40,7 +38,7 @@ const App = () => {
           className="login-button"
           onClick={() => loginWithRedirect()}
         >
-          Login
+          Login to get access to your Wallet
         </button>
       )}
     </div>

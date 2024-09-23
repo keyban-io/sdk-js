@@ -1,4 +1,7 @@
-import React, { Suspense } from 'react';
+import './Wallet.css'; // Fichier CSS séparé
+
+import type React from 'react';
+import { Suspense } from 'react';
 
 import {
   ErrorBoundary,
@@ -7,24 +10,13 @@ import {
 
 import { useAuth0 } from '@auth0/auth0-react';
 import {
-  KeybanChain,
-  KeybanSigner,
-} from '@keyban/sdk-base';
-import {
   FormattedBalance,
-  KeybanLocalStorage,
   KeybanProvider,
   useKeybanAccount,
   useKeybanAccountBalance,
 } from '@keyban/sdk-react';
 
-const DEFAULT_CONFIG = {
-  apiUrl: "https://api.keyban.localtest.me",
-  appId: import.meta.env.VITE_APP_ID,
-  chain: KeybanChain.KeybanTestnet,
-  signer: KeybanSigner.ECDSA,
-  storage: KeybanLocalStorage,
-};
+import config from './config';
 
 // ErrorFallback Component
 // This component is displayed when something goes wrong in the child components
@@ -57,13 +49,16 @@ const WalletContent: React.FC = () => {
   if (balanceError) throw balanceError; // Throws an error if the balance cannot be retrieved
 
   return (
-    <div>
+    <div className="wallet">
       <div>Address: {account?.address || "No address found"}</div>{" "}
       {/* Displays the account address */}
       <div>
-        <FormattedBalance balance={balance} />{" "}
-        {/* Displays the account balance in POL format */}
-        <button type="button" onClick={refreshBalance}>
+        <FormattedBalance balance={balance} /> on {config.keybanProvider.chain}{" "}
+        <button
+          type="button"
+          className="refresh-button"
+          onClick={refreshBalance}
+        >
           refresh
         </button>
       </div>
@@ -79,7 +74,7 @@ const Wallet: React.FC = () => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <KeybanProvider
-        {...DEFAULT_CONFIG}
+        {...config.keybanProvider}
         accessTokenProvider={getAccessTokenSilently}
       >
         <Suspense fallback={<div>Loading...</div>}>

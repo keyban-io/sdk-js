@@ -1,17 +1,17 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Auth0Provider } from '@auth0/auth0-react';
 
 import App from './App';
+import config from './config';
 
 ReactDOM.render(
   <Auth0Provider
-    domain={import.meta.env.VITE_AUTH0_DOMAIN}
-    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+    domain={config.auth.domain}
+    clientId={config.auth.clientId}
     authorizationParams={{
       redirect_uri: window.location.origin,
-      audience: "keyban",
+      audience: config.auth.audience,
     }}
   >
     <App />

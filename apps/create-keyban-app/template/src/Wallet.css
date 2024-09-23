@@ -1,0 +1,18 @@
+
+button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.refresh-button {
+  background-color: #07689f;
+  color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+.refresh-button:hover {
+  background-color: #a2d5f2;
+}
