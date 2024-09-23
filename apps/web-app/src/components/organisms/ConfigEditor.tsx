@@ -58,13 +58,12 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
       );
 
     const privateKey = await jose.importPKCS8(pkcs8Pem, alg);
-
     const accessToken = await new jose.SignJWT()
       .setProtectedHeader({ alg })
       .setJti(crypto.randomUUID())
       .setIssuedAt()
       .setIssuer("KEYBAN_WEB_APP")
-      .setAudience("keyban")
+      .setAudience(config.apiUrl)
       .setExpirationTime("2h")
       .setSubject(crypto.randomUUID())
       .sign(privateKey);
