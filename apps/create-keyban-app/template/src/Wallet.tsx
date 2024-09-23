@@ -1,18 +1,30 @@
-import React, { Suspense } from "react";
+import React, { Suspense } from 'react';
 
-import { ErrorBoundary, useErrorBoundary } from "react-error-boundary";
+import {
+  ErrorBoundary,
+  useErrorBoundary,
+} from 'react-error-boundary';
 
-import { KeybanChain, KeybanSigner } from "@keyban/sdk-base";
+import { useAuth0 } from '@auth0/auth0-react';
+import {
+  KeybanChain,
+  KeybanSigner,
+} from '@keyban/sdk-base';
 import {
   FormattedBalance,
   KeybanLocalStorage,
   KeybanProvider,
   useKeybanAccount,
   useKeybanAccountBalance,
-} from "@keyban/sdk-react";
+} from '@keyban/sdk-react';
 
-// Key ID used to create or retrieve an account
-const keyId = "a-random-ecdsa-key";
+const DEFAULT_CONFIG = {
+  apiUrl: "https://api.keyban.localtest.me",
+  appId: import.meta.env.VITE_APP_ID,
+  chain: KeybanChain.KeybanTestnet,
+  signer: KeybanSigner.ECDSA,
+  storage: KeybanLocalStorage,
+};
 
 // ErrorFallback Component
 // This component is displayed when something goes wrong in the child components
@@ -34,7 +46,7 @@ function ErrorFallback({ error }: { error: Error }) {
 // This component contains the main logic to display the account ID, address, and balance
 const WalletContent: React.FC = () => {
   // Retrieves the Keyban account information, with error handling
-  const [account, accountError] = useKeybanAccount(keyId, { suspense: true });
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError; // Throws an error if the account cannot be retrieved
 
   // Retrieves the account balance, with error handling, and refreshes the balance
@@ -46,8 +58,6 @@ const WalletContent: React.FC = () => {
 
   return (
     <div>
-      <div>Account ID: {keyId || "No account"}</div>{" "}
-      {/* Displays the account ID */}
       <div>Address: {account?.address || "No address found"}</div>{" "}
       {/* Displays the account address */}
       <div>
@@ -63,20 +73,23 @@ const WalletContent: React.FC = () => {
 
 // Main Wallet Component
 // This component wraps the WalletContent with the KeybanProvider and handles errors and loading states
-const Wallet: React.FC = () => (
-  <ErrorBoundary FallbackComponent={ErrorFallback}>
-    <KeybanProvider
-      chain={KeybanChain.Sepolia} // Specifies the Sepolia testnet as the blockchain network
-      storage={KeybanLocalStorage} // Uses local storage to persist wallet data
-      apiUrl="https://api.keyban.localtest.me" // API URL for interacting with the Keyban backend
-    >
-      <Suspense fallback={<div>Loading...</div>}>
-        {" "}
-        {/* Displays a loading state while fetching data */}
-        <WalletContent /> {/* Renders the main content of the wallet */}
-      </Suspense>
-    </KeybanProvider>
-  </ErrorBoundary>
-);
+const Wallet: React.FC = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <KeybanProvider
+        {...DEFAULT_CONFIG}
+        accessTokenProvider={getAccessTokenSilently}
+      >
+        <Suspense fallback={<div>Loading...</div>}>
+          {" "}
+          {/* Displays a loading state while fetching data */}
+          <WalletContent /> {/* Renders the main content of the wallet */}
+        </Suspense>
+      </KeybanProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default Wallet;

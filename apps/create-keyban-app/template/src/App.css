@@ -1,0 +1,65 @@
+body {
+  font-family: 'Nunito', 'Helvetica', 'Arial', sans-serif;
+  background-color: #edf1f4;
+  color: #707070;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #edf1f4;
+}
+
+h2 {
+  color: #07689f;
+  font-family: 'Chivo', 'Helvetica', 'Arial', sans-serif;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.login-button {
+  background-color: #07689f;
+  color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #a2d5f2;
+}
+
+.logout-button {
+  background-color: #d32f2f;
+  color: #ffffff;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #ed6c02;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #edf1f4;
+  color: #07689f;
+  font-size: 18px;
+  font-family: 'Nunito', 'Helvetica', 'Arial', sans-serif;
+}
+
+p {
+  margin: 0;
+}

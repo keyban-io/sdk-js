@@ -10,20 +10,20 @@ cd playground
 
 ### Step 2: Create a New App Using `create-keyban-app`
 
-Run the following command to create a new app named `my-second-app`:
+Run the following command to create a new app named `my-test-app`:
 
 ```bash
-node ../create-keyban-app/index.js my-second-app
+node ../create-keyban-app/index.js my-test-app
 ```
 
-This will generate a new directory named `my-second-app` within the `playground` folder.
+This will generate a new directory named `my-test-app` within the `playground` folder.
 
 ### Step 3: Modify the `package.json` File
 
-After creating the new app, navigate to the `my-second-app` directory:
+After creating the new app, navigate to the `my-test-app` directory:
 
 ```bash
-cd my-second-app
+cd my-test-app
 ```
 
 Now, open the `package.json` file in a text editor of your choice and add the following dependencies under the `"dependencies"` section:

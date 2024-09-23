@@ -37,7 +37,7 @@ execSync(`npx create-vite@latest ${projectName} --template react-ts`, { stdio: '
 process.chdir(projectName);
 
 // Step 4: Install additional dependencies
-execSync('npm install react-error-boundary', { stdio: 'inherit' });
+execSync('npm install react-error-boundary @auth0/auth0-react', { stdio: 'inherit' });
 
 // Step 5: Copy custom files into the src directory
 const srcPath = path.join(__dirname, 'template', 'src');
@@ -48,5 +48,16 @@ for (const file of fs.readdirSync(srcPath)) {
     fs.copyFileSync(path.join(srcPath, file), path.join(destPath, file));
 }
 
-// Step 6: Run the development server
+// Step 6: Move the .env file to the root of the project
+const envFileSrc = path.join(destPath, '.env.template');
+const envFileDest = path.join(process.cwd(), '.env');
+
+if (fs.existsSync(envFileSrc)) {
+  fs.renameSync(envFileSrc, envFileDest);
+  console.log('.env file has been moved to the root of the project.');
+} else {
+  console.log('No .env file found in src.');
+}
+
+// Step 7: Run the development server
 execSync('npm run dev', { stdio: 'inherit' });

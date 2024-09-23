@@ -20,14 +20,13 @@ import {
 
 const DEFAULT_CONFIG = {
   apiUrl: "https://api.keyban.localtest.me",
-  appId: import.meta.env.VITE_APP_ID,
+  appId: "8febdb3d-75d4-409c-8453-aa5d81e92926",
   chain: KeybanChain.KeybanTestnet,
   signer: KeybanSigner.ECDSA,
   storage: KeybanLocalStorage,
 };
 
 export default function App() {
-  console.log(DEFAULT_CONFIG);
   const { getAccessTokenSilently } = useAuth0();
 
   const [chain, setChain] = useState<KeybanChain>(DEFAULT_CONFIG.chain);
