@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
 import ApplicationHeader from '@/components/ApplicationHeader';
+import config from '@/config';
 import { AppRouter } from '@/lib/router';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
-  KeybanChain,
-  KeybanLocalStorage,
+  type KeybanChain,
   KeybanProvider,
-  KeybanSigner,
 } from '@keyban/sdk-react';
 import {
   Box,
@@ -18,18 +17,10 @@ import {
   Typography,
 } from '@mui/material';
 
-const DEFAULT_CONFIG = {
-  apiUrl: "https://api.keyban.localtest.me",
-  appId: "8febdb3d-75d4-409c-8453-aa5d81e92926",
-  chain: KeybanChain.KeybanTestnet,
-  signer: KeybanSigner.ECDSA,
-  storage: KeybanLocalStorage,
-};
-
 export default function App() {
   const { getAccessTokenSilently } = useAuth0();
 
-  const [chain, setChain] = useState<KeybanChain>(DEFAULT_CONFIG.chain);
+  const [chain, setChain] = useState<KeybanChain>(config.keybanProvider.chain);
 
   const handleChainSelect = (chainId: KeybanChain) => setChain(chainId);
 
@@ -61,6 +52,7 @@ export default function App() {
       </Stack>
     );
   }
+  console.log(config);
 
   return (
     <Container maxWidth="md" sx={{ py: [2] }}>
@@ -98,7 +90,7 @@ export default function App() {
             onSelectChain={handleChainSelect}
           />
           <KeybanProvider
-            {...DEFAULT_CONFIG}
+            {...config.keybanProvider}
             chain={chain}
             accessTokenProvider={getAccessTokenSilently}
           >

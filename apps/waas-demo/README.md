@@ -10,31 +10,7 @@
    earthly ./tools+build-waas-demo
    ```
 
-2. **Obtain your own `appId`**
-
-   If you want to generate your own `appId`, use this `curl` command. Replace `{your app domain}` with your actual Auth0 domain:
-
-   ```bash
-   curl -s -X POST -H "Content-Type: application/json" -d '{"jwksUri":"https://{your app domain}.eu.auth0.com/.well-known/jwks.json"}' https://api.keyban.localtest.me/applications | jq .
-   ```
-
-   **Example:**
-
-   ```bash
-   curl -s -X POST -H "Content-Type: application/json" -d '{"jwksUri":"https://dev-dgn0003beuaahtmi.eu.auth0.com/.well-known/jwks.json"}' https://api.keyban.localtest.me/applications | jq .
-   ```
-
-   The command will return a JSON object containing the `appId`. 
-
-3. **Set the `appId` in the `.env` file**
-
-   Copy the `.env.exemple` file at the root of the project and rename it to `.env`. Then, update the `VITE_APP_ID` value in the file:
-
-   ```bash
-   VITE_APP_ID={your app id, check the auth0 dashboard}
-   ```
-
-4. **Run the demo**
+2. **Run the demo**
 
    Finally, run the demo using the following command:
 

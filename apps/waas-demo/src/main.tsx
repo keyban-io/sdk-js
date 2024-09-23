@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from '@/App.tsx';
+import config from '@/config';
 import { Auth0Provider } from '@auth0/auth0-react';
 import KeybanTheme from '@keyban/mui-theme';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,11 +16,11 @@ if (rootElement) {
       <ThemeProvider theme={KeybanTheme}>
         <CssBaseline />
         <Auth0Provider
-          domain="dev-dgn0003beuaahtmi.eu.auth0.com"
-          clientId="8VD9NHScJBXRh4AvynJAR2vmbT7imYKh"
+          domain={config.auth.domain}
+          clientId={config.auth.clientId}
           authorizationParams={{
             redirect_uri: window.location.origin,
-            audience: "keyban",
+            audience: config.auth.audience,
           }}
         >
           <App />
