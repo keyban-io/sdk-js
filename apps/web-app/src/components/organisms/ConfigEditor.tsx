@@ -100,6 +100,7 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
           label="Access token"
           value={config.accessToken}
           onChange={(accessToken) => onChange({ ...config, accessToken })}
+          style={{ marginBlock: 0 }}
           data-test-id="ConfigEditor:accessToken"
         />
 
