@@ -12,6 +12,79 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
 
+  apps/loyalty-demo:
+    dependencies:
+      '@emotion/react':
+        specifier: ^11.13.3
+        version: 11.13.3(@types/react@18.3.3)(react@18.3.1)
+      '@emotion/styled':
+        specifier: ^11.13.0
+        version: 11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@fontsource/roboto':
+        specifier: ^5.0.14
+        version: 5.0.14
+      '@keyban/mui-theme':
+        specifier: workspace:*
+        version: link:../../packages/mui-theme
+      '@mui/icons-material':
+        specifier: ^6.0.2
+        version: 6.0.2(@mui/material@6.0.2(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@mui/material':
+        specifier: ^6.0.2
+        version: 6.0.2(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      qrcode.react:
+        specifier: ^3.1.0
+        version: 3.1.0(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-error-boundary:
+        specifier: ^4.0.13
+        version: 4.0.13(react@18.3.1)
+      react-router-dom:
+        specifier: ^6.25.1
+        version: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.9.0
+        version: 9.9.0
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.5.0
+        version: 3.7.0(vite@5.4.1(@types/node@22.4.1))
+      eslint:
+        specifier: ^9.9.0
+        version: 9.9.0(jiti@1.21.6)
+      eslint-plugin-react-hooks:
+        specifier: ^5.1.0-rc.0
+        version: 5.1.0-rc-fb9a90fa48-20240614(eslint@9.9.0(jiti@1.21.6))
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.9
+        version: 0.4.9(eslint@9.9.0(jiti@1.21.6))
+      globals:
+        specifier: ^15.9.0
+        version: 15.9.0
+      typescript:
+        specifier: ^5.5.3
+        version: 5.5.4
+      typescript-eslint:
+        specifier: ^8.0.1
+        version: 8.2.0(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)
+      vite:
+        specifier: ^5.4.1
+        version: 5.4.1(@types/node@22.4.1)
+      vite-tsconfig-paths:
+        specifier: ^5.0.1
+        version: 5.0.1(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1))
+
   apps/waas-demo:
     dependencies:
       '@auth0/auth0-react':
@@ -103,84 +176,14 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1))
 
-  apps/loyalty-demo:
-    dependencies:
-      '@emotion/react':
-        specifier: ^11.13.3
-        version: 11.13.3(@types/react@18.3.3)(react@18.3.1)
-      '@emotion/styled':
-        specifier: ^11.13.0
-        version: 11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
-      '@fontsource/roboto':
-        specifier: ^5.0.14
-        version: 5.0.14
-      '@keyban/mui-theme':
-        specifier: workspace:*
-        version: link:../../packages/mui-theme
-      '@mui/icons-material':
-        specifier: ^6.0.2
-        version: 6.0.2(@mui/material@6.0.2(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
-      '@mui/material':
-        specifier: ^6.0.2
-        version: 6.0.2(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      qrcode.react:
-        specifier: ^3.1.0
-        version: 3.1.0(react@18.3.1)
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      react-error-boundary:
-        specifier: ^4.0.13
-        version: 4.0.13(react@18.3.1)
-      react-router-dom:
-        specifier: ^6.25.1
-        version: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-    devDependencies:
-      '@eslint/js':
-        specifier: ^9.9.0
-        version: 9.9.0
-      '@types/react':
-        specifier: ^18.3.3
-        version: 18.3.3
-      '@types/react-dom':
-        specifier: ^18.3.0
-        version: 18.3.0
-      '@vitejs/plugin-react-swc':
-        specifier: ^3.5.0
-        version: 3.7.0(vite@5.4.1(@types/node@22.4.1))
-      eslint:
-        specifier: ^9.9.0
-        version: 9.9.0(jiti@1.21.6)
-      eslint-plugin-react-hooks:
-        specifier: ^5.1.0-rc.0
-        version: 5.1.0-rc-fb9a90fa48-20240614(eslint@9.9.0(jiti@1.21.6))
-      eslint-plugin-react-refresh:
-        specifier: ^0.4.9
-        version: 0.4.9(eslint@9.9.0(jiti@1.21.6))
-      globals:
-        specifier: ^15.9.0
-        version: 15.9.0
-      typescript:
-        specifier: ^5.5.3
-        version: 5.5.4
-      typescript-eslint:
-        specifier: ^8.0.1
-        version: 8.2.0(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)
-      vite:
-        specifier: ^5.4.1
-        version: 5.4.1(@types/node@22.4.1)
-      vite-tsconfig-paths:
-        specifier: ^5.0.1
-        version: 5.0.1(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1))
-
   apps/web-app:
     dependencies:
       '@keyban/sdk-react':
         specifier: workspace:*
         version: link:../../packages/sdk-react
+      jose:
+        specifier: ^5.9.3
+        version: 5.9.3
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -3260,6 +3263,9 @@ packages:
 
   jose@5.7.0:
     resolution: {integrity: sha512-3P9qfTYDVnNn642LCAqIKbTGb9a1TBxZ9ti5zEVEr48aDdflgRjhspWFb6WM4PzAfFbGMJYC4+803v8riCRAKw==}
+
+  jose@5.9.3:
+    resolution: {integrity: sha512-egLIoYSpcd+QUF+UHgobt5YzI2Pkw/H39ou9suW687MY6PmCwPmkNV/4TNjn1p2tX5xO3j0d0sq5hiYE24bSlg==}
 
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
@@ -8100,6 +8106,8 @@ snapshots:
   jiti@1.21.6: {}
 
   jose@5.7.0: {}
+
+  jose@5.9.3: {}
 
   joycon@3.1.1: {}
 
