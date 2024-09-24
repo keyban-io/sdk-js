@@ -1,8 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
+import {
+  KeybanClient,
+  type KeybanClientConfig,
+} from '@keyban/sdk-base';
 
-import { PromiseCacheProvider } from "./promise";
+import { PromiseCacheProvider } from './promise';
 
 const clients = new Map<string, KeybanClient>();
 
@@ -47,7 +50,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *   return (
  *     <div>
  *       <button onClick={() => onSelectChain(KeybanChain.KeybanTestnet)}>Switch to Testnet</button>
- *       <button onClick={() => onSelectChain(KeybanChain.PolygonAmoy)}>Switch to Polygon</button>
+ *       <button onClick={() => onSelectChain(KeybanChain.Sepolia)}>Switch to Sepolian the Ethereum Testnet</button>
  *     </div>
  *   );
  * };
@@ -64,7 +67,6 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *     <>
  *       <ChainSelector onSelectChain={handleChainSelect} />
  *       <KeybanProvider
- *         apiUrl="https://api.keyban.localtest.me"
  *         chain={chain}
  *         storage={KeybanLocalStorage}
  *       >
