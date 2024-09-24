@@ -1,10 +1,10 @@
-import { Auth0ProviderOptions } from "@auth0/auth0-react";
+import { Auth0ProviderOptions } from '@auth0/auth0-react';
 import {
   KeybanChain,
   KeybanClientConfig,
   KeybanLocalStorage,
   KeybanSigner,
-} from "@keyban/sdk-react";
+} from '@keyban/sdk-react';
 
 const API_URL = {
   "https://waas-demo.demo.keyban.io": "https://api.demo.keyban.io",
