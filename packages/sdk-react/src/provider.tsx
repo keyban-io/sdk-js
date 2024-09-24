@@ -4,6 +4,8 @@ import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
 
 import { PromiseCacheProvider } from "./promise";
 
+const clients = new Map<string, KeybanClient>();
+
 const KeybanContext = React.createContext<KeybanClient | null>(null);
 
 /**
@@ -87,13 +89,21 @@ export function KeybanProvider({
     accessTokenProvider,
   ]);
 
-  const client = React.useMemo(
-    () =>
-      new KeybanClient({
-        ...config,
-        accessTokenProvider: () => atProviderRef.current(),
-      }),
-    Object.values(config),
+  const key = JSON.stringify(config);
+  let client = clients.get(key);
+  if (!client) {
+    client = new KeybanClient({
+      accessTokenProvider: () => atProviderRef.current(),
+      ...config,
+    });
+    clients.set(key, client);
+  }
+
+  React.useEffect(
+    () => () => {
+      clients.delete(key);
+    },
+    [key],
   );
 
   return (

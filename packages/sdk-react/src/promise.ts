@@ -1,12 +1,25 @@
+import { KeybanClient } from "@keyban/sdk-base";
 import React from "react";
 import { useKeybanClient } from "~/provider";
 
-const CacheContext = React.createContext({ current: new Map() });
+type Cache = Map<string, WrappedPromise<unknown>>;
+
+// We use a WeakMap so cache gets automatically removed when
+// client gets destroyed
+const caches: WeakMap<KeybanClient, Cache> = new WeakMap();
+
+const CacheContext = React.createContext<Cache>(new Map());
 
 export function PromiseCacheProvider({ children }: React.PropsWithChildren) {
-  const value = React.useRef(new Map());
-  React.useImperativeHandle(value, () => new Map(), [useKeybanClient()]);
-  return React.createElement(CacheContext.Provider, { value }, children);
+  const client = useKeybanClient();
+
+  let cache = caches.get(client);
+  if (!cache) {
+    cache = new Map();
+    caches.set(client, cache);
+  }
+
+  return React.createElement(CacheContext.Provider, { value: cache }, children);
 }
 
 enum PromiseState {
@@ -64,10 +77,8 @@ export function usePromise<T, B extends boolean>(
   promise: () => Promise<T>,
   options?: UsePromiseOptions<B>,
 ): UsePromiseResult<T, B> {
-  const cacheRef = React.useContext(CacheContext);
-  const cache: Map<string, WrappedPromise<T>> = cacheRef.current;
-
-  let cached = cache.get(key);
+  const cache = React.useContext(CacheContext);
+  let cached = cache.get(key) as WrappedPromise<T> | undefined;
 
   if (!cached) {
     cached = {

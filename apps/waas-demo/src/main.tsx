@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import ReactDOM from 'react-dom/client';
+import ReactDOM from "react-dom/client";
 
-import App from '@/App.tsx';
-import config from '@/config';
-import { Auth0Provider } from '@auth0/auth0-react';
-import KeybanTheme from '@keyban/mui-theme';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material/styles';
+import App from "@/App.tsx";
+import config from "@/config";
+import { Auth0Provider } from "@auth0/auth0-react";
+import KeybanTheme from "@keyban/mui-theme";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
@@ -15,14 +15,7 @@ if (rootElement) {
     <React.StrictMode>
       <ThemeProvider theme={KeybanTheme}>
         <CssBaseline />
-        <Auth0Provider
-          domain={config.auth.domain}
-          clientId={config.auth.clientId}
-          authorizationParams={{
-            redirect_uri: window.location.origin,
-            audience: config.auth.audience,
-          }}
-        >
+        <Auth0Provider {...config.auth}>
           <App />
         </Auth0Provider>
         ,

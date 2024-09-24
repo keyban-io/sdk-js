@@ -1,13 +1,10 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import ApplicationHeader from '@/components/ApplicationHeader';
-import config from '@/config';
-import { AppRouter } from '@/lib/router';
-import { useAuth0 } from '@auth0/auth0-react';
-import {
-  type KeybanChain,
-  KeybanProvider,
-} from '@keyban/sdk-react';
+import ApplicationHeader from "@/components/ApplicationHeader";
+import config from "@/config";
+import { AppRouter } from "@/lib/router";
+import { useAuth0 } from "@auth0/auth0-react";
+import { type KeybanChain, KeybanProvider } from "@keyban/sdk-react";
 import {
   Box,
   Button,
@@ -15,7 +12,7 @@ import {
   Container,
   Stack,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 export default function App() {
   const { getAccessTokenSilently } = useAuth0();
@@ -52,7 +49,6 @@ export default function App() {
       </Stack>
     );
   }
-  console.log(config);
 
   return (
     <Container maxWidth="md" sx={{ py: [2] }}>
