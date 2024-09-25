@@ -48,7 +48,7 @@ export type GqlChainaddressTokenBalancesArgs = {
 };
 
 /**
- * Enum representing the supported chain.
+ * Enum representing the supported chains.
  *
  * @enum {string}
  * @property {string} KeybanTestnet - Represents the Keyban Testnet chain. This can not be used in production.
