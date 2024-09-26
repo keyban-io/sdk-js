@@ -10,17 +10,17 @@ import {
   type PublicClient,
   type Transport,
   type WalletClient,
-} from "viem";
+} from 'viem';
 import {
   SdkError,
   SdkErrorTypes,
-} from "~/errors";
+} from '~/errors';
 import type {
   Address,
   Hash,
   Hex,
   KeybanClient,
-} from "~/index";
+} from '~/index';
 
 /**
  * Represents the estimation of the fees required for a token transfer.
@@ -193,15 +193,14 @@ export class KeybanAccount implements KeybanAccount {
    * Estimates the cost of transferring native tokens to another address.
    *
    * @param to - The recipient's address.
-   * @param value - The transfer amount in wei.
    * @returns A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    */
-  async estimateTransfer(to: Address, value?: bigint): Promise<FeesEstimation> {
+  async estimateTransfer(to: Address): Promise<FeesEstimation> {
     const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
       [
         this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
-        this.#publicClient.estimateGas({ to, account: this.address, value }),
+        this.#publicClient.estimateGas({ to, account: this.address }),
       ],
     );
 

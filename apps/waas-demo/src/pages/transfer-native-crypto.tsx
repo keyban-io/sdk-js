@@ -30,7 +30,6 @@ const TransferNativeCrypto: React.FC = () => {
   const navigate = useNavigate();
   const [recipient, setRecipient] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
-  const debouncedAmount = useDebounce(amount, 300);
   const debouncedRecipient = useDebounce(recipient, 300);
 
   const {
@@ -52,22 +51,16 @@ const TransferNativeCrypto: React.FC = () => {
 
   useEffect(() => {
     const estimateFeesAsync = async () => {
-      if (!debouncedAmount || !debouncedRecipient) {
+      if (!debouncedRecipient) {
         dispatch({ type: "FEE_ESTIMATION_FAIL", payload: "" });
         return;
       }
 
       dispatch({ type: "START_FEE_ESTIMATION" });
       try {
-        const valueInWei = BigInt(
-          Number(debouncedAmount) * 10 ** client.nativeCurrency.decimals,
-        );
         const estimation =
           account &&
-          (await account.estimateTransfer(
-            debouncedRecipient as Address,
-            valueInWei,
-          ));
+          (await account.estimateTransfer( debouncedRecipient as Address));
         dispatch({
           type: "FEE_ESTIMATION_SUCCESS",
           payload: `${estimation.maxFees}`,
@@ -80,7 +73,7 @@ const TransferNativeCrypto: React.FC = () => {
       }
     };
     estimateFeesAsync();
-  }, [debouncedAmount, debouncedRecipient, account, client, dispatch]);
+  }, [debouncedRecipient, account, client, dispatch]);
 
   const handleTransfer = async () => {
     dispatch({ type: "START_TRANSFER" });

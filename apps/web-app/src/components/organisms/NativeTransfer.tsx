@@ -1,16 +1,17 @@
-import React from "react";
-import { useErrorBoundary } from "react-error-boundary";
+import React from 'react';
+
+import { useErrorBoundary } from 'react-error-boundary';
+
+import Row from '@/components/atoms/Row';
+import SerializedValue from '@/components/atoms/SerializedValue';
+import BigIntField from '@/components/molecules/BigIntField';
+import TextField from '@/components/molecules/TextField';
 import {
   Address,
+  FeesEstimation,
   FormattedBalance,
   useKeybanAccount,
-  FeesEstimation,
-} from "@keyban/sdk-react";
-
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
-import BigIntField from "@/components/molecules/BigIntField";
-import TextField from "@/components/molecules/TextField";
+} from '@keyban/sdk-react';
 
 export default function NativeTransfer() {
   const { showBoundary } = useErrorBoundary();
@@ -52,7 +53,7 @@ export default function NativeTransfer() {
           type="button"
           onClick={() =>
             account
-              .estimateTransfer(recipient as Address, value)
+              .estimateTransfer(recipient as Address)
               .then(setEstimation)
               .catch(showBoundary)
           }
