@@ -27,6 +27,17 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
 
   const theme = useTheme();
 
+  const currentDomain = window.location.hostname;
+
+  const shouldExcludeKeybanTestnet =
+    currentDomain === "waas-demo.keyban.io" ||
+    currentDomain === "waas-demo.demo.keyban.io";
+
+  // Filtrer les chaînes en fonction du domaine
+  const availableChains = shouldExcludeKeybanTestnet
+    ? Object.values(KeybanChain).filter((chain) => chain !== "KeybanTestnet")
+    : Object.values(KeybanChain);
+
   return (
     <Tooltip title="Current blockchain" placement="left-start" arrow>
       <FormControl fullWidth size="small">
@@ -40,7 +51,7 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
           inputProps={{ "aria-label": "Network Selector" }}
           sx={{ maxWidth: 140, color: theme.palette.secondary.dark, mr: 1 }}
         >
-          {Object.values(KeybanChain).map((chain) => (
+          {availableChains.map((chain) => (
             <MenuItem key={chain} value={chain}>
               {chain}
             </MenuItem>
