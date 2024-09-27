@@ -2,17 +2,17 @@ VERSION 0.8
 
 get-ecdsa-wasm:
     FROM scratch
-    COPY ./packages/sdk-ecdsa-wasm/* /pkg/
+    COPY ./packages/ecdsa-wasm-client/* /pkg/
     COPY ../signers/ecdsa/+wasm/ecdsa.wasm /pkg/
     COPY ../signers/ecdsa/+wasm-exec/wasm_exec.js /pkg/
-    SAVE ARTIFACT /pkg/ecdsa.wasm AS LOCAL ./packages/sdk-ecdsa-wasm/ecdsa.wasm
-    SAVE ARTIFACT /pkg/wasm_exec.js AS LOCAL ./packages/sdk-ecdsa-wasm/wasm_exec.js
+    SAVE ARTIFACT /pkg/ecdsa.wasm AS LOCAL ./packages/ecdsa-wasm-client/ecdsa.wasm
+    SAVE ARTIFACT /pkg/wasm_exec.js AS LOCAL ./packages/ecdsa-wasm-client/wasm_exec.js
     SAVE ARTIFACT /pkg
 
 GET_PACKAGE_JSON:
     FUNCTION
     COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
-    COPY +get-ecdsa-wasm/pkg/package.json   ./packages/sdk-ecdsa-wasm/
+    COPY +get-ecdsa-wasm/pkg/package.json   ./packages/ecdsa-wasm-client/
     COPY ./packages/sdk-base/package.json   ./packages/sdk-base/
     COPY ./packages/sdk-react/package.json  ./packages/sdk-react/
     COPY ./packages/mui-theme/package.json  ./packages/mui-theme/
@@ -40,7 +40,7 @@ sdk-build:
 
     RUN pnpm install
 
-    COPY +get-ecdsa-wasm/pkg/*  ./packages/sdk-ecdsa-wasm
+    COPY +get-ecdsa-wasm/pkg/*  ./packages/ecdsa-wasm-client
     COPY ./packages/sdk-base    ./packages/sdk-base
     COPY ./packages/sdk-react   ./packages/sdk-react
     COPY ./packages/mui-theme   ./packages/mui-theme
