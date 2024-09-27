@@ -59,7 +59,7 @@ sdk-release-ga:
     RUN pnpm version $version --git-tag-version=false
     RUN --no-cache --secret BWS_ACCESS_TOKEN \
         ENV=prod /bws/runwithsecrets 'NPM_TOKEN' \
-        pnpm publish --no-git-checks --dry-run
+        pnpm publish --no-git-checks
 
 app-base:
     FROM +sdk-build
