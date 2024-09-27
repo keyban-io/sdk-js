@@ -1,4 +1,4 @@
-import initWasmFile from "ecdsa-wasm-client";
+import initWasmFile from "@keyban/ecdsa-wasm-client";
 import { type IKeybanSigner } from "~/signer";
 import { WasmKeybanSigner } from "~/signer/wasm";
 

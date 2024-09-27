@@ -1,4 +1,4 @@
-declare module "ecdsa-wasm-client";
+declare module "@keyban/ecdsa-wasm-client";
 
 declare global {
   var ecdsa: {

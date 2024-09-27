@@ -1,6 +1,6 @@
 {
   "name": "@keyban/sdk-base",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Base SDK from Keyban MPC wallet solution.",
   "repository": {
     "type": "git",
@@ -10,8 +10,8 @@
   "bugs": "https://github.com/keyban-io/dap/issues",
   "author": {
     "name": "Keyban",
-    "email": "keyban@google.com",
-    "url": "https://keyban.com"
+    "email": "it@keyban.io",
+    "url": "https://keyban.io"
   },
   "keywords": [
     "hedera",
@@ -20,7 +20,7 @@
     "mpc",
     "crypto"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -31,9 +31,6 @@
       "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
-  },
-  "typesVersions": {
-    "*": {}
   },
   "files": [
     "dist/**/*",
@@ -48,7 +45,7 @@
     "changeset": "changeset"
   },
   "dependencies": {
-    "ecdsa-wasm-client": "workspace:*",
+    "@keyban/ecdsa-wasm-client": "workspace:*",
     "viem": "^2.20.0"
   },
   "devDependencies": {
@@ -63,6 +60,6 @@
     "typescript": "^5.4.5"
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   }
 }

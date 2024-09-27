@@ -1,6 +1,6 @@
 {
   "name": "@keyban/sdk-react",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "React SDK from Keyban MPC wallet solution.",
   "repository": {
     "type": "git",
@@ -10,8 +10,8 @@
   "bugs": "https://github.com/keyban-io/dap/issues",
   "author": {
     "name": "Keyban",
-    "email": "keyban@google.com",
-    "url": "https://keyban.com"
+    "email": "it@keyban.io",
+    "url": "https://keyban.io"
   },
   "keywords": [
     "hedera",
@@ -20,7 +20,7 @@
     "mpc",
     "crypto"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -31,9 +31,6 @@
       "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
-  },
-  "typesVersions": {
-    "*": {}
   },
   "files": [
     "dist/**/*",
@@ -49,6 +46,10 @@
   "dependencies": {
     "@keyban/sdk-base": "workspace:*"
   },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
@@ -59,10 +60,6 @@
     "typescript": "^5.4.5"
   },
   "publishConfig": {
-    "access": "restricted"
-  },
-  "peerDependencies": {
-    "react": "*",
-    "react-dom": "*"
+    "access": "public"
   }
 }

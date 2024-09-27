@@ -6,6 +6,8 @@ settings:
 
 importers:
 
+  .: {}
+
   apps/create-keyban-app:
     dependencies:
       child_process:
@@ -328,7 +330,7 @@ importers:
 
   packages/sdk-base:
     dependencies:
-      ecdsa-wasm-client:
+      '@keyban/ecdsa-wasm-client':
         specifier: workspace:*
         version: link:../sdk-ecdsa-wasm
       viem:
