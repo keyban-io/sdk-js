@@ -59,7 +59,8 @@ sdk-release-ga:
     RUN pnpm version $version --git-tag-version=false
     RUN --no-cache --secret BWS_ACCESS_TOKEN \
         ENV=prod /bws/runwithsecrets 'NPM_TOKEN' \
-        pnpm publish --no-git-checks
+        pnpm set //registry.npmjs.org/:_authToken $NPM_TOKEN
+    RUN --no-cache pnpm publish --no-git-checks
 
 app-base:
     FROM +sdk-build
