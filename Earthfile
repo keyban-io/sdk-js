@@ -11,7 +11,7 @@ get-ecdsa-wasm:
 
 GET_PACKAGE_JSON:
     FUNCTION
-    COPY pnpm-workspace.yaml .
+    COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
     COPY +get-ecdsa-wasm/pkg/package.json   ./packages/sdk-ecdsa-wasm/
     COPY ./packages/sdk-base/package.json   ./packages/sdk-base/
     COPY ./packages/sdk-react/package.json  ./packages/sdk-react/
@@ -25,7 +25,7 @@ update-lock-file:
 
     DO +GET_PACKAGE_JSON
     COPY ./apps/waas-demo/package.json  ./apps/waas-demo/
-    COPY ./apps/web-app/package.json   ./apps/web-app/
+    COPY ./apps/web-app/package.json    ./apps/web-app/
 
     RUN pnpm install
     SAVE ARTIFACT pnpm-lock.yaml AS LOCAL pnpm-lock.yaml
@@ -35,7 +35,6 @@ sdk-build:
     DO ../+USEPNPM
 
     WORKDIR /app
-    COPY pnpm-lock.yaml .
 
     DO +GET_PACKAGE_JSON
 
@@ -47,6 +46,20 @@ sdk-build:
     COPY ./packages/mui-theme   ./packages/mui-theme
 
     RUN pnpm -r build
+
+sdk-release-ga:
+    ARG --required package
+    ARG --required version
+
+    FROM +sdk-build
+    RUN apt update && apt install -y python3
+    COPY ../tools/bitwarden+bitwarden/bws /bws
+
+    WORKDIR ./packages/$package
+    RUN pnpm version $version --git-tag-version=false
+    RUN --no-cache --secret BWS_ACCESS_TOKEN \
+        /bws/runwithsecrets 'NPM_TOKEN' \
+        pnpm publish --no-git-checks --dry-run
 
 app-base:
     FROM +sdk-build
