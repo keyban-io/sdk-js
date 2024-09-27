@@ -26,7 +26,9 @@
     "ecdsa.wasm",
     "ecdsa_wasm_client.js",
     "ecdsa_wasm_client.d.ts",
-    "wasm_exec.js"
+    "wasm_exec.js",
+    "LICENSE",
+    "README.md"
   ],
   "publishConfig": {
     "access": "public"
