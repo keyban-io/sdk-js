@@ -21,3 +21,20 @@ query KeybanClient_addressTokenBalances(
     }
   }
 }
+
+query KeybanClient_addressNft($chainType: ChainType!, $address: Address!) {
+  chain(type: $chainType) {
+    addressNft(address: $address) {
+      token {
+        address
+        name
+        symbol
+        decimals
+        iconUrl
+      }
+      id
+      imageUrl
+      balance
+    }
+  }
+}

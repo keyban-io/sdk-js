@@ -1,4 +1,8 @@
-import type { Chain, PublicClient, Transport } from "viem";
+import type {
+  Chain,
+  PublicClient,
+  Transport,
+} from "viem";
 import {
   createPublicClient,
   createWalletClient,
@@ -9,21 +13,31 @@ import {
   parseSignature,
   serializeTransaction,
 } from "viem";
-import { publicKeyToAddress, toAccount } from "viem/accounts";
-import { signersChainMap, viemChainsMap } from "~/chains";
+import {
+  publicKeyToAddress,
+  toAccount,
+} from "viem/accounts";
+import {
+  signersChainMap,
+  viemChainsMap,
+} from "~/chains";
 import type {
+  GqlKeybanClient_addressNftQuery,
   GqlKeybanClient_addressTokenBalancesQuery,
   Sdk,
 } from "~/client.generated";
 import { getSdk } from "~/client.generated";
+import { parseJwt } from "~/utils/jwt";
 
 import { KeybanAccount } from "./account";
 import type { KeybanApiStatus } from "./api";
 import { StorageError } from "./errors";
-import type { Address, KeybanChain } from "./index";
+import type {
+  Address,
+  KeybanChain,
+} from "./index";
 import type { IKeybanSigner } from "./signer";
 import type { IKeybanStorage } from "./storage";
-import { parseJwt } from "~/utils/jwt";
 
 /**
  * Configuration object for the Keyban client.
@@ -239,6 +253,18 @@ export class KeybanClient {
   }
 
   /**
+   * @returns ERC721 and ERC1155 tokens of the account.
+   */
+  async getNft(address: Address) {
+    const { chain } = await this.#graphql.KeybanClient_addressNft({
+      chainType: this.chain,
+      address,
+    });
+
+    return chain.addressNft;
+  }
+
+  /**
    * Performs a health check on the Keyban API to determine its operational status.
    *
    * @returns {Promise<KeybanApiStatus>} - The API status, either "operational" or "down".
@@ -294,3 +320,5 @@ export class KeybanClient {
 
 export type KeybanTokenBalance =
   GqlKeybanClient_addressTokenBalancesQuery["chain"]["addressTokenBalances"][0];
+export type KeybanNft =
+  GqlKeybanClient_addressNftQuery["chain"]["addressNft"][0];

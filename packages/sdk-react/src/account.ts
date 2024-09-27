@@ -1,4 +1,7 @@
-import { usePromise, UsePromiseOptions } from "~/promise";
+import {
+  usePromise,
+  UsePromiseOptions,
+} from "~/promise";
 import { useKeybanClient } from "~/provider";
 
 import { KeybanAccount } from "@keyban/sdk-base";
@@ -51,6 +54,27 @@ export function useKeybanAccountTokenBalances<B extends boolean>(
   return usePromise(
     `account-token-balances:${account.sub}`,
     () => account.getTokenBalances(),
+    options,
+  );
+}
+
+/**
+ * Return the ERC721 and ERC1155 tokens of an account.
+ *
+ * @example
+ * ```tsx
+ * const [account, accountError] = useKeybanAccount();
+ * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountNft(account);
+ * ```
+ * @see {@link useFormattedBalance}
+ */
+export function useKeybanAccountNft<B extends boolean>(
+  account: KeybanAccount,
+  options?: UsePromiseOptions<B>,
+) {
+  return usePromise(
+    `account-token-balances:${account.sub}`,
+    () => account.getNft(),
     options,
   );
 }

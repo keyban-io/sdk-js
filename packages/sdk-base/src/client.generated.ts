@@ -33,6 +33,29 @@ export type GqlKeybanClient_addressTokenBalancesQuery = {
   }
 };
 
+export type GqlKeybanClient_addressNftQueryVariables = Types.Exact<{
+  chainType: Types.GqlChainType;
+  address: Types.Scalars['Address']['input'];
+}>;
+
+
+export type GqlKeybanClient_addressNftQuery = {
+  chain: {
+    addressNft: Array<{
+      id: string,
+      imageUrl?: string | null,
+      balance: Types.Scalars['BigInt']['output'],
+      token: {
+        address: Types.Scalars['Address']['output'],
+        name: string,
+        symbol: string,
+        decimals: number,
+        iconUrl?: string | null
+      }
+    }>
+  }
+};
+
 
 export const KeybanClient_chainDocument = `
     query KeybanClient_chain($chain: ChainType!) {
@@ -57,6 +80,24 @@ export const KeybanClient_addressTokenBalancesDocument = `
   }
 }
     `;
+export const KeybanClient_addressNftDocument = `
+    query KeybanClient_addressNft($chainType: ChainType!, $address: Address!) {
+  chain(type: $chainType) {
+    addressNft(address: $address) {
+      token {
+        address
+        name
+        symbol
+        decimals
+        iconUrl
+      }
+      id
+      imageUrl
+      balance
+    }
+  }
+}
+    `;
 export type Requester<C = {}> = <R, V>(doc: string, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
 export function getSdk<C>(requester: Requester<C>) {
   return {
@@ -65,6 +106,9 @@ export function getSdk<C>(requester: Requester<C>) {
     },
     KeybanClient_addressTokenBalances(variables: GqlKeybanClient_addressTokenBalancesQueryVariables, options?: C): Promise<GqlKeybanClient_addressTokenBalancesQuery> {
       return requester<GqlKeybanClient_addressTokenBalancesQuery, GqlKeybanClient_addressTokenBalancesQueryVariables>(KeybanClient_addressTokenBalancesDocument, variables, options) as Promise<GqlKeybanClient_addressTokenBalancesQuery>;
+    },
+    KeybanClient_addressNft(variables: GqlKeybanClient_addressNftQueryVariables, options?: C): Promise<GqlKeybanClient_addressNftQuery> {
+      return requester<GqlKeybanClient_addressNftQuery, GqlKeybanClient_addressNftQueryVariables>(KeybanClient_addressNftDocument, variables, options) as Promise<GqlKeybanClient_addressNftQuery>;
     }
   };
 }
