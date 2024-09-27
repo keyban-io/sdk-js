@@ -41,7 +41,8 @@
     "codegen": "graphql-codegen",
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "build": "tsup",
-    "format": "prettier --write ./src"
+    "format": "prettier --write ./src",
+    "prepack": "pnpm update --latest @keyban/ecdsa-wasm-client"
   },
   "dependencies": {
     "@keyban/ecdsa-wasm-client": "workspace:*",

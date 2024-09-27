@@ -41,7 +41,7 @@
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "build": "tsup",
     "format": "prettier --write ./src",
-    "changeset": "changeset"
+    "prepack": "pnpm update --latest @keyban/sdk-base"
   },
   "dependencies": {
     "@keyban/sdk-base": "workspace:*"
