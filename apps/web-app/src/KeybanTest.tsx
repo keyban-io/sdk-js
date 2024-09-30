@@ -11,6 +11,7 @@ import TokenBalances from "@/components/organisms/TokenBalances";
 import { useKeybanClient } from "@keyban/sdk-react";
 
 import ERC20Transfer from "./components/organisms/ERC20Transfer";
+import Nft from "./components/organisms/Nft";
 
 export default function KeybanTest() {
   const client = useKeybanClient();
@@ -45,6 +46,7 @@ export default function KeybanTest() {
           <NativeTransfer />
           <TokenBalances />
           <ERC20Transfer />
+          <Nft />
         </React.Suspense>
       )}
     </>
