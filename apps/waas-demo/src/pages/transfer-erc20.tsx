@@ -1,26 +1,26 @@
-import type React from 'react';
+import type React from "react";
 import {
   useEffect,
   useState,
-} from 'react';
+} from "react";
 
 import {
   Location,
   useLocation,
   useNavigate,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import TransferAlert from '@/components/TransferAlert';
-import { useDebounce } from '@/hooks/useDebounce';
-import { useTransferReducer } from '@/hooks/useTransferReducer';
-import type { Address } from '@keyban/sdk-react';
+import TransferAlert from "@/components/TransferAlert";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useTransferReducer } from "@/hooks/useTransferReducer";
+import type { Address } from "@keyban/sdk-react";
 import {
   formatBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanAccountTokenBalances,
   useKeybanClient,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 import {
   Alert,
   Button,
@@ -29,7 +29,7 @@ import {
   Stack,
   TextField,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 const TransferERC20: React.FC = () => {
   const location: Location<{ contractAddress: Address }> = useLocation();
@@ -82,7 +82,7 @@ const TransferERC20: React.FC = () => {
 
       try {
         const valueInWei = BigInt(
-          Number(debouncedAmount) * 10 ** token.token.decimals,
+          Number(debouncedAmount) * 10 ** (token.token.decimals? token.token.decimals : 0),
         );
         const estimation = await account.estimateERC20Transfer({
           contractAddress: location.state.contractAddress as Address,
@@ -117,7 +117,7 @@ const TransferERC20: React.FC = () => {
     dispatch({ type: "START_TRANSFER" });
     try {
       if (amount && account && token) {
-        const value = BigInt(Number(amount) * 10 ** token.token.decimals);
+        const value = BigInt(Number(amount) * 10 ** (token.token.decimals? token.token.decimals : 0));
         const txHash = await account.transferERC20({
           contractAddress: location.state.contractAddress as Address,
           to: recipient as Address,

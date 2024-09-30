@@ -1,15 +1,15 @@
-import type React from 'react';
+import type React from "react";
 
 import {
   formatBalance,
   type KeybanClient,
   type KeybanTokenBalance,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 import {
   Alert,
   CircularProgress,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 interface TransferAlertProps {
   client: KeybanClient;
@@ -38,7 +38,7 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
   }
 
   try {
-    const decimals = tokenBalance
+    const decimals = tokenBalance?.token.decimals
       ? tokenBalance.token.decimals
       : client.nativeCurrency.decimals;
 
