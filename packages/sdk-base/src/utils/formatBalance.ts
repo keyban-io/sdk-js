@@ -1,8 +1,8 @@
-import { formatUnits } from 'viem';
+import { formatUnits } from "viem";
 import type {
   KeybanClient,
   KeybanTokenBalance,
-} from '~/index';
+} from "~/index";
 
 /**
  * Formats a balance in a human-readable format using the Keyban client.
@@ -25,7 +25,7 @@ export function formatBalance(
 
   if (typeof balance !== "bigint") {
     symbol = balance.token.symbol;
-    decimals = balance.token.decimals;
+    decimals = balance.token.decimals? balance.token.decimals : decimals;
     balance = balance.balance;
   }
 

@@ -26,7 +26,7 @@ export type GqlKeybanClient_addressTokenBalancesQuery = {
         address: Types.Scalars['Address']['output'],
         name: string,
         symbol: string,
-        decimals: number,
+        decimals?: number | null,
         iconUrl?: string | null
       }
     }>
@@ -49,9 +49,17 @@ export type GqlKeybanClient_addressNftQuery = {
         address: Types.Scalars['Address']['output'],
         name: string,
         symbol: string,
-        decimals: number,
+        decimals?: number | null,
         iconUrl?: string | null
-      }
+      },
+      metadata?: {
+        name?: string | null,
+        description?: string | null,
+        attributes?: Array<{
+          traitType: string,
+          value: string
+        }> | null
+      } | null
     }>
   }
 };
@@ -94,6 +102,14 @@ export const KeybanClient_addressNftDocument = `
       id
       imageUrl
       balance
+      metadata {
+        name
+        description
+        attributes {
+          traitType
+          value
+        }
+      }
     }
   }
 }

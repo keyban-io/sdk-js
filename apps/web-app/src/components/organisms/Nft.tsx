@@ -25,10 +25,10 @@ export default function Nft() {
         />
       </legend>
 
-      {nft.map(({ token, id, balance, imageUrl }) => (
+      {nft.map(({ token, id, balance, imageUrl, metadata }) => (
         <fieldset
-          key={token.address}
-          data-test-id={`Nft:token:${token.address}`}
+          key={`${token.address}:${id}`}
+          data-test-id={`Nft:token:${token.address}:${id}`}
         >
           <legend>{token.name}</legend>
 
@@ -42,15 +42,6 @@ export default function Nft() {
           </Row>
 
           <Row>
-            <span>Name:</span>
-            <SerializedValue
-              value={token.name}
-              style={{ flexGrow: 1 }}
-              data-test-id="Nft:name"
-            />
-          </Row>
-
-          <Row>
             <span>ID:</span>
             <SerializedValue
               value={id}
@@ -60,15 +51,6 @@ export default function Nft() {
           </Row>
 
           <Row>
-            <span>Image URL:</span>
-            <SerializedValue
-              value={imageUrl}
-              style={{ flexGrow: 1 }}
-              data-test-id="Nft:imageUrl"
-            />
-          </Row>
-
-          <Row style={{ marginBlockStart: "1em" }}>
             <span>Balance:</span>
 
             <SerializedValue
@@ -82,6 +64,60 @@ export default function Nft() {
               data-test-id="Nft:symbol"
             />
           </Row>
+
+          <Row>
+            <span>Image URL:</span>
+            <SerializedValue
+              value={imageUrl}
+              style={{ flexGrow: 1 }}
+              data-test-id="Nft:imageUrl"
+            />
+          </Row>
+
+          <Row>
+            <span>Name:</span>
+            <SerializedValue
+              value={metadata?.name}
+              style={{ flexGrow: 1 }}
+              data-test-id="Nft:metadata:name"
+            />
+          </Row>
+
+          <Row>
+            <span>Description:</span>
+            <SerializedValue
+              value={metadata?.description}
+              style={{ flexGrow: 1 }}
+              data-test-id="Nft:metadata:description"
+            />
+          </Row>
+
+          {metadata?.attributes?.map(({ traitType, value }, index) => (
+            <fieldset
+              key={index}
+              data-test-id={`Nft:metadata:attributes:${index}`}
+            >
+              <Row>
+                <span>Trait type:</span>
+                <SerializedValue
+                  value={traitType}
+                  style={{ flexGrow: 1 }}
+                  data-test-id={`Nft:metadata:${index}:traitType`}
+                />
+              </Row>
+
+              <Row>
+                <span>Value:</span>
+                <SerializedValue
+                  value={value}
+                  style={{ flexGrow: 1 }}
+                  data-test-id={`Nft:metadata:${index}:value`}
+                />
+              </Row>
+
+            </fieldset>
+          ))}
+
         </fieldset>
       ))}
     </fieldset>

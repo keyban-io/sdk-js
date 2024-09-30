@@ -18,6 +18,12 @@ export type Scalars = {
   BigInt: { input: bigint; output: bigint; }
 };
 
+export type GqlAttribute = {
+  __typename?: 'Attribute';
+  traitType: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
 export type GqlChain = {
   __typename?: 'Chain';
   addressNft: Array<GqlNft>;
@@ -41,11 +47,20 @@ export enum GqlChainType {
   Sepolia = 'Sepolia'
 }
 
+export type GqlMetadata = {
+  __typename?: 'Metadata';
+  attributes?: Maybe<Array<GqlAttribute>>;
+  description?: Maybe<Scalars['String']['output']>;
+  imageUrl?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+};
+
 export type GqlNft = {
   __typename?: 'Nft';
   balance: Scalars['BigInt']['output'];
   id: Scalars['String']['output'];
   imageUrl?: Maybe<Scalars['String']['output']>;
+  metadata?: Maybe<GqlMetadata>;
   token: GqlToken;
 };
 
@@ -62,7 +77,7 @@ export type GqlQuerychainArgs = {
 export type GqlToken = {
   __typename?: 'Token';
   address: Scalars['Address']['output'];
-  decimals: Scalars['Int']['output'];
+  decimals?: Maybe<Scalars['Int']['output']>;
   iconUrl?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   symbol: Scalars['String']['output'];
