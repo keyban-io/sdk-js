@@ -42,7 +42,7 @@
     "dev": "tsup --watch --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "build": "tsup",
     "format": "prettier --write ./src",
-    "prepack": "pnpm install @keyban/ecdsa-wasm-client@$(pnpm view @keyban/ecdsa-wasm-client version)"
+    "prepack": "pnpm install @keyban/ecdsa-wasm-client@latest && pnpm install @keyban/ecdsa-wasm-client@latest"
   },
   "dependencies": {
     "@keyban/ecdsa-wasm-client": "workspace:*",
