@@ -48,12 +48,12 @@ sdk-build:
     RUN pnpm -r build
 
 sdk-release-ga:
-    ARG --required package
-    ARG --required version
-
     FROM +sdk-build
     RUN apt update && apt install -y python3
     COPY ../tools/bitwarden+bitwarden/bws /bws
+
+    ARG --required package
+    ARG --required version
 
     WORKDIR ./packages/$package
     RUN pnpm version $version --git-tag-version=false
