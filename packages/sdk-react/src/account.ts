@@ -73,7 +73,7 @@ export function useKeybanAccountNft<B extends boolean>(
   options?: UsePromiseOptions<B>,
 ) {
   return usePromise(
-    `account-token-balances:${account.sub}`,
+    `account-nft:${account.sub}`,
     () => account.getNft(),
     options,
   );

@@ -74,7 +74,7 @@ export default function Nft() {
             />
           </Row>
 
-          <Row>
+          <Row style={{ marginBlockStart: "1em" }}>
             <span>Name:</span>
             <SerializedValue
               value={metadata?.name}
@@ -97,24 +97,13 @@ export default function Nft() {
               key={index}
               data-test-id={`Nft:metadata:attributes:${index}`}
             >
-              <Row>
-                <span>Trait type:</span>
-                <SerializedValue
-                  value={traitType}
-                  style={{ flexGrow: 1 }}
-                  data-test-id={`Nft:metadata:${index}:traitType`}
-                />
-              </Row>
+              <legend data-test-id={`Nft:metadata:${index}:traitType`}>{traitType}</legend>
 
-              <Row>
-                <span>Value:</span>
-                <SerializedValue
-                  value={value}
-                  style={{ flexGrow: 1 }}
-                  data-test-id={`Nft:metadata:${index}:value`}
-                />
-              </Row>
-
+              <SerializedValue
+                value={value}
+                style={{ flexGrow: 1 }}
+                data-test-id={`Nft:metadata:${index}:value`}
+              />
             </fieldset>
           ))}
 

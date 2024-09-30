@@ -1,6 +1,8 @@
 import React from "react";
-import TextareaAutosize from "react-textarea-autosize";
+
 import type { TextareaAutosizeProps } from "react-textarea-autosize";
+import TextareaAutosize from "react-textarea-autosize";
+
 import styles from "./SerializedValue.module.css";
 
 export type SerializedValueProps = Omit<
@@ -18,6 +20,7 @@ export default function SerializedValue({
   let textValue: string;
   if (typeof value === "string") textValue = value;
   else if (typeof value === "bigint") textValue = value.toString();
+  else if (value == null) textValue = "";
   else textValue = JSON.stringify(value, null, 2);
 
   const handleCopy = React.useCallback(() => {
