@@ -56,3 +56,21 @@ function MyWallet() {
   );
 }
 ```
+
+## Bundlers
+
+### Vite
+
+If you use vitejs as your bundler, in dev mode only, there is a [known bug regarding wasm modules dependcies](https://github.com/vitejs/vite/issues/8427).
+As a workaround, you can exclude the `@keyban/ecdsa-wasm-client` package from optimized dependencies by updating the your `vite.config.ts` file like so:
+
+```ts
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  // ...
+  optimizeDeps: {
+    exclude: ["@keyban/ecdsa-wasm-client"],
+  },
+});
+```
