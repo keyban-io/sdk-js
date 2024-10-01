@@ -13,6 +13,7 @@
     "url": "https://keyban.io"
   },
   "license": "Apache-2.0",
+  "type": "module",
   "types": "ecdsa_wasm_client.d.ts",
   "module": "ecdsa_wasm_client.js",
   "exports": {

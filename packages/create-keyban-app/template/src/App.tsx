@@ -1,10 +1,8 @@
-import './App.css'; // Fichier CSS séparé
+import { useAuth0 } from "@auth0/auth0-react";
+import Wallet from "./Wallet";
+import "./App.css";
 
-import { useAuth0 } from '@auth0/auth0-react';
-
-import Wallet from './Wallet';
-
-const App = () => {
+export default function App() {
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } =
     useAuth0();
 
@@ -43,6 +41,4 @@ const App = () => {
       )}
     </div>
   );
-};
-
-export default App;
+}

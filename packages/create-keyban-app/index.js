@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from "node:child_process";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as url from "node:url";
 
 // Function to display help information
 function displayHelp() {
@@ -22,31 +23,37 @@ Examples:
 }
 
 // Check for --help flag
-if (process.argv.includes('--help')) {
+if (process.argv.includes("--help")) {
   displayHelp();
   process.exit(0);
 }
 
 // Step 1: Get the project name from the command line arguments, or use 'my-app' as the default
-const projectName = process.argv[2] || 'my-app';
+const projectName = process.argv[2] || "my-app";
 
 // Step 2: Create a new Vite React project with TypeScript
-execSync(`npx create-vite@latest ${projectName} --template react-ts`, { stdio: 'inherit' });
+execSync(`npx create-vite@latest ${projectName} --template react-swc-ts`);
 
 // Step 3: Navigate into the project directory
 process.chdir(projectName);
 
 // Step 4: Install additional dependencies
-execSync('npm install react-error-boundary @auth0/auth0-react', { stdio: 'inherit' });
+execSync(
+  "npm install @keyban/sdk-react react-error-boundary @auth0/auth0-react",
+  { stdio: "inherit" },
+);
 
 // Step 5: Copy custom files into the src directory
-const srcPath = path.join(__dirname, 'template', 'src');
-const destPath = path.join(process.cwd(), 'src');
-
-// Copy the files from the template directory to the new project
-for (const file of fs.readdirSync(srcPath)) {
-    fs.copyFileSync(path.join(srcPath, file), path.join(destPath, file));
-}
+const templatePath = path.resolve(url.fileURLToPath(import.meta.url), "..", "template");
+fs.cpSync(
+  path.resolve(templatePath, "src"),
+  path.resolve(process.cwd(), "src"),
+  { recursive: true },
+);
+fs.cpSync(
+  path.resolve(templatePath, "vite.config.ts"),
+  path.resolve(process.cwd(), "vite.config.ts"),
+);
 
 // Step 7: Run the development server
-execSync('npm run dev', { stdio: 'inherit' });
+execSync("npm run dev", { stdio: "inherit" });
