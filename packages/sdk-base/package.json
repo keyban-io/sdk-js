@@ -14,10 +14,10 @@
     "url": "https://keyban.io"
   },
   "keywords": [
-    "hedera",
     "plygon",
     "ecdsa",
     "mpc",
+    "tss",
     "crypto"
   ],
   "license": "Apache-2.0",

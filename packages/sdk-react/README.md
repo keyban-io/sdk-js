@@ -2,22 +2,26 @@
 
 ## Overview
 
-React SDK for Keyban MPC wallet solution.
+React SDK for Keyban's MPC wallet solution, designed to facilitate easy integration of MPC wallets into React applications.
 
 ## Features
 
 - **TypeScript Support**: Fully typed with TypeScript for type safety and improved development experience.
-- **Bundling**: Uses tsup for efficient bundling.
+- **Flexible Storage**: While additional storage options are planned for future releases, you can start building with `KeybanLocalStorage` as the default storage mechanism.
+- **Blockchain Support**: Easily switch between supported testnet blockchains such as Ethereum Sepolia (Mainnet not yet available).
+- **Bundling**: Uses `tsup` for efficient bundling.
+- **Error Handling**: Built-in support for `react-error-boundary` to handle errors gracefully.
+- **Suspense API Compatibility**: Fully compatible with React's Suspense API for asynchronous data loading.
 
 ## Install
 
-```sh
+```bash
 npm i @keyban/sdk-react
 ```
 
-## Usage
+## Basic Usage
 
-Here's a basic example of how to use Keyban SDK React in your project:
+Here's a basic example of how to integrate Keyban SDK React into your project:
 
 ```tsx
 import React from "react";
@@ -27,14 +31,13 @@ import { KeybanProvider, KeybanChain, KeybanLocalStorage } from "@keyban/sdk-rea
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <KeybanProvider
-    appId="your keyban app ID"
+    appId="your-keyban-app-id"
     accessTokenProvider={async () => "user's access token"}
-    chain={KeybanChain.Sepolia}
-    storage={KeybanLocalStorage}
+    chain={KeybanChain.Sepolia}  {/* Choose Sepolia as the Mainnet is not yet supported */}
+    storage={KeybanLocalStorage}  {/* Use LocalStorage for now, more storage options coming soon */}
   >
-    {/* We recomend using react-error-boundary to handle errors */}
+    {/* We recommend using react-error-boundary to handle errors */}
     <ErrorBoundary fallbackRender={({ error }) => <pre>{error.message}</pre>}>
-      {/* Keyban SDK React is fully compatible with React's suspense API. */}
       <React.Suspense fallback="Loading...">
         <MyWallet />
       </React.Suspense>
@@ -57,12 +60,27 @@ function MyWallet() {
 }
 ```
 
+### Hooks and Components
+
+- **useKeybanAccount**: Retrieves account details for the user.
+- **useKeybanAccountBalance**: Fetches the account's balance. Both hooks are compatible with React's Suspense API.
+
+### Available Chains
+
+In this initial release, only testnets are supported:
+- `KeybanChain.Sepolia` (Ethereum testnet)
+
+Additional networks, including Ethereum Mainnet, will be available in future releases.
+
+### Custom Storage and Signing
+
+In this initial release, `KeybanLocalStorage` is available for storing account information. More storage options will be introduced in future releases to support various use cases. You can also implement your own storage solution by conforming to the `IKeybanStorage` interface.
+
 ## Bundlers
 
 ### Vite
 
-If you use vitejs as your bundler, in dev mode only, there is a [known bug regarding wasm modules dependcies](https://github.com/vitejs/vite/issues/8427).
-As a workaround, you can exclude the `@keyban/ecdsa-wasm-client` package from optimized dependencies by updating the your `vite.config.ts` file like so:
+If you are using Vite.js as your bundler, there is a [known bug regarding WebAssembly (WASM) module dependencies](https://github.com/vitejs/vite/issues/8427) in development mode only. As a workaround, you can exclude the `@keyban/ecdsa-wasm-client` package from optimized dependencies by updating your `vite.config.ts` file as follows:
 
 ```ts
 import { defineConfig } from "vite";
@@ -74,3 +92,25 @@ export default defineConfig({
   },
 });
 ```
+
+## Examples
+
+### Formatting a Balance
+
+The SDK provides a `FormattedBalance` component to display account balances in a readable format.
+
+```tsx
+import { FormattedBalance } from "@keyban/sdk-react";
+
+function BalanceDisplay() {
+  return (
+    <p>Native Balance: <FormattedBalance balance={BigInt(2e17)} /></p>
+  );
+}
+
+export default BalanceDisplay;
+```
+
+## Documentation
+
+For detailed documentation, please refer to the official [Keyban API Reference Portal](https://docs.demo.keyban.io/api/References).

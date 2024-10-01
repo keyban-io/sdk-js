@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "../../packages/sdk-base/src/*",
+        "../../packages/sdk-react/src/*"
+      ],
+      "@keyban/sdk-base": ["../../packages/sdk-base/src"],
+      "@keyban/sdk-react": ["../../packages/sdk-react/src"]
+    },
+    "jsx": "react-jsx" // Use the new JSX transform
+  },
+  "include": [
+    "../../packages/sdk-base/src/**/*.ts",
+    "../../packages/sdk-base/src/**/*.tsx",
+    "../../packages/sdk-react/src/**/*.ts",
+    "../../packages/sdk-react/src/**/*.tsx"
+  ]
+}

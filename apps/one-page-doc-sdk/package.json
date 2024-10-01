@@ -1,0 +1,17 @@
+{
+  "name": "one-page-doc-sdk",
+  "version": "1.0.0",
+  "description": "Generate the SDK doc on one page",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typedoc": "^0.26.7"
+  },
+  "devDependencies": {
+    "typedoc-plugin-markdown": "^4.2.8"
+  }
+}
