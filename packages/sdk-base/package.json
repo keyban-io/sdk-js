@@ -1,7 +1,7 @@
 {
   "name": "@keyban/sdk-base",
   "version": "0.0.0",
-  "description": "Base SDK from Keyban MPC wallet solution.",
+  "description": "Keyban SDK Base provides core functionalities for the MPC wallet solution, supporting web and Node.js apps with TypeScript, custom storage, and Ethereum blockchain integration.",
   "homepage": "https://docs.demo.keyban.io/",
   "author": {
     "name": "Keyban",
@@ -9,11 +9,15 @@
     "url": "https://keyban.io"
   },
   "keywords": [
-    "plygon",
+    "polygon",
     "ecdsa",
     "mpc",
     "tss",
-    "crypto"
+    "crypto",
+    "typescript",
+    "ethereum",
+    "wallet",
+    "blockchain"
   ],
   "license": "Apache-2.0",
   "types": "./dist/index.d.ts",
