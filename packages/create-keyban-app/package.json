@@ -1,11 +1,23 @@
 {
-  "name": "create-keyban-app",
+  "name": "@keyban/create-keyban-app",
   "version": "1.0.0",
   "description": "CLI to create a Keyban React app with Vite",
+  "author": {
+    "name": "Keyban",
+    "email": "it@keyban.io",
+    "url": "https://keyban.io"
+  },
+  "license": "Apache-2.0",
   "type": "module",
-  "main": "index.js",
-  "bin": {
-    "create-keyban-app": "./index.js"
+  "bin": "index.js",
+  "files": [
+    "template",
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "format": "prettier --write ./template ./index.js"
