@@ -2,12 +2,7 @@
   "name": "@keyban/sdk-base",
   "version": "0.0.0",
   "description": "Base SDK from Keyban MPC wallet solution.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/keyban-io/dap.git"
-  },
-  "homepage": "https://github.com/keyban-io/dap",
-  "bugs": "https://github.com/keyban-io/dap/issues",
+  "homepage": "https://docs.demo.keyban.io/",
   "author": {
     "name": "Keyban",
     "email": "it@keyban.io",

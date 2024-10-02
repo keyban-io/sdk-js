@@ -1,12 +1,7 @@
 {
   "name": "@keyban/ecdsa-wasm-client",
   "version": "0.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/keyban-io/dap.git"
-  },
-  "homepage": "https://github.com/keyban-io/dap",
-  "bugs": "https://github.com/keyban-io/dap/issues",
+  "homepage": "https://docs.demo.keyban.io/",
   "author": {
     "name": "Keyban",
     "email": "it@keyban.io",
