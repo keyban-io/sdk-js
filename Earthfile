@@ -40,10 +40,11 @@ sdk-build:
 
     RUN pnpm install
 
-    COPY +get-ecdsa-wasm/pkg/*  ./packages/ecdsa-wasm-client
-    COPY ./packages/sdk-base    ./packages/sdk-base
-    COPY ./packages/sdk-react   ./packages/sdk-react
-    COPY ./packages/mui-theme   ./packages/mui-theme
+    COPY +get-ecdsa-wasm/pkg/*         ./packages/ecdsa-wasm-client
+    COPY ./packages/sdk-base           ./packages/sdk-base
+    COPY ./packages/sdk-react          ./packages/sdk-react
+    COPY ./packages/mui-theme          ./packages/mui-theme
+    COPY ./packages/create-keyban-app  ./packages/create-keyban-app
 
     RUN pnpm -r build
 
