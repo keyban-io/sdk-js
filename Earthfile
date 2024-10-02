@@ -12,10 +12,11 @@ get-ecdsa-wasm:
 GET_PACKAGE_JSON:
     FUNCTION
     COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
-    COPY +get-ecdsa-wasm/pkg/package.json   ./packages/ecdsa-wasm-client/
-    COPY ./packages/sdk-base/package.json   ./packages/sdk-base/
-    COPY ./packages/sdk-react/package.json  ./packages/sdk-react/
-    COPY ./packages/mui-theme/package.json  ./packages/mui-theme/
+    COPY +get-ecdsa-wasm/pkg/package.json           ./packages/ecdsa-wasm-client/
+    COPY ./packages/sdk-base/package.json           ./packages/sdk-base/
+    COPY ./packages/sdk-react/package.json          ./packages/sdk-react/
+    COPY ./packages/mui-theme/package.json          ./packages/mui-theme/
+    COPY ./packages/create-keyban-app/package.json  ./packages/create-keyban-app/
 
 update-lock-file:
     FROM ../+node
