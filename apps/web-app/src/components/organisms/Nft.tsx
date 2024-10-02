@@ -6,6 +6,12 @@ import {
   useKeybanAccountNft,
 } from "@keyban/sdk-react";
 
+interface Metadata {
+  name?: string;
+  description?: string;
+  attributes?: { traitType: string; value: string }[];
+}
+
 export default function Nft() {
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
@@ -74,25 +80,29 @@ export default function Nft() {
             />
           </Row>
 
-          <Row style={{ marginBlockStart: "1em" }}>
-            <span>Name:</span>
-            <SerializedValue
-              value={metadata?.name}
-              style={{ flexGrow: 1 }}
-              data-test-id="Nft:metadata:name"
-            />
-          </Row>
+          {(metadata as Metadata).name && (
+            <Row>
+              <span>Name:</span>
+              <SerializedValue
+                value={(metadata as Metadata).name}
+                style={{ flexGrow: 1 }}
+                data-test-id="Nft:metadata:name"
+              />
+            </Row>
+          )}
 
-          <Row>
-            <span>Description:</span>
-            <SerializedValue
-              value={metadata?.description}
-              style={{ flexGrow: 1 }}
-              data-test-id="Nft:metadata:description"
-            />
-          </Row>
+          {(metadata as Metadata).description && (
+            <Row>
+              <span>Description:</span>
+              <SerializedValue
+                value={(metadata as Metadata).description}
+                style={{ flexGrow: 1 }}
+                data-test-id="Nft:metadata:description"
+              />
+            </Row>
+          )}
 
-          {metadata?.attributes?.map(({ traitType, value }, index) => (
+          {(metadata as Metadata).attributes?.map(({ traitType, value }, index) => (
             <fieldset
               key={index}
               data-test-id={`Nft:metadata:attributes:${index}`}

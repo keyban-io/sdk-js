@@ -35,14 +35,7 @@ query KeybanClient_addressNft($chainType: ChainType!, $address: Address!) {
       id
       imageUrl
       balance
-      metadata {
-        name
-        description
-        attributes {
-          traitType
-          value
-        }
-      }
+      metadata
     }
   }
 }

@@ -16,12 +16,7 @@ export type Scalars = {
   Float: { input: number; output: number; }
   Address: { input: Address; output: Address; }
   BigInt: { input: bigint; output: bigint; }
-};
-
-export type GqlAttribute = {
-  __typename?: 'Attribute';
-  traitType: Scalars['String']['output'];
-  value: Scalars['String']['output'];
+  JSON: { input: JSON; output: JSON; }
 };
 
 export type GqlChain = {
@@ -47,20 +42,12 @@ export enum GqlChainType {
   Sepolia = 'Sepolia'
 }
 
-export type GqlMetadata = {
-  __typename?: 'Metadata';
-  attributes?: Maybe<Array<GqlAttribute>>;
-  description?: Maybe<Scalars['String']['output']>;
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
 export type GqlNft = {
   __typename?: 'Nft';
   balance: Scalars['BigInt']['output'];
   id: Scalars['String']['output'];
   imageUrl?: Maybe<Scalars['String']['output']>;
-  metadata?: Maybe<GqlMetadata>;
+  metadata?: Maybe<Scalars['JSON']['output']>;
   token: GqlToken;
 };
 

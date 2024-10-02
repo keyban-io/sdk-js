@@ -6,6 +6,7 @@ const scalars = {
   Hash: "Hash",
   Hex: "Hex",
   BigInt: "bigint",
+  JSON: "JSON",
 };
 
 const config: CodegenConfig = {
