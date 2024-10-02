@@ -31,6 +31,15 @@ export default function Nft() {
         />
       </legend>
 
+      <Row>
+        <span>Count:</span>
+        <SerializedValue
+          value={nft.length}
+          style={{ flexGrow: 1 }}
+          data-test-id="Nft:count"
+        />
+      </Row>
+
       {nft.map(({ token, id, balance, imageUrl, metadata }) => (
         <fieldset
           key={`${token.address}:${id}`}
