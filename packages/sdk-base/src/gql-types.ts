@@ -21,14 +21,14 @@ export type Scalars = {
 
 export type GqlChain = {
   __typename?: 'Chain';
-  addressNft: Array<GqlNft>;
+  addressNfts: Array<GqlNft>;
   addressTokenBalances: Array<GqlTokenBalance>;
   rpcUrl: Scalars['String']['output'];
   type: GqlChainType;
 };
 
 
-export type GqlChainaddressNftArgs = {
+export type GqlChainaddressNftsArgs = {
   address: Scalars['Address']['input'];
 };
 
@@ -66,8 +66,8 @@ export type GqlToken = {
   address: Scalars['Address']['output'];
   decimals?: Maybe<Scalars['Int']['output']>;
   iconUrl?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
-  symbol: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  symbol?: Maybe<Scalars['String']['output']>;
 };
 
 export type GqlTokenBalance = {

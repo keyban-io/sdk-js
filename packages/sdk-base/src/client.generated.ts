@@ -24,8 +24,8 @@ export type GqlKeybanClient_addressTokenBalancesQuery = {
       balance: Types.Scalars['BigInt']['output'],
       token: {
         address: Types.Scalars['Address']['output'],
-        name: string,
-        symbol: string,
+        name?: string | null,
+        symbol?: string | null,
         decimals?: number | null,
         iconUrl?: string | null
       }
@@ -33,23 +33,23 @@ export type GqlKeybanClient_addressTokenBalancesQuery = {
   }
 };
 
-export type GqlKeybanClient_addressNftQueryVariables = Types.Exact<{
+export type GqlKeybanClient_addressNftsQueryVariables = Types.Exact<{
   chainType: Types.GqlChainType;
   address: Types.Scalars['Address']['input'];
 }>;
 
 
-export type GqlKeybanClient_addressNftQuery = {
+export type GqlKeybanClient_addressNftsQuery = {
   chain: {
-    addressNft: Array<{
+    addressNfts: Array<{
       id: string,
       imageUrl?: string | null,
       balance: Types.Scalars['BigInt']['output'],
       metadata?: Types.Scalars['JSON']['output'] | null,
       token: {
         address: Types.Scalars['Address']['output'],
-        name: string,
-        symbol: string,
+        name?: string | null,
+        symbol?: string | null,
         decimals?: number | null,
         iconUrl?: string | null
       }
@@ -81,10 +81,10 @@ export const KeybanClient_addressTokenBalancesDocument = `
   }
 }
     `;
-export const KeybanClient_addressNftDocument = `
-    query KeybanClient_addressNft($chainType: ChainType!, $address: Address!) {
+export const KeybanClient_addressNftsDocument = `
+    query KeybanClient_addressNfts($chainType: ChainType!, $address: Address!) {
   chain(type: $chainType) {
-    addressNft(address: $address) {
+    addressNfts(address: $address) {
       token {
         address
         name
@@ -109,8 +109,8 @@ export function getSdk<C>(requester: Requester<C>) {
     KeybanClient_addressTokenBalances(variables: GqlKeybanClient_addressTokenBalancesQueryVariables, options?: C): Promise<GqlKeybanClient_addressTokenBalancesQuery> {
       return requester<GqlKeybanClient_addressTokenBalancesQuery, GqlKeybanClient_addressTokenBalancesQueryVariables>(KeybanClient_addressTokenBalancesDocument, variables, options) as Promise<GqlKeybanClient_addressTokenBalancesQuery>;
     },
-    KeybanClient_addressNft(variables: GqlKeybanClient_addressNftQueryVariables, options?: C): Promise<GqlKeybanClient_addressNftQuery> {
-      return requester<GqlKeybanClient_addressNftQuery, GqlKeybanClient_addressNftQueryVariables>(KeybanClient_addressNftDocument, variables, options) as Promise<GqlKeybanClient_addressNftQuery>;
+    KeybanClient_addressNfts(variables: GqlKeybanClient_addressNftsQueryVariables, options?: C): Promise<GqlKeybanClient_addressNftsQuery> {
+      return requester<GqlKeybanClient_addressNftsQuery, GqlKeybanClient_addressNftsQueryVariables>(KeybanClient_addressNftsDocument, variables, options) as Promise<GqlKeybanClient_addressNftsQuery>;
     }
   };
 }

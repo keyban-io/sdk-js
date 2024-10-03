@@ -1,7 +1,4 @@
-import {
-  usePromise,
-  UsePromiseOptions,
-} from "~/promise";
+import { usePromise, UsePromiseOptions } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
 import { KeybanAccount } from "@keyban/sdk-base";
@@ -68,13 +65,13 @@ export function useKeybanAccountTokenBalances<B extends boolean>(
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountNft<B extends boolean>(
+export function useKeybanAccountNfts<B extends boolean>(
   account: KeybanAccount,
   options?: UsePromiseOptions<B>,
 ) {
   return usePromise(
     `account-nft:${account.sub}`,
-    () => account.getNft(),
+    () => account.getNfts(),
     options,
   );
 }

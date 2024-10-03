@@ -11,16 +11,8 @@ import {
   type Transport,
   type WalletClient,
 } from "viem";
-import {
-  SdkError,
-  SdkErrorTypes,
-} from "~/errors";
-import type {
-  Address,
-  Hash,
-  Hex,
-  KeybanClient,
-} from "~/index";
+import { SdkError, SdkErrorTypes } from "~/errors";
+import type { Address, Hash, Hex, KeybanClient } from "~/index";
 
 /**
  * Represents the estimation of the fees required for a token transfer.
@@ -142,8 +134,8 @@ export class KeybanAccount implements KeybanAccount {
    * @returns The account ERC721 and ERC1155 tokens.
    * @see {@link useKeybanAccountNft}
    */
-  async getNft() {
-    return this.#client.getNft(this.address);
+  async getNfts() {
+    return this.#client.getNfts(this.address);
   }
 
   /**
