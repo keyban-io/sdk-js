@@ -13,7 +13,7 @@ npm init @keyban/keyban-app
 
 The app will automatically launch, and you can access it by opening your browser at the URL shown in the terminal (usually `http://localhost:5173/`).
 
-### Steps in the browser:
+### Steps in the browser
 
 1. **Click "Login"**.
 2. **Login** using the default pre-configured account.
