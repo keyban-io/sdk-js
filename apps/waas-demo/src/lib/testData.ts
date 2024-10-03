@@ -1,31 +1,3 @@
-export const testNFTs = [
-  {
-    id: "1",
-    name: "NFT Artwork 1",
-    imageUrl: "./images/nft-1.webp",
-  },
-  {
-    id: "2",
-    name: "NFT Artwork 2",
-    imageUrl: "./images/nft-2.webp",
-  },
-  {
-    id: "3",
-    name: "NFT Artwork 3",
-    imageUrl: "./images/nft-3.webp",
-  },
-  {
-    id: "4",
-    name: "NFT Artwork 4",
-    imageUrl: "./images/nft-4.webp",
-  },
-  {
-    id: "5",
-    name: "NFT Artwork 5",
-    imageUrl: "./images/nft-5.webp",
-  },
-];
-
 export const testTransactions = [
   // Transactions existantes
   {

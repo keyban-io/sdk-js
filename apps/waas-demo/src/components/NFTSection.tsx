@@ -1,51 +1,96 @@
-import type React from 'react';
+import type React from "react";
 
+import { useNavigate } from "react-router-dom";
+
+import { useKeybanAccount, useKeybanAccountNft } from "@keyban/sdk-react";
 import {
+  Alert,
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
-  Stack,
+  Grid,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-interface NFT {
-  id: string;
-  name: string;
-  imageUrl: string;
-}
+const NFTSection: React.FC = () => {
+  const [account, accountError] = useKeybanAccount({ suspense: true });
+  if (accountError) throw accountError;
 
-interface NFTSectionProps {
-  nfts: NFT[];
-}
+  const [nfts, nftError] = useKeybanAccountNft(account, { suspense: true });
+  if (nftError) throw nftError;
 
-const NFTSection: React.FC<NFTSectionProps> = ({ nfts }) => {
-  const rows = Math.ceil(nfts.length / 3);
+  const navigate = useNavigate();
+
+  if (!nfts || nfts.length === 0) {
+    return (
+      <Alert severity="info">
+        <Typography variant="h6" component="div">
+          Aucun NFT disponible dans ce compte.
+        </Typography>
+      </Alert>
+    );
+  }
+
+  // Regrouper les NFTs par leur token.name (nom de la collection)
+  const nftCollections = nfts.reduce(
+    (acc, nft) => {
+      const collectionName = nft.token.name ?? "Collection Inconnue";
+      if (!acc[collectionName]) {
+        acc[collectionName] = [];
+      }
+      acc[collectionName].push(nft);
+      return acc;
+    },
+    {} as Record<string, typeof nfts>,
+  );
 
   return (
-    <Stack spacing={2} alignItems="center">
-      {Array.from({ length: rows }).map((_, rowIndex) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-        <Stack key={rowIndex} direction="row" spacing={2}>
-          {nfts.slice(rowIndex * 3, rowIndex * 3 + 3).map((nft) => (
-            <Card key={nft.id} sx={{ maxWidth: 200 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  image={nft.imageUrl}
-                  alt={nft.name}
-                />
-                <CardContent>
-                  <Typography variant="h5" component="div">
-                    {nft.name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
-        </Stack>
+    <div>
+      {Object.keys(nftCollections).map((collectionName) => (
+        <div key={collectionName} style={{ marginBottom: "2rem" }}>
+          <Typography variant="h4" component="div" sx={{ mb: 2 }}>
+            {collectionName}
+          </Typography>
+          <Grid container spacing={2}>
+            {nftCollections[collectionName].map((nft) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={nft.id}>
+                <Card
+                  sx={{
+                    maxWidth: 345,
+                    "&:hover": {
+                      boxShadow: 6,
+                      transform: "scale(1.02)",
+                      transition: "transform 0.2s",
+                    },
+                  }}
+                >
+                  <CardActionArea
+                    onClick={() => navigate(`/nft-details/${nft.id}`)}
+                  >
+                    <CardMedia
+                      component="img"
+                      image={nft.imageUrl ?? ""}
+                      alt={(nft.metadata as { name?: string })?.name ?? ""}
+                      loading="lazy"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {(nft.metadata as { name?: string })?.name ?? ""}
+                      </Typography>
+                      {/* Ajouter des informations supplémentaires si nécessaire */}
+                      <Typography variant="body2" color="text.secondary">
+                        ID: {nft.id}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </div>
       ))}
-    </Stack>
+    </div>
   );
 };
 

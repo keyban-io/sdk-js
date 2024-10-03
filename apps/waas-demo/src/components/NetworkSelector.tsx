@@ -1,4 +1,8 @@
 import type React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 import { KeybanChain } from '@keyban/sdk-react';
 import type { SelectChangeEvent } from '@mui/material';
@@ -19,21 +23,31 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
   selectedChainId,
   onSelectChain,
 }) => {
+  const [initialChain, setInitialChain] =
+    useState<KeybanChain>(selectedChainId);
+
+  useEffect(() => {
+    const savedChain = localStorage.getItem("selectedChain");
+    if (savedChain) {
+      setInitialChain(savedChain as KeybanChain);
+      onSelectChain(savedChain as KeybanChain);
+    }
+  }, [onSelectChain]);
+
   const handleChange = (event: SelectChangeEvent<KeybanChain>) => {
     const { value } = event.target;
     const chainId = value as KeybanChain;
     onSelectChain(chainId);
+    localStorage.setItem("selectedChain", chainId); // Sauvegarde dans le localStorage
   };
 
   const theme = useTheme();
 
   const currentDomain = window.location.hostname;
-
   const shouldExcludeKeybanTestnet =
     currentDomain === "waas-demo.keyban.io" ||
     currentDomain === "waas-demo.demo.keyban.io";
 
-  // Filtrer les chaînes en fonction du domaine
   const availableChains = shouldExcludeKeybanTestnet
     ? Object.values(KeybanChain).filter((chain) => chain !== "KeybanTestnet")
     : Object.values(KeybanChain);
@@ -45,7 +59,7 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
           variant="standard"
           id="network-select"
           label="Network"
-          value={selectedChainId}
+          value={initialChain}
           onChange={handleChange}
           labelId="network-select-label"
           inputProps={{ "aria-label": "Network Selector" }}

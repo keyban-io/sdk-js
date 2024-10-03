@@ -20,9 +20,8 @@ import {
 
 const AccountInfo: React.FC = () => {
   const navigate = useNavigate();
-  const [account, accountError] = useKeybanAccount({ suspense: true });
   const [openSnackbar, setOpenSnackbar] = useState(false); // État pour le Snackbar
-
+  const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
   const handleShareAddressClick = () => {

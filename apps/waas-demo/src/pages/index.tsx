@@ -25,10 +25,7 @@ import BalanceInfo from '../components/BalanceInfo';
 import NFTSection from '../components/NFTSection';
 import TokensSection from '../components/TokensSection';
 import TransactionList from '../components/TransactionList';
-import {
-  testNFTs,
-  testTransactions,
-} from '../lib/testData';
+import { testTransactions } from '../lib/testData';
 
 const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();
@@ -86,7 +83,7 @@ const WalletDashboardContent: React.FC = () => {
         <Divider />
         <TokensSection />
         <Divider />
-        <NFTSection nfts={testNFTs} />
+        <NFTSection />
         <Divider />
         <TransactionList transactions={testTransactions} />
         <Button variant="contained">Transaction History</Button>
