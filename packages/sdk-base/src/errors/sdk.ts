@@ -1,4 +1,4 @@
-import { KeybanBaseError } from "./base";
+import { KeybanBaseError } from './base';
 
 /**
  * @enum
@@ -27,6 +27,17 @@ export enum SdkErrorTypes {
   AmountInvalid = "AmountInvalid",
 
   /**
+   * Amount is required.
+   */
+  AmountRequired = "AmountRequired",
+
+  /**
+   * Amount is irrelevant and should not be provided.
+   */
+  AmountIrrelevant = "AmountIrrelevant",
+
+
+  /**
    * Recipient address same as sender address.
    */
   RecipientAddressEqualsSender = "RecipientAddressEqualsSender",
@@ -40,6 +51,11 @@ export enum SdkErrorTypes {
    * Insufficient funds.
    */
   InsufficientFunds = "InsufficientFunds",
+
+  /**
+   * InvalidNFTStandard.
+   */
+  InvalidNFTStandard = "InvalidNFTStandard",
 }
 
 export class SdkError extends KeybanBaseError<SdkErrorTypes> {
@@ -68,6 +84,12 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
       case SdkErrorTypes.AmountInvalid:
         return "Amount has to be greater than 0";
 
+      case SdkErrorTypes.AmountRequired:
+        return "Amount is required for this operation";
+
+      case SdkErrorTypes.AmountIrrelevant:
+        return "Amount is irrelevant and should not be provided";
+
       case SdkErrorTypes.RecipientAddressEqualsSender:
         return "Recipient address is the same as the sender";
 
@@ -76,6 +98,9 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
 
       case SdkErrorTypes.InsufficientFunds:
         return "Insufficient funds";
+
+      case SdkErrorTypes.InvalidNFTStandard:
+        return "Invalid NFT standard. Supported standards are: ERC721, ERC1155";
 
       default:
         return `Unknown error type: ${errorType}`;

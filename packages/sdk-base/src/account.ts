@@ -2,6 +2,7 @@ import {
   type Chain,
   ContractFunctionExecutionErrorType,
   erc20Abi,
+  erc721Abi,
   EstimateGasExecutionError,
   getContract,
   InsufficientFundsError,
@@ -11,8 +12,18 @@ import {
   type Transport,
   type WalletClient,
 } from "viem";
-import { SdkError, SdkErrorTypes } from "~/errors";
-import type { Address, Hash, Hex, KeybanClient } from "~/index";
+import {
+  SdkError,
+  SdkErrorTypes,
+} from "~/errors";
+import type {
+  Address,
+  Hash,
+  Hex,
+  KeybanClient,
+} from "~/index";
+
+import { ERC1155_ABI_TRANSFER_FROM } from "./const";
 
 /**
  * Represents the estimation of the fees required for a token transfer.
@@ -59,10 +70,37 @@ export type TransferERC20Params = {
 };
 
 /**
+ * Represents the parameters for transferring ERC721 and ERC1155 tokens.
+ * @property {Address} contractAddress - The address of the NFT contract
+ * @property {bigint} tokenId - The ID of the token
+ * @property {Address} to - The recipient's address
+ * @property {bigint} value - The transfer amount (for ERC1155 tokens)
+ * @property {TransactionOptions} txOptions - The transaction options
+ * @property {string} standard - The token standard (ERC721 or ERC1155)
+ * @see {@link KeybanAccount#transferNFT}
+ */
+export type TransferNFTParams = {
+  contractAddress: Address;
+  tokenId: bigint;
+  to: Address;
+  value?: bigint;
+  standard: 'ERC721' | 'ERC1155';
+  txOptions?: TransactionOptions;
+};
+
+/**
  * Represents the parameters for estimating the cost of transferring ERC20 tokens.
  */
 export type EstimateERC20TransferParams = Omit<
   TransferERC20Params,
+  "txOptions"
+>;
+
+/**
+ * Represents the parameters for estimating the cost of transferring ERC721 and ERC1155 tokens.
+ */
+export type EstimateNFTTransferParams = Omit<
+  TransferNFTParams,
   "txOptions"
 >;
 
@@ -332,6 +370,250 @@ export class KeybanAccount implements KeybanAccount {
           abi: erc20Abi,
           functionName: "transfer",
           args: [to, value],
+          account: this.address,
+        }),
+      ],
+    );
+
+    return {
+      maxFees: maxFeePerGas * gasCost,
+      details: {
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+        gasCost,
+      },
+    };
+  }
+
+
+  /**
+   * Transfers ERC721 and ERC1155 tokens to another address.
+   * @param param0 - The parameters for the NFT transfer.
+   * @returns A promise that resolves to the transaction hash.
+   * @throws {SdkError} If the recipient's address is invalid, the contract address is invalid, the transfer amount is invalid, or the token standard is invalid.
+   * @example
+   * ```ts
+   * const handleTransfer = async () => {
+   *  // account, recipient, contractAddress, tokenId, amount, standard, setTransactionHash are state variables
+   *  try {
+   *    const value = BigInt(amount);
+   *    const txHash = await account.transferNFT({
+   *      contractAddress: contractAddress as Address,
+   *      tokenId: tokenId as bigint,
+   *      to: recipient as Address,
+   *      value: value,
+   *      standard: standard as 'ERC721' | 'ERC1155',
+   *    });
+   *    setTransactionHash(txHash);
+   *  } catch (err) {
+   *    console.log(err);
+   *  }
+   * };
+   * ```
+   */
+  async transferNFT({
+    contractAddress,
+    tokenId,
+    to,
+    value,
+    standard,
+    txOptions,
+  }: TransferNFTParams): Promise<Hash> {
+    if (!isAddress(to)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanAccount.transferNFT",
+      );
+    }
+    if (!isAddress(contractAddress)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanAccount.transferNFT",
+      );
+    }
+    if (to === this.address) {
+      throw new SdkError(
+        SdkErrorTypes.RecipientAddressEqualsSender,
+        "KeybanAccount.transferNFT",
+      );
+    }
+
+    if (standard === "ERC1155") {
+      if (value === undefined) {
+        throw new SdkError(
+          SdkErrorTypes.AmountRequired,
+          "KeybanAccount.transferNFT",
+        );
+      }
+      if (value <= 0n) {
+        throw new SdkError(
+          SdkErrorTypes.AmountInvalid,
+          "KeybanAccount.transferNFT",
+        );
+      }
+      return this.#transferERC1155({ contractAddress, tokenId, value, to, txOptions });
+    }
+
+    if (standard === "ERC721") {
+      if (value !== undefined) {
+        throw new SdkError(
+          SdkErrorTypes.AmountIrrelevant,
+          "KeybanAccount.transferNFT",
+        );
+      }
+      return this.#transferERC721({ contractAddress, tokenId, to, txOptions });
+    }
+
+    throw new SdkError(
+      SdkErrorTypes.InvalidNFTStandard,
+      "KeybanAccount.transferNFT",
+    );
+  }
+
+  async #transferERC721({ contractAddress, tokenId, to, txOptions }: Omit<TransferNFTParams, 'value' | 'standard'>): Promise<Hash> {
+    const erc721Contract = getContract({
+      address: contractAddress,
+      abi: erc721Abi,
+      client: {
+        public: this.#publicClient,
+        wallet: this.#walletClient,
+      },
+    });
+
+    const from = this.address;
+    return erc721Contract.write
+      .transferFrom([from, to, tokenId], txOptions)
+      .catch((err: ContractFunctionExecutionErrorType) => {
+        switch (true) {
+          case err.cause.cause instanceof InsufficientFundsError:
+          case err.cause.cause instanceof EstimateGasExecutionError:
+            throw new SdkError(
+              SdkErrorTypes.InsufficientFunds,
+              "KeybanAccount.transferNFT",
+            );
+
+          default:
+            throw err.cause;
+        }
+      });
+  }
+
+  async #transferERC1155({ contractAddress, tokenId, value, to, txOptions }: Omit<TransferNFTParams, 'standard'>): Promise<Hash> {
+    const erc1155Contract = getContract({
+      address: contractAddress,
+      abi: ERC1155_ABI_TRANSFER_FROM,
+      client: {
+        public: this.#publicClient,
+        wallet: this.#walletClient,
+      },
+    });
+
+    const from = this.address;
+    return erc1155Contract.write
+      .safeTransferFrom([from, to, tokenId, value, ""], txOptions)
+      .catch((err: ContractFunctionExecutionErrorType) => {
+        switch (true) {
+          case err.cause.cause instanceof InsufficientFundsError:
+          case err.cause.cause instanceof EstimateGasExecutionError:
+            throw new SdkError(
+              SdkErrorTypes.InsufficientFunds,
+              "KeybanAccount.transferNFT",
+            );
+
+          default:
+            throw err.cause;
+        }
+      });
+  }
+
+  /**
+   * Estimates the cost of transferring ERC721 and ERC1155 tokens to another address.
+   * @param param0 - The parameters for estimating the NFT transfer.
+   * @returns A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @throws {Error} If there is an issue with estimating the gas or fees.
+   * @example
+   * ```ts
+   * const handleEstimate = async () => {
+   *  // account, recipient, contractAddress, tokenId, amount, standard, setTransferCost are state variables
+   *  try {
+   *  const value = BigInt(amount);
+   *  const estimation = await account.estimateNFTTransfer({
+   *    contractAddress: contractAddress as Address,
+   *    tokenId: tokenId as bigint,
+   *    to: recipient as Address,
+   *    value: value,
+   *    standard: standard as 'ERC721' | 'ERC1155',
+   *  });
+   *  setTransferCost(estimation.maxFees.toString());
+   *  } catch (err) {
+   *    console.log(err);
+   *  }
+   * };
+   * ```
+   */
+  async estimateNFTTransfer({
+    standard,
+    contractAddress,
+    tokenId,
+    to,
+    value,
+  }: EstimateNFTTransferParams): Promise<FeesEstimation> {
+    if (standard === "ERC1155") {
+      return this.#estimateERC1155Transfer({ contractAddress, tokenId, to, value });
+    }
+    if (standard === "ERC721") {
+      return this.#estimateERC721Transfer({ contractAddress, tokenId, to });
+    }
+    throw new SdkError(
+      SdkErrorTypes.InvalidNFTStandard,
+      "KeybanAccount.estimateNFTTransfer",
+    );
+  }
+
+  async #estimateERC721Transfer({
+    contractAddress,
+    tokenId,
+    to,
+  }: Omit<EstimateNFTTransferParams, 'standard' | 'value'>): Promise<FeesEstimation> {
+    const from = this.address;
+    const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
+      [
+        this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
+        this.#publicClient.estimateContractGas({
+          address: contractAddress,
+          abi: erc721Abi,
+          functionName: "transferFrom",
+          args: [from, to, tokenId],
+          account: this.address,
+        }),
+      ],
+    );
+
+    return {
+      maxFees: maxFeePerGas * gasCost,
+      details: {
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+        gasCost,
+      },
+    };
+  }
+
+  async #estimateERC1155Transfer({
+    contractAddress,
+    tokenId,
+    to,
+    value,
+  }: Omit<EstimateNFTTransferParams, 'standard'>): Promise<FeesEstimation> {
+    const from = this.address;
+    const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
+      [
+        this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
+        this.#publicClient.estimateContractGas({
+          address: contractAddress,
+          abi: ERC1155_ABI_TRANSFER_FROM,
+          functionName: "safeTransferFrom",
+          args: [from, to, tokenId, value, ""],
           account: this.address,
         }),
       ],
