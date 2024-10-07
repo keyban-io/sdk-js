@@ -1,17 +1,18 @@
-import React from "react";
+import React from 'react';
 
-import SerializedValue from "@/components/atoms/SerializedValue";
-import AccountInfo from "@/components/organisms/AccountInfo";
-import ApiStatus from "@/components/organisms/ApiStatus";
-import Balance from "@/components/organisms/Balance";
-import NativeCurrency from "@/components/organisms/NativeCurrency";
-import NativeTransfer from "@/components/organisms/NativeTransfer";
-import Signature from "@/components/organisms/Signature";
-import TokenBalances from "@/components/organisms/TokenBalances";
-import { useKeybanClient } from "@keyban/sdk-react";
+import SerializedValue from '@/components/atoms/SerializedValue';
+import AccountInfo from '@/components/organisms/AccountInfo';
+import ApiStatus from '@/components/organisms/ApiStatus';
+import Balance from '@/components/organisms/Balance';
+import NativeCurrency from '@/components/organisms/NativeCurrency';
+import NativeTransfer from '@/components/organisms/NativeTransfer';
+import Signature from '@/components/organisms/Signature';
+import TokenBalances from '@/components/organisms/TokenBalances';
+import { useKeybanClient } from '@keyban/sdk-react';
 
-import ERC20Transfer from "./components/organisms/ERC20Transfer";
-import Nft from "./components/organisms/Nft";
+import ERC20Transfer from './components/organisms/ERC20Transfer';
+import Nft from './components/organisms/Nft';
+import NFTTransfer from './components/organisms/NFTTransfer';
 
 export default function KeybanTest() {
   const client = useKeybanClient();
@@ -47,6 +48,7 @@ export default function KeybanTest() {
           <TokenBalances />
           <ERC20Transfer />
           <Nft />
+          <NFTTransfer />
         </React.Suspense>
       )}
     </>
