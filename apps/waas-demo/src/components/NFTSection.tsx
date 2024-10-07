@@ -26,7 +26,7 @@ const NFTSection: React.FC = () => {
     return (
       <Alert severity="info">
         <Typography variant="h6" component="div">
-          Aucun NFT disponible dans ce compte.
+          No NFTs available in this account.
         </Typography>
       </Alert>
     );
@@ -35,7 +35,7 @@ const NFTSection: React.FC = () => {
   // Regrouper les NFTs par leur token.name (nom de la collection)
   const nftCollections = nfts.reduce(
     (acc, nft) => {
-      const collectionName = nft.token.name ?? "Collection Inconnue";
+      const collectionName = nft.token.name ?? "Unknown collection";
       if (!acc[collectionName]) {
         acc[collectionName] = [];
       }
