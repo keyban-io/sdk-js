@@ -61,7 +61,7 @@ export function useKeybanAccountTokenBalances<B extends boolean>(
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountNft(account);
+ * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountNfts(account);
  * ```
  * @see {@link useFormattedBalance}
  */

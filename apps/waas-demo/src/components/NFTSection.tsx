@@ -2,7 +2,7 @@ import type React from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { useKeybanAccount, useKeybanAccountNft } from "@keyban/sdk-react";
+import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
 import {
   Alert,
   Card,
@@ -17,7 +17,7 @@ const NFTSection: React.FC = () => {
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
-  const [nfts, nftError] = useKeybanAccountNft(account, { suspense: true });
+  const [nfts, nftError] = useKeybanAccountNfts(account, { suspense: true });
   if (nftError) throw nftError;
 
   const navigate = useNavigate();

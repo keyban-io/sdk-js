@@ -1,6 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useKeybanAccount, useKeybanAccountNft } from "@keyban/sdk-react";
+import {
+  type KeybanNft,
+  useKeybanAccount,
+  useKeybanAccountNfts,
+} from "@keyban/sdk-react";
 import {
   Alert,
   Button,
@@ -14,21 +18,10 @@ import {
   Typography,
 } from "@mui/material";
 
-type Nft = {
-  id: string;
-  imageUrl: string;
-  token: {
-    name: string; // Nom de la collection
-  };
-  metadata?: {
-    name: string; // Nom du NFT
-    description?: string;
-    attributes?: {
-      traitType: string;
-      value: string;
-    }[];
-  } | null;
-};
+interface NftMetadata {
+  name?: string;
+  description?: string;
+}
 
 const NftDetailsPage = () => {
   const { nftId } = useParams();
@@ -41,11 +34,13 @@ const NftDetailsPage = () => {
   if (accountError) throw accountError;
 
   // Récupérer la liste des NFTs associés à ce compte
-  const [nfts, nftError] = useKeybanAccountNft(account, { suspense: true });
+  const [nfts, nftError] = useKeybanAccountNfts(account, { suspense: true });
   if (nftError) throw nftError;
 
   // Trouver le NFT spécifique par son ID
-  const nft = nfts?.find((nft) => nft.id === nftId) as Nft | undefined;
+  const nft = nfts?.find((nft) => nft.id === nftId) as KeybanNft | undefined;
+
+  const metadata = nft?.metadata as NftMetadata;
 
   if (!nft) {
     return (
@@ -70,7 +65,7 @@ const NftDetailsPage = () => {
                 <CardMedia
                   component="img"
                   image={nft.imageUrl}
-                  alt={nft.metadata?.name}
+                  alt={metadata.name}
                   sx={{ width: "100%", borderRadius: 2 }}
                 />
               ) : (
@@ -85,20 +80,25 @@ const NftDetailsPage = () => {
                 </Typography>
                 {/* Affichage du nom du NFT */}
                 <Typography variant="h4" component="div" gutterBottom>
-                  {nft.metadata?.name}
+                  {metadata.name}
                 </Typography>
                 <Typography
                   variant="body1"
                   color="text.secondary"
                   sx={{ marginBottom: 2 }}
                 >
-                  {nft.metadata?.description}
+                  {metadata.description}
                 </Typography>
 
                 <Stack spacing={1}>
-                  {nft.metadata?.attributes?.map((attribute, index) => (
+                  {(
+                    nft.metadata as {
+                      attributes?: { trait_type: string; value: string }[];
+                    }
+                  )?.attributes?.map((attribute, index) => (
                     <Typography key={index}>
-                      <strong>{attribute.traitType} :</strong> {attribute.value}
+                      <strong>{attribute.trait_type} :</strong>{" "}
+                      {attribute.value}
                     </Typography>
                   ))}
                 </Stack>

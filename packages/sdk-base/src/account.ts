@@ -132,7 +132,7 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * @returns The account ERC721 and ERC1155 tokens.
-   * @see {@link useKeybanAccountNft}
+   * @see {@link useKeybanAccountNfts}
    */
   async getNfts() {
     return this.#client.getNfts(this.address);
