@@ -1,10 +1,7 @@
 import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
-import {
-  useKeybanAccount,
-  useKeybanAccountNfts,
-} from "@keyban/sdk-react";
+import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
 
 export default function Nft() {
   const [account, accountError] = useKeybanAccount({ suspense: true });
@@ -48,6 +45,15 @@ export default function Nft() {
               value={nft.token.address}
               style={{ flexGrow: 1 }}
               data-test-id="Nft:token:address"
+            />
+          </Row>
+
+          <Row>
+            <span>Image URL:</span>
+            <SerializedValue
+              value={nft.token.address}
+              style={{ flexGrow: 1 }}
+              data-test-id="Nft:token:imageUrl"
             />
           </Row>
 

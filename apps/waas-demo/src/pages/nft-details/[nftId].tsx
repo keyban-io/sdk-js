@@ -18,26 +18,36 @@ import {
   Typography,
 } from "@mui/material";
 
+interface NftMetadataProperty {
+  type: string;
+  description: string;
+  value: string;
+}
+
 interface NftMetadata {
   name?: string;
   description?: string;
+  image?: string;
+  properties?: {
+    [key: string]: NftMetadataProperty;
+  };
 }
 
 const NftDetailsPage = () => {
   const { nftId } = useParams();
   const navigate = useNavigate();
 
-  // Récupérer le compte
+  // Retrieve the account
   const [account, accountError] = useKeybanAccount({
     suspense: true,
   });
   if (accountError) throw accountError;
 
-  // Récupérer la liste des NFTs associés à ce compte
+  // Retrieve the list of NFTs associated with this account
   const [nfts, nftError] = useKeybanAccountNfts(account, { suspense: true });
   if (nftError) throw nftError;
 
-  // Trouver le NFT spécifique par son ID
+  // Find the specific NFT by its ID
   const nft = nfts?.find((nft) => nft.id === nftId) as KeybanNft | undefined;
 
   const metadata = nft?.metadata as NftMetadata;
@@ -61,10 +71,10 @@ const NftDetailsPage = () => {
         <Card sx={{ padding: 2 }}>
           <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
-              {nft.imageUrl ? (
+              {metadata.image ? (
                 <CardMedia
                   component="img"
-                  image={nft.imageUrl}
+                  image={metadata.image}
                   alt={metadata.name}
                   sx={{ width: "100%", borderRadius: 2 }}
                 />
@@ -74,11 +84,11 @@ const NftDetailsPage = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <CardContent>
-                {/* Affichage du nom de la collection */}
+                {/* Display the collection name */}
                 <Typography variant="h6" color="textSecondary">
-                  Collection : {nft.token.name}
+                  Collection: {metadata.properties?.collection?.value}
                 </Typography>
-                {/* Affichage du nom du NFT */}
+                {/* Display the NFT name */}
                 <Typography variant="h4" component="div" gutterBottom>
                   {metadata.name}
                 </Typography>
@@ -91,16 +101,15 @@ const NftDetailsPage = () => {
                 </Typography>
 
                 <Stack spacing={1}>
-                  {(
-                    nft.metadata as {
-                      attributes?: { trait_type: string; value: string }[];
-                    }
-                  )?.attributes?.map((attribute, index) => (
-                    <Typography key={index}>
-                      <strong>{attribute.trait_type} :</strong>{" "}
-                      {attribute.value}
-                    </Typography>
-                  ))}
+                  {metadata.properties &&
+                    Object.entries(metadata.properties)
+                      .filter(([key]) => key !== "collection") // Exclude the 'collection' property
+                      .map(([key, prop], index) => (
+                        <Typography key={index}>
+                          <strong>{key.replace(/_/g, " ")}:</strong>{" "}
+                          {prop.value}
+                        </Typography>
+                      ))}
                 </Stack>
               </CardContent>
             </Grid>

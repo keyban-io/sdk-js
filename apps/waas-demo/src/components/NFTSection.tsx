@@ -13,6 +13,21 @@ import {
   Typography,
 } from "@mui/material";
 
+interface NftMetadataProperty {
+  type: string;
+  description: string;
+  value: string;
+}
+
+interface NftMetadata {
+  name?: string;
+  description?: string;
+  image?: string;
+  properties?: {
+    [key: string]: NftMetadataProperty;
+  };
+}
+
 const NFTSection: React.FC = () => {
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
@@ -32,10 +47,12 @@ const NFTSection: React.FC = () => {
     );
   }
 
-  // Regrouper les NFTs par leur token.name (nom de la collection)
+  // Group NFTs by their collection name from metadata properties
   const nftCollections = nfts.reduce(
     (acc, nft) => {
-      const collectionName = nft.token.name ?? "Unknown collection";
+      const metadata = nft.metadata as NftMetadata;
+      const collectionName =
+        metadata.properties?.collection?.value ?? "Unknown Collection";
       if (!acc[collectionName]) {
         acc[collectionName] = [];
       }
@@ -53,40 +70,43 @@ const NFTSection: React.FC = () => {
             {collectionName}
           </Typography>
           <Grid container spacing={2}>
-            {nftCollections[collectionName].map((nft) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={nft.id}>
-                <Card
-                  sx={{
-                    maxWidth: 345,
-                    "&:hover": {
-                      boxShadow: 6,
-                      transform: "scale(1.02)",
-                      transition: "transform 0.2s",
-                    },
-                  }}
-                >
-                  <CardActionArea
-                    onClick={() => navigate(`/nft-details/${nft.id}`)}
+            {nftCollections[collectionName].map((nft) => {
+              const metadata = nft.metadata as NftMetadata;
+              return (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={nft.id}>
+                  <Card
+                    sx={{
+                      maxWidth: 345,
+                      "&:hover": {
+                        boxShadow: 6,
+                        transform: "scale(1.02)",
+                        transition: "transform 0.2s",
+                      },
+                    }}
                   >
-                    <CardMedia
-                      component="img"
-                      image={nft.imageUrl ?? ""}
-                      alt={(nft.metadata as { name?: string })?.name ?? ""}
-                      loading="lazy"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {(nft.metadata as { name?: string })?.name ?? ""}
-                      </Typography>
-                      {/* Ajouter des informations supplémentaires si nécessaire */}
-                      <Typography variant="body2" color="text.secondary">
-                        ID: {nft.id}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
+                    <CardActionArea
+                      onClick={() => navigate(`/nft-details/${nft.id}`)}
+                    >
+                      <CardMedia
+                        component="img"
+                        image={metadata.image ?? ""}
+                        alt={metadata.name ?? ""}
+                        loading="lazy"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {metadata.name ?? ""}
+                        </Typography>
+                        {/* Add additional information if necessary */}
+                        <Typography variant="body2" color="text.secondary">
+                          ID: {nft.id}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              );
+            })}
           </Grid>
         </div>
       ))}

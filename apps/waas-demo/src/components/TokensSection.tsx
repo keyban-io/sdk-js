@@ -59,7 +59,9 @@ const TokensSection: React.FC = () => {
                 }}
               >
                 <Typography variant="h5" component="div">
-                  {balance.token.name}
+                  {balance.token.name
+                    ? balance.token.name
+                    : balance.token.address}
                 </Typography>
                 <Stack
                   direction="row"
