@@ -75,7 +75,7 @@ const NFTSection: React.FC = () => {
           <Typography variant="h4" component="div" sx={{ mb: 2 }}>
             {collectionName}
           </Typography>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} alignItems="stretch">
             {nftCollections[collectionName].map((nft) => {
               const metadata = nft.metadata as NftMetadata;
               return (
@@ -83,6 +83,9 @@ const NFTSection: React.FC = () => {
                   <Card
                     sx={{
                       maxWidth: 345,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
                       "&:hover": {
                         boxShadow: 6,
                         transform: "scale(1.02)",
@@ -92,23 +95,37 @@ const NFTSection: React.FC = () => {
                   >
                     <CardActionArea
                       onClick={() => navigate(`/nft-details/${nft.id}`)}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        flexGrow: 1,
+                      }}
                     >
                       <CardMedia
                         component="img"
                         image={metadata?.image ?? ""}
                         alt={metadata?.name ?? ""}
                         loading="lazy"
+                        sx={{
+                          height: 200,
+                          width: "100%",
+                          objectFit: "cover",
+                        }}
                       />
-                      <CardContent>
+                      <CardContent sx={{ flexGrow: 1 }}>
                         <Typography gutterBottom variant="h5" component="div">
                           {metadata?.name ?? ""}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           ID: {nft.id}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Balance:{nft.balance.toString()}
-                        </Typography>
+
+                        {/* Afficher le balance uniquement s'il est supérieur à 1 */}
+                        {Number.parseInt(nft.balance.toString(), 10) > 1 && (
+                          <Typography variant="body2" color="text.secondary">
+                            Balance: {nft.balance.toString()}
+                          </Typography>
+                        )}
                       </CardContent>
                     </CardActionArea>
                   </Card>

@@ -1,4 +1,7 @@
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 import {
   type KeybanNft,
@@ -92,6 +95,7 @@ const NftDetailsPage = () => {
                 <Typography variant="h4" component="div" gutterBottom>
                   {metadata.name}
                 </Typography>
+
                 <Typography
                   variant="body1"
                   color="text.secondary"
@@ -99,7 +103,10 @@ const NftDetailsPage = () => {
                 >
                   {metadata.description}
                 </Typography>
-
+                {/* Display the balance */}
+                <Typography variant="body1" color="textSecondary">
+                  Balance: {nft.balance.toString()}
+                </Typography>
                 <Stack spacing={1}>
                   {metadata.properties &&
                     Object.entries(metadata.properties)
