@@ -1,8 +1,12 @@
-import type React from "react";
+import React from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
+import {
+  type KeybanNft,
+  useKeybanAccount,
+  useKeybanAccountNfts,
+} from "@keyban/sdk-react";
 import {
   Alert,
   Card,
@@ -32,7 +36,9 @@ const NFTSection: React.FC = () => {
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
-  const [nfts, nftError] = useKeybanAccountNfts(account, { suspense: true });
+  const [nfts, nftError] = useKeybanAccountNfts(account, {
+    suspense: true,
+  });
   if (nftError) throw nftError;
 
   const navigate = useNavigate();
@@ -52,14 +58,14 @@ const NFTSection: React.FC = () => {
     (acc, nft) => {
       const metadata = nft.metadata as NftMetadata;
       const collectionName =
-        metadata.properties?.collection?.value ?? "Unknown Collection";
+        metadata?.properties?.collection?.value ?? "Unknown Collection";
       if (!acc[collectionName]) {
         acc[collectionName] = [];
       }
       acc[collectionName].push(nft);
       return acc;
     },
-    {} as Record<string, typeof nfts>,
+    {} as Record<string, KeybanNft[]>,
   );
 
   return (
@@ -89,17 +95,19 @@ const NFTSection: React.FC = () => {
                     >
                       <CardMedia
                         component="img"
-                        image={metadata.image ?? ""}
-                        alt={metadata.name ?? ""}
+                        image={metadata?.image ?? ""}
+                        alt={metadata?.name ?? ""}
                         loading="lazy"
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                          {metadata.name ?? ""}
+                          {metadata?.name ?? ""}
                         </Typography>
-                        {/* Add additional information if necessary */}
                         <Typography variant="body2" color="text.secondary">
                           ID: {nft.id}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Balance:{nft.balance.toString()}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
