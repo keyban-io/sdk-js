@@ -18,6 +18,7 @@ import {
   CardMedia,
   Grid,
   IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
 
@@ -133,18 +134,20 @@ const NFTSection: React.FC = () => {
                         )}
                       </CardContent>
                     </CardActionArea>
-                    <CardActions>
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() =>
-                          navigate("/transfer-nft", {
-                            state: { nftId: nft.id },
-                          })
-                        }
-                      >
-                        <FontAwesomeIcon icon={faPaperPlane} />
-                      </IconButton>
+                    <CardActions sx={{ justifyContent: "flex-end" }}>
+                      <Tooltip title="Transfer NFT">
+                        <IconButton
+                          size="small"
+                          color="primary"
+                          onClick={() =>
+                            navigate("/transfer-nft", {
+                              state: { nftId: nft.id },
+                            })
+                          }
+                        >
+                          <FontAwesomeIcon icon={faPaperPlane} />
+                        </IconButton>
+                      </Tooltip>
                     </CardActions>
                   </Card>
                 </Grid>

@@ -191,7 +191,7 @@ const TransferNFT: React.FC = () => {
                       alt={metadata?.name ?? "NFT Image"}
                       sx={{
                         width: "100%",
-                        height: 300,
+                        height: 400,
                         objectFit: "cover",
                         borderRadius: 2,
                       }}
