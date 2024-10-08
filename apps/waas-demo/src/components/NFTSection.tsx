@@ -1,7 +1,9 @@
-import React from "react";
+import type React from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   type KeybanNft,
   useKeybanAccount,
@@ -11,9 +13,11 @@ import {
   Alert,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardMedia,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 
@@ -53,7 +57,7 @@ const NFTSection: React.FC = () => {
     );
   }
 
-  // Group NFTs by their collection name from metadata properties
+  // Regrouper les NFTs par nom de collection
   const nftCollections = nfts.reduce(
     (acc, nft) => {
       const metadata = nft.metadata as NftMetadata;
@@ -77,6 +81,7 @@ const NFTSection: React.FC = () => {
           </Typography>
           <Grid container spacing={2} alignItems="stretch">
             {nftCollections[collectionName].map((nft) => {
+              console.log(nft);
               const metadata = nft.metadata as NftMetadata;
               return (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={nft.id}>
@@ -128,6 +133,19 @@ const NFTSection: React.FC = () => {
                         )}
                       </CardContent>
                     </CardActionArea>
+                    <CardActions>
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        onClick={() =>
+                          navigate("/transfer-nft", {
+                            state: { nftId: nft.id },
+                          })
+                        }
+                      >
+                        <FontAwesomeIcon icon={faPaperPlane} />
+                      </IconButton>
+                    </CardActions>
                   </Card>
                 </Grid>
               );

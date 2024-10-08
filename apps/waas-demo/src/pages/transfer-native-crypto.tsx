@@ -74,7 +74,7 @@ const TransferNativeCrypto: React.FC = () => {
       }
     };
     estimateFeesAsync();
-  }, [debouncedRecipient, account, client, dispatch]);
+  }, [debouncedRecipient, account, dispatch]);
 
   const handleTransfer = async () => {
     dispatch({ type: "START_TRANSFER" });

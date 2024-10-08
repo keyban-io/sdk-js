@@ -1,3 +1,5 @@
+import type React from "react";
+
 import {
   useNavigate,
   useParams,
@@ -36,8 +38,8 @@ interface NftMetadata {
   };
 }
 
-const NftDetailsPage = () => {
-  const { nftId } = useParams();
+const NftDetailsPage: React.FC = () => {
+  const { nftId } = useParams<{ nftId: string }>();
   const navigate = useNavigate();
 
   // Retrieve the account
@@ -107,12 +109,12 @@ const NftDetailsPage = () => {
                 <Typography variant="body1" color="textSecondary">
                   Balance: {nft.balance.toString()}
                 </Typography>
-                <Stack spacing={1}>
+                <Stack spacing={1} sx={{ marginTop: 2 }}>
                   {metadata.properties &&
                     Object.entries(metadata.properties)
                       .filter(([key]) => key !== "collection") // Exclude the 'collection' property
-                      .map(([key, prop], index) => (
-                        <Typography key={index}>
+                      .map(([key, prop]) => (
+                        <Typography key={nft.id + nft.token.address}>
                           <strong>{key.replace(/_/g, " ")}:</strong>{" "}
                           {prop.value}
                         </Typography>
@@ -123,10 +125,27 @@ const NftDetailsPage = () => {
           </Grid>
         </Card>
 
-        <Stack direction="row" justifyContent="center" sx={{ marginTop: 4 }}>
+        {/* Add Transfer NFT Button */}
+        <Stack
+          direction="row"
+          justifyContent="center"
+          sx={{ marginTop: 4 }}
+          spacing={2}
+        >
           <Button
             variant="contained"
             color="primary"
+            onClick={() =>
+              navigate("/transfer-nft", {
+                state: { nftId: nft.id },
+              })
+            }
+          >
+            Transfer NFT
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
             onClick={() => navigate("/")}
           >
             Back to Dashboard
