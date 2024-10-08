@@ -1,4 +1,4 @@
-import { KeybanBaseError } from './base';
+import { KeybanBaseError } from "./base";
 
 /**
  * @enum
@@ -56,6 +56,11 @@ export enum SdkErrorTypes {
    * InvalidNFTStandard.
    */
   InvalidNFTStandard = "InvalidNFTStandard",
+
+  /**
+   * NFTNotFound.
+   */
+  NFTNotFound = "NFTNotFound",
 }
 
 export class SdkError extends KeybanBaseError<SdkErrorTypes> {
@@ -101,6 +106,9 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
 
       case SdkErrorTypes.InvalidNFTStandard:
         return "Invalid NFT standard. Supported standards are: ERC721, ERC1155";
+
+        case SdkErrorTypes.NFTNotFound:
+          return "NFT not found";
 
       default:
         return `Unknown error type: ${errorType}`;

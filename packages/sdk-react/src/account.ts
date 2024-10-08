@@ -1,7 +1,13 @@
-import { usePromise, UsePromiseOptions } from "~/promise";
+import {
+  usePromise,
+  UsePromiseOptions,
+} from "~/promise";
 import { useKeybanClient } from "~/provider";
 
-import { KeybanAccount } from "@keyban/sdk-base";
+import {
+  Address,
+  KeybanAccount,
+} from "@keyban/sdk-base";
 
 /**
  * Fetches the account information.
@@ -70,8 +76,31 @@ export function useKeybanAccountNfts<B extends boolean>(
   options?: UsePromiseOptions<B>,
 ) {
   return usePromise(
-    `account-nft:${account.sub}`,
+    `account-nfts:${account.sub}`,
     () => account.getNfts(),
+    options,
+  );
+}
+
+/**
+ * Return one ERC721 or ERC1155 token of an account.
+ *
+ * @example
+ * ```tsx
+ * const [account, accountError] = useKeybanAccount();
+ * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountNft(account, tokenAddress, tokenId);
+ * ```
+ * @see {@link useFormattedBalance}
+ */
+export function useKeybanAccountNft<B extends boolean>(
+  account: KeybanAccount,
+  tokenAddress: Address,
+  tokenId: string,
+  options?: UsePromiseOptions<B>,
+) {
+  return usePromise(
+    `account-nft:${account.sub}`,
+    () => account.getNft(tokenAddress, tokenId),
     options,
   );
 }

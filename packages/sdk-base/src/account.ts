@@ -177,6 +177,14 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
+   * @returns The account ERC721 and ERC1155 token balances.
+   * @see {@link useKeybanAccountNftBalances}
+   */
+  async getNft(tokenAddress: Address, tokenId: string) {
+    return this.#client.getNft(this.address, tokenAddress, tokenId);
+  }
+
+  /**
    * Transfers native tokens to another address.
    *
    * @param to - The recipient's address.

@@ -1,16 +1,27 @@
-import type { Chain, PublicClient, Transport } from "viem";
+import type {
+  Chain,
+  PublicClient,
+  Transport,
+} from "viem";
 import {
   createPublicClient,
   createWalletClient,
   hashMessage,
   hashTypedData,
   http,
+  isAddress,
   keccak256,
   parseSignature,
   serializeTransaction,
 } from "viem";
-import { publicKeyToAddress, toAccount } from "viem/accounts";
-import { signersChainMap, viemChainsMap } from "~/chains";
+import {
+  publicKeyToAddress,
+  toAccount,
+} from "viem/accounts";
+import {
+  signersChainMap,
+  viemChainsMap,
+} from "~/chains";
 import type {
   GqlKeybanClient_addressNftsQuery,
   GqlKeybanClient_addressTokenBalancesQuery,
@@ -21,8 +32,15 @@ import { parseJwt } from "~/utils/jwt";
 
 import { KeybanAccount } from "./account";
 import type { KeybanApiStatus } from "./api";
-import { StorageError } from "./errors";
-import type { Address, KeybanChain } from "./index";
+import {
+  SdkError,
+  SdkErrorTypes,
+  StorageError,
+} from "./errors";
+import type {
+  Address,
+  KeybanChain,
+} from "./index";
 import type { IKeybanSigner } from "./signer";
 import type { IKeybanStorage } from "./storage";
 
@@ -249,6 +267,41 @@ export class KeybanClient {
     });
 
     return chain.addressNfts;
+  }
+
+  /**
+   * @returns ERC721 and ERC1155 tokens of the account.
+   */
+  async getNft(address: Address, tokenAddress: Address, tokenId: string) {
+    if (!isAddress(address)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanClient.getNft",
+      );
+    }
+
+    if (!isAddress(tokenAddress)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanClient.getNft",
+      );
+    }
+
+    const { chain } = await this.#graphql.KeybanClient_addressNfts({
+      chainType: this.chain,
+      address,
+    });
+
+    const nft = chain.addressNfts.find(nft => nft.token.address === tokenAddress && nft.id === tokenId);
+
+    if (!nft) {
+      throw new SdkError(
+        SdkErrorTypes.NFTNotFound,
+        "KeybanClient.getNft",
+      );
+    }
+
+    return nft;
   }
 
   /**
