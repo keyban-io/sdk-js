@@ -1,21 +1,22 @@
-import type React from 'react';
+import type React from "react";
 import {
   useEffect,
   useState,
-} from 'react';
+} from "react";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import TransferAlert from '@/components/TransferAlert';
-import { useDebounce } from '@/hooks/useDebounce';
-import { useTransferReducer } from '@/hooks/useTransferReducer';
-import type { Address } from '@keyban/sdk-react';
+import TransferAlert from "@/components/TransferAlert";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useTransferReducer } from "@/hooks/useTransferReducer";
+import { getIndexerUrl } from "@/lib/getIndexerUrl"; // Import de la fonction
+import type { Address } from "@keyban/sdk-react";
 import {
   formatBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanClient,
-} from '@keyban/sdk-react';
+} from "@keyban/sdk-react";
 import {
   Alert,
   Button,
@@ -24,7 +25,7 @@ import {
   Stack,
   TextField,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 const TransferNativeCrypto: React.FC = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const TransferNativeCrypto: React.FC = () => {
       try {
         const estimation =
           account &&
-          (await account.estimateTransfer( debouncedRecipient as Address));
+          (await account.estimateTransfer(debouncedRecipient as Address));
         dispatch({
           type: "FEE_ESTIMATION_SUCCESS",
           payload: `${estimation.maxFees}`,
@@ -160,7 +161,7 @@ const TransferNativeCrypto: React.FC = () => {
               Transaction {index + 1}:{" "}
               <Link
                 underline="always"
-                href={`https://blockscout.keyban.localtest.me/tx/${txHash}`}
+                href={getIndexerUrl(client.chain, txHash)} // Utilisation dynamique de l'indexeur
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -5,7 +5,7 @@ import {
 } from "react";
 
 import {
-  Location,
+  type Location,
   useLocation,
   useNavigate,
 } from "react-router-dom";
@@ -13,6 +13,7 @@ import {
 import TransferAlert from "@/components/TransferAlert";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useTransferReducer } from "@/hooks/useTransferReducer";
+import { getIndexerUrl } from "@/lib/getIndexerUrl";
 import type { Address } from "@keyban/sdk-react";
 import {
   formatBalance,
@@ -46,6 +47,8 @@ const TransferERC20: React.FC = () => {
     resetForm,
     transactionHistory,
   } = useTransferReducer();
+
+  const keybanClient = useKeybanClient();
 
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
@@ -82,7 +85,8 @@ const TransferERC20: React.FC = () => {
 
       try {
         const valueInWei = BigInt(
-          Number(debouncedAmount) * 10 ** (token.token.decimals? token.token.decimals : 0),
+          Number(debouncedAmount) *
+            10 ** (token.token.decimals ? token.token.decimals : 0),
         );
         const estimation = await account.estimateERC20Transfer({
           contractAddress: location.state.contractAddress as Address,
@@ -117,7 +121,10 @@ const TransferERC20: React.FC = () => {
     dispatch({ type: "START_TRANSFER" });
     try {
       if (amount && account && token) {
-        const value = BigInt(Number(amount) * 10 ** (token.token.decimals? token.token.decimals : 0));
+        const value = BigInt(
+          Number(amount) *
+            10 ** (token.token.decimals ? token.token.decimals : 0),
+        );
         const txHash = await account.transferERC20({
           contractAddress: location.state.contractAddress as Address,
           to: recipient as Address,
@@ -203,7 +210,7 @@ const TransferERC20: React.FC = () => {
               Transaction {index + 1}:{" "}
               <Link
                 underline="always"
-                href={`https://blockscout.keyban.localtest.me/tx/${txHash}`}
+                href={getIndexerUrl(keybanClient.chain, txHash)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
