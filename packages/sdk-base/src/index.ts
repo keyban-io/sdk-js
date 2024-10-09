@@ -1,8 +1,11 @@
 export {
+  EstimateERC20TransferParams,
+  EstimateNFTTransferParams,
   FeesEstimation,
   KeybanAccount,
   TransactionOptions,
   TransferERC20Params,
+  TransferNFTParams,
 } from "./account";
 export { KeybanApiStatus } from "./api";
 export { KeybanChain } from "./chains";

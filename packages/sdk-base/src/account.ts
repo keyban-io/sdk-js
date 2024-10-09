@@ -1,6 +1,6 @@
 import {
   type Chain,
-  ContractFunctionExecutionErrorType,
+  type ContractFunctionExecutionErrorType,
   erc20Abi,
   erc721Abi,
   EstimateGasExecutionError,
@@ -84,7 +84,7 @@ export type TransferNFTParams = {
   tokenId: bigint;
   to: Address;
   value?: bigint;
-  standard: 'ERC721' | 'ERC1155';
+  standard: "ERC721" | "ERC1155";
   txOptions?: TransactionOptions;
 };
 
@@ -99,16 +99,17 @@ export type EstimateERC20TransferParams = Omit<
 /**
  * Represents the parameters for estimating the cost of transferring ERC721 and ERC1155 tokens.
  */
-export type EstimateNFTTransferParams = Omit<
-  TransferNFTParams,
-  "txOptions"
->;
+export type EstimateNFTTransferParams = Omit<TransferNFTParams, "txOptions">;
 
 /**
  * The Keyban account is the entry class to access all features related to an account
  * such as balance, token balances, transfers, estimate fees, and sign messages.
  */
 export class KeybanAccount implements KeybanAccount {
+  /**
+   * Represents the unique identifier of the client.
+   * This data is extracted from the JWT (JSON Web Token).
+   */
   sub: string;
   address: Address;
   publicKey: Hex;
@@ -393,7 +394,6 @@ export class KeybanAccount implements KeybanAccount {
     };
   }
 
-
   /**
    * Transfers ERC721 and ERC1155 tokens to another address.
    * @param param0 - The parameters for the NFT transfer.
@@ -459,7 +459,13 @@ export class KeybanAccount implements KeybanAccount {
           "KeybanAccount.transferNFT",
         );
       }
-      return this.#transferERC1155({ contractAddress, tokenId, value, to, txOptions });
+      return this.#transferERC1155({
+        contractAddress,
+        tokenId,
+        value,
+        to,
+        txOptions,
+      });
     }
 
     if (standard === "ERC721") {
@@ -478,7 +484,12 @@ export class KeybanAccount implements KeybanAccount {
     );
   }
 
-  async #transferERC721({ contractAddress, tokenId, to, txOptions }: Omit<TransferNFTParams, 'value' | 'standard'>): Promise<Hash> {
+  async #transferERC721({
+    contractAddress,
+    tokenId,
+    to,
+    txOptions,
+  }: Omit<TransferNFTParams, "value" | "standard">): Promise<Hash> {
     const erc721Contract = getContract({
       address: contractAddress,
       abi: erc721Abi,
@@ -506,7 +517,13 @@ export class KeybanAccount implements KeybanAccount {
       });
   }
 
-  async #transferERC1155({ contractAddress, tokenId, value, to, txOptions }: Omit<TransferNFTParams, 'standard'>): Promise<Hash> {
+  async #transferERC1155({
+    contractAddress,
+    tokenId,
+    value,
+    to,
+    txOptions,
+  }: Omit<TransferNFTParams, "standard">): Promise<Hash> {
     const erc1155Contract = getContract({
       address: contractAddress,
       abi: ERC1155_ABI_TRANSFER_FROM,
@@ -567,7 +584,12 @@ export class KeybanAccount implements KeybanAccount {
     value,
   }: EstimateNFTTransferParams): Promise<FeesEstimation> {
     if (standard === "ERC1155") {
-      return this.#estimateERC1155Transfer({ contractAddress, tokenId, to, value });
+      return this.#estimateERC1155Transfer({
+        contractAddress,
+        tokenId,
+        to,
+        value,
+      });
     }
     if (standard === "ERC721") {
       return this.#estimateERC721Transfer({ contractAddress, tokenId, to });
@@ -582,7 +604,10 @@ export class KeybanAccount implements KeybanAccount {
     contractAddress,
     tokenId,
     to,
-  }: Omit<EstimateNFTTransferParams, 'standard' | 'value'>): Promise<FeesEstimation> {
+  }: Omit<
+    EstimateNFTTransferParams,
+    "standard" | "value"
+  >): Promise<FeesEstimation> {
     const from = this.address;
     const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
       [
@@ -612,7 +637,7 @@ export class KeybanAccount implements KeybanAccount {
     tokenId,
     to,
     value,
-  }: Omit<EstimateNFTTransferParams, 'standard'>): Promise<FeesEstimation> {
+  }: Omit<EstimateNFTTransferParams, "standard">): Promise<FeesEstimation> {
     const from = this.address;
     const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
       [
