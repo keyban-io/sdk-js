@@ -41,12 +41,12 @@ export function useKeybanAccountBalance<B extends boolean>(
 }
 
 /**
- * Return the native balance of an account.
+ * Return the ERC20 tokens of an account.
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountTokenBalances(account);
+ * const [balances, balanceError, { refresh: refreshBalances }] = useKeybanAccountTokenBalances(account);
  * ```
  * @see {@link useFormattedBalance}
  */
