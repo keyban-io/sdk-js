@@ -32,7 +32,7 @@ export enum SdkErrorTypes {
   AmountRequired = "AmountRequired",
 
   /**
-   * Amount is irrelevant and should not be provided.
+   * Amount is irrelevant and should not be different than 1.
    */
   AmountIrrelevant = "AmountIrrelevant",
 
@@ -107,8 +107,8 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
       case SdkErrorTypes.InvalidNFTStandard:
         return "Invalid NFT standard. Supported standards are: ERC721, ERC1155";
 
-        case SdkErrorTypes.NFTNotFound:
-          return "NFT not found";
+      case SdkErrorTypes.NFTNotFound:
+        return "NFT not found";
 
       default:
         return `Unknown error type: ${errorType}`;

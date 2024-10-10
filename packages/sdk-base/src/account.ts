@@ -469,7 +469,7 @@ export class KeybanAccount implements KeybanAccount {
     }
 
     if (standard === "ERC721") {
-      if (value !== undefined) {
+      if (value !== undefined && value !== 1n) {
         throw new SdkError(
           SdkErrorTypes.AmountIrrelevant,
           "KeybanAccount.transferNFT",
@@ -592,6 +592,12 @@ export class KeybanAccount implements KeybanAccount {
       });
     }
     if (standard === "ERC721") {
+      if (value !== undefined && value !== 1n) {
+        throw new SdkError(
+          SdkErrorTypes.AmountIrrelevant,
+          "KeybanAccount.transferNFT",
+        );
+      }
       return this.#estimateERC721Transfer({ contractAddress, tokenId, to });
     }
     throw new SdkError(
