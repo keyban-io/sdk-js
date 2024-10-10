@@ -107,7 +107,7 @@ const TransferNFT: React.FC = () => {
           tokenId: BigInt(selectedNft.id),
           to: debouncedRecipient as Address,
           value: BigInt(1),
-          standard: "ERC1155",
+          standard: selectedNft.token.type === "ERC-721" ? "ERC721" : "ERC1155",
         });
 
         dispatch({
@@ -132,8 +132,7 @@ const TransferNFT: React.FC = () => {
           contractAddress: selectedNft.token.address as Address,
           tokenId: selectedNft.id as unknown as bigint,
           to: recipient as Address,
-          value: BigInt(1),
-          standard: "ERC1155",
+          standard: selectedNft.token.type === "ERC-721" ? "ERC721" : "ERC1155",
         });
         handleSuccess(txHash);
         resetForm();
