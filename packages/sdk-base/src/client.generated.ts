@@ -1,5 +1,5 @@
 // @ts-nocheck
-import * as Types from './gql-types';
+import * as Types from "./gql-types";
 
 export type GqlKeybanClient_chainQueryVariables = Types.Exact<{
   chain: Types.GqlChainType;
@@ -24,6 +24,7 @@ export type GqlKeybanClient_addressTokenBalancesQuery = {
       balance: Types.Scalars['BigInt']['output'],
       token: {
         address: Types.Scalars['Address']['output'],
+        type?: string | null,
         name?: string | null,
         symbol?: string | null,
         decimals?: number | null,
@@ -48,6 +49,7 @@ export type GqlKeybanClient_addressNftsQuery = {
       metadata?: Types.Scalars['JSON']['output'] | null,
       token: {
         address: Types.Scalars['Address']['output'],
+        type?: string | null,
         name?: string | null,
         symbol?: string | null,
         decimals?: number | null,
@@ -71,6 +73,7 @@ export const KeybanClient_addressTokenBalancesDocument = `
     addressTokenBalances(address: $address) {
       token {
         address
+        type
         name
         symbol
         decimals
@@ -87,6 +90,7 @@ export const KeybanClient_addressNftsDocument = `
     addressNfts(address: $address) {
       token {
         address
+        type
         name
         symbol
         decimals
@@ -115,4 +119,3 @@ export function getSdk<C>(requester: Requester<C>) {
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
-

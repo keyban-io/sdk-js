@@ -12,6 +12,7 @@ query KeybanClient_addressTokenBalances(
     addressTokenBalances(address: $address) {
       token {
         address
+        type
         name
         symbol
         decimals
@@ -27,6 +28,7 @@ query KeybanClient_addressNfts($chainType: ChainType!, $address: Address!) {
     addressNfts(address: $address) {
       token {
         address
+        type
         name
         symbol
         decimals

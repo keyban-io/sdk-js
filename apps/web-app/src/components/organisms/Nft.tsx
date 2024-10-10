@@ -52,6 +52,15 @@ export default function Nft() {
           </Row>
 
           <Row>
+            <span>Type:</span>
+            <SerializedValue
+              value={nft.token.type}
+              style={{ flexGrow: 1 }}
+              data-test-id="Nft:token:type"
+            />
+          </Row>
+
+          <Row>
             <span>Image URL:</span>
             <SerializedValue
               value={nft.token.address}
