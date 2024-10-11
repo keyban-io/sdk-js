@@ -1,13 +1,7 @@
-import {
-  usePromise,
-  UsePromiseOptions,
-} from "~/promise";
+import { usePromise, UsePromiseOptions } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
-import {
-  Address,
-  KeybanAccount,
-} from "@keyban/sdk-base";
+import { Address, KeybanAccount } from "@keyban/sdk-base";
 
 /**
  * Fetches the account information.
@@ -16,7 +10,7 @@ export function useKeybanAccount<B extends boolean>(
   options?: UsePromiseOptions<B>,
 ) {
   const client = useKeybanClient();
-  return usePromise(`account`, () => client.initialize(), options);
+  return usePromise("account", () => client.initialize(), options);
 }
 
 /**
@@ -99,7 +93,7 @@ export function useKeybanAccountNft<B extends boolean>(
   options?: UsePromiseOptions<B>,
 ) {
   return usePromise(
-    `account-nft:${account.sub}`,
+    `account-nft:${account.sub}:${tokenAddress}:${tokenId}`,
     () => account.getNft(tokenAddress, tokenId),
     options,
   );

@@ -4,40 +4,65 @@ query KeybanClient_chain($chain: ChainType!) {
   }
 }
 
+fragment KeybanClient_TokenBalance on TokenBalance {
+  token {
+    address
+    type
+    name
+    symbol
+    decimals
+    iconUrl
+  }
+  balance
+}
+
 query KeybanClient_addressTokenBalances(
   $chainType: ChainType!
   $address: Address!
 ) {
   chain(type: $chainType) {
     addressTokenBalances(address: $address) {
-      token {
-        address
-        type
-        name
-        symbol
-        decimals
-        iconUrl
-      }
-      balance
+      ...KeybanClient_TokenBalance
     }
   }
+}
+
+fragment KeybanClient_Nft on Nft {
+  token {
+    address
+    type
+    name
+    symbol
+    decimals
+    iconUrl
+  }
+  id
+  imageUrl
+  balance
+  metadata
 }
 
 query KeybanClient_addressNfts($chainType: ChainType!, $address: Address!) {
   chain(type: $chainType) {
     addressNfts(address: $address) {
-      token {
-        address
-        type
-        name
-        symbol
-        decimals
-        iconUrl
-      }
-      id
-      imageUrl
-      balance
-      metadata
+      ...KeybanClient_Nft
+    }
+  }
+}
+
+query KeybanClient_addressNft(
+  $chainType: ChainType!
+  $address: Address!
+  $tokenAddress: Address!
+  $tokenId: String!
+) {
+  chain(type: $chainType) {
+    addressNft(
+      address: $address
+      tokenAddress: $tokenAddress
+      tokenId: $tokenId
+    ) {
+      ...KeybanClient_Nft
     }
   }
 }

@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import {
-  KeybanClient,
-  type KeybanClientConfig,
-} from '@keyban/sdk-base';
+import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
 
-import { PromiseCacheProvider } from './promise';
+import { PromiseCacheProvider } from "./promise";
 
 const clients = new Map<string, KeybanClient>();
 
@@ -31,9 +28,8 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * allowing components to adjust the blockchain network or other configurations during the
  * application's lifecycle.
  *
- * @param {KeybanProviderProps} config - The Keyban configuration options.
- * @param {React.ReactNode} children - The child components to render within the provider.
- * @returns {React.ReactNode} The provider component that includes the Keyban client context.
+ * @param props - The Keyban provider configuration options.
+ * @returns - The provider component that includes the Keyban client context.
  *
  * @throws {Error} If the configuration is invalid.
  *
@@ -122,7 +118,7 @@ export function KeybanProvider({
  *
  * @throws {Error} If the hook is used outside of a {@link KeybanProvider}.
  *
- * @returns {KeybanClient} The initialized Keyban client.
+ * @returns - The initialized Keyban client.
  *
  * @example
  * ```tsx

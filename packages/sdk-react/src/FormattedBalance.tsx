@@ -1,4 +1,4 @@
-import { formatBalance, KeybanTokenBalance } from "@keyban/sdk-base";
+import { formatBalance, KeybanNft, KeybanTokenBalance } from "@keyban/sdk-base";
 import { useKeybanClient } from "./provider";
 
 /**
@@ -7,7 +7,7 @@ import { useKeybanClient } from "./provider";
  * {@link KeybanAccount.getBalance | KeybanAccount.getBalance()}.
  *
  * @param balance - The balance as a bigint.
- * @returns The formatted balance as a string.
+ * @returns - The formatted balance as a string.
  *
  * @example
  * ```tsx
@@ -17,7 +17,9 @@ import { useKeybanClient } from "./provider";
  * console.log(formattedBalance); // "0.2 ETH"
  * ```
  */
-export function useFormattedBalance(balance: bigint | KeybanTokenBalance) {
+export function useFormattedBalance(
+  balance: bigint | KeybanTokenBalance | KeybanNft,
+) {
   return formatBalance(useKeybanClient(), balance);
 }
 
@@ -26,7 +28,7 @@ export function useFormattedBalance(balance: bigint | KeybanTokenBalance) {
  * @see {@link FormattedBalance}
  */
 export type FormatedBalanceProps = {
-  balance: bigint | KeybanTokenBalance;
+  balance: bigint | KeybanTokenBalance | KeybanNft;
 };
 
 /**
@@ -34,7 +36,7 @@ export type FormatedBalanceProps = {
  * This is typically used to display the balance of an account, as retrieved by
  * {@link KeybanAccount.getBalance | KeybanAccount.getBalance()}.
  *
- * @returns A JSX element displaying the formatted balance.
+ * @returns - A JSX element displaying the formatted balance.
  *
  * @example
  * ```tsx

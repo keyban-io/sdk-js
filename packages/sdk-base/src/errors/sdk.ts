@@ -36,7 +36,6 @@ export enum SdkErrorTypes {
    */
   AmountIrrelevant = "AmountIrrelevant",
 
-
   /**
    * Recipient address same as sender address.
    */
@@ -53,9 +52,9 @@ export enum SdkErrorTypes {
   InsufficientFunds = "InsufficientFunds",
 
   /**
-   * InvalidNFTStandard.
+   * InvalidNftStandard.
    */
-  InvalidNFTStandard = "InvalidNFTStandard",
+  InvalidNftStandard = "InvalidNftStandard",
 
   /**
    * NFTNotFound.
@@ -104,7 +103,7 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
       case SdkErrorTypes.InsufficientFunds:
         return "Insufficient funds";
 
-      case SdkErrorTypes.InvalidNFTStandard:
+      case SdkErrorTypes.InvalidNftStandard:
         return "Invalid NFT standard. Supported standards are: ERC721, ERC1155";
 
       case SdkErrorTypes.NFTNotFound:

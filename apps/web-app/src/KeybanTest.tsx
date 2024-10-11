@@ -13,7 +13,13 @@ import { useKeybanClient } from "@keyban/sdk-react";
 import ERC20Transfer from "./components/organisms/ERC20Transfer";
 import Nft from "./components/organisms/Nft";
 import NftFetch from "./components/organisms/NftFetch";
-import NFTTransfer from "./components/organisms/NFTTransfer";
+import NftTransfer from "./components/organisms/NftTransfer";
+
+const wrapSuspense = (Comp: React.ComponentType) => (
+  <React.Suspense fallback={<div>Loading...</div>}>
+    <Comp />
+  </React.Suspense>
+);
 
 export default function KeybanTest() {
   const client = useKeybanClient();
@@ -26,9 +32,7 @@ export default function KeybanTest() {
         <legend>Client</legend>
         <SerializedValue value={client} data-test-id="KeybanTest:client" />
 
-        <React.Suspense fallback={<div>Loading...</div>}>
-          <ApiStatus />
-        </React.Suspense>
+        {wrapSuspense(ApiStatus)}
 
         <NativeCurrency />
       </fieldset>
@@ -41,17 +45,17 @@ export default function KeybanTest() {
       </fieldset>
 
       {init && (
-        <React.Suspense fallback={<div>Loading...</div>}>
-          <AccountInfo />
-          <Signature />
-          <Balance />
-          <NativeTransfer />
-          <TokenBalances />
-          <ERC20Transfer />
-          <Nft />
-          <NftFetch />
-          <NFTTransfer />
-        </React.Suspense>
+        <>
+          {wrapSuspense(AccountInfo)}
+          {wrapSuspense(Signature)}
+          {wrapSuspense(Balance)}
+          {wrapSuspense(NativeTransfer)}
+          {wrapSuspense(TokenBalances)}
+          {wrapSuspense(ERC20Transfer)}
+          {wrapSuspense(Nft)}
+          {wrapSuspense(NftFetch)}
+          {wrapSuspense(NftTransfer)}
+        </>
       )}
     </>
   );

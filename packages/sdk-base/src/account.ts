@@ -12,16 +12,8 @@ import {
   type Transport,
   type WalletClient,
 } from "viem";
-import {
-  SdkError,
-  SdkErrorTypes,
-} from "~/errors";
-import type {
-  Address,
-  Hash,
-  Hex,
-  KeybanClient,
-} from "~/index";
+import { SdkError, SdkErrorTypes } from "~/errors";
+import type { Address, Hash, Hex, KeybanClient } from "~/index";
 
 import { ERC1155_ABI_TRANSFER_FROM } from "./const";
 
@@ -77,9 +69,9 @@ export type TransferERC20Params = {
  * @property {bigint} value - The transfer amount (for ERC1155 tokens)
  * @property {TransactionOptions} txOptions - The transaction options
  * @property {string} standard - The token standard (ERC721 or ERC1155)
- * @see {@link KeybanAccount#transferNFT}
+ * @see {@link KeybanAccount#transferNft}
  */
-export type TransferNFTParams = {
+export type TransferNftParams = {
   contractAddress: Address;
   tokenId: bigint;
   to: Address;
@@ -100,7 +92,7 @@ export type EstimateERC20TransferParams = Omit<
  * Represents the parameters for estimating the cost of transferring ERC721 and ERC1155 tokens.
  * @see {@link TransferNFTParams}
  */
-export type EstimateNFTTransferParams = Omit<TransferNFTParams, "txOptions">;
+export type EstimateNftTransferParams = Omit<TransferNftParams, "txOptions">;
 
 /**
  * The Keyban account is the entry class to access all features related to an account
@@ -145,7 +137,7 @@ export class KeybanAccount implements KeybanAccount {
    * Signs an Ethereum message.
    *
    * @param message - The message to be signed.
-   * @returns The signed message as a hex string.
+   * @returns - The signed message as a hex string.
    * @throws {Error} If the message is empty or there is an issue during signing.
    */
   async signMessage(message: string): Promise<Hex> {
@@ -155,7 +147,7 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns The account balance in native tokens.
+   * @returns - The account balance in native tokens.
    * @see {@link useKeybanAccountBalance}
    */
   getBalance() {
@@ -163,7 +155,7 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns The account balance in ERC20 tokens.
+   * @returns - The account balance in ERC20 tokens.
    * @see {@link useKeybanAccountTokenBalances}
    */
   async getTokenBalances() {
@@ -171,7 +163,7 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns The account ERC721 and ERC1155 tokens.
+   * @returns - The account ERC721 and ERC1155 tokens.
    * @see {@link useKeybanAccountNfts}
    */
   async getNfts() {
@@ -179,7 +171,7 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns The account ERC721 and ERC1155 token balances.
+   * @returns - The account ERC721 and ERC1155 token balances.
    * @see {@link useKeybanAccountNftBalances}
    */
   async getNft(tokenAddress: Address, tokenId: string) {
@@ -191,7 +183,7 @@ export class KeybanAccount implements KeybanAccount {
    *
    * @param to - The recipient's address.
    * @param value - The transfer amount in wei (must be greater than 0).
-   * @returns A promise that resolves to the transaction hash.
+   * @returns - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid or the transfer amount is invalid.
    *
    * @example
@@ -241,7 +233,7 @@ export class KeybanAccount implements KeybanAccount {
    * Estimates the cost of transferring native tokens to another address.
    *
    * @param to - The recipient's address.
-   * @returns A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    */
   async estimateTransfer(to: Address): Promise<FeesEstimation> {
@@ -264,8 +256,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    *  Transfers ERC20 tokens to another address.
-   * @param param0  - The parameters for the ERC20 transfer.
-   * @returns A promise that resolves to the transaction hash.
+   * @param options - The parameters for the ERC20 transfer.
+   * @returns - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid, the contract address is invalid, or the transfer amount is invalid.
    * @example
    * ```ts
@@ -346,24 +338,24 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring ERC20 tokens to another address.
-   * @param  object:  The parameters for estimating the ERC20 transfer.
-   * @returns  A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @param options - The parameters for estimating the ERC20 transfer.
+   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    * @example
    * ```ts
    * const handleEstimate = async () => {
-   * // account, recipient, contractAddress, amount, setTransferCost are state variables
-   * try {
-   *  const valueInWei = BigInt(Number(amount) * 1e18);
-   *  const estimation = await account.estimateTransferERC20({
-   *    contractAddress: contractAddress as Address,
-   *    to: recipient as Address,
-   *    value: valueInWei,
-   *  });
-   *  setTransferCost(estimation.maxFees.toString());
-   *  } catch (err) {
-   *    console.log(err);
-   *  }
+   *   // account, recipient, contractAddress, amount, setTransferCost are state variables
+   *   try {
+   *     const valueInWei = BigInt(Number(amount) * 1e18);
+   *     const estimation = await account.estimateTransferERC20({
+   *       contractAddress: contractAddress as Address,
+   *       to: recipient as Address,
+   *       value: valueInWei,
+   *     });
+   *     setTransferCost(estimation.maxFees.toString());
+   *   } catch (err) {
+   *     console.log(err);
+   *   }
    * };
    * ```
    */
@@ -397,8 +389,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Transfers ERC721 and ERC1155 tokens to another address.
-   * @param param0 - The parameters for the NFT transfer.
-   * @returns A promise that resolves to the transaction hash.
+   * @param options - The parameters for the NFT transfer.
+   * @returns - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid, the contract address is invalid, the transfer amount is invalid, or the token standard is invalid.
    * @example
    * ```ts
@@ -406,7 +398,7 @@ export class KeybanAccount implements KeybanAccount {
    *  // account, recipient, contractAddress, tokenId, amount, standard, setTransactionHash are state variables
    *  try {
    *    const value = BigInt(amount);
-   *    const txHash = await account.transferNFT({
+   *    const txHash = await account.transferNft({
    *      contractAddress: contractAddress as Address,
    *      tokenId: tokenId as bigint,
    *      to: recipient as Address,
@@ -420,30 +412,30 @@ export class KeybanAccount implements KeybanAccount {
    * };
    * ```
    */
-  async transferNFT({
+  async transferNft({
     contractAddress,
     tokenId,
     to,
     value,
     standard,
     txOptions,
-  }: TransferNFTParams): Promise<Hash> {
+  }: TransferNftParams): Promise<Hash> {
     if (!isAddress(to)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
-        "KeybanAccount.transferNFT",
+        "KeybanAccount.transferNft",
       );
     }
     if (!isAddress(contractAddress)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
-        "KeybanAccount.transferNFT",
+        "KeybanAccount.transferNft",
       );
     }
     if (to === this.address) {
       throw new SdkError(
         SdkErrorTypes.RecipientAddressEqualsSender,
-        "KeybanAccount.transferNFT",
+        "KeybanAccount.transferNft",
       );
     }
 
@@ -451,13 +443,13 @@ export class KeybanAccount implements KeybanAccount {
       if (value === undefined) {
         throw new SdkError(
           SdkErrorTypes.AmountRequired,
-          "KeybanAccount.transferNFT",
+          "KeybanAccount.transferNft",
         );
       }
       if (value <= 0n) {
         throw new SdkError(
           SdkErrorTypes.AmountInvalid,
-          "KeybanAccount.transferNFT",
+          "KeybanAccount.transferNft",
         );
       }
       return this.#transferERC1155({
@@ -473,15 +465,15 @@ export class KeybanAccount implements KeybanAccount {
       if (value !== undefined && value !== 1n) {
         throw new SdkError(
           SdkErrorTypes.AmountIrrelevant,
-          "KeybanAccount.transferNFT",
+          "KeybanAccount.transferNft",
         );
       }
       return this.#transferERC721({ contractAddress, tokenId, to, txOptions });
     }
 
     throw new SdkError(
-      SdkErrorTypes.InvalidNFTStandard,
-      "KeybanAccount.transferNFT",
+      SdkErrorTypes.InvalidNftStandard,
+      "KeybanAccount.transferNft",
     );
   }
 
@@ -490,7 +482,7 @@ export class KeybanAccount implements KeybanAccount {
     tokenId,
     to,
     txOptions,
-  }: Omit<TransferNFTParams, "value" | "standard">): Promise<Hash> {
+  }: Omit<TransferNftParams, "value" | "standard">): Promise<Hash> {
     const erc721Contract = getContract({
       address: contractAddress,
       abi: erc721Abi,
@@ -509,7 +501,7 @@ export class KeybanAccount implements KeybanAccount {
           case err.cause.cause instanceof EstimateGasExecutionError:
             throw new SdkError(
               SdkErrorTypes.InsufficientFunds,
-              "KeybanAccount.transferNFT",
+              "KeybanAccount.transferNft",
             );
 
           default:
@@ -524,7 +516,7 @@ export class KeybanAccount implements KeybanAccount {
     value,
     to,
     txOptions,
-  }: Omit<TransferNFTParams, "standard">): Promise<Hash> {
+  }: Omit<TransferNftParams, "standard">): Promise<Hash> {
     const erc1155Contract = getContract({
       address: contractAddress,
       abi: ERC1155_ABI_TRANSFER_FROM,
@@ -543,7 +535,7 @@ export class KeybanAccount implements KeybanAccount {
           case err.cause.cause instanceof EstimateGasExecutionError:
             throw new SdkError(
               SdkErrorTypes.InsufficientFunds,
-              "KeybanAccount.transferNFT",
+              "KeybanAccount.transferNft",
             );
 
           default:
@@ -554,8 +546,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring ERC721 and ERC1155 tokens to another address.
-   * @param param0 - The parameters for estimating the NFT transfer.
-   * @returns A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @param options - The parameters for estimating the NFT transfer.
+   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    * @example
    * ```ts
@@ -563,7 +555,7 @@ export class KeybanAccount implements KeybanAccount {
    *  // account, recipient, contractAddress, tokenId, amount, standard, setTransferCost are state variables
    *  try {
    *  const value = BigInt(amount);
-   *  const estimation = await account.estimateNFTTransfer({
+   *  const estimation = await account.estimateNftTransfer({
    *    contractAddress: contractAddress as Address,
    *    tokenId: tokenId as bigint,
    *    to: recipient as Address,
@@ -577,13 +569,13 @@ export class KeybanAccount implements KeybanAccount {
    * };
    * ```
    */
-  async estimateNFTTransfer({
+  async estimateNftTransfer({
     standard,
     contractAddress,
     tokenId,
     to,
     value,
-  }: EstimateNFTTransferParams): Promise<FeesEstimation> {
+  }: EstimateNftTransferParams): Promise<FeesEstimation> {
     if (standard === "ERC1155") {
       return this.#estimateERC1155Transfer({
         contractAddress,
@@ -602,8 +594,8 @@ export class KeybanAccount implements KeybanAccount {
       return this.#estimateERC721Transfer({ contractAddress, tokenId, to });
     }
     throw new SdkError(
-      SdkErrorTypes.InvalidNFTStandard,
-      "KeybanAccount.estimateNFTTransfer",
+      SdkErrorTypes.InvalidNftStandard,
+      "KeybanAccount.estimateNftTransfer",
     );
   }
 
@@ -612,7 +604,7 @@ export class KeybanAccount implements KeybanAccount {
     tokenId,
     to,
   }: Omit<
-    EstimateNFTTransferParams,
+    EstimateNftTransferParams,
     "standard" | "value"
   >): Promise<FeesEstimation> {
     const from = this.address;
@@ -644,7 +636,7 @@ export class KeybanAccount implements KeybanAccount {
     tokenId,
     to,
     value,
-  }: Omit<EstimateNFTTransferParams, "standard">): Promise<FeesEstimation> {
+  }: Omit<EstimateNftTransferParams, "standard">): Promise<FeesEstimation> {
     const from = this.address;
     const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
       [

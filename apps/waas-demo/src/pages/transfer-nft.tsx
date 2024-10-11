@@ -1,13 +1,7 @@
 import type React from "react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import TransferAlert from "@/components/TransferAlert";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -102,7 +96,7 @@ const TransferNFT: React.FC = () => {
 
       dispatch({ type: "START_FEE_ESTIMATION" });
       try {
-        const estimation = await account.estimateNFTTransfer({
+        const estimation = await account.estimateNftTransfer({
           contractAddress: selectedNft.token.address as Address,
           tokenId: BigInt(selectedNft.id),
           to: debouncedRecipient as Address,

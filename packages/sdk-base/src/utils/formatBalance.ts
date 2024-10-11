@@ -1,5 +1,5 @@
 import { formatUnits } from "viem";
-import type { KeybanClient, KeybanTokenBalance } from "~/index";
+import type { KeybanClient, KeybanNft, KeybanTokenBalance } from "~/index";
 
 /**
  * Formats a balance in a human-readable format using the Keyban client.
@@ -8,14 +8,14 @@ import type { KeybanClient, KeybanTokenBalance } from "~/index";
  *
  * @param client - The Keyban client to use for formatting.
  * @param balance - The balance as a bigint.
- * @returns The formatted balance as a string.
+ * @returns - The formatted balance as a string.
  *
  * @see {@link KeybanClient}
  * @see {@link useKeybanClient}
  */
 export function formatBalance(
   client: KeybanClient,
-  balance: bigint | KeybanTokenBalance,
+  balance: bigint | KeybanTokenBalance | KeybanNft,
 ) {
   let decimals = client.nativeCurrency.decimals;
   let symbol: string | null | undefined = client.nativeCurrency.symbol;

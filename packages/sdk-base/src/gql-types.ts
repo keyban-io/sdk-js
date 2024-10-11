@@ -1,10 +1,5 @@
 // @ts-nocheck
-import type {
-  Address,
-  Hash,
-  Hex,
-} from "~/index";
-
+import type { Address, Hash, Hex } from "~/index";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -26,10 +21,18 @@ export type Scalars = {
 
 export type GqlChain = {
   __typename?: 'Chain';
+  addressNft: GqlNft;
   addressNfts: Array<GqlNft>;
   addressTokenBalances: Array<GqlTokenBalance>;
   rpcUrl: Scalars['String']['output'];
   type: GqlChainType;
+};
+
+
+export type GqlChainaddressNftArgs = {
+  address: Scalars['Address']['input'];
+  tokenAddress: Scalars['Address']['input'];
+  tokenId: Scalars['String']['input'];
 };
 
 
@@ -69,11 +72,11 @@ export type GqlQuerychainArgs = {
 export type GqlToken = {
   __typename?: 'Token';
   address: Scalars['Address']['output'];
-  type?: Maybe<Scalars['String']['output']>;
   decimals?: Maybe<Scalars['Int']['output']>;
   iconUrl?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   symbol?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type GqlTokenBalance = {

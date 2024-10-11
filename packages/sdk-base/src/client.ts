@@ -1,8 +1,4 @@
-import type {
-  Chain,
-  PublicClient,
-  Transport,
-} from "viem";
+import type { Chain, PublicClient, Transport } from "viem";
 import {
   createPublicClient,
   createWalletClient,
@@ -14,35 +10,22 @@ import {
   parseSignature,
   serializeTransaction,
 } from "viem";
-import {
-  publicKeyToAddress,
-  toAccount,
-} from "viem/accounts";
-import {
-  signersChainMap,
-  viemChainsMap,
-} from "~/chains";
-import type {
-  GqlKeybanClient_addressNftsQuery,
-  GqlKeybanClient_addressTokenBalancesQuery,
-  Sdk,
-} from "~/client.generated";
-import { getSdk } from "~/client.generated";
+import { publicKeyToAddress, toAccount } from "viem/accounts";
+import { signersChainMap, viemChainsMap } from "~/chains";
 import { parseJwt } from "~/utils/jwt";
 
+import { getSdk, type Sdk } from "./client.generated";
 import { KeybanAccount } from "./account";
 import type { KeybanApiStatus } from "./api";
-import {
-  SdkError,
-  SdkErrorTypes,
-  StorageError,
-} from "./errors";
-import type {
-  Address,
-  KeybanChain,
-} from "./index";
+import { SdkError, SdkErrorTypes, StorageError } from "./errors";
+import type { Address, KeybanChain } from "./index";
 import type { IKeybanSigner } from "./signer";
 import type { IKeybanStorage } from "./storage";
+
+export type {
+  GqlKeybanClient_TokenBalanceFragment as KeybanTokenBalance,
+  GqlKeybanClient_NftFragment as KeybanNft,
+} from "~/client.generated";
 
 /**
  * Configuration object for the Keyban client.
@@ -92,9 +75,47 @@ export class KeybanClient {
   #publicClient: Promise<PublicClient<Transport, Chain>>;
 
   /**
+   * Performs a GraphQL request to the Keyban API.
+   *
+   * @template R - Expected response type.
+   * @template V - Variables passed with the query.
+   * @param query - The GraphQL query string.
+   * @param variables - Variables to pass with the query.
+   * @returns - A promise resolving to the data returned from the server.
+   */
+  #gqlRequester = async <R, V>(query: string, variables?: V) => {
+    const res = await fetch(new URL("/graphql", this.apiUrl), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/graphql-response+json",
+      },
+      body: JSON.stringify({ query, variables }, (_, value) => {
+        if (typeof value === "bigint") return value.toString();
+
+        return value;
+      }),
+    });
+
+    if (!res.ok) throw new Error("Network response was not ok");
+
+    const text = await res.text();
+    const { data, errors } = JSON.parse(text, (_, value) => {
+      if (typeof value === "object" && value?.__typename === "BigIntScalar")
+        return BigInt(value.value);
+
+      return value;
+    });
+
+    if (errors?.length) throw new Error(errors[0].message);
+
+    return data as R;
+  };
+
+  /**
    * Creates a new instance of `KeybanClient`.
    *
-   * @param {KeybanClientConfig} config - The configuration object to initialize the client.
+   * @param config - The configuration object to initialize the client.
    */
   constructor({
     apiUrl,
@@ -116,7 +137,7 @@ export class KeybanClient {
 
     this.#signer = new signer();
     this.#storage = new storage();
-    this.#graphql = getSdk(this.gqlRequester);
+    this.#graphql = getSdk(this.#gqlRequester);
 
     this.#transport = this.#graphql
       .KeybanClient_chain({ chain })
@@ -133,7 +154,7 @@ export class KeybanClient {
   /**
    * Initializes a KeybanAccount associated with a specific key ID.
    *
-   * @returns {Promise<KeybanAccount>} - A promise that resolves to an instance of `KeybanAccount`.
+   * @returns - A promise that resolves to an instance of `KeybanAccount`.
    */
   async initialize(): Promise<KeybanAccount> {
     const accessToken = await this.#accessTokenProvider();
@@ -237,18 +258,32 @@ export class KeybanClient {
   /**
    * Retrieves the balance for a given address.
    *
-   * @param {Address} address - The address for which to retrieve the balance.
-   * @returns {Promise<BigInt>} - A promise resolving to the balance as a BigInt.
+   * @param address - The address for which to retrieve the balance.
+   * @returns - A promise resolving to the balance as a BigInt.
    */
   async getBalance(address: Address) {
+    if (!isAddress(address)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanClient.getBalance",
+      );
+    }
+
     const publicClient = await this.#publicClient;
     return publicClient.getBalance({ address });
   }
 
   /**
-   * @returns An account balance in ERC20 tokens.
+   * @returns - An account balance in ERC20 tokens.
    */
   async getTokenBalances(address: Address) {
+    if (!isAddress(address)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanClient.getTokenBalances",
+      );
+    }
+
     const { chain } = await this.#graphql.KeybanClient_addressTokenBalances({
       chainType: this.chain,
       address,
@@ -258,9 +293,13 @@ export class KeybanClient {
   }
 
   /**
-   * @returns ERC721 and ERC1155 tokens of the account.
+   * @returns - ERC721 and ERC1155 tokens of the account.
    */
   async getNfts(address: Address) {
+    if (!isAddress(address)) {
+      throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNfts");
+    }
+
     const { chain } = await this.#graphql.KeybanClient_addressNfts({
       chainType: this.chain,
       address,
@@ -270,35 +309,28 @@ export class KeybanClient {
   }
 
   /**
-   * @returns ERC721 and ERC1155 tokens of the account.
+   * @returns - ERC721 and ERC1155 tokens of the account.
    */
   async getNft(address: Address, tokenAddress: Address, tokenId: string) {
     if (!isAddress(address)) {
-      throw new SdkError(
-        SdkErrorTypes.AddressInvalid,
-        "KeybanClient.getNft",
-      );
+      throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNft");
     }
 
     if (!isAddress(tokenAddress)) {
-      throw new SdkError(
-        SdkErrorTypes.AddressInvalid,
-        "KeybanClient.getNft",
-      );
+      throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNft");
     }
 
-    const { chain } = await this.#graphql.KeybanClient_addressNfts({
+    const { chain } = await this.#graphql.KeybanClient_addressNft({
       chainType: this.chain,
       address,
+      tokenAddress,
+      tokenId,
     });
 
-    const nft = chain.addressNfts.find(nft => nft.token.address === tokenAddress && nft.id === tokenId);
+    const nft = chain.addressNft;
 
     if (!nft) {
-      throw new SdkError(
-        SdkErrorTypes.NFTNotFound,
-        "KeybanClient.getNft",
-      );
+      throw new SdkError(SdkErrorTypes.NFTNotFound, "KeybanClient.getNft");
     }
 
     return nft;
@@ -307,7 +339,7 @@ export class KeybanClient {
   /**
    * Performs a health check on the Keyban API to determine its operational status.
    *
-   * @returns {Promise<KeybanApiStatus>} - The API status, either "operational" or "down".
+   * @returns - The API status, either "operational" or "down".
    */
   async apiStatus(): Promise<KeybanApiStatus> {
     return fetch(`${this.apiUrl}/health`)
@@ -317,48 +349,4 @@ export class KeybanClient {
         return "down";
       });
   }
-
-  /**
-   * Performs a GraphQL request to the Keyban API.
-   *
-   * @template R - Expected response type.
-   * @template V - Variables passed with the query.
-   * @param {string} query - The GraphQL query string.
-   * @param {V} [variables] - Variables to pass with the query.
-   * @returns {Promise<R>} - A promise resolving to the data returned from the server.
-   * @private
-   */
-  gqlRequester = async <R, V>(query: string, variables?: V) => {
-    const res = await fetch(new URL("/graphql", this.apiUrl), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/graphql-response+json",
-      },
-      body: JSON.stringify({ query, variables }, (_, value) => {
-        if (typeof value === "bigint") return value.toString();
-
-        return value;
-      }),
-    });
-
-    if (!res.ok) throw new Error("Network response was not ok");
-
-    const text = await res.text();
-    const { data, errors } = JSON.parse(text, (_, value) => {
-      if (typeof value === "object" && value?.__typename === "BigIntScalar")
-        return BigInt(value.value);
-
-      return value;
-    });
-
-    if (errors?.length) throw new Error(errors[0].message);
-
-    return data as R;
-  };
 }
-
-export type KeybanTokenBalance =
-  GqlKeybanClient_addressTokenBalancesQuery["chain"]["addressTokenBalances"][0];
-export type KeybanNft =
-  GqlKeybanClient_addressNftsQuery["chain"]["addressNfts"][0];

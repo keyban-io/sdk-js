@@ -13,13 +13,15 @@ import {
   useKeybanAccount,
 } from "@keyban/sdk-react";
 
-export default function NFTTransfer() {
+export default function NftTransfer() {
   const { showBoundary } = useErrorBoundary();
 
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
-  const [standard, setStandard] = React.useState<"ERC721" | "ERC1155">("ERC721");
+  const [standard, setStandard] = React.useState<"ERC721" | "ERC1155">(
+    "ERC721",
+  );
   const [value, setValue] = React.useState(1n);
   const [contractAddress, setContractAddress] = React.useState("");
   const [tokenId, setTokenId] = React.useState(0n);
@@ -32,36 +34,39 @@ export default function NFTTransfer() {
       <legend>NFT transfer</legend>
       <Row>
         <span>Standard:</span>
-          <label key="ERC721">
-            <input
-              type="radio"
-              name="standard"
-              value="ERC721"
-              checked={standard === "ERC721"}
-              onChange={() => {setStandard("ERC721"); setValue(1n);}}
-              data-test-id={"NFTTransfer:standard:ERC721"}
-            />
-            <span>ERC721</span>
-          </label>
+        <label key="ERC721">
+          <input
+            type="radio"
+            name="standard"
+            value="ERC721"
+            checked={standard === "ERC721"}
+            onChange={() => {
+              setStandard("ERC721");
+              setValue(1n);
+            }}
+            data-test-id={"NftTransfer:standard:ERC721"}
+          />
+          <span>ERC721</span>
+        </label>
 
-          <label key="ERC1155">
-            <input
-              type="radio"
-              name="standard"
-              value="ERC1155"
-              checked={standard === "ERC1155"}
-              onChange={() => setStandard("ERC1155")}
-              data-test-id={"NFTTransfer:standard:ERC1155"}
-            />
-            <span>ERC1155</span>
-          </label>
+        <label key="ERC1155">
+          <input
+            type="radio"
+            name="standard"
+            value="ERC1155"
+            checked={standard === "ERC1155"}
+            onChange={() => setStandard("ERC1155")}
+            data-test-id={"NftTransfer:standard:ERC1155"}
+          />
+          <span>ERC1155</span>
+        </label>
       </Row>
 
       <TextField
         label="Contract Address"
         value={contractAddress}
         onChange={setContractAddress}
-        data-test-id="NFTTransfer:contractAddress"
+        data-test-id="NftTransfer:contractAddress"
       />
 
       <BigIntField
@@ -69,7 +74,7 @@ export default function NFTTransfer() {
         value={tokenId?.toString()}
         onChange={setTokenId}
         style={{ marginBlock: 0 }}
-        data-test-id="NFTTransfer:tokenId"
+        data-test-id="NftTransfer:tokenId"
       />
 
       <Row>
@@ -79,7 +84,7 @@ export default function NFTTransfer() {
           onChange={setValue}
           disabled={standard === "ERC721"}
           style={{ marginBlock: 0 }}
-          data-test-id="NFTTransfer:rawValue"
+          data-test-id="NftTransfer:rawValue"
         />
       </Row>
 
@@ -87,7 +92,7 @@ export default function NFTTransfer() {
         label="Recipient"
         value={recipient}
         onChange={setRecipient}
-        data-test-id="NFTTransfer:recipient"
+        data-test-id="NftTransfer:recipient"
       />
 
       <Row>
@@ -95,17 +100,17 @@ export default function NFTTransfer() {
           type="button"
           onClick={() =>
             account
-              .estimateNFTTransfer({
+              .estimateNftTransfer({
                 standard,
                 contractAddress: contractAddress as Address,
                 tokenId,
                 to: recipient as Address,
-                value: standard === "ERC1155"? value: undefined,
+                value: standard === "ERC1155" ? value : undefined,
               })
               .then(setEstimation)
               .catch(showBoundary)
           }
-          data-test-id="NFTTransfer:estimate:submit"
+          data-test-id="NftTransfer:estimate:submit"
         >
           Estimate max tx fees
         </button>
@@ -117,9 +122,9 @@ export default function NFTTransfer() {
           <SerializedValue
             value={estimation.maxFees}
             style={{ flexGrow: 1 }}
-            data-test-id="NFTTransfer:estimate:rawValue"
+            data-test-id="NftTransfer:estimate:rawValue"
           />
-          <div data-test-id="NFTTransfer:estimate:formattedValue">
+          <div data-test-id="NftTransfer:estimate:formattedValue">
             <FormattedBalance balance={estimation.maxFees} />
           </div>
         </Row>
@@ -130,12 +135,12 @@ export default function NFTTransfer() {
           type="button"
           onClick={() =>
             account
-              .transferNFT({
+              .transferNft({
                 standard,
                 contractAddress: contractAddress as Address,
                 tokenId,
                 to: recipient as Address,
-                value: standard === "ERC1155"? value: undefined,
+                value: standard === "ERC1155" ? value : undefined,
                 txOptions: {
                   maxFeePerGas: estimation?.details.maxFeePerGas,
                   maxPriorityFeePerGas:
@@ -145,7 +150,7 @@ export default function NFTTransfer() {
               .then(setHash)
               .catch(showBoundary)
           }
-          data-test-id="NFTTransfer:submit"
+          data-test-id="NftTransfer:submit"
         >
           Transfer
         </button>
@@ -156,7 +161,7 @@ export default function NFTTransfer() {
         <SerializedValue
           value={hash}
           style={{ flexGrow: 1 }}
-          data-test-id="NFTTransfer:hash"
+          data-test-id="NftTransfer:hash"
         />
       </Row>
     </fieldset>

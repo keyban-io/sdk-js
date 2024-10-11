@@ -1,60 +1,66 @@
 import React from "react";
 
-import { useKeybanAccount } from "@keyban/sdk-react";
+import {
+  Address,
+  KeybanAccount,
+  useKeybanAccount,
+  useKeybanAccountNft,
+} from "@keyban/sdk-react";
 
-import Row from "../atoms/Row";
-import TextField from "../molecules/TextField";
-import NftContainer from "./NftContainer";
+import SerializedValue from "@/components/atoms/SerializedValue";
+import TextField from "@/components/molecules/TextField";
 
 export default function NftFetch() {
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
 
-  const [tokenAddressInput, setTokenAddressInput] = React.useState("");
-  const [tokenIdInput, setTokenIdInput] = React.useState("");
-  const [tokenAddress, setTokenAddress] = React.useState("");
-  const [tokenId, setTokenId] = React.useState("");
-  const [hasClicked, setHasClicked] = React.useState(false);
-
-  const fetchNft = () => {
-    setTokenAddress(tokenAddressInput);
-    setTokenId(tokenIdInput);
-    setHasClicked(true);
-  };
+  const [tokenAddress, setTokenAddress] = React.useState<Address>();
+  const [tokenId, setTokenId] = React.useState<string>();
 
   return (
     <fieldset>
-      <legend>
-        NFT fetch
-      </legend>
+      <legend>NFT fetch</legend>
 
       <TextField
         label="Token Address"
-        value={tokenAddressInput}
-        onChange={setTokenAddressInput}
-        data-test-id="NftFetch:tokenAddress"
+        value={tokenAddress}
+        onChange={(value) => setTokenAddress(value as Address)}
+        data-test-id="NftFetch:tokenAddress:input"
       />
 
       <TextField
         label="Token ID"
-        value={tokenIdInput}
-        onChange={setTokenIdInput}
-        data-test-id="NftFetch:tokenId"
+        value={tokenId}
+        onChange={setTokenId}
+        data-test-id="NftFetch:tokenId:input"
       />
 
-      <Row>
-        <button
-          type="button"
-          onClick={fetchNft}
-          data-test-id="NftFetch:fetch"
-        >
-          Fetch NFT
-        </button>
-      </Row>
-
-      {hasClicked && (
-        <NftContainer account={account} tokenAddress={tokenAddress} tokenId={tokenId} />
+      {tokenAddress && tokenId && (
+        <NftFetchResult
+          account={account}
+          tokenAddress={tokenAddress}
+          tokenId={tokenId}
+        />
       )}
     </fieldset>
   );
+}
+
+type NftFetchResultProps = {
+  account: KeybanAccount;
+  tokenAddress: Address;
+  tokenId: string;
+};
+
+function NftFetchResult({
+  account,
+  tokenAddress,
+  tokenId,
+}: NftFetchResultProps) {
+  const [nft, nftError] = useKeybanAccountNft(account, tokenAddress, tokenId, {
+    suspense: true,
+  });
+  if (nftError) throw nftError;
+
+  return <SerializedValue value={nft} data-test-id="NftFetch:result:raw" />;
 }

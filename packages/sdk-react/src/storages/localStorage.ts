@@ -30,7 +30,7 @@ export class KeybanLocalStorage implements IKeybanStorage {
    * This method fetches the stored value using the provided key.
    *
    * @param key - The key used to retrieve the value.
-   * @returns A promise that resolves to the value, or null if not found.
+   * @returns - A promise that resolves to the value, or null if not found.
    */
   async get(key: string) {
     const value = localStorage.getItem(key);
@@ -43,7 +43,7 @@ export class KeybanLocalStorage implements IKeybanStorage {
    *
    * @param key - The key used to save the value.
    * @param value - The value to be saved.
-   * @returns A promise that resolves when the value is successfully saved.
+   * @returns - A promise that resolves when the value is successfully saved.
    */
   async set(key: string, value: string): Promise<void> {
     localStorage.setItem(key, value);
