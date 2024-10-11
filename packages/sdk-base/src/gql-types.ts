@@ -21,7 +21,7 @@ export type Scalars = {
 
 export type GqlChain = {
   __typename?: 'Chain';
-  addressNft: GqlNft;
+  addressNft?: Maybe<GqlNft>;
   addressNfts: Array<GqlNft>;
   addressTokenBalances: Array<GqlTokenBalance>;
   rpcUrl: Scalars['String']['output'];

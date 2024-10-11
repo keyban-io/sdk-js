@@ -96,7 +96,7 @@ export type GqlKeybanClient_addressNftQueryVariables = Types.Exact<{
 
 export type GqlKeybanClient_addressNftQuery = {
   chain: {
-    addressNft: {
+    addressNft?: {
       id: string,
       imageUrl?: string | null,
       balance: Types.Scalars['BigInt']['output'],
@@ -109,7 +109,7 @@ export type GqlKeybanClient_addressNftQuery = {
         decimals?: number | null,
         iconUrl?: string | null
       }
-    }
+    } | null
   }
 };
 

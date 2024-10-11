@@ -57,9 +57,9 @@ export enum SdkErrorTypes {
   InvalidNftStandard = "InvalidNftStandard",
 
   /**
-   * NFTNotFound.
+   * NftNotFound.
    */
-  NFTNotFound = "NFTNotFound",
+  NftNotFound = "NftNotFound",
 }
 
 export class SdkError extends KeybanBaseError<SdkErrorTypes> {
@@ -106,7 +106,7 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
       case SdkErrorTypes.InvalidNftStandard:
         return "Invalid NFT standard. Supported standards are: ERC721, ERC1155";
 
-      case SdkErrorTypes.NFTNotFound:
+      case SdkErrorTypes.NftNotFound:
         return "NFT not found";
 
       default:

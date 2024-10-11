@@ -330,7 +330,7 @@ export class KeybanClient {
     const nft = chain.addressNft;
 
     if (!nft) {
-      throw new SdkError(SdkErrorTypes.NFTNotFound, "KeybanClient.getNft");
+      throw new SdkError(SdkErrorTypes.NftNotFound, "KeybanClient.getNft");
     }
 
     return nft;
