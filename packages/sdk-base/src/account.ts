@@ -98,6 +98,7 @@ export type EstimateERC20TransferParams = Omit<
 
 /**
  * Represents the parameters for estimating the cost of transferring ERC721 and ERC1155 tokens.
+ * @see {@link TransferNFTParams}
  */
 export type EstimateNFTTransferParams = Omit<TransferNFTParams, "txOptions">;
 

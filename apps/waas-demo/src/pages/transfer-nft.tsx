@@ -133,6 +133,7 @@ const TransferNFT: React.FC = () => {
           tokenId: selectedNft.id as unknown as bigint,
           to: recipient as Address,
           standard: selectedNft.token.type === "ERC-721" ? "ERC721" : "ERC1155",
+          value: BigInt(1),
         });
         handleSuccess(txHash);
         resetForm();
