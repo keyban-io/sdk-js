@@ -122,7 +122,7 @@ const TransferNFT: React.FC = () => {
     dispatch({ type: "START_TRANSFER" });
     try {
       if (selectedNft && account && recipient) {
-        const txHash = await account.transferNFT({
+        const txHash = await account.transferNft({
           contractAddress: selectedNft.token.address as Address,
           tokenId: selectedNft.id as unknown as bigint,
           to: recipient as Address,

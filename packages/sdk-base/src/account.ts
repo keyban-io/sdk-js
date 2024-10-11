@@ -588,7 +588,7 @@ export class KeybanAccount implements KeybanAccount {
       if (value !== undefined && value !== 1n) {
         throw new SdkError(
           SdkErrorTypes.AmountIrrelevant,
-          "KeybanAccount.transferNFT",
+          "KeybanAccount.transferNft",
         );
       }
       return this.#estimateERC721Transfer({ contractAddress, tokenId, to });
