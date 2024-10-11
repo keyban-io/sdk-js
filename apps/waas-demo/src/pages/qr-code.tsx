@@ -1,6 +1,6 @@
 import type React from "react";
 
-import QRCode from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Stack, Typography } from "@mui/material";
@@ -29,7 +29,7 @@ const QRCodePage: React.FC = () => {
       <Typography variant="body1">
         {address || "No address provided"}
       </Typography>
-      {address ? <QRCode value={address} size={256} level="H" /> : null}
+      {address ? <QRCodeSVG value={address} size={256} level="H" /> : null}
       <Button variant="contained" onClick={handleBackClick}>
         Back to Dashboard
       </Button>
