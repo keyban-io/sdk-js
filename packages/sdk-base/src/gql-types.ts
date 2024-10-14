@@ -1,5 +1,10 @@
 // @ts-nocheck
-import type { Address, Hash, Hex } from "~/index";
+import type {
+  Address,
+  Hash,
+  Hex,
+} from "~/index";
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -47,7 +52,8 @@ export type GqlChainaddressTokenBalancesArgs = {
 
 export enum GqlChainType {
   KeybanTestnet = 'KeybanTestnet',
-  Sepolia = 'Sepolia'
+  Sepolia = 'Sepolia',
+  OptimismSepolia = 'OptimismSepolia'
 }
 
 export type GqlNft = {
