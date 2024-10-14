@@ -1,89 +1,30 @@
 export const testTransactions = [
-  // Transactions existantes
+  // First transaction: Incoming native cryptocurrency transfer
   {
-    date: "2024-07-21",
-    crypto: "Non-Native",
-    toFrom: "0x1234...abcd",
-    amount: "5 DAI",
-    status: "Sent",
+    date: "2024-10-14T08:51:16.000000Z", // Timestamp
+    from: "0x1234...abcd", // From: Any value (Sender's address)
+    to: "0x01ab11cc058405747b9c10fe4ec93e4115f533ce", // To: Claire's wallet address (Receiver's address)
+    value: 1500000000000000000, // Value in Wei (1.5 ETH)
+    status: "success", // Status: success
+    type: "ETH", // Type: ETH (native currency)
+    gasPrice: "875175001", // Gas Price (dynamic field)
+    gasUsed: "21000", // Gas Used (dynamic field)
+    transactionHash: "0x5efd6...225e42277", // Transaction Hash (dynamic field)
+    transactionFee: "18378675021000", // Transaction Fee (dynamic field)
+    confirmations: 32, // Confirmations (dynamic field)
   },
+  // Second transaction: Outgoing native cryptocurrency transfer
   {
-    date: "2024-07-20",
-    crypto: "Native",
-    toFrom: "0x5678...efgh",
-    amount: "0.1 POL",
-    status: "Pending",
-  },
-  {
-    date: "2024-07-20",
-    crypto: "NFT",
-    toFrom: "0x9abc...def0",
-    amount: "Cool Art 1",
-    status: "Received",
-  },
-  {
-    date: "2024-07-19",
-    crypto: "Non-Native",
-    toFrom: "0x4567...ijkl",
-    amount: "0.5 ETH",
-    status: "Received",
-  },
-  // Nouveaux cas ajoutés pour couvrir davantage de scénarios
-  {
-    date: "2024-07-18",
-    crypto: "Native",
-    toFrom: "0x9876...mnop",
-    amount: "20 POL",
-    status: "Sent",
-  },
-  {
-    date: "2024-07-17",
-    crypto: "NFT",
-    toFrom: "0xabcd...efgh",
-    amount: "Rare NFT 1",
-    status: "Pending",
-  },
-  {
-    date: "2024-07-16",
-    crypto: "Native",
-    toFrom: "0x1234...abcd",
-    amount: "10 POL",
-    status: "Received",
-  },
-  {
-    date: "2024-07-15",
-    crypto: "NFT",
-    toFrom: "0x5678...ijkl",
-    amount: "Legendary NFT",
-    status: "Sent",
-  },
-  {
-    date: "2024-07-14",
-    crypto: "Non-Native",
-    toFrom: "0x9876...mnop",
-    amount: "100 USDC",
-    status: "Pending",
-  },
-  {
-    date: "2024-07-13",
-    crypto: "Non-Native",
-    toFrom: "0x4321...dcba",
-    amount: "0.2 BTC",
-    status: "Received",
-  },
-  {
-    date: "2024-07-12",
-    crypto: "Native",
-    toFrom: "0xabcd...efgh",
-    amount: "3 POL",
-    status: "Sent",
-  },
-  // Cas avec un statut non géré
-  {
-    date: "2024-07-11",
-    crypto: "Non-Native",
-    toFrom: "0x5678...ijkl",
-    amount: "Unknown Amount",
-    status: "Unknown",
+    date: "2024-10-14T09:10:45.000000Z", // Timestamp
+    from: "0x01ab11cc058405747b9c10fe4ec93e4115f533ce", // From: Claire's wallet address (Sender's address)
+    to: "0x5678...mnop", // To: Any value (Receiver's address)
+    value: 1000000000000000000, // Value in Wei (1.0 ETH)
+    status: "success", // Status: success
+    type: "ETH", // Type: ETH (native currency)
+    gasPrice: "875175002", // Gas Price (dynamic field)
+    gasUsed: "21000", // Gas Used (dynamic field)
+    transactionHash: "0x6aa8d...225e12345", // Transaction Hash (dynamic field)
+    transactionFee: "18378675031000", // Transaction Fee (dynamic field)
+    confirmations: 30, // Confirmations (dynamic field)
   },
 ];
