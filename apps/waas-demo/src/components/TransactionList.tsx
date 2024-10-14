@@ -22,14 +22,18 @@ interface Transaction {
   date: string;
   from: string;
   to: string;
-  value: number; // Value in Wei
+  amount?: number; // Optional, especially for ERC-721
   status: string;
-  type: string;
+  type: string; // "ETH", "ERC-20", "ERC-721", or "ERC-1155"
   gasPrice: string;
   gasUsed: string;
   transactionHash: string;
   transactionFee: string;
   confirmations: number;
+  contractAddress?: string; // Optional
+  tokenSymbol?: string; // Optional for tokens
+  tokenId?: string; // Optional, for NFTs
+  tokenName?: string; // Optional, for NFTs
 }
 
 interface TransactionListProps {
@@ -59,11 +63,22 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
     }
   };
 
-  const formatAmount = (value: number) => {
-    // Convert Wei to ETH
-    const amountInETH = value / 1e18;
-    // Format to 4 decimal places
-    return `${amountInETH.toFixed(4)} ETH`;
+  const formatAmount = (transaction: Transaction) => {
+    if (transaction.type === "ETH") {
+      const amountInETH = (transaction.amount ?? 0) / 1e18;
+      return `${amountInETH.toFixed(4)} ETH`;
+    }
+    if (transaction.type === "ERC-20") {
+      const amountInTokens = (transaction.amount ?? 0) / 1e18;
+      return `${amountInTokens.toFixed(4)} ${transaction.tokenSymbol ?? ""}`;
+    }
+    if (transaction.type === "ERC-721") {
+      return `Token ID: ${transaction.tokenId}`;
+    }
+    if (transaction.type === "ERC-1155") {
+      return `Amount: ${transaction.amount} Token ID: ${transaction.tokenId}`;
+    }
+    return `${transaction.amount ?? ""}`;
   };
 
   const formatDate = (dateString: string) => {
@@ -90,23 +105,47 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
   };
 
   const formatGasPrice = (gasPrice: string) => {
-    // Convert Wei to Gwei
     const gasPriceInGwei = Number.parseInt(gasPrice) / 1e9;
     return `${gasPriceInGwei.toFixed(2)} Gwei`;
   };
 
   const formatTransactionFee = (fee: string) => {
-    // Convert Wei to ETH
     const feeInETH = Number.parseInt(fee) / 1e18;
     return `${feeInETH.toFixed(6)} ETH`;
   };
 
   const shortenAddress = (address: string, chars = 4) => {
     if (address.length <= chars * 2 + 2) {
-      // Address is already short enough
       return address;
     }
     return `${address.slice(0, chars + 2)}...${address.slice(-chars)}`;
+  };
+
+  const getAssetType = (transaction: Transaction) => {
+    if (transaction.type === "ETH") {
+      return "Native";
+    }
+    if (transaction.type === "ERC-20") {
+      return "Token";
+    }
+    if (transaction.type === "ERC-721" || transaction.type === "ERC-1155") {
+      return "NFT";
+    }
+
+    return "Unknown";
+  };
+
+  const getCryptoDisplay = (transaction: Transaction) => {
+    if (transaction.type === "ETH") {
+      return "ETH";
+    }
+    if (transaction.type === "ERC-20") {
+      return transaction.tokenSymbol ?? "ERC-20";
+    }
+    if (transaction.type === "ERC-721" || transaction.type === "ERC-1155") {
+      return transaction.tokenName ?? transaction.type;
+    }
+    return transaction.type;
   };
 
   return (
@@ -120,6 +159,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
             <TableCell align="center">Status</TableCell>
             <TableCell align="center">Amount</TableCell>
             <TableCell align="center">Crypto</TableCell>
+            <TableCell align="center">Asset Type</TableCell>
             <TableCell align="center">Gas Price</TableCell>
             <TableCell align="center">Gas Used</TableCell>
             <TableCell align="center">Transaction Fee</TableCell>
@@ -130,7 +170,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
         <TableBody>
           {transactions.map((transaction) => {
             const status = getStatus(transaction);
-            const amount = formatAmount(transaction.value);
+            const amount = formatAmount(transaction);
             const date = formatDate(transaction.date);
             const gasPrice = formatGasPrice(transaction.gasPrice);
             const transactionFee = formatTransactionFee(
@@ -181,7 +221,12 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                   </Typography>
                 </TableCell>
                 <TableCell align="center">{amount}</TableCell>
-                <TableCell align="center">{transaction.type}</TableCell>
+                <TableCell align="center">
+                  {getCryptoDisplay(transaction)}
+                </TableCell>
+                <TableCell align="center">
+                  {getAssetType(transaction)}
+                </TableCell>
                 <TableCell align="center">{gasPrice}</TableCell>
                 <TableCell align="center">{transaction.gasUsed}</TableCell>
                 <TableCell align="center">{transactionFee}</TableCell>
