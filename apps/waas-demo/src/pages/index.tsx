@@ -1,11 +1,17 @@
 import type React from "react";
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import { useErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
-import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
+import {
+  useKeybanAccount,
+  useKeybanAccountBalance,
+} from "@keyban/sdk-react";
 import {
   Button,
   CircularProgress,
@@ -49,6 +55,10 @@ const WalletDashboardContent: React.FC = () => {
     navigate("/transfer-native-crypto");
   };
 
+  const handleViewTransactions = () => {
+    navigate("/transactions");
+  };
+
   if (loading) {
     return (
       <Stack
@@ -80,8 +90,10 @@ const WalletDashboardContent: React.FC = () => {
         <NFTSection />
         <Divider />
         <Typography variant="h6">Last Transactions</Typography>
-        <TransactionList transactions={testTransactions} />
-        <Button variant="contained">View all Transactions...</Button>
+        <TransactionList transactions={testTransactions} pageSize={5} />
+        <Button variant="contained" onClick={handleViewTransactions}>
+          View all Transactions...
+        </Button>
       </Stack>
     </>
   );

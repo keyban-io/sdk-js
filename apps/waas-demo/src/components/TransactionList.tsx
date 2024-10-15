@@ -1,10 +1,18 @@
 import type React from "react";
+import {
+  useEffect,
+  useRef,
+} from "react";
 
 import { format } from "date-fns";
 
-import { useKeybanAccount, useKeybanClient } from "@keyban/sdk-react";
+import {
+  useKeybanAccount,
+  useKeybanClient,
+} from "@keyban/sdk-react";
 import {
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -22,28 +30,59 @@ interface Transaction {
   date: string;
   from: string;
   to: string;
-  amount?: number; // Optional, especially for ERC-721
+  amount?: number; // Optionnel, surtout pour ERC-721
   status: string;
-  type: string; // "ETH", "ERC-20", "ERC-721", or "ERC-1155"
+  type: string; // "ETH", "ERC-20", "ERC-721", ou "ERC-1155"
   gasPrice: string;
   gasUsed: string;
   transactionHash: string;
   transactionFee: string;
   confirmations: number;
-  contractAddress?: string; // Optional
-  tokenSymbol?: string; // Optional for tokens
-  tokenId?: string; // Optional, for NFTs
-  tokenName?: string; // Optional, for NFTs
+  contractAddress?: string; // Optionnel
+  tokenSymbol?: string; // Optionnel pour les tokens
+  tokenId?: string; // Optionnel, pour les NFTs
+  tokenName?: string; // Optionnel, pour les NFTs
 }
 
 interface TransactionListProps {
   transactions: Transaction[];
+  pageSize?: number;
+  currentPage?: number;
+  onLoadMore?: () => void;
 }
 
-const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
+const TransactionList: React.FC<TransactionListProps> = ({
+  transactions,
+  pageSize = 50,
+  currentPage = 1,
+  onLoadMore,
+}) => {
   const theme = useTheme();
   const [account, accountError] = useKeybanAccount({ suspense: true });
   if (accountError) throw accountError;
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastTransactionRef = useRef<HTMLTableRowElement | null>(null);
+
+  useEffect(() => {
+    if (observer.current) observer.current.disconnect();
+
+    if (onLoadMore) {
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          onLoadMore();
+        }
+      });
+
+      if (lastTransactionRef.current) {
+        observer.current.observe(lastTransactionRef.current);
+      }
+    }
+
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, [onLoadMore]);
 
   const client = useKeybanClient();
 
@@ -83,7 +122,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return format(date, "PPpp"); // Example format: 'Oct 14, 2024 at 8:51 AM'
+    return format(date, "PPpp"); // Exemple : '14 oct. 2024 à 8:51 AM'
   };
 
   const getStatus = (transaction: Transaction) => {
@@ -148,121 +187,133 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
     return transaction.type;
   };
 
+  const paginatedTransactions = transactions.slice(0, currentPage * pageSize);
+
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Date</TableCell>
-            <TableCell align="center">From</TableCell>
-            <TableCell align="center">To</TableCell>
-            <TableCell align="center">Status</TableCell>
-            <TableCell align="center">Amount</TableCell>
-            <TableCell align="center">Crypto</TableCell>
-            <TableCell align="center">Asset Type</TableCell>
-            <TableCell align="center">Gas Price</TableCell>
-            <TableCell align="center">Gas Used</TableCell>
-            <TableCell align="center">Transaction Fee</TableCell>
-            <TableCell align="center">Confirmations</TableCell>
-            <TableCell align="center">Transaction Hash</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {transactions.map((transaction) => {
-            const status = getStatus(transaction);
-            const amount = formatAmount(transaction);
-            const date = formatDate(transaction.date);
-            const gasPrice = formatGasPrice(transaction.gasPrice);
-            const transactionFee = formatTransactionFee(
-              transaction.transactionFee,
-            );
-
-            let indexerUrl = "";
-            try {
-              indexerUrl = getIndexerUrl(
-                client.chain,
-                transaction.transactionHash,
+    <Stack spacing={2}>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Date</TableCell>
+              <TableCell align="center">From</TableCell>
+              <TableCell align="center">To</TableCell>
+              <TableCell align="center">Status</TableCell>
+              <TableCell align="center">Amount</TableCell>
+              <TableCell align="center">Crypto</TableCell>
+              <TableCell align="center">Asset Type</TableCell>
+              <TableCell align="center">Gas Price</TableCell>
+              <TableCell align="center">Gas Used</TableCell>
+              <TableCell align="center">Transaction Fee</TableCell>
+              <TableCell align="center">Confirmations</TableCell>
+              <TableCell align="center">Transaction Hash</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedTransactions.map((transaction, index) => {
+              const status = getStatus(transaction);
+              const amount = formatAmount(transaction);
+              const date = formatDate(transaction.date);
+              const gasPrice = formatGasPrice(transaction.gasPrice);
+              const transactionFee = formatTransactionFee(
+                transaction.transactionFee,
               );
-            } catch (error) {
-              console.error("Error generating indexer URL:", error);
-            }
 
-            return (
-              <TableRow
-                key={transaction.transactionHash}
-                hover
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "var(--table-row-hover-background-color)",
-                  },
-                }}
-              >
-                <TableCell align="center">{date}</TableCell>
-                <TableCell align="center">
-                  <Tooltip title={transaction.from} arrow>
-                    <Typography variant="body2" noWrap>
-                      {shortenAddress(transaction.from)}
-                    </Typography>
-                  </Tooltip>
-                </TableCell>
-                <TableCell align="center">
-                  <Tooltip title={transaction.to} arrow>
-                    <Typography variant="body2" noWrap>
-                      {shortenAddress(transaction.to)}
-                    </Typography>
-                  </Tooltip>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography
-                    variant="body2"
-                    style={{ color: getStatusColor(status) }}
-                  >
-                    {status}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">{amount}</TableCell>
-                <TableCell align="center">
-                  {getCryptoDisplay(transaction)}
-                </TableCell>
-                <TableCell align="center">
-                  {getAssetType(transaction)}
-                </TableCell>
-                <TableCell align="center">{gasPrice}</TableCell>
-                <TableCell align="center">{transaction.gasUsed}</TableCell>
-                <TableCell align="center">{transactionFee}</TableCell>
-                <TableCell align="center">
-                  {transaction.confirmations}
-                </TableCell>
-                <TableCell align="center">
-                  <Tooltip title={transaction.transactionHash} arrow>
-                    {indexerUrl ? (
-                      <Typography
-                        variant="body2"
-                        noWrap
-                        component="a"
-                        href={indexerUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          textDecoration: "none",
-                          color: theme.palette.primary.main,
-                        }}
-                      >
-                        {shortenAddress(transaction.transactionHash, 6)}
-                      </Typography>
-                    ) : (
+              let indexerUrl = "";
+              try {
+                indexerUrl = getIndexerUrl(
+                  client.chain,
+                  transaction.transactionHash,
+                );
+              } catch (error) {
+                console.error("Error generating indexer URL:", error);
+              }
+
+              return (
+                <TableRow
+                  key={transaction.transactionHash}
+                  hover
+                  sx={{
+                    "&:hover": {
+                      backgroundColor:
+                        "var(--table-row-hover-background-color)",
+                    },
+                  }}
+                  ref={
+                    index === paginatedTransactions.length - 1
+                      ? lastTransactionRef
+                      : null
+                  }
+                >
+                  <TableCell align="center">{date}</TableCell>
+                  <TableCell align="center">
+                    <Tooltip title={transaction.from} arrow>
                       <Typography variant="body2" noWrap>
-                        {shortenAddress(transaction.transactionHash, 6)}
+                        {shortenAddress(transaction.from)}
                       </Typography>
-                    )}
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Tooltip title={transaction.to} arrow>
+                      <Typography variant="body2" noWrap>
+                        {shortenAddress(transaction.to)}
+                      </Typography>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography
+                      variant="body2"
+                      style={{ color: getStatusColor(status) }}
+                    >
+                      {status}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">{amount}</TableCell>
+                  <TableCell align="center">
+                    {getCryptoDisplay(transaction)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {getAssetType(transaction)}
+                  </TableCell>
+                  <TableCell align="center">{gasPrice}</TableCell>
+                  <TableCell align="center">{transaction.gasUsed}</TableCell>
+                  <TableCell align="center">{transactionFee}</TableCell>
+                  <TableCell align="center">
+                    {transaction.confirmations}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Tooltip title={transaction.transactionHash} arrow>
+                      <div>
+                        {indexerUrl ? (
+                          <Typography
+                            variant="body2"
+                            noWrap
+                            component="a"
+                            href={indexerUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              textDecoration: "none",
+                              color: theme.palette.primary.main,
+                            }}
+                          >
+                            {shortenAddress(transaction.transactionHash, 6)}
+                          </Typography>
+                        ) : (
+                          <Typography variant="body2" noWrap>
+                            {shortenAddress(transaction.transactionHash, 6)}
+                          </Typography>
+                        )}
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Stack>
   );
 };
 
