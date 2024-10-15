@@ -31,22 +31,28 @@ const TransactionsPage: React.FC = () => {
   };
 
   return (
-    <Stack
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      spacing={4}
-    >
-      <Typography variant="h6">Transaction List</Typography>
+    <Stack direction="column" spacing={4}>
+      <Typography variant="h6" align="center">
+        Transaction List
+      </Typography>
       <TransactionList
         transactions={transactions}
         pageSize={15}
         currentPage={page}
         onLoadMore={loadMoreTransactions}
       />
-      <Button variant="contained" onClick={handleBackClick}>
-        Back to Dashboard
-      </Button>
+      <div
+        style={{
+          position: "sticky",
+          bottom: 0,
+          alignSelf: "center",
+          marginTop: "auto",
+        }}
+      >
+        <Button variant="contained" onClick={handleBackClick}>
+          Back to Dashboard
+        </Button>
+      </div>
     </Stack>
   );
 };
