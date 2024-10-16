@@ -3,7 +3,7 @@ import SerializedValue from "@/components/atoms/SerializedValue";
 import { useKeybanAccount } from "@keyban/sdk-react";
 
 export default function AccountInfo() {
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   return (

@@ -4,12 +4,10 @@ import SerializedValue from "@/components/atoms/SerializedValue";
 import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
 
 export default function Nft() {
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [nfts, nftsError, { refresh }] = useKeybanAccountNfts(account, {
-    suspense: true,
-  });
+  const [nfts, nftsError, { refresh }] = useKeybanAccountNfts(account);
   if (nftsError) throw nftsError;
 
   return (

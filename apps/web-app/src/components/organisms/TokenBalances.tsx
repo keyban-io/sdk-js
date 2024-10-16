@@ -8,11 +8,11 @@ import SerializedValue from "@/components/atoms/SerializedValue";
 import RefreshButton from "@/components/atoms/RefreshButton";
 
 export default function TokenBalances() {
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   const [tokenBalances, tokenBalancesError, { refresh }] =
-    useKeybanAccountTokenBalances(account, { suspense: true });
+    useKeybanAccountTokenBalances(account);
   if (tokenBalancesError) throw tokenBalancesError;
 
   return (

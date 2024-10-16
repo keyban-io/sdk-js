@@ -1,14 +1,7 @@
 import type React from "react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  type Location,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { type Location, useLocation, useNavigate } from "react-router-dom";
 
 import TransferAlert from "@/components/TransferAlert";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -50,18 +43,14 @@ const TransferERC20: React.FC = () => {
 
   const keybanClient = useKeybanClient();
 
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [balance, balanceError] = useKeybanAccountBalance(account, {
-    suspense: true,
-  });
+  const [balance, balanceError] = useKeybanAccountBalance(account);
   if (balanceError) throw balanceError;
 
-  const [tokenBalances, tokenBalancesError] = useKeybanAccountTokenBalances(
-    account,
-    { suspense: true },
-  );
+  const [tokenBalances, tokenBalancesError] =
+    useKeybanAccountTokenBalances(account);
   if (tokenBalancesError) throw tokenBalancesError;
 
   const token = tokenBalances.find(

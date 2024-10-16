@@ -1,6 +1,7 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
-const IMPORT_SCALARS = 'import type { Address, Hash, Hex } from "~/index";';
+const IMPORT_SCALARS =
+  '// @ts-ignore\nimport type { Address, Hash, Hex } from "~/index";';
 const scalars = {
   Address: "Address",
   Hash: "Hash",
@@ -14,50 +15,25 @@ const config: CodegenConfig = {
   documents: ["src/**/*.gql"],
   ignoreNoDocuments: true,
   generates: {
-    "src/gql-types.ts": {
+    "src/graphql.ts": {
       plugins: [
         "typescript",
-        { add: { content: "// @ts-nocheck" } },
-        { add: { content: IMPORT_SCALARS } },
-      ],
-      config: {
-        typesPrefix: "Gql",
-        namingConvention: "keep",
-        strictScalars: true,
-        scalars,
-      },
-    },
-
-    "src/": {
-      preset: "near-operation-file",
-      presetConfig: {
-        extension: ".generated.ts",
-        baseTypesPath: "gql-types.ts",
-      },
-      plugins: [
         "typescript-operations",
-        "typescript-generic-sdk",
-        // Previous plugins will always import gql-types.ts, which
-        // might not be used and will result in a TypeScript
-        // compilation error at build time. Since these files are
-        // auto-generated, there's no point to typecheck them.
-        { add: { content: "// @ts-nocheck" } },
+        "typed-document-node",
+        { add: { content: IMPORT_SCALARS } },
         { add: { content: "\n", placement: "append" } },
       ],
       config: {
         typesPrefix: "Gql",
         namingConvention: "keep",
         skipTypename: true,
+        avoidOptionals: true,
         printFieldsOnNewLines: true,
-        documentMode: "string",
+        documentMode: "documentNode",
+        documentNodeImport:
+          "@graphql-typed-document-node/core#TypedDocumentNode",
         strictScalars: true,
-        scalars: Object.keys(scalars).reduce(
-          (acc, name) =>
-            Object.assign(acc, {
-              [name]: `Types.Scalars['${name}']['output']`,
-            }),
-          {},
-        ),
+        scalars,
       },
     },
   },

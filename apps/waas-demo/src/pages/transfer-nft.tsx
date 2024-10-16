@@ -73,15 +73,13 @@ const TransferNFT: React.FC = () => {
 
   const client = useKeybanClient();
 
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [balance, balanceError] = useKeybanAccountBalance(account, {
-    suspense: true,
-  });
+  const [balance, balanceError] = useKeybanAccountBalance(account);
   if (balanceError) throw balanceError;
 
-  const [nfts, nftsError] = useKeybanAccountNfts(account, { suspense: true });
+  const [nfts, nftsError] = useKeybanAccountNfts(account);
   if (nftsError) throw nftsError;
 
   const selectedNft = nfts.find((nft) => nft.id === selectedNftId);

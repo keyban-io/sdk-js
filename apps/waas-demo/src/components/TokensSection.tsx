@@ -22,13 +22,11 @@ import {
 const TokensSection: React.FC = () => {
   const navigate = useNavigate(); // Hook de navigation
 
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [tokenBalances, tokenBalancesError] = useKeybanAccountTokenBalances(
-    account,
-    { suspense: true },
-  );
+  const [tokenBalances, tokenBalancesError] =
+    useKeybanAccountTokenBalances(account);
   if (tokenBalancesError) throw tokenBalancesError;
 
   const handleSend = ({ token }: KeybanTokenBalance) => {

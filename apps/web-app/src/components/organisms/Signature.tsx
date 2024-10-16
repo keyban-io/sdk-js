@@ -8,7 +8,7 @@ import { useErrorBoundary } from "react-error-boundary";
 export default function Signature() {
   const { showBoundary } = useErrorBoundary();
 
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   const [message, setMessage] = React.useState("");

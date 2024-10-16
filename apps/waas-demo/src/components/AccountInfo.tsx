@@ -1,14 +1,11 @@
-import type React from 'react';
-import { useState } from 'react';
+import type React from "react";
+import { useState } from "react";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import {
-  faCopy,
-  faQrcode,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useKeybanAccount } from '@keyban/sdk-react';
+import { faCopy, faQrcode } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useKeybanAccount } from "@keyban/sdk-react";
 import {
   Alert,
   IconButton,
@@ -16,12 +13,12 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 const AccountInfo: React.FC = () => {
   const navigate = useNavigate();
   const [openSnackbar, setOpenSnackbar] = useState(false); // État pour le Snackbar
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   const handleShareAddressClick = () => {

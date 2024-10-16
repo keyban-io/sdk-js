@@ -15,7 +15,7 @@ import TextField from "@/components/molecules/TextField";
 export default function ERC20Transfer() {
   const { showBoundary } = useErrorBoundary();
 
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   const [value, setValue] = React.useState(0n);

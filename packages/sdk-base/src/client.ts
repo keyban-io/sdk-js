@@ -11,21 +11,24 @@ import {
   serializeTransaction,
 } from "viem";
 import { publicKeyToAddress, toAccount } from "viem/accounts";
+import { ApolloClient } from "@apollo/client/core";
+import { NormalizedCacheObject } from "@apollo/client/cache";
+
 import { signersChainMap, viemChainsMap } from "~/chains";
 import { parseJwt } from "~/utils/jwt";
-
-import { getSdk, type Sdk } from "./client.generated";
-import { KeybanAccount } from "./account";
-import type { KeybanApiStatus } from "./api";
-import { SdkError, SdkErrorTypes, StorageError } from "./errors";
-import type { Address, KeybanChain } from "./index";
-import type { IKeybanSigner } from "./signer";
-import type { IKeybanStorage } from "./storage";
-
-export type {
-  GqlKeybanClient_TokenBalanceFragment as KeybanTokenBalance,
-  GqlKeybanClient_NftFragment as KeybanNft,
-} from "~/client.generated";
+import { createApolloClient } from "~/apollo";
+import { KeybanAccount } from "~/account";
+import type { KeybanApiStatus } from "~/api";
+import { SdkError, SdkErrorTypes, StorageError } from "~/errors";
+import type { Address, KeybanChain } from "~/index";
+import type { IKeybanSigner } from "~/signer";
+import type { IKeybanStorage } from "~/storage";
+import {
+  KeybanClient_addressNftDocument,
+  KeybanClient_addressNftsDocument,
+  KeybanClient_addressTokenBalancesDocument,
+  KeybanClient_chainDocument,
+} from "~/graphql";
 
 /**
  * Configuration object for the Keyban client.
@@ -69,48 +72,11 @@ export class KeybanClient {
 
   #signer: IKeybanSigner;
   #storage: IKeybanStorage;
-  #graphql: Sdk;
+
+  apolloClient: ApolloClient<NormalizedCacheObject>;
 
   #transport: Promise<Transport>;
   #publicClient: Promise<PublicClient<Transport, Chain>>;
-
-  /**
-   * Performs a GraphQL request to the Keyban API.
-   *
-   * @template R - Expected response type.
-   * @template V - Variables passed with the query.
-   * @param query - The GraphQL query string.
-   * @param variables - Variables to pass with the query.
-   * @returns - A promise resolving to the data returned from the server.
-   */
-  #gqlRequester = async <R, V>(query: string, variables?: V) => {
-    const res = await fetch(new URL("/graphql", this.apiUrl), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/graphql-response+json",
-      },
-      body: JSON.stringify({ query, variables }, (_, value) => {
-        if (typeof value === "bigint") return value.toString();
-
-        return value;
-      }),
-    });
-
-    if (!res.ok) throw new Error("Network response was not ok");
-
-    const text = await res.text();
-    const { data, errors } = JSON.parse(text, (_, value) => {
-      if (typeof value === "object" && value?.__typename === "BigIntScalar")
-        return BigInt(value.value);
-
-      return value;
-    });
-
-    if (errors?.length) throw new Error(errors[0].message);
-
-    return data as R;
-  };
 
   /**
    * Creates a new instance of `KeybanClient`.
@@ -137,11 +103,19 @@ export class KeybanClient {
 
     this.#signer = new signer();
     this.#storage = new storage();
-    this.#graphql = getSdk(this.#gqlRequester);
 
-    this.#transport = this.#graphql
-      .KeybanClient_chain({ chain })
-      .then(({ chain }) => http(chain.rpcUrl));
+    this.apolloClient = createApolloClient(
+      this.apiUrl,
+      this.#accessTokenProvider,
+    );
+
+    this.#transport = this.apolloClient
+      .query({
+        query: KeybanClient_chainDocument,
+        variables: { chain },
+      })
+      .then(({ data }) => http(data.chain.rpcUrl));
+
     this.#publicClient = this.#transport.then((transport) =>
       createPublicClient({
         chain: viemChainsMap[this.chain],
@@ -284,12 +258,15 @@ export class KeybanClient {
       );
     }
 
-    const { chain } = await this.#graphql.KeybanClient_addressTokenBalances({
-      chainType: this.chain,
-      address,
+    const { data } = await this.apolloClient.query({
+      query: KeybanClient_addressTokenBalancesDocument,
+      variables: {
+        chainType: this.chain,
+        address,
+      },
     });
 
-    return chain.addressTokenBalances;
+    return data.chain.addressTokenBalances;
   }
 
   /**
@@ -300,12 +277,15 @@ export class KeybanClient {
       throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNfts");
     }
 
-    const { chain } = await this.#graphql.KeybanClient_addressNfts({
-      chainType: this.chain,
-      address,
+    const { data } = await this.apolloClient.query({
+      query: KeybanClient_addressNftsDocument,
+      variables: {
+        chainType: this.chain,
+        address,
+      },
     });
 
-    return chain.addressNfts;
+    return data.chain.addressNfts;
   }
 
   /**
@@ -320,14 +300,17 @@ export class KeybanClient {
       throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNft");
     }
 
-    const { chain } = await this.#graphql.KeybanClient_addressNft({
-      chainType: this.chain,
-      address,
-      tokenAddress,
-      tokenId,
+    const { data } = await this.apolloClient.query({
+      query: KeybanClient_addressNftDocument,
+      variables: {
+        chainType: this.chain,
+        address,
+        tokenAddress,
+        tokenId,
+      },
     });
 
-    const nft = chain.addressNft;
+    const nft = data.chain.addressNft;
 
     if (!nft) {
       throw new SdkError(SdkErrorTypes.NftNotFound, "KeybanClient.getNft");

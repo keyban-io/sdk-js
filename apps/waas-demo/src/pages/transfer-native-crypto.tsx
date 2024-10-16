@@ -1,8 +1,5 @@
 import type React from "react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -42,12 +39,10 @@ const TransferNativeCrypto: React.FC = () => {
   } = useTransferReducer();
 
   const client = useKeybanClient();
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [balance, balanceError] = useKeybanAccountBalance(account, {
-    suspense: true,
-  });
+  const [balance, balanceError] = useKeybanAccountBalance(account);
   if (balanceError) throw balanceError;
 
   useEffect(() => {

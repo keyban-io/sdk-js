@@ -3,9 +3,7 @@ import SerializedValue from "@/components/atoms/SerializedValue";
 import { useKeybanApiStatus } from "@keyban/sdk-react";
 
 export default function ApiStatus() {
-  const [apiStatus, apiStatusError, { reset }] = useKeybanApiStatus({
-    suspense: true,
-  });
+  const [apiStatus, apiStatusError, { reset }] = useKeybanApiStatus();
   if (apiStatusError) throw apiStatusError;
 
   return (

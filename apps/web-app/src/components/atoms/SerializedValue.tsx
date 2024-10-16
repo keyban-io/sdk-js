@@ -22,11 +22,17 @@ export default function SerializedValue({
   else if (typeof value === "bigint") textValue = value.toString();
   else if (value == null) textValue = "";
   else
-    textValue = JSON.stringify(
-      value,
-      (_, value) => (typeof value === "bigint" ? value.toString() : value),
-      2,
-    );
+    try {
+      textValue = JSON.stringify(
+        value,
+        (_, value) => (typeof value === "bigint" ? value.toString() : value),
+        2,
+      );
+    } catch (e) {
+      console.error(e);
+      console.log(value);
+      textValue = "NOT_SERIALIZABLE";
+    }
 
   const handleCopy = React.useCallback(() => {
     navigator.clipboard.writeText(textValue);

@@ -38,12 +38,10 @@ interface NftMetadata {
 }
 
 const NFTSection: React.FC = () => {
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [nfts, nftError] = useKeybanAccountNfts(account, {
-    suspense: true,
-  });
+  const [nfts, nftError] = useKeybanAccountNfts(account);
   if (nftError) throw nftError;
 
   const navigate = useNavigate();

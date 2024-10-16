@@ -1,9 +1,6 @@
 import type React from "react";
 
-import {
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   type KeybanNft,
@@ -43,13 +40,11 @@ const NftDetailsPage: React.FC = () => {
   const navigate = useNavigate();
 
   // Retrieve the account
-  const [account, accountError] = useKeybanAccount({
-    suspense: true,
-  });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   // Retrieve the list of NFTs associated with this account
-  const [nfts, nftError] = useKeybanAccountNfts(account, { suspense: true });
+  const [nfts, nftError] = useKeybanAccountNfts(account);
   if (nftError) throw nftError;
 
   // Find the specific NFT by its ID

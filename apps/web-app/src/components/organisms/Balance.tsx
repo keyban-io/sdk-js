@@ -8,12 +8,10 @@ import {
 } from "@keyban/sdk-react";
 
 export default function Balance() {
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [balance, balanceError, { reset }] = useKeybanAccountBalance(account, {
-    suspense: true,
-  });
+  const [balance, balanceError, { reset }] = useKeybanAccountBalance(account);
   if (balanceError) throw balanceError;
 
   return (

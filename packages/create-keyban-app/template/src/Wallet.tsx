@@ -15,12 +15,12 @@ import "./Wallet.css";
 // This component contains the main logic to display the account ID, address, and balance
 function WalletContent() {
   // Retrieves the Keyban account information, with error handling
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError; // Throws an error if the account cannot be retrieved
 
   // Retrieves the account balance, with error handling, and refreshes the balance
   const [balance, balanceError, { refresh: refreshBalance }] =
-    useKeybanAccountBalance(account, { suspense: true });
+    useKeybanAccountBalance(account);
   if (balanceError) throw balanceError; // Throws an error if the balance cannot be retrieved
 
   return (

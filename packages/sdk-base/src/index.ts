@@ -9,15 +9,16 @@ export {
 } from "./account";
 export { KeybanApiStatus } from "./api";
 export { KeybanChain } from "./chains";
-export {
-  KeybanClient,
-  KeybanClientConfig,
-  KeybanNft,
-  KeybanTokenBalance,
-} from "./client";
+export { KeybanClient, KeybanClientConfig } from "./client";
 export { IKeybanSigner, KeybanSigner } from "./signer";
+export { SdkError, SdkErrorTypes } from "./errors";
 export { IKeybanStorage } from "./storage";
 export * from "./utils";
+
+export type {
+  GqlKeybanClient_TokenBalanceFragment as KeybanTokenBalance,
+  GqlKeybanClient_NftFragment as KeybanNft,
+} from "~/graphql";
 
 /**
  * Alias for an Ethereum address. It must be a string that begins with "0x".

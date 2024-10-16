@@ -1,17 +1,10 @@
-import type React from "react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import React from "react";
 
 import { useErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
-import {
-  useKeybanAccount,
-  useKeybanAccountBalance,
-} from "@keyban/sdk-react";
+import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
 import {
   Button,
   CircularProgress,
@@ -31,16 +24,16 @@ const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();
   const { showBoundary } = useErrorBoundary();
 
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   const [balance, balanceError, { refresh: refreshBalance }] =
-    useKeybanAccountBalance(account, { suspense: true });
+    useKeybanAccountBalance(account);
   if (balanceError) throw balanceError;
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [maticToEuroRate, setMaticToEuroRate] = useState<number>(0);
-  useEffect(() => {
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [maticToEuroRate, setMaticToEuroRate] = React.useState<number>(0);
+  React.useEffect(() => {
     fetchMaticToEuroRate()
       .then(setMaticToEuroRate)
       .catch((error) => {

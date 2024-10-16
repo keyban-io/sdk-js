@@ -1,5 +1,6 @@
 query KeybanClient_chain($chain: ChainType!) {
   chain(type: $chain) {
+    type
     rpcUrl
   }
 }
@@ -21,6 +22,7 @@ query KeybanClient_addressTokenBalances(
   $address: Address!
 ) {
   chain(type: $chainType) {
+    type
     addressTokenBalances(address: $address) {
       ...KeybanClient_TokenBalance
     }
@@ -44,6 +46,7 @@ fragment KeybanClient_Nft on Nft {
 
 query KeybanClient_addressNfts($chainType: ChainType!, $address: Address!) {
   chain(type: $chainType) {
+    type
     addressNfts(address: $address) {
       ...KeybanClient_Nft
     }
@@ -57,6 +60,7 @@ query KeybanClient_addressNft(
   $tokenId: String!
 ) {
   chain(type: $chainType) {
+    type
     addressNft(
       address: $address
       tokenAddress: $tokenAddress

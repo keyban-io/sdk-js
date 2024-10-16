@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,
