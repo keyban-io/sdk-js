@@ -1,15 +1,9 @@
 import type React from "react";
-import {
-  useEffect,
-  useRef,
-} from "react";
+import { useEffect, useRef } from "react";
 
 import { format } from "date-fns";
 
-import {
-  useKeybanAccount,
-  useKeybanClient,
-} from "@keyban/sdk-react";
+import { useKeybanAccount, useKeybanClient } from "@keyban/sdk-react";
 import {
   Paper,
   Stack,
@@ -58,7 +52,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
   onLoadMore,
 }) => {
   const theme = useTheme();
-  const [account, accountError] = useKeybanAccount({ suspense: true });
+  const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   const observer = useRef<IntersectionObserver | null>(null);
