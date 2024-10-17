@@ -1,5 +1,5 @@
 import { formatUnits } from "viem";
-import type { KeybanClient, KeybanNft, KeybanTokenBalance } from "~/index";
+import type { KeybanClient, KeybanToken } from "~/index";
 
 /**
  * Formats a balance in a human-readable format using the Keyban client.
@@ -15,7 +15,7 @@ import type { KeybanClient, KeybanNft, KeybanTokenBalance } from "~/index";
  */
 export function formatBalance(
   client: KeybanClient,
-  balance: bigint | KeybanTokenBalance | KeybanNft,
+  balance: bigint | { balance: bigint; token: KeybanToken },
 ) {
   let decimals = client.nativeCurrency.decimals;
   let symbol: string | null | undefined = client.nativeCurrency.symbol;

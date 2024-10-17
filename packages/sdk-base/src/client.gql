@@ -25,16 +25,21 @@ subscription KeybanClient_nativeBalanceSubscription(
   }
 }
 
+fragment KeybanClient_Token on Token {
+  id
+  address
+  type
+  name
+  symbol
+  decimals
+  iconUrl
+}
+
 fragment KeybanClient_TokenBalance on TokenBalance {
   id
   token {
     id
-    address
-    type
-    name
-    symbol
-    decimals
-    iconUrl
+    ...KeybanClient_Token
   }
   balance
 }
@@ -59,12 +64,7 @@ fragment KeybanClient_Nft on Nft {
   id
   token {
     id
-    address
-    type
-    name
-    symbol
-    decimals
-    iconUrl
+    ...KeybanClient_Token
   }
   tokenId
   imageUrl
