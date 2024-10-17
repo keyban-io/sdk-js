@@ -1,4 +1,3 @@
-import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import {
@@ -11,19 +10,12 @@ export default function Balance() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [balance, balanceError, { refresh }] = useKeybanAccountBalance(account);
+  const [balance, balanceError] = useKeybanAccountBalance(account);
   if (balanceError) throw balanceError;
 
   return (
     <fieldset>
-      <legend>
-        Balance
-        <RefreshButton
-          onClick={refresh}
-          style={{ marginInlineStart: "0.5ch" }}
-          data-test-id="Balance:refresh"
-        />
-      </legend>
+      <legend>Balance</legend>
 
       <Row>
         <span>Formatted:</span>
