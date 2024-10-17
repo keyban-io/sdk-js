@@ -1,4 +1,4 @@
-import { gql, useSubscription, useSuspenseQuery } from "@apollo/client";
+import { useSubscription, useSuspenseQuery } from "@apollo/client";
 import {
   Address,
   KeybanAccount,
