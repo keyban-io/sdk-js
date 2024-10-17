@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@apollo/client";
+import { gql, useSubscription, useSuspenseQuery } from "@apollo/client";
 import {
   Address,
   KeybanAccount,
@@ -10,6 +10,7 @@ import {
   KeybanClient_addressNftsDocument,
   KeybanClient_addressTokenBalancesDocument,
   KeybanClient_nativeBalanceDocument,
+  KeybanClient_nativeBalanceSubscriptionDocument,
 } from "@keyban/sdk-base/graphql";
 
 import { usePromise } from "~/promise";
@@ -46,6 +47,14 @@ export function useKeybanAccountBalance(account: KeybanAccount) {
       },
     },
   );
+
+  useSubscription(KeybanClient_nativeBalanceSubscriptionDocument, {
+    client: client.apolloClient,
+    variables: {
+      chainType: client.chain,
+      address: account.address,
+    },
+  });
 
   const extra = { refresh: () => refetch() };
 

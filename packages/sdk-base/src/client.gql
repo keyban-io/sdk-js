@@ -15,6 +15,16 @@ query KeybanClient_nativeBalance($chainType: ChainType!, $address: Address!) {
   }
 }
 
+subscription KeybanClient_nativeBalanceSubscription(
+  $chainType: ChainType!
+  $address: Address!
+) {
+  accountNativeBalance(chainType: $chainType, address: $address) {
+    id
+    nativeBalance
+  }
+}
+
 fragment KeybanClient_TokenBalance on TokenBalance {
   id
   token {
