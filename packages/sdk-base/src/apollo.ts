@@ -11,8 +11,8 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { createClient } from "graphql-ws";
 
 const BIG_INT_FIELD_READER = {
-  read({ value }: any) {
-    return BigInt(value);
+  read(data?: { __typename: "BigIntScalar"; value: string }) {
+    return BigInt(data?.value ?? "0");
   },
 };
 
@@ -66,20 +66,17 @@ export function createApolloClient(
   return new ApolloClient({
     cache: new InMemoryCache({
       typePolicies: {
-        Chain: {
-          keyFields: ["type"],
-        },
-        Token: {
-          keyFields: ["address"],
+        Account: {
+          fields: {
+            nativeBalance: BIG_INT_FIELD_READER,
+          },
         },
         TokenBalance: {
-          keyFields: ["token", ["address"]],
           fields: {
             balance: BIG_INT_FIELD_READER,
           },
         },
         Nft: {
-          keyFields: ["token", ["address"], "id"],
           fields: {
             balance: BIG_INT_FIELD_READER,
           },

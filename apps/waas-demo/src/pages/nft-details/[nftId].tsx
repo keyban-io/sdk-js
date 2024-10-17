@@ -2,11 +2,7 @@ import type React from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import {
-  type KeybanNft,
-  useKeybanAccount,
-  useKeybanAccountNfts,
-} from "@keyban/sdk-react";
+import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
 import {
   Alert,
   Button,
@@ -48,7 +44,7 @@ const NftDetailsPage: React.FC = () => {
   if (nftError) throw nftError;
 
   // Find the specific NFT by its ID
-  const nft = nfts?.find((nft) => nft.id === nftId) as KeybanNft | undefined;
+  const nft = nfts?.find((nft) => nft.tokenId === nftId);
 
   const metadata = nft?.metadata as NftMetadata;
 
@@ -109,7 +105,7 @@ const NftDetailsPage: React.FC = () => {
                     Object.entries(metadata.properties)
                       .filter(([key]) => key !== "collection") // Exclude the 'collection' property
                       .map(([key, prop]) => (
-                        <Typography key={nft.id + nft.token.address}>
+                        <Typography key={nft.id}>
                           <strong>{key.replace(/_/g, " ")}:</strong>{" "}
                           {prop.value}
                         </Typography>
@@ -132,7 +128,7 @@ const NftDetailsPage: React.FC = () => {
             color="primary"
             onClick={() =>
               navigate("/transfer-nft", {
-                state: { nftId: nft.id },
+                state: { nftId: nft.tokenId },
               })
             }
           >

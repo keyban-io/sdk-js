@@ -1,12 +1,24 @@
 query KeybanClient_chain($chain: ChainType!) {
   chain(type: $chain) {
-    type
+    id
     rpcUrl
   }
 }
 
+query KeybanClient_nativeBalance($chainType: ChainType!, $address: Address!) {
+  chain(type: $chainType) {
+    id
+    account(address: $address) {
+      id
+      nativeBalance
+    }
+  }
+}
+
 fragment KeybanClient_TokenBalance on TokenBalance {
+  id
   token {
+    id
     address
     type
     name
@@ -22,15 +34,21 @@ query KeybanClient_addressTokenBalances(
   $address: Address!
 ) {
   chain(type: $chainType) {
-    type
-    addressTokenBalances(address: $address) {
-      ...KeybanClient_TokenBalance
+    id
+    account(address: $address) {
+      id
+      tokenBalances {
+        id
+        ...KeybanClient_TokenBalance
+      }
     }
   }
 }
 
 fragment KeybanClient_Nft on Nft {
+  id
   token {
+    id
     address
     type
     name
@@ -38,7 +56,7 @@ fragment KeybanClient_Nft on Nft {
     decimals
     iconUrl
   }
-  id
+  tokenId
   imageUrl
   balance
   metadata
@@ -46,9 +64,13 @@ fragment KeybanClient_Nft on Nft {
 
 query KeybanClient_addressNfts($chainType: ChainType!, $address: Address!) {
   chain(type: $chainType) {
-    type
-    addressNfts(address: $address) {
-      ...KeybanClient_Nft
+    id
+    account(address: $address) {
+      id
+      nfts {
+        id
+        ...KeybanClient_Nft
+      }
     }
   }
 }
@@ -60,13 +82,13 @@ query KeybanClient_addressNft(
   $tokenId: String!
 ) {
   chain(type: $chainType) {
-    type
-    addressNft(
-      address: $address
-      tokenAddress: $tokenAddress
-      tokenId: $tokenId
-    ) {
-      ...KeybanClient_Nft
+    id
+    account(address: $address) {
+      id
+      nft(tokenAddress: $tokenAddress, tokenId: $tokenId) {
+        id
+        ...KeybanClient_Nft
+      }
     }
   }
 }

@@ -28,6 +28,7 @@ import {
   KeybanClient_addressNftsDocument,
   KeybanClient_addressTokenBalancesDocument,
   KeybanClient_chainDocument,
+  KeybanClient_nativeBalanceDocument,
 } from "~/graphql";
 
 /**
@@ -243,8 +244,15 @@ export class KeybanClient {
       );
     }
 
-    const publicClient = await this.#publicClient;
-    return publicClient.getBalance({ address });
+    const { data } = await this.apolloClient.query({
+      query: KeybanClient_nativeBalanceDocument,
+      variables: {
+        chainType: this.chain,
+        address,
+      },
+    });
+
+    return data.chain.account.nativeBalance;
   }
 
   /**
@@ -266,7 +274,7 @@ export class KeybanClient {
       },
     });
 
-    return data.chain.addressTokenBalances;
+    return data.chain.account.tokenBalances;
   }
 
   /**
@@ -285,7 +293,7 @@ export class KeybanClient {
       },
     });
 
-    return data.chain.addressNfts;
+    return data.chain.account.nfts;
   }
 
   /**
@@ -310,7 +318,7 @@ export class KeybanClient {
       },
     });
 
-    const nft = data.chain.addressNft;
+    const nft = data.chain.account.nft;
 
     if (!nft) {
       throw new SdkError(SdkErrorTypes.NftNotFound, "KeybanClient.getNft");

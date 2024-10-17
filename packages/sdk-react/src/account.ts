@@ -9,6 +9,7 @@ import {
   KeybanClient_addressNftDocument,
   KeybanClient_addressNftsDocument,
   KeybanClient_addressTokenBalancesDocument,
+  KeybanClient_nativeBalanceDocument,
 } from "@keyban/sdk-base/graphql";
 
 import { usePromise } from "~/promise";
@@ -33,11 +34,24 @@ export function useKeybanAccount() {
  * @see {@link useFormattedBalance}
  */
 export function useKeybanAccountBalance(account: KeybanAccount) {
-  return usePromise(
-    `account-balance:${account.sub}`,
-    () => account.getBalance(),
-    { suspense: true },
+  const client = useKeybanClient();
+
+  const { data, error, refetch } = useSuspenseQuery(
+    KeybanClient_nativeBalanceDocument,
+    {
+      client: client.apolloClient,
+      variables: {
+        chainType: client.chain,
+        address: account.address,
+      },
+    },
   );
+
+  const extra = { refresh: () => refetch() };
+
+  return error
+    ? ([null, error, extra] as const)
+    : ([data.chain.account.nativeBalance, null, extra] as const);
 }
 
 /**
@@ -68,7 +82,7 @@ export function useKeybanAccountTokenBalances(account: KeybanAccount) {
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.chain.addressTokenBalances, null, extra] as const);
+    : ([data.chain.account.tokenBalances, null, extra] as const);
 }
 
 /**
@@ -99,7 +113,7 @@ export function useKeybanAccountNfts(account: KeybanAccount) {
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.chain.addressNfts, null, extra] as const);
+    : ([data.chain.account.nfts, null, extra] as const);
 }
 
 /**
@@ -135,7 +149,7 @@ export function useKeybanAccountNft(
   const extra = { refresh: () => refetch() };
 
   if (error) return [null, error, extra] as const;
-  if (!data.chain.addressNft)
+  if (!data.chain.account.nft)
     return [
       null,
       new SdkError(SdkErrorTypes.NftNotFound, "useKeybanAccountNft"),
@@ -144,5 +158,5 @@ export function useKeybanAccountNft(
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.chain.addressNft, null, extra] as const);
+    : ([data.chain.account.nft, null, extra] as const);
 }

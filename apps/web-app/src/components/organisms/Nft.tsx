@@ -32,8 +32,8 @@ export default function Nft() {
 
       {nfts.map((nft) => (
         <fieldset
-          key={`${nft.token.address}:${nft.id}`}
-          data-test-id={`Nft:token:${nft.token.address}:${nft.id}`}
+          key={`${nft.token.address}:${nft.tokenId}`}
+          data-test-id={`Nft:token:${nft.token.address}:${nft.tokenId}`}
         >
           <legend>{nft.token.name}</legend>
 
@@ -58,7 +58,7 @@ export default function Nft() {
           <Row>
             <span>ID:</span>
             <SerializedValue
-              value={nft.id}
+              value={nft.tokenId}
               style={{ flexGrow: 1 }}
               data-test-id="Nft:token:id"
             />

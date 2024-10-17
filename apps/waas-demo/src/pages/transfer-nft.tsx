@@ -96,7 +96,7 @@ const TransferNFT: React.FC = () => {
       try {
         const estimation = await account.estimateNftTransfer({
           contractAddress: selectedNft.token.address as Address,
-          tokenId: BigInt(selectedNft.id),
+          tokenId: BigInt(selectedNft.tokenId),
           to: debouncedRecipient as Address,
           value: BigInt(1),
           standard: selectedNft.token.type === "ERC-721" ? "ERC721" : "ERC1155",
@@ -122,7 +122,7 @@ const TransferNFT: React.FC = () => {
       if (selectedNft && account && recipient) {
         const txHash = await account.transferNft({
           contractAddress: selectedNft.token.address as Address,
-          tokenId: selectedNft.id as unknown as bigint,
+          tokenId: BigInt(selectedNft.tokenId),
           to: recipient as Address,
           standard: selectedNft.token.type === "ERC-721" ? "ERC721" : "ERC1155",
           value: BigInt(1),
@@ -165,7 +165,7 @@ const TransferNFT: React.FC = () => {
                       const nftMetadata = nft.metadata as NftMetadata;
                       return (
                         <MenuItem key={nft.id} value={nft.id}>
-                          {nftMetadata?.name ?? `NFT ID: ${nft.id}`}
+                          {nftMetadata?.name ?? `NFT ID: ${nft.tokenId}`}
                         </MenuItem>
                       );
                     })}

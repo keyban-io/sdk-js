@@ -98,7 +98,7 @@ const NFTSection: React.FC = () => {
                     }}
                   >
                     <CardActionArea
-                      onClick={() => navigate(`/nft-details/${nft.id}`)}
+                      onClick={() => navigate(`/nft-details/${nft.tokenId}`)}
                       sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -121,7 +121,7 @@ const NFTSection: React.FC = () => {
                           {metadata?.name ?? ""}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          ID: {nft.id}
+                          ID: {nft.tokenId}
                         </Typography>
 
                         {/* Afficher le balance uniquement s'il est supérieur à 1 */}
@@ -139,7 +139,7 @@ const NFTSection: React.FC = () => {
                           color="primary"
                           onClick={() =>
                             navigate("/transfer-nft", {
-                              state: { nftId: nft.id },
+                              state: { nftId: nft.tokenId },
                             })
                           }
                         >
