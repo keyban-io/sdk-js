@@ -106,7 +106,7 @@ export class KeybanClient {
     this.#storage = new storage();
 
     this.apolloClient = createApolloClient(
-      this.apiUrl,
+      new URL("/graphql", this.apiUrl),
       this.#accessTokenProvider,
     );
 

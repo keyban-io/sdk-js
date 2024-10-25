@@ -9,6 +9,7 @@ import { setContext } from "@apollo/client/link/context";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createClient } from "graphql-ws";
+import { WebSocketLink } from "@apollo/client/link/ws";
 
 const BIG_INT_FIELD_READER = {
   read(data?: { __typename: "BigIntScalar"; value: string }) {
@@ -17,7 +18,7 @@ const BIG_INT_FIELD_READER = {
 };
 
 export function createApolloClient(
-  apiUrl: string,
+  apiUrl: URL,
   accessTokenProvider?: () => string | Promise<string>,
 ) {
   const customScalarsLink = new ApolloLink((operation, forward) => {
@@ -44,12 +45,13 @@ export function createApolloClient(
     };
   });
 
-  const httpUrl = new URL("/graphql", apiUrl);
-  const httpLink = createHttpLink({ uri: httpUrl.toString() });
+  const httpLink = createHttpLink({ uri: apiUrl.toString() });
 
-  const wsUrl = new URL(httpUrl);
+  const wsUrl = new URL(apiUrl);
   wsUrl.protocol = "wss";
-  const wsLink = new GraphQLWsLink(createClient({ url: wsUrl.toString() }));
+  const wsLink = wsUrl.hostname.includes("subql")
+    ? new WebSocketLink({ uri: wsUrl.toString(), options: { reconnect: true } })
+    : new GraphQLWsLink(createClient({ url: wsUrl.toString() }));
 
   const transportLink = split(
     ({ query }) => {
