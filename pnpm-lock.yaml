@@ -334,8 +334,6 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
 
-  packages/sdk-eddsa-wasm: {}
-
   packages/sdk-react:
     dependencies:
       '@apollo/client':
