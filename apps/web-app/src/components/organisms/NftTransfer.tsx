@@ -5,7 +5,6 @@ import { Address } from "viem";
 
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
-import BigIntField from "@/components/molecules/BigIntField";
 import TextField from "@/components/molecules/TextField";
 import {
   FeesEstimation,
@@ -22,9 +21,9 @@ export default function NftTransfer() {
   const [standard, setStandard] = React.useState<"ERC721" | "ERC1155">(
     "ERC721",
   );
-  const [value, setValue] = React.useState(1n);
+  const [value, setValue] = React.useState("1");
   const [contractAddress, setContractAddress] = React.useState("");
-  const [tokenId, setTokenId] = React.useState(0n);
+  const [tokenId, setTokenId] = React.useState("0");
   const [recipient, setRecipient] = React.useState("");
   const [hash, setHash] = React.useState("");
   const [estimation, setEstimation] = React.useState<FeesEstimation>();
@@ -42,7 +41,7 @@ export default function NftTransfer() {
             checked={standard === "ERC721"}
             onChange={() => {
               setStandard("ERC721");
-              setValue(1n);
+              setValue("1");
             }}
             data-test-id={"NftTransfer:standard:ERC721"}
           />
@@ -69,18 +68,20 @@ export default function NftTransfer() {
         data-test-id="NftTransfer:contractAddress"
       />
 
-      <BigIntField
+      <TextField
         label="TokenId"
-        value={tokenId?.toString()}
+        type="number"
+        value={tokenId}
         onChange={setTokenId}
         style={{ marginBlock: 0 }}
         data-test-id="NftTransfer:tokenId"
       />
 
       <Row>
-        <BigIntField
+        <TextField
           label="Value"
-          value={value?.toString()}
+          type="number"
+          value={value}
           onChange={setValue}
           disabled={standard === "ERC721"}
           style={{ marginBlock: 0 }}
@@ -103,9 +104,9 @@ export default function NftTransfer() {
               .estimateNftTransfer({
                 standard,
                 contractAddress: contractAddress as Address,
-                tokenId,
+                tokenId: BigInt(tokenId),
                 to: recipient as Address,
-                value: standard === "ERC1155" ? value : undefined,
+                value: standard === "ERC1155" ? BigInt(value) : undefined,
               })
               .then(setEstimation)
               .catch(showBoundary)
@@ -138,9 +139,9 @@ export default function NftTransfer() {
               .transferNft({
                 standard,
                 contractAddress: contractAddress as Address,
-                tokenId,
+                tokenId: BigInt(tokenId),
                 to: recipient as Address,
-                value: standard === "ERC1155" ? value : undefined,
+                value: standard === "ERC1155" ? BigInt(value) : undefined,
                 txOptions: {
                   maxFeePerGas: estimation?.details.maxFeePerGas,
                   maxPriorityFeePerGas:

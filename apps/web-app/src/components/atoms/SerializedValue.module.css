@@ -6,6 +6,7 @@
 .textarea {
   flex-grow: 1;
   resize: none;
+  padding: 1px 0;
 }
 
 .copyButton {
@@ -15,6 +16,9 @@
   right: 0;
   opacity: 0;
   transition: opacity ease-in-out 0.1s;
+  border-radius: 0;
+  border: none;
+  padding-block: 2px;
 }
 
 .root:hover .copyButton {

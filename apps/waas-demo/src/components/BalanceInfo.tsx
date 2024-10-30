@@ -1,21 +1,15 @@
-import type React from 'react';
+import type React from "react";
 
 import {
   faArrowsRotate,
   faPaperPlane,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormattedBalance } from '@keyban/sdk-react';
-import {
-  Button,
-  IconButton,
-  Stack,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FormattedBalance } from "@keyban/sdk-react";
+import { Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 
 interface BalanceInfoProps {
-  balance: bigint | undefined;
+  balance: string | undefined;
   euroBalance: number | null;
   onSend: () => void;
   onRefreshBalance: () => void;

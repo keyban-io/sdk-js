@@ -9,7 +9,7 @@ import { useTransferReducer } from "@/hooks/useTransferReducer";
 import { getIndexerUrl } from "@/lib/getIndexerUrl";
 import type { Address } from "@keyban/sdk-react";
 import {
-  formatBalance,
+  FormattedBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanAccountTokenBalances,
@@ -54,10 +54,8 @@ const TransferERC20: React.FC = () => {
   if (tokenBalancesError) throw tokenBalancesError;
 
   const token = tokenBalances.find(
-    (item) => item.token.address === location.state.contractAddress,
+    (item) => item?.token?.id === location.state.contractAddress,
   );
-
-  const client = useKeybanClient();
 
   useEffect(() => {
     const estimateFeesAsync = async () => {
@@ -74,8 +72,7 @@ const TransferERC20: React.FC = () => {
 
       try {
         const valueInWei = BigInt(
-          Number(debouncedAmount) *
-            10 ** (token.token.decimals ? token.token.decimals : 0),
+          Number(debouncedAmount) * 10 ** (token.token?.decimals ?? 0),
         );
         const estimation = await account.estimateERC20Transfer({
           contractAddress: location.state.contractAddress as Address,
@@ -111,8 +108,7 @@ const TransferERC20: React.FC = () => {
     try {
       if (amount && account && token) {
         const value = BigInt(
-          Number(amount) *
-            10 ** (token.token.decimals ? token.token.decimals : 0),
+          Number(amount) * 10 ** (token.token?.decimals ?? 0),
         );
         const txHash = await account.transferERC20({
           contractAddress: location.state.contractAddress as Address,
@@ -135,16 +131,15 @@ const TransferERC20: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        {token?.token.name} Balance:{" "}
-        {(token && formatBalance(client, token)) ?? "0"}
+        {token?.token?.name} Balance: <FormattedBalance balance={token ?? 0n} />
         <br />
-        Native Balance (for the fees): {formatBalance(client, balance)}
+        Native Balance (for the fees): <FormattedBalance balance={balance} />
       </Typography>
 
       <TextField
         id="amount"
         type="number"
-        label={`You will send ${token?.token.name}`}
+        label={`You will send ${token?.token?.name}`}
         onChange={(e) => setAmount(e.target.value)}
         placeholder="0"
         value={amount}
@@ -158,14 +153,15 @@ const TransferERC20: React.FC = () => {
         value={recipient}
       />
 
-      <TransferAlert
-        client={client}
-        isEstimatingFees={transferState.isEstimatingFees}
-        amount={amount}
-        recipient={recipient}
-        rawMaxFees={transferState.feeEstimate}
-        tokenBalance={token}
-      />
+      {token && (
+        <TransferAlert
+          isEstimatingFees={transferState.isEstimatingFees}
+          amount={amount}
+          recipient={recipient}
+          rawMaxFees={transferState.feeEstimate}
+          tokenBalance={token}
+        />
+      )}
 
       <Button
         variant="contained"

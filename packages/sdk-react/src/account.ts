@@ -6,11 +6,11 @@ import {
   SdkErrorTypes,
 } from "@keyban/sdk-base";
 import {
-  KeybanClient_addressNftDocument,
-  KeybanClient_addressNftsDocument,
-  KeybanClient_addressTokenBalancesDocument,
-  KeybanClient_nativeBalanceDocument,
-  KeybanClient_nativeBalanceSubscriptionDocument,
+  KeybanClient_walletNftDocument,
+  KeybanClient_walletNftsDocument,
+  KeybanClient_walletTokenBalancesDocument,
+  KeybanClient_walletBalanceDocument,
+  KeybanClient_walletSubscriptionDocument,
 } from "@keyban/sdk-base/graphql";
 
 import { usePromise } from "~/promise";
@@ -34,25 +34,33 @@ export function useKeybanAccount() {
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountBalance(account: KeybanAccount) {
+export function useKeybanAccountBalance({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
-  const { data, error, refetch } = useSuspenseQuery(
-    KeybanClient_nativeBalanceDocument,
+  const { data, error, refetch, subscribeToMore } = useSuspenseQuery(
+    KeybanClient_walletBalanceDocument,
     {
       client: client.apolloClient,
-      variables: {
-        chainType: client.chain,
-        address: account.address,
-      },
+      variables: { address },
     },
   );
 
-  useSubscription(KeybanClient_nativeBalanceSubscriptionDocument, {
+  subscribeToMore;
+
+  useSubscription(KeybanClient_walletSubscriptionDocument, {
     client: client.apolloClient,
-    variables: {
-      chainType: client.chain,
-      address: account.address,
+    variables: { address },
+    onData({ client, data: { data } }) {
+      client.writeQuery({
+        query: KeybanClient_walletBalanceDocument,
+        variables: { address },
+        data: {
+          wallet: {
+            id: data?.wallets?._entity.id,
+            balance: data?.wallets?._entity.balance.toString(),
+          },
+        },
+      });
     },
   });
 
@@ -60,7 +68,7 @@ export function useKeybanAccountBalance(account: KeybanAccount) {
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.chain.account.nativeBalance, null, extra] as const);
+    : ([data.wallet?.balance ?? "0", null, extra] as const);
 }
 
 /**
@@ -73,17 +81,14 @@ export function useKeybanAccountBalance(account: KeybanAccount) {
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountTokenBalances(account: KeybanAccount) {
+export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
   const { data, error, refetch } = useSuspenseQuery(
-    KeybanClient_addressTokenBalancesDocument,
+    KeybanClient_walletTokenBalancesDocument,
     {
       client: client.apolloClient,
-      variables: {
-        chainType: client.chain,
-        address: account.address,
-      },
+      variables: { address },
     },
   );
 
@@ -91,7 +96,7 @@ export function useKeybanAccountTokenBalances(account: KeybanAccount) {
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.chain.account.tokenBalances, null, extra] as const);
+    : ([data.tokenBalances?.nodes ?? [], null, extra] as const);
 }
 
 /**
@@ -104,17 +109,14 @@ export function useKeybanAccountTokenBalances(account: KeybanAccount) {
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountNfts(account: KeybanAccount) {
+export function useKeybanAccountNfts({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
   const { data, error, refetch } = useSuspenseQuery(
-    KeybanClient_addressNftsDocument,
+    KeybanClient_walletNftsDocument,
     {
       client: client.apolloClient,
-      variables: {
-        chainType: client.chain,
-        address: account.address,
-      },
+      variables: { address },
     },
   );
 
@@ -122,7 +124,7 @@ export function useKeybanAccountNfts(account: KeybanAccount) {
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.chain.account.nfts, null, extra] as const);
+    : ([data.nfts?.nodes ?? [], null, extra] as const);
 }
 
 /**
@@ -136,29 +138,25 @@ export function useKeybanAccountNfts(account: KeybanAccount) {
  * @see {@link useFormattedBalance}
  */
 export function useKeybanAccountNft(
-  account: KeybanAccount,
+  { address }: KeybanAccount,
   tokenAddress: Address,
   tokenId: string,
 ) {
   const client = useKeybanClient();
 
+  const id = [address, tokenAddress, tokenId].join(":");
   const { data, error, refetch } = useSuspenseQuery(
-    KeybanClient_addressNftDocument,
+    KeybanClient_walletNftDocument,
     {
       client: client.apolloClient,
-      variables: {
-        chainType: client.chain,
-        address: account.address,
-        tokenAddress,
-        tokenId,
-      },
+      variables: { id },
     },
   );
 
   const extra = { refresh: () => refetch() };
 
   if (error) return [null, error, extra] as const;
-  if (!data.chain.account.nft)
+  if (!data.nft)
     return [
       null,
       new SdkError(SdkErrorTypes.NftNotFound, "useKeybanAccountNft"),
@@ -167,5 +165,5 @@ export function useKeybanAccountNft(
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.chain.account.nft, null, extra] as const);
+    : ([data.nft, null, extra] as const);
 }

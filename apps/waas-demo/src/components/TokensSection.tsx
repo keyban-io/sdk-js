@@ -31,7 +31,7 @@ const TokensSection: React.FC = () => {
 
   const handleSend = ({ token }: KeybanTokenBalance) => {
     navigate("/transfer-erc20", {
-      state: { contractAddress: token.address },
+      state: { contractAddress: token?.id },
     });
   };
 
@@ -45,44 +45,47 @@ const TokensSection: React.FC = () => {
           </Typography>
         </Alert>
       ) : (
-        tokenBalances.map((balance) => (
-          <Card key={balance.token.address}>
-            <CardContent>
-              <Stack
-                alignItems="center"
-                direction="row"
-                sx={{
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Typography variant="h5" component="div">
-                  {balance.token.name
-                    ? balance.token.name
-                    : balance.token.address}
-                </Typography>
-                <Stack
-                  direction="row"
-                  sx={{
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography variant="body1" component="div">
-                    <FormattedBalance balance={balance} />
-                  </Typography>
-                  <IconButton
-                    color="primary"
-                    aria-label={`Send ${balance.token.symbol}`}
-                    onClick={() => handleSend(balance)} // Appelle la fonction avec l'adresse du token
+        tokenBalances.map(
+          (balance) =>
+            balance?.token && (
+              <Card key={balance.token.id}>
+                <CardContent>
+                  <Stack
+                    alignItems="center"
+                    direction="row"
+                    sx={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
-                    <FontAwesomeIcon icon={faPaperPlane} />
-                  </IconButton>
-                </Stack>
-              </Stack>
-            </CardContent>
-          </Card>
-        ))
+                    <Typography variant="h5" component="div">
+                      {balance.token.name
+                        ? balance.token.name
+                        : balance.token.id}
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      sx={{
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography variant="body1" component="div">
+                        <FormattedBalance balance={balance} />
+                      </Typography>
+                      <IconButton
+                        color="primary"
+                        aria-label={`Send ${balance.token.symbol}`}
+                        onClick={() => handleSend(balance)} // Appelle la fonction avec l'adresse du token
+                      >
+                        <FontAwesomeIcon icon={faPaperPlane} />
+                      </IconButton>
+                    </Stack>
+                  </Stack>
+                </CardContent>
+              </Card>
+            ),
+        )
       )}
     </Stack>
   );

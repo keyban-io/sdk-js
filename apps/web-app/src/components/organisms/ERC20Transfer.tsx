@@ -9,7 +9,6 @@ import {
 
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
-import BigIntField from "@/components/molecules/BigIntField";
 import TextField from "@/components/molecules/TextField";
 
 export default function ERC20Transfer() {
@@ -18,7 +17,7 @@ export default function ERC20Transfer() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [value, setValue] = React.useState(0n);
+  const [value, setValue] = React.useState("0");
   const [contractAddress, setContractAddress] = React.useState("");
   const [recipient, setRecipient] = React.useState("");
   const [hash, setHash] = React.useState("");
@@ -36,9 +35,10 @@ export default function ERC20Transfer() {
       />
 
       <Row>
-        <BigIntField
+        <TextField
           label="Value"
-          value={value?.toString()}
+          type="number"
+          value={value}
           onChange={setValue}
           style={{ marginBlock: 0 }}
           data-test-id="ERC20Transfer:rawValue"
@@ -63,7 +63,7 @@ export default function ERC20Transfer() {
               .estimateERC20Transfer({
                 contractAddress: contractAddress as Address,
                 to: recipient as Address,
-                value,
+                value: BigInt(value),
               })
               .then(setEstimation)
               .catch(showBoundary)
@@ -96,7 +96,7 @@ export default function ERC20Transfer() {
               .transferERC20({
                 contractAddress: contractAddress as Address,
                 to: recipient as Address,
-                value,
+                value: BigInt(value),
                 txOptions: {
                   maxFeePerGas: estimation?.details.maxFeePerGas,
                   maxPriorityFeePerGas:

@@ -11,29 +11,10 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { createClient } from "graphql-ws";
 import { WebSocketLink } from "@apollo/client/link/ws";
 
-const BIG_INT_FIELD_READER = {
-  read(data?: { __typename: "BigIntScalar"; value: string }) {
-    return BigInt(data?.value ?? "0");
-  },
-};
-
 export function createApolloClient(
   apiUrl: URL,
   accessTokenProvider?: () => string | Promise<string>,
 ) {
-  const customScalarsLink = new ApolloLink((operation, forward) => {
-    if (operation.variables) {
-      operation.variables = JSON.parse(
-        JSON.stringify(operation.variables, (_, value) => {
-          if (typeof value === "bigint") return value.toString();
-          return value;
-        }),
-      );
-    }
-
-    return forward(operation);
-  });
-
   const authLink = setContext(async (_, { headers }) => {
     const token = await accessTokenProvider?.();
 
@@ -66,25 +47,7 @@ export function createApolloClient(
   );
 
   return new ApolloClient({
-    cache: new InMemoryCache({
-      typePolicies: {
-        Account: {
-          fields: {
-            nativeBalance: BIG_INT_FIELD_READER,
-          },
-        },
-        TokenBalance: {
-          fields: {
-            balance: BIG_INT_FIELD_READER,
-          },
-        },
-        Nft: {
-          fields: {
-            balance: BIG_INT_FIELD_READER,
-          },
-        },
-      },
-    }),
-    link: ApolloLink.from([customScalarsLink, authLink, transportLink]),
+    cache: new InMemoryCache(),
+    link: ApolloLink.from([authLink, transportLink]),
   });
 }

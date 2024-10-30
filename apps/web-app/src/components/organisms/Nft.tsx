@@ -30,52 +30,46 @@ export default function Nft() {
         />
       </Row>
 
-      {nfts.map((nft) => (
-        <fieldset
-          key={`${nft.token.address}:${nft.tokenId}`}
-          data-test-id={`Nft:token:${nft.token.address}:${nft.tokenId}`}
-        >
-          <legend>{nft.token.name}</legend>
+      {nfts.map(
+        (nft) =>
+          nft && (
+            <fieldset
+              key={nft.token?.id}
+              data-test-id={`Nft:token:${nft.token?.id}:${nft.nftId}`}
+            >
+              <legend>{nft.token?.name}</legend>
 
-          <Row>
-            <span>Address:</span>
-            <SerializedValue
-              value={nft.token.address}
-              style={{ flexGrow: 1 }}
-              data-test-id="Nft:token:address"
-            />
-          </Row>
+              <Row>
+                <span>Address:</span>
+                <SerializedValue
+                  value={nft.token?.id}
+                  style={{ flexGrow: 1 }}
+                  data-test-id="Nft:token:address"
+                />
+              </Row>
 
-          <Row>
-            <span>Type:</span>
-            <SerializedValue
-              value={nft.token.type}
-              style={{ flexGrow: 1 }}
-              data-test-id="Nft:token:type"
-            />
-          </Row>
+              <Row>
+                <span>Type:</span>
+                <SerializedValue
+                  value={nft.token?.type}
+                  style={{ flexGrow: 1 }}
+                  data-test-id="Nft:token:type"
+                />
+              </Row>
 
-          <Row>
-            <span>ID:</span>
-            <SerializedValue
-              value={nft.tokenId}
-              style={{ flexGrow: 1 }}
-              data-test-id="Nft:token:id"
-            />
-          </Row>
+              <Row>
+                <span>ID:</span>
+                <SerializedValue
+                  value={nft.nftId}
+                  style={{ flexGrow: 1 }}
+                  data-test-id="Nft:token:id"
+                />
+              </Row>
 
-          <Row>
-            <span>Image URL:</span>
-            <SerializedValue
-              value={nft.imageUrl}
-              style={{ flexGrow: 1 }}
-              data-test-id="Nft:token:imageUrl"
-            />
-          </Row>
-
-          <SerializedValue value={nft} data-test-id="Nft:token:raw" />
-        </fieldset>
-      ))}
+              <SerializedValue value={nft} data-test-id="Nft:raw" />
+            </fieldset>
+          ),
+      )}
     </fieldset>
   );
 }

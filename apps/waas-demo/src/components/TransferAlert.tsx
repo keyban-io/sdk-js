@@ -1,18 +1,13 @@
 import type React from "react";
 
 import {
-  formatBalance,
-  type KeybanClient,
+  FormattedBalance,
+  useKeybanClient,
   type KeybanTokenBalance,
 } from "@keyban/sdk-react";
-import {
-  Alert,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
+import { Alert, CircularProgress, Typography } from "@mui/material";
 
 interface TransferAlertProps {
-  client: KeybanClient;
   isEstimatingFees: boolean;
   amount: string | null;
   recipient: string;
@@ -21,13 +16,14 @@ interface TransferAlertProps {
 }
 
 const TransferAlert: React.FC<TransferAlertProps> = ({
-  client,
   isEstimatingFees,
   amount,
   recipient,
   rawMaxFees,
   tokenBalance,
 }) => {
+  const client = useKeybanClient();
+
   if (isEstimatingFees) {
     return <CircularProgress size={24} />;
   }
@@ -38,13 +34,13 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
   }
 
   try {
-    const decimals = tokenBalance?.token.decimals
+    const decimals = tokenBalance?.token?.decimals
       ? tokenBalance.token.decimals
       : client.nativeCurrency.decimals;
 
     // Conversion du montant et des frais en bigint
     const amountInBigInt = BigInt(Number(amount) * 10 ** decimals);
-    const feesInBigInt = BigInt(Number(rawMaxFees));
+    const feesInBigInt = BigInt(rawMaxFees);
 
     // Calcul du total (montant + frais)
     const total = amountInBigInt + feesInBigInt;
@@ -55,29 +51,31 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
           <>
             <Typography>
               You are about to send{" "}
-              {formatBalance(client, {
-                balance: amountInBigInt,
-                token: tokenBalance.token,
-              })}{" "}
+              <FormattedBalance
+                balance={{
+                  balance: amountInBigInt,
+                  token: tokenBalance.token,
+                }}
+              />{" "}
               to {recipient}.
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}
-              {formatBalance(client, feesInBigInt)}.
+              <FormattedBalance balance={rawMaxFees} />.
             </Typography>
           </>
         ) : (
           <>
             <Typography>
-              You are about to send {formatBalance(client, amountInBigInt)} to{" "}
-              {recipient}.
+              You are about to send{" "}
+              <FormattedBalance balance={amountInBigInt} /> to {recipient}.
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}
-              {formatBalance(client, feesInBigInt)}.
+              <FormattedBalance balance={rawMaxFees} />.
             </Typography>
             <Typography>
-              Total (including fees): {formatBalance(client, total)}.
+              Total (including fees): <FormattedBalance balance={total} />.
             </Typography>
           </>
         )}

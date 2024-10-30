@@ -9,7 +9,7 @@ import { useTransferReducer } from "@/hooks/useTransferReducer";
 import { getIndexerUrl } from "@/lib/getIndexerUrl"; // Import de la fonction
 import type { Address } from "@keyban/sdk-react";
 import {
-  formatBalance,
+  FormattedBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanClient,
@@ -96,7 +96,7 @@ const TransferNativeCrypto: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        Balance: {formatBalance(client, balance)}
+        Balance: <FormattedBalance balance={balance} />
       </Typography>
 
       <TextField
@@ -117,7 +117,6 @@ const TransferNativeCrypto: React.FC = () => {
       />
 
       <TransferAlert
-        client={client}
         isEstimatingFees={transferState.isEstimatingFees}
         amount={amount}
         recipient={recipient}

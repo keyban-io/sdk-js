@@ -59,6 +59,8 @@ const NFTSection: React.FC = () => {
   // Regrouper les NFTs par nom de collection
   const nftCollections = nfts.reduce(
     (acc, nft) => {
+      if (!nft) return acc;
+
       const metadata = nft.metadata as NftMetadata;
       const collectionName =
         metadata?.properties?.collection?.value ?? "Unknown Collection";
@@ -98,7 +100,7 @@ const NFTSection: React.FC = () => {
                     }}
                   >
                     <CardActionArea
-                      onClick={() => navigate(`/nft-details/${nft.tokenId}`)}
+                      onClick={() => navigate(`/nft-details/${nft.nftId}`)}
                       sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -121,7 +123,7 @@ const NFTSection: React.FC = () => {
                           {metadata?.name ?? ""}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          ID: {nft.tokenId}
+                          ID: {nft.nftId}
                         </Typography>
 
                         {/* Afficher le balance uniquement s'il est supérieur à 1 */}
@@ -139,7 +141,7 @@ const NFTSection: React.FC = () => {
                           color="primary"
                           onClick={() =>
                             navigate("/transfer-nft", {
-                              state: { nftId: nft.tokenId },
+                              state: { nftId: nft.nftId },
                             })
                           }
                         >

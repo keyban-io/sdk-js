@@ -1,33 +1,26 @@
-query KeybanClient_chain($chain: ChainType!) {
-  chain(type: $chain) {
+# query KeybanClient_chain($chain: ChainType!) {
+#   chain(type: $chain) {
+#     id
+#     rpcUrl
+#   }
+# }
+
+query KeybanClient_walletBalance($address: String!) {
+  wallet(id: $address) {
     id
-    rpcUrl
+    balance
   }
 }
 
-query KeybanClient_nativeBalance($chainType: ChainType!, $address: Address!) {
-  chain(type: $chainType) {
+subscription KeybanClient_walletSubscription($address: ID!) {
+  wallets(id: [$address]) {
     id
-    account(address: $address) {
-      id
-      nativeBalance
-    }
-  }
-}
-
-subscription KeybanClient_nativeBalanceSubscription(
-  $chainType: ChainType!
-  $address: Address!
-) {
-  accountNativeBalance(chainType: $chainType, address: $address) {
-    id
-    nativeBalance
+    _entity
   }
 }
 
 fragment KeybanClient_Token on Token {
   id
-  address
   type
   name
   symbol
@@ -44,18 +37,11 @@ fragment KeybanClient_TokenBalance on TokenBalance {
   balance
 }
 
-query KeybanClient_addressTokenBalances(
-  $chainType: ChainType!
-  $address: Address!
-) {
-  chain(type: $chainType) {
-    id
-    account(address: $address) {
+query KeybanClient_walletTokenBalances($address: String!) {
+  tokenBalances(filter: { wallet: { id: { equalTo: $address } } }) {
+    nodes {
       id
-      tokenBalances {
-        id
-        ...KeybanClient_TokenBalance
-      }
+      ...KeybanClient_TokenBalance
     }
   }
 }
@@ -66,39 +52,23 @@ fragment KeybanClient_Nft on Nft {
     id
     ...KeybanClient_Token
   }
-  tokenId
-  imageUrl
+  nftId
   balance
   metadata
 }
 
-query KeybanClient_addressNfts($chainType: ChainType!, $address: Address!) {
-  chain(type: $chainType) {
-    id
-    account(address: $address) {
+query KeybanClient_walletNfts($address: String!) {
+  nfts(filter: { wallet: { id: { equalTo: $address } } }) {
+    nodes {
       id
-      nfts {
-        id
-        ...KeybanClient_Nft
-      }
+      ...KeybanClient_Nft
     }
   }
 }
 
-query KeybanClient_addressNft(
-  $chainType: ChainType!
-  $address: Address!
-  $tokenAddress: Address!
-  $tokenId: String!
-) {
-  chain(type: $chainType) {
+query KeybanClient_walletNft($id: String!) {
+  nft(id: $id) {
     id
-    account(address: $address) {
-      id
-      nft(tokenAddress: $tokenAddress, tokenId: $tokenId) {
-        id
-        ...KeybanClient_Nft
-      }
-    }
+    ...KeybanClient_Nft
   }
 }

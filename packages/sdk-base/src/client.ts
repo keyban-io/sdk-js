@@ -24,11 +24,11 @@ import type { Address, KeybanChain } from "~/index";
 import type { IKeybanSigner } from "~/signer";
 import type { IKeybanStorage } from "~/storage";
 import {
-  KeybanClient_addressNftDocument,
-  KeybanClient_addressNftsDocument,
-  KeybanClient_addressTokenBalancesDocument,
-  KeybanClient_chainDocument,
-  KeybanClient_nativeBalanceDocument,
+  KeybanClient_walletNftDocument,
+  KeybanClient_walletNftsDocument,
+  KeybanClient_walletTokenBalancesDocument,
+  // KeybanClient_chainDocument,
+  KeybanClient_walletBalanceDocument,
 } from "~/graphql";
 
 /**
@@ -106,16 +106,13 @@ export class KeybanClient {
     this.#storage = new storage();
 
     this.apolloClient = createApolloClient(
-      new URL("/graphql", this.apiUrl),
+      new URL(apiUrl.replace("api.", "subql.")),
       this.#accessTokenProvider,
     );
 
-    this.#transport = this.apolloClient
-      .query({
-        query: KeybanClient_chainDocument,
-        variables: { chain },
-      })
-      .then(({ data }) => http(data.chain.rpcUrl));
+    this.#transport = fetch(new URL("/metadata", apiUrl))
+      .then((res) => res.json())
+      .then(({ rpcUrl }) => http(rpcUrl));
 
     this.#publicClient = this.#transport.then((transport) =>
       createPublicClient({
@@ -245,14 +242,11 @@ export class KeybanClient {
     }
 
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_nativeBalanceDocument,
-      variables: {
-        chainType: this.chain,
-        address,
-      },
+      query: KeybanClient_walletBalanceDocument,
+      variables: { address },
     });
 
-    return data.chain.account.nativeBalance;
+    return data.wallet?.balance;
   }
 
   /**
@@ -267,14 +261,11 @@ export class KeybanClient {
     }
 
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_addressTokenBalancesDocument,
-      variables: {
-        chainType: this.chain,
-        address,
-      },
+      query: KeybanClient_walletTokenBalancesDocument,
+      variables: { address },
     });
 
-    return data.chain.account.tokenBalances;
+    return data.tokenBalances?.nodes;
   }
 
   /**
@@ -286,14 +277,11 @@ export class KeybanClient {
     }
 
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_addressNftsDocument,
-      variables: {
-        chainType: this.chain,
-        address,
-      },
+      query: KeybanClient_walletNftsDocument,
+      variables: { address },
     });
 
-    return data.chain.account.nfts;
+    return data.nfts?.nodes;
   }
 
   /**
@@ -308,17 +296,13 @@ export class KeybanClient {
       throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNft");
     }
 
+    const id = [address, tokenAddress, tokenId].join(":");
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_addressNftDocument,
-      variables: {
-        chainType: this.chain,
-        address,
-        tokenAddress,
-        tokenId,
-      },
+      query: KeybanClient_walletNftDocument,
+      variables: { id },
     });
 
-    const nft = data.chain.account.nft;
+    const nft = data.nft;
 
     if (!nft) {
       throw new SdkError(SdkErrorTypes.NftNotFound, "KeybanClient.getNft");

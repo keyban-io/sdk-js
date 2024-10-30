@@ -9,7 +9,7 @@ import { useTransferReducer } from "@/hooks/useTransferReducer";
 import { getIndexerUrl } from "@/lib/getIndexerUrl";
 import type { Address } from "@keyban/sdk-react";
 import {
-  formatBalance,
+  FormattedBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanAccountNfts,
@@ -82,7 +82,7 @@ const TransferNFT: React.FC = () => {
   const [nfts, nftsError] = useKeybanAccountNfts(account);
   if (nftsError) throw nftsError;
 
-  const selectedNft = nfts.find((nft) => nft.id === selectedNftId);
+  const selectedNft = nfts.find((nft) => nft?.id === selectedNftId);
   const metadata = selectedNft?.metadata as NftMetadata;
 
   useEffect(() => {
@@ -95,11 +95,11 @@ const TransferNFT: React.FC = () => {
       dispatch({ type: "START_FEE_ESTIMATION" });
       try {
         const estimation = await account.estimateNftTransfer({
-          contractAddress: selectedNft.token.address as Address,
-          tokenId: BigInt(selectedNft.tokenId),
+          contractAddress: selectedNft.token?.id as Address,
+          tokenId: BigInt(selectedNft.nftId),
           to: debouncedRecipient as Address,
           value: BigInt(1),
-          standard: selectedNft.token.type === "ERC-721" ? "ERC721" : "ERC1155",
+          standard: selectedNft.token?.type === "erc721" ? "ERC721" : "ERC1155",
         });
 
         dispatch({
@@ -121,10 +121,10 @@ const TransferNFT: React.FC = () => {
     try {
       if (selectedNft && account && recipient) {
         const txHash = await account.transferNft({
-          contractAddress: selectedNft.token.address as Address,
-          tokenId: BigInt(selectedNft.tokenId),
+          contractAddress: selectedNft.token?.id as Address,
+          tokenId: BigInt(selectedNft.nftId),
           to: recipient as Address,
-          standard: selectedNft.token.type === "ERC-721" ? "ERC721" : "ERC1155",
+          standard: selectedNft.token?.type === "erc721" ? "ERC721" : "ERC1155",
           value: BigInt(1),
         });
         handleSuccess(txHash);
@@ -162,10 +162,12 @@ const TransferNFT: React.FC = () => {
                     onChange={(e) => setSelectedNftId(e.target.value as string)}
                   >
                     {nfts.map((nft) => {
+                      if (!nft) return null;
+
                       const nftMetadata = nft.metadata as NftMetadata;
                       return (
                         <MenuItem key={nft.id} value={nft.id}>
-                          {nftMetadata?.name ?? `NFT ID: ${nft.tokenId}`}
+                          {nftMetadata.name ?? `NFT ID: ${nft.nftId}`}
                         </MenuItem>
                       );
                     })}
@@ -204,7 +206,7 @@ const TransferNFT: React.FC = () => {
               </Typography>
               <Typography variant="body1">
                 <strong>Native Balance (for fees):</strong>{" "}
-                {formatBalance(client, balance)}
+                <FormattedBalance balance={balance} />
               </Typography>
 
               <Divider />
@@ -220,7 +222,6 @@ const TransferNFT: React.FC = () => {
               />
 
               <TransferAlert
-                client={client}
                 isEstimatingFees={transferState.isEstimatingFees}
                 amount="1"
                 recipient={recipient}

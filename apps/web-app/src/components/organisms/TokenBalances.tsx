@@ -26,56 +26,59 @@ export default function TokenBalances() {
         />
       </legend>
 
-      {tokenBalances.map(({ token, balance }) => (
-        <fieldset
-          key={token.address}
-          data-test-id={`TokenBalances:token:${token.address}`}
-        >
-          <legend>{token.name}</legend>
+      {tokenBalances.map(
+        (tokenBalance) =>
+          tokenBalance && (
+            <fieldset
+              key={tokenBalance.token?.id}
+              data-test-id={`TokenBalances:token:${tokenBalance.token?.id}`}
+            >
+              <legend>{tokenBalance.token?.name}</legend>
 
-          <Row>
-            <span>Address:</span>
-            <SerializedValue
-              value={token.address}
-              style={{ flexGrow: 1 }}
-              data-test-id="TokenBalances:address"
-            />
-          </Row>
+              <Row>
+                <span>Address:</span>
+                <SerializedValue
+                  value={tokenBalance.token?.id}
+                  style={{ flexGrow: 1 }}
+                  data-test-id="TokenBalances:address"
+                />
+              </Row>
 
-          <Row>
-            <span>Name:</span>
-            <SerializedValue
-              value={token.name}
-              style={{ flexGrow: 1 }}
-              data-test-id="TokenBalances:name"
-            />
-          </Row>
+              <Row>
+                <span>Name:</span>
+                <SerializedValue
+                  value={tokenBalance.token?.name}
+                  style={{ flexGrow: 1 }}
+                  data-test-id="TokenBalances:name"
+                />
+              </Row>
 
-          <Row>
-            <span>Decimals:</span>
-            <SerializedValue
-              value={token.decimals}
-              style={{ flexGrow: 1 }}
-              data-test-id="TokenBalances:decimals"
-            />
-          </Row>
+              <Row>
+                <span>Decimals:</span>
+                <SerializedValue
+                  value={tokenBalance.token?.decimals}
+                  style={{ flexGrow: 1 }}
+                  data-test-id="TokenBalances:decimals"
+                />
+              </Row>
 
-          <Row style={{ marginBlockStart: "1em" }}>
-            <span>Balance:</span>
+              <Row style={{ marginBlockStart: "1em" }}>
+                <span>Balance:</span>
 
-            <SerializedValue
-              value={balance}
-              style={{ flexGrow: 1 }}
-              data-test-id="TokenBalances:value"
-            />
+                <SerializedValue
+                  value={tokenBalance.balance}
+                  style={{ flexGrow: 1 }}
+                  data-test-id="TokenBalances:value"
+                />
 
-            <SerializedValue
-              value={token.symbol}
-              data-test-id="TokenBalances:symbol"
-            />
-          </Row>
-        </fieldset>
-      ))}
+                <SerializedValue
+                  value={tokenBalance.token?.symbol}
+                  data-test-id="TokenBalances:symbol"
+                />
+              </Row>
+            </fieldset>
+          ),
+      )}
     </fieldset>
   );
 }

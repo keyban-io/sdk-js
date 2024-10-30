@@ -44,7 +44,7 @@ const NftDetailsPage: React.FC = () => {
   if (nftError) throw nftError;
 
   // Find the specific NFT by its ID
-  const nft = nfts?.find((nft) => nft.tokenId === nftId);
+  const nft = nfts?.find((nft) => nft?.nftId === nftId);
 
   const metadata = nft?.metadata as NftMetadata;
 
@@ -128,7 +128,7 @@ const NftDetailsPage: React.FC = () => {
             color="primary"
             onClick={() =>
               navigate("/transfer-nft", {
-                state: { nftId: nft.tokenId },
+                state: { nftId: nft.nftId },
               })
             }
           >

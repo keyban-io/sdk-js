@@ -4,7 +4,6 @@ import { useErrorBoundary } from "react-error-boundary";
 
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
-import BigIntField from "@/components/molecules/BigIntField";
 import TextField from "@/components/molecules/TextField";
 import {
   Address,
@@ -19,7 +18,7 @@ export default function NativeTransfer() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [value, setValue] = React.useState(0n);
+  const [value, setValue] = React.useState("0");
   const [recipient, setRecipient] = React.useState("");
   const [hash, setHash] = React.useState("");
   const [estimation, setEstimation] = React.useState<FeesEstimation>();
@@ -29,9 +28,9 @@ export default function NativeTransfer() {
       <legend>Native transfer</legend>
 
       <Row>
-        <BigIntField
+        <TextField
           label="Value"
-          value={value?.toString()}
+          value={value}
           onChange={setValue}
           style={{ marginBlock: 0 }}
           data-test-id="NativeTransfer:value:input"
@@ -73,7 +72,7 @@ export default function NativeTransfer() {
           />
 
           <div data-test-id="NativeTransfer:estimate:formattedValue">
-            <FormattedBalance balance={BigInt(estimation.maxFees)} />
+            <FormattedBalance balance={estimation.maxFees} />
           </div>
         </Row>
       )}
@@ -83,7 +82,7 @@ export default function NativeTransfer() {
           type="button"
           onClick={() =>
             account
-              .transfer(recipient as Address, value, {
+              .transfer(recipient as Address, BigInt(value), {
                 maxFeePerGas: estimation?.details.maxFeePerGas,
                 maxPriorityFeePerGas: estimation?.details.maxPriorityFeePerGas,
               })
