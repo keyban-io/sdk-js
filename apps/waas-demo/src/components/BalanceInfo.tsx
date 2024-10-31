@@ -1,25 +1,25 @@
 import type React from "react";
 
-import {
-  faArrowsRotate,
-  faPaperPlane,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FormattedBalance } from "@keyban/sdk-react";
-import { Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
 interface BalanceInfoProps {
   balance: string | undefined;
   euroBalance: number | null;
   onSend: () => void;
-  onRefreshBalance: () => void;
 }
 
 const BalanceInfo: React.FC<BalanceInfoProps> = ({
   balance,
   euroBalance,
   onSend,
-  onRefreshBalance,
 }) => {
   return (
     <Stack
@@ -34,9 +34,6 @@ const BalanceInfo: React.FC<BalanceInfoProps> = ({
             {balance != null && <FormattedBalance balance={balance} />}
           </Typography>
         </Tooltip>
-        <IconButton color="primary" onClick={onRefreshBalance} size="small">
-          <FontAwesomeIcon className="fa" icon={faArrowsRotate} />
-        </IconButton>
       </Stack>
 
       <Tooltip title="Equivalent Euro Balance" arrow>

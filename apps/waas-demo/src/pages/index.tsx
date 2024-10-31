@@ -4,7 +4,10 @@ import { useErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
-import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
+import {
+  useKeybanAccount,
+  useKeybanAccountBalance,
+} from "@keyban/sdk-react";
 import {
   Button,
   CircularProgress,
@@ -27,8 +30,7 @@ const WalletDashboardContent: React.FC = () => {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [balance, balanceError, { refresh: refreshBalance }] =
-    useKeybanAccountBalance(account);
+  const [balance, balanceError] = useKeybanAccountBalance(account);
   if (balanceError) throw balanceError;
 
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -75,7 +77,6 @@ const WalletDashboardContent: React.FC = () => {
           balance={balance}
           euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
           onSend={handleTransferCrypto}
-          onRefreshBalance={refreshBalance}
         />{" "}
         <Divider />
         <TokensSection />
