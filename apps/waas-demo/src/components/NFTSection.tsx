@@ -141,7 +141,7 @@ const NFTSection: React.FC = () => {
                           color="primary"
                           onClick={() =>
                             navigate("/transfer-nft", {
-                              state: { nftId: nft.nftId },
+                              state: { nftId: nft.id },
                             })
                           }
                         >
