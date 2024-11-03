@@ -11,25 +11,24 @@ import {
   serializeTransaction,
 } from "viem";
 import { publicKeyToAddress, toAccount } from "viem/accounts";
-import { ApolloClient } from "@apollo/client/core";
-import { NormalizedCacheObject } from "@apollo/client/cache";
-
-import { signersChainMap, viemChainsMap } from "~/chains";
-import { parseJwt } from "~/utils/jwt";
-import { createApolloClient } from "~/apollo";
 import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
+import { createApolloClient } from "~/apollo";
+import { signersChainMap, viemChainsMap } from "~/chains";
 import { SdkError, SdkErrorTypes, StorageError } from "~/errors";
-import type { Address, KeybanChain } from "~/index";
-import type { IKeybanSigner } from "~/signer";
-import type { IKeybanStorage } from "~/storage";
 import {
+  KeybanClient_walletBalanceDocument,
   KeybanClient_walletNftDocument,
   KeybanClient_walletNftsDocument,
   KeybanClient_walletTokenBalancesDocument,
-  // KeybanClient_chainDocument,
-  KeybanClient_walletBalanceDocument,
 } from "~/graphql";
+import type { Address, KeybanChain } from "~/index";
+import type { IKeybanSigner } from "~/signer";
+import type { IKeybanStorage } from "~/storage";
+import { parseJwt } from "~/utils/jwt";
+
+import { NormalizedCacheObject } from "@apollo/client/cache";
+import { ApolloClient } from "@apollo/client/core";
 
 /**
  * Configuration object for the Keyban client.
@@ -106,7 +105,7 @@ export class KeybanClient {
     this.#storage = new storage();
 
     this.apolloClient = createApolloClient(
-      new URL(apiUrl.replace("api.", "subql.")),
+      new URL(apiUrl.replace("api.", "subql-anvil.")),
       this.#accessTokenProvider,
     );
 

@@ -1,7 +1,7 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
-  schema: "https://subql.keyban.localtest.me",
+  schema: "https://subql-anvil.keyban.localtest.me",
   documents: ["src/**/*.gql"],
   ignoreNoDocuments: true,
   generates: {
