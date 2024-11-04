@@ -22,7 +22,7 @@ import {
   KeybanClient_walletNftsDocument,
   KeybanClient_walletTokenBalancesDocument,
 } from "~/graphql";
-import type { Address, KeybanChain } from "~/index";
+import { type Address, KeybanChain } from "~/index";
 import type { IKeybanSigner } from "~/signer";
 import type { IKeybanStorage } from "~/storage";
 import { parseJwt } from "~/utils/jwt";
@@ -104,12 +104,19 @@ export class KeybanClient {
     this.#signer = new signer();
     this.#storage = new storage();
 
+    const indexerPrefix = {
+      [KeybanChain.KeybanTestnet]: "subql-anvil.",
+      [KeybanChain.Sepolia]: "unknown.",
+      [KeybanChain.OptimismSepolia]: "subql-op-sepolia.",
+    }[chain];
     this.apolloClient = createApolloClient(
-      new URL(apiUrl.replace("api.", "subql-anvil.")),
+      new URL(apiUrl.replace("api.", indexerPrefix)),
       this.#accessTokenProvider,
     );
 
-    this.#transport = fetch(new URL("/metadata", apiUrl))
+    const metadataUrl = new URL("/metadata", apiUrl);
+    metadataUrl.searchParams.set("chainType", chain);
+    this.#transport = fetch(metadataUrl)
       .then((res) => res.json())
       .then(({ rpcUrl }) => http(rpcUrl));
 
