@@ -13,10 +13,10 @@ const indexerUrlMapping: Record<HostChainKey, string> = {
     "https://blockscout.testing.keyban.io",
 
   // Sepolia mappings (même indexeur pour tous les domaines)
-  localhost_Sepolia: "https://sepolia.etherscan.io",
-  "waas-demo.keyban.localtest.me_Sepolia": "https://sepolia.etherscan.io",
-  "waas-demo.testing.keyban.io_Sepolia": "https://sepolia.etherscan.io",
-  "waas-demo.demo.keyban.io_Sepolia": "https://sepolia.etherscan.io",
+  localhost_PolygonAmoy: "https://rpc-amoy.polygon.technology",
+  "waas-demo.keyban.localtest.me_PolygonAmoy": "https://rpc-amoy.polygon.technology",
+  "waas-demo.testing.keyban.io_PolygonAmoy": "https://rpc-amoy.polygon.technology",
+  "waas-demo.demo.keyban.io_PolygonAmoy": "https://rpc-amoy.polygon.technology",
 };
 
 export const getIndexerUrl = (chain: KeybanChain, txHash: string): string => {
