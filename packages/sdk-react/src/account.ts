@@ -3,10 +3,7 @@ import React from "react";
 import { usePromise } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
-import {
-  useSubscription,
-  useSuspenseQuery,
-} from "@apollo/client";
+import { useSuspenseQuery } from "@apollo/client";
 import {
   Address,
   KeybanAccount,
@@ -14,7 +11,6 @@ import {
   SdkErrorTypes,
 } from "@keyban/sdk-base";
 import {
-  GqlMutationType,
   tokenBalancesSubscriptionDocument,
   walletAssetTransfersDocument,
   walletBalanceDocument,
@@ -98,17 +94,26 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
       subscribeToMore({
         document: tokenBalancesSubscriptionDocument,
         variables: {
-          tokenBalancesIds:
-            data.tokenBalances?.nodes
-              .map((node) => node?.id)
-              .filter(Boolean as unknown as <T>(x?: T) => x is T) ?? [],
+          tokenBalancesIds: null,
           mutation: null,
         },
         updateQuery: (prev, { subscriptionData }) => {
           const update = subscriptionData.data.tokenBalances;
+          if (update?._entity.wallet_id !== address) return prev;
 
           switch (subscriptionData.data.tokenBalances?.mutation_type) {
             case "UPDATE":
+              // Chec if the update is actually an insert... subql kinda messed up :/
+              const exists = prev.tokenBalances?.nodes.find(
+                (node) => node?.id === update.id,
+              );
+              if (!exists) {
+                // In case of an insert, we can't request nested data through the subscription
+                // due to subql bad implementation... the only way is to refetch t whole data :/
+                refetch();
+                return prev;
+              }
+
               return {
                 ...prev,
                 tokenBalances: {
@@ -138,17 +143,6 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
       }),
     [subscribeToMore, address],
   );
-
-  useSubscription(tokenBalancesSubscriptionDocument, {
-    client: client.apolloClient,
-    variables: {
-      tokenBalancesIds: null,
-      mutation: [GqlMutationType.INSERT],
-    },
-    onData: ({ data: { data } }) => {
-      if (data?.tokenBalances?._entity.walletId === address) refetch();
-    },
-  });
 
   const extra = { refresh: () => refetch() };
 
