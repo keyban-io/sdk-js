@@ -68,31 +68,31 @@ export type GqlAssetTransferAggregates = {
 /** A filter to be used against aggregates of `AssetTransfer` object types. */
 export type GqlAssetTransferAggregatesFilter = {
   /** Mean average aggregate over matching `AssetTransfer` objects. */
-  average: InputMaybe<GqlAssetTransferAverageAggregateFilter>;
+  average?: InputMaybe<GqlAssetTransferAverageAggregateFilter>;
   /** Distinct count aggregate over matching `AssetTransfer` objects. */
-  distinctCount: InputMaybe<GqlAssetTransferDistinctCountAggregateFilter>;
+  distinctCount?: InputMaybe<GqlAssetTransferDistinctCountAggregateFilter>;
   /** A filter that must pass for the relevant `AssetTransfer` object to be included within the aggregate. */
-  filter: InputMaybe<GqlAssetTransferFilter>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
   /** Maximum aggregate over matching `AssetTransfer` objects. */
-  max: InputMaybe<GqlAssetTransferMaxAggregateFilter>;
+  max?: InputMaybe<GqlAssetTransferMaxAggregateFilter>;
   /** Minimum aggregate over matching `AssetTransfer` objects. */
-  min: InputMaybe<GqlAssetTransferMinAggregateFilter>;
+  min?: InputMaybe<GqlAssetTransferMinAggregateFilter>;
   /** Population standard deviation aggregate over matching `AssetTransfer` objects. */
-  stddevPopulation: InputMaybe<GqlAssetTransferStddevPopulationAggregateFilter>;
+  stddevPopulation?: InputMaybe<GqlAssetTransferStddevPopulationAggregateFilter>;
   /** Sample standard deviation aggregate over matching `AssetTransfer` objects. */
-  stddevSample: InputMaybe<GqlAssetTransferStddevSampleAggregateFilter>;
+  stddevSample?: InputMaybe<GqlAssetTransferStddevSampleAggregateFilter>;
   /** Sum aggregate over matching `AssetTransfer` objects. */
-  sum: InputMaybe<GqlAssetTransferSumAggregateFilter>;
+  sum?: InputMaybe<GqlAssetTransferSumAggregateFilter>;
   /** Population variance aggregate over matching `AssetTransfer` objects. */
-  variancePopulation: InputMaybe<GqlAssetTransferVariancePopulationAggregateFilter>;
+  variancePopulation?: InputMaybe<GqlAssetTransferVariancePopulationAggregateFilter>;
   /** Sample variance aggregate over matching `AssetTransfer` objects. */
-  varianceSample: InputMaybe<GqlAssetTransferVarianceSampleAggregateFilter>;
+  varianceSample?: InputMaybe<GqlAssetTransferVarianceSampleAggregateFilter>;
 };
 
 export type GqlAssetTransferAverageAggregateFilter = {
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
-  timestamp: InputMaybe<GqlBigFloatFilter>;
-  value: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferAverageAggregates = {
@@ -105,18 +105,18 @@ export type GqlAssetTransferAverageAggregates = {
 };
 
 export type GqlAssetTransferDistinctCountAggregateFilter = {
-  _blockRange: InputMaybe<GqlBigIntFilter>;
-  _id: InputMaybe<GqlBigIntFilter>;
-  blockNumber: InputMaybe<GqlBigIntFilter>;
-  fromId: InputMaybe<GqlBigIntFilter>;
-  id: InputMaybe<GqlBigIntFilter>;
-  nftId: InputMaybe<GqlBigIntFilter>;
-  success: InputMaybe<GqlBigIntFilter>;
-  timestamp: InputMaybe<GqlBigIntFilter>;
-  toId: InputMaybe<GqlBigIntFilter>;
-  tokenId: InputMaybe<GqlBigIntFilter>;
-  type: InputMaybe<GqlBigIntFilter>;
-  value: InputMaybe<GqlBigIntFilter>;
+  _blockRange?: InputMaybe<GqlBigIntFilter>;
+  _id?: InputMaybe<GqlBigIntFilter>;
+  blockNumber?: InputMaybe<GqlBigIntFilter>;
+  fromId?: InputMaybe<GqlBigIntFilter>;
+  id?: InputMaybe<GqlBigIntFilter>;
+  nftId?: InputMaybe<GqlBigIntFilter>;
+  success?: InputMaybe<GqlBigIntFilter>;
+  timestamp?: InputMaybe<GqlBigIntFilter>;
+  toId?: InputMaybe<GqlBigIntFilter>;
+  tokenId?: InputMaybe<GqlBigIntFilter>;
+  type?: InputMaybe<GqlBigIntFilter>;
+  value?: InputMaybe<GqlBigIntFilter>;
 };
 
 export type GqlAssetTransferDistinctCountAggregates = {
@@ -149,51 +149,51 @@ export type GqlAssetTransferDistinctCountAggregates = {
 /** A filter to be used against `AssetTransfer` object types. All fields are combined with a logical ‘and.’ */
 export type GqlAssetTransferFilter = {
   /** Checks for all expressions in this list. */
-  and: InputMaybe<Array<GqlAssetTransferFilter>>;
+  and?: InputMaybe<Array<GqlAssetTransferFilter>>;
   /** Filter by the object’s `blockNumber` field. */
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `from` relation. */
-  from: InputMaybe<GqlWalletFilter>;
+  from?: InputMaybe<GqlWalletFilter>;
   /** Filter by the object’s `fromId` field. */
-  fromId: InputMaybe<GqlStringFilter>;
+  fromId?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `id` field. */
-  id: InputMaybe<GqlStringFilter>;
+  id?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `nft` relation. */
-  nft: InputMaybe<GqlNftFilter>;
+  nft?: InputMaybe<GqlNftFilter>;
   /** A related `nft` exists. */
-  nftExists: InputMaybe<Scalars['Boolean']['input']>;
+  nftExists?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `nftId` field. */
-  nftId: InputMaybe<GqlStringFilter>;
+  nftId?: InputMaybe<GqlStringFilter>;
   /** Negates the expression. */
-  not: InputMaybe<GqlAssetTransferFilter>;
+  not?: InputMaybe<GqlAssetTransferFilter>;
   /** Checks for any expressions in this list. */
-  or: InputMaybe<Array<GqlAssetTransferFilter>>;
+  or?: InputMaybe<Array<GqlAssetTransferFilter>>;
   /** Filter by the object’s `success` field. */
-  success: InputMaybe<GqlBooleanFilter>;
+  success?: InputMaybe<GqlBooleanFilter>;
   /** Filter by the object’s `timestamp` field. */
-  timestamp: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `to` relation. */
-  to: InputMaybe<GqlWalletFilter>;
+  to?: InputMaybe<GqlWalletFilter>;
   /** A related `to` exists. */
-  toExists: InputMaybe<Scalars['Boolean']['input']>;
+  toExists?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `toId` field. */
-  toId: InputMaybe<GqlStringFilter>;
+  toId?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `token` relation. */
-  token: InputMaybe<GqlTokenContractFilter>;
+  token?: InputMaybe<GqlTokenContractFilter>;
   /** A related `token` exists. */
-  tokenExists: InputMaybe<Scalars['Boolean']['input']>;
+  tokenExists?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `tokenId` field. */
-  tokenId: InputMaybe<GqlStringFilter>;
+  tokenId?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `type` field. */
-  type: InputMaybe<GqlStringFilter>;
+  type?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `value` field. */
-  value: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferMaxAggregateFilter = {
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
-  timestamp: InputMaybe<GqlBigFloatFilter>;
-  value: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferMaxAggregates = {
@@ -206,9 +206,9 @@ export type GqlAssetTransferMaxAggregates = {
 };
 
 export type GqlAssetTransferMinAggregateFilter = {
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
-  timestamp: InputMaybe<GqlBigFloatFilter>;
-  value: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferMinAggregates = {
@@ -221,9 +221,9 @@ export type GqlAssetTransferMinAggregates = {
 };
 
 export type GqlAssetTransferStddevPopulationAggregateFilter = {
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
-  timestamp: InputMaybe<GqlBigFloatFilter>;
-  value: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferStddevPopulationAggregates = {
@@ -236,9 +236,9 @@ export type GqlAssetTransferStddevPopulationAggregates = {
 };
 
 export type GqlAssetTransferStddevSampleAggregateFilter = {
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
-  timestamp: InputMaybe<GqlBigFloatFilter>;
-  value: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferStddevSampleAggregates = {
@@ -251,9 +251,9 @@ export type GqlAssetTransferStddevSampleAggregates = {
 };
 
 export type GqlAssetTransferSumAggregateFilter = {
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
-  timestamp: InputMaybe<GqlBigFloatFilter>;
-  value: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferSumAggregates = {
@@ -266,9 +266,9 @@ export type GqlAssetTransferSumAggregates = {
 };
 
 export type GqlAssetTransferVariancePopulationAggregateFilter = {
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
-  timestamp: InputMaybe<GqlBigFloatFilter>;
-  value: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferVariancePopulationAggregates = {
@@ -281,9 +281,9 @@ export type GqlAssetTransferVariancePopulationAggregates = {
 };
 
 export type GqlAssetTransferVarianceSampleAggregateFilter = {
-  blockNumber: InputMaybe<GqlBigFloatFilter>;
-  timestamp: InputMaybe<GqlBigFloatFilter>;
-  value: InputMaybe<GqlBigFloatFilter>;
+  blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  timestamp?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferVarianceSampleAggregates = {
@@ -315,7 +315,7 @@ export type GqlAssetTransfersConnection = {
 /** A connection to a list of `AssetTransfer` values. */
 export type GqlAssetTransfersConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlAssetTransfersGroupBy>;
-  having: InputMaybe<GqlAssetTransfersHavingInput>;
+  having?: InputMaybe<GqlAssetTransfersHavingInput>;
 };
 
 /** A `AssetTransfer` edge in the connection. */
@@ -341,72 +341,72 @@ export enum GqlAssetTransfersGroupBy {
 }
 
 export type GqlAssetTransfersHavingAverageInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingDistinctCountInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Conditions for `AssetTransfer` aggregates. */
 export type GqlAssetTransfersHavingInput = {
-  AND: InputMaybe<Array<GqlAssetTransfersHavingInput>>;
-  OR: InputMaybe<Array<GqlAssetTransfersHavingInput>>;
-  average: InputMaybe<GqlAssetTransfersHavingAverageInput>;
-  distinctCount: InputMaybe<GqlAssetTransfersHavingDistinctCountInput>;
-  max: InputMaybe<GqlAssetTransfersHavingMaxInput>;
-  min: InputMaybe<GqlAssetTransfersHavingMinInput>;
-  stddevPopulation: InputMaybe<GqlAssetTransfersHavingStddevPopulationInput>;
-  stddevSample: InputMaybe<GqlAssetTransfersHavingStddevSampleInput>;
-  sum: InputMaybe<GqlAssetTransfersHavingSumInput>;
-  variancePopulation: InputMaybe<GqlAssetTransfersHavingVariancePopulationInput>;
-  varianceSample: InputMaybe<GqlAssetTransfersHavingVarianceSampleInput>;
+  AND?: InputMaybe<Array<GqlAssetTransfersHavingInput>>;
+  OR?: InputMaybe<Array<GqlAssetTransfersHavingInput>>;
+  average?: InputMaybe<GqlAssetTransfersHavingAverageInput>;
+  distinctCount?: InputMaybe<GqlAssetTransfersHavingDistinctCountInput>;
+  max?: InputMaybe<GqlAssetTransfersHavingMaxInput>;
+  min?: InputMaybe<GqlAssetTransfersHavingMinInput>;
+  stddevPopulation?: InputMaybe<GqlAssetTransfersHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<GqlAssetTransfersHavingStddevSampleInput>;
+  sum?: InputMaybe<GqlAssetTransfersHavingSumInput>;
+  variancePopulation?: InputMaybe<GqlAssetTransfersHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<GqlAssetTransfersHavingVarianceSampleInput>;
 };
 
 export type GqlAssetTransfersHavingMaxInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingMinInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingStddevPopulationInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingStddevSampleInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingSumInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingVariancePopulationInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingVarianceSampleInput = {
-  blockNumber: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp: InputMaybe<GqlHavingBigfloatFilter>;
-  value: InputMaybe<GqlHavingBigfloatFilter>;
+  blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
+  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `AssetTransfer`. */
@@ -439,159 +439,159 @@ export enum GqlAssetTransfersOrderBy {
 /** A filter to be used against BigFloat fields. All fields are combined with a logical ‘and.’ */
 export type GqlBigFloatFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom: InputMaybe<Scalars['BigFloat']['input']>;
+  distinctFrom?: InputMaybe<Scalars['BigFloat']['input']>;
   /** Equal to the specified value. */
-  equalTo: InputMaybe<Scalars['BigFloat']['input']>;
+  equalTo?: InputMaybe<Scalars['BigFloat']['input']>;
   /** Greater than the specified value. */
-  greaterThan: InputMaybe<Scalars['BigFloat']['input']>;
+  greaterThan?: InputMaybe<Scalars['BigFloat']['input']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo: InputMaybe<Scalars['BigFloat']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
   /** Included in the specified list. */
-  in: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+  in?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull: InputMaybe<Scalars['Boolean']['input']>;
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
   /** Less than the specified value. */
-  lessThan: InputMaybe<Scalars['BigFloat']['input']>;
+  lessThan?: InputMaybe<Scalars['BigFloat']['input']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo: InputMaybe<Scalars['BigFloat']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom: InputMaybe<Scalars['BigFloat']['input']>;
+  notDistinctFrom?: InputMaybe<Scalars['BigFloat']['input']>;
   /** Not equal to the specified value. */
-  notEqualTo: InputMaybe<Scalars['BigFloat']['input']>;
+  notEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
   /** Not included in the specified list. */
-  notIn: InputMaybe<Array<Scalars['BigFloat']['input']>>;
+  notIn?: InputMaybe<Array<Scalars['BigFloat']['input']>>;
 };
 
 /** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
 export type GqlBigIntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom: InputMaybe<Scalars['BigInt']['input']>;
+  distinctFrom?: InputMaybe<Scalars['BigInt']['input']>;
   /** Equal to the specified value. */
-  equalTo: InputMaybe<Scalars['BigInt']['input']>;
+  equalTo?: InputMaybe<Scalars['BigInt']['input']>;
   /** Greater than the specified value. */
-  greaterThan: InputMaybe<Scalars['BigInt']['input']>;
+  greaterThan?: InputMaybe<Scalars['BigInt']['input']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo: InputMaybe<Scalars['BigInt']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['BigInt']['input']>;
   /** Included in the specified list. */
-  in: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull: InputMaybe<Scalars['Boolean']['input']>;
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
   /** Less than the specified value. */
-  lessThan: InputMaybe<Scalars['BigInt']['input']>;
+  lessThan?: InputMaybe<Scalars['BigInt']['input']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo: InputMaybe<Scalars['BigInt']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['BigInt']['input']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom: InputMaybe<Scalars['BigInt']['input']>;
+  notDistinctFrom?: InputMaybe<Scalars['BigInt']['input']>;
   /** Not equal to the specified value. */
-  notEqualTo: InputMaybe<Scalars['BigInt']['input']>;
+  notEqualTo?: InputMaybe<Scalars['BigInt']['input']>;
   /** Not included in the specified list. */
-  notIn: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  notIn?: InputMaybe<Array<Scalars['BigInt']['input']>>;
 };
 
 /** A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’ */
 export type GqlBooleanFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom: InputMaybe<Scalars['Boolean']['input']>;
+  distinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
   /** Equal to the specified value. */
-  equalTo: InputMaybe<Scalars['Boolean']['input']>;
+  equalTo?: InputMaybe<Scalars['Boolean']['input']>;
   /** Greater than the specified value. */
-  greaterThan: InputMaybe<Scalars['Boolean']['input']>;
+  greaterThan?: InputMaybe<Scalars['Boolean']['input']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo: InputMaybe<Scalars['Boolean']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
   /** Included in the specified list. */
-  in: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull: InputMaybe<Scalars['Boolean']['input']>;
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
   /** Less than the specified value. */
-  lessThan: InputMaybe<Scalars['Boolean']['input']>;
+  lessThan?: InputMaybe<Scalars['Boolean']['input']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo: InputMaybe<Scalars['Boolean']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom: InputMaybe<Scalars['Boolean']['input']>;
+  notDistinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
   /** Not equal to the specified value. */
-  notEqualTo: InputMaybe<Scalars['Boolean']['input']>;
+  notEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
   /** Not included in the specified list. */
-  notIn: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  notIn?: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
 export type GqlHavingBigfloatFilter = {
-  equalTo: InputMaybe<Scalars['BigFloat']['input']>;
-  greaterThan: InputMaybe<Scalars['BigFloat']['input']>;
-  greaterThanOrEqualTo: InputMaybe<Scalars['BigFloat']['input']>;
-  lessThan: InputMaybe<Scalars['BigFloat']['input']>;
-  lessThanOrEqualTo: InputMaybe<Scalars['BigFloat']['input']>;
-  notEqualTo: InputMaybe<Scalars['BigFloat']['input']>;
+  equalTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  greaterThan?: InputMaybe<Scalars['BigFloat']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  lessThan?: InputMaybe<Scalars['BigFloat']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
+  notEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
 };
 
 export type GqlHavingIntFilter = {
-  equalTo: InputMaybe<Scalars['Int']['input']>;
-  greaterThan: InputMaybe<Scalars['Int']['input']>;
-  greaterThanOrEqualTo: InputMaybe<Scalars['Int']['input']>;
-  lessThan: InputMaybe<Scalars['Int']['input']>;
-  lessThanOrEqualTo: InputMaybe<Scalars['Int']['input']>;
-  notEqualTo: InputMaybe<Scalars['Int']['input']>;
+  equalTo?: InputMaybe<Scalars['Int']['input']>;
+  greaterThan?: InputMaybe<Scalars['Int']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
+  lessThan?: InputMaybe<Scalars['Int']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
+  notEqualTo?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
 export type GqlIntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom: InputMaybe<Scalars['Int']['input']>;
+  distinctFrom?: InputMaybe<Scalars['Int']['input']>;
   /** Equal to the specified value. */
-  equalTo: InputMaybe<Scalars['Int']['input']>;
+  equalTo?: InputMaybe<Scalars['Int']['input']>;
   /** Greater than the specified value. */
-  greaterThan: InputMaybe<Scalars['Int']['input']>;
+  greaterThan?: InputMaybe<Scalars['Int']['input']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo: InputMaybe<Scalars['Int']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
   /** Included in the specified list. */
-  in: InputMaybe<Array<Scalars['Int']['input']>>;
+  in?: InputMaybe<Array<Scalars['Int']['input']>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull: InputMaybe<Scalars['Boolean']['input']>;
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
   /** Less than the specified value. */
-  lessThan: InputMaybe<Scalars['Int']['input']>;
+  lessThan?: InputMaybe<Scalars['Int']['input']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo: InputMaybe<Scalars['Int']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom: InputMaybe<Scalars['Int']['input']>;
+  notDistinctFrom?: InputMaybe<Scalars['Int']['input']>;
   /** Not equal to the specified value. */
-  notEqualTo: InputMaybe<Scalars['Int']['input']>;
+  notEqualTo?: InputMaybe<Scalars['Int']['input']>;
   /** Not included in the specified list. */
-  notIn: InputMaybe<Array<Scalars['Int']['input']>>;
+  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 /** A filter to be used against JSON fields. All fields are combined with a logical ‘and.’ */
 export type GqlJSONFilter = {
   /** Contained by the specified JSON. */
-  containedBy: InputMaybe<Scalars['JSON']['input']>;
+  containedBy?: InputMaybe<Scalars['JSON']['input']>;
   /** Contains the specified JSON. */
-  contains: InputMaybe<Scalars['JSON']['input']>;
+  contains?: InputMaybe<Scalars['JSON']['input']>;
   /** Contains all of the specified keys. */
-  containsAllKeys: InputMaybe<Array<Scalars['String']['input']>>;
+  containsAllKeys?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Contains any of the specified keys. */
-  containsAnyKeys: InputMaybe<Array<Scalars['String']['input']>>;
+  containsAnyKeys?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Contains the specified key. */
-  containsKey: InputMaybe<Scalars['String']['input']>;
+  containsKey?: InputMaybe<Scalars['String']['input']>;
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom: InputMaybe<Scalars['JSON']['input']>;
+  distinctFrom?: InputMaybe<Scalars['JSON']['input']>;
   /** Equal to the specified value. */
-  equalTo: InputMaybe<Scalars['JSON']['input']>;
+  equalTo?: InputMaybe<Scalars['JSON']['input']>;
   /** Greater than the specified value. */
-  greaterThan: InputMaybe<Scalars['JSON']['input']>;
+  greaterThan?: InputMaybe<Scalars['JSON']['input']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo: InputMaybe<Scalars['JSON']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['JSON']['input']>;
   /** Included in the specified list. */
-  in: InputMaybe<Array<Scalars['JSON']['input']>>;
+  in?: InputMaybe<Array<Scalars['JSON']['input']>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull: InputMaybe<Scalars['Boolean']['input']>;
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
   /** Less than the specified value. */
-  lessThan: InputMaybe<Scalars['JSON']['input']>;
+  lessThan?: InputMaybe<Scalars['JSON']['input']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo: InputMaybe<Scalars['JSON']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['JSON']['input']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom: InputMaybe<Scalars['JSON']['input']>;
+  notDistinctFrom?: InputMaybe<Scalars['JSON']['input']>;
   /** Not equal to the specified value. */
-  notEqualTo: InputMaybe<Scalars['JSON']['input']>;
+  notEqualTo?: InputMaybe<Scalars['JSON']['input']>;
   /** Not included in the specified list. */
-  notIn: InputMaybe<Array<Scalars['JSON']['input']>>;
+  notIn?: InputMaybe<Array<Scalars['JSON']['input']>>;
 };
 
 export enum GqlMutationType {
@@ -625,86 +625,86 @@ export type GqlNft = GqlNode & {
 
 
 export type GqlNftassetTransfersArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlNftnftBalancesArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnft_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlNftBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlNfttokenContractsByAssetTransferNftIdAndTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_contracts_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenContractFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenContractsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenContractFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenContractsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlNftwalletsByAssetTransferNftIdAndFromIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlNftwalletsByAssetTransferNftIdAndToIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlNftwalletsByNftBalanceNftIdAndWalletIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 export type GqlNftAggregates = {
@@ -732,29 +732,29 @@ export type GqlNftAggregates = {
 /** A filter to be used against aggregates of `Nft` object types. */
 export type GqlNftAggregatesFilter = {
   /** Mean average aggregate over matching `Nft` objects. */
-  average: InputMaybe<GqlNftAverageAggregateFilter>;
+  average?: InputMaybe<GqlNftAverageAggregateFilter>;
   /** Distinct count aggregate over matching `Nft` objects. */
-  distinctCount: InputMaybe<GqlNftDistinctCountAggregateFilter>;
+  distinctCount?: InputMaybe<GqlNftDistinctCountAggregateFilter>;
   /** A filter that must pass for the relevant `Nft` object to be included within the aggregate. */
-  filter: InputMaybe<GqlNftFilter>;
+  filter?: InputMaybe<GqlNftFilter>;
   /** Maximum aggregate over matching `Nft` objects. */
-  max: InputMaybe<GqlNftMaxAggregateFilter>;
+  max?: InputMaybe<GqlNftMaxAggregateFilter>;
   /** Minimum aggregate over matching `Nft` objects. */
-  min: InputMaybe<GqlNftMinAggregateFilter>;
+  min?: InputMaybe<GqlNftMinAggregateFilter>;
   /** Population standard deviation aggregate over matching `Nft` objects. */
-  stddevPopulation: InputMaybe<GqlNftStddevPopulationAggregateFilter>;
+  stddevPopulation?: InputMaybe<GqlNftStddevPopulationAggregateFilter>;
   /** Sample standard deviation aggregate over matching `Nft` objects. */
-  stddevSample: InputMaybe<GqlNftStddevSampleAggregateFilter>;
+  stddevSample?: InputMaybe<GqlNftStddevSampleAggregateFilter>;
   /** Sum aggregate over matching `Nft` objects. */
-  sum: InputMaybe<GqlNftSumAggregateFilter>;
+  sum?: InputMaybe<GqlNftSumAggregateFilter>;
   /** Population variance aggregate over matching `Nft` objects. */
-  variancePopulation: InputMaybe<GqlNftVariancePopulationAggregateFilter>;
+  variancePopulation?: InputMaybe<GqlNftVariancePopulationAggregateFilter>;
   /** Sample variance aggregate over matching `Nft` objects. */
-  varianceSample: InputMaybe<GqlNftVarianceSampleAggregateFilter>;
+  varianceSample?: InputMaybe<GqlNftVarianceSampleAggregateFilter>;
 };
 
 export type GqlNftAverageAggregateFilter = {
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftAverageAggregates = {
@@ -800,29 +800,29 @@ export type GqlNftBalanceAggregates = {
 /** A filter to be used against aggregates of `NftBalance` object types. */
 export type GqlNftBalanceAggregatesFilter = {
   /** Mean average aggregate over matching `NftBalance` objects. */
-  average: InputMaybe<GqlNftBalanceAverageAggregateFilter>;
+  average?: InputMaybe<GqlNftBalanceAverageAggregateFilter>;
   /** Distinct count aggregate over matching `NftBalance` objects. */
-  distinctCount: InputMaybe<GqlNftBalanceDistinctCountAggregateFilter>;
+  distinctCount?: InputMaybe<GqlNftBalanceDistinctCountAggregateFilter>;
   /** A filter that must pass for the relevant `NftBalance` object to be included within the aggregate. */
-  filter: InputMaybe<GqlNftBalanceFilter>;
+  filter?: InputMaybe<GqlNftBalanceFilter>;
   /** Maximum aggregate over matching `NftBalance` objects. */
-  max: InputMaybe<GqlNftBalanceMaxAggregateFilter>;
+  max?: InputMaybe<GqlNftBalanceMaxAggregateFilter>;
   /** Minimum aggregate over matching `NftBalance` objects. */
-  min: InputMaybe<GqlNftBalanceMinAggregateFilter>;
+  min?: InputMaybe<GqlNftBalanceMinAggregateFilter>;
   /** Population standard deviation aggregate over matching `NftBalance` objects. */
-  stddevPopulation: InputMaybe<GqlNftBalanceStddevPopulationAggregateFilter>;
+  stddevPopulation?: InputMaybe<GqlNftBalanceStddevPopulationAggregateFilter>;
   /** Sample standard deviation aggregate over matching `NftBalance` objects. */
-  stddevSample: InputMaybe<GqlNftBalanceStddevSampleAggregateFilter>;
+  stddevSample?: InputMaybe<GqlNftBalanceStddevSampleAggregateFilter>;
   /** Sum aggregate over matching `NftBalance` objects. */
-  sum: InputMaybe<GqlNftBalanceSumAggregateFilter>;
+  sum?: InputMaybe<GqlNftBalanceSumAggregateFilter>;
   /** Population variance aggregate over matching `NftBalance` objects. */
-  variancePopulation: InputMaybe<GqlNftBalanceVariancePopulationAggregateFilter>;
+  variancePopulation?: InputMaybe<GqlNftBalanceVariancePopulationAggregateFilter>;
   /** Sample variance aggregate over matching `NftBalance` objects. */
-  varianceSample: InputMaybe<GqlNftBalanceVarianceSampleAggregateFilter>;
+  varianceSample?: InputMaybe<GqlNftBalanceVarianceSampleAggregateFilter>;
 };
 
 export type GqlNftBalanceAverageAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftBalanceAverageAggregates = {
@@ -831,12 +831,12 @@ export type GqlNftBalanceAverageAggregates = {
 };
 
 export type GqlNftBalanceDistinctCountAggregateFilter = {
-  _blockRange: InputMaybe<GqlBigIntFilter>;
-  _id: InputMaybe<GqlBigIntFilter>;
-  balance: InputMaybe<GqlBigIntFilter>;
-  id: InputMaybe<GqlBigIntFilter>;
-  nftId: InputMaybe<GqlBigIntFilter>;
-  walletId: InputMaybe<GqlBigIntFilter>;
+  _blockRange?: InputMaybe<GqlBigIntFilter>;
+  _id?: InputMaybe<GqlBigIntFilter>;
+  balance?: InputMaybe<GqlBigIntFilter>;
+  id?: InputMaybe<GqlBigIntFilter>;
+  nftId?: InputMaybe<GqlBigIntFilter>;
+  walletId?: InputMaybe<GqlBigIntFilter>;
 };
 
 export type GqlNftBalanceDistinctCountAggregates = {
@@ -857,27 +857,27 @@ export type GqlNftBalanceDistinctCountAggregates = {
 /** A filter to be used against `NftBalance` object types. All fields are combined with a logical ‘and.’ */
 export type GqlNftBalanceFilter = {
   /** Checks for all expressions in this list. */
-  and: InputMaybe<Array<GqlNftBalanceFilter>>;
+  and?: InputMaybe<Array<GqlNftBalanceFilter>>;
   /** Filter by the object’s `balance` field. */
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `id` field. */
-  id: InputMaybe<GqlStringFilter>;
+  id?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `nft` relation. */
-  nft: InputMaybe<GqlNftFilter>;
+  nft?: InputMaybe<GqlNftFilter>;
   /** Filter by the object’s `nftId` field. */
-  nftId: InputMaybe<GqlStringFilter>;
+  nftId?: InputMaybe<GqlStringFilter>;
   /** Negates the expression. */
-  not: InputMaybe<GqlNftBalanceFilter>;
+  not?: InputMaybe<GqlNftBalanceFilter>;
   /** Checks for any expressions in this list. */
-  or: InputMaybe<Array<GqlNftBalanceFilter>>;
+  or?: InputMaybe<Array<GqlNftBalanceFilter>>;
   /** Filter by the object’s `wallet` relation. */
-  wallet: InputMaybe<GqlWalletFilter>;
+  wallet?: InputMaybe<GqlWalletFilter>;
   /** Filter by the object’s `walletId` field. */
-  walletId: InputMaybe<GqlStringFilter>;
+  walletId?: InputMaybe<GqlStringFilter>;
 };
 
 export type GqlNftBalanceMaxAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftBalanceMaxAggregates = {
@@ -886,7 +886,7 @@ export type GqlNftBalanceMaxAggregates = {
 };
 
 export type GqlNftBalanceMinAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftBalanceMinAggregates = {
@@ -895,7 +895,7 @@ export type GqlNftBalanceMinAggregates = {
 };
 
 export type GqlNftBalanceStddevPopulationAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftBalanceStddevPopulationAggregates = {
@@ -904,7 +904,7 @@ export type GqlNftBalanceStddevPopulationAggregates = {
 };
 
 export type GqlNftBalanceStddevSampleAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftBalanceStddevSampleAggregates = {
@@ -913,7 +913,7 @@ export type GqlNftBalanceStddevSampleAggregates = {
 };
 
 export type GqlNftBalanceSumAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftBalanceSumAggregates = {
@@ -922,7 +922,7 @@ export type GqlNftBalanceSumAggregates = {
 };
 
 export type GqlNftBalanceVariancePopulationAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftBalanceVariancePopulationAggregates = {
@@ -931,7 +931,7 @@ export type GqlNftBalanceVariancePopulationAggregates = {
 };
 
 export type GqlNftBalanceVarianceSampleAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftBalanceVarianceSampleAggregates = {
@@ -959,7 +959,7 @@ export type GqlNftBalancesConnection = {
 /** A connection to a list of `NftBalance` values. */
 export type GqlNftBalancesConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlNftBalancesGroupBy>;
-  having: InputMaybe<GqlNftBalancesHavingInput>;
+  having?: InputMaybe<GqlNftBalancesHavingInput>;
 };
 
 /** A `NftBalance` edge in the connection. */
@@ -979,54 +979,54 @@ export enum GqlNftBalancesGroupBy {
 }
 
 export type GqlNftBalancesHavingAverageInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftBalancesHavingDistinctCountInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Conditions for `NftBalance` aggregates. */
 export type GqlNftBalancesHavingInput = {
-  AND: InputMaybe<Array<GqlNftBalancesHavingInput>>;
-  OR: InputMaybe<Array<GqlNftBalancesHavingInput>>;
-  average: InputMaybe<GqlNftBalancesHavingAverageInput>;
-  distinctCount: InputMaybe<GqlNftBalancesHavingDistinctCountInput>;
-  max: InputMaybe<GqlNftBalancesHavingMaxInput>;
-  min: InputMaybe<GqlNftBalancesHavingMinInput>;
-  stddevPopulation: InputMaybe<GqlNftBalancesHavingStddevPopulationInput>;
-  stddevSample: InputMaybe<GqlNftBalancesHavingStddevSampleInput>;
-  sum: InputMaybe<GqlNftBalancesHavingSumInput>;
-  variancePopulation: InputMaybe<GqlNftBalancesHavingVariancePopulationInput>;
-  varianceSample: InputMaybe<GqlNftBalancesHavingVarianceSampleInput>;
+  AND?: InputMaybe<Array<GqlNftBalancesHavingInput>>;
+  OR?: InputMaybe<Array<GqlNftBalancesHavingInput>>;
+  average?: InputMaybe<GqlNftBalancesHavingAverageInput>;
+  distinctCount?: InputMaybe<GqlNftBalancesHavingDistinctCountInput>;
+  max?: InputMaybe<GqlNftBalancesHavingMaxInput>;
+  min?: InputMaybe<GqlNftBalancesHavingMinInput>;
+  stddevPopulation?: InputMaybe<GqlNftBalancesHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<GqlNftBalancesHavingStddevSampleInput>;
+  sum?: InputMaybe<GqlNftBalancesHavingSumInput>;
+  variancePopulation?: InputMaybe<GqlNftBalancesHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<GqlNftBalancesHavingVarianceSampleInput>;
 };
 
 export type GqlNftBalancesHavingMaxInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftBalancesHavingMinInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftBalancesHavingStddevPopulationInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftBalancesHavingStddevSampleInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftBalancesHavingSumInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftBalancesHavingVariancePopulationInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftBalancesHavingVarianceSampleInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `NftBalance`. */
@@ -1045,12 +1045,12 @@ export enum GqlNftBalancesOrderBy {
 }
 
 export type GqlNftDistinctCountAggregateFilter = {
-  _blockRange: InputMaybe<GqlBigIntFilter>;
-  _id: InputMaybe<GqlBigIntFilter>;
-  collectionId: InputMaybe<GqlBigIntFilter>;
-  id: InputMaybe<GqlBigIntFilter>;
-  metadata: InputMaybe<GqlBigIntFilter>;
-  tokenId: InputMaybe<GqlBigIntFilter>;
+  _blockRange?: InputMaybe<GqlBigIntFilter>;
+  _id?: InputMaybe<GqlBigIntFilter>;
+  collectionId?: InputMaybe<GqlBigIntFilter>;
+  id?: InputMaybe<GqlBigIntFilter>;
+  metadata?: InputMaybe<GqlBigIntFilter>;
+  tokenId?: InputMaybe<GqlBigIntFilter>;
 };
 
 export type GqlNftDistinctCountAggregates = {
@@ -1071,33 +1071,33 @@ export type GqlNftDistinctCountAggregates = {
 /** A filter to be used against `Nft` object types. All fields are combined with a logical ‘and.’ */
 export type GqlNftFilter = {
   /** Checks for all expressions in this list. */
-  and: InputMaybe<Array<GqlNftFilter>>;
+  and?: InputMaybe<Array<GqlNftFilter>>;
   /** Filter by the object’s `assetTransfers` relation. */
-  assetTransfers: InputMaybe<GqlNftToManyAssetTransferFilter>;
+  assetTransfers?: InputMaybe<GqlNftToManyAssetTransferFilter>;
   /** Some related `assetTransfers` exist. */
-  assetTransfersExist: InputMaybe<Scalars['Boolean']['input']>;
+  assetTransfersExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `collection` relation. */
-  collection: InputMaybe<GqlTokenContractFilter>;
+  collection?: InputMaybe<GqlTokenContractFilter>;
   /** Filter by the object’s `collectionId` field. */
-  collectionId: InputMaybe<GqlStringFilter>;
+  collectionId?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `id` field. */
-  id: InputMaybe<GqlStringFilter>;
+  id?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `metadata` field. */
-  metadata: InputMaybe<GqlJSONFilter>;
+  metadata?: InputMaybe<GqlJSONFilter>;
   /** Filter by the object’s `nftBalances` relation. */
-  nftBalances: InputMaybe<GqlNftToManyNftBalanceFilter>;
+  nftBalances?: InputMaybe<GqlNftToManyNftBalanceFilter>;
   /** Some related `nftBalances` exist. */
-  nftBalancesExist: InputMaybe<Scalars['Boolean']['input']>;
+  nftBalancesExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Negates the expression. */
-  not: InputMaybe<GqlNftFilter>;
+  not?: InputMaybe<GqlNftFilter>;
   /** Checks for any expressions in this list. */
-  or: InputMaybe<Array<GqlNftFilter>>;
+  or?: InputMaybe<Array<GqlNftFilter>>;
   /** Filter by the object’s `tokenId` field. */
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftMaxAggregateFilter = {
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftMaxAggregates = {
@@ -1106,7 +1106,7 @@ export type GqlNftMaxAggregates = {
 };
 
 export type GqlNftMinAggregateFilter = {
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftMinAggregates = {
@@ -1115,7 +1115,7 @@ export type GqlNftMinAggregates = {
 };
 
 export type GqlNftStddevPopulationAggregateFilter = {
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftStddevPopulationAggregates = {
@@ -1124,7 +1124,7 @@ export type GqlNftStddevPopulationAggregates = {
 };
 
 export type GqlNftStddevSampleAggregateFilter = {
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftStddevSampleAggregates = {
@@ -1133,7 +1133,7 @@ export type GqlNftStddevSampleAggregates = {
 };
 
 export type GqlNftSumAggregateFilter = {
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftSumAggregates = {
@@ -1144,25 +1144,25 @@ export type GqlNftSumAggregates = {
 /** A filter to be used against many `AssetTransfer` object types. All fields are combined with a logical ‘and.’ */
 export type GqlNftToManyAssetTransferFilter = {
   /** Aggregates across related `AssetTransfer` match the filter criteria. */
-  aggregates: InputMaybe<GqlAssetTransferAggregatesFilter>;
+  aggregates?: InputMaybe<GqlAssetTransferAggregatesFilter>;
   /** Every related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every: InputMaybe<GqlAssetTransferFilter>;
+  every?: InputMaybe<GqlAssetTransferFilter>;
   /** No related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none: InputMaybe<GqlAssetTransferFilter>;
+  none?: InputMaybe<GqlAssetTransferFilter>;
   /** Some related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some: InputMaybe<GqlAssetTransferFilter>;
+  some?: InputMaybe<GqlAssetTransferFilter>;
 };
 
 /** A filter to be used against many `NftBalance` object types. All fields are combined with a logical ‘and.’ */
 export type GqlNftToManyNftBalanceFilter = {
   /** Aggregates across related `NftBalance` match the filter criteria. */
-  aggregates: InputMaybe<GqlNftBalanceAggregatesFilter>;
+  aggregates?: InputMaybe<GqlNftBalanceAggregatesFilter>;
   /** Every related `NftBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every: InputMaybe<GqlNftBalanceFilter>;
+  every?: InputMaybe<GqlNftBalanceFilter>;
   /** No related `NftBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none: InputMaybe<GqlNftBalanceFilter>;
+  none?: InputMaybe<GqlNftBalanceFilter>;
   /** Some related `NftBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some: InputMaybe<GqlNftBalanceFilter>;
+  some?: InputMaybe<GqlNftBalanceFilter>;
 };
 
 /** A connection to a list of `TokenContract` values, with data from `AssetTransfer`. */
@@ -1185,7 +1185,7 @@ export type GqlNftTokenContractsByAssetTransferNftIdAndTokenIdManyToManyConnecti
 /** A connection to a list of `TokenContract` values, with data from `AssetTransfer`. */
 export type GqlNftTokenContractsByAssetTransferNftIdAndTokenIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlTokenContractsGroupBy>;
-  having: InputMaybe<GqlTokenContractsHavingInput>;
+  having?: InputMaybe<GqlTokenContractsHavingInput>;
 };
 
 /** A `TokenContract` edge in the connection, with data from `AssetTransfer`. */
@@ -1201,20 +1201,20 @@ export type GqlNftTokenContractsByAssetTransferNftIdAndTokenIdManyToManyEdge = {
 
 /** A `TokenContract` edge in the connection, with data from `AssetTransfer`. */
 export type GqlNftTokenContractsByAssetTransferNftIdAndTokenIdManyToManyEdgeassetTransfersByTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 export type GqlNftVariancePopulationAggregateFilter = {
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftVariancePopulationAggregates = {
@@ -1223,7 +1223,7 @@ export type GqlNftVariancePopulationAggregates = {
 };
 
 export type GqlNftVarianceSampleAggregateFilter = {
-  tokenId: InputMaybe<GqlBigFloatFilter>;
+  tokenId?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlNftVarianceSampleAggregates = {
@@ -1251,7 +1251,7 @@ export type GqlNftWalletsByAssetTransferNftIdAndFromIdManyToManyConnection = {
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
 export type GqlNftWalletsByAssetTransferNftIdAndFromIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
@@ -1267,16 +1267,16 @@ export type GqlNftWalletsByAssetTransferNftIdAndFromIdManyToManyEdge = {
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
 export type GqlNftWalletsByAssetTransferNftIdAndFromIdManyToManyEdgeassetTransfersByFromIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
@@ -1299,7 +1299,7 @@ export type GqlNftWalletsByAssetTransferNftIdAndToIdManyToManyConnection = {
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
 export type GqlNftWalletsByAssetTransferNftIdAndToIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
@@ -1315,16 +1315,16 @@ export type GqlNftWalletsByAssetTransferNftIdAndToIdManyToManyEdge = {
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
 export type GqlNftWalletsByAssetTransferNftIdAndToIdManyToManyEdgeassetTransfersByToIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Wallet` values, with data from `NftBalance`. */
@@ -1347,7 +1347,7 @@ export type GqlNftWalletsByNftBalanceNftIdAndWalletIdManyToManyConnection = {
 /** A connection to a list of `Wallet` values, with data from `NftBalance`. */
 export type GqlNftWalletsByNftBalanceNftIdAndWalletIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection, with data from `NftBalance`. */
@@ -1363,16 +1363,16 @@ export type GqlNftWalletsByNftBalanceNftIdAndWalletIdManyToManyEdge = {
 
 /** A `Wallet` edge in the connection, with data from `NftBalance`. */
 export type GqlNftWalletsByNftBalanceNftIdAndWalletIdManyToManyEdgenftsArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnft_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlNftBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Nft` values. */
@@ -1395,7 +1395,7 @@ export type GqlNftsConnection = {
 /** A connection to a list of `Nft` values. */
 export type GqlNftsConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlNftsGroupBy>;
-  having: InputMaybe<GqlNftsHavingInput>;
+  having?: InputMaybe<GqlNftsHavingInput>;
 };
 
 /** A `Nft` edge in the connection. */
@@ -1415,54 +1415,54 @@ export enum GqlNftsGroupBy {
 }
 
 export type GqlNftsHavingAverageInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftsHavingDistinctCountInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Conditions for `Nft` aggregates. */
 export type GqlNftsHavingInput = {
-  AND: InputMaybe<Array<GqlNftsHavingInput>>;
-  OR: InputMaybe<Array<GqlNftsHavingInput>>;
-  average: InputMaybe<GqlNftsHavingAverageInput>;
-  distinctCount: InputMaybe<GqlNftsHavingDistinctCountInput>;
-  max: InputMaybe<GqlNftsHavingMaxInput>;
-  min: InputMaybe<GqlNftsHavingMinInput>;
-  stddevPopulation: InputMaybe<GqlNftsHavingStddevPopulationInput>;
-  stddevSample: InputMaybe<GqlNftsHavingStddevSampleInput>;
-  sum: InputMaybe<GqlNftsHavingSumInput>;
-  variancePopulation: InputMaybe<GqlNftsHavingVariancePopulationInput>;
-  varianceSample: InputMaybe<GqlNftsHavingVarianceSampleInput>;
+  AND?: InputMaybe<Array<GqlNftsHavingInput>>;
+  OR?: InputMaybe<Array<GqlNftsHavingInput>>;
+  average?: InputMaybe<GqlNftsHavingAverageInput>;
+  distinctCount?: InputMaybe<GqlNftsHavingDistinctCountInput>;
+  max?: InputMaybe<GqlNftsHavingMaxInput>;
+  min?: InputMaybe<GqlNftsHavingMinInput>;
+  stddevPopulation?: InputMaybe<GqlNftsHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<GqlNftsHavingStddevSampleInput>;
+  sum?: InputMaybe<GqlNftsHavingSumInput>;
+  variancePopulation?: InputMaybe<GqlNftsHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<GqlNftsHavingVarianceSampleInput>;
 };
 
 export type GqlNftsHavingMaxInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftsHavingMinInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftsHavingStddevPopulationInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftsHavingStddevSampleInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftsHavingSumInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftsHavingVariancePopulationInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlNftsHavingVarianceSampleInput = {
-  tokenId: InputMaybe<GqlHavingBigfloatFilter>;
+  tokenId?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `Nft`. */
@@ -1846,14 +1846,14 @@ export type GqlQuery = GqlNode & {
 
 /** The root query type which gives access points into the data universe. */
 export type GqlQuery_metadataArgs = {
-  chainId: InputMaybe<Scalars['String']['input']>;
+  chainId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type GqlQuery_metadatasArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
 };
 
 
@@ -1873,16 +1873,16 @@ export type GqlQueryassetTransferByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type GqlQueryassetTransfersArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
@@ -1909,16 +1909,16 @@ export type GqlQuerynftBalanceByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type GqlQuerynftBalancesArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnft_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlNftBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
@@ -1931,16 +1931,16 @@ export type GqlQuerynftByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type GqlQuerynftsArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnfts_distinct_enum>>>;
-  filter: InputMaybe<GqlNftFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
@@ -1966,16 +1966,16 @@ export type GqlQuerytokenBalanceByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type GqlQuerytokenBalancesArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
@@ -1995,16 +1995,16 @@ export type GqlQuerytokenContractByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type GqlQuerytokenContractsArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_contracts_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenContractFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenContractsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenContractFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenContractsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
@@ -2024,94 +2024,94 @@ export type GqlQuerywalletByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type GqlQuerywalletsArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
 export type GqlStringFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom: InputMaybe<Scalars['String']['input']>;
+  distinctFrom?: InputMaybe<Scalars['String']['input']>;
   /** Not equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  distinctFromInsensitive: InputMaybe<Scalars['String']['input']>;
+  distinctFromInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Ends with the specified string (case-sensitive). */
-  endsWith: InputMaybe<Scalars['String']['input']>;
+  endsWith?: InputMaybe<Scalars['String']['input']>;
   /** Ends with the specified string (case-insensitive). */
-  endsWithInsensitive: InputMaybe<Scalars['String']['input']>;
+  endsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Equal to the specified value. */
-  equalTo: InputMaybe<Scalars['String']['input']>;
+  equalTo?: InputMaybe<Scalars['String']['input']>;
   /** Equal to the specified value (case-insensitive). */
-  equalToInsensitive: InputMaybe<Scalars['String']['input']>;
+  equalToInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Greater than the specified value. */
-  greaterThan: InputMaybe<Scalars['String']['input']>;
+  greaterThan?: InputMaybe<Scalars['String']['input']>;
   /** Greater than the specified value (case-insensitive). */
-  greaterThanInsensitive: InputMaybe<Scalars['String']['input']>;
+  greaterThanInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo: InputMaybe<Scalars['String']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['String']['input']>;
   /** Greater than or equal to the specified value (case-insensitive). */
-  greaterThanOrEqualToInsensitive: InputMaybe<Scalars['String']['input']>;
+  greaterThanOrEqualToInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Included in the specified list. */
-  in: InputMaybe<Array<Scalars['String']['input']>>;
+  in?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Included in the specified list (case-insensitive). */
-  inInsensitive: InputMaybe<Array<Scalars['String']['input']>>;
+  inInsensitive?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Contains the specified string (case-sensitive). */
-  includes: InputMaybe<Scalars['String']['input']>;
+  includes?: InputMaybe<Scalars['String']['input']>;
   /** Contains the specified string (case-insensitive). */
-  includesInsensitive: InputMaybe<Scalars['String']['input']>;
+  includesInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull: InputMaybe<Scalars['Boolean']['input']>;
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
   /** Less than the specified value. */
-  lessThan: InputMaybe<Scalars['String']['input']>;
+  lessThan?: InputMaybe<Scalars['String']['input']>;
   /** Less than the specified value (case-insensitive). */
-  lessThanInsensitive: InputMaybe<Scalars['String']['input']>;
+  lessThanInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo: InputMaybe<Scalars['String']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['String']['input']>;
   /** Less than or equal to the specified value (case-insensitive). */
-  lessThanOrEqualToInsensitive: InputMaybe<Scalars['String']['input']>;
+  lessThanOrEqualToInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  like: InputMaybe<Scalars['String']['input']>;
+  like?: InputMaybe<Scalars['String']['input']>;
   /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  likeInsensitive: InputMaybe<Scalars['String']['input']>;
+  likeInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom: InputMaybe<Scalars['String']['input']>;
+  notDistinctFrom?: InputMaybe<Scalars['String']['input']>;
   /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  notDistinctFromInsensitive: InputMaybe<Scalars['String']['input']>;
+  notDistinctFromInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Does not end with the specified string (case-sensitive). */
-  notEndsWith: InputMaybe<Scalars['String']['input']>;
+  notEndsWith?: InputMaybe<Scalars['String']['input']>;
   /** Does not end with the specified string (case-insensitive). */
-  notEndsWithInsensitive: InputMaybe<Scalars['String']['input']>;
+  notEndsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Not equal to the specified value. */
-  notEqualTo: InputMaybe<Scalars['String']['input']>;
+  notEqualTo?: InputMaybe<Scalars['String']['input']>;
   /** Not equal to the specified value (case-insensitive). */
-  notEqualToInsensitive: InputMaybe<Scalars['String']['input']>;
+  notEqualToInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Not included in the specified list. */
-  notIn: InputMaybe<Array<Scalars['String']['input']>>;
+  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Not included in the specified list (case-insensitive). */
-  notInInsensitive: InputMaybe<Array<Scalars['String']['input']>>;
+  notInInsensitive?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Does not contain the specified string (case-sensitive). */
-  notIncludes: InputMaybe<Scalars['String']['input']>;
+  notIncludes?: InputMaybe<Scalars['String']['input']>;
   /** Does not contain the specified string (case-insensitive). */
-  notIncludesInsensitive: InputMaybe<Scalars['String']['input']>;
+  notIncludesInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLike: InputMaybe<Scalars['String']['input']>;
+  notLike?: InputMaybe<Scalars['String']['input']>;
   /** Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLikeInsensitive: InputMaybe<Scalars['String']['input']>;
+  notLikeInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Does not start with the specified string (case-sensitive). */
-  notStartsWith: InputMaybe<Scalars['String']['input']>;
+  notStartsWith?: InputMaybe<Scalars['String']['input']>;
   /** Does not start with the specified string (case-insensitive). */
-  notStartsWithInsensitive: InputMaybe<Scalars['String']['input']>;
+  notStartsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
   /** Starts with the specified string (case-sensitive). */
-  startsWith: InputMaybe<Scalars['String']['input']>;
+  startsWith?: InputMaybe<Scalars['String']['input']>;
   /** Starts with the specified string (case-insensitive). */
-  startsWithInsensitive: InputMaybe<Scalars['String']['input']>;
+  startsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
@@ -2127,43 +2127,43 @@ export type GqlSubscription = {
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
 export type GqlSubscriptionassetTransfersArgs = {
-  id: InputMaybe<Array<Scalars['ID']['input']>>;
-  mutation: InputMaybe<Array<GqlMutationType>>;
+  id?: InputMaybe<Array<Scalars['ID']['input']>>;
+  mutation?: InputMaybe<Array<GqlMutationType>>;
 };
 
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
 export type GqlSubscriptionnftBalancesArgs = {
-  id: InputMaybe<Array<Scalars['ID']['input']>>;
-  mutation: InputMaybe<Array<GqlMutationType>>;
+  id?: InputMaybe<Array<Scalars['ID']['input']>>;
+  mutation?: InputMaybe<Array<GqlMutationType>>;
 };
 
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
 export type GqlSubscriptionnftsArgs = {
-  id: InputMaybe<Array<Scalars['ID']['input']>>;
-  mutation: InputMaybe<Array<GqlMutationType>>;
+  id?: InputMaybe<Array<Scalars['ID']['input']>>;
+  mutation?: InputMaybe<Array<GqlMutationType>>;
 };
 
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
 export type GqlSubscriptiontokenBalancesArgs = {
-  id: InputMaybe<Array<Scalars['ID']['input']>>;
-  mutation: InputMaybe<Array<GqlMutationType>>;
+  id?: InputMaybe<Array<Scalars['ID']['input']>>;
+  mutation?: InputMaybe<Array<GqlMutationType>>;
 };
 
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
 export type GqlSubscriptiontokenContractsArgs = {
-  id: InputMaybe<Array<Scalars['ID']['input']>>;
-  mutation: InputMaybe<Array<GqlMutationType>>;
+  id?: InputMaybe<Array<Scalars['ID']['input']>>;
+  mutation?: InputMaybe<Array<GqlMutationType>>;
 };
 
 
 /** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
 export type GqlSubscriptionwalletsArgs = {
-  id: InputMaybe<Array<Scalars['ID']['input']>>;
-  mutation: InputMaybe<Array<GqlMutationType>>;
+  id?: InputMaybe<Array<Scalars['ID']['input']>>;
+  mutation?: InputMaybe<Array<GqlMutationType>>;
 };
 
 export type GqlSubscriptionPayload = {
@@ -2215,29 +2215,29 @@ export type GqlTokenBalanceAggregates = {
 /** A filter to be used against aggregates of `TokenBalance` object types. */
 export type GqlTokenBalanceAggregatesFilter = {
   /** Mean average aggregate over matching `TokenBalance` objects. */
-  average: InputMaybe<GqlTokenBalanceAverageAggregateFilter>;
+  average?: InputMaybe<GqlTokenBalanceAverageAggregateFilter>;
   /** Distinct count aggregate over matching `TokenBalance` objects. */
-  distinctCount: InputMaybe<GqlTokenBalanceDistinctCountAggregateFilter>;
+  distinctCount?: InputMaybe<GqlTokenBalanceDistinctCountAggregateFilter>;
   /** A filter that must pass for the relevant `TokenBalance` object to be included within the aggregate. */
-  filter: InputMaybe<GqlTokenBalanceFilter>;
+  filter?: InputMaybe<GqlTokenBalanceFilter>;
   /** Maximum aggregate over matching `TokenBalance` objects. */
-  max: InputMaybe<GqlTokenBalanceMaxAggregateFilter>;
+  max?: InputMaybe<GqlTokenBalanceMaxAggregateFilter>;
   /** Minimum aggregate over matching `TokenBalance` objects. */
-  min: InputMaybe<GqlTokenBalanceMinAggregateFilter>;
+  min?: InputMaybe<GqlTokenBalanceMinAggregateFilter>;
   /** Population standard deviation aggregate over matching `TokenBalance` objects. */
-  stddevPopulation: InputMaybe<GqlTokenBalanceStddevPopulationAggregateFilter>;
+  stddevPopulation?: InputMaybe<GqlTokenBalanceStddevPopulationAggregateFilter>;
   /** Sample standard deviation aggregate over matching `TokenBalance` objects. */
-  stddevSample: InputMaybe<GqlTokenBalanceStddevSampleAggregateFilter>;
+  stddevSample?: InputMaybe<GqlTokenBalanceStddevSampleAggregateFilter>;
   /** Sum aggregate over matching `TokenBalance` objects. */
-  sum: InputMaybe<GqlTokenBalanceSumAggregateFilter>;
+  sum?: InputMaybe<GqlTokenBalanceSumAggregateFilter>;
   /** Population variance aggregate over matching `TokenBalance` objects. */
-  variancePopulation: InputMaybe<GqlTokenBalanceVariancePopulationAggregateFilter>;
+  variancePopulation?: InputMaybe<GqlTokenBalanceVariancePopulationAggregateFilter>;
   /** Sample variance aggregate over matching `TokenBalance` objects. */
-  varianceSample: InputMaybe<GqlTokenBalanceVarianceSampleAggregateFilter>;
+  varianceSample?: InputMaybe<GqlTokenBalanceVarianceSampleAggregateFilter>;
 };
 
 export type GqlTokenBalanceAverageAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTokenBalanceAverageAggregates = {
@@ -2246,12 +2246,12 @@ export type GqlTokenBalanceAverageAggregates = {
 };
 
 export type GqlTokenBalanceDistinctCountAggregateFilter = {
-  _blockRange: InputMaybe<GqlBigIntFilter>;
-  _id: InputMaybe<GqlBigIntFilter>;
-  balance: InputMaybe<GqlBigIntFilter>;
-  id: InputMaybe<GqlBigIntFilter>;
-  tokenId: InputMaybe<GqlBigIntFilter>;
-  walletId: InputMaybe<GqlBigIntFilter>;
+  _blockRange?: InputMaybe<GqlBigIntFilter>;
+  _id?: InputMaybe<GqlBigIntFilter>;
+  balance?: InputMaybe<GqlBigIntFilter>;
+  id?: InputMaybe<GqlBigIntFilter>;
+  tokenId?: InputMaybe<GqlBigIntFilter>;
+  walletId?: InputMaybe<GqlBigIntFilter>;
 };
 
 export type GqlTokenBalanceDistinctCountAggregates = {
@@ -2272,27 +2272,27 @@ export type GqlTokenBalanceDistinctCountAggregates = {
 /** A filter to be used against `TokenBalance` object types. All fields are combined with a logical ‘and.’ */
 export type GqlTokenBalanceFilter = {
   /** Checks for all expressions in this list. */
-  and: InputMaybe<Array<GqlTokenBalanceFilter>>;
+  and?: InputMaybe<Array<GqlTokenBalanceFilter>>;
   /** Filter by the object’s `balance` field. */
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `id` field. */
-  id: InputMaybe<GqlStringFilter>;
+  id?: InputMaybe<GqlStringFilter>;
   /** Negates the expression. */
-  not: InputMaybe<GqlTokenBalanceFilter>;
+  not?: InputMaybe<GqlTokenBalanceFilter>;
   /** Checks for any expressions in this list. */
-  or: InputMaybe<Array<GqlTokenBalanceFilter>>;
+  or?: InputMaybe<Array<GqlTokenBalanceFilter>>;
   /** Filter by the object’s `token` relation. */
-  token: InputMaybe<GqlTokenContractFilter>;
+  token?: InputMaybe<GqlTokenContractFilter>;
   /** Filter by the object’s `tokenId` field. */
-  tokenId: InputMaybe<GqlStringFilter>;
+  tokenId?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `wallet` relation. */
-  wallet: InputMaybe<GqlWalletFilter>;
+  wallet?: InputMaybe<GqlWalletFilter>;
   /** Filter by the object’s `walletId` field. */
-  walletId: InputMaybe<GqlStringFilter>;
+  walletId?: InputMaybe<GqlStringFilter>;
 };
 
 export type GqlTokenBalanceMaxAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTokenBalanceMaxAggregates = {
@@ -2301,7 +2301,7 @@ export type GqlTokenBalanceMaxAggregates = {
 };
 
 export type GqlTokenBalanceMinAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTokenBalanceMinAggregates = {
@@ -2310,7 +2310,7 @@ export type GqlTokenBalanceMinAggregates = {
 };
 
 export type GqlTokenBalanceStddevPopulationAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTokenBalanceStddevPopulationAggregates = {
@@ -2319,7 +2319,7 @@ export type GqlTokenBalanceStddevPopulationAggregates = {
 };
 
 export type GqlTokenBalanceStddevSampleAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTokenBalanceStddevSampleAggregates = {
@@ -2328,7 +2328,7 @@ export type GqlTokenBalanceStddevSampleAggregates = {
 };
 
 export type GqlTokenBalanceSumAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTokenBalanceSumAggregates = {
@@ -2337,7 +2337,7 @@ export type GqlTokenBalanceSumAggregates = {
 };
 
 export type GqlTokenBalanceVariancePopulationAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTokenBalanceVariancePopulationAggregates = {
@@ -2346,7 +2346,7 @@ export type GqlTokenBalanceVariancePopulationAggregates = {
 };
 
 export type GqlTokenBalanceVarianceSampleAggregateFilter = {
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTokenBalanceVarianceSampleAggregates = {
@@ -2374,7 +2374,7 @@ export type GqlTokenBalancesConnection = {
 /** A connection to a list of `TokenBalance` values. */
 export type GqlTokenBalancesConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlTokenBalancesGroupBy>;
-  having: InputMaybe<GqlTokenBalancesHavingInput>;
+  having?: InputMaybe<GqlTokenBalancesHavingInput>;
 };
 
 /** A `TokenBalance` edge in the connection. */
@@ -2394,54 +2394,54 @@ export enum GqlTokenBalancesGroupBy {
 }
 
 export type GqlTokenBalancesHavingAverageInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTokenBalancesHavingDistinctCountInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Conditions for `TokenBalance` aggregates. */
 export type GqlTokenBalancesHavingInput = {
-  AND: InputMaybe<Array<GqlTokenBalancesHavingInput>>;
-  OR: InputMaybe<Array<GqlTokenBalancesHavingInput>>;
-  average: InputMaybe<GqlTokenBalancesHavingAverageInput>;
-  distinctCount: InputMaybe<GqlTokenBalancesHavingDistinctCountInput>;
-  max: InputMaybe<GqlTokenBalancesHavingMaxInput>;
-  min: InputMaybe<GqlTokenBalancesHavingMinInput>;
-  stddevPopulation: InputMaybe<GqlTokenBalancesHavingStddevPopulationInput>;
-  stddevSample: InputMaybe<GqlTokenBalancesHavingStddevSampleInput>;
-  sum: InputMaybe<GqlTokenBalancesHavingSumInput>;
-  variancePopulation: InputMaybe<GqlTokenBalancesHavingVariancePopulationInput>;
-  varianceSample: InputMaybe<GqlTokenBalancesHavingVarianceSampleInput>;
+  AND?: InputMaybe<Array<GqlTokenBalancesHavingInput>>;
+  OR?: InputMaybe<Array<GqlTokenBalancesHavingInput>>;
+  average?: InputMaybe<GqlTokenBalancesHavingAverageInput>;
+  distinctCount?: InputMaybe<GqlTokenBalancesHavingDistinctCountInput>;
+  max?: InputMaybe<GqlTokenBalancesHavingMaxInput>;
+  min?: InputMaybe<GqlTokenBalancesHavingMinInput>;
+  stddevPopulation?: InputMaybe<GqlTokenBalancesHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<GqlTokenBalancesHavingStddevSampleInput>;
+  sum?: InputMaybe<GqlTokenBalancesHavingSumInput>;
+  variancePopulation?: InputMaybe<GqlTokenBalancesHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<GqlTokenBalancesHavingVarianceSampleInput>;
 };
 
 export type GqlTokenBalancesHavingMaxInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTokenBalancesHavingMinInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTokenBalancesHavingStddevPopulationInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTokenBalancesHavingStddevSampleInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTokenBalancesHavingSumInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTokenBalancesHavingVariancePopulationInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTokenBalancesHavingVarianceSampleInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `TokenBalance`. */
@@ -2486,100 +2486,100 @@ export type GqlTokenContract = GqlNode & {
 
 
 export type GqlTokenContractassetTransfersByTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlTokenContractnftsByAssetTransferTokenIdAndNftIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnfts_distinct_enum>>>;
-  filter: InputMaybe<GqlNftFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlTokenContractnftsByCollectionIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnfts_distinct_enum>>>;
-  filter: InputMaybe<GqlNftFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlTokenContracttokenBalancesByTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlTokenContractwalletsByAssetTransferTokenIdAndFromIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlTokenContractwalletsByAssetTransferTokenIdAndToIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlTokenContractwalletsByTokenBalanceTokenIdAndWalletIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 export type GqlTokenContractAggregates = {
@@ -2631,35 +2631,35 @@ export type GqlTokenContractDistinctCountAggregates = {
 /** A filter to be used against `TokenContract` object types. All fields are combined with a logical ‘and.’ */
 export type GqlTokenContractFilter = {
   /** Checks for all expressions in this list. */
-  and: InputMaybe<Array<GqlTokenContractFilter>>;
+  and?: InputMaybe<Array<GqlTokenContractFilter>>;
   /** Filter by the object’s `assetTransfersByTokenId` relation. */
-  assetTransfersByTokenId: InputMaybe<GqlTokenContractToManyAssetTransferFilter>;
+  assetTransfersByTokenId?: InputMaybe<GqlTokenContractToManyAssetTransferFilter>;
   /** Some related `assetTransfersByTokenId` exist. */
-  assetTransfersByTokenIdExist: InputMaybe<Scalars['Boolean']['input']>;
+  assetTransfersByTokenIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `decimals` field. */
-  decimals: InputMaybe<GqlIntFilter>;
+  decimals?: InputMaybe<GqlIntFilter>;
   /** Filter by the object’s `iconUrl` field. */
-  iconUrl: InputMaybe<GqlStringFilter>;
+  iconUrl?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `id` field. */
-  id: InputMaybe<GqlStringFilter>;
+  id?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `name` field. */
-  name: InputMaybe<GqlStringFilter>;
+  name?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `nftsByCollectionId` relation. */
-  nftsByCollectionId: InputMaybe<GqlTokenContractToManyNftFilter>;
+  nftsByCollectionId?: InputMaybe<GqlTokenContractToManyNftFilter>;
   /** Some related `nftsByCollectionId` exist. */
-  nftsByCollectionIdExist: InputMaybe<Scalars['Boolean']['input']>;
+  nftsByCollectionIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Negates the expression. */
-  not: InputMaybe<GqlTokenContractFilter>;
+  not?: InputMaybe<GqlTokenContractFilter>;
   /** Checks for any expressions in this list. */
-  or: InputMaybe<Array<GqlTokenContractFilter>>;
+  or?: InputMaybe<Array<GqlTokenContractFilter>>;
   /** Filter by the object’s `symbol` field. */
-  symbol: InputMaybe<GqlStringFilter>;
+  symbol?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `tokenBalancesByTokenId` relation. */
-  tokenBalancesByTokenId: InputMaybe<GqlTokenContractToManyTokenBalanceFilter>;
+  tokenBalancesByTokenId?: InputMaybe<GqlTokenContractToManyTokenBalanceFilter>;
   /** Some related `tokenBalancesByTokenId` exist. */
-  tokenBalancesByTokenIdExist: InputMaybe<Scalars['Boolean']['input']>;
+  tokenBalancesByTokenIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `type` field. */
-  type: InputMaybe<GqlStringFilter>;
+  type?: InputMaybe<GqlStringFilter>;
 };
 
 export type GqlTokenContractMaxAggregates = {
@@ -2692,7 +2692,7 @@ export type GqlTokenContractNftsByAssetTransferTokenIdAndNftIdManyToManyConnecti
 /** A connection to a list of `Nft` values, with data from `AssetTransfer`. */
 export type GqlTokenContractNftsByAssetTransferTokenIdAndNftIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlNftsGroupBy>;
-  having: InputMaybe<GqlNftsHavingInput>;
+  having?: InputMaybe<GqlNftsHavingInput>;
 };
 
 /** A `Nft` edge in the connection, with data from `AssetTransfer`. */
@@ -2708,16 +2708,16 @@ export type GqlTokenContractNftsByAssetTransferTokenIdAndNftIdManyToManyEdge = {
 
 /** A `Nft` edge in the connection, with data from `AssetTransfer`. */
 export type GqlTokenContractNftsByAssetTransferTokenIdAndNftIdManyToManyEdgeassetTransfersArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 export type GqlTokenContractStddevPopulationAggregates = {
@@ -2738,37 +2738,37 @@ export type GqlTokenContractSumAggregates = {
 /** A filter to be used against many `AssetTransfer` object types. All fields are combined with a logical ‘and.’ */
 export type GqlTokenContractToManyAssetTransferFilter = {
   /** Aggregates across related `AssetTransfer` match the filter criteria. */
-  aggregates: InputMaybe<GqlAssetTransferAggregatesFilter>;
+  aggregates?: InputMaybe<GqlAssetTransferAggregatesFilter>;
   /** Every related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every: InputMaybe<GqlAssetTransferFilter>;
+  every?: InputMaybe<GqlAssetTransferFilter>;
   /** No related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none: InputMaybe<GqlAssetTransferFilter>;
+  none?: InputMaybe<GqlAssetTransferFilter>;
   /** Some related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some: InputMaybe<GqlAssetTransferFilter>;
+  some?: InputMaybe<GqlAssetTransferFilter>;
 };
 
 /** A filter to be used against many `Nft` object types. All fields are combined with a logical ‘and.’ */
 export type GqlTokenContractToManyNftFilter = {
   /** Aggregates across related `Nft` match the filter criteria. */
-  aggregates: InputMaybe<GqlNftAggregatesFilter>;
+  aggregates?: InputMaybe<GqlNftAggregatesFilter>;
   /** Every related `Nft` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every: InputMaybe<GqlNftFilter>;
+  every?: InputMaybe<GqlNftFilter>;
   /** No related `Nft` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none: InputMaybe<GqlNftFilter>;
+  none?: InputMaybe<GqlNftFilter>;
   /** Some related `Nft` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some: InputMaybe<GqlNftFilter>;
+  some?: InputMaybe<GqlNftFilter>;
 };
 
 /** A filter to be used against many `TokenBalance` object types. All fields are combined with a logical ‘and.’ */
 export type GqlTokenContractToManyTokenBalanceFilter = {
   /** Aggregates across related `TokenBalance` match the filter criteria. */
-  aggregates: InputMaybe<GqlTokenBalanceAggregatesFilter>;
+  aggregates?: InputMaybe<GqlTokenBalanceAggregatesFilter>;
   /** Every related `TokenBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every: InputMaybe<GqlTokenBalanceFilter>;
+  every?: InputMaybe<GqlTokenBalanceFilter>;
   /** No related `TokenBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none: InputMaybe<GqlTokenBalanceFilter>;
+  none?: InputMaybe<GqlTokenBalanceFilter>;
   /** Some related `TokenBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some: InputMaybe<GqlTokenBalanceFilter>;
+  some?: InputMaybe<GqlTokenBalanceFilter>;
 };
 
 export type GqlTokenContractVariancePopulationAggregates = {
@@ -2801,7 +2801,7 @@ export type GqlTokenContractWalletsByAssetTransferTokenIdAndFromIdManyToManyConn
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
 export type GqlTokenContractWalletsByAssetTransferTokenIdAndFromIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
@@ -2817,16 +2817,16 @@ export type GqlTokenContractWalletsByAssetTransferTokenIdAndFromIdManyToManyEdge
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
 export type GqlTokenContractWalletsByAssetTransferTokenIdAndFromIdManyToManyEdgeassetTransfersByFromIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
@@ -2849,7 +2849,7 @@ export type GqlTokenContractWalletsByAssetTransferTokenIdAndToIdManyToManyConnec
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
 export type GqlTokenContractWalletsByAssetTransferTokenIdAndToIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
@@ -2865,16 +2865,16 @@ export type GqlTokenContractWalletsByAssetTransferTokenIdAndToIdManyToManyEdge =
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
 export type GqlTokenContractWalletsByAssetTransferTokenIdAndToIdManyToManyEdgeassetTransfersByToIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Wallet` values, with data from `TokenBalance`. */
@@ -2897,7 +2897,7 @@ export type GqlTokenContractWalletsByTokenBalanceTokenIdAndWalletIdManyToManyCon
 /** A connection to a list of `Wallet` values, with data from `TokenBalance`. */
 export type GqlTokenContractWalletsByTokenBalanceTokenIdAndWalletIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection, with data from `TokenBalance`. */
@@ -2913,16 +2913,16 @@ export type GqlTokenContractWalletsByTokenBalanceTokenIdAndWalletIdManyToManyEdg
 
 /** A `Wallet` edge in the connection, with data from `TokenBalance`. */
 export type GqlTokenContractWalletsByTokenBalanceTokenIdAndWalletIdManyToManyEdgetokensArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `TokenContract` values. */
@@ -2945,7 +2945,7 @@ export type GqlTokenContractsConnection = {
 /** A connection to a list of `TokenContract` values. */
 export type GqlTokenContractsConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlTokenContractsGroupBy>;
-  having: InputMaybe<GqlTokenContractsHavingInput>;
+  having?: InputMaybe<GqlTokenContractsHavingInput>;
 };
 
 /** A `TokenContract` edge in the connection. */
@@ -2967,54 +2967,54 @@ export enum GqlTokenContractsGroupBy {
 }
 
 export type GqlTokenContractsHavingAverageInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 export type GqlTokenContractsHavingDistinctCountInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 /** Conditions for `TokenContract` aggregates. */
 export type GqlTokenContractsHavingInput = {
-  AND: InputMaybe<Array<GqlTokenContractsHavingInput>>;
-  OR: InputMaybe<Array<GqlTokenContractsHavingInput>>;
-  average: InputMaybe<GqlTokenContractsHavingAverageInput>;
-  distinctCount: InputMaybe<GqlTokenContractsHavingDistinctCountInput>;
-  max: InputMaybe<GqlTokenContractsHavingMaxInput>;
-  min: InputMaybe<GqlTokenContractsHavingMinInput>;
-  stddevPopulation: InputMaybe<GqlTokenContractsHavingStddevPopulationInput>;
-  stddevSample: InputMaybe<GqlTokenContractsHavingStddevSampleInput>;
-  sum: InputMaybe<GqlTokenContractsHavingSumInput>;
-  variancePopulation: InputMaybe<GqlTokenContractsHavingVariancePopulationInput>;
-  varianceSample: InputMaybe<GqlTokenContractsHavingVarianceSampleInput>;
+  AND?: InputMaybe<Array<GqlTokenContractsHavingInput>>;
+  OR?: InputMaybe<Array<GqlTokenContractsHavingInput>>;
+  average?: InputMaybe<GqlTokenContractsHavingAverageInput>;
+  distinctCount?: InputMaybe<GqlTokenContractsHavingDistinctCountInput>;
+  max?: InputMaybe<GqlTokenContractsHavingMaxInput>;
+  min?: InputMaybe<GqlTokenContractsHavingMinInput>;
+  stddevPopulation?: InputMaybe<GqlTokenContractsHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<GqlTokenContractsHavingStddevSampleInput>;
+  sum?: InputMaybe<GqlTokenContractsHavingSumInput>;
+  variancePopulation?: InputMaybe<GqlTokenContractsHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<GqlTokenContractsHavingVarianceSampleInput>;
 };
 
 export type GqlTokenContractsHavingMaxInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 export type GqlTokenContractsHavingMinInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 export type GqlTokenContractsHavingStddevPopulationInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 export type GqlTokenContractsHavingStddevSampleInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 export type GqlTokenContractsHavingSumInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 export type GqlTokenContractsHavingVariancePopulationInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 export type GqlTokenContractsHavingVarianceSampleInput = {
-  decimals: InputMaybe<GqlHavingIntFilter>;
+  decimals?: InputMaybe<GqlHavingIntFilter>;
 };
 
 /** Methods to use when ordering `TokenContract`. */
@@ -3453,170 +3453,170 @@ export type GqlWallet = GqlNode & {
 
 
 export type GqlWalletassetTransfersByFromIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWalletassetTransfersByToIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWalletnftsArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnft_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlNftBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWalletnftsByAssetTransferFromIdAndNftIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnfts_distinct_enum>>>;
-  filter: InputMaybe<GqlNftFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWalletnftsByAssetTransferToIdAndNftIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnfts_distinct_enum>>>;
-  filter: InputMaybe<GqlNftFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWalletnftsByNftBalanceWalletIdAndNftIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnfts_distinct_enum>>>;
-  filter: InputMaybe<GqlNftFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWallettokenContractsByAssetTransferFromIdAndTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_contracts_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenContractFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenContractsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenContractFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenContractsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWallettokenContractsByAssetTransferToIdAndTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_contracts_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenContractFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenContractsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenContractFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenContractsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWallettokenContractsByTokenBalanceWalletIdAndTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_contracts_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenContractFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenContractsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenContractFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenContractsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWallettokensArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWalletwalletsByAssetTransferFromIdAndToIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 
 export type GqlWalletwalletsByAssetTransferToIdAndFromIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlwallets_distinct_enum>>>;
-  filter: InputMaybe<GqlWalletFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlWalletsOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlWalletFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlWalletsOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 export type GqlWalletAggregates = {
@@ -3660,31 +3660,31 @@ export type GqlWalletDistinctCountAggregates = {
 /** A filter to be used against `Wallet` object types. All fields are combined with a logical ‘and.’ */
 export type GqlWalletFilter = {
   /** Checks for all expressions in this list. */
-  and: InputMaybe<Array<GqlWalletFilter>>;
+  and?: InputMaybe<Array<GqlWalletFilter>>;
   /** Filter by the object’s `assetTransfersByFromId` relation. */
-  assetTransfersByFromId: InputMaybe<GqlWalletToManyAssetTransferFilter>;
+  assetTransfersByFromId?: InputMaybe<GqlWalletToManyAssetTransferFilter>;
   /** Some related `assetTransfersByFromId` exist. */
-  assetTransfersByFromIdExist: InputMaybe<Scalars['Boolean']['input']>;
+  assetTransfersByFromIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `assetTransfersByToId` relation. */
-  assetTransfersByToId: InputMaybe<GqlWalletToManyAssetTransferFilter>;
+  assetTransfersByToId?: InputMaybe<GqlWalletToManyAssetTransferFilter>;
   /** Some related `assetTransfersByToId` exist. */
-  assetTransfersByToIdExist: InputMaybe<Scalars['Boolean']['input']>;
+  assetTransfersByToIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `balance` field. */
-  balance: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `id` field. */
-  id: InputMaybe<GqlStringFilter>;
+  id?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `nfts` relation. */
-  nfts: InputMaybe<GqlWalletToManyNftBalanceFilter>;
+  nfts?: InputMaybe<GqlWalletToManyNftBalanceFilter>;
   /** Some related `nfts` exist. */
-  nftsExist: InputMaybe<Scalars['Boolean']['input']>;
+  nftsExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Negates the expression. */
-  not: InputMaybe<GqlWalletFilter>;
+  not?: InputMaybe<GqlWalletFilter>;
   /** Checks for any expressions in this list. */
-  or: InputMaybe<Array<GqlWalletFilter>>;
+  or?: InputMaybe<Array<GqlWalletFilter>>;
   /** Filter by the object’s `tokens` relation. */
-  tokens: InputMaybe<GqlWalletToManyTokenBalanceFilter>;
+  tokens?: InputMaybe<GqlWalletToManyTokenBalanceFilter>;
   /** Some related `tokens` exist. */
-  tokensExist: InputMaybe<Scalars['Boolean']['input']>;
+  tokensExist?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type GqlWalletMaxAggregates = {
@@ -3717,7 +3717,7 @@ export type GqlWalletNftsByAssetTransferFromIdAndNftIdManyToManyConnection = {
 /** A connection to a list of `Nft` values, with data from `AssetTransfer`. */
 export type GqlWalletNftsByAssetTransferFromIdAndNftIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlNftsGroupBy>;
-  having: InputMaybe<GqlNftsHavingInput>;
+  having?: InputMaybe<GqlNftsHavingInput>;
 };
 
 /** A `Nft` edge in the connection, with data from `AssetTransfer`. */
@@ -3733,16 +3733,16 @@ export type GqlWalletNftsByAssetTransferFromIdAndNftIdManyToManyEdge = {
 
 /** A `Nft` edge in the connection, with data from `AssetTransfer`. */
 export type GqlWalletNftsByAssetTransferFromIdAndNftIdManyToManyEdgeassetTransfersArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Nft` values, with data from `AssetTransfer`. */
@@ -3765,7 +3765,7 @@ export type GqlWalletNftsByAssetTransferToIdAndNftIdManyToManyConnection = {
 /** A connection to a list of `Nft` values, with data from `AssetTransfer`. */
 export type GqlWalletNftsByAssetTransferToIdAndNftIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlNftsGroupBy>;
-  having: InputMaybe<GqlNftsHavingInput>;
+  having?: InputMaybe<GqlNftsHavingInput>;
 };
 
 /** A `Nft` edge in the connection, with data from `AssetTransfer`. */
@@ -3781,16 +3781,16 @@ export type GqlWalletNftsByAssetTransferToIdAndNftIdManyToManyEdge = {
 
 /** A `Nft` edge in the connection, with data from `AssetTransfer`. */
 export type GqlWalletNftsByAssetTransferToIdAndNftIdManyToManyEdgeassetTransfersArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Nft` values, with data from `NftBalance`. */
@@ -3813,7 +3813,7 @@ export type GqlWalletNftsByNftBalanceWalletIdAndNftIdManyToManyConnection = {
 /** A connection to a list of `Nft` values, with data from `NftBalance`. */
 export type GqlWalletNftsByNftBalanceWalletIdAndNftIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlNftsGroupBy>;
-  having: InputMaybe<GqlNftsHavingInput>;
+  having?: InputMaybe<GqlNftsHavingInput>;
 };
 
 /** A `Nft` edge in the connection, with data from `NftBalance`. */
@@ -3829,16 +3829,16 @@ export type GqlWalletNftsByNftBalanceWalletIdAndNftIdManyToManyEdge = {
 
 /** A `Nft` edge in the connection, with data from `NftBalance`. */
 export type GqlWalletNftsByNftBalanceWalletIdAndNftIdManyToManyEdgenftBalancesArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlnft_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlNftBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlNftBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlNftBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 export type GqlWalletStddevPopulationAggregates = {
@@ -3859,37 +3859,37 @@ export type GqlWalletSumAggregates = {
 /** A filter to be used against many `AssetTransfer` object types. All fields are combined with a logical ‘and.’ */
 export type GqlWalletToManyAssetTransferFilter = {
   /** Aggregates across related `AssetTransfer` match the filter criteria. */
-  aggregates: InputMaybe<GqlAssetTransferAggregatesFilter>;
+  aggregates?: InputMaybe<GqlAssetTransferAggregatesFilter>;
   /** Every related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every: InputMaybe<GqlAssetTransferFilter>;
+  every?: InputMaybe<GqlAssetTransferFilter>;
   /** No related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none: InputMaybe<GqlAssetTransferFilter>;
+  none?: InputMaybe<GqlAssetTransferFilter>;
   /** Some related `AssetTransfer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some: InputMaybe<GqlAssetTransferFilter>;
+  some?: InputMaybe<GqlAssetTransferFilter>;
 };
 
 /** A filter to be used against many `NftBalance` object types. All fields are combined with a logical ‘and.’ */
 export type GqlWalletToManyNftBalanceFilter = {
   /** Aggregates across related `NftBalance` match the filter criteria. */
-  aggregates: InputMaybe<GqlNftBalanceAggregatesFilter>;
+  aggregates?: InputMaybe<GqlNftBalanceAggregatesFilter>;
   /** Every related `NftBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every: InputMaybe<GqlNftBalanceFilter>;
+  every?: InputMaybe<GqlNftBalanceFilter>;
   /** No related `NftBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none: InputMaybe<GqlNftBalanceFilter>;
+  none?: InputMaybe<GqlNftBalanceFilter>;
   /** Some related `NftBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some: InputMaybe<GqlNftBalanceFilter>;
+  some?: InputMaybe<GqlNftBalanceFilter>;
 };
 
 /** A filter to be used against many `TokenBalance` object types. All fields are combined with a logical ‘and.’ */
 export type GqlWalletToManyTokenBalanceFilter = {
   /** Aggregates across related `TokenBalance` match the filter criteria. */
-  aggregates: InputMaybe<GqlTokenBalanceAggregatesFilter>;
+  aggregates?: InputMaybe<GqlTokenBalanceAggregatesFilter>;
   /** Every related `TokenBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every: InputMaybe<GqlTokenBalanceFilter>;
+  every?: InputMaybe<GqlTokenBalanceFilter>;
   /** No related `TokenBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none: InputMaybe<GqlTokenBalanceFilter>;
+  none?: InputMaybe<GqlTokenBalanceFilter>;
   /** Some related `TokenBalance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some: InputMaybe<GqlTokenBalanceFilter>;
+  some?: InputMaybe<GqlTokenBalanceFilter>;
 };
 
 /** A connection to a list of `TokenContract` values, with data from `AssetTransfer`. */
@@ -3912,7 +3912,7 @@ export type GqlWalletTokenContractsByAssetTransferFromIdAndTokenIdManyToManyConn
 /** A connection to a list of `TokenContract` values, with data from `AssetTransfer`. */
 export type GqlWalletTokenContractsByAssetTransferFromIdAndTokenIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlTokenContractsGroupBy>;
-  having: InputMaybe<GqlTokenContractsHavingInput>;
+  having?: InputMaybe<GqlTokenContractsHavingInput>;
 };
 
 /** A `TokenContract` edge in the connection, with data from `AssetTransfer`. */
@@ -3928,16 +3928,16 @@ export type GqlWalletTokenContractsByAssetTransferFromIdAndTokenIdManyToManyEdge
 
 /** A `TokenContract` edge in the connection, with data from `AssetTransfer`. */
 export type GqlWalletTokenContractsByAssetTransferFromIdAndTokenIdManyToManyEdgeassetTransfersByTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `TokenContract` values, with data from `AssetTransfer`. */
@@ -3960,7 +3960,7 @@ export type GqlWalletTokenContractsByAssetTransferToIdAndTokenIdManyToManyConnec
 /** A connection to a list of `TokenContract` values, with data from `AssetTransfer`. */
 export type GqlWalletTokenContractsByAssetTransferToIdAndTokenIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlTokenContractsGroupBy>;
-  having: InputMaybe<GqlTokenContractsHavingInput>;
+  having?: InputMaybe<GqlTokenContractsHavingInput>;
 };
 
 /** A `TokenContract` edge in the connection, with data from `AssetTransfer`. */
@@ -3976,16 +3976,16 @@ export type GqlWalletTokenContractsByAssetTransferToIdAndTokenIdManyToManyEdge =
 
 /** A `TokenContract` edge in the connection, with data from `AssetTransfer`. */
 export type GqlWalletTokenContractsByAssetTransferToIdAndTokenIdManyToManyEdgeassetTransfersByTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `TokenContract` values, with data from `TokenBalance`. */
@@ -4008,7 +4008,7 @@ export type GqlWalletTokenContractsByTokenBalanceWalletIdAndTokenIdManyToManyCon
 /** A connection to a list of `TokenContract` values, with data from `TokenBalance`. */
 export type GqlWalletTokenContractsByTokenBalanceWalletIdAndTokenIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlTokenContractsGroupBy>;
-  having: InputMaybe<GqlTokenContractsHavingInput>;
+  having?: InputMaybe<GqlTokenContractsHavingInput>;
 };
 
 /** A `TokenContract` edge in the connection, with data from `TokenBalance`. */
@@ -4024,16 +4024,16 @@ export type GqlWalletTokenContractsByTokenBalanceWalletIdAndTokenIdManyToManyEdg
 
 /** A `TokenContract` edge in the connection, with data from `TokenBalance`. */
 export type GqlWalletTokenContractsByTokenBalanceWalletIdAndTokenIdManyToManyEdgetokenBalancesByTokenIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqltoken_balances_distinct_enum>>>;
-  filter: InputMaybe<GqlTokenBalanceFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlTokenBalanceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenBalancesOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 export type GqlWalletVariancePopulationAggregates = {
@@ -4066,7 +4066,7 @@ export type GqlWalletWalletsByAssetTransferFromIdAndToIdManyToManyConnection = {
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
 export type GqlWalletWalletsByAssetTransferFromIdAndToIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
@@ -4082,16 +4082,16 @@ export type GqlWalletWalletsByAssetTransferFromIdAndToIdManyToManyEdge = {
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
 export type GqlWalletWalletsByAssetTransferFromIdAndToIdManyToManyEdgeassetTransfersByToIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
@@ -4114,7 +4114,7 @@ export type GqlWalletWalletsByAssetTransferToIdAndFromIdManyToManyConnection = {
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
 export type GqlWalletWalletsByAssetTransferToIdAndFromIdManyToManyConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
@@ -4130,16 +4130,16 @@ export type GqlWalletWalletsByAssetTransferToIdAndFromIdManyToManyEdge = {
 
 /** A `Wallet` edge in the connection, with data from `AssetTransfer`. */
 export type GqlWalletWalletsByAssetTransferToIdAndFromIdManyToManyEdgeassetTransfersByFromIdArgs = {
-  after: InputMaybe<Scalars['Cursor']['input']>;
-  before: InputMaybe<Scalars['Cursor']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
   blockHeight?: InputMaybe<Scalars['String']['input']>;
   distinct?: InputMaybe<Array<InputMaybe<Gqlasset_transfers_distinct_enum>>>;
-  filter: InputMaybe<GqlAssetTransferFilter>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  orderBy: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
-  orderByNull: InputMaybe<GqlNullOrder>;
+  filter?: InputMaybe<GqlAssetTransferFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy>>;
+  orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
 /** A connection to a list of `Wallet` values. */
@@ -4162,7 +4162,7 @@ export type GqlWalletsConnection = {
 /** A connection to a list of `Wallet` values. */
 export type GqlWalletsConnectiongroupedAggregatesArgs = {
   groupBy: Array<GqlWalletsGroupBy>;
-  having: InputMaybe<GqlWalletsHavingInput>;
+  having?: InputMaybe<GqlWalletsHavingInput>;
 };
 
 /** A `Wallet` edge in the connection. */
@@ -4180,54 +4180,54 @@ export enum GqlWalletsGroupBy {
 }
 
 export type GqlWalletsHavingAverageInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlWalletsHavingDistinctCountInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Conditions for `Wallet` aggregates. */
 export type GqlWalletsHavingInput = {
-  AND: InputMaybe<Array<GqlWalletsHavingInput>>;
-  OR: InputMaybe<Array<GqlWalletsHavingInput>>;
-  average: InputMaybe<GqlWalletsHavingAverageInput>;
-  distinctCount: InputMaybe<GqlWalletsHavingDistinctCountInput>;
-  max: InputMaybe<GqlWalletsHavingMaxInput>;
-  min: InputMaybe<GqlWalletsHavingMinInput>;
-  stddevPopulation: InputMaybe<GqlWalletsHavingStddevPopulationInput>;
-  stddevSample: InputMaybe<GqlWalletsHavingStddevSampleInput>;
-  sum: InputMaybe<GqlWalletsHavingSumInput>;
-  variancePopulation: InputMaybe<GqlWalletsHavingVariancePopulationInput>;
-  varianceSample: InputMaybe<GqlWalletsHavingVarianceSampleInput>;
+  AND?: InputMaybe<Array<GqlWalletsHavingInput>>;
+  OR?: InputMaybe<Array<GqlWalletsHavingInput>>;
+  average?: InputMaybe<GqlWalletsHavingAverageInput>;
+  distinctCount?: InputMaybe<GqlWalletsHavingDistinctCountInput>;
+  max?: InputMaybe<GqlWalletsHavingMaxInput>;
+  min?: InputMaybe<GqlWalletsHavingMinInput>;
+  stddevPopulation?: InputMaybe<GqlWalletsHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<GqlWalletsHavingStddevSampleInput>;
+  sum?: InputMaybe<GqlWalletsHavingSumInput>;
+  variancePopulation?: InputMaybe<GqlWalletsHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<GqlWalletsHavingVarianceSampleInput>;
 };
 
 export type GqlWalletsHavingMaxInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlWalletsHavingMinInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlWalletsHavingStddevPopulationInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlWalletsHavingStddevSampleInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlWalletsHavingSumInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlWalletsHavingVariancePopulationInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlWalletsHavingVarianceSampleInput = {
-  balance: InputMaybe<GqlHavingBigfloatFilter>;
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `Wallet`. */
@@ -4913,8 +4913,8 @@ export type GqlwalletBalanceQuery = {
 };
 
 export type GqlwalletSubscriptionSubscriptionVariables = Exact<{
-  walletIds: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  mutation: InputMaybe<Array<GqlMutationType> | GqlMutationType>;
+  walletIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  mutation?: InputMaybe<Array<GqlMutationType> | GqlMutationType>;
 }>;
 
 
@@ -4932,6 +4932,13 @@ export type GqlwalletTokenBalancesQueryVariables = Exact<{
 
 export type GqlwalletTokenBalancesQuery = {
   tokenBalances: {
+    totalCount: number,
+    pageInfo: {
+      endCursor: string | null,
+      startCursor: string | null,
+      hasNextPage: boolean,
+      hasPreviousPage: boolean
+    },
     nodes: Array<{
       id: string,
       balance: string,
@@ -4948,8 +4955,8 @@ export type GqlwalletTokenBalancesQuery = {
 };
 
 export type GqltokenBalancesSubscriptionSubscriptionVariables = Exact<{
-  tokenBalancesIds: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  mutation: InputMaybe<Array<GqlMutationType> | GqlMutationType>;
+  tokenBalancesIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  mutation?: InputMaybe<Array<GqlMutationType> | GqlMutationType>;
 }>;
 
 
@@ -4968,6 +4975,13 @@ export type GqlwalletNftsQueryVariables = Exact<{
 
 export type GqlwalletNftsQuery = {
   nftBalances: {
+    totalCount: number,
+    pageInfo: {
+      endCursor: string | null,
+      startCursor: string | null,
+      hasNextPage: boolean,
+      hasPreviousPage: boolean
+    },
     nodes: Array<{
       id: string,
       balance: string,
@@ -4989,8 +5003,8 @@ export type GqlwalletNftsQuery = {
 };
 
 export type GqlnftsSubscriptionSubscriptionVariables = Exact<{
-  nftIds: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  mutation: InputMaybe<Array<GqlMutationType> | GqlMutationType>;
+  nftIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  mutation?: InputMaybe<Array<GqlMutationType> | GqlMutationType>;
 }>;
 
 
@@ -5029,47 +5043,66 @@ export type GqlwalletNftQuery = {
 
 export type GqlwalletAssetTransfersQueryVariables = Exact<{
   walletId: Scalars['String']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
 }>;
 
 
 export type GqlwalletAssetTransfersQuery = {
   assetTransfers: {
-    nodes: Array<{
-      id: string,
-      type: string,
-      blockNumber: string,
-      value: string,
-      timestamp: string,
-      success: boolean,
-      from: {
-        id: string
-      } | null,
-      to: {
-        id: string
-      } | null,
-      token: {
+    totalCount: number,
+    pageInfo: {
+      endCursor: string | null,
+      startCursor: string | null,
+      hasNextPage: boolean,
+      hasPreviousPage: boolean
+    },
+    edges: Array<{
+      cursor: string | null,
+      node: {
         id: string,
-        type: string | null,
-        name: string | null,
-        symbol: string | null,
-        decimals: number | null,
-        iconUrl: string | null
-      } | null,
-      nft: {
-        id: string,
-        tokenId: string,
-        metadata: any,
-        collection: {
+        type: string,
+        blockNumber: string,
+        value: string,
+        timestamp: string,
+        success: boolean,
+        from: {
+          id: string
+        } | null,
+        to: {
+          id: string
+        } | null,
+        token: {
           id: string,
           type: string | null,
           name: string | null,
           symbol: string | null,
           decimals: number | null,
           iconUrl: string | null
+        } | null,
+        nft: {
+          id: string,
+          tokenId: string,
+          metadata: any,
+          collection: {
+            id: string,
+            type: string | null,
+            name: string | null,
+            symbol: string | null,
+            decimals: number | null,
+            iconUrl: string | null
+          } | null
         } | null
       } | null
-    } | null>
+    }>
   } | null
+};
+
+export type GqlKeybanClient_PageInfoFragment = {
+  endCursor: string | null,
+  startCursor: string | null,
+  hasNextPage: boolean,
+  hasPreviousPage: boolean
 };
 
 export type GqlKeybanClient_TokenContractFragment = {
@@ -5162,6 +5195,7 @@ export type GqlKeybClient_AssetTransferFragment = {
   } | null
 };
 
+export const KeybanClient_PageInfoFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_PageInfoFragment, unknown>;
 export const KeybanClient_TokenContractFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_TokenContractFragment, unknown>;
 export const KeybanClient_TokenBalanceFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_TokenBalanceFragment, unknown>;
 export const KeybanClient_NftFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_NftFragment, unknown>;
@@ -5169,10 +5203,10 @@ export const KeybanClient_NftBalanceFragmentDoc = {"kind":"Document","definition
 export const KeybClient_AssetTransferFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}}]} as unknown as DocumentNode<GqlKeybClient_AssetTransferFragment, unknown>;
 export const walletBalanceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletBalance"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"wallet"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]}}]} as unknown as DocumentNode<GqlwalletBalanceQuery, GqlwalletBalanceQueryVariables>;
 export const walletSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"walletSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"wallets"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqlwalletSubscriptionSubscription, GqlwalletSubscriptionSubscriptionVariables>;
-export const walletTokenBalancesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletTokenBalances"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"wallet"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenBalance"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletTokenBalancesQuery, GqlwalletTokenBalancesQueryVariables>;
+export const walletTokenBalancesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletTokenBalances"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"wallet"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenBalance"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletTokenBalancesQuery, GqlwalletTokenBalancesQueryVariables>;
 export const tokenBalancesSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"tokenBalancesSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tokenBalancesIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tokenBalancesIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mutation_type"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqltokenBalancesSubscriptionSubscription, GqltokenBalancesSubscriptionSubscriptionVariables>;
-export const walletNftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletNfts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"wallet"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_NftBalance"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletNftsQuery, GqlwalletNftsQueryVariables>;
+export const walletNftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletNfts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"wallet"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_NftBalance"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletNftsQuery, GqlwalletNftsQueryVariables>;
 export const nftsSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"nftsSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nftIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nfts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nftIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mutation_type"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqlnftsSubscriptionSubscription, GqlnftsSubscriptionSubscriptionVariables>;
 export const walletNftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletNft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalance"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_NftBalance"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletNftQuery, GqlwalletNftQueryVariables>;
-export const walletAssetTransfersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletAssetTransfers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetTransfers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"from"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"to"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybClient_AssetTransfer"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}}]} as unknown as DocumentNode<GqlwalletAssetTransfersQuery, GqlwalletAssetTransfersQueryVariables>;
+export const walletAssetTransfersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletAssetTransfers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetTransfers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"from"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"to"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybClient_AssetTransfer"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}}]} as unknown as DocumentNode<GqlwalletAssetTransfersQuery, GqlwalletAssetTransfersQueryVariables>;
 

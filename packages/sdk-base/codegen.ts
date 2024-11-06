@@ -16,7 +16,12 @@ const config: CodegenConfig = {
         typesPrefix: "Gql",
         namingConvention: "keep",
         skipTypename: true,
-        avoidOptionals: true,
+        avoidOptionals: {
+          field: true,
+          inputValue: false,
+          object: false,
+          defaultValue: true,
+        },
         printFieldsOnNewLines: true,
         documentMode: "documentNode",
         documentNodeImport:

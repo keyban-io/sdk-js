@@ -1,6 +1,8 @@
 :root {
   font-family: system-ui, sans-serif;
   color-scheme: dark;
+  --border-radius: 2px;
+  --border: 1px solid #858585;
 }
 
 body {
@@ -11,6 +13,43 @@ fieldset {
   border-style: solid;
   border-width: 1px;
   border-color: rgb(133, 133, 133);
-  border-radius: 2px;
+  border-radius: var(--border-radius);
   margin-block-start: 0.5rem;
+}
+
+table {
+  border: var(--border);
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--border-radius);
+}
+
+table thead td:first-child {
+  border-top-left-radius: var(--border-radius);
+}
+table thead td:last-child {
+  border-top-right-radius: var(--border-radius);
+}
+table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--border-radius);
+}
+table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--border-radius);
+}
+
+td:not(:first-child) {
+  border-left: var(--border);
+}
+tr:not(:last-child) td {
+  border-bottom: var(--border);
+}
+thead tr:last-child td {
+  border-bottom: var(--border);
+}
+
+td {
+  padding-inline: 0.2em;
 }

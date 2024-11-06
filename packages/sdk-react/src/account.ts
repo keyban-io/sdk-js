@@ -93,23 +93,20 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
     () =>
       subscribeToMore({
         document: tokenBalancesSubscriptionDocument,
-        variables: {
-          tokenBalancesIds: null,
-          mutation: null,
-        },
         updateQuery: (prev, { subscriptionData }) => {
           const update = subscriptionData.data.tokenBalances;
           if (update?._entity.wallet_id !== address) return prev;
 
           switch (subscriptionData.data.tokenBalances?.mutation_type) {
             case "UPDATE":
-              // Chec if the update is actually an insert... subql kinda messed up :/
+              // Check if the update is actually an insert... subql kinda messed
+              // up and send update events even when the data is inserted :/
               const exists = prev.tokenBalances?.nodes.find(
                 (node) => node?.id === update.id,
               );
               if (!exists) {
                 // In case of an insert, we can't request nested data through the subscription
-                // due to subql bad implementation... the only way is to refetch t whole data :/
+                // due to subql bad implementation... the only way is to refetch the whole data :/
                 refetch();
                 return prev;
               }
@@ -117,7 +114,7 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
               return {
                 ...prev,
                 tokenBalances: {
-                  ...prev.tokenBalances,
+                  ...prev.tokenBalances!,
                   nodes: (prev.tokenBalances?.nodes ?? []).map((node) =>
                     node?.id === update?.id
                       ? { ...node, ...update?._entity }
@@ -130,7 +127,7 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
               return {
                 ...prev,
                 tokenBalances: {
-                  ...prev.tokenBalances,
+                  ...prev.tokenBalances!,
                   nodes: (prev.tokenBalances?.nodes ?? []).filter(
                     (node) => node?.id !== update?.id,
                   ),
@@ -227,7 +224,9 @@ export function useKeybanAccountNft(
 export function useKeybanAccountTransactionHistory(account: KeybanAccount) {
   const client = useKeybanClient();
 
-  const { data, error, refetch } = useSuspenseQuery(
+  const [isPending, startTransition] = React.useTransition();
+
+  const { data, error, refetch, fetchMore } = useSuspenseQuery(
     walletAssetTransfersDocument,
     {
       client: client.apolloClient,
@@ -235,9 +234,22 @@ export function useKeybanAccountTransactionHistory(account: KeybanAccount) {
     },
   );
 
-  const extra = { refresh: () => refetch() };
+  const extra = {
+    loading: isPending,
+    refresh: () => refetch(),
+    fetchMore: () => {
+      const pageInfo = data.assetTransfers?.pageInfo;
+      if (!pageInfo?.hasNextPage) return;
+
+      startTransition(() => {
+        fetchMore({
+          variables: { after: pageInfo.endCursor },
+        });
+      });
+    },
+  };
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.assetTransfers?.nodes ?? [], null, extra] as const);
+    : ([data.assetTransfers, null, extra] as const);
 }

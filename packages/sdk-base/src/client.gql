@@ -14,6 +14,10 @@ subscription walletSubscription($walletIds: [ID!], $mutation: [MutationType!]) {
 
 query walletTokenBalances($walletId: String!) {
   tokenBalances(filter: { wallet: { id: { equalTo: $walletId } } }) {
+    pageInfo {
+      ...KeybanClient_PageInfo
+    }
+    totalCount
     nodes {
       id
       ...KeybanClient_TokenBalance
@@ -34,6 +38,10 @@ subscription tokenBalancesSubscription(
 
 query walletNfts($walletId: String!) {
   nftBalances(filter: { wallet: { id: { equalTo: $walletId } } }) {
+    pageInfo {
+      ...KeybanClient_PageInfo
+    }
+    totalCount
     nodes {
       id
       ...KeybanClient_NftBalance
@@ -56,7 +64,7 @@ query walletNft($nftBalanceId: String!) {
   }
 }
 
-query walletAssetTransfers($walletId: String!) {
+query walletAssetTransfers($walletId: String!, $first: Int, $after: Cursor) {
   assetTransfers(
     filter: {
       or: [
@@ -64,12 +72,28 @@ query walletAssetTransfers($walletId: String!) {
         { to: { id: { equalTo: $walletId } } }
       ]
     }
+    first: $first
+    after: $after
   ) {
-    nodes {
-      id
-      ...KeybClient_AssetTransfer
+    pageInfo {
+      ...KeybanClient_PageInfo
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        id
+        ...KeybClient_AssetTransfer
+      }
     }
   }
+}
+
+fragment KeybanClient_PageInfo on PageInfo {
+  endCursor
+  startCursor
+  hasNextPage
+  hasPreviousPage
 }
 
 fragment KeybanClient_TokenContract on TokenContract {

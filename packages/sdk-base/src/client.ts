@@ -323,7 +323,7 @@ export class KeybanClient {
       variables: { walletId: address },
     });
 
-    return data.assetTransfers?.nodes;
+    return data.assetTransfers?.edges.map(({ node }) => node);
   }
 
   /**

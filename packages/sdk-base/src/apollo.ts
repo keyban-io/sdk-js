@@ -1,15 +1,19 @@
+import { createClient } from "graphql-ws";
+
+import { InMemoryCache } from "@apollo/client/cache";
 import {
   ApolloClient,
   ApolloLink,
   createHttpLink,
   split,
 } from "@apollo/client/core";
-import { InMemoryCache } from "@apollo/client/cache";
 import { setContext } from "@apollo/client/link/context";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { createClient } from "graphql-ws";
 import { WebSocketLink } from "@apollo/client/link/ws";
+import {
+  getMainDefinition,
+  relayStylePagination,
+} from "@apollo/client/utilities";
 
 export function createApolloClient(
   apiUrl: URL,
@@ -47,7 +51,17 @@ export function createApolloClient(
   );
 
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            tokenBalances: relayStylePagination(),
+            nftBalances: relayStylePagination(),
+            assetTransfers: relayStylePagination(),
+          },
+        },
+      },
+    }),
     link: ApolloLink.from([authLink, transportLink]),
   });
 }
