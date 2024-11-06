@@ -8,7 +8,7 @@ The Keyban SDK React is designed to integrate Keyban's MPC wallet solution seaml
 
 - **TypeScript Support**: Fully typed for safer and more efficient development.
 - **Flexible Storage**: `KeybanLocalStorage` is provided as the default storage for user data. Additional storage options will be available in future updates.
-- **Blockchain Support**: Currently supports Ethereum's Sepolia testnet (Mainnet coming soon).
+- **Blockchain Support**: Currently supports Polygon's Amoy testnet (Mainnet coming soon).
 - **Error Handling**: Built-in support for `react-error-boundary` for graceful error handling.
 - **Suspense Compatibility**: Supports React's Suspense API for loading asynchronous data seamlessly.
 - **Bundling**: Efficient bundling with `tsup`, optimizing development and production builds.
@@ -33,7 +33,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <KeybanProvider
     appId="your-keyban-app-id"
     accessTokenProvider={async () => "user's access token"}
-    chain={KeybanChain.Sepolia}
+    chain={KeybanChain.PolygonAmoy}
     storage={KeybanLocalStorage}
   >
     <ErrorBoundary fallbackRender={({ error }) => <pre>{error.message}</pre>}>
@@ -71,7 +71,7 @@ The SDK provides key React hooks and components to simplify wallet and balance m
 
 Currently, the SDK supports testnets only:
 
-- **Sepolia Testnet**: `KeybanChain.Sepolia`
+- **Amoy Testnet**: `KeybanChain.PolygonAmoy`
 
 Mainnet support will be added in a future release.
 

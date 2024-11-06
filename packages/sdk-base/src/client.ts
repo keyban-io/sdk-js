@@ -124,8 +124,6 @@ export class KeybanClient {
 
     const indexerPrefix = {
       [KeybanChain.KeybanTestnet]: "subql-anvil.",
-      [KeybanChain.Sepolia]: "unknown.",
-      [KeybanChain.OptimismSepolia]: "subql-op-sepolia.",
       [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
     }[chain];
     this.apolloClient = createApolloClient(

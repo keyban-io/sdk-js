@@ -17,7 +17,7 @@ The app will automatically launch, and you can access it by opening your browser
 
 1. **Click "Login"**.
 2. **Login** using the default pre-configured account.
-3. You will then see the basic information about your wallet, including your public key and balance on the Ethereum Sepolia testnet.
+3. You will then see the basic information about your wallet, including your public key and balance on the Polygon Amoy testnet.
 
 > **Note:** For this demo, no additional configuration or Auth0 account is needed as the app uses default credentials.
 

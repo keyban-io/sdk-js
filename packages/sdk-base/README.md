@@ -8,7 +8,7 @@ The Keyban SDK Base provides the core functionality for Keyban's MPC wallet solu
 
 - **TypeScript Support**: Fully typed to enhance code quality and development experience.
 - **Flexible Storage**: Developers can use custom storage solutions, with more options planned in future releases.
-- **Blockchain Support**: Supports Ethereum Sepolia testnet (Mainnet support to be added in future releases).
+- **Blockchain Support**: Supports Polygon Amoy testnet (Mainnet support to be added in future releases).
 - **Bundling**: Efficiently bundled using `tsup` for optimized builds in development and production.
 
 ## Installation
@@ -27,7 +27,7 @@ import { KeybanClient } from '@keyban/sdk-base';
 const client = new KeybanClient({
   appId: "your-keyban-app-id",  // Your Keyban application ID
   accessTokenProvider: async () => "user's access token",  // Function to provide the access token
-  chain: KeybanChain.Sepolia,  // Sepolia testnet is supported for now
+  chain: KeybanChain.PolygonAmoy,  // Polygon testnet is supported for now
   storage: MyStorage,  // Custom storage solution (more options coming soon)
 });
 
@@ -60,7 +60,7 @@ await account.transferERC20({
 
 In this initial release, only Ethereum testnets are supported:
 
-- **Sepolia Testnet**: `KeybanChain.Sepolia`
+- **Polygon Testnet**: `KeybanChain.PolygonAmoy`
 
 Support for Ethereum Mainnet will be introduced in future releases.
 

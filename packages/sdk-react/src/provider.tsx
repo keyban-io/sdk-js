@@ -1,6 +1,9 @@
 import React from "react";
 
-import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
+import {
+  KeybanClient,
+  type KeybanClientConfig,
+} from "@keyban/sdk-base";
 
 import { PromiseCacheProvider } from "./promise";
 
@@ -46,7 +49,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *   return (
  *     <div>
  *       <button onClick={() => onSelectChain(KeybanChain.KeybanTestnet)}>Switch to Testnet</button>
- *       <button onClick={() => onSelectChain(KeybanChain.Sepolia)}>Switch to Sepolian the Ethereum Testnet</button>
+ *       <button onClick={() => onSelectChain(KeybanChain.PolygonAmoy)}>Switch to Polygon Amoy</button>
  *     </div>
  *   );
  * };
