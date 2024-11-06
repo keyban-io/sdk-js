@@ -144,7 +144,7 @@ const NftDetailsPage: React.FC = () => {
             variant="contained"
             color="primary"
             onClick={() =>
-              navigate("/transfer-balance", {
+              navigate("/transfer-nft", {
                 state: { nftId: "id" in balance ? balance.id : "" },
               })
             }
