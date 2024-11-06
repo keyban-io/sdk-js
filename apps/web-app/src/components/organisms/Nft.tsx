@@ -27,25 +27,25 @@ export default function Nft() {
       <Row>
         <span>Count:</span>
         <SerializedValue
-          value={nftBalances.length}
+          value={nftBalances?.totalCount}
           style={{ flexGrow: 1 }}
           data-test-id="Nft:count"
         />
       </Row>
 
-      {nftBalances.map(
-        (nftBalance) =>
-          nftBalance && (
+      {nftBalances?.edges.map(
+        ({ cursor, node }) =>
+          node && (
             <fieldset
-              key={nftBalance.nft?.collection?.id}
-              data-test-id={`Nft:collection:${nftBalance.nft?.collection?.id}:${nftBalance.nft?.tokenId}`}
+              key={cursor}
+              data-test-id={`Nft:collection:${node.nft?.collection?.id}:${node.nft?.tokenId}`}
             >
-              <legend>{nftBalance.nft?.collection?.name}</legend>
+              <legend>{node.nft?.collection?.name}</legend>
 
               <Row>
                 <span>Address:</span>
                 <SerializedValue
-                  value={nftBalance.nft?.collection?.id}
+                  value={node.nft?.collection?.id}
                   style={{ flexGrow: 1 }}
                   data-test-id="Nft:collection:address"
                 />
@@ -54,7 +54,7 @@ export default function Nft() {
               <Row>
                 <span>Type:</span>
                 <SerializedValue
-                  value={nftBalance.nft?.collection?.type}
+                  value={node.nft?.collection?.type}
                   style={{ flexGrow: 1 }}
                   data-test-id="Nft:collection:type"
                 />
@@ -63,13 +63,13 @@ export default function Nft() {
               <Row>
                 <span>ID:</span>
                 <SerializedValue
-                  value={nftBalance.nft?.tokenId}
+                  value={node.nft?.tokenId}
                   style={{ flexGrow: 1 }}
                   data-test-id="Nft:nft:id"
                 />
               </Row>
 
-              <SerializedValue value={nftBalance} data-test-id="Nft:raw" />
+              <SerializedValue value={node} data-test-id="Nft:raw" />
             </fieldset>
           ),
       )}

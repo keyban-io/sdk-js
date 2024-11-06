@@ -88,9 +88,9 @@ const TransferNFT: React.FC = () => {
   const [nftBalances, nftsError] = useKeybanAccountNfts(account);
   if (nftsError) throw nftsError;
 
-  const selectedNft = nftBalances.find(
-    (nftBalance) => nftBalance?.id === selectedNftId,
-  );
+  const selectedNft = nftBalances?.edges.find(
+    ({ node }) => node?.id === selectedNftId,
+  )?.node;
   const metadata = selectedNft?.nft?.metadata as NftMetadata;
 
   useEffect(() => {
@@ -164,7 +164,7 @@ const TransferNFT: React.FC = () => {
 
         <Grid2 container spacing={4}>
           <Grid2 size={{ xs: 12, md: 6 }}>
-            {nftBalances.length > 0 ? (
+            {nftBalances?.edges.length ? (
               <>
                 <FormControl fullWidth>
                   <InputLabel id="select-nft-label">Select an NFT</InputLabel>
@@ -175,15 +175,13 @@ const TransferNFT: React.FC = () => {
                     label="Select an NFT"
                     onChange={(e) => setSelectedNftId(e.target.value as string)}
                   >
-                    {nftBalances.map((nftBalance) => {
-                      if (!nftBalance) return null;
+                    {nftBalances.edges.map(({ node }) => {
+                      if (!node) return null;
 
-                      const nftMetadata = nftBalance.nft
-                        ?.metadata as NftMetadata;
+                      const nftMetadata = node.nft?.metadata as NftMetadata;
                       return (
-                        <MenuItem key={nftBalance.id} value={nftBalance.id}>
-                          {nftMetadata.name ??
-                            `NFT ID: ${nftBalance.nft?.tokenId}`}
+                        <MenuItem key={node.id} value={node.id}>
+                          {nftMetadata.name ?? `NFT ID: ${node.nft?.tokenId}`}
                         </MenuItem>
                       );
                     })}
@@ -252,7 +250,7 @@ const TransferNFT: React.FC = () => {
                   transferState.isTransferring ||
                   !recipient ||
                   !selectedNftId ||
-                  nftBalances.length === 0
+                  nftBalances?.totalCount === 0
                 }
                 sx={{ mt: 2 }}
               >

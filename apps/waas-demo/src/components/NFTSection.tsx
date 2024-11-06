@@ -46,7 +46,7 @@ const NFTSection: React.FC = () => {
 
   const navigate = useNavigate();
 
-  if (!nftBalances || nftBalances.length === 0) {
+  if (!nftBalances?.edges.length) {
     return (
       <Alert severity="info">
         <Typography variant="h6" component="div">
@@ -57,17 +57,16 @@ const NFTSection: React.FC = () => {
   }
 
   // Regrouper les NFTs par nom de collection
-  const nftCollections = nftBalances.reduce(
-    (acc, nftBalance) => {
-      if (!nftBalance) return acc;
+  const nftCollections = nftBalances.edges.reduce(
+    (acc, { node }) => {
+      if (!node) return acc;
 
-      const metadata = nftBalance.nft?.metadata as NftMetadata;
+      const metadata = node.nft?.metadata as NftMetadata;
       const collectionName =
         metadata?.properties?.collection?.value ?? "Unknown Collection";
-      if (!acc[collectionName]) {
-        acc[collectionName] = [];
-      }
-      acc[collectionName].push(nftBalance);
+
+      acc[collectionName] ??= [];
+      acc[collectionName].push(node);
       return acc;
     },
     {} as Record<string, KeybanNft[]>,

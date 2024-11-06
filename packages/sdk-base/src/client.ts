@@ -65,6 +65,11 @@ export type KeybanClientConfig = {
   storage: new () => IKeybanStorage;
 };
 
+type Pagination = {
+  first?: number;
+  after?: string;
+};
+
 /**
  * Main client for interacting with the Keyban API and associated services.
  *
@@ -275,7 +280,7 @@ export class KeybanClient {
   /**
    * @returns - An account balance in ERC20 tokens.
    */
-  async getTokenBalances(address: Address) {
+  async getTokenBalances(address: Address, pagination?: Pagination) {
     if (!isAddress(address)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
@@ -285,32 +290,32 @@ export class KeybanClient {
 
     const { data } = await this.apolloClient.query({
       query: walletTokenBalancesDocument,
-      variables: { walletId: address },
+      variables: { walletId: address, ...pagination },
     });
 
-    return data.tokenBalances?.nodes;
+    return data.tokenBalances;
   }
 
   /**
    * @returns - ERC721 and ERC1155 tokens of the account.
    */
-  async getNfts(address: Address) {
+  async getNfts(address: Address, pagination?: Pagination) {
     if (!isAddress(address)) {
       throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNfts");
     }
 
     const { data } = await this.apolloClient.query({
       query: walletNftsDocument,
-      variables: { walletId: address },
+      variables: { walletId: address, ...pagination },
     });
 
-    return data.nftBalances?.nodes;
+    return data.nftBalances;
   }
 
   /**
    * @returns - The account transaction history for native currency, tokens and Nfts.
    */
-  async getTransactionHistory(address: Address) {
+  async getTransactionHistory(address: Address, pagination?: Pagination) {
     if (!isAddress(address)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
@@ -320,10 +325,10 @@ export class KeybanClient {
 
     const { data } = await this.apolloClient.query({
       query: walletAssetTransfersDocument,
-      variables: { walletId: address },
+      variables: { walletId: address, ...pagination },
     });
 
-    return data.assetTransfers?.edges.map(({ node }) => node);
+    return data.assetTransfers;
   }
 
   /**

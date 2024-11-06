@@ -1,7 +1,14 @@
 import type React from "react";
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
-import { type Location, useLocation, useNavigate } from "react-router-dom";
+import {
+  type Location,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import TransferAlert from "@/components/TransferAlert";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -53,9 +60,9 @@ const TransferERC20: React.FC = () => {
     useKeybanAccountTokenBalances(account);
   if (tokenBalancesError) throw tokenBalancesError;
 
-  const token = tokenBalances.find(
-    (item) => item?.token?.id === location.state.contractAddress,
-  );
+  const token = tokenBalances?.edges.find(
+    ({ node }) => node?.token?.id === location.state.contractAddress,
+  )?.node;
 
   useEffect(() => {
     const estimateFeesAsync = async () => {

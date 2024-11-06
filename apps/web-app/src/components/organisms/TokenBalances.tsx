@@ -1,11 +1,10 @@
+import RefreshButton from "@/components/atoms/RefreshButton";
+import Row from "@/components/atoms/Row";
+import SerializedValue from "@/components/atoms/SerializedValue";
 import {
   useKeybanAccount,
   useKeybanAccountTokenBalances,
 } from "@keyban/sdk-react";
-
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
-import RefreshButton from "@/components/atoms/RefreshButton";
 
 export default function TokenBalances() {
   const [account, accountError] = useKeybanAccount();
@@ -26,19 +25,19 @@ export default function TokenBalances() {
         />
       </legend>
 
-      {tokenBalances.map(
-        (tokenBalance) =>
-          tokenBalance && (
+      {tokenBalances?.edges.map(
+        ({ cursor, node }) =>
+          node && (
             <fieldset
-              key={tokenBalance.token?.id}
-              data-test-id={`TokenBalances:token:${tokenBalance.token?.id}`}
+              key={cursor}
+              data-test-id={`TokenBalances:token:${node.token?.id}`}
             >
-              <legend>{tokenBalance.token?.name}</legend>
+              <legend>{node.token?.name}</legend>
 
               <Row>
                 <span>Address:</span>
                 <SerializedValue
-                  value={tokenBalance.token?.id}
+                  value={node.token?.id}
                   style={{ flexGrow: 1 }}
                   data-test-id="TokenBalances:address"
                 />
@@ -47,7 +46,7 @@ export default function TokenBalances() {
               <Row>
                 <span>Name:</span>
                 <SerializedValue
-                  value={tokenBalance.token?.name}
+                  value={node.token?.name}
                   style={{ flexGrow: 1 }}
                   data-test-id="TokenBalances:name"
                 />
@@ -56,7 +55,7 @@ export default function TokenBalances() {
               <Row>
                 <span>Decimals:</span>
                 <SerializedValue
-                  value={tokenBalance.token?.decimals}
+                  value={node.token?.decimals}
                   style={{ flexGrow: 1 }}
                   data-test-id="TokenBalances:decimals"
                 />
@@ -66,13 +65,13 @@ export default function TokenBalances() {
                 <span>Balance:</span>
 
                 <SerializedValue
-                  value={tokenBalance.balance}
+                  value={node.balance}
                   style={{ flexGrow: 1 }}
                   data-test-id="TokenBalances:value"
                 />
 
                 <SerializedValue
-                  value={tokenBalance.token?.symbol}
+                  value={node.token?.symbol}
                   data-test-id="TokenBalances:symbol"
                 />
               </Row>

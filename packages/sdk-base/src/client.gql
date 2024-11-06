@@ -12,15 +12,22 @@ subscription walletSubscription($walletIds: [ID!], $mutation: [MutationType!]) {
   }
 }
 
-query walletTokenBalances($walletId: String!) {
-  tokenBalances(filter: { wallet: { id: { equalTo: $walletId } } }) {
+query walletTokenBalances($walletId: String!, $first: Int, $after: Cursor) {
+  tokenBalances(
+    filter: { wallet: { id: { equalTo: $walletId } } }
+    first: $first
+    after: $after
+  ) {
     pageInfo {
       ...KeybanClient_PageInfo
     }
     totalCount
-    nodes {
-      id
-      ...KeybanClient_TokenBalance
+    edges {
+      cursor
+      node {
+        id
+        ...KeybanClient_TokenBalance
+      }
     }
   }
 }
@@ -36,21 +43,31 @@ subscription tokenBalancesSubscription(
   }
 }
 
-query walletNfts($walletId: String!) {
-  nftBalances(filter: { wallet: { id: { equalTo: $walletId } } }) {
+query walletNfts($walletId: String!, $first: Int, $after: Cursor) {
+  nftBalances(
+    filter: { wallet: { id: { equalTo: $walletId } } }
+    first: $first
+    after: $after
+  ) {
     pageInfo {
       ...KeybanClient_PageInfo
     }
     totalCount
-    nodes {
-      id
-      ...KeybanClient_NftBalance
+    edges {
+      cursor
+      node {
+        id
+        ...KeybanClient_NftBalance
+      }
     }
   }
 }
 
-subscription nftsSubscription($nftIds: [ID!], $mutation: [MutationType!]) {
-  nfts(id: $nftIds, mutation: $mutation) {
+subscription nftBalancesSubscription(
+  $nftBalanceIds: [ID!]
+  $mutation: [MutationType!]
+) {
+  nftBalances(id: $nftBalanceIds, mutation: $mutation) {
     id
     mutation_type
     _entity
@@ -74,6 +91,7 @@ query walletAssetTransfers($walletId: String!, $first: Int, $after: Cursor) {
     }
     first: $first
     after: $after
+    orderBy: BLOCK_NUMBER_DESC
   ) {
     pageInfo {
       ...KeybanClient_PageInfo
@@ -86,6 +104,17 @@ query walletAssetTransfers($walletId: String!, $first: Int, $after: Cursor) {
         ...KeybClient_AssetTransfer
       }
     }
+  }
+}
+
+subscription assetTransfersSubscription(
+  $assetTransferIds: [ID!]
+  $mutation: [MutationType!]
+) {
+  assetTransfers(id: $assetTransferIds, mutation: $mutation) {
+    id
+    mutation_type
+    _entity
   }
 }
 

@@ -30,14 +30,24 @@ export default function TransactionHistory() {
             <td>Block</td>
             <td>From</td>
             <td>To</td>
+            <td>Value</td>
+            <td>Type</td>
           </tr>
         </thead>
         <tbody>
           {transactionHistory?.edges.map(({ cursor, node }) => (
             <tr key={cursor}>
-              <td>{node?.blockNumber}</td>
-              <td>{node?.from?.id}</td>
-              <td>{node?.to?.id}</td>
+              <td>
+                <code>{node?.blockNumber}</code>
+              </td>
+              <td>
+                <code>{node?.from?.id}</code>
+              </td>
+              <td>
+                <code>{node?.to?.id}</code>
+              </td>
+              <td>{node?.value}</td>
+              <td>{node?.type}</td>
             </tr>
           ))}
         </tbody>

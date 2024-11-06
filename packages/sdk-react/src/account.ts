@@ -11,6 +11,8 @@ import {
   SdkErrorTypes,
 } from "@keyban/sdk-base";
 import {
+  assetTransfersSubscriptionDocument,
+  nftBalancesSubscriptionDocument,
   tokenBalancesSubscriptionDocument,
   walletAssetTransfersDocument,
   walletBalanceDocument,
@@ -81,7 +83,9 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
 export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
-  const { data, error, refetch, subscribeToMore } = useSuspenseQuery(
+  const [isPending, startTransition] = React.useTransition();
+
+  const { data, error, refetch, fetchMore, subscribeToMore } = useSuspenseQuery(
     walletTokenBalancesDocument,
     {
       client: client.apolloClient,
@@ -95,57 +99,35 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
         document: tokenBalancesSubscriptionDocument,
         updateQuery: (prev, { subscriptionData }) => {
           const update = subscriptionData.data.tokenBalances;
-          if (update?._entity.wallet_id !== address) return prev;
-
-          switch (subscriptionData.data.tokenBalances?.mutation_type) {
-            case "UPDATE":
-              // Check if the update is actually an insert... subql kinda messed
-              // up and send update events even when the data is inserted :/
-              const exists = prev.tokenBalances?.nodes.find(
-                (node) => node?.id === update.id,
-              );
-              if (!exists) {
-                // In case of an insert, we can't request nested data through the subscription
-                // due to subql bad implementation... the only way is to refetch the whole data :/
-                refetch();
-                return prev;
-              }
-
-              return {
-                ...prev,
-                tokenBalances: {
-                  ...prev.tokenBalances!,
-                  nodes: (prev.tokenBalances?.nodes ?? []).map((node) =>
-                    node?.id === update?.id
-                      ? { ...node, ...update?._entity }
-                      : node,
-                  ),
-                },
-              };
-
-            case "DELETE":
-              return {
-                ...prev,
-                tokenBalances: {
-                  ...prev.tokenBalances!,
-                  nodes: (prev.tokenBalances?.nodes ?? []).filter(
-                    (node) => node?.id !== update?.id,
-                  ),
-                },
-              };
-          }
-
+          if (update?._entity.wallet_id === address) refetch();
           return prev;
         },
       }),
     [subscribeToMore, address],
   );
 
-  const extra = { refresh: () => refetch() };
+  const extra = {
+    loading: isPending,
+    refresh: () => {
+      startTransition(() => {
+        refetch();
+      });
+    },
+    fetchMore: () => {
+      const pageInfo = data.tokenBalances?.pageInfo;
+      if (!pageInfo?.hasNextPage) return;
+
+      startTransition(() => {
+        fetchMore({
+          variables: { after: pageInfo.endCursor },
+        });
+      });
+    },
+  };
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.tokenBalances?.nodes ?? [], null, extra] as const);
+    : ([data.tokenBalances, null, extra] as const);
 }
 
 /**
@@ -161,16 +143,51 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
 export function useKeybanAccountNfts({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
-  const { data, error, refetch } = useSuspenseQuery(walletNftsDocument, {
-    client: client.apolloClient,
-    variables: { walletId: address },
-  });
+  const [isPending, startTransition] = React.useTransition();
 
-  const extra = { refresh: () => refetch() };
+  const { data, error, refetch, fetchMore, subscribeToMore } = useSuspenseQuery(
+    walletNftsDocument,
+    {
+      client: client.apolloClient,
+      variables: { walletId: address },
+    },
+  );
+
+  React.useEffect(
+    () =>
+      subscribeToMore({
+        document: nftBalancesSubscriptionDocument,
+        updateQuery: (prev, { subscriptionData }) => {
+          const update = subscriptionData.data.nftBalances;
+          if (update?._entity.wallet_id === address) refetch();
+          return prev;
+        },
+      }),
+    [subscribeToMore, address],
+  );
+
+  const extra = {
+    loading: isPending,
+    refresh: () => {
+      startTransition(() => {
+        refetch();
+      });
+    },
+    fetchMore: () => {
+      const pageInfo = data.nftBalances?.pageInfo;
+      if (!pageInfo?.hasNextPage) return;
+
+      startTransition(() => {
+        fetchMore({
+          variables: { after: pageInfo.endCursor },
+        });
+      });
+    },
+  };
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.nftBalances?.nodes ?? [], null, extra] as const);
+    : ([data.nftBalances, null, extra] as const);
 }
 
 /**
@@ -221,22 +238,45 @@ export function useKeybanAccountNft(
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountTransactionHistory(account: KeybanAccount) {
+export function useKeybanAccountTransactionHistory({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
 
-  const { data, error, refetch, fetchMore } = useSuspenseQuery(
+  const { data, error, refetch, fetchMore, subscribeToMore } = useSuspenseQuery(
     walletAssetTransfersDocument,
     {
       client: client.apolloClient,
-      variables: { walletId: account.address },
+      variables: { walletId: address },
     },
+  );
+
+  React.useEffect(
+    () =>
+      subscribeToMore({
+        document: assetTransfersSubscriptionDocument,
+        updateQuery: (prev, { subscriptionData }) => {
+          const update = subscriptionData.data.assetTransfers;
+
+          const match = [
+            update?._entity.from_id,
+            update?._entity.to_id,
+          ].includes(address);
+          if (match) refetch();
+
+          return prev;
+        },
+      }),
+    [subscribeToMore, address],
   );
 
   const extra = {
     loading: isPending,
-    refresh: () => refetch(),
+    refresh: () => {
+      startTransition(() => {
+        refetch();
+      });
+    },
     fetchMore: () => {
       const pageInfo = data.assetTransfers?.pageInfo;
       if (!pageInfo?.hasNextPage) return;

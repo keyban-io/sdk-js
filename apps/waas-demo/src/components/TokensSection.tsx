@@ -38,17 +38,17 @@ const TokensSection: React.FC = () => {
   return (
     <Stack direction="column" spacing={2}>
       {/* Afficher un message si aucun token n'est présent */}
-      {tokenBalances.length === 0 ? (
+      {!tokenBalances?.edges.length ? (
         <Alert severity="info">
           <Typography variant="h6" component="div">
             No tokens available in this account.
           </Typography>
         </Alert>
       ) : (
-        tokenBalances.map(
-          (balance) =>
-            balance?.token && (
-              <Card key={balance.token.id}>
+        tokenBalances.edges.map(
+          ({ node }) =>
+            node?.token && (
+              <Card key={node.token.id}>
                 <CardContent>
                   <Stack
                     alignItems="center"
@@ -59,9 +59,7 @@ const TokensSection: React.FC = () => {
                     }}
                   >
                     <Typography variant="h5" component="div">
-                      {balance.token.name
-                        ? balance.token.name
-                        : balance.token.id}
+                      {node.token.name ? node.token.name : node.token.id}
                     </Typography>
                     <Stack
                       direction="row"
@@ -71,12 +69,12 @@ const TokensSection: React.FC = () => {
                       }}
                     >
                       <Typography variant="body1" component="div">
-                        <FormattedBalance balance={balance} />
+                        <FormattedBalance balance={node} />
                       </Typography>
                       <IconButton
                         color="primary"
-                        aria-label={`Send ${balance.token.symbol}`}
-                        onClick={() => handleSend(balance)} // Appelle la fonction avec l'adresse du token
+                        aria-label={`Send ${node.token.symbol}`}
+                        onClick={() => handleSend(node)} // Appelle la fonction avec l'adresse du token
                       >
                         <FontAwesomeIcon icon={faPaperPlane} />
                       </IconButton>
