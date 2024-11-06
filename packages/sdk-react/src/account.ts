@@ -234,7 +234,7 @@ export function useKeybanAccountNft(
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [txHistory, txHistoryError, { refresh: refreshBalance }] = useKeybanAccountTransactionHistory(account); // TODO??
+ * const [txHistory, txHistoryError, { refresh: refreshBalance }] = useKeybanAccountTransactionHistory(account);
  * ```
  * @see {@link useFormattedBalance}
  */
