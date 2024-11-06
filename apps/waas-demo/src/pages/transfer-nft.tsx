@@ -31,7 +31,6 @@ import {
   Container,
   Divider,
   FormControl,
-  Grid,
   InputLabel,
   Link,
   MenuItem,
@@ -40,6 +39,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Grid2 from "@mui/material/Grid2";
 
 interface NftMetadataProperty {
   type: string;
@@ -88,7 +88,9 @@ const TransferNFT: React.FC = () => {
   const [nftBalances, nftsError] = useKeybanAccountNfts(account);
   if (nftsError) throw nftsError;
 
-  const selectedNft = nftBalances.find((nftBalance) => nftBalance?.id === selectedNftId);
+  const selectedNft = nftBalances.find(
+    (nftBalance) => nftBalance?.id === selectedNftId,
+  );
   const metadata = selectedNft?.nft?.metadata as NftMetadata;
 
   useEffect(() => {
@@ -102,10 +104,13 @@ const TransferNFT: React.FC = () => {
       try {
         const estimation = await account.estimateNftTransfer({
           contractAddress: selectedNft.nft?.collection?.id as Address,
-          tokenId: BigInt(selectedNft.nft!.tokenId),
+          tokenId: BigInt(selectedNft.nft?.tokenId ?? 0),
           to: debouncedRecipient as Address,
           value: BigInt(1),
-          standard: selectedNft.nft?.collection?.type === "erc721" ? "ERC721" : "ERC1155",
+          standard:
+            selectedNft.nft?.collection?.type === "erc721"
+              ? "ERC721"
+              : "ERC1155",
         });
 
         dispatch({
@@ -128,9 +133,12 @@ const TransferNFT: React.FC = () => {
       if (selectedNft && account && recipient) {
         const txHash = await account.transferNft({
           contractAddress: selectedNft.nft?.collection?.id as Address,
-          tokenId: BigInt(selectedNft.nft!.tokenId),
+          tokenId: BigInt(selectedNft.nft?.tokenId ?? 0),
           to: recipient as Address,
-          standard: selectedNft.nft?.collection?.type === "erc721" ? "ERC721" : "ERC1155",
+          standard:
+            selectedNft.nft?.collection?.type === "erc721"
+              ? "ERC721"
+              : "ERC1155",
           value: BigInt(1),
         });
         handleSuccess(txHash);
@@ -154,8 +162,8 @@ const TransferNFT: React.FC = () => {
         </Typography>
         <Divider sx={{ mb: 2 }} />
 
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
+        <Grid2 container spacing={4}>
+          <Grid2 size={{ xs: 12, md: 6 }}>
             {nftBalances.length > 0 ? (
               <>
                 <FormControl fullWidth>
@@ -170,10 +178,12 @@ const TransferNFT: React.FC = () => {
                     {nftBalances.map((nftBalance) => {
                       if (!nftBalance) return null;
 
-                      const nftMetadata = nftBalance.nft?.metadata as NftMetadata;
+                      const nftMetadata = nftBalance.nft
+                        ?.metadata as NftMetadata;
                       return (
                         <MenuItem key={nftBalance.id} value={nftBalance.id}>
-                          {nftMetadata.name ?? `NFT ID: ${nftBalance.nft?.tokenId}`}
+                          {nftMetadata.name ??
+                            `NFT ID: ${nftBalance.nft?.tokenId}`}
                         </MenuItem>
                       );
                     })}
@@ -202,9 +212,9 @@ const TransferNFT: React.FC = () => {
             ) : (
               <Alert severity="info">You have no NFTs to transfer.</Alert>
             )}
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12} md={6}>
+          <Grid2 size={{ xs: 12, md: 6 }}>
             <Stack spacing={2}>
               <Typography variant="h6">Account Information</Typography>
               <Typography variant="body1">
@@ -290,8 +300,8 @@ const TransferNFT: React.FC = () => {
                 </Alert>
               )}
             </Stack>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
 
         <Button
           variant="contained"

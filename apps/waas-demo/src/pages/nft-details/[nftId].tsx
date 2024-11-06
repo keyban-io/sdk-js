@@ -6,8 +6,9 @@ import {
 } from "react-router-dom";
 
 import {
+  type Address,
   useKeybanAccount,
-  useKeybanAccountNfts,
+  useKeybanAccountNft,
 } from "@keyban/sdk-react";
 import {
   Alert,
@@ -16,11 +17,11 @@ import {
   CardContent,
   CardMedia,
   Container,
-  Grid,
   Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
+import Grid2 from "@mui/material/Grid2";
 
 interface NftMetadataProperty {
   type: string;
@@ -39,26 +40,34 @@ interface NftMetadata {
 
 const NftDetailsPage: React.FC = () => {
   const { nftId } = useParams<{ nftId: string }>();
+  const [, rawTokenAddress, tokenId] = nftId?.split(":") || [];
+  const tokenAddress = rawTokenAddress?.startsWith("0x")
+    ? (rawTokenAddress as Address)
+    : (`0x${rawTokenAddress}` as Address);
   const navigate = useNavigate();
 
   // Retrieve the account
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  // Retrieve the list of NFTs associated with this account
-  const [nftBalances, nftError] = useKeybanAccountNfts(account);
+  // Retrieve the NFT balance associated with this account
+  const [balance, nftError] = useKeybanAccountNft(
+    account,
+    tokenAddress,
+    tokenId,
+  );
   if (nftError) throw nftError;
 
-  // Find the specific NFT by its ID
-  const nftBalance = nftBalances?.find((nftBalance) => nftBalance?.id === nftId);
+  const metadata =
+    balance && "nft" in balance && balance.nft
+      ? (balance.nft.metadata as NftMetadata)
+      : undefined;
 
-  const metadata = nftBalance?.nft?.metadata as NftMetadata;
-
-  if (!nftBalance) {
+  if (!balance) {
     return (
       <Alert severity="error">
         <Typography variant="h6" component="div">
-          NFT not found
+          Balance not found
         </Typography>
         <Button variant="contained" onClick={() => navigate("/")}>
           Back to Dashboard
@@ -71,9 +80,9 @@ const NftDetailsPage: React.FC = () => {
     <>
       <Container maxWidth="md" sx={{ marginTop: 4 }}>
         <Card sx={{ padding: 2 }}>
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={6}>
-              {metadata.image ? (
+          <Grid2 container spacing={4}>
+            <Grid2 size={{ xs: 12, sm: 6 }}>
+              {metadata?.image ? (
                 <CardMedia
                   component="img"
                   image={metadata.image}
@@ -83,16 +92,16 @@ const NftDetailsPage: React.FC = () => {
               ) : (
                 <Skeleton variant="rectangular" width="100%" height={300} />
               )}
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 6 }}>
               <CardContent>
                 {/* Display the collection name */}
                 <Typography variant="h6" color="textSecondary">
-                  Collection: {metadata.properties?.collection?.value}
+                  Collection: {metadata?.properties?.collection?.value}
                 </Typography>
                 {/* Display the NFT name */}
                 <Typography variant="h4" component="div" gutterBottom>
-                  {metadata.name}
+                  {metadata?.name}
                 </Typography>
 
                 <Typography
@@ -100,26 +109,28 @@ const NftDetailsPage: React.FC = () => {
                   color="text.secondary"
                   sx={{ marginBottom: 2 }}
                 >
-                  {metadata.description}
+                  {metadata?.description}
                 </Typography>
                 {/* Display the balance */}
-                <Typography variant="body1" color="textSecondary">
-                  Balance: {nftBalance.balance.toString()}
-                </Typography>
+                {balance && "balance" in balance && (
+                  <Typography variant="body1" color="textSecondary">
+                    Balance: {balance.balance.toString()}
+                  </Typography>
+                )}
                 <Stack spacing={1} sx={{ marginTop: 2 }}>
-                  {metadata.properties &&
+                  {metadata?.properties &&
                     Object.entries(metadata.properties)
                       .filter(([key]) => key !== "collection") // Exclude the 'collection' property
                       .map(([key, prop]) => (
-                        <Typography key={nftBalance.id}>
+                        <Typography key={key}>
                           <strong>{key.replace(/_/g, " ")}:</strong>{" "}
                           {prop.value}
                         </Typography>
                       ))}
                 </Stack>
               </CardContent>
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </Card>
 
         {/* Add Transfer NFT Button */}
@@ -133,8 +144,8 @@ const NftDetailsPage: React.FC = () => {
             variant="contained"
             color="primary"
             onClick={() =>
-              navigate("/transfer-nft", {
-                state: { nftId: nftBalance.nft?.tokenId },
+              navigate("/transfer-balance", {
+                state: { nftId: "id" in balance ? balance.id : "" },
               })
             }
           >

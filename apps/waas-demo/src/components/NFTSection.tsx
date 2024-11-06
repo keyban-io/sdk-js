@@ -100,7 +100,7 @@ const NFTSection: React.FC = () => {
                     }}
                   >
                     <CardActionArea
-                      onClick={() => navigate(`/nft-details/${nftBalance.nft?.tokenId}`)}
+                      onClick={() => navigate(`/nft-details/${nftBalance.id}`)}
                       sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -127,7 +127,8 @@ const NFTSection: React.FC = () => {
                         </Typography>
 
                         {/* Afficher le balance uniquement s'il est supérieur à 1 */}
-                        {Number.parseInt(nftBalance.balance.toString(), 10) > 1 && (
+                        {Number.parseInt(nftBalance.balance.toString(), 10) >
+                          1 && (
                           <Typography variant="body2" color="text.secondary">
                             Balance: {nftBalance.balance.toString()}
                           </Typography>
