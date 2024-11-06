@@ -1,3 +1,5 @@
+import React from "react";
+
 import { usePromise } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
@@ -12,12 +14,14 @@ import {
   SdkErrorTypes,
 } from "@keyban/sdk-base";
 import {
-  KeybanClient_walletBalanceDocument,
-  KeybanClient_walletNftDocument,
-  KeybanClient_walletNftsDocument,
-  KeybanClient_walletSubscriptionDocument,
-  KeybanClient_walletTokenBalancesDocument,
-  KeybanClient_walletTransactionHistoryDocument,
+  GqlMutationType,
+  tokenBalancesSubscriptionDocument,
+  walletAssetTransfersDocument,
+  walletBalanceDocument,
+  walletNftDocument,
+  walletNftsDocument,
+  walletSubscriptionDocument,
+  walletTokenBalancesDocument,
 } from "@keyban/sdk-base/graphql";
 
 /**
@@ -42,31 +46,24 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
   const { data, error, refetch, subscribeToMore } = useSuspenseQuery(
-    KeybanClient_walletBalanceDocument,
+    walletBalanceDocument,
     {
       client: client.apolloClient,
-      variables: { address },
+      variables: { walletId: address },
     },
   );
 
-  subscribeToMore;
-
-  useSubscription(KeybanClient_walletSubscriptionDocument, {
-    client: client.apolloClient,
-    variables: { address },
-    onData({ client, data: { data } }) {
-      client.writeQuery({
-        query: KeybanClient_walletBalanceDocument,
-        variables: { address },
-        data: {
-          wallet: {
-            id: data?.wallets?._entity.id,
-            balance: data?.wallets?._entity.balance.toString(),
-          },
-        },
-      });
-    },
-  });
+  React.useEffect(
+    () =>
+      subscribeToMore({
+        document: walletSubscriptionDocument,
+        variables: { walletIds: [address], mutation: null },
+        updateQuery: (_prev, { subscriptionData }) => ({
+          wallet: subscriptionData.data.wallets?._entity,
+        }),
+      }),
+    [subscribeToMore, address],
+  );
 
   const extra = { refresh: () => refetch() };
 
@@ -88,13 +85,70 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
 export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
-  const { data, error, refetch } = useSuspenseQuery(
-    KeybanClient_walletTokenBalancesDocument,
+  const { data, error, refetch, subscribeToMore } = useSuspenseQuery(
+    walletTokenBalancesDocument,
     {
       client: client.apolloClient,
-      variables: { address },
+      variables: { walletId: address },
     },
   );
+
+  React.useEffect(
+    () =>
+      subscribeToMore({
+        document: tokenBalancesSubscriptionDocument,
+        variables: {
+          tokenBalancesIds:
+            data.tokenBalances?.nodes
+              .map((node) => node?.id)
+              .filter(Boolean as unknown as <T>(x?: T) => x is T) ?? [],
+          mutation: null,
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          const update = subscriptionData.data.tokenBalances;
+
+          switch (subscriptionData.data.tokenBalances?.mutation_type) {
+            case "UPDATE":
+              return {
+                ...prev,
+                tokenBalances: {
+                  ...prev.tokenBalances,
+                  nodes: (prev.tokenBalances?.nodes ?? []).map((node) =>
+                    node?.id === update?.id
+                      ? { ...node, ...update?._entity }
+                      : node,
+                  ),
+                },
+              };
+
+            case "DELETE":
+              return {
+                ...prev,
+                tokenBalances: {
+                  ...prev.tokenBalances,
+                  nodes: (prev.tokenBalances?.nodes ?? []).filter(
+                    (node) => node?.id !== update?.id,
+                  ),
+                },
+              };
+          }
+
+          return prev;
+        },
+      }),
+    [subscribeToMore, address],
+  );
+
+  useSubscription(tokenBalancesSubscriptionDocument, {
+    client: client.apolloClient,
+    variables: {
+      tokenBalancesIds: null,
+      mutation: [GqlMutationType.INSERT],
+    },
+    onData: ({ data: { data } }) => {
+      if (data?.tokenBalances?._entity.walletId === address) refetch();
+    },
+  });
 
   const extra = { refresh: () => refetch() };
 
@@ -116,13 +170,10 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
 export function useKeybanAccountNfts({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
-  const { data, error, refetch } = useSuspenseQuery(
-    KeybanClient_walletNftsDocument,
-    {
-      client: client.apolloClient,
-      variables: { address },
-    },
-  );
+  const { data, error, refetch } = useSuspenseQuery(walletNftsDocument, {
+    client: client.apolloClient,
+    variables: { walletId: address },
+  });
 
   const extra = { refresh: () => refetch() };
 
@@ -149,13 +200,10 @@ export function useKeybanAccountNft(
   const client = useKeybanClient();
 
   const id = [address, tokenAddress, tokenId].join(":");
-  const { data, error, refetch } = useSuspenseQuery(
-    KeybanClient_walletNftDocument,
-    {
-      client: client.apolloClient,
-      variables: { id },
-    },
-  );
+  const { data, error, refetch } = useSuspenseQuery(walletNftDocument, {
+    client: client.apolloClient,
+    variables: { nftBalanceId: id },
+  });
 
   const extra = { refresh: () => refetch() };
 
@@ -186,12 +234,10 @@ export function useKeybanAccountTransactionHistory(account: KeybanAccount) {
   const client = useKeybanClient();
 
   const { data, error, refetch } = useSuspenseQuery(
-    KeybanClient_walletTransactionHistoryDocument,
+    walletAssetTransfersDocument,
     {
       client: client.apolloClient,
-      variables: {
-        address: account.address,
-      },
+      variables: { walletId: account.address },
     },
   );
 

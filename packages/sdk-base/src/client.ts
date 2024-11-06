@@ -31,11 +31,11 @@ import {
   StorageError,
 } from "~/errors";
 import {
-  KeybanClient_walletBalanceDocument,
-  KeybanClient_walletNftDocument,
-  KeybanClient_walletNftsDocument,
-  KeybanClient_walletTokenBalancesDocument,
-  KeybanClient_walletTransactionHistoryDocument,
+  walletAssetTransfersDocument,
+  walletBalanceDocument,
+  walletNftDocument,
+  walletNftsDocument,
+  walletTokenBalancesDocument,
 } from "~/graphql";
 import {
   type Address,
@@ -247,7 +247,7 @@ export class KeybanClient {
     })();
 
     this.#pendingAccounts.set(sub, promise);
-    promise.catch(() => { }).finally(() => this.#pendingAccounts.delete(sub));
+    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
 
     return promise;
   }
@@ -267,8 +267,8 @@ export class KeybanClient {
     }
 
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_walletBalanceDocument,
-      variables: { address },
+      query: walletBalanceDocument,
+      variables: { walletId: address },
     });
 
     return data.wallet?.balance;
@@ -286,8 +286,8 @@ export class KeybanClient {
     }
 
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_walletTokenBalancesDocument,
-      variables: { address },
+      query: walletTokenBalancesDocument,
+      variables: { walletId: address },
     });
 
     return data.tokenBalances?.nodes;
@@ -302,8 +302,8 @@ export class KeybanClient {
     }
 
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_walletNftsDocument,
-      variables: { address },
+      query: walletNftsDocument,
+      variables: { walletId: address },
     });
 
     return data.nftBalances?.nodes;
@@ -321,10 +321,8 @@ export class KeybanClient {
     }
 
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_walletTransactionHistoryDocument,
-      variables: {
-        address,
-      },
+      query: walletAssetTransfersDocument,
+      variables: { walletId: address },
     });
 
     return data.assetTransfers?.nodes;
@@ -344,8 +342,8 @@ export class KeybanClient {
 
     const id = [address, tokenAddress, tokenId].join(":");
     const { data } = await this.apolloClient.query({
-      query: KeybanClient_walletNftDocument,
-      variables: { id },
+      query: walletNftDocument,
+      variables: { nftBalanceId: id },
     });
 
     const nft = data.nftBalance;

@@ -1,21 +1,74 @@
-# query KeybanClient_chain($chain: ChainType!) {
-#   chain(type: $chain) {
-#     id
-#     rpcUrl
-#   }
-# }
-
-query KeybanClient_walletBalance($address: String!) {
-  wallet(id: $address) {
+query walletBalance($walletId: String!) {
+  wallet(id: $walletId) {
     id
     balance
   }
 }
 
-subscription KeybanClient_walletSubscription($address: ID!) {
-  wallets(id: [$address]) {
+subscription walletSubscription($walletIds: [ID!], $mutation: [MutationType!]) {
+  wallets(id: $walletIds, mutation: $mutation) {
     id
     _entity
+  }
+}
+
+query walletTokenBalances($walletId: String!) {
+  tokenBalances(filter: { wallet: { id: { equalTo: $walletId } } }) {
+    nodes {
+      id
+      ...KeybanClient_TokenBalance
+    }
+  }
+}
+
+subscription tokenBalancesSubscription(
+  $tokenBalancesIds: [ID!]
+  $mutation: [MutationType!]
+) {
+  tokenBalances(id: $tokenBalancesIds, mutation: $mutation) {
+    id
+    mutation_type
+    _entity
+  }
+}
+
+query walletNfts($walletId: String!) {
+  nftBalances(filter: { wallet: { id: { equalTo: $walletId } } }) {
+    nodes {
+      id
+      ...KeybanClient_NftBalance
+    }
+  }
+}
+
+subscription nftsSubscription($nftIds: [ID!], $mutation: [MutationType!]) {
+  nfts(id: $nftIds, mutation: $mutation) {
+    id
+    mutation_type
+    _entity
+  }
+}
+
+query walletNft($nftBalanceId: String!) {
+  nftBalance(id: $nftBalanceId) {
+    id
+    ...KeybanClient_NftBalance
+  }
+}
+
+query walletAssetTransfers($walletId: String!) {
+  assetTransfers(
+    filter: {
+      or: [
+        { from: { id: { equalTo: $walletId } } }
+        { to: { id: { equalTo: $walletId } } }
+      ]
+    }
+  ) {
+    nodes {
+      id
+      ...KeybClient_AssetTransfer
+    }
   }
 }
 
@@ -37,15 +90,6 @@ fragment KeybanClient_TokenBalance on TokenBalance {
   balance
 }
 
-query KeybanClient_walletTokenBalances($address: String!) {
-  tokenBalances(filter: { wallet: { id: { equalTo: $address } } }) {
-    nodes {
-      id
-      ...KeybanClient_TokenBalance
-    }
-  }
-}
-
 fragment KeybanClient_Nft on Nft {
   id
   collection {
@@ -65,52 +109,25 @@ fragment KeybanClient_NftBalance on NftBalance {
   balance
 }
 
-query KeybanClient_walletNfts($address: String!) {
-  nftBalances(filter: { wallet: { id: { equalTo: $address } } }) {
-    nodes {
-      id
-      ...KeybanClient_NftBalance
-    }
-  }
-}
-
-query KeybanClient_walletNft($id: String!) {
-  nftBalance(id: $id) {
+fragment KeybClient_AssetTransfer on AssetTransfer {
+  id
+  from {
     id
-    ...KeybanClient_NftBalance
   }
-}
-
-query KeybanClient_walletTransactionHistory($address: String!) {
-  assetTransfers(
-    filter: {
-      or: [
-        { from: { id: { equalTo: $address } } }
-        { to: { id: { equalTo: $address } } }
-      ]
-    }
-  ) {
-    nodes {
-      id
-      from {
-        id
-      }
-      to {
-        id
-      }
-      type
-      blockNumber
-      value
-      timestamp
-      success
-      token {
-        id
-        ...KeybanClient_TokenContract
-      }
-      nft {
-        id
-        ...KeybanClient_Nft
-      }
-    }
+  to {
+    id
+  }
+  type
+  blockNumber
+  value
+  timestamp
+  success
+  token {
+    id
+    ...KeybanClient_TokenContract
+  }
+  nft {
+    id
+    ...KeybanClient_Nft
   }
 }
