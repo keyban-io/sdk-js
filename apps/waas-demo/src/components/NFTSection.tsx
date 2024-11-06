@@ -41,12 +41,12 @@ const NFTSection: React.FC = () => {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [nfts, nftError] = useKeybanAccountNfts(account);
+  const [nftBalances, nftError] = useKeybanAccountNfts(account);
   if (nftError) throw nftError;
 
   const navigate = useNavigate();
 
-  if (!nfts || nfts.length === 0) {
+  if (!nftBalances || nftBalances.length === 0) {
     return (
       <Alert severity="info">
         <Typography variant="h6" component="div">
@@ -57,17 +57,17 @@ const NFTSection: React.FC = () => {
   }
 
   // Regrouper les NFTs par nom de collection
-  const nftCollections = nfts.reduce(
-    (acc, nft) => {
-      if (!nft) return acc;
+  const nftCollections = nftBalances.reduce(
+    (acc, nftBalance) => {
+      if (!nftBalance) return acc;
 
-      const metadata = nft.metadata as NftMetadata;
+      const metadata = nftBalance.nft?.metadata as NftMetadata;
       const collectionName =
         metadata?.properties?.collection?.value ?? "Unknown Collection";
       if (!acc[collectionName]) {
         acc[collectionName] = [];
       }
-      acc[collectionName].push(nft);
+      acc[collectionName].push(nftBalance);
       return acc;
     },
     {} as Record<string, KeybanNft[]>,
@@ -81,11 +81,11 @@ const NFTSection: React.FC = () => {
             {collectionName}
           </Typography>
           <Grid container spacing={2} alignItems="stretch">
-            {nftCollections[collectionName].map((nft) => {
-              console.log(nft);
-              const metadata = nft.metadata as NftMetadata;
+            {nftCollections[collectionName].map((nftBalance) => {
+              console.log(nftBalance);
+              const metadata = nftBalance.nft?.metadata as NftMetadata;
               return (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={nft.id}>
+                <Grid item xs={12} sm={6} md={4} lg={3} key={nftBalance.id}>
                   <Card
                     sx={{
                       maxWidth: 345,
@@ -100,7 +100,7 @@ const NFTSection: React.FC = () => {
                     }}
                   >
                     <CardActionArea
-                      onClick={() => navigate(`/nft-details/${nft.nftId}`)}
+                      onClick={() => navigate(`/nft-details/${nftBalance.nft?.tokenId}`)}
                       sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -123,13 +123,13 @@ const NFTSection: React.FC = () => {
                           {metadata?.name ?? ""}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          ID: {nft.nftId}
+                          ID: {nftBalance.nft?.tokenId}
                         </Typography>
 
                         {/* Afficher le balance uniquement s'il est supérieur à 1 */}
-                        {Number.parseInt(nft.balance.toString(), 10) > 1 && (
+                        {Number.parseInt(nftBalance.balance.toString(), 10) > 1 && (
                           <Typography variant="body2" color="text.secondary">
-                            Balance: {nft.balance.toString()}
+                            Balance: {nftBalance.balance.toString()}
                           </Typography>
                         )}
                       </CardContent>
@@ -141,7 +141,7 @@ const NFTSection: React.FC = () => {
                           color="primary"
                           onClick={() =>
                             navigate("/transfer-nft", {
-                              state: { nftId: nft.id },
+                              state: { nftId: nftBalance.id },
                             })
                           }
                         >

@@ -19,7 +19,7 @@ subscription KeybanClient_walletSubscription($address: ID!) {
   }
 }
 
-fragment KeybanClient_Token on Token {
+fragment KeybanClient_TokenContract on TokenContract {
   id
   type
   name
@@ -32,7 +32,7 @@ fragment KeybanClient_TokenBalance on TokenBalance {
   id
   token {
     id
-    ...KeybanClient_Token
+    ...KeybanClient_TokenContract
   }
   balance
 }
@@ -48,27 +48,69 @@ query KeybanClient_walletTokenBalances($address: String!) {
 
 fragment KeybanClient_Nft on Nft {
   id
-  token {
+  collection {
     id
-    ...KeybanClient_Token
+    ...KeybanClient_TokenContract
   }
-  nftId
-  balance
+  tokenId
   metadata
 }
 
+fragment KeybanClient_NftBalance on NftBalance {
+  id
+  nft {
+    id
+    ...KeybanClient_Nft
+  }
+  balance
+}
+
 query KeybanClient_walletNfts($address: String!) {
-  nfts(filter: { wallet: { id: { equalTo: $address } } }) {
+  nftBalances(filter: { wallet: { id: { equalTo: $address } } }) {
     nodes {
       id
-      ...KeybanClient_Nft
+      ...KeybanClient_NftBalance
     }
   }
 }
 
 query KeybanClient_walletNft($id: String!) {
-  nft(id: $id) {
+  nftBalance(id: $id) {
     id
-    ...KeybanClient_Nft
+    ...KeybanClient_NftBalance
+  }
+}
+
+query KeybanClient_walletTransactionHistory($address: String!) {
+  assetTransfers(
+    filter: {
+      or: [
+        { from: { id: { equalTo: $address } } }
+        { to: { id: { equalTo: $address } } }
+      ]
+    }
+  ) {
+    nodes {
+      id
+      from {
+        id
+      }
+      to {
+        id
+      }
+      type
+      blockNumber
+      value
+      timestamp
+      success
+      token {
+        id
+        ...KeybanClient_TokenContract
+      }
+      nft {
+        id
+        ...KeybanClient_Nft
+      }
+    }
   }
 }

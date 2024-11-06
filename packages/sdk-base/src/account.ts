@@ -12,8 +12,16 @@ import {
   type Transport,
   type WalletClient,
 } from "viem";
-import { SdkError, SdkErrorTypes } from "~/errors";
-import type { Address, Hash, Hex, KeybanClient } from "~/index";
+import {
+  SdkError,
+  SdkErrorTypes,
+} from "~/errors";
+import type {
+  Address,
+  Hash,
+  Hex,
+  KeybanClient,
+} from "~/index";
 
 import { ERC1155_ABI_TRANSFER_FROM } from "./const";
 
@@ -172,10 +180,18 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * @returns - The account ERC721 and ERC1155 token balances.
-   * @see {@link useKeybanAccountNftBalances}
+   * @see {@link useKeybanAccountNft}
    */
   async getNft(tokenAddress: Address, tokenId: string) {
     return this.#client.getNft(this.address, tokenAddress, tokenId);
+  }
+
+  /**
+   * @returns - The account transaction history for native currency, tokens and Nfts.
+   * @see {@link useKeybanAccountTransactionHistory}
+   */
+  async getTransactionHistory() {
+    return this.#client.getTransactionHistory(this.address);
   }
 
   /**

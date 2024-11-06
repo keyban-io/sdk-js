@@ -1,8 +1,14 @@
 import type React from "react";
 
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
-import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
+import {
+  useKeybanAccount,
+  useKeybanAccountNfts,
+} from "@keyban/sdk-react";
 import {
   Alert,
   Button,
@@ -40,15 +46,15 @@ const NftDetailsPage: React.FC = () => {
   if (accountError) throw accountError;
 
   // Retrieve the list of NFTs associated with this account
-  const [nfts, nftError] = useKeybanAccountNfts(account);
+  const [nftBalances, nftError] = useKeybanAccountNfts(account);
   if (nftError) throw nftError;
 
   // Find the specific NFT by its ID
-  const nft = nfts?.find((nft) => nft?.nftId === nftId);
+  const nftBalance = nftBalances?.find((nftBalance) => nftBalance?.id === nftId);
 
-  const metadata = nft?.metadata as NftMetadata;
+  const metadata = nftBalance?.nft?.metadata as NftMetadata;
 
-  if (!nft) {
+  if (!nftBalance) {
     return (
       <Alert severity="error">
         <Typography variant="h6" component="div">
@@ -98,14 +104,14 @@ const NftDetailsPage: React.FC = () => {
                 </Typography>
                 {/* Display the balance */}
                 <Typography variant="body1" color="textSecondary">
-                  Balance: {nft.balance.toString()}
+                  Balance: {nftBalance.balance.toString()}
                 </Typography>
                 <Stack spacing={1} sx={{ marginTop: 2 }}>
                   {metadata.properties &&
                     Object.entries(metadata.properties)
                       .filter(([key]) => key !== "collection") // Exclude the 'collection' property
                       .map(([key, prop]) => (
-                        <Typography key={nft.id}>
+                        <Typography key={nftBalance.id}>
                           <strong>{key.replace(/_/g, " ")}:</strong>{" "}
                           {prop.value}
                         </Typography>
@@ -128,7 +134,7 @@ const NftDetailsPage: React.FC = () => {
             color="primary"
             onClick={() =>
               navigate("/transfer-nft", {
-                state: { nftId: nft.nftId },
+                state: { nftId: nftBalance.nft?.tokenId },
               })
             }
           >

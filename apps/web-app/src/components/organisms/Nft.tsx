@@ -1,13 +1,16 @@
 import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
-import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
+import {
+  useKeybanAccount,
+  useKeybanAccountNfts,
+} from "@keyban/sdk-react";
 
 export default function Nft() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [nfts, nftsError, { refresh }] = useKeybanAccountNfts(account);
+  const [nftBalances, nftsError, { refresh }] = useKeybanAccountNfts(account);
   if (nftsError) throw nftsError;
 
   return (
@@ -24,49 +27,49 @@ export default function Nft() {
       <Row>
         <span>Count:</span>
         <SerializedValue
-          value={nfts.length}
+          value={nftBalances.length}
           style={{ flexGrow: 1 }}
           data-test-id="Nft:count"
         />
       </Row>
 
-      {nfts.map(
-        (nft) =>
-          nft && (
+      {nftBalances.map(
+        (nftBalance) =>
+          nftBalance && (
             <fieldset
-              key={nft.token?.id}
-              data-test-id={`Nft:token:${nft.token?.id}:${nft.nftId}`}
+              key={nftBalance.nft?.collection?.id}
+              data-test-id={`Nft:collection:${nftBalance.nft?.collection?.id}:${nftBalance.nft?.tokenId}`}
             >
-              <legend>{nft.token?.name}</legend>
+              <legend>{nftBalance.nft?.collection?.name}</legend>
 
               <Row>
                 <span>Address:</span>
                 <SerializedValue
-                  value={nft.token?.id}
+                  value={nftBalance.nft?.collection?.id}
                   style={{ flexGrow: 1 }}
-                  data-test-id="Nft:token:address"
+                  data-test-id="Nft:collection:address"
                 />
               </Row>
 
               <Row>
                 <span>Type:</span>
                 <SerializedValue
-                  value={nft.token?.type}
+                  value={nftBalance.nft?.collection?.type}
                   style={{ flexGrow: 1 }}
-                  data-test-id="Nft:token:type"
+                  data-test-id="Nft:collection:type"
                 />
               </Row>
 
               <Row>
                 <span>ID:</span>
                 <SerializedValue
-                  value={nft.nftId}
+                  value={nftBalance.nft?.tokenId}
                   style={{ flexGrow: 1 }}
-                  data-test-id="Nft:token:id"
+                  data-test-id="Nft:nft:id"
                 />
               </Row>
 
-              <SerializedValue value={nft} data-test-id="Nft:raw" />
+              <SerializedValue value={nftBalance} data-test-id="Nft:raw" />
             </fieldset>
           ),
       )}

@@ -16,9 +16,9 @@ export { IKeybanStorage } from "./storage";
 export * from "./utils";
 
 export type {
-  GqlKeybanClient_TokenFragment as KeybanToken,
+  GqlKeybanClient_NftBalanceFragment as KeybanNft,
   GqlKeybanClient_TokenBalanceFragment as KeybanTokenBalance,
-  GqlKeybanClient_NftFragment as KeybanNft,
+  GqlKeybanClient_TokenContractFragment as KeybanToken,
 } from "~/graphql";
 
 /**

@@ -1,4 +1,10 @@
-import { useSubscription, useSuspenseQuery } from "@apollo/client";
+import { usePromise } from "~/promise";
+import { useKeybanClient } from "~/provider";
+
+import {
+  useSubscription,
+  useSuspenseQuery,
+} from "@apollo/client";
 import {
   Address,
   KeybanAccount,
@@ -6,15 +12,13 @@ import {
   SdkErrorTypes,
 } from "@keyban/sdk-base";
 import {
+  KeybanClient_walletBalanceDocument,
   KeybanClient_walletNftDocument,
   KeybanClient_walletNftsDocument,
-  KeybanClient_walletTokenBalancesDocument,
-  KeybanClient_walletBalanceDocument,
   KeybanClient_walletSubscriptionDocument,
+  KeybanClient_walletTokenBalancesDocument,
+  KeybanClient_walletTransactionHistoryDocument,
 } from "@keyban/sdk-base/graphql";
-
-import { usePromise } from "~/promise";
-import { useKeybanClient } from "~/provider";
 
 /**
  * Fetches the account information.
@@ -124,7 +128,7 @@ export function useKeybanAccountNfts({ address }: KeybanAccount) {
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.nfts?.nodes ?? [], null, extra] as const);
+    : ([data.nftBalances?.nodes ?? [], null, extra] as const);
 }
 
 /**
@@ -156,7 +160,7 @@ export function useKeybanAccountNft(
   const extra = { refresh: () => refetch() };
 
   if (error) return [null, error, extra] as const;
-  if (!data.nft)
+  if (!data.nftBalance)
     return [
       null,
       new SdkError(SdkErrorTypes.NftNotFound, "useKeybanAccountNft"),
@@ -165,5 +169,35 @@ export function useKeybanAccountNft(
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.nft, null, extra] as const);
+    : ([data.nftBalance, null, extra] as const);
+}
+
+/**
+ * Return the ERC721 and ERC1155 tokens of an account.
+ *
+ * @example
+ * ```tsx
+ * const [account, accountError] = useKeybanAccount();
+ * const [txHistory, txHistoryError, { refresh: refreshBalance }] = useKeybanAccountTransactionHistory(account); // TODO??
+ * ```
+ * @see {@link useFormattedBalance}
+ */
+export function useKeybanAccountTransactionHistory(account: KeybanAccount) {
+  const client = useKeybanClient();
+
+  const { data, error, refetch } = useSuspenseQuery(
+    KeybanClient_walletTransactionHistoryDocument,
+    {
+      client: client.apolloClient,
+      variables: {
+        address: account.address,
+      },
+    },
+  );
+
+  const extra = { refresh: () => refetch() };
+
+  return error
+    ? ([null, error, extra] as const)
+    : ([data.assetTransfers?.nodes ?? [], null, extra] as const);
 }

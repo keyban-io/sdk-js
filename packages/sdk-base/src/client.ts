@@ -35,6 +35,7 @@ import {
   KeybanClient_walletNftDocument,
   KeybanClient_walletNftsDocument,
   KeybanClient_walletTokenBalancesDocument,
+  KeybanClient_walletTransactionHistoryDocument,
 } from "~/graphql";
 import {
   type Address,
@@ -246,7 +247,7 @@ export class KeybanClient {
     })();
 
     this.#pendingAccounts.set(sub, promise);
-    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
+    promise.catch(() => { }).finally(() => this.#pendingAccounts.delete(sub));
 
     return promise;
   }
@@ -305,7 +306,28 @@ export class KeybanClient {
       variables: { address },
     });
 
-    return data.nfts?.nodes;
+    return data.nftBalances?.nodes;
+  }
+
+  /**
+   * @returns - The account transaction history for native currency, tokens and Nfts.
+   */
+  async getTransactionHistory(address: Address) {
+    if (!isAddress(address)) {
+      throw new SdkError(
+        SdkErrorTypes.AddressInvalid,
+        "KeybanClient.getTransactionHistory",
+      );
+    }
+
+    const { data } = await this.apolloClient.query({
+      query: KeybanClient_walletTransactionHistoryDocument,
+      variables: {
+        address,
+      },
+    });
+
+    return data.assetTransfers?.nodes;
   }
 
   /**
@@ -326,7 +348,7 @@ export class KeybanClient {
       variables: { id },
     });
 
-    const nft = data.nft;
+    const nft = data.nftBalance;
 
     if (!nft) {
       throw new SdkError(SdkErrorTypes.NftNotFound, "KeybanClient.getNft");
