@@ -7,6 +7,7 @@ import { fetchMaticToEuroRate } from "@/utils/apiUtils";
 import {
   useKeybanAccount,
   useKeybanAccountBalance,
+  useKeybanClient,
 } from "@keyban/sdk-react";
 import {
   Button,
@@ -21,7 +22,6 @@ import BalanceInfo from "../components/BalanceInfo";
 import NFTSection from "../components/NFTSection";
 import TokensSection from "../components/TokensSection";
 import TransactionList from "../components/TransactionList";
-import { testTransactions } from "../lib/testData";
 
 const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();
@@ -32,6 +32,8 @@ const WalletDashboardContent: React.FC = () => {
 
   const [balance, balanceError] = useKeybanAccountBalance(account);
   if (balanceError) throw balanceError;
+
+  const client = useKeybanClient();
 
   const [loading, setLoading] = React.useState<boolean>(true);
   const [maticToEuroRate, setMaticToEuroRate] = React.useState<number>(0);
@@ -75,7 +77,10 @@ const WalletDashboardContent: React.FC = () => {
         <AccountInfo />
         <BalanceInfo
           balance={balance}
-          euroBalance={(Number(balance) / 1e18) * maticToEuroRate}
+          euroBalance={
+            (Number(balance) / (10 ** client.nativeCurrency.decimals)) *
+            maticToEuroRate
+          }
           onSend={handleTransferCrypto}
         />{" "}
         <Divider />
@@ -84,7 +89,7 @@ const WalletDashboardContent: React.FC = () => {
         <NFTSection />
         <Divider />
         <Typography variant="h6">Last Transactions</Typography>
-        <TransactionList transactions={testTransactions} pageSize={5} />
+        <TransactionList pageSize={5} />
         <Button variant="contained" onClick={handleViewTransactions}>
           View all Transactions...
         </Button>

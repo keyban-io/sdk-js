@@ -5,8 +5,8 @@ import { useKeybanClient } from "~/provider";
 
 import { useSuspenseQuery } from "@apollo/client";
 import {
-  Address,
-  KeybanAccount,
+  type Address,
+  type KeybanAccount,
   SdkError,
   SdkErrorTypes,
 } from "@keyban/sdk-base";

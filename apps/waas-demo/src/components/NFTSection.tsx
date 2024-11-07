@@ -81,7 +81,6 @@ const NFTSection: React.FC = () => {
           </Typography>
           <Grid container spacing={2} alignItems="stretch">
             {nftCollections[collectionName].map((nftBalance) => {
-              console.log(nftBalance);
               const metadata = nftBalance.nft?.metadata as NftMetadata;
               return (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={nftBalance.id}>
