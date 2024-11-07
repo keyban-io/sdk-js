@@ -30,7 +30,7 @@ interface Transfer {
     id: string;
     blockNumber: string;
     blockHash: string;
-    timestamp: string;
+    date: string;
     gasUsed: string;
     gasPrice: string;
     fees: string;
@@ -129,10 +129,7 @@ const TransferList: React.FC<TransferListProps> = ({
     return `${transfer.value ?? ""}`;
   };
 
-  const formatDate = (timestamp: string) => {
-    const date = new Date(Number(timestamp) * 1000);
-    return format(date, "PPpp"); // Exemple : '14 oct. 2024 à 8:51 AM'
-  };
+  const formatDate = (date: string) => format(new Date(date), "PPpp"); // Exemple : '14 oct. 2024 à 8:51 AM'
 
   const getStatus = (transfer: Transfer | null) => {
     if (!transfer || !account) return "Unknown";
@@ -227,8 +224,8 @@ const TransferList: React.FC<TransferListProps> = ({
             {paginatedTransfers?.map((transfer, index) => {
               const status = getStatus(transfer?.node);
               const amount = formatAmount(transfer.node);
-              const date = transfer?.node?.transaction?.timestamp
-                ? formatDate(transfer.node.transaction?.timestamp)
+              const date = transfer?.node?.transaction?.date
+                ? formatDate(transfer.node.transaction?.date)
                 : "Unknown";
               // const gasPrice = formatGasPrice(transaction.node.gasPrice);
               const transactionFee = formatTransactionFee(

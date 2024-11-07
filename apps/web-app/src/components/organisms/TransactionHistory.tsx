@@ -30,6 +30,7 @@ export default function TransactionHistory() {
         <thead>
           <tr>
             <td>Block</td>
+            <td>Date</td>
             <td>From</td>
             <td>To</td>
             <td>Value</td>
@@ -41,6 +42,9 @@ export default function TransactionHistory() {
             <tr key={cursor}>
               <td>
                 <code>{node?.transaction?.blockNumber}</code>
+              </td>
+              <td>
+                <code>{node?.transaction?.date}</code>
               </td>
               <td>
                 <code>{node?.from?.id}</code>

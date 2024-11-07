@@ -12,6 +12,7 @@ import {
 } from "@keyban/sdk-base";
 import {
   assetTransfersSubscriptionDocument,
+  GqlAssetTransfersOrderBy,
   nftBalancesSubscriptionDocument,
   tokenBalancesSubscriptionDocument,
   walletAssetTransfersDocument,
@@ -55,7 +56,7 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
     () =>
       subscribeToMore({
         document: walletSubscriptionDocument,
-        variables: { walletIds: [address], mutation: null },
+        variables: { walletIds: [address] },
         updateQuery: (_prev, { subscriptionData }) => ({
           wallet: subscriptionData.data.wallets?._entity,
         }),
@@ -247,7 +248,10 @@ export function useKeybanAccountTransactionHistory({ address }: KeybanAccount) {
     walletAssetTransfersDocument,
     {
       client: client.apolloClient,
-      variables: { walletId: address },
+      variables: {
+        walletId: address,
+        orderBy: GqlAssetTransfersOrderBy.BLOCK_NUMBER_DESC,
+      },
     },
   );
 

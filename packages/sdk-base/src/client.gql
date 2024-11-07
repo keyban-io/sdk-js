@@ -12,11 +12,17 @@ subscription walletSubscription($walletIds: [ID!], $mutation: [MutationType!]) {
   }
 }
 
-query walletTokenBalances($walletId: String!, $first: Int, $after: Cursor) {
+query walletTokenBalances(
+  $walletId: String!
+  $first: Int
+  $after: Cursor
+  $orderBy: [TokenBalancesOrderBy!]
+) {
   tokenBalances(
     filter: { wallet: { id: { equalTo: $walletId } } }
     first: $first
     after: $after
+    orderBy: $orderBy
   ) {
     pageInfo {
       ...KeybanClient_PageInfo
@@ -43,11 +49,17 @@ subscription tokenBalancesSubscription(
   }
 }
 
-query walletNfts($walletId: String!, $first: Int, $after: Cursor) {
+query walletNfts(
+  $walletId: String!
+  $first: Int
+  $after: Cursor
+  $orderBy: [NftBalancesOrderBy!]
+) {
   nftBalances(
     filter: { wallet: { id: { equalTo: $walletId } } }
     first: $first
     after: $after
+    orderBy: $orderBy
   ) {
     pageInfo {
       ...KeybanClient_PageInfo
@@ -81,7 +93,12 @@ query walletNft($nftBalanceId: String!) {
   }
 }
 
-query walletAssetTransfers($walletId: String!, $first: Int, $after: Cursor) {
+query walletAssetTransfers(
+  $walletId: String!
+  $first: Int
+  $after: Cursor
+  $orderBy: [AssetTransfersOrderBy!]
+) {
   assetTransfers(
     filter: {
       or: [
@@ -91,7 +108,7 @@ query walletAssetTransfers($walletId: String!, $first: Int, $after: Cursor) {
     }
     first: $first
     after: $after
-    orderBy: BLOCK_NUMBER_DESC
+    orderBy: $orderBy
   ) {
     pageInfo {
       ...KeybanClient_PageInfo
@@ -101,7 +118,7 @@ query walletAssetTransfers($walletId: String!, $first: Int, $after: Cursor) {
       cursor
       node {
         id
-        ...KeybClient_AssetTransfer
+        ...KeybanClient_AssetTransfer
       }
     }
   }
@@ -166,14 +183,14 @@ fragment KeybanClient_Transaction on Transaction {
   id
   blockNumber
   blockHash
-  timestamp
+  date
   gasUsed
   gasPrice
   fees
   success
 }
 
-fragment KeybClient_AssetTransfer on AssetTransfer {
+fragment KeybanClient_AssetTransfer on AssetTransfer {
   id
   from {
     id

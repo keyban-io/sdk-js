@@ -17,6 +17,7 @@ export type Scalars = {
   BigInt: { input: string; output: string; }
   Cursor: { input: string; output: string; }
   Date: { input: string; output: string; }
+  Datetime: { input: string; output: string; }
   JSON: { input: any; output: any; }
 };
 
@@ -476,6 +477,32 @@ export type GqlBooleanFilter = {
   notIn?: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
+/** A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’ */
+export type GqlDatetimeFilter = {
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Equal to the specified value. */
+  equalTo?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Greater than the specified value. */
+  greaterThan?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Included in the specified list. */
+  in?: InputMaybe<Array<Scalars['Datetime']['input']>>;
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Less than the specified value. */
+  lessThan?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Not included in the specified list. */
+  notIn?: InputMaybe<Array<Scalars['Datetime']['input']>>;
+};
+
 export type GqlHavingBigfloatFilter = {
   equalTo?: InputMaybe<Scalars['BigFloat']['input']>;
   greaterThan?: InputMaybe<Scalars['BigFloat']['input']>;
@@ -483,6 +510,15 @@ export type GqlHavingBigfloatFilter = {
   lessThan?: InputMaybe<Scalars['BigFloat']['input']>;
   lessThanOrEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
   notEqualTo?: InputMaybe<Scalars['BigFloat']['input']>;
+};
+
+export type GqlHavingDatetimeFilter = {
+  equalTo?: InputMaybe<Scalars['Datetime']['input']>;
+  greaterThan?: InputMaybe<Scalars['Datetime']['input']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['Datetime']['input']>;
+  lessThan?: InputMaybe<Scalars['Datetime']['input']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['Datetime']['input']>;
+  notEqualTo?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
 export type GqlHavingIntFilter = {
@@ -3521,6 +3557,7 @@ export type GqlTransaction = GqlNode & {
   assetTransfers: GqlAssetTransfersConnection;
   blockHash: Scalars['String']['output'];
   blockNumber: Scalars['BigFloat']['output'];
+  date: Scalars['Datetime']['output'];
   fees: Scalars['BigFloat']['output'];
   gasPrice: Scalars['BigFloat']['output'];
   gasUsed: Scalars['BigFloat']['output'];
@@ -3530,7 +3567,6 @@ export type GqlTransaction = GqlNode & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output'];
   success: Scalars['Boolean']['output'];
-  timestamp: Scalars['BigFloat']['output'];
   /** Reads and enables pagination through a set of `TokenContract`. */
   tokenContractsByAssetTransferTransactionIdAndTokenId: GqlTransactionTokenContractsByAssetTransferTransactionIdAndTokenIdManyToManyConnection;
   /** Reads and enables pagination through a set of `Wallet`. */
@@ -3640,8 +3676,6 @@ export type GqlTransactionAverageAggregates = {
   gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Mean average of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
-  /** Mean average of timestamp across the matching connection */
-  timestamp: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlTransactionDistinctCountAggregates = {
@@ -3653,6 +3687,8 @@ export type GqlTransactionDistinctCountAggregates = {
   blockHash: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of date across the matching connection */
+  date: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of fees across the matching connection */
   fees: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of gasPrice across the matching connection */
@@ -3663,8 +3699,6 @@ export type GqlTransactionDistinctCountAggregates = {
   id: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of success across the matching connection */
   success: Maybe<Scalars['BigInt']['output']>;
-  /** Distinct count of timestamp across the matching connection */
-  timestamp: Maybe<Scalars['BigInt']['output']>;
 };
 
 /** A filter to be used against `Transaction` object types. All fields are combined with a logical ‘and.’ */
@@ -3679,6 +3713,8 @@ export type GqlTransactionFilter = {
   blockHash?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `blockNumber` field. */
   blockNumber?: InputMaybe<GqlBigFloatFilter>;
+  /** Filter by the object’s `date` field. */
+  date?: InputMaybe<GqlDatetimeFilter>;
   /** Filter by the object’s `fees` field. */
   fees?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `gasPrice` field. */
@@ -3693,8 +3729,6 @@ export type GqlTransactionFilter = {
   or?: InputMaybe<Array<GqlTransactionFilter>>;
   /** Filter by the object’s `success` field. */
   success?: InputMaybe<GqlBooleanFilter>;
-  /** Filter by the object’s `timestamp` field. */
-  timestamp?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlTransactionMaxAggregates = {
@@ -3706,8 +3740,6 @@ export type GqlTransactionMaxAggregates = {
   gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Maximum of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
-  /** Maximum of timestamp across the matching connection */
-  timestamp: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlTransactionMinAggregates = {
@@ -3719,8 +3751,6 @@ export type GqlTransactionMinAggregates = {
   gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Minimum of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
-  /** Minimum of timestamp across the matching connection */
-  timestamp: Maybe<Scalars['BigFloat']['output']>;
 };
 
 /** A connection to a list of `Nft` values, with data from `AssetTransfer`. */
@@ -3780,8 +3810,6 @@ export type GqlTransactionStddevPopulationAggregates = {
   gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Population standard deviation of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
-  /** Population standard deviation of timestamp across the matching connection */
-  timestamp: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlTransactionStddevSampleAggregates = {
@@ -3793,8 +3821,6 @@ export type GqlTransactionStddevSampleAggregates = {
   gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Sample standard deviation of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
-  /** Sample standard deviation of timestamp across the matching connection */
-  timestamp: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlTransactionSumAggregates = {
@@ -3806,8 +3832,6 @@ export type GqlTransactionSumAggregates = {
   gasPrice: Scalars['BigFloat']['output'];
   /** Sum of gasUsed across the matching connection */
   gasUsed: Scalars['BigFloat']['output'];
-  /** Sum of timestamp across the matching connection */
-  timestamp: Scalars['BigFloat']['output'];
 };
 
 /** A filter to be used against many `AssetTransfer` object types. All fields are combined with a logical ‘and.’ */
@@ -3879,8 +3903,6 @@ export type GqlTransactionVariancePopulationAggregates = {
   gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Population variance of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
-  /** Population variance of timestamp across the matching connection */
-  timestamp: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlTransactionVarianceSampleAggregates = {
@@ -3892,8 +3914,6 @@ export type GqlTransactionVarianceSampleAggregates = {
   gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Sample variance of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
-  /** Sample variance of timestamp across the matching connection */
-  timestamp: Maybe<Scalars['BigFloat']['output']>;
 };
 
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
@@ -4027,28 +4047,30 @@ export type GqlTransactionsEdge = {
 export enum GqlTransactionsGroupBy {
   BLOCK_HASH = 'BLOCK_HASH',
   BLOCK_NUMBER = 'BLOCK_NUMBER',
+  DATE = 'DATE',
+  DATE_TRUNCATED_TO_DAY = 'DATE_TRUNCATED_TO_DAY',
+  DATE_TRUNCATED_TO_HOUR = 'DATE_TRUNCATED_TO_HOUR',
   FEES = 'FEES',
   GAS_PRICE = 'GAS_PRICE',
   GAS_USED = 'GAS_USED',
   ID = 'ID',
-  SUCCESS = 'SUCCESS',
-  TIMESTAMP = 'TIMESTAMP'
+  SUCCESS = 'SUCCESS'
 }
 
 export type GqlTransactionsHavingAverageInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingDistinctCountInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Conditions for `Transaction` aggregates. */
@@ -4068,58 +4090,58 @@ export type GqlTransactionsHavingInput = {
 
 export type GqlTransactionsHavingMaxInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingMinInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingStddevPopulationInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingStddevSampleInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingSumInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingVariancePopulationInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingVarianceSampleInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
+  date?: InputMaybe<GqlHavingDatetimeFilter>;
   fees?: InputMaybe<GqlHavingBigfloatFilter>;
   gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
-  timestamp?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `Transaction`. */
@@ -4310,6 +4332,8 @@ export enum GqlTransactionsOrderBy {
   BLOCK_HASH_DESC = 'BLOCK_HASH_DESC',
   BLOCK_NUMBER_ASC = 'BLOCK_NUMBER_ASC',
   BLOCK_NUMBER_DESC = 'BLOCK_NUMBER_DESC',
+  DATE_ASC = 'DATE_ASC',
+  DATE_DESC = 'DATE_DESC',
   FEES_ASC = 'FEES_ASC',
   FEES_DESC = 'FEES_DESC',
   GAS_PRICE_ASC = 'GAS_PRICE_ASC',
@@ -4322,9 +4346,7 @@ export enum GqlTransactionsOrderBy {
   PRIMARY_KEY_ASC = 'PRIMARY_KEY_ASC',
   PRIMARY_KEY_DESC = 'PRIMARY_KEY_DESC',
   SUCCESS_ASC = 'SUCCESS_ASC',
-  SUCCESS_DESC = 'SUCCESS_DESC',
-  TIMESTAMP_ASC = 'TIMESTAMP_ASC',
-  TIMESTAMP_DESC = 'TIMESTAMP_DESC'
+  SUCCESS_DESC = 'SUCCESS_DESC'
 }
 
 export type GqlWallet = GqlNode & {
@@ -5896,12 +5918,12 @@ export enum Gqltoken_contracts_distinct_enum {
 export enum Gqltransactions_distinct_enum {
   BLOCK_HASH = 'BLOCK_HASH',
   BLOCK_NUMBER = 'BLOCK_NUMBER',
+  DATE = 'DATE',
   FEES = 'FEES',
   GAS_PRICE = 'GAS_PRICE',
   GAS_USED = 'GAS_USED',
   ID = 'ID',
-  SUCCESS = 'SUCCESS',
-  TIMESTAMP = 'TIMESTAMP'
+  SUCCESS = 'SUCCESS'
 }
 
 export enum Gqlwallets_distinct_enum {
@@ -5938,6 +5960,7 @@ export type GqlwalletTokenBalancesQueryVariables = Exact<{
   walletId: Scalars['String']['input'];
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['Cursor']['input']>;
+  orderBy?: InputMaybe<Array<GqlTokenBalancesOrderBy> | GqlTokenBalancesOrderBy>;
 }>;
 
 
@@ -5986,6 +6009,7 @@ export type GqlwalletNftsQueryVariables = Exact<{
   walletId: Scalars['String']['input'];
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['Cursor']['input']>;
+  orderBy?: InputMaybe<Array<GqlNftBalancesOrderBy> | GqlNftBalancesOrderBy>;
 }>;
 
 
@@ -6064,6 +6088,7 @@ export type GqlwalletAssetTransfersQueryVariables = Exact<{
   walletId: Scalars['String']['input'];
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['Cursor']['input']>;
+  orderBy?: InputMaybe<Array<GqlAssetTransfersOrderBy> | GqlAssetTransfersOrderBy>;
 }>;
 
 
@@ -6092,7 +6117,7 @@ export type GqlwalletAssetTransfersQuery = {
           id: string,
           blockNumber: string,
           blockHash: string,
-          timestamp: string,
+          date: string,
           gasUsed: string,
           gasPrice: string,
           fees: string,
@@ -6203,14 +6228,14 @@ export type GqlKeybanClient_TransactionFragment = {
   id: string,
   blockNumber: string,
   blockHash: string,
-  timestamp: string,
+  date: string,
   gasUsed: string,
   gasPrice: string,
   fees: string,
   success: boolean
 };
 
-export type GqlKeybClient_AssetTransferFragment = {
+export type GqlKeybanClient_AssetTransferFragment = {
   id: string,
   type: string,
   value: string,
@@ -6224,7 +6249,7 @@ export type GqlKeybClient_AssetTransferFragment = {
     id: string,
     blockNumber: string,
     blockHash: string,
-    timestamp: string,
+    date: string,
     gasUsed: string,
     gasPrice: string,
     fees: string,
@@ -6258,15 +6283,15 @@ export const KeybanClient_TokenContractFragmentDoc = {"kind":"Document","definit
 export const KeybanClient_TokenBalanceFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_TokenBalanceFragment, unknown>;
 export const KeybanClient_NftFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_NftFragment, unknown>;
 export const KeybanClient_NftBalanceFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_NftBalanceFragment, unknown>;
-export const KeybanClient_TransactionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_TransactionFragment, unknown>;
-export const KeybClient_AssetTransferFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Transaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]} as unknown as DocumentNode<GqlKeybClient_AssetTransferFragment, unknown>;
+export const KeybanClient_TransactionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_TransactionFragment, unknown>;
+export const KeybanClient_AssetTransferFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Transaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_AssetTransferFragment, unknown>;
 export const walletBalanceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletBalance"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"wallet"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]}}]} as unknown as DocumentNode<GqlwalletBalanceQuery, GqlwalletBalanceQueryVariables>;
 export const walletSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"walletSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"wallets"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqlwalletSubscriptionSubscription, GqlwalletSubscriptionSubscriptionVariables>;
-export const walletTokenBalancesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletTokenBalances"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"wallet"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenBalance"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletTokenBalancesQuery, GqlwalletTokenBalancesQueryVariables>;
+export const walletTokenBalancesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletTokenBalances"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalancesOrderBy"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"wallet"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenBalance"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletTokenBalancesQuery, GqlwalletTokenBalancesQueryVariables>;
 export const tokenBalancesSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"tokenBalancesSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tokenBalancesIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tokenBalancesIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mutation_type"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqltokenBalancesSubscriptionSubscription, GqltokenBalancesSubscriptionSubscriptionVariables>;
-export const walletNftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletNfts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"wallet"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_NftBalance"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletNftsQuery, GqlwalletNftsQueryVariables>;
+export const walletNftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletNfts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalancesOrderBy"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"wallet"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_NftBalance"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletNftsQuery, GqlwalletNftsQueryVariables>;
 export const nftBalancesSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"nftBalancesSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mutation_type"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqlnftBalancesSubscriptionSubscription, GqlnftBalancesSubscriptionSubscriptionVariables>;
 export const walletNftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletNft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalance"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_NftBalance"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletNftQuery, GqlwalletNftQueryVariables>;
-export const walletAssetTransfersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletAssetTransfers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetTransfers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"from"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"to"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"BLOCK_NUMBER_DESC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybClient_AssetTransfer"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Transaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}}]} as unknown as DocumentNode<GqlwalletAssetTransfersQuery, GqlwalletAssetTransfersQueryVariables>;
+export const walletAssetTransfersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletAssetTransfers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfersOrderBy"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetTransfers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"from"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"to"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}}]}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Transaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}}]} as unknown as DocumentNode<GqlwalletAssetTransfersQuery, GqlwalletAssetTransfersQueryVariables>;
 export const assetTransfersSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"assetTransfersSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"assetTransferIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetTransfers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"assetTransferIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mutation_type"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqlassetTransfersSubscriptionSubscription, GqlassetTransfersSubscriptionSubscriptionVariables>;
 

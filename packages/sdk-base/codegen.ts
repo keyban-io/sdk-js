@@ -32,6 +32,7 @@ const config: CodegenConfig = {
           BigInt: "string",
           Cursor: "string",
           Date: "string",
+          Datetime: "string",
           JSON: "any",
         },
       },
