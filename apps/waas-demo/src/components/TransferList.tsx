@@ -148,9 +148,20 @@ const TransferList: React.FC<TransferListProps> = ({
 
   const formatTransactionFee = (fee: string) => {
     console.log("transfer fee", fee);
-    const feeInETH =
-      Number.parseInt(fee) / 10 ** client.nativeCurrency.decimals;
-    return `${feeInETH.toFixed(6)} ${client.nativeCurrency.symbol}`;
+
+    // Convertir la chaîne "fee" en BigInt
+    const feeInWei = BigInt(fee);
+
+    // Obtenir la valeur en devise native en utilisant BigInt pour éviter la perte de précision
+    const feeInNative = Number(feeInWei) / 10 ** client.nativeCurrency.decimals;
+
+    // Formater la valeur en utilisant un maximum de chiffres après la virgule
+    const formattedFee = feeInNative.toLocaleString("fr-FR", {
+      minimumFractionDigits: 8,
+      maximumFractionDigits: 18,
+    });
+
+    return `${formattedFee} ${client.nativeCurrency.symbol}`;
   };
 
   const getTxHash = (nftId: string | undefined) => {
