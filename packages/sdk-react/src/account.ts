@@ -235,11 +235,11 @@ export function useKeybanAccountNft(
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [txHistory, txHistoryError, { refresh: refreshBalance }] = useKeybanAccountTransactionHistory(account);
+ * const [txHistory, txHistoryError, { refresh: refreshBalance }] = useKeybanAccountTransferHistory(account);
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountTransactionHistory({ address }: KeybanAccount) {
+export function useKeybanAccountTransferHistory({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();

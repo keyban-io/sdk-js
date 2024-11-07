@@ -11,7 +11,7 @@ import NftFetch from "@/components/organisms/NftFetch";
 import NftTransfer from "@/components/organisms/NftTransfer";
 import Signature from "@/components/organisms/Signature";
 import TokenBalances from "@/components/organisms/TokenBalances";
-import TransactionHistory from "@/components/organisms/TransactionHistory";
+import TransferHistory from "@/components/organisms/TransferHistory";
 
 const wrapSuspense = (Comp: React.ComponentType) => (
   <React.Suspense fallback={<div>Loading...</div>}>
@@ -50,7 +50,7 @@ export default function KeybanTest() {
           {wrapSuspense(Nft)}
           {wrapSuspense(NftFetch)}
           {wrapSuspense(NftTransfer)}
-          {wrapSuspense(TransactionHistory)}
+          {wrapSuspense(TransferHistory)}
         </>
       )}
     </>

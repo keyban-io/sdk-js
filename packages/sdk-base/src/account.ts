@@ -188,10 +188,10 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * @returns - The account transaction history for native currency, tokens and Nfts.
-   * @see {@link useKeybanAccountTransactionHistory}
+   * @see {@link useKeybanAccountTransferHistory}
    */
-  async getTransactionHistory() {
-    return this.#client.getTransactionHistory(this.address);
+  async getTransferHistory() {
+    return this.#client.getTransferHistory(this.address);
   }
 
   /**

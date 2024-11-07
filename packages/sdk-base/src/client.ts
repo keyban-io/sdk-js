@@ -250,7 +250,7 @@ export class KeybanClient {
     })();
 
     this.#pendingAccounts.set(sub, promise);
-    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
+    promise.catch(() => { }).finally(() => this.#pendingAccounts.delete(sub));
 
     return promise;
   }
@@ -315,11 +315,11 @@ export class KeybanClient {
   /**
    * @returns - The account transaction history for native currency, tokens and Nfts.
    */
-  async getTransactionHistory(address: Address, pagination?: Pagination) {
+  async getTransferHistory(address: Address, pagination?: Pagination) {
     if (!isAddress(address)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
-        "KeybanClient.getTransactionHistory",
+        "KeybanClient.getTransferHistory",
       );
     }
 

@@ -5,7 +5,7 @@ import { format } from "date-fns";
 
 import {
   useKeybanAccount,
-  useKeybanAccountTransactionHistory,
+  useKeybanAccountTransferHistory,
   useKeybanClient,
 } from "@keyban/sdk-react";
 import {
@@ -30,7 +30,7 @@ interface Transfer {
     id: string;
     blockNumber: string;
     blockHash: string;
-    timestamp: string;
+    date: string;
     gasUsed: string;
     gasPrice: string;
     fees: string;
@@ -81,7 +81,7 @@ const TransferList: React.FC<TransferListProps> = ({
   if (accountError) throw accountError;
 
   const [transferHistory, transferHistoryError] =
-    useKeybanAccountTransactionHistory(account);
+    useKeybanAccountTransferHistory(account);
   if (transferHistoryError) throw transferHistoryError;
   console.log("transferHistory", transferHistory);
 
@@ -235,8 +235,8 @@ const TransferList: React.FC<TransferListProps> = ({
             {paginatedTransfers?.map((transfer, index) => {
               const status = getStatus(transfer?.node);
               const amount = formatAmount(transfer.node);
-              const date = transfer?.node?.transaction?.timestamp
-                ? formatDate(transfer.node.transaction?.timestamp)
+              const date = transfer?.node?.transaction?.date
+                ? formatDate(transfer.node.transaction?.date)
                 : "Unknown";
               // const gasPrice = formatGasPrice(transaction.node.gasPrice);
               const transactionFee = formatTransactionFee(

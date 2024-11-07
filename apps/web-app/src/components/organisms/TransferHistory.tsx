@@ -2,27 +2,27 @@ import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
 import {
   useKeybanAccount,
-  useKeybanAccountTransactionHistory,
+  useKeybanAccountTransferHistory,
 } from "@keyban/sdk-react";
 
 import SerializedValue from "../atoms/SerializedValue";
 
-export default function TransactionHistory() {
+export default function TransferHistory() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   const [transactionHistory, transactionHistoryError, { refresh, fetchMore }] =
-    useKeybanAccountTransactionHistory(account);
+    useKeybanAccountTransferHistory(account);
   if (transactionHistoryError) throw transactionHistoryError;
 
   return (
     <fieldset>
       <legend>
-        Transaction history
+        Transfer history
         <RefreshButton
           onClick={refresh}
           style={{ marginInlineStart: "0.5ch" }}
-          data-test-id="TransactionHistory:refresh"
+          data-test-id="TransferHistory:refresh"
         />
       </legend>
 
@@ -38,6 +38,7 @@ export default function TransactionHistory() {
           </tr>
         </thead>
         <tbody>
+          <SerializedValue value={transactionHistory?.edges} data-test-id="TransferHistory:raw" />
           {transactionHistory?.edges.map(({ cursor, node }) => (
             <tr key={cursor}>
               <td>
@@ -64,7 +65,7 @@ export default function TransactionHistory() {
         <SerializedValue
           value={transactionHistory?.totalCount}
           style={{ flexGrow: 1 }}
-          data-test-id="TransactionHistory:count"
+          data-test-id="TransferHistory:count"
         />
         <button
           onClick={fetchMore}
