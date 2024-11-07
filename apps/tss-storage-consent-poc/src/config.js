@@ -1,3 +1,9 @@
+import {
+  KeybanChain,
+  KeybanLocalStorage,
+  KeybanSigner,
+} from "@keyban/sdk-react";
+
 import configJson from "./auth_config.json";
 
 export function getConfig() {
@@ -15,6 +21,13 @@ export function getConfig() {
   return {
     domain: configJson.domain,
     clientId: configJson.clientId,
+    keybanProvider: {
+      apiUrl: "https://api.example.keyban.io",  // Replace with your Keyban API URL
+      appId: "your-keyban-app-id",  // Replace with your own App ID
+      chain: KeybanChain.PolygonAmoy,  // Polygon Amoy Testnet
+      signer: KeybanSigner.ECDSA,  // Signature mechanism
+      storage: new KeybanLocalStorage(),  // Storage solution (development only)
+    },
     ...(audience ? { audience } : null),
   };
 }
