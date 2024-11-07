@@ -162,6 +162,17 @@ fragment KeybanClient_NftBalance on NftBalance {
   balance
 }
 
+fragment KeybanClient_Transaction on Transaction {
+  id
+  blockNumber
+  blockHash
+  timestamp
+  gasUsed
+  gasPrice
+  fees
+  success
+}
+
 fragment KeybClient_AssetTransfer on AssetTransfer {
   id
   from {
@@ -170,11 +181,12 @@ fragment KeybClient_AssetTransfer on AssetTransfer {
   to {
     id
   }
+  transaction {
+    id
+    ...KeybanClient_Transaction
+  }
   type
-  blockNumber
   value
-  timestamp
-  success
   token {
     id
     ...KeybanClient_TokenContract

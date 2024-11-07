@@ -24,13 +24,20 @@ import {
 
 import { getIndexerUrl } from "../lib/getIndexerUrl";
 
-interface Transaction {
+interface Transfer {
   id: string;
+  transaction: {
+    id: string;
+    blockNumber: string;
+    blockHash: string;
+    timestamp: string;
+    gasUsed: string;
+    gasPrice: string;
+    fees: string;
+    success: boolean;
+  } | null;
   type: string;
-  blockNumber: string;
   value: string;
-  timestamp: string;
-  success: boolean;
   from: {
     id: string;
   } | null;
@@ -60,12 +67,12 @@ interface Transaction {
   } | null;
 }
 
-interface TransactionListProps {
+interface TransferListProps {
   pageSize?: number;
   currentPage?: number;
 }
 
-const TransactionList: React.FC<TransactionListProps> = ({
+const TransferList: React.FC<TransferListProps> = ({
   pageSize = 50,
   currentPage = 1,
 }) => {
@@ -73,11 +80,11 @@ const TransactionList: React.FC<TransactionListProps> = ({
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [txHistory, txHistoryError] =
+  const [transferHistory, transferHistoryError] =
     useKeybanAccountTransactionHistory(account);
-  if (txHistoryError) throw txHistoryError;
+  if (transferHistoryError) throw transferHistoryError;
 
-  const lastTransactionRef = useRef<HTMLTableRowElement | null>(null);
+  const lastTransferRef = useRef<HTMLTableRowElement | null>(null);
 
   const client = useKeybanClient();
 
@@ -97,28 +104,28 @@ const TransactionList: React.FC<TransactionListProps> = ({
     }
   };
 
-  const formatAmount = (transaction: Transaction | null) => {
-    if (!transaction) return "";
+  const formatAmount = (transfer: Transfer | null) => {
+    if (!transfer) return "";
 
-    if (transaction?.type === "native") {
+    if (transfer?.type === "native") {
       const amountInETH =
-        (Number(transaction?.value) || 0) /
-        10 ** (transaction?.token?.decimals ?? client.nativeCurrency.decimals);
+        (Number(transfer?.value) || 0) /
+        10 ** (transfer?.token?.decimals ?? client.nativeCurrency.decimals);
       return `${amountInETH.toFixed(4)} ${client.nativeCurrency.symbol}`;
     }
-    if (transaction.type === "erc20") {
+    if (transfer.type === "erc20") {
       const amountInTokens =
-        (Number(transaction?.value) || 0) /
-        10 ** (transaction?.token?.decimals ?? client.nativeCurrency.decimals);
-      return `${amountInTokens.toFixed(4)} ${transaction.token?.symbol ?? ""}`;
+        (Number(transfer?.value) || 0) /
+        10 ** (transfer?.token?.decimals ?? client.nativeCurrency.decimals);
+      return `${amountInTokens.toFixed(4)} ${transfer.token?.symbol ?? ""}`;
     }
-    if (transaction.type === "erc721") {
-      return `Token ID: ${transaction?.nft?.tokenId}`;
+    if (transfer.type === "erc721") {
+      return `Token ID: ${transfer?.nft?.tokenId}`;
     }
-    if (transaction.type === "erc1155") {
-      return `${transaction.value} Token ID: ${transaction?.nft?.tokenId}`;
+    if (transfer.type === "erc1155") {
+      return `${transfer.value} Token ID: ${transfer?.nft?.tokenId}`;
     }
-    return `${transaction.value ?? ""}`;
+    return `${transfer.value ?? ""}`;
   };
 
   const formatDate = (timestamp: string) => {
@@ -126,10 +133,10 @@ const TransactionList: React.FC<TransactionListProps> = ({
     return format(date, "PPpp"); // Exemple : '14 oct. 2024 à 8:51 AM'
   };
 
-  const getStatus = (transaction: Transaction | null) => {
-    if (!transaction || !account) return "Unknown";
+  const getStatus = (transfer: Transfer | null) => {
+    if (!transfer || !account) return "Unknown";
 
-    const { from, to } = transaction;
+    const { from, to } = transfer;
     const accountAddress = account.address.toLowerCase();
     if (to?.id.toLowerCase() === accountAddress) return "Received";
     if (from?.id?.toLowerCase() === accountAddress) return "Sent";
@@ -159,36 +166,36 @@ const TransactionList: React.FC<TransactionListProps> = ({
     return `${address.slice(0, chars + 2)}...${address.slice(-chars)}`;
   };
 
-  const getAssetType = (transaction: Transaction | null) => {
-    if (!transaction) return "Unknown";
-    if (transaction?.type === "native") {
+  const getAssetType = (transfer: Transfer | null) => {
+    if (!transfer) return "Unknown";
+    if (transfer?.type === "native") {
       return "Native";
     }
-    if (transaction.type === "erc20") {
+    if (transfer.type === "erc20") {
       return "Token";
     }
-    if (transaction.type === "erc721" || transaction.type === "erc1155") {
+    if (transfer.type === "erc721" || transfer.type === "erc1155") {
       return "NFT";
     }
 
     return "Unknown";
   };
 
-  const getCryptoDisplay = (transaction: Transaction | null) => {
-    if (!transaction) return "Unknown";
-    if (transaction.type === "native") {
+  const getCryptoDisplay = (transfer: Transfer | null) => {
+    if (!transfer) return "Unknown";
+    if (transfer.type === "native") {
       return client.nativeCurrency.symbol;
     }
-    if (transaction.type === "erc20") {
-      return transaction?.token?.symbol ?? "erc20";
+    if (transfer.type === "erc20") {
+      return transfer?.token?.symbol ?? "erc20";
     }
-    if (transaction.type === "erc721" || transaction.type === "erc1155") {
-      return transaction.token?.name ?? transaction.type;
+    if (transfer.type === "erc721" || transfer.type === "erc1155") {
+      return transfer.token?.name ?? transfer.type;
     }
-    return transaction.type;
+    return transfer.type;
   };
 
-  const paginatedTransactions = txHistory?.edges.slice(
+  const paginatedTransfers = transferHistory?.edges.slice(
     0,
     currentPage * pageSize,
   );
@@ -214,11 +221,11 @@ const TransactionList: React.FC<TransactionListProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedTransactions?.map((transaction, index) => {
-              const status = getStatus(transaction?.node);
-              const amount = formatAmount(transaction.node);
-              const date = transaction?.node?.timestamp
-                ? formatDate(transaction.node.timestamp)
+            {paginatedTransfers?.map((transfer, index) => {
+              const status = getStatus(transfer?.node);
+              const amount = formatAmount(transfer.node);
+              const date = transfer?.node?.transaction?.timestamp
+                ? formatDate(transfer.node.transaction?.timestamp)
                 : "Unknown";
               // const gasPrice = formatGasPrice(transaction.node.gasPrice);
               // const transactionFee = formatTransactionFee(
@@ -229,7 +236,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
               try {
                 indexerUrl = getIndexerUrl(
                   client.chain,
-                  transaction.node?.id ?? "",
+                  transfer.node?.id ?? "",
                 );
               } catch (error) {
                 console.error("Error generating indexer URL:", error);
@@ -237,7 +244,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
 
               return (
                 <TableRow
-                  key={transaction.node?.id}
+                  key={transfer.node?.id}
                   hover
                   sx={{
                     "&:hover": {
@@ -246,26 +253,26 @@ const TransactionList: React.FC<TransactionListProps> = ({
                     },
                   }}
                   ref={
-                    index === paginatedTransactions.length - 1
-                      ? lastTransactionRef
+                    index === paginatedTransfers.length - 1
+                      ? lastTransferRef
                       : null
                   }
                 >
                   <TableCell align="center">{date}</TableCell>
                   <TableCell align="center">
-                    <Tooltip title={transaction?.node?.from?.id} arrow>
+                    <Tooltip title={transfer?.node?.from?.id} arrow>
                       <Typography variant="body2" noWrap>
-                        {transaction?.node?.from?.id
-                          ? shortenAddress(transaction.node.from.id)
+                        {transfer?.node?.from?.id
+                          ? shortenAddress(transfer.node.from.id)
                           : ""}
                       </Typography>
                     </Tooltip>
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title={transaction.node?.to?.id ?? ""} arrow>
+                    <Tooltip title={transfer.node?.to?.id ?? ""} arrow>
                       <Typography variant="body2" noWrap>
-                        {transaction.node?.to?.id
-                          ? shortenAddress(transaction.node.to.id)
+                        {transfer.node?.to?.id
+                          ? shortenAddress(transfer.node.to.id)
                           : ""}
                       </Typography>
                     </Tooltip>
@@ -280,10 +287,10 @@ const TransactionList: React.FC<TransactionListProps> = ({
                   </TableCell>
                   <TableCell align="center">{amount}</TableCell>
                   <TableCell align="center">
-                    {getCryptoDisplay(transaction.node)}
+                    {getCryptoDisplay(transfer.node)}
                   </TableCell>
                   <TableCell align="center">
-                    {getAssetType(transaction.node)}
+                    {getAssetType(transfer.node)}
                   </TableCell>
                   {/* <TableCell align="center">{gasPrice}</TableCell> */}
                   {/* <TableCell align="center">{transaction.gasUsed}</TableCell> */}
@@ -293,7 +300,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
                   </TableCell> */}
                   <TableCell align="center">
                     <Tooltip
-                      title={getTxHash(transaction.node?.id)?.txHash ?? null}
+                      title={getTxHash(transfer.node?.id)?.txHash ?? null}
                       arrow
                     >
                       <div>
@@ -310,18 +317,18 @@ const TransactionList: React.FC<TransactionListProps> = ({
                               color: theme.palette.primary.main,
                             }}
                           >
-                            {transaction.node?.id
+                            {transfer.node?.id
                               ? shortenAddress(
-                                  getTxHash(transaction.node.id).txHash,
+                                  getTxHash(transfer.node.id).txHash,
                                   6,
                                 )
                               : ""}
                           </Typography>
                         ) : (
                           <Typography variant="body2" noWrap>
-                            {transaction.node?.id
+                            {transfer.node?.id
                               ? shortenAddress(
-                                  getTxHash(transaction.node.id).txHash,
+                                  getTxHash(transfer.node.id).txHash,
                                   6,
                                 )
                               : ""}
@@ -340,4 +347,4 @@ const TransactionList: React.FC<TransactionListProps> = ({
   );
 };
 
-export default TransactionList;
+export default TransferList;

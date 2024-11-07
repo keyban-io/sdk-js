@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import TransactionList from "../components/TransactionList";
+import TransferList from "../components/TransactionList";
 
 const TransactionsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const TransactionsPage: React.FC = () => {
       <Typography variant="h6" align="center">
         Transaction List
       </Typography>
-      <TransactionList pageSize={15} />
+      <TransferList pageSize={15} />
       <div
         style={{
           position: "sticky",

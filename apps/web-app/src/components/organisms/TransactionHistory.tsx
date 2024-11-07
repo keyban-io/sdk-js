@@ -5,6 +5,8 @@ import {
   useKeybanAccountTransactionHistory,
 } from "@keyban/sdk-react";
 
+import SerializedValue from "../atoms/SerializedValue";
+
 export default function TransactionHistory() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
@@ -38,7 +40,7 @@ export default function TransactionHistory() {
           {transactionHistory?.edges.map(({ cursor, node }) => (
             <tr key={cursor}>
               <td>
-                <code>{node?.blockNumber}</code>
+                <code>{node?.transaction?.blockNumber}</code>
               </td>
               <td>
                 <code>{node?.from?.id}</code>
@@ -54,7 +56,12 @@ export default function TransactionHistory() {
       </table>
 
       <Row>
-        <div>Total: {transactionHistory?.totalCount}</div>
+        <span>Count:</span>
+        <SerializedValue
+          value={transactionHistory?.totalCount}
+          style={{ flexGrow: 1 }}
+          data-test-id="TransactionHistory:count"
+        />
         <button
           onClick={fetchMore}
           disabled={!transactionHistory?.pageInfo.hasNextPage}

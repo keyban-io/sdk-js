@@ -21,7 +21,7 @@ import AccountInfo from "../components/AccountInfo";
 import BalanceInfo from "../components/BalanceInfo";
 import NFTSection from "../components/NFTSection";
 import TokensSection from "../components/TokensSection";
-import TransactionList from "../components/TransactionList";
+import TransferList from "../components/TransactionList";
 
 const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ const WalletDashboardContent: React.FC = () => {
         <NFTSection />
         <Divider />
         <Typography variant="h6">Last Transactions</Typography>
-        <TransactionList pageSize={5} />
+        <TransferList pageSize={5} />
         <Button variant="contained" onClick={handleViewTransactions}>
           View all Transactions...
         </Button>
