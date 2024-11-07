@@ -30,7 +30,7 @@ interface Transfer {
     id: string;
     blockNumber: string;
     blockHash: string;
-    date: string;
+    timestamp: string;
     gasUsed: string;
     gasPrice: string;
     fees: string;
@@ -235,8 +235,8 @@ const TransferList: React.FC<TransferListProps> = ({
             {paginatedTransfers?.map((transfer, index) => {
               const status = getStatus(transfer?.node);
               const amount = formatAmount(transfer.node);
-              const date = transfer?.node?.transaction?.date
-                ? formatDate(transfer.node.transaction?.date)
+              const date = transfer?.node?.transaction?.timestamp
+                ? formatDate(transfer.node.transaction?.timestamp)
                 : "Unknown";
               // const gasPrice = formatGasPrice(transaction.node.gasPrice);
               const transactionFee = formatTransactionFee(
