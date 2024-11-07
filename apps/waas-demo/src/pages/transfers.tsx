@@ -8,9 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 
-import TransferList from "../components/TransactionList";
+import TransferList from "../components/TransferList";
 
-const TransactionsPage: React.FC = () => {
+const TransferPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -20,7 +20,7 @@ const TransactionsPage: React.FC = () => {
   return (
     <Stack direction="column" spacing={4}>
       <Typography variant="h6" align="center">
-        Transaction List
+        Transfer List
       </Typography>
       <TransferList pageSize={15} />
       <div
@@ -39,4 +39,4 @@ const TransactionsPage: React.FC = () => {
   );
 };
 
-export default TransactionsPage;
+export default TransferPage;

@@ -83,6 +83,7 @@ const TransferList: React.FC<TransferListProps> = ({
   const [transferHistory, transferHistoryError] =
     useKeybanAccountTransactionHistory(account);
   if (transferHistoryError) throw transferHistoryError;
+  console.log("transferHistory", transferHistory);
 
   const lastTransferRef = useRef<HTMLTableRowElement | null>(null);
 
@@ -148,10 +149,12 @@ const TransferList: React.FC<TransferListProps> = ({
   //   return `${gasPriceInGwei.toFixed(2)} Gwei`;
   // };
 
-  // const formatTransactionFee = (fee: string) => {
-  //   const feeInETH = Number.parseInt(fee) / 1e18;
-  //   return `${feeInETH.toFixed(6)} ETH`;
-  // };
+  const formatTransactionFee = (fee: string) => {
+    console.log("transfer fee", fee);
+    const feeInETH =
+      Number.parseInt(fee) / 10 ** client.nativeCurrency.decimals;
+    return `${feeInETH.toFixed(6)} ${client.nativeCurrency.symbol}`;
+  };
 
   const getTxHash = (nftId: string | undefined) => {
     if (!nftId) return { txHash: "", rawTokenAddress: "", tokenId: "" };
@@ -214,9 +217,9 @@ const TransferList: React.FC<TransferListProps> = ({
               <TableCell align="center">Crypto</TableCell>
               <TableCell align="center">Asset Type</TableCell>
               {/* <TableCell align="center">Gas Price</TableCell>
-              <TableCell align="center">Gas Used</TableCell>
+              <TableCell align="center">Gas Used</TableCell> */}
               <TableCell align="center">Transaction Fee</TableCell>
-              <TableCell align="center">Confirmations</TableCell> */}
+              {/* <TableCell align="center">Confirmations</TableCell> */}
               <TableCell align="center">Transaction Hash</TableCell>
             </TableRow>
           </TableHead>
@@ -228,9 +231,9 @@ const TransferList: React.FC<TransferListProps> = ({
                 ? formatDate(transfer.node.transaction?.timestamp)
                 : "Unknown";
               // const gasPrice = formatGasPrice(transaction.node.gasPrice);
-              // const transactionFee = formatTransactionFee(
-              //   transaction.node.transactionFee,
-              // );
+              const transactionFee = formatTransactionFee(
+                transfer?.node?.transaction?.fees ?? "0",
+              );
 
               let indexerUrl = "";
               try {
@@ -294,7 +297,7 @@ const TransferList: React.FC<TransferListProps> = ({
                   </TableCell>
                   {/* <TableCell align="center">{gasPrice}</TableCell> */}
                   {/* <TableCell align="center">{transaction.gasUsed}</TableCell> */}
-                  {/* <TableCell align="center">{transactionFee}</TableCell> */}
+                  <TableCell align="center">{transactionFee}</TableCell>
                   {/* <TableCell align="center">
                     {transaction.confirmations}
                   </TableCell> */}

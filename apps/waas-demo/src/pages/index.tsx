@@ -21,7 +21,7 @@ import AccountInfo from "../components/AccountInfo";
 import BalanceInfo from "../components/BalanceInfo";
 import NFTSection from "../components/NFTSection";
 import TokensSection from "../components/TokensSection";
-import TransferList from "../components/TransactionList";
+import TransferList from "../components/TransferList";
 
 const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const WalletDashboardContent: React.FC = () => {
   };
 
   const handleViewTransactions = () => {
-    navigate("/transactions");
+    navigate("/transfers");
   };
 
   if (loading) {
@@ -78,7 +78,7 @@ const WalletDashboardContent: React.FC = () => {
         <BalanceInfo
           balance={balance}
           euroBalance={
-            (Number(balance) / (10 ** client.nativeCurrency.decimals)) *
+            (Number(balance) / 10 ** client.nativeCurrency.decimals) *
             maticToEuroRate
           }
           onSend={handleTransferCrypto}
@@ -88,7 +88,7 @@ const WalletDashboardContent: React.FC = () => {
         <Divider />
         <NFTSection />
         <Divider />
-        <Typography variant="h6">Last Transactions</Typography>
+        <Typography variant="h6">Last Transfers</Typography>
         <TransferList pageSize={5} />
         <Button variant="contained" onClick={handleViewTransactions}>
           View all Transactions...
