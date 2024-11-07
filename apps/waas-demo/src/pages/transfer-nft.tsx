@@ -26,6 +26,7 @@ import {
   Button,
   Card,
   CardActionArea,
+  CardContent,
   CardMedia,
   CircularProgress,
   Container,
@@ -67,6 +68,7 @@ const TransferNFT: React.FC = () => {
 
   const [recipient, setRecipient] = useState<string>("");
   const [selectedNftId, setSelectedNftId] = useState<string>(nftId || "");
+  const [quantity, setQuantity] = useState<number>(1);
   const debouncedRecipient = useDebounce(recipient, 300);
 
   const {
@@ -92,25 +94,33 @@ const TransferNFT: React.FC = () => {
     ({ node }) => node?.id === selectedNftId,
   )?.node;
   const metadata = selectedNft?.nft?.metadata as NftMetadata;
+  const isERC1155 = selectedNft?.nft?.collection?.type === "erc1155";
+  const userNftBalance = Number(selectedNft?.balance ?? 0);
+
+  const isQuantityValid =
+    !isERC1155 || (quantity >= 1 && quantity <= userNftBalance);
+
+  useEffect(() => {
+    setQuantity(1);
+  }, []);
 
   useEffect(() => {
     const estimateFeesAsync = async () => {
-      if (!debouncedRecipient || !selectedNft) {
+      if (!debouncedRecipient || !selectedNft || !isQuantityValid) {
         dispatch({ type: "FEE_ESTIMATION_FAIL", payload: "" });
         return;
       }
 
       dispatch({ type: "START_FEE_ESTIMATION" });
       try {
+        const value = isERC1155 ? BigInt(quantity) : BigInt(1);
+
         const estimation = await account.estimateNftTransfer({
           contractAddress: selectedNft.nft?.collection?.id as Address,
           tokenId: BigInt(selectedNft.nft?.tokenId ?? 0),
           to: debouncedRecipient as Address,
-          value: BigInt(1),
-          standard:
-            selectedNft.nft?.collection?.type === "erc721"
-              ? "ERC721"
-              : "ERC1155",
+          value: value,
+          standard: isERC1155 ? "ERC1155" : "ERC721",
         });
 
         dispatch({
@@ -125,26 +135,34 @@ const TransferNFT: React.FC = () => {
       }
     };
     estimateFeesAsync();
-  }, [debouncedRecipient, selectedNft, account, dispatch]);
+  }, [
+    debouncedRecipient,
+    selectedNft,
+    account,
+    dispatch,
+    isERC1155,
+    quantity,
+    isQuantityValid,
+  ]);
 
   const handleTransfer = async () => {
     dispatch({ type: "START_TRANSFER" });
     try {
-      if (selectedNft && account && recipient) {
+      if (selectedNft && account && recipient && isQuantityValid) {
+        const value = isERC1155 ? BigInt(quantity) : BigInt(1);
+
         const txHash = await account.transferNft({
           contractAddress: selectedNft.nft?.collection?.id as Address,
           tokenId: BigInt(selectedNft.nft?.tokenId ?? 0),
           to: recipient as Address,
-          standard:
-            selectedNft.nft?.collection?.type === "erc721"
-              ? "ERC721"
-              : "ERC1155",
-          value: BigInt(1),
+          standard: isERC1155 ? "ERC1155" : "ERC721",
+          value: value,
         });
         handleSuccess(txHash);
         resetForm();
         setRecipient("");
         setSelectedNftId("");
+        setQuantity(1);
       }
     } catch (err) {
       dispatch({
@@ -156,11 +174,11 @@ const TransferNFT: React.FC = () => {
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Card sx={{ p: 2 }}>
+      <Card sx={{ p: 4, boxShadow: 3 }}>
         <Typography variant="h4" gutterBottom>
           Transfer an NFT
         </Typography>
-        <Divider sx={{ mb: 2 }} />
+        <Divider sx={{ mb: 4 }} />
 
         <Grid2 container spacing={4}>
           <Grid2 size={{ xs: 12, md: 6 }}>
@@ -172,39 +190,54 @@ const TransferNFT: React.FC = () => {
                     labelId="select-nft-label"
                     id="select-nft"
                     value={selectedNftId}
-                    label="Select an NFT"
+                    label="Select an NF"
                     onChange={(e) => setSelectedNftId(e.target.value as string)}
                   >
                     {nftBalances.edges.map(({ node }) => {
                       if (!node) return null;
 
                       const nftMetadata = node.nft?.metadata as NftMetadata;
+                      const nftName =
+                        nftMetadata.name ?? `NFT ID: ${node.nft?.tokenId}`;
                       return (
                         <MenuItem key={node.id} value={node.id}>
-                          {nftMetadata.name ?? `NFT ID: ${node.nft?.tokenId}`}
+                          {nftName}{" "}
+                          {node.nft?.collection?.type === "erc1155"
+                            ? ` (x${node.balance})`
+                            : ""}
                         </MenuItem>
                       );
                     })}
                   </Select>
                 </FormControl>
 
-                {selectedNft && metadata?.image && (
-                  <CardActionArea
-                    sx={{ mt: 2 }}
-                    onClick={() => navigate(`/nft-details/${selectedNft.id}`)}
-                  >
-                    <CardMedia
-                      component="img"
-                      image={metadata.image}
-                      alt={metadata?.name ?? "NFT Image"}
-                      sx={{
-                        width: "100%",
-                        height: 400,
-                        objectFit: "cover",
-                        borderRadius: 2,
-                      }}
-                    />
-                  </CardActionArea>
+                {selectedNft && (
+                  <Card sx={{ mt: 4 }}>
+                    <CardActionArea
+                      onClick={() => navigate(`/nft-details/${selectedNft.id}`)}
+                    >
+                      {metadata?.image && (
+                        <CardMedia
+                          component="img"
+                          image={metadata.image}
+                          alt={metadata?.name ?? "NFT Image"}
+                          sx={{
+                            width: "100%",
+                            height: 300,
+                            objectFit: "cover",
+                          }}
+                        />
+                      )}
+                      <CardContent>
+                        <Typography variant="h6">
+                          {metadata?.name ?? "NFT Name"}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {metadata?.description ?? "No description available."}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
                 )}
               </>
             ) : (
@@ -213,13 +246,13 @@ const TransferNFT: React.FC = () => {
           </Grid2>
 
           <Grid2 size={{ xs: 12, md: 6 }}>
-            <Stack spacing={2}>
+            <Stack spacing={3}>
               <Typography variant="h6">Account Information</Typography>
               <Typography variant="body1">
                 <strong>Address:</strong> {account.address}
               </Typography>
               <Typography variant="body1">
-                <strong>Native Balance (for fees):</strong>{" "}
+                <strong>Native balance (for fees):</strong>{" "}
                 <FormattedBalance balance={balance} />
               </Typography>
 
@@ -235,9 +268,32 @@ const TransferNFT: React.FC = () => {
                 fullWidth
               />
 
+              {isERC1155 && selectedNft && (
+                <>
+                  <Typography variant="body1">
+                    <strong>Your balance of this NFT:</strong> {userNftBalance}
+                  </Typography>
+                  <TextField
+                    id="quantity"
+                    label="Quantity to send"
+                    type="number"
+                    inputProps={{ min: 1, max: userNftBalance }}
+                    value={quantity}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
+                    error={!isQuantityValid}
+                    helperText={
+                      !isQuantityValid
+                        ? `Enter a value between 1 and ${userNftBalance}`
+                        : ""
+                    }
+                    fullWidth
+                  />
+                </>
+              )}
+
               <TransferAlert
                 isEstimatingFees={transferState.isEstimatingFees}
-                amount="1"
+                amount={isERC1155 ? String(quantity) : "1"}
                 recipient={recipient}
                 rawMaxFees={transferState.feeEstimate}
               />
@@ -250,7 +306,8 @@ const TransferNFT: React.FC = () => {
                   transferState.isTransferring ||
                   !recipient ||
                   !selectedNftId ||
-                  nftBalances?.totalCount === 0
+                  nftBalances?.totalCount === 0 ||
+                  !isQuantityValid
                 }
                 sx={{ mt: 2 }}
               >
@@ -274,7 +331,7 @@ const TransferNFT: React.FC = () => {
               </Button>
 
               {transactionHistory.length > 0 && (
-                <Alert severity="success">
+                <Alert severity="success" sx={{ mt: 2 }}>
                   <Typography variant="h6">Recent Transactions:</Typography>
                   {transactionHistory.map((txHash, index) => (
                     <Typography key={txHash}>
@@ -293,7 +350,7 @@ const TransferNFT: React.FC = () => {
               )}
 
               {transferState.error && (
-                <Alert severity="error">
+                <Alert severity="error" sx={{ mt: 2 }}>
                   <Typography>{transferState.error}</Typography>
                 </Alert>
               )}
