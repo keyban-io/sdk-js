@@ -1,5 +1,9 @@
 import type React from "react";
-import { useRef } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { format } from "date-fns";
 
@@ -9,6 +13,7 @@ import {
   useKeybanClient,
 } from "@keyban/sdk-react";
 import {
+  Button,
   Paper,
   Stack,
   Table,
@@ -69,25 +74,51 @@ interface Transfer {
 
 interface TransferListProps {
   pageSize?: number;
-  currentPage?: number;
 }
 
-const TransferList: React.FC<TransferListProps> = ({
-  pageSize = 50,
-  currentPage = 1,
-}) => {
+const TransferList: React.FC<TransferListProps> = () => {
   const theme = useTheme();
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [transferHistory, transferHistoryError] =
+  const [transferHistory, transferHistoryError, { fetchMore }] =
     useKeybanAccountTransferHistory(account);
   if (transferHistoryError) throw transferHistoryError;
-  console.log("transferHistory", transferHistory);
 
+  const [transfers, setTransfers] = useState<Transfer[]>([]);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [endCursor, setEndCursor] = useState<string | null>(null);
   const lastTransferRef = useRef<HTMLTableRowElement | null>(null);
 
   const client = useKeybanClient();
+
+  useEffect(() => {
+    if (transferHistory) {
+      setTransfers(
+        transferHistory.edges
+          .map((edge) => edge.node)
+          .filter((node): node is Transfer => node !== null),
+      );
+      setHasNextPage(transferHistory.pageInfo.hasNextPage);
+      setEndCursor(transferHistory.pageInfo.endCursor);
+    }
+  }, [transferHistory]);
+
+  const loadMoreTransfers = async () => {
+    if (hasNextPage && endCursor) {
+      await fetchMore();
+      if (transferHistory) {
+        setTransfers((prevTransfers) => [
+          ...prevTransfers,
+          ...transferHistory.edges
+            .map((edge) => edge.node)
+            .filter((node): node is Transfer => node !== null),
+        ]);
+        setHasNextPage(transferHistory.pageInfo.hasNextPage);
+        setEndCursor(transferHistory.pageInfo.endCursor);
+      }
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -147,13 +178,8 @@ const TransferList: React.FC<TransferListProps> = ({
   // };
 
   const formatTransactionFee = (fee: string) => {
-    // Convert the "fee" string to BigInt
     const feeInWei = BigInt(fee);
-
-    // Get the value in native currency using BigInt to avoid precision loss
     const feeInNative = Number(feeInWei) / 10 ** client.nativeCurrency.decimals;
-
-    // Format the value using a maximum number of decimal places
     const formattedFee = feeInNative.toLocaleString(navigator.language, {
       minimumFractionDigits: 8,
       maximumFractionDigits: 18,
@@ -204,11 +230,6 @@ const TransferList: React.FC<TransferListProps> = ({
     return transfer.type;
   };
 
-  const paginatedTransfers = transferHistory?.edges.slice(
-    0,
-    currentPage * pageSize,
-  );
-
   return (
     <Stack spacing={2}>
       <TableContainer component={Paper}>
@@ -223,37 +244,32 @@ const TransferList: React.FC<TransferListProps> = ({
               <TableCell align="center">Crypto</TableCell>
               <TableCell align="center">Asset Type</TableCell>
               <TableCell align="center">Transaction Fee</TableCell>
-              {/* <TableCell align="center">Confirmations</TableCell> */}
               <TableCell align="center">Transaction Hash</TableCell>
               <TableCell align="center">Gas Used</TableCell>
               <TableCell align="center">Gas Price</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedTransfers?.map((transfer, index) => {
-              const status = getStatus(transfer?.node);
-              const amount = formatAmount(transfer.node);
-              const date = transfer?.node?.transaction?.date
-                ? formatDate(transfer.node.transaction?.date)
+            {transfers.map((transfer, index) => {
+              const status = getStatus(transfer);
+              const amount = formatAmount(transfer);
+              const date = transfer?.transaction?.date
+                ? formatDate(transfer.transaction?.date)
                 : "Unknown";
-              // const gasPrice = formatGasPrice(transaction.node.gasPrice);
               const transactionFee = formatTransactionFee(
-                transfer?.node?.transaction?.fees ?? "0",
+                transfer?.transaction?.fees ?? "0",
               );
 
               let indexerUrl = "";
               try {
-                indexerUrl = getIndexerUrl(
-                  client.chain,
-                  transfer.node?.id ?? "",
-                );
+                indexerUrl = getIndexerUrl(client.chain, transfer.id ?? "");
               } catch (error) {
                 console.error("Error generating indexer URL:", error);
               }
 
               return (
                 <TableRow
-                  key={transfer.node?.id}
+                  key={transfer.id}
                   hover
                   sx={{
                     "&:hover": {
@@ -261,28 +277,22 @@ const TransferList: React.FC<TransferListProps> = ({
                         "var(--table-row-hover-background-color)",
                     },
                   }}
-                  ref={
-                    index === paginatedTransfers.length - 1
-                      ? lastTransferRef
-                      : null
-                  }
+                  ref={index === transfers.length - 1 ? lastTransferRef : null}
                 >
                   <TableCell align="center">{date}</TableCell>
                   <TableCell align="center">
-                    <Tooltip title={transfer?.node?.from?.id} arrow>
+                    <Tooltip title={transfer?.from?.id} arrow>
                       <Typography variant="body2" noWrap>
-                        {transfer?.node?.from?.id
-                          ? shortenAddress(transfer.node.from.id)
+                        {transfer?.from?.id
+                          ? shortenAddress(transfer.from.id)
                           : ""}
                       </Typography>
                     </Tooltip>
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title={transfer.node?.to?.id ?? ""} arrow>
+                    <Tooltip title={transfer.to?.id ?? ""} arrow>
                       <Typography variant="body2" noWrap>
-                        {transfer.node?.to?.id
-                          ? shortenAddress(transfer.node.to.id)
-                          : ""}
+                        {transfer.to?.id ? shortenAddress(transfer.to.id) : ""}
                       </Typography>
                     </Tooltip>
                   </TableCell>
@@ -296,21 +306,12 @@ const TransferList: React.FC<TransferListProps> = ({
                   </TableCell>
                   <TableCell align="center">{amount}</TableCell>
                   <TableCell align="center">
-                    {getCryptoDisplay(transfer.node)}
+                    {getCryptoDisplay(transfer)}
                   </TableCell>
-                  <TableCell align="center">
-                    {getAssetType(transfer.node)}
-                  </TableCell>
-
+                  <TableCell align="center">{getAssetType(transfer)}</TableCell>
                   <TableCell align="center">{transactionFee}</TableCell>
-                  {/* <TableCell align="center">
-                    {transaction.confirmations}
-                  </TableCell> */}
                   <TableCell align="center">
-                    <Tooltip
-                      title={getTxHash(transfer.node?.id)?.txHash ?? null}
-                      arrow
-                    >
+                    <Tooltip title={getTxHash(transfer.id).txHash ?? ""} arrow>
                       <div>
                         {indexerUrl ? (
                           <Typography
@@ -325,31 +326,23 @@ const TransferList: React.FC<TransferListProps> = ({
                               color: theme.palette.primary.main,
                             }}
                           >
-                            {transfer.node?.id
-                              ? shortenAddress(
-                                  getTxHash(transfer.node.id).txHash,
-                                  6,
-                                )
+                            {transfer.id
+                              ? shortenAddress(getTxHash(transfer.id).txHash, 6)
                               : ""}
                           </Typography>
                         ) : (
                           <Typography variant="body2" noWrap>
-                            {transfer.node?.id
-                              ? shortenAddress(
-                                  getTxHash(transfer.node.id).txHash,
-                                  6,
-                                )
-                              : ""}
+                            {transfer.id ? shortenAddress(transfer.id, 6) : ""}
                           </Typography>
                         )}
                       </div>
                     </Tooltip>
                   </TableCell>
                   <TableCell align="center">
-                    {transfer.node?.transaction?.gasUsed}
+                    {transfer.transaction?.gasUsed}
                   </TableCell>
                   <TableCell align="center">
-                    {transfer.node?.transaction?.gasPrice}
+                    {transfer.transaction?.gasPrice}
                   </TableCell>
                 </TableRow>
               );
@@ -357,6 +350,15 @@ const TransferList: React.FC<TransferListProps> = ({
           </TableBody>
         </Table>
       </TableContainer>
+      {hasNextPage && (
+        <Button
+          variant="contained"
+          onClick={loadMoreTransfers}
+          sx={{ alignSelf: "center", marginTop: 2 }}
+        >
+          Load More
+        </Button>
+      )}
     </Stack>
   );
 };
