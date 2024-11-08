@@ -147,16 +147,14 @@ const TransferList: React.FC<TransferListProps> = ({
   // };
 
   const formatTransactionFee = (fee: string) => {
-    console.log("transfer fee", fee);
-
-    // Convertir la chaîne "fee" en BigInt
+    // Convert the "fee" string to BigInt
     const feeInWei = BigInt(fee);
 
-    // Obtenir la valeur en devise native en utilisant BigInt pour éviter la perte de précision
+    // Get the value in native currency using BigInt to avoid precision loss
     const feeInNative = Number(feeInWei) / 10 ** client.nativeCurrency.decimals;
 
-    // Formater la valeur en utilisant un maximum de chiffres après la virgule
-    const formattedFee = feeInNative.toLocaleString("fr-FR", {
+    // Format the value using a maximum number of decimal places
+    const formattedFee = feeInNative.toLocaleString(navigator.language, {
       minimumFractionDigits: 8,
       maximumFractionDigits: 18,
     });
@@ -224,11 +222,11 @@ const TransferList: React.FC<TransferListProps> = ({
               <TableCell align="center">Amount</TableCell>
               <TableCell align="center">Crypto</TableCell>
               <TableCell align="center">Asset Type</TableCell>
-              {/* <TableCell align="center">Gas Price</TableCell>
-              <TableCell align="center">Gas Used</TableCell> */}
               <TableCell align="center">Transaction Fee</TableCell>
               {/* <TableCell align="center">Confirmations</TableCell> */}
               <TableCell align="center">Transaction Hash</TableCell>
+              <TableCell align="center">Gas Used</TableCell>
+              <TableCell align="center">Gas Price</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -303,8 +301,7 @@ const TransferList: React.FC<TransferListProps> = ({
                   <TableCell align="center">
                     {getAssetType(transfer.node)}
                   </TableCell>
-                  {/* <TableCell align="center">{gasPrice}</TableCell> */}
-                  {/* <TableCell align="center">{transaction.gasUsed}</TableCell> */}
+
                   <TableCell align="center">{transactionFee}</TableCell>
                   {/* <TableCell align="center">
                     {transaction.confirmations}
@@ -347,6 +344,12 @@ const TransferList: React.FC<TransferListProps> = ({
                         )}
                       </div>
                     </Tooltip>
+                  </TableCell>
+                  <TableCell align="center">
+                    {transfer.node?.transaction?.gasUsed}
+                  </TableCell>
+                  <TableCell align="center">
+                    {transfer.node?.transaction?.gasPrice}
                   </TableCell>
                 </TableRow>
               );
