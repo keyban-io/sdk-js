@@ -7,6 +7,7 @@ import { useSuspenseQuery } from "@apollo/client";
 import {
   type Address,
   type KeybanAccount,
+  PaginationArgs,
   SdkError,
   SdkErrorTypes,
 } from "@keyban/sdk-base";
@@ -81,7 +82,10 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
+export function useKeybanAccountTokenBalances(
+  { address }: KeybanAccount,
+  options?: PaginationArgs,
+) {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -90,7 +94,7 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
     walletTokenBalancesDocument,
     {
       client: client.apolloClient,
-      variables: { walletId: address },
+      variables: { walletId: address, ...options },
     },
   );
 
@@ -141,7 +145,10 @@ export function useKeybanAccountTokenBalances({ address }: KeybanAccount) {
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountNfts({ address }: KeybanAccount) {
+export function useKeybanAccountNfts(
+  { address }: KeybanAccount,
+  options?: PaginationArgs,
+) {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -150,7 +157,7 @@ export function useKeybanAccountNfts({ address }: KeybanAccount) {
     walletNftsDocument,
     {
       client: client.apolloClient,
-      variables: { walletId: address },
+      variables: { walletId: address, ...options },
     },
   );
 
@@ -239,7 +246,10 @@ export function useKeybanAccountNft(
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountTransferHistory({ address }: KeybanAccount) {
+export function useKeybanAccountTransferHistory(
+  { address }: KeybanAccount,
+  options?: PaginationArgs,
+) {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -251,6 +261,7 @@ export function useKeybanAccountTransferHistory({ address }: KeybanAccount) {
       variables: {
         walletId: address,
         orderBy: GqlAssetTransfersOrderBy.BLOCK_NUMBER_DESC,
+        ...options,
       },
     },
   );

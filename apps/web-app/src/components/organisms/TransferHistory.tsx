@@ -38,7 +38,6 @@ export default function TransferHistory() {
           </tr>
         </thead>
         <tbody>
-          <SerializedValue value={transactionHistory?.edges} data-test-id="TransferHistory:raw" />
           {transactionHistory?.edges.map(({ cursor, node }) => (
             <tr key={cursor}>
               <td>
@@ -64,7 +63,6 @@ export default function TransferHistory() {
         <span>Count:</span>
         <SerializedValue
           value={transactionHistory?.totalCount}
-          style={{ flexGrow: 1 }}
           data-test-id="TransferHistory:count"
         />
         <button
@@ -74,6 +72,11 @@ export default function TransferHistory() {
           Fetch more
         </button>
       </Row>
+
+      <SerializedValue
+        value={transactionHistory?.edges}
+        data-test-id="TransferHistory:raw"
+      />
     </fieldset>
   );
 }

@@ -1,8 +1,4 @@
-import type {
-  Chain,
-  PublicClient,
-  Transport,
-} from "viem";
+import type { Chain, PublicClient, Transport } from "viem";
 import {
   createPublicClient,
   createWalletClient,
@@ -14,22 +10,12 @@ import {
   parseSignature,
   serializeTransaction,
 } from "viem";
-import {
-  publicKeyToAddress,
-  toAccount,
-} from "viem/accounts";
+import { publicKeyToAddress, toAccount } from "viem/accounts";
 import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
-import {
-  signersChainMap,
-  viemChainsMap,
-} from "~/chains";
-import {
-  SdkError,
-  SdkErrorTypes,
-  StorageError,
-} from "~/errors";
+import { signersChainMap, viemChainsMap } from "~/chains";
+import { SdkError, SdkErrorTypes, StorageError } from "~/errors";
 import {
   walletAssetTransfersDocument,
   walletBalanceDocument,
@@ -37,10 +23,7 @@ import {
   walletNftsDocument,
   walletTokenBalancesDocument,
 } from "~/graphql";
-import {
-  type Address,
-  KeybanChain,
-} from "~/index";
+import { type Address, KeybanChain } from "~/index";
 import type { IKeybanSigner } from "~/signer";
 import type { IKeybanStorage } from "~/storage";
 import { parseJwt } from "~/utils/jwt";
@@ -65,7 +48,7 @@ export type KeybanClientConfig = {
   storage: new () => IKeybanStorage;
 };
 
-type Pagination = {
+export type PaginationArgs = {
   first?: number;
   after?: string;
 };
@@ -250,7 +233,7 @@ export class KeybanClient {
     })();
 
     this.#pendingAccounts.set(sub, promise);
-    promise.catch(() => { }).finally(() => this.#pendingAccounts.delete(sub));
+    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
 
     return promise;
   }
@@ -280,7 +263,7 @@ export class KeybanClient {
   /**
    * @returns - An account balance in ERC20 tokens.
    */
-  async getTokenBalances(address: Address, pagination?: Pagination) {
+  async getTokenBalances(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
@@ -299,7 +282,7 @@ export class KeybanClient {
   /**
    * @returns - ERC721 and ERC1155 tokens of the account.
    */
-  async getNfts(address: Address, pagination?: Pagination) {
+  async getNfts(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
       throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNfts");
     }
@@ -315,7 +298,7 @@ export class KeybanClient {
   /**
    * @returns - The account transaction history for native currency, tokens and Nfts.
    */
-  async getTransferHistory(address: Address, pagination?: Pagination) {
+  async getTransferHistory(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,

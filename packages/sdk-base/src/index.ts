@@ -9,7 +9,7 @@ export {
 } from "./account";
 export { KeybanApiStatus } from "./api";
 export { KeybanChain } from "./chains";
-export { KeybanClient, KeybanClientConfig } from "./client";
+export { KeybanClient, KeybanClientConfig, PaginationArgs } from "./client";
 export { IKeybanSigner, KeybanSigner } from "./signer";
 export { SdkError, SdkErrorTypes } from "./errors";
 export { IKeybanStorage } from "./storage";
