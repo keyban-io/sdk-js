@@ -343,7 +343,7 @@ export class KeybanAccount implements KeybanAccount {
           case err.cause.cause instanceof EstimateGasExecutionError:
             throw new SdkError(
               SdkErrorTypes.InsufficientFunds,
-              "KeybanAccount.transfer",
+              "KeybanAccount.transferERC20",
             );
 
           default:
