@@ -13,7 +13,6 @@ import {
   useKeybanClient,
 } from "@keyban/sdk-react";
 import {
-  Button,
   Paper,
   Stack,
   Table,
@@ -60,7 +59,7 @@ interface Transfer {
   nft: {
     id: string;
     tokenId: string;
-    metadata: any;
+    metadata: Record<string, unknown>;
     collection: {
       id: string;
       type: string | null;
@@ -74,55 +73,83 @@ interface Transfer {
 
 interface TransferListProps {
   pageSize?: number;
-  disableLoadMore?: boolean; // Nouveau prop pour désactiver le "Load More"
+  disableInfiniteScroll?: boolean; // Prop pour désactiver le défilement infini
 }
 
 const TransferList: React.FC<TransferListProps> = ({
   pageSize = 20,
-  disableLoadMore = false,
+  disableInfiniteScroll = false,
 }) => {
   const theme = useTheme();
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [transferHistory, transferHistoryError, { fetchMore }] =
-    useKeybanAccountTransferHistory(account, { first: pageSize });
-  if (transferHistoryError) throw transferHistoryError;
-
   const [transfers, setTransfers] = useState<Transfer[]>([]);
   const [hasNextPage, setHasNextPage] = useState(false);
-  const [endCursor, setEndCursor] = useState<string | null>(null);
+  const observer = useRef<IntersectionObserver | null>(null);
   const lastTransferRef = useRef<HTMLTableRowElement | null>(null);
 
   const client = useKeybanClient();
 
+  const [transferHistory, transferHistoryError, { fetchMore, loading }] =
+    useKeybanAccountTransferHistory(account, { first: pageSize });
+  if (transferHistoryError) throw transferHistoryError;
+
   useEffect(() => {
     if (transferHistory) {
-      setTransfers(
-        transferHistory.edges
-          .map((edge) => edge.node)
-          .filter((node): node is Transfer => node !== null),
-      );
       setHasNextPage(transferHistory.pageInfo.hasNextPage);
-      setEndCursor(transferHistory.pageInfo.endCursor);
+
+      setTransfers((prevTransfers) => {
+        // Concaténer les nouveaux transferts aux précédents
+        const newTransfers = transferHistory.edges
+          .map((edge) => edge.node)
+          .filter((node): node is Transfer => node !== null);
+
+        // Éviter les duplications en vérifiant les IDs
+        const existingIds = new Set(prevTransfers.map((t) => t.id));
+        const combinedTransfers = [
+          ...prevTransfers,
+          ...newTransfers.filter((t) => !existingIds.has(t.id)),
+        ];
+
+        return combinedTransfers;
+      });
     }
   }, [transferHistory]);
 
-  const loadMoreTransfers = async () => {
-    if (hasNextPage && endCursor) {
-      await fetchMore();
-      if (transferHistory) {
-        setTransfers((prevTransfers) => [
-          ...prevTransfers,
-          ...transferHistory.edges
-            .map((edge) => edge.node)
-            .filter((node): node is Transfer => node !== null),
-        ]);
-        setHasNextPage(transferHistory.pageInfo.hasNextPage);
-        setEndCursor(transferHistory.pageInfo.endCursor);
+  useEffect(() => {
+    const loadMoreTransfers = async () => {
+      if (hasNextPage) {
+        await fetchMore();
+        // `transferHistory` sera mis à jour automatiquement
       }
+    };
+
+    if (disableInfiniteScroll || loading) return;
+
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(
+      async (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          await loadMoreTransfers();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "200px",
+        threshold: 0,
+      },
+    );
+
+    if (lastTransferRef.current) {
+      observer.current.observe(lastTransferRef.current);
     }
-  };
+
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, [fetchMore, hasNextPage, loading, disableInfiniteScroll]);
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -175,11 +202,6 @@ const TransferList: React.FC<TransferListProps> = ({
     if (from?.id?.toLowerCase() === accountAddress) return "Sent";
     return "Unknown";
   };
-
-  // const formatGasPrice = (gasPrice: string) => {
-  //   const gasPriceInGwei = Number.parseInt(gasPrice) / 1e9;
-  //   return `${gasPriceInGwei.toFixed(2)} Gwei`;
-  // };
 
   const formatTransactionFee = (fee: string) => {
     const feeInWei = BigInt(fee);
@@ -271,6 +293,8 @@ const TransferList: React.FC<TransferListProps> = ({
                 console.error("Error generating indexer URL:", error);
               }
 
+              const isLastItem = index === transfers.length - 1;
+
               return (
                 <TableRow
                   key={transfer.id}
@@ -281,7 +305,11 @@ const TransferList: React.FC<TransferListProps> = ({
                         "var(--table-row-hover-background-color)",
                     },
                   }}
-                  ref={index === transfers.length - 1 ? lastTransferRef : null}
+                  ref={
+                    !disableInfiniteScroll && isLastItem
+                      ? lastTransferRef
+                      : null
+                  }
                 >
                   <TableCell align="center">{date}</TableCell>
                   <TableCell align="center">
@@ -354,15 +382,6 @@ const TransferList: React.FC<TransferListProps> = ({
           </TableBody>
         </Table>
       </TableContainer>
-      {hasNextPage && !disableLoadMore && (
-        <Button
-          variant="contained"
-          onClick={loadMoreTransfers}
-          sx={{ alignSelf: "center", marginTop: 2 }}
-        >
-          Load More
-        </Button>
-      )}
     </Stack>
   );
 };
