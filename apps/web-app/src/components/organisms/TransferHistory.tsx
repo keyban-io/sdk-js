@@ -1,5 +1,8 @@
+import React from "react";
+
 import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
+import TextField from "@/components/molecules/TextField";
 import {
   useKeybanAccount,
   useKeybanAccountTransferHistory,
@@ -11,8 +14,10 @@ export default function TransferHistory() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
+  const [pageSize, setPageSize] = React.useState("10");
+
   const [transactionHistory, transactionHistoryError, { refresh, fetchMore }] =
-    useKeybanAccountTransferHistory(account);
+    useKeybanAccountTransferHistory(account, { first: Number(pageSize) });
   if (transactionHistoryError) throw transactionHistoryError;
 
   return (
@@ -26,7 +31,7 @@ export default function TransferHistory() {
         />
       </legend>
 
-      <table>
+      <table data-test-id="TransferHistory:table">
         <thead>
           <tr>
             <td>Block</td>
@@ -68,9 +73,19 @@ export default function TransferHistory() {
         <button
           onClick={fetchMore}
           disabled={!transactionHistory?.pageInfo.hasNextPage}
+          data-test-id="TransferHistory:fetchMoreButton"
         >
           Fetch more
         </button>
+
+        <div style={{ flexGrow: 1 }} />
+
+        <TextField
+          type="number"
+          value={pageSize}
+          onChange={(value) => setPageSize(value)}
+          data-test-id="TransferHistory:pageSizeInput"
+        />
       </Row>
 
       <SerializedValue
