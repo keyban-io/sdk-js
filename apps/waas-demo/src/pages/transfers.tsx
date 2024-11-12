@@ -22,7 +22,7 @@ const TransferPage: React.FC = () => {
       <Typography variant="h6" align="center">
         Transfer List
       </Typography>
-      <TransferList pageSize={15} />
+      <TransferList pageSize={10} />
       <div
         style={{
           position: "sticky",

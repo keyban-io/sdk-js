@@ -89,7 +89,7 @@ const WalletDashboardContent: React.FC = () => {
         <NFTSection />
         <Divider />
         <Typography variant="h6">Last Transfers</Typography>
-        <TransferList pageSize={5} />
+        <TransferList pageSize={5} disableLoadMore={true} />
         <Button variant="contained" onClick={handleViewTransactions}>
           View all Transactions...
         </Button>

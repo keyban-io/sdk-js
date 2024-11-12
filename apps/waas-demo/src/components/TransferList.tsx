@@ -74,15 +74,19 @@ interface Transfer {
 
 interface TransferListProps {
   pageSize?: number;
+  disableLoadMore?: boolean; // Nouveau prop pour désactiver le "Load More"
 }
 
-const TransferList: React.FC<TransferListProps> = () => {
+const TransferList: React.FC<TransferListProps> = ({
+  pageSize = 20,
+  disableLoadMore = false,
+}) => {
   const theme = useTheme();
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
   const [transferHistory, transferHistoryError, { fetchMore }] =
-    useKeybanAccountTransferHistory(account);
+    useKeybanAccountTransferHistory(account, { first: pageSize });
   if (transferHistoryError) throw transferHistoryError;
 
   const [transfers, setTransfers] = useState<Transfer[]>([]);
@@ -350,7 +354,7 @@ const TransferList: React.FC<TransferListProps> = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {hasNextPage && (
+      {hasNextPage && !disableLoadMore && (
         <Button
           variant="contained"
           onClick={loadMoreTransfers}
