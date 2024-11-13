@@ -52,8 +52,12 @@ const WalletDashboardContent: React.FC = () => {
     navigate("/transfer-native-crypto");
   };
 
-  const handleViewTransactions = () => {
+  const handleViewTransfers = () => {
     navigate("/transfers");
+  };
+
+  const handleViewTokens = () => {
+    navigate("/tokens");
   };
 
   if (loading) {
@@ -84,14 +88,18 @@ const WalletDashboardContent: React.FC = () => {
           onSend={handleTransferCrypto}
         />{" "}
         <Divider />
-        <TokensSection />
+        <Typography variant="h4">Tokens with Recent Transactions</Typography>
+        <TokensSection pageSize={5} disableInfiniteScroll />
+        <Button variant="contained" onClick={handleViewTokens}>
+          View all Tokens...
+        </Button>
         <Divider />
         <NFTSection />
         <Divider />
-        <Typography variant="h6">Last Transfers</Typography>
+        <Typography variant="h4">Latest Transfers</Typography>
         <TransferList pageSize={5} disableInfiniteScroll />
-        <Button variant="contained" onClick={handleViewTransactions}>
-          View all Transactions...
+        <Button variant="contained" onClick={handleViewTransfers}>
+          View all Transfers...
         </Button>
       </Stack>
     </>

@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import TransferList from "../components/TransferList";
+import TokensSection from "../components/TokensSection";
 
 const TransferPage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,9 +20,9 @@ const TransferPage: React.FC = () => {
   return (
     <Stack direction="column" spacing={4}>
       <Typography variant="h4" align="center">
-        Transfer History
+        Tokens
       </Typography>
-      <TransferList pageSize={10} />
+      <TokensSection pageSize={2} />
       <div
         style={{
           position: "sticky",

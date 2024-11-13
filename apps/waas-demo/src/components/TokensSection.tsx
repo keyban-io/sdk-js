@@ -1,6 +1,11 @@
 import type React from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-import { useNavigate } from "react-router-dom"; // Ajout pour la navigation
+import { useNavigate } from "react-router-dom";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,15 +24,85 @@ import {
   Typography,
 } from "@mui/material";
 
-const TokensSection: React.FC = () => {
-  const navigate = useNavigate(); // Hook de navigation
+interface TokensSectionProps {
+  pageSize?: number;
+  disableInfiniteScroll?: boolean;
+}
+
+const TokensSection: React.FC<TokensSectionProps> = ({
+  pageSize = 20,
+  disableInfiniteScroll = false,
+}) => {
+  const navigate = useNavigate();
 
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [tokenBalances, tokenBalancesError] =
-    useKeybanAccountTokenBalances(account);
+  const [tokens, setTokens] = useState<KeybanTokenBalance[]>([]);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastTokenRef = useRef<HTMLDivElement | null>(null);
+
+  const [tokenBalances, tokenBalancesError, { fetchMore, loading }] =
+    useKeybanAccountTokenBalances(account, { first: pageSize });
   if (tokenBalancesError) throw tokenBalancesError;
+
+  useEffect(() => {
+    if (tokenBalances) {
+      setHasNextPage(tokenBalances.pageInfo.hasNextPage);
+
+      setTokens((prevTokens) => {
+        const newTokens = tokenBalances.edges
+          .map((edge) => edge.node)
+          .filter(
+            (node): node is KeybanTokenBalance =>
+              node !== null && node.token !== null,
+          );
+
+        // Éviter les duplications en vérifiant les IDs
+        const existingIds = new Set(prevTokens.map((t) => t.id));
+        const combinedTokens = [
+          ...prevTokens,
+          ...newTokens.filter((t) => !existingIds.has(t.id)),
+        ];
+
+        return combinedTokens;
+      });
+    }
+  }, [tokenBalances]);
+
+  useEffect(() => {
+    if (disableInfiniteScroll || loading) return;
+
+    const loadMoreTokens = async () => {
+      if (hasNextPage) {
+        await fetchMore();
+      }
+    };
+
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(
+      async (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          await loadMoreTokens();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "200px",
+        threshold: 0,
+      },
+    );
+
+    if (lastTokenRef.current) {
+      observer.current.observe(lastTokenRef.current);
+    }
+
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, [fetchMore, hasNextPage, loading, disableInfiniteScroll]);
 
   const handleSend = ({ token }: KeybanTokenBalance) => {
     navigate("/transfer-erc20", {
@@ -38,52 +113,58 @@ const TokensSection: React.FC = () => {
   return (
     <Stack direction="column" spacing={2}>
       {/* Afficher un message si aucun token n'est présent */}
-      {!tokenBalances?.edges.length ? (
+      {!tokens.length ? (
         <Alert severity="info">
           <Typography variant="h6" component="div">
             No tokens available in this account.
           </Typography>
         </Alert>
       ) : (
-        tokenBalances.edges.map(
-          ({ node }) =>
-            node?.token && (
-              <Card key={node.token.id}>
-                <CardContent>
+        tokens.map((tokenBalance, index) => {
+          const isLastItem = index === tokens.length - 1;
+          return (
+            <Card
+              key={tokenBalance.id}
+              ref={!disableInfiniteScroll && isLastItem ? lastTokenRef : null}
+            >
+              <CardContent>
+                <Stack
+                  alignItems="center"
+                  direction="row"
+                  sx={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="h5" component="div">
+                    {tokenBalance.token?.name
+                      ? tokenBalance.token.name
+                      : tokenBalance.token?.id}
+                  </Typography>
                   <Stack
-                    alignItems="center"
                     direction="row"
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "center",
                     }}
                   >
-                    <Typography variant="h5" component="div">
-                      {node.token.name ? node.token.name : node.token.id}
+                    <Typography variant="body1" component="div">
+                      {/* Afficher le solde formaté */}
+                      <FormattedBalance balance={tokenBalance} />
                     </Typography>
-                    <Stack
-                      direction="row"
-                      sx={{
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
+                    <IconButton
+                      color="primary"
+                      aria-label={`Send ${tokenBalance.token?.symbol}`}
+                      onClick={() => handleSend(tokenBalance)}
                     >
-                      <Typography variant="body1" component="div">
-                        <FormattedBalance balance={node} />
-                      </Typography>
-                      <IconButton
-                        color="primary"
-                        aria-label={`Send ${node.token.symbol}`}
-                        onClick={() => handleSend(node)} // Appelle la fonction avec l'adresse du token
-                      >
-                        <FontAwesomeIcon icon={faPaperPlane} />
-                      </IconButton>
-                    </Stack>
+                      <FontAwesomeIcon icon={faPaperPlane} />
+                    </IconButton>
                   </Stack>
-                </CardContent>
-              </Card>
-            ),
-        )
+                </Stack>
+              </CardContent>
+            </Card>
+          );
+        })
       )}
     </Stack>
   );
