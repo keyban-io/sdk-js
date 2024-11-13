@@ -56,6 +56,7 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
   });
 
   useSubscription(walletSubscriptionDocument, {
+    client: client.apolloClient,
     onData() {
       startTransition(() => {
         refetch();
