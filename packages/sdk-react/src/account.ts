@@ -299,6 +299,23 @@ export function useKeybanAccountTransferHistory(
       startTransition(() => {
         fetchMore({
           variables: { after: pageInfo.endCursor },
+          updateQuery(prevData, { fetchMoreResult }) {
+            return {
+              assetTransfers: {
+                totalCount: fetchMoreResult.assetTransfers!.totalCount,
+                pageInfo: {
+                  ...prevData.assetTransfers!.pageInfo,
+                  hasNextPage:
+                    fetchMoreResult.assetTransfers!.pageInfo.hasNextPage,
+                  endCursor: fetchMoreResult.assetTransfers!.pageInfo.endCursor,
+                },
+                edges: [
+                  ...(prevData.assetTransfers?.edges ?? []),
+                  ...(fetchMoreResult.assetTransfers?.edges ?? []),
+                ],
+              },
+            };
+          },
         });
       });
     },

@@ -84,6 +84,7 @@ export default function TransferHistory() {
 
         <TextField
           type="number"
+          label="Items per page"
           value={pageSize}
           onChange={(value) => setPageSize(value)}
           data-test-id="TransferHistory:pageSizeInput"
