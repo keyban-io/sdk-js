@@ -36,12 +36,12 @@ export default function TransferHistory() {
       <table data-test-id="TransferHistory:table">
         <thead>
           <tr>
-            <td>Block</td>
-            <td>Date</td>
-            <td>From</td>
-            <td>To</td>
-            <td>Value</td>
-            <td>Type</td>
+            <th>Block</th>
+            <th>Date</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Value</th>
+            <th>Type</th>
           </tr>
         </thead>
         <tbody>
@@ -59,19 +59,30 @@ export default function TransferHistory() {
               <td>
                 <code>{node?.to?.id}</code>
               </td>
-              <td>{node?.value}</td>
-              <td>{node?.type}</td>
+              <td
+                style={{
+                  fontVariantNumeric: "tabular-nums",
+                  textAlign: "right",
+                }}
+              >
+                {node?.value}
+              </td>
+              <td>
+                <code>{node?.type}</code>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
       <Row>
-        <span>Count:</span>
-        <SerializedValue
+        <TextField
+          label="Total"
           value={transactionHistory?.totalCount}
-          data-test-id="TransferHistory:count"
+          disabled
+          data-test-id="TransferHistory:totalCount"
         />
+
         <button
           onClick={fetchMore}
           disabled={!transactionHistory?.pageInfo.hasNextPage}

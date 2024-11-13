@@ -25,31 +25,32 @@ table {
   border-collapse: separate;
   border-spacing: 0;
   border-radius: var(--border-radius);
+  min-width: 100%;
 }
 
-table thead td:first-child {
+table thead :is(td, th):first-child {
   border-top-left-radius: var(--border-radius);
 }
-table thead td:last-child {
+table thead :is(td, th):last-child {
   border-top-right-radius: var(--border-radius);
 }
-table tbody tr:last-child td:first-child {
+table tbody tr:last-child :is(td, th):first-child {
   border-bottom-left-radius: var(--border-radius);
 }
-table tbody tr:last-child td:last-child {
+table tbody tr:last-child :is(td, th):last-child {
   border-bottom-right-radius: var(--border-radius);
 }
 
-td:not(:first-child) {
+:is(td, th):not(:first-child) {
   border-left: var(--border);
 }
-tr:not(:last-child) td {
+tr:not(:last-child) :is(td, th) {
   border-bottom: var(--border);
 }
-thead tr:last-child td {
+thead tr:last-child :is(td, th) {
   border-bottom: var(--border);
 }
 
-td {
+:is(td, th) {
   padding-inline: 0.2em;
 }

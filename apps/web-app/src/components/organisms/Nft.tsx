@@ -1,6 +1,8 @@
-import RefreshButton from "@/components/atoms/RefreshButton";
+import React from "react";
+
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
+import TextField from "@/components/molecules/TextField";
 import {
   useKeybanAccount,
   useKeybanAccountNfts,
@@ -10,69 +12,81 @@ export default function Nft() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [nftBalances, nftsError, { refresh }] = useKeybanAccountNfts(account);
+  const [pageSize, setPageSize] = React.useState("");
+
+  const [nftBalances, nftsError, { fetchMore }] = useKeybanAccountNfts(
+    account,
+    { first: Number(pageSize) || undefined },
+  );
   if (nftsError) throw nftsError;
 
   return (
     <fieldset>
-      <legend>
-        NFT
-        <RefreshButton
-          onClick={refresh}
-          style={{ marginInlineStart: "0.5ch" }}
-          data-test-id="Nft:refresh"
-        />
-      </legend>
+      <legend>NFT</legend>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Type</th>
+            <th>Token ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {nftBalances?.edges.map(
+            ({ cursor, node }) =>
+              node && (
+                <tr
+                  key={cursor}
+                  data-test-id={`Nft:collection:${node.nft?.collection?.id}:${node.nft?.tokenId}`}
+                >
+                  <th data-test-id="Nft:collection:name">
+                    {node.nft?.collection?.name}
+                  </th>
+                  <td data-test-id="Nft:collection:address">
+                    <code>{node.nft?.collection?.id}</code>
+                  </td>
+                  <td data-test-id="Nft:collection:type">
+                    <code>{node.nft?.collection?.type}</code>
+                  </td>
+                  <td data-test-id="Nft:nft:tokenId">
+                    <code>{node.nft?.tokenId}</code>
+                  </td>
+                </tr>
+              ),
+          )}
+        </tbody>
+      </table>
 
       <Row>
-        <span>Count:</span>
-        <SerializedValue
+        <TextField
+          label="Total"
           value={nftBalances?.totalCount}
-          style={{ flexGrow: 1 }}
-          data-test-id="Nft:count"
+          disabled
+          data-test-id="Nft:totalCount"
+        />
+
+        <button
+          onClick={fetchMore}
+          disabled={!nftBalances?.pageInfo.hasNextPage}
+          data-test-id="Nft:fetchMoreButton"
+        >
+          Fetch more
+        </button>
+
+        <div style={{ flexGrow: 1 }} />
+
+        <TextField
+          type="number"
+          label="Items per page"
+          value={pageSize}
+          onChange={(value) => setPageSize(value)}
+          data-test-id="Nft:pageSizeInput"
         />
       </Row>
 
-      {nftBalances?.edges.map(
-        ({ cursor, node }) =>
-          node && (
-            <fieldset
-              key={cursor}
-              data-test-id={`Nft:collection:${node.nft?.collection?.id}:${node.nft?.tokenId}`}
-            >
-              <legend>{node.nft?.collection?.name}</legend>
-
-              <Row>
-                <span>Address:</span>
-                <SerializedValue
-                  value={node.nft?.collection?.id}
-                  style={{ flexGrow: 1 }}
-                  data-test-id="Nft:collection:address"
-                />
-              </Row>
-
-              <Row>
-                <span>Type:</span>
-                <SerializedValue
-                  value={node.nft?.collection?.type}
-                  style={{ flexGrow: 1 }}
-                  data-test-id="Nft:collection:type"
-                />
-              </Row>
-
-              <Row>
-                <span>ID:</span>
-                <SerializedValue
-                  value={node.nft?.tokenId}
-                  style={{ flexGrow: 1 }}
-                  data-test-id="Nft:nft:id"
-                />
-              </Row>
-
-              <SerializedValue value={node} data-test-id="Nft:raw" />
-            </fieldset>
-          ),
-      )}
+      <SerializedValue value={nftBalances?.edges} data-test-id="Nft:raw" />
     </fieldset>
   );
 }

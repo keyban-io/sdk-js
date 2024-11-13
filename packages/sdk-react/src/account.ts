@@ -96,7 +96,7 @@ export function useKeybanAccountTokenBalances(
 
   const [isPending, startTransition] = React.useTransition();
 
-  const { data, error, refetch, fetchMore, subscribeToMore } = useSuspenseQuery(
+  const { data, error, refetch, fetchMore } = useSuspenseQuery(
     walletTokenBalancesDocument,
     {
       client: client.apolloClient,
@@ -104,18 +104,15 @@ export function useKeybanAccountTokenBalances(
     },
   );
 
-  React.useEffect(
-    () =>
-      subscribeToMore({
-        document: tokenBalancesSubscriptionDocument,
-        updateQuery: (prev, { subscriptionData }) => {
-          const update = subscriptionData.data.tokenBalances;
-          if (update?._entity.wallet_id === address) refetch();
-          return prev;
-        },
-      }),
-    [subscribeToMore, address],
-  );
+  useSubscription(tokenBalancesSubscriptionDocument, {
+    client: client.apolloClient,
+    onData({ data: { data } }) {
+      if (data?.tokenBalances?._entity.wallet_id !== address) return;
+      startTransition(() => {
+        refetch();
+      });
+    },
+  });
 
   const extra = {
     loading: isPending,
@@ -131,6 +128,21 @@ export function useKeybanAccountTokenBalances(
       startTransition(() => {
         fetchMore({
           variables: { after: pageInfo.endCursor },
+          updateQuery: (prevData, { fetchMoreResult }) => ({
+            tokenBalances: {
+              totalCount: fetchMoreResult.tokenBalances!.totalCount,
+              pageInfo: {
+                ...prevData.tokenBalances!.pageInfo,
+                hasNextPage:
+                  fetchMoreResult.tokenBalances!.pageInfo.hasNextPage,
+                endCursor: fetchMoreResult.tokenBalances!.pageInfo.endCursor,
+              },
+              edges: [
+                ...(prevData.tokenBalances?.edges ?? []),
+                ...(fetchMoreResult.tokenBalances?.edges ?? []),
+              ],
+            },
+          }),
         });
       });
     },
@@ -159,7 +171,7 @@ export function useKeybanAccountNfts(
 
   const [isPending, startTransition] = React.useTransition();
 
-  const { data, error, refetch, fetchMore, subscribeToMore } = useSuspenseQuery(
+  const { data, error, refetch, fetchMore } = useSuspenseQuery(
     walletNftsDocument,
     {
       client: client.apolloClient,
@@ -167,18 +179,15 @@ export function useKeybanAccountNfts(
     },
   );
 
-  React.useEffect(
-    () =>
-      subscribeToMore({
-        document: nftBalancesSubscriptionDocument,
-        updateQuery: (prev, { subscriptionData }) => {
-          const update = subscriptionData.data.nftBalances;
-          if (update?._entity.wallet_id === address) refetch();
-          return prev;
-        },
-      }),
-    [subscribeToMore, address],
-  );
+  useSubscription(nftBalancesSubscriptionDocument, {
+    client: client.apolloClient,
+    onData({ data: { data } }) {
+      if (data?.nftBalances?._entity.wallet_id !== address) return;
+      startTransition(() => {
+        refetch();
+      });
+    },
+  });
 
   const extra = {
     loading: isPending,
@@ -194,6 +203,20 @@ export function useKeybanAccountNfts(
       startTransition(() => {
         fetchMore({
           variables: { after: pageInfo.endCursor },
+          updateQuery: (prevData, { fetchMoreResult }) => ({
+            nftBalances: {
+              totalCount: fetchMoreResult.nftBalances!.totalCount,
+              pageInfo: {
+                ...prevData.nftBalances!.pageInfo,
+                hasNextPage: fetchMoreResult.nftBalances!.pageInfo.hasNextPage,
+                endCursor: fetchMoreResult.nftBalances!.pageInfo.endCursor,
+              },
+              edges: [
+                ...(prevData.nftBalances?.edges ?? []),
+                ...(fetchMoreResult.nftBalances?.edges ?? []),
+              ],
+            },
+          }),
         });
       });
     },
@@ -260,7 +283,7 @@ export function useKeybanAccountTransferHistory(
 
   const [isPending, startTransition] = React.useTransition();
 
-  const { data, error, refetch, fetchMore, subscribeToMore } = useSuspenseQuery(
+  const { data, error, refetch, fetchMore } = useSuspenseQuery(
     walletAssetTransfersDocument,
     {
       client: client.apolloClient,
@@ -272,24 +295,20 @@ export function useKeybanAccountTransferHistory(
     },
   );
 
-  React.useEffect(
-    () =>
-      subscribeToMore({
-        document: assetTransfersSubscriptionDocument,
-        updateQuery: (prev, { subscriptionData }) => {
-          const update = subscriptionData.data.assetTransfers;
+  useSubscription(assetTransfersSubscriptionDocument, {
+    client: client.apolloClient,
+    onData({ data: { data } }) {
+      const match = [
+        data?.assetTransfers?._entity.from_id,
+        data?.assetTransfers?._entity.to_id,
+      ].includes(address);
+      if (!match) return;
 
-          const match = [
-            update?._entity.from_id,
-            update?._entity.to_id,
-          ].includes(address);
-          if (match) refetch();
-
-          return prev;
-        },
-      }),
-    [subscribeToMore, address],
-  );
+      startTransition(() => {
+        refetch();
+      });
+    },
+  });
 
   const extra = {
     loading: isPending,
@@ -305,23 +324,21 @@ export function useKeybanAccountTransferHistory(
       startTransition(() => {
         fetchMore({
           variables: { after: pageInfo.endCursor },
-          updateQuery(prevData, { fetchMoreResult }) {
-            return {
-              assetTransfers: {
-                totalCount: fetchMoreResult.assetTransfers!.totalCount,
-                pageInfo: {
-                  ...prevData.assetTransfers!.pageInfo,
-                  hasNextPage:
-                    fetchMoreResult.assetTransfers!.pageInfo.hasNextPage,
-                  endCursor: fetchMoreResult.assetTransfers!.pageInfo.endCursor,
-                },
-                edges: [
-                  ...(prevData.assetTransfers?.edges ?? []),
-                  ...(fetchMoreResult.assetTransfers?.edges ?? []),
-                ],
+          updateQuery: (prevData, { fetchMoreResult }) => ({
+            assetTransfers: {
+              totalCount: fetchMoreResult.assetTransfers!.totalCount,
+              pageInfo: {
+                ...prevData.assetTransfers!.pageInfo,
+                hasNextPage:
+                  fetchMoreResult.assetTransfers!.pageInfo.hasNextPage,
+                endCursor: fetchMoreResult.assetTransfers!.pageInfo.endCursor,
               },
-            };
-          },
+              edges: [
+                ...(prevData.assetTransfers?.edges ?? []),
+                ...(fetchMoreResult.assetTransfers?.edges ?? []),
+              ],
+            },
+          }),
         });
       });
     },

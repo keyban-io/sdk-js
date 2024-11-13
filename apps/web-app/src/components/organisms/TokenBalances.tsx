@@ -1,6 +1,8 @@
-import RefreshButton from "@/components/atoms/RefreshButton";
+import React from "react";
+
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
+import TextField from "@/components/molecules/TextField";
 import {
   useKeybanAccount,
   useKeybanAccountTokenBalances,
@@ -10,74 +12,98 @@ export default function TokenBalances() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [tokenBalances, tokenBalancesError, { refresh }] =
-    useKeybanAccountTokenBalances(account);
+  const [pageSize, setPageSize] = React.useState("");
+
+  const [tokenBalances, tokenBalancesError, { fetchMore }] =
+    useKeybanAccountTokenBalances(account, {
+      first: Number(pageSize) || undefined,
+    });
   if (tokenBalancesError) throw tokenBalancesError;
 
   return (
     <fieldset>
-      <legend>
-        Token balances
-        <RefreshButton
-          onClick={refresh}
-          style={{ marginInlineStart: "0.5ch" }}
-          data-test-id="TokenBalances:refresh"
+      <legend>Token balances</legend>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Decimals</th>
+            <th>Balance</th>
+            <th>Symbol</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tokenBalances?.edges.map(
+            ({ cursor, node }) =>
+              node && (
+                <tr
+                  key={cursor}
+                  data-test-id={`TokenBalances:token:${node.token?.id}`}
+                >
+                  <th data-test-id="TokenBalances:name">{node.token?.name}</th>
+                  <td data-test-id="TokenBalances:address">
+                    <code>{node.token?.id}</code>
+                  </td>
+                  <td
+                    data-test-id="TokenBalances:decimals"
+                    style={{
+                      fontVariantNumeric: "tabular-nums",
+                      textAlign: "right",
+                    }}
+                  >
+                    {node.token?.decimals}
+                  </td>
+                  <td
+                    data-test-id="TokenBalances:balance"
+                    style={{
+                      fontVariantNumeric: "tabular-nums",
+                      textAlign: "right",
+                    }}
+                  >
+                    {node.balance}
+                  </td>
+                  <td data-test-id="TokenBalances:symbol">
+                    {node.token?.symbol}
+                  </td>
+                </tr>
+              ),
+          )}
+        </tbody>
+      </table>
+
+      <Row>
+        <TextField
+          label="Total"
+          value={tokenBalances?.totalCount}
+          disabled
+          data-test-id="TokenBalances:totalCount"
         />
-      </legend>
 
-      {tokenBalances?.edges.map(
-        ({ cursor, node }) =>
-          node && (
-            <fieldset
-              key={cursor}
-              data-test-id={`TokenBalances:token:${node.token?.id}`}
-            >
-              <legend>{node.token?.name}</legend>
+        <button
+          onClick={fetchMore}
+          disabled={!tokenBalances?.pageInfo.hasNextPage}
+          data-test-id="TokenBalances:fetchMoreButton"
+        >
+          Fetch more
+        </button>
 
-              <Row>
-                <span>Address:</span>
-                <SerializedValue
-                  value={node.token?.id}
-                  style={{ flexGrow: 1 }}
-                  data-test-id="TokenBalances:address"
-                />
-              </Row>
+        <div style={{ flexGrow: 1 }} />
 
-              <Row>
-                <span>Name:</span>
-                <SerializedValue
-                  value={node.token?.name}
-                  style={{ flexGrow: 1 }}
-                  data-test-id="TokenBalances:name"
-                />
-              </Row>
+        <TextField
+          type="number"
+          label="Items per page"
+          value={pageSize}
+          onChange={(value) => setPageSize(value)}
+          data-test-id="TokenBalances:pageSizeInput"
+        />
+      </Row>
 
-              <Row>
-                <span>Decimals:</span>
-                <SerializedValue
-                  value={node.token?.decimals}
-                  style={{ flexGrow: 1 }}
-                  data-test-id="TokenBalances:decimals"
-                />
-              </Row>
-
-              <Row style={{ marginBlockStart: "1em" }}>
-                <span>Balance:</span>
-
-                <SerializedValue
-                  value={node.balance}
-                  style={{ flexGrow: 1 }}
-                  data-test-id="TokenBalances:value"
-                />
-
-                <SerializedValue
-                  value={node.token?.symbol}
-                  data-test-id="TokenBalances:symbol"
-                />
-              </Row>
-            </fieldset>
-          ),
-      )}
+      <SerializedValue
+        value={tokenBalances?.edges}
+        data-test-id="TokenBalances:raw"
+      />
     </fieldset>
   );
 }
