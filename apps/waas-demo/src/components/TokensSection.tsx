@@ -75,17 +75,18 @@ const TokensSection: React.FC<TokensSectionProps> = ({
     if (disableInfiniteScroll || loading) return;
 
     const loadMoreTokens = async () => {
-      if (hasNextPage) {
+      if (hasNextPage && !loading) {
         await fetchMore();
+        // `tokenBalances` sera mis à jour automatiquement
       }
     };
 
     if (observer.current) observer.current.disconnect();
 
     observer.current = new IntersectionObserver(
-      async (entries) => {
-        if (entries[0].isIntersecting && hasNextPage) {
-          await loadMoreTokens();
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreTokens();
         }
       },
       {
