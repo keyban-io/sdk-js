@@ -15,7 +15,7 @@ export enum StorageErrorTypes {
    */
   RetrivalFailed = "RetrivalFailed",
   /**
-   *  SDK encontered an error when trying to save your share into storage.
+   *  SDK encountered an error when trying to save your share into storage.
    */
   SaveFailed = "SaveFailed",
 }
@@ -35,7 +35,7 @@ export class StorageError extends KeybanBaseError<StorageErrorTypes> {
   static #getTitle(errorType: StorageErrorTypes) {
     switch (errorType) {
       case StorageErrorTypes.SaveFailed:
-        return "SDK encontered an error when trying to save your share into storage";
+        return "SDK encountered an error when trying to save your share into storage";
       case StorageErrorTypes.RetrivalFailed:
         return "Retrival of the share from storage failed ungracefully. Storage provider might be implement incorrectly";
       case StorageErrorTypes.ConnectionError:
