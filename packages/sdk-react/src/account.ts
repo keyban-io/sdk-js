@@ -3,7 +3,10 @@ import React from "react";
 import { usePromise } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
-import { useSuspenseQuery } from "@apollo/client";
+import {
+  useSubscription,
+  useSuspenseQuery,
+} from "@apollo/client";
 import {
   type Address,
   type KeybanAccount,
@@ -45,27 +48,29 @@ export function useKeybanAccount() {
 export function useKeybanAccountBalance({ address }: KeybanAccount) {
   const client = useKeybanClient();
 
-  const { data, error, refetch, subscribeToMore } = useSuspenseQuery(
-    walletBalanceDocument,
-    {
-      client: client.apolloClient,
-      variables: { walletId: address },
+  const [isPending, startTransition] = React.useTransition();
+
+  const { data, error, refetch } = useSuspenseQuery(walletBalanceDocument, {
+    client: client.apolloClient,
+    variables: { walletId: address },
+  });
+
+  useSubscription(walletSubscriptionDocument, {
+    onData() {
+      startTransition(() => {
+        refetch();
+      });
     },
-  );
+  });
 
-  React.useEffect(
-    () =>
-      subscribeToMore({
-        document: walletSubscriptionDocument,
-        variables: { walletIds: [address] },
-        updateQuery: (_prev, { subscriptionData }) => ({
-          wallet: subscriptionData.data.wallets?._entity,
-        }),
-      }),
-    [subscribeToMore, address],
-  );
-
-  const extra = { refresh: () => refetch() };
+  const extra = {
+    loading: isPending,
+    refresh: () => {
+      startTransition(() => {
+        refetch();
+      });
+    },
+  };
 
   return error
     ? ([null, error, extra] as const)
