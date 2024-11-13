@@ -51,6 +51,16 @@ export function createApolloClient(
   );
 
   return new ApolloClient({
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "no-cache",
+        errorPolicy: "none",
+      },
+      query: {
+        fetchPolicy: "no-cache",
+        errorPolicy: "none",
+      },
+    },
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
