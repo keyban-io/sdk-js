@@ -14,10 +14,12 @@ export default function TransferHistory() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [pageSize, setPageSize] = React.useState("10");
+  const [pageSize, setPageSize] = React.useState("");
 
   const [transactionHistory, transactionHistoryError, { refresh, fetchMore }] =
-    useKeybanAccountTransferHistory(account, { first: Number(pageSize) });
+    useKeybanAccountTransferHistory(account, {
+      first: Number(pageSize) || undefined,
+    });
   if (transactionHistoryError) throw transactionHistoryError;
 
   return (
