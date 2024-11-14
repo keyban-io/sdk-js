@@ -28,8 +28,8 @@ import type { IKeybanSigner } from "~/signer";
 import type { IKeybanStorage } from "~/storage";
 import { parseJwt } from "~/utils/jwt";
 
-import { NormalizedCacheObject } from "@apollo/client/cache";
-import { ApolloClient } from "@apollo/client/core";
+import type { NormalizedCacheObject } from "@apollo/client/cache";
+import type { ApolloClient } from "@apollo/client/core";
 
 /**
  * Configuration object for the Keyban client.
@@ -48,8 +48,14 @@ export type KeybanClientConfig = {
   storage: new () => IKeybanStorage;
 };
 
+/**
+ * Arguments for paginating a collection.
+ */
 export type PaginationArgs = {
+  /** The maximum number of items to retrieve in the current page. */
   first?: number;
+
+  /** A cursor representing the starting point for the next page of items. */
   after?: string;
 };
 
