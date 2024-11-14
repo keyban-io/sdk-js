@@ -150,7 +150,7 @@ const NFTSection: React.FC<NFTSectionProps> = ({
     <div>
       {Object.keys(nftCollections).map((collectionName) => (
         <div key={collectionName} style={{ marginBottom: "2rem" }}>
-          <Typography variant="h5" component="div" sx={{ mb: 2 }}>
+          <Typography variant="h6" component="div" sx={{ mb: 2 }}>
             {collectionName}
           </Typography>
           <Grid container spacing={2} alignItems="stretch">
