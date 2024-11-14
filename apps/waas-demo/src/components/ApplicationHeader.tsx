@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import NetworkSelector from '@/components/NetworkSelector';
-import { useAuth0 } from '@auth0/auth0-react';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { KeybanChain } from '@keyban/sdk-react';
+import NetworkSelector from "@/components/NetworkSelector";
+import { useAuth0 } from "@auth0/auth0-react";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { KeybanChain } from "@keyban/sdk-react";
 import {
   AppBar,
   Avatar,
@@ -16,7 +16,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 type ApplicationHeaderProps = {
   selectedChainId: KeybanChain;
@@ -70,10 +70,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
             alignItems: "center",
           }}
         >
-          <NetworkSelector
-            selectedChainId={selectedChainId}
-            onSelectChain={onSelectChain}
-          />
+          <NetworkSelector chain={selectedChainId} onChange={onSelectChain} />
           <IconButton color="inherit" sx={{ mx: 1 }}>
             <Badge badgeContent={4} color="secondary">
               <FontAwesomeIcon icon={faBell} />
@@ -111,7 +108,6 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
             onClose={handleMenuClose}
           >
             <MenuItem onClick={() => logoutWithRedirect()}>
-              {" "}
               <Typography sx={{ textAlign: "center" }}>Logout</Typography>
             </MenuItem>
           </Menu>

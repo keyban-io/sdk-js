@@ -1,10 +1,12 @@
-import { useState } from "react";
-
 import ApplicationHeader from "@/components/ApplicationHeader";
 import config from "@/config";
+import { useLocalStorage } from "@/lib/localStorage";
 import { AppRouter } from "@/lib/router";
 import { useAuth0 } from "@auth0/auth0-react";
-import { type KeybanChain, KeybanProvider } from "@keyban/sdk-react";
+import {
+  type KeybanChain,
+  KeybanProvider,
+} from "@keyban/sdk-react";
 import {
   Box,
   Button,
@@ -17,7 +19,10 @@ import {
 export default function App() {
   const { getAccessTokenSilently } = useAuth0();
 
-  const [chain, setChain] = useState<KeybanChain>(config.keybanProvider.chain);
+  const [chain, setChain] = useLocalStorage<KeybanChain>(
+    "selectedChain",
+    config.keybanProvider.chain,
+  );
 
   const handleChainSelect = (chainId: KeybanChain) => setChain(chainId);
 
