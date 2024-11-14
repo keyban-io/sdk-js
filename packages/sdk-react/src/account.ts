@@ -3,14 +3,11 @@ import React from "react";
 import { usePromise } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
-import {
-  useSubscription,
-  useSuspenseQuery,
-} from "@apollo/client";
+import { useSubscription, useSuspenseQuery } from "@apollo/client";
 import {
   type Address,
   type KeybanAccount,
-  PaginationArgs,
+  type PaginationArgs,
   SdkError,
   SdkErrorTypes,
 } from "@keyban/sdk-base";
@@ -272,12 +269,38 @@ export function useKeybanAccountNft(
 }
 
 /**
- * Return the ERC721 and ERC1155 tokens of an account.
+ * Return the transfer history of an account.
+ *
+ * @param {KeybanAccount} param0 - An object containing the address of the Keyban account.
+ * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the transfer history.
+ * @returns {readonly [AssetTransfers | null, Error | null, Extra]} - A tuple containing:
+ * - The transfer history data or null if an error occurred.
+ * - The error object or null if no error occurred.
+ * - An extra object containing additional information and functions:
+ *   - `loading`: A boolean indicating if the data is currently being fetched.
+ *   - `refresh`: A function to manually refetch the data.
+ *   - `fetchMore`: A function to fetch more data if there are more pages available.
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [txHistory, txHistoryError, { refresh: refreshTransferHistory }] = useKeybanAccountTransferHistory(account);
+ * const [txHistory, txHistoryError, { loading, fetchMore: fetchMoreTransferHistory }] = useKeybanAccountTransferHistory(account, { first: 5 });
+
+ * if (loading) {
+ *   // Show loading state
+ * }
+ *
+ * if (txHistoryError) {
+ *   // Handle error
+ * }
+ *
+ * // Use the transfer data
+ * console.log(txHistory);
+ *
+ * // To fetch more transfer history
+ * if (txHistory && txHistory.pageInfo.hasNextPage) {
+ *   fetchMoreTransferHistory();
+ * }
  * ```
  * @see {@link useFormattedBalance}
  */
