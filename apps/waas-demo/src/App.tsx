@@ -24,8 +24,6 @@ export default function App() {
     config.keybanProvider.chain,
   );
 
-  const handleChainSelect = (chainId: KeybanChain) => setChain(chainId);
-
   const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
   const handleLogin = async () => {
@@ -86,10 +84,7 @@ export default function App() {
         </Stack>
       ) : (
         <Stack spacing={2}>
-          <ApplicationHeader
-            selectedChainId={chain}
-            onSelectChain={handleChainSelect}
-          />
+          <ApplicationHeader selectedChainId={chain} onSelectChain={setChain} />
           <KeybanProvider
             {...config.keybanProvider}
             chain={chain}
