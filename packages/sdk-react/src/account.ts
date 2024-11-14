@@ -107,7 +107,9 @@ export function useKeybanAccountTokenBalances(
   useSubscription(tokenBalancesSubscriptionDocument, {
     client: client.apolloClient,
     onData({ data: { data } }) {
-      if (data?.tokenBalances?._entity.wallet_id !== address) return;
+      // TODO: get the filter back when https://github.com/subquery/subql/issues/2590 get fixed
+      // if (data?.tokenBalances?._entity.wallet_id !== address) return;
+
       startTransition(() => {
         refetch();
       });
@@ -159,7 +161,7 @@ export function useKeybanAccountTokenBalances(
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountNfts(account);
+ * const [balance, balanceError, { refresh: refreshNfts }] = useKeybanAccountNfts(account);
  * ```
  * @see {@link useFormattedBalance}
  */
@@ -182,7 +184,9 @@ export function useKeybanAccountNfts(
   useSubscription(nftBalancesSubscriptionDocument, {
     client: client.apolloClient,
     onData({ data: { data } }) {
-      if (data?.nftBalances?._entity.wallet_id !== address) return;
+      // TODO: get the filter back when https://github.com/subquery/subql/issues/2590 get fixed
+      // if (data?.nftBalances?._entity.wallet_id !== address) return;
+
       startTransition(() => {
         refetch();
       });
@@ -233,7 +237,7 @@ export function useKeybanAccountNfts(
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountNft(account, tokenAddress, tokenId);
+ * const [balance, balanceError, { refresh: refreshNft }] = useKeybanAccountNft(account, tokenAddress, tokenId);
  * ```
  * @see {@link useFormattedBalance}
  */
@@ -271,7 +275,7 @@ export function useKeybanAccountNft(
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [txHistory, txHistoryError, { refresh: refreshBalance }] = useKeybanAccountTransferHistory(account);
+ * const [txHistory, txHistoryError, { refresh: refreshTransferHistory }] = useKeybanAccountTransferHistory(account);
  * ```
  * @see {@link useFormattedBalance}
  */
