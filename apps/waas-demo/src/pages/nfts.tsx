@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Button, Stack, Typography } from "@mui/material";
 
-import TokensSection from "../components/TokensSection";
+import NFTSection from "../components/NFTSection";
 
 const TransferPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,9 +16,9 @@ const TransferPage: React.FC = () => {
   return (
     <Stack direction="column" spacing={4}>
       <Typography variant="h5" align="center">
-        Tokens
+        NFTs
       </Typography>
-      <TokensSection pageSize={2} />
+      <NFTSection pageSize={2} />
       <div
         style={{
           position: "sticky",

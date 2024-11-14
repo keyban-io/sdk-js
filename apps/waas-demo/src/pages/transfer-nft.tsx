@@ -1,13 +1,7 @@
 import type React from "react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import TransferAlert from "@/components/TransferAlert";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -175,7 +169,7 @@ const TransferNFT: React.FC = () => {
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <Card sx={{ p: 4, boxShadow: 3 }}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           Transfer an NFT
         </Typography>
         <Divider sx={{ mb: 4 }} />

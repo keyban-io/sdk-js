@@ -1,4 +1,5 @@
 import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -37,16 +38,103 @@ interface NftMetadata {
   };
 }
 
-const NFTSection: React.FC = () => {
+interface NFTSectionProps {
+  pageSize?: number;
+  disableInfiniteScroll?: boolean;
+}
+
+const NFTSection: React.FC<NFTSectionProps> = ({
+  pageSize = 20,
+  disableInfiniteScroll = false,
+}) => {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [nftBalances, nftError] = useKeybanAccountNfts(account);
+  const [nfts, setNfts] = useState<KeybanNft[]>([]);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastNftRef = useRef<HTMLDivElement | null>(null);
+
+  const [nftBalances, nftError, { fetchMore, loading }] = useKeybanAccountNfts(
+    account,
+    { first: pageSize },
+  );
   if (nftError) throw nftError;
 
   const navigate = useNavigate();
 
-  if (!nftBalances?.edges.length) {
+  useEffect(() => {
+    if (nftBalances) {
+      setHasNextPage(nftBalances.pageInfo.hasNextPage);
+
+      setNfts((prevNfts) => {
+        const newNfts = nftBalances.edges
+          .map((edge) => edge.node)
+          .filter(
+            (node): node is KeybanNft => node !== null && node.nft !== null,
+          );
+
+        // Éviter les duplications en vérifiant les IDs
+        const existingIds = new Set(prevNfts.map((n) => n.id));
+        const combinedNfts = [
+          ...prevNfts,
+          ...newNfts.filter((n) => !existingIds.has(n.id)),
+        ];
+
+        return combinedNfts;
+      });
+    }
+  }, [nftBalances]);
+
+  useEffect(() => {
+    if (disableInfiniteScroll || loading) return;
+
+    const loadMoreNfts = async () => {
+      if (hasNextPage && !loading) {
+        await fetchMore();
+        // `nftBalances` sera mis à jour automatiquement
+      }
+    };
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreNfts();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "200px",
+        threshold: 0,
+      },
+    );
+
+    if (lastNftRef.current) {
+      observer.current.observe(lastNftRef.current);
+    }
+
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, [fetchMore, hasNextPage, loading, disableInfiniteScroll]);
+
+  const groupNftsByCollection = (nfts: KeybanNft[]) => {
+    return nfts.reduce(
+      (acc, nftBalance) => {
+        const metadata = nftBalance.nft?.metadata as NftMetadata;
+        const collectionName =
+          metadata?.properties?.collection?.value ?? "Unknown Collection";
+
+        acc[collectionName] ??= [];
+        acc[collectionName].push(nftBalance);
+        return acc;
+      },
+      {} as Record<string, KeybanNft[]>,
+    );
+  };
+
+  if (!nfts.length) {
     return (
       <Alert severity="info">
         <Typography variant="h6" component="div">
@@ -56,34 +144,31 @@ const NFTSection: React.FC = () => {
     );
   }
 
-  // Regrouper les NFTs par nom de collection
-  const nftCollections = nftBalances.edges.reduce(
-    (acc, { node }) => {
-      if (!node) return acc;
-
-      const metadata = node.nft?.metadata as NftMetadata;
-      const collectionName =
-        metadata?.properties?.collection?.value ?? "Unknown Collection";
-
-      acc[collectionName] ??= [];
-      acc[collectionName].push(node);
-      return acc;
-    },
-    {} as Record<string, KeybanNft[]>,
-  );
+  const nftCollections = groupNftsByCollection(nfts);
 
   return (
     <div>
       {Object.keys(nftCollections).map((collectionName) => (
         <div key={collectionName} style={{ marginBottom: "2rem" }}>
-          <Typography variant="h4" component="div" sx={{ mb: 2 }}>
+          <Typography variant="h5" component="div" sx={{ mb: 2 }}>
             {collectionName}
           </Typography>
           <Grid container spacing={2} alignItems="stretch">
-            {nftCollections[collectionName].map((nftBalance) => {
+            {nftCollections[collectionName].map((nftBalance, index) => {
               const metadata = nftBalance.nft?.metadata as NftMetadata;
+              const isLastItem =
+                index === nftCollections[collectionName].length - 1;
+
               return (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={nftBalance.id}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={nftBalance.id}
+                  ref={!disableInfiniteScroll && isLastItem ? lastNftRef : null}
+                >
                   <Card
                     sx={{
                       maxWidth: 345,

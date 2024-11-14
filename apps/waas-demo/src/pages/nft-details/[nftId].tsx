@@ -1,9 +1,6 @@
 import type React from "react";
 
-import {
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   type Address,
@@ -100,7 +97,7 @@ const NftDetailsPage: React.FC = () => {
                   Collection: {metadata?.properties?.collection?.value}
                 </Typography>
                 {/* Display the NFT name */}
-                <Typography variant="h4" component="div" gutterBottom>
+                <Typography variant="h5" component="div" gutterBottom>
                   {metadata?.name}
                 </Typography>
 

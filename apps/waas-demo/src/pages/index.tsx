@@ -59,6 +59,9 @@ const WalletDashboardContent: React.FC = () => {
   const handleViewTokens = () => {
     navigate("/tokens");
   };
+  const handleViewNfts = () => {
+    navigate("/nfts");
+  };
 
   if (loading) {
     return (
@@ -88,15 +91,19 @@ const WalletDashboardContent: React.FC = () => {
           onSend={handleTransferCrypto}
         />{" "}
         <Divider />
-        <Typography variant="h4">Tokens with Recent Transactions</Typography>
+        <Typography variant="h5">Tokens with Recent Transactions</Typography>
         <TokensSection pageSize={5} disableInfiniteScroll />
         <Button variant="contained" onClick={handleViewTokens}>
           View all Tokens...
         </Button>
         <Divider />
-        <NFTSection />
+        <Typography variant="h5">NFTs with Recent Transactions</Typography>
+        <NFTSection pageSize={5} disableInfiniteScroll />
+        <Button variant="contained" onClick={handleViewNfts}>
+          View all NFTs...
+        </Button>
         <Divider />
-        <Typography variant="h4">Latest Transfers</Typography>
+        <Typography variant="h5">Latest Transfers</Typography>
         <TransferList pageSize={5} disableInfiniteScroll />
         <Button variant="contained" onClick={handleViewTransfers}>
           View all Transfers...
