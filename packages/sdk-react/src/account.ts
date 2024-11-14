@@ -106,7 +106,8 @@ export function useKeybanAccountTokenBalances(
 
   useSubscription(tokenBalancesSubscriptionDocument, {
     client: client.apolloClient,
-    onData({ data: { data } }) {
+    onData() {
+      // { data: { data } }
       // TODO: get the filter back when https://github.com/subquery/subql/issues/2590 get fixed
       // if (data?.tokenBalances?._entity.wallet_id !== address) return;
 
@@ -183,7 +184,8 @@ export function useKeybanAccountNfts(
 
   useSubscription(nftBalancesSubscriptionDocument, {
     client: client.apolloClient,
-    onData({ data: { data } }) {
+    onData() {
+      // { data: { data } }
       // TODO: get the filter back when https://github.com/subquery/subql/issues/2590 get fixed
       // if (data?.nftBalances?._entity.wallet_id !== address) return;
 
