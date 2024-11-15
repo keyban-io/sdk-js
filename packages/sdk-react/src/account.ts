@@ -78,10 +78,36 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
 /**
  * Return the ERC20 tokens of an account.
  *
+ * @param {KeybanAccount} param0 - An object containing the address of the Keyban account.
+ * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the token balances.
+ * @returns {readonly [TokenBalances | null, Error | null, Extra]} - A tuple containing:
+ * - The token balances data or null if an error occurred.
+ * - The error object or null if no error occurred.
+ * - An extra object containing additional information and functions:
+ *   - `loading`: A boolean indicating if the data is currently being fetched.
+ *   - `refresh`: A function to manually refetch the data.
+ *   - `fetchMore`: A function to fetch more data if there are more pages available.
+ *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balances, balanceError, { refresh: refreshBalances }] = useKeybanAccountTokenBalances(account);
+ * const [balances, balanceError, { loading, fetchMore: fetchMoreBalances }] = useKeybanAccountTokenBalances(account, { first: 5 });
+ *
+ * if (loading) {
+ *   // Show loading state
+ * }
+ *
+ * if (balanceError) {
+ *   // Handle error
+ * }
+ *
+ * // Use the token balances
+ * console.log(balances);
+ *
+ * // To fetch more token balances
+ * if (balances && balances.pageInfo.hasNextPage) {
+ *   fetchMoreBalances();
+ * }
  * ```
  * @see {@link useFormattedBalance}
  */
@@ -154,12 +180,38 @@ export function useKeybanAccountTokenBalances(
 }
 
 /**
- * Return the ERC721 and ERC1155 tokens of an account.
+ * Return the NFTs of an account.
+ *
+ * @param {KeybanAccount} param0 - An object containing the address of the Keyban account.
+ * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the NFTs.
+ * @returns {readonly [NftBalances | null, Error | null, Extra]} - A tuple containing:
+ * - The NFT balances data or null if an error occurred.
+ * - The error object or null if no error occurred.
+ * - An extra object containing additional information and functions:
+ *   - `loading`: A boolean indicating if the data is currently being fetched.
+ *   - `refresh`: A function to manually refetch the data.
+ *   - `fetchMore`: A function to fetch more data if there are more pages available.
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balance, balanceError, { refresh: refreshNfts }] = useKeybanAccountNfts(account);
+ * const [nfts, nftsError, { loading, fetchMore: fetchMoreNfts }] = useKeybanAccountNfts(account, { first: 5 });
+ *
+ * if (loading) {
+ *   // Show loading state
+ * }
+ *
+ * if (nftsError) {
+ *   // Handle error
+ * }
+ *
+ * // Use the NFT data
+ * console.log(nfts);
+ *
+ * // To fetch more NFTs
+ * if (nfts && nfts.pageInfo.hasNextPage) {
+ *   fetchMoreNfts();
+ * }
  * ```
  * @see {@link useFormattedBalance}
  */
