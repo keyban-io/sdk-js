@@ -19,7 +19,7 @@ query walletTokenBalances(
   $orderBy: [TokenBalancesOrderBy!]
 ) {
   tokenBalances(
-    filter: { wallet: { id: { equalTo: $walletId } } }
+    filter: { walletId: { equalTo: $walletId } }
     first: $first
     after: $after
     orderBy: $orderBy
@@ -56,7 +56,7 @@ query walletNfts(
   $orderBy: [NftBalancesOrderBy!]
 ) {
   nftBalances(
-    filter: { wallet: { id: { equalTo: $walletId } } }
+    filter: { walletId: { equalTo: $walletId } }
     first: $first
     after: $after
     orderBy: $orderBy
@@ -101,10 +101,7 @@ query walletAssetTransfers(
 ) {
   assetTransfers(
     filter: {
-      or: [
-        { from: { id: { equalTo: $walletId } } }
-        { to: { id: { equalTo: $walletId } } }
-      ]
+      or: [{ fromId: { equalTo: $walletId } }, { toId: { equalTo: $walletId } }]
     }
     first: $first
     after: $after

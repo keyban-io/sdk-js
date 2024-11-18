@@ -62,7 +62,7 @@ interface Transfer {
   } | null;
   token: {
     id: string;
-    type: string | null;
+    type: string;
     name: string | null;
     symbol: string | null;
     decimals: number | null;
@@ -74,7 +74,7 @@ interface Transfer {
     metadata: Record<string, unknown>;
     collection: {
       id: string;
-      type: string | null;
+      type: string;
       name: string | null;
       symbol: string | null;
       decimals: number | null;

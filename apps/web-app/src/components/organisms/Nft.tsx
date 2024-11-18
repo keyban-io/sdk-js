@@ -3,10 +3,8 @@ import React from "react";
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import TextField from "@/components/molecules/TextField";
-import {
-  useKeybanAccount,
-  useKeybanAccountNfts,
-} from "@keyban/sdk-react";
+import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
+import RefreshButton from "@/components/atoms/RefreshButton";
 
 export default function Nft() {
   const [account, accountError] = useKeybanAccount();
@@ -14,7 +12,7 @@ export default function Nft() {
 
   const [pageSize, setPageSize] = React.useState("");
 
-  const [nftBalances, nftsError, { fetchMore }] = useKeybanAccountNfts(
+  const [nftBalances, nftsError, { fetchMore, refresh }] = useKeybanAccountNfts(
     account,
     { first: Number(pageSize) || undefined },
   );
@@ -22,9 +20,16 @@ export default function Nft() {
 
   return (
     <fieldset>
-      <legend>NFT</legend>
+      <legend>
+        NFT
+        <RefreshButton
+          onClick={refresh}
+          style={{ marginInlineStart: "0.5ch" }}
+          data-test-id="Nft:refresh"
+        />
+      </legend>
 
-      <table>
+      <table data-test-id="Nft:table">
         <thead>
           <tr>
             <th>Name</th>

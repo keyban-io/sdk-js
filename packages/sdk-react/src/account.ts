@@ -14,6 +14,8 @@ import {
 import {
   assetTransfersSubscriptionDocument,
   GqlAssetTransfersOrderBy,
+  GqlNftBalancesOrderBy,
+  GqlTokenBalancesOrderBy,
   nftBalancesSubscriptionDocument,
   tokenBalancesSubscriptionDocument,
   walletAssetTransfersDocument,
@@ -52,22 +54,26 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
     variables: { walletId: address },
   });
 
-  useSubscription(walletSubscriptionDocument, {
-    client: client.apolloClient,
-    onData() {
+  const debounceTimeoutRef = React.useRef<NodeJS.Timeout>();
+  const refresh = React.useCallback(() => {
+    clearTimeout(debounceTimeoutRef.current);
+    debounceTimeoutRef.current = setTimeout(() => {
       startTransition(() => {
         refetch();
       });
+    }, 100);
+  }, [startTransition, refetch]);
+
+  useSubscription(walletSubscriptionDocument, {
+    client: client.apolloClient,
+    onData() {
+      refresh();
     },
   });
 
   const extra = {
     loading: isPending,
-    refresh: () => {
-      startTransition(() => {
-        refetch();
-      });
-    },
+    refresh,
   };
 
   return error
@@ -123,9 +129,23 @@ export function useKeybanAccountTokenBalances(
     walletTokenBalancesDocument,
     {
       client: client.apolloClient,
-      variables: { walletId: address, ...options },
+      variables: {
+        walletId: address,
+        orderBy: [GqlTokenBalancesOrderBy.TOKEN_SYMBOL_ASC],
+        ...options,
+      },
     },
   );
+
+  const debounceTimeoutRef = React.useRef<NodeJS.Timeout>();
+  const refresh = React.useCallback(() => {
+    clearTimeout(debounceTimeoutRef.current);
+    debounceTimeoutRef.current = setTimeout(() => {
+      startTransition(() => {
+        refetch();
+      });
+    }, 100);
+  }, [startTransition, refetch]);
 
   useSubscription(tokenBalancesSubscriptionDocument, {
     client: client.apolloClient,
@@ -134,19 +154,13 @@ export function useKeybanAccountTokenBalances(
       // TODO: get the filter back when https://github.com/subquery/subql/issues/2590 get fixed
       // if (data?.tokenBalances?._entity.wallet_id !== address) return;
 
-      startTransition(() => {
-        refetch();
-      });
+      refresh();
     },
   });
 
   const extra = {
     loading: isPending,
-    refresh: () => {
-      startTransition(() => {
-        refetch();
-      });
-    },
+    refresh,
     fetchMore: () => {
       const pageInfo = data.tokenBalances?.pageInfo;
       if (!pageInfo?.hasNextPage) return;
@@ -227,9 +241,23 @@ export function useKeybanAccountNfts(
     walletNftsDocument,
     {
       client: client.apolloClient,
-      variables: { walletId: address, ...options },
+      variables: {
+        walletId: address,
+        orderBy: GqlNftBalancesOrderBy.NFT_TOKEN_ID_ASC,
+        ...options,
+      },
     },
   );
+
+  const debounceTimeoutRef = React.useRef<NodeJS.Timeout>();
+  const refresh = React.useCallback(() => {
+    clearTimeout(debounceTimeoutRef.current);
+    debounceTimeoutRef.current = setTimeout(() => {
+      startTransition(() => {
+        refetch();
+      });
+    }, 100);
+  }, [startTransition, refetch]);
 
   useSubscription(nftBalancesSubscriptionDocument, {
     client: client.apolloClient,
@@ -238,19 +266,13 @@ export function useKeybanAccountNfts(
       // TODO: get the filter back when https://github.com/subquery/subql/issues/2590 get fixed
       // if (data?.nftBalances?._entity.wallet_id !== address) return;
 
-      startTransition(() => {
-        refetch();
-      });
+      refresh();
     },
   });
 
   const extra = {
     loading: isPending,
-    refresh: () => {
-      startTransition(() => {
-        refetch();
-      });
-    },
+    refresh,
     fetchMore: () => {
       const pageInfo = data.nftBalances?.pageInfo;
       if (!pageInfo?.hasNextPage) return;
@@ -370,11 +392,21 @@ export function useKeybanAccountTransferHistory(
       client: client.apolloClient,
       variables: {
         walletId: address,
-        orderBy: GqlAssetTransfersOrderBy.BLOCK_NUMBER_DESC,
+        orderBy: GqlAssetTransfersOrderBy.TRANSACTION_BLOCK_NUMBER_DESC,
         ...options,
       },
     },
   );
+
+  const debounceTimeoutRef = React.useRef<NodeJS.Timeout>();
+  const refresh = React.useCallback(() => {
+    clearTimeout(debounceTimeoutRef.current);
+    debounceTimeoutRef.current = setTimeout(() => {
+      startTransition(() => {
+        refetch();
+      });
+    }, 100);
+  }, [startTransition, refetch]);
 
   useSubscription(assetTransfersSubscriptionDocument, {
     client: client.apolloClient,
@@ -385,19 +417,13 @@ export function useKeybanAccountTransferHistory(
       ].includes(address);
       if (!match) return;
 
-      startTransition(() => {
-        refetch();
-      });
+      refresh();
     },
   });
 
   const extra = {
     loading: isPending,
-    refresh: () => {
-      startTransition(() => {
-        refetch();
-      });
-    },
+    refresh,
     fetchMore: () => {
       const pageInfo = data.assetTransfers?.pageInfo;
       if (!pageInfo?.hasNextPage) return;

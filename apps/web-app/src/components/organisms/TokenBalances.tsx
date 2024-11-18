@@ -7,6 +7,7 @@ import {
   useKeybanAccount,
   useKeybanAccountTokenBalances,
 } from "@keyban/sdk-react";
+import RefreshButton from "@/components/atoms/RefreshButton";
 
 export default function TokenBalances() {
   const [account, accountError] = useKeybanAccount();
@@ -14,7 +15,7 @@ export default function TokenBalances() {
 
   const [pageSize, setPageSize] = React.useState("");
 
-  const [tokenBalances, tokenBalancesError, { fetchMore }] =
+  const [tokenBalances, tokenBalancesError, { fetchMore, refresh }] =
     useKeybanAccountTokenBalances(account, {
       first: Number(pageSize) || undefined,
     });
@@ -22,9 +23,16 @@ export default function TokenBalances() {
 
   return (
     <fieldset>
-      <legend>Token balances</legend>
+      <legend>
+        Token balances
+        <RefreshButton
+          onClick={refresh}
+          style={{ marginInlineStart: "0.5ch" }}
+          data-test-id="TokenBalances:refresh"
+        />
+      </legend>
 
-      <table>
+      <table data-test-id="TokenBalances:table">
         <thead>
           <tr>
             <th>Name</th>
@@ -65,7 +73,7 @@ export default function TokenBalances() {
                     {node.balance.raw}
                   </td>
                   <td data-test-id="TokenBalances:symbol">
-                    {node.token?.symbol}
+                    <code>{node.token?.symbol}</code>
                   </td>
                 </tr>
               ),
