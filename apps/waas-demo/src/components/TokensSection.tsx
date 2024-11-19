@@ -41,7 +41,7 @@ const TokensSection: React.FC<TokensSectionProps> = ({
   const [tokens, setTokens] = useState<KeybanTokenBalance[]>([]);
   const [hasNextPage, setHasNextPage] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
-  const lastTokenRef = useRef<HTMLDivElement | null>(null);
+  const lastTokenRef = useRef<HTMLLIElement | null>(null);
 
   const [tokenBalances, tokenBalancesError, { fetchMore, loading }] =
     useKeybanAccountTokenBalances(account, { first: pageSize });
@@ -146,7 +146,10 @@ const TokensSection: React.FC<TokensSectionProps> = ({
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Typography variant="body1" component="div">
                       {/* Display the formatted balance */}
-                      <FormattedBalance balance={tokenBalance.balance} token={tokenBalance.token?? undefined} />
+                      <FormattedBalance
+                        balance={tokenBalance.balance}
+                        token={tokenBalance.token ?? undefined}
+                      />
                     </Typography>
                     <IconButton
                       color="primary"
