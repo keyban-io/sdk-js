@@ -17,9 +17,9 @@ import {
 } from "@keyban/sdk-react";
 import {
   Alert,
-  Card,
-  CardContent,
   IconButton,
+  List,
+  ListItem,
   Stack,
   Typography,
 } from "@mui/material";
@@ -59,7 +59,7 @@ const TokensSection: React.FC<TokensSectionProps> = ({
               node !== null && node.token !== null,
           );
 
-        // Éviter les duplications en vérifiant les IDs
+        // Avoid duplicates by checking IDs
         const existingIds = new Set(prevTokens.map((t) => t.id));
         const combinedTokens = [
           ...prevTokens,
@@ -77,7 +77,7 @@ const TokensSection: React.FC<TokensSectionProps> = ({
     const loadMoreTokens = async () => {
       if (hasNextPage && !loading) {
         await fetchMore();
-        // `tokenBalances` sera mis à jour automatiquement
+        // `tokenBalances` will be updated automatically
       }
     };
 
@@ -113,7 +113,7 @@ const TokensSection: React.FC<TokensSectionProps> = ({
 
   return (
     <Stack direction="column" spacing={2}>
-      {/* Afficher un message si aucun token n'est présent */}
+      {/* Display a message if no tokens are present */}
       {!tokens.length ? (
         <Alert severity="info">
           <Typography variant="h6" component="div">
@@ -121,36 +121,31 @@ const TokensSection: React.FC<TokensSectionProps> = ({
           </Typography>
         </Alert>
       ) : (
-        tokens.map((tokenBalance, index) => {
-          const isLastItem = index === tokens.length - 1;
-          return (
-            <Card
-              key={tokenBalance.id}
-              ref={!disableInfiniteScroll && isLastItem ? lastTokenRef : null}
-            >
-              <CardContent>
+        <List>
+          {tokens.map((tokenBalance, index) => {
+            const isLastItem = index === tokens.length - 1;
+            return (
+              <ListItem
+                key={tokenBalance.id}
+                ref={!disableInfiniteScroll && isLastItem ? lastTokenRef : null}
+                divider
+                disableGutters
+                sx={{ paddingY: 1 }}
+              >
                 <Stack
-                  alignItems="center"
                   direction="row"
-                  sx={{
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+                  alignItems="center"
+                  justifyContent="space-between"
+                  sx={{ width: "100%" }}
                 >
-                  <Typography variant="h5" component="div">
+                  <Typography variant="h6" component="div">
                     {tokenBalance.token?.name
                       ? tokenBalance.token.name
                       : tokenBalance.token?.id}
                   </Typography>
-                  <Stack
-                    direction="row"
-                    sx={{
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
+                  <Stack direction="row" alignItems="center" spacing={1}>
                     <Typography variant="body1" component="div">
-                      {/* Afficher le solde formaté */}
+                      {/* Display the formatted balance */}
                       <FormattedBalance balance={tokenBalance} />
                     </Typography>
                     <IconButton
@@ -162,10 +157,10 @@ const TokensSection: React.FC<TokensSectionProps> = ({
                     </IconButton>
                   </Stack>
                 </Stack>
-              </CardContent>
-            </Card>
-          );
-        })
+              </ListItem>
+            );
+          })}
+        </List>
       )}
     </Stack>
   );

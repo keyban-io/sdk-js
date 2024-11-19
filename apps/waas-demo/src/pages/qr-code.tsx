@@ -1,9 +1,16 @@
 import type React from "react";
 
 import { QRCodeSVG } from "qrcode.react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
-import { Button, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 const QRCodePage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,7 +28,7 @@ const QRCodePage: React.FC = () => {
       alignItems="center"
       spacing={4}
     >
-      <Typography variant="h6">
+      <Typography>
         {address
           ? "Share this QR code with your friends so they can easily access your address."
           : null}

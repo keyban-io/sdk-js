@@ -54,7 +54,7 @@ export default function App() {
   }
 
   return (
-    <Container maxWidth="md" sx={{ py: [2] }}>
+    <Container maxWidth="md" sx={{ py: [2], backgroundColor: "white" }}>
       {!isAuthenticated ? (
         <Stack
           spacing={2}

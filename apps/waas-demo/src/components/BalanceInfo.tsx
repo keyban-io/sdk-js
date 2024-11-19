@@ -30,14 +30,14 @@ const BalanceInfo: React.FC<BalanceInfoProps> = ({
     >
       <Stack direction="row" alignItems="center">
         <Tooltip title="Cryptocurrency Balance" arrow>
-          <Typography variant="h5">
+          <Typography variant="h6">
             {balance != null && <FormattedBalance balance={balance} />}
           </Typography>
         </Tooltip>
       </Stack>
 
       <Tooltip title="Equivalent Euro Balance" arrow>
-        <Typography variant="body1">
+        <Typography variant="body2">
           {euroBalance != null && <span>€{euroBalance.toFixed(2)}</span>}
         </Typography>
       </Tooltip>

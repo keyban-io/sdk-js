@@ -58,7 +58,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
           alt="KEYBAN logo"
           src="/images/keyban-logo-small.svg"
         />
-        <Typography variant="h5" noWrap sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
           KEYBAN WAAS Demo
         </Typography>
 

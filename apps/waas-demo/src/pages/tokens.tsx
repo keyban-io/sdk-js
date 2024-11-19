@@ -2,7 +2,11 @@ import type React from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { Button, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 import TokensSection from "../components/TokensSection";
 
@@ -15,7 +19,7 @@ const TransferPage: React.FC = () => {
 
   return (
     <Stack direction="column" spacing={4}>
-      <Typography variant="h5" align="center">
+      <Typography variant="h6" align="center" color="primary">
         Tokens
       </Typography>
       <TokensSection pageSize={2} />

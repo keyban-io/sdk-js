@@ -1,5 +1,9 @@
 import type React from "react";
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -202,7 +206,7 @@ const NFTSection: React.FC<NFTSectionProps> = ({
                         }}
                       />
                       <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography gutterBottom variant="h5" component="div">
+                        <Typography gutterBottom variant="h6" component="div">
                           {metadata?.name ?? ""}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">

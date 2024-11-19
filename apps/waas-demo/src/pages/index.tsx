@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 import { fetchMaticToEuroRate } from "@/utils/apiUtils";
 import {
+  faCoins,
+  faCube,
+  faMoneyBillTransfer,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
   useKeybanAccount,
   useKeybanAccountBalance,
   useKeybanClient,
@@ -91,19 +97,31 @@ const WalletDashboardContent: React.FC = () => {
           onSend={handleTransferCrypto}
         />{" "}
         <Divider />
-        <Typography variant="h5">Tokens with Recent Transactions</Typography>
+        <Typography variant="h6" color="primary">
+          <FontAwesomeIcon icon={faCoins} style={{ marginRight: "8px" }} />
+          Tokens with Recent Transactions
+        </Typography>
         <TokensSection pageSize={5} disableInfiniteScroll />
         <Button variant="contained" onClick={handleViewTokens}>
           View all Tokens...
         </Button>
         <Divider />
-        <Typography variant="h5">NFTs with Recent Transactions</Typography>
+        <Typography variant="h6" color="primary">
+          <FontAwesomeIcon icon={faCube} style={{ marginRight: "8px" }} />
+          NFTs with Recent Transactions
+        </Typography>
         <NFTSection pageSize={5} disableInfiniteScroll />
         <Button variant="contained" onClick={handleViewNfts}>
           View all NFTs...
         </Button>
         <Divider />
-        <Typography variant="h5">Latest Transfers</Typography>
+        <Typography variant="h6" color="primary">
+          <FontAwesomeIcon
+            icon={faMoneyBillTransfer}
+            style={{ marginRight: "8px" }}
+          />
+          Latest Transfers
+        </Typography>
         <TransferList pageSize={5} disableInfiniteScroll />
         <Button variant="contained" onClick={handleViewTransfers}>
           View all Transfers...

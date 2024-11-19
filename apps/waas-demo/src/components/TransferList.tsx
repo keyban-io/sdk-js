@@ -5,7 +5,10 @@ import {
   useState,
 } from "react";
 
-import { format } from "date-fns";
+import {
+  format,
+  formatDistanceToNow,
+} from "date-fns";
 
 import {
   useKeybanAccount,
@@ -191,6 +194,12 @@ const TransferList: React.FC<TransferListProps> = ({
     return `${transfer.value ?? ""}`;
   };
 
+  const formatHuman = (date: string) =>
+    formatDistanceToNow(new Date(`${date}Z`), {
+      includeSeconds: true,
+      addSuffix: true,
+    });
+
   const formatDate = (date: string) => format(new Date(date), "PPpp"); // Exemple : '14 oct. 2024 à 8:51 AM'
 
   const getStatus = (transfer: Transfer | null) => {
@@ -279,6 +288,10 @@ const TransferList: React.FC<TransferListProps> = ({
             {transfers.map((transfer, index) => {
               const status = getStatus(transfer);
               const amount = formatAmount(transfer);
+              console.log("date", transfer?.transaction?.date);
+              const dateHuman = transfer?.transaction?.date
+                ? formatHuman(transfer.transaction?.date)
+                : "Unknown";
               const date = transfer?.transaction?.date
                 ? formatDate(transfer.transaction?.date)
                 : "Unknown";
@@ -311,7 +324,13 @@ const TransferList: React.FC<TransferListProps> = ({
                       : null
                   }
                 >
-                  <TableCell align="center">{date}</TableCell>
+                  <TableCell align="center">
+                    <Tooltip title={date} arrow>
+                      <Typography variant="body2" noWrap>
+                        {dateHuman}
+                      </Typography>
+                    </Tooltip>
+                  </TableCell>
                   <TableCell align="center">
                     <Tooltip title={transfer?.from?.id} arrow>
                       <Typography variant="body2" noWrap>
