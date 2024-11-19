@@ -4,6 +4,7 @@ import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
 import TextField from "@/components/molecules/TextField";
 import {
+  FormattedBalance,
   useKeybanAccount,
   useKeybanAccountTransferHistory,
 } from "@keyban/sdk-react";
@@ -65,7 +66,7 @@ export default function TransferHistory() {
                   textAlign: "right",
                 }}
               >
-                {node?.value}
+                <FormattedBalance balance={{...node?.value, isNative: node?.type === "native"}} token={node?.type=== "erc20"? node?.token?? undefined: undefined}/>
               </td>
               <td>
                 <code>{node?.type}</code>

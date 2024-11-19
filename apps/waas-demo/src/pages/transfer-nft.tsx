@@ -253,7 +253,7 @@ const TransferNFT: React.FC = () => {
               </Typography>
               <Typography variant="body1">
                 <strong>Native balance (for fees):</strong>{" "}
-                <FormattedBalance balance={balance} />
+                <FormattedBalance balance={{...balance, isNative: true}} />
               </Typography>
 
               <Divider />

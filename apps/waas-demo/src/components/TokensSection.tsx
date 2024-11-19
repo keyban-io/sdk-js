@@ -146,7 +146,7 @@ const TokensSection: React.FC<TokensSectionProps> = ({
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Typography variant="body1" component="div">
                       {/* Display the formatted balance */}
-                      <FormattedBalance balance={tokenBalance} />
+                      <FormattedBalance balance={tokenBalance.balance} token={tokenBalance.token?? undefined} />
                     </Typography>
                     <IconButton
                       color="primary"

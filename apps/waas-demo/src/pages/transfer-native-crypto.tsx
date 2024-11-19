@@ -1,5 +1,8 @@
 import type React from "react";
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -96,7 +99,7 @@ const TransferNativeCrypto: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        Balance: <FormattedBalance balance={balance} />
+        Balance: <FormattedBalance balance={{...balance, isNative: true}} />
       </Typography>
 
       <TextField

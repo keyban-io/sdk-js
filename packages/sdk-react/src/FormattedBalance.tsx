@@ -1,4 +1,9 @@
-import { Balance, formatBalance } from "@keyban/sdk-base";
+import {
+  Balance,
+  formatBalance,
+  KeybanToken,
+} from "@keyban/sdk-base";
+
 import { useKeybanClient } from "./provider";
 
 /**
@@ -6,19 +11,20 @@ import { useKeybanClient } from "./provider";
  * This is typically used to display the balance of an account, as retrieved by
  * {@link KeybanAccount.getBalance | KeybanAccount.getBalance()}.
  *
- * @param balance - The balance as a string.
+ * @param balance - The raw balance to format.
+ * @param token - The token details, if the balance is not native.
  * @returns - The formatted balance as a string.
  *
  * @example
  * ```tsx
  * import { useFormattedBalance } from "@keyban/sdk-react";
  *
- * const formattedBalance = useFormattedBalance(BigInt(2e17));
+ * const formattedBalance = useFormattedBalance({raw: BigInt(2e17), isNative: true});
  * console.log(formattedBalance); // "0.2 ETH"
  * ```
  */
-export function useFormattedBalance(balance: Balance) {
-  return formatBalance(useKeybanClient(), balance);
+export function useFormattedBalance(balance: Balance, token?: KeybanToken): string {
+  return formatBalance(useKeybanClient(), balance, token);
 }
 
 /**
@@ -27,6 +33,7 @@ export function useFormattedBalance(balance: Balance) {
  */
 export type FormatedBalanceProps = {
   balance: Balance;
+  token?: KeybanToken;
 };
 
 /**
@@ -42,13 +49,13 @@ export type FormatedBalanceProps = {
  *
  * function BalanceDisplay() {
  *   return (
- *     <p>Native Balance: <FormattedBalance balance={BigInt(2e17)} /></p>
+ *     <p>Native Balance: <FormattedBalance balance={{raw: BigInt(2e17), isNative: true}} /></p>
  *   );
  * }
  *
  * export default BalanceDisplay;
  * ```
  */
-export function FormattedBalance({ balance }: FormatedBalanceProps) {
-  return useFormattedBalance(balance);
+export function FormattedBalance({ balance, token }: FormatedBalanceProps) {
+  return useFormattedBalance(balance, token);
 }

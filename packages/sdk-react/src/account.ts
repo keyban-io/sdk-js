@@ -72,7 +72,7 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.wallet?.balance ?? "0", null, extra] as const);
+    : ([data.wallet?.balance ?? { raw: "0" }, null, extra] as const);
 }
 
 /**

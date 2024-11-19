@@ -1,11 +1,15 @@
 import { formatUnits } from "viem";
-import type { KeybanClient, KeybanToken } from "~/index";
+import type {
+  KeybanClient,
+  KeybanToken,
+} from "~/index";
 
-export type BalanceValue = string | bigint;
-
-export type Balance =
-  | BalanceValue
-  | { balance: BalanceValue; token?: KeybanToken | null };
+export type Balance = {
+  raw: string | bigint;
+  decimals?: number;
+  symbol?: string;
+  isNative?: boolean;
+}
 
 /**
  * Formats a balance in a human-readable format using the Keyban client.
@@ -19,16 +23,10 @@ export type Balance =
  * @see {@link KeybanClient}
  * @see {@link useKeybanClient}
  */
-export function formatBalance(client: KeybanClient, balance: Balance) {
-  let decimals = client.nativeCurrency.decimals;
-  let symbol: string | null | undefined = client.nativeCurrency.symbol;
+export function formatBalance(client: KeybanClient, balance: Balance, token?: KeybanToken,): string {
+  const decimals = balance.isNative ? client.nativeCurrency.decimals : balance.decimals ?? token?.decimals ?? 0;
+  const symbol = balance.isNative ? client.nativeCurrency.symbol : balance.decimals ?? token?.symbol ?? undefined;
 
-  if (typeof balance === "object") {
-    symbol = balance.token?.symbol;
-    decimals = balance.token?.decimals ?? 0;
-    balance = balance.balance;
-  }
-
-  const fmt = formatUnits(BigInt(balance), decimals);
+  const fmt = formatUnits(typeof balance.raw === 'bigint' ? balance.raw : BigInt(balance.raw), decimals);
   return symbol ? `${fmt} ${symbol}` : fmt;
 }

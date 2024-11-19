@@ -2,10 +2,14 @@ import type React from "react";
 
 import {
   FormattedBalance,
-  useKeybanClient,
   type KeybanTokenBalance,
+  useKeybanClient,
 } from "@keyban/sdk-react";
-import { Alert, CircularProgress, Typography } from "@mui/material";
+import {
+  Alert,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 
 interface TransferAlertProps {
   isEstimatingFees: boolean;
@@ -53,29 +57,31 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
               You are about to send{" "}
               <FormattedBalance
                 balance={{
-                  balance: amountInBigInt,
-                  token: tokenBalance.token,
+                  raw: amountInBigInt,
+                  isNative: tokenBalance === undefined || tokenBalance === null,
                 }}
+                token={tokenBalance?.token?? undefined}
+
               />{" "}
               to {recipient}.
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}
-              <FormattedBalance balance={rawMaxFees} />.
+              <FormattedBalance balance={{raw: rawMaxFees, isNative: true}} />.
             </Typography>
           </>
         ) : (
           <>
             <Typography>
               You are about to send{" "}
-              <FormattedBalance balance={amountInBigInt} /> to {recipient}.
+              <FormattedBalance balance={{raw: amountInBigInt, decimals}} /> to {recipient}.
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}
-              <FormattedBalance balance={rawMaxFees} />.
+              <FormattedBalance balance={{raw: rawMaxFees, isNative: true}} />.
             </Typography>
             <Typography>
-              Total (including fees): <FormattedBalance balance={total} />.
+              Total (including fees): <FormattedBalance balance={{raw: total, isNative: true}} />.
             </Typography>
           </>
         )}

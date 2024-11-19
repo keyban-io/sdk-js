@@ -31,7 +31,7 @@ const BalanceInfo: React.FC<BalanceInfoProps> = ({
       <Stack direction="row" alignItems="center">
         <Tooltip title="Cryptocurrency Balance" arrow>
           <Typography variant="h6">
-            {balance != null && <FormattedBalance balance={balance} />}
+            {balance != null && <FormattedBalance balance={{ raw: balance, isNative: true }} />}
           </Typography>
         </Tooltip>
       </Stack>

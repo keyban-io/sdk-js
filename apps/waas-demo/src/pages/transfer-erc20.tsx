@@ -138,9 +138,9 @@ const TransferERC20: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        {token?.token?.name} Balance: <FormattedBalance balance={token ?? 0n} />
+        {token?.token?.name} Balance: <FormattedBalance balance={token?.balance ?? {raw: "0"}} token={token?.token?? undefined} />
         <br />
-        Native Balance (for the fees): <FormattedBalance balance={balance} />
+        Native Balance (for the fees): <FormattedBalance balance={{...balance, isNative: true}} />
       </Typography>
 
       <TextField

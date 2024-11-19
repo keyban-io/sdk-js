@@ -62,7 +62,7 @@ export default function TokenBalances() {
                       textAlign: "right",
                     }}
                   >
-                    {node.balance}
+                    {node.balance.raw}
                   </td>
                   <td data-test-id="TokenBalances:symbol">
                     {node.token?.symbol}

@@ -39,12 +39,21 @@ interface Transfer {
     blockHash: string;
     date: string;
     gasUsed: string;
-    gasPrice: string;
-    fees: string;
+    gasPrice: {
+      raw: string;
+      decimals: number | null;
+    };
+    fees: {
+      raw: string;
+      decimals: number | null;
+    };
     success: boolean;
   } | null;
   type: string;
-  value: string;
+  value: {
+    raw: string;
+    decimals: number | null;
+  };
   from: {
     id: string;
   } | null;
@@ -175,23 +184,23 @@ const TransferList: React.FC<TransferListProps> = ({
 
     if (transfer?.type === "native") {
       const amountInETH =
-        (Number(transfer?.value) || 0) /
-        10 ** (transfer?.token?.decimals ?? client.nativeCurrency.decimals);
+        (Number(transfer?.value.raw) || 0) /
+        10 ** (transfer?.value?.decimals?? client.nativeCurrency.decimals);
       return `${amountInETH.toFixed(4)} ${client.nativeCurrency.symbol}`;
     }
     if (transfer.type === "erc20") {
       const amountInTokens =
-        (Number(transfer?.value) || 0) /
-        10 ** (transfer?.token?.decimals ?? client.nativeCurrency.decimals);
+        (Number(transfer?.value.raw) || 0) /
+        10 ** (transfer?.value?.decimals?? transfer?.token?.decimals ?? 0);
       return `${amountInTokens.toFixed(4)} ${transfer.token?.symbol ?? ""}`;
     }
     if (transfer.type === "erc721") {
       return `Token ID: ${transfer?.nft?.tokenId}`;
     }
     if (transfer.type === "erc1155") {
-      return `${transfer.value} Token ID: ${transfer?.nft?.tokenId}`;
+      return `${transfer.value.raw} Token ID: ${transfer?.nft?.tokenId}`;
     }
-    return `${transfer.value ?? ""}`;
+    return `${transfer.value.raw ?? ""}`;
   };
 
   const formatHuman = (date: string) =>
@@ -296,7 +305,7 @@ const TransferList: React.FC<TransferListProps> = ({
                 ? formatDate(transfer.transaction?.date)
                 : "Unknown";
               const transactionFee = formatTransactionFee(
-                transfer?.transaction?.fees ?? "0",
+                transfer?.transaction?.fees.raw ?? "0",
               );
 
               let indexerUrl = "";
@@ -393,7 +402,7 @@ const TransferList: React.FC<TransferListProps> = ({
                     {transfer.transaction?.gasUsed}
                   </TableCell>
                   <TableCell align="center">
-                    {transfer.transaction?.gasPrice}
+                    {transfer.transaction?.gasPrice.raw}
                   </TableCell>
                 </TableRow>
               );

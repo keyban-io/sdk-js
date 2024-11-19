@@ -1,15 +1,16 @@
 import React from "react";
+
 import { useErrorBoundary } from "react-error-boundary";
-import {
-  Address,
-  FormattedBalance,
-  FeesEstimation,
-  useKeybanAccount,
-} from "@keyban/sdk-react";
 
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import TextField from "@/components/molecules/TextField";
+import {
+  Address,
+  FeesEstimation,
+  FormattedBalance,
+  useKeybanAccount,
+} from "@keyban/sdk-react";
 
 export default function ERC20Transfer() {
   const { showBoundary } = useErrorBoundary();
@@ -43,9 +44,6 @@ export default function ERC20Transfer() {
           style={{ marginBlock: 0 }}
           data-test-id="ERC20Transfer:rawValue"
         />
-        <div data-test-id="ERC20Transfer:formattedValue">
-          <FormattedBalance balance={value} />
-        </div>
       </Row>
 
       <TextField
@@ -83,7 +81,7 @@ export default function ERC20Transfer() {
             data-test-id="ERC20Transfer:estimate:rawValue"
           />
           <div data-test-id="ERC20Transfer:estimate:formattedValue">
-            <FormattedBalance balance={estimation.maxFees} />
+            <FormattedBalance balance={{raw: estimation.maxFees, isNative: true}} />
           </div>
         </Row>
       )}

@@ -1,5 +1,12 @@
+import "./Wallet.css";
+
 import React from "react";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+
+import {
+  ErrorBoundary,
+  FallbackProps,
+} from "react-error-boundary";
+
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   FormattedBalance,
@@ -9,7 +16,6 @@ import {
 } from "@keyban/sdk-react";
 
 import config from "./config";
-import "./Wallet.css";
 
 // WalletContent Component
 // This component contains the main logic to display the account ID, address, and balance
@@ -28,7 +34,7 @@ function WalletContent() {
       <div>Address: {account?.address || "No address found"}</div>
       {/* Displays the account address */}
       <div>
-        <FormattedBalance balance={balance} /> on {config.keyban.chain}{" "}
+        <FormattedBalance balance={{...balance, isNative: true}} /> on {config.keyban.chain}{" "}
         <button
           type="button"
           className="refresh-button"

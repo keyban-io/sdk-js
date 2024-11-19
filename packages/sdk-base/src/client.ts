@@ -1,4 +1,8 @@
-import type { Chain, PublicClient, Transport } from "viem";
+import type {
+  Chain,
+  PublicClient,
+  Transport,
+} from "viem";
 import {
   createPublicClient,
   createWalletClient,
@@ -10,12 +14,22 @@ import {
   parseSignature,
   serializeTransaction,
 } from "viem";
-import { publicKeyToAddress, toAccount } from "viem/accounts";
+import {
+  publicKeyToAddress,
+  toAccount,
+} from "viem/accounts";
 import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
-import { signersChainMap, viemChainsMap } from "~/chains";
-import { SdkError, SdkErrorTypes, StorageError } from "~/errors";
+import {
+  signersChainMap,
+  viemChainsMap,
+} from "~/chains";
+import {
+  SdkError,
+  SdkErrorTypes,
+  StorageError,
+} from "~/errors";
 import {
   walletAssetTransfersDocument,
   walletBalanceDocument,
@@ -23,7 +37,10 @@ import {
   walletNftsDocument,
   walletTokenBalancesDocument,
 } from "~/graphql";
-import { type Address, KeybanChain } from "~/index";
+import {
+  type Address,
+  KeybanChain,
+} from "~/index";
 import type { IKeybanSigner } from "~/signer";
 import type { IKeybanStorage } from "~/storage";
 import { parseJwt } from "~/utils/jwt";
@@ -239,7 +256,7 @@ export class KeybanClient {
     })();
 
     this.#pendingAccounts.set(sub, promise);
-    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
+    promise.catch(() => { }).finally(() => this.#pendingAccounts.delete(sub));
 
     return promise;
   }
