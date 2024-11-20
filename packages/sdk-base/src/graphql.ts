@@ -42,7 +42,7 @@ export type GqlAssetTransfer = GqlNode & {
   transactionBlockNumber: Scalars['BigFloat']['output'];
   transactionId: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  value: Scalars['BigFloat']['output'];
+  value: Scalars['JSON']['output'];
 };
 
 export type GqlAssetTransferAggregates = {
@@ -93,14 +93,11 @@ export type GqlAssetTransferAggregatesFilter = {
 
 export type GqlAssetTransferAverageAggregateFilter = {
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
-  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferAverageAggregates = {
   /** Mean average of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Mean average of value across the matching connection */
-  value: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferDistinctCountAggregateFilter = {
@@ -183,91 +180,70 @@ export type GqlAssetTransferFilter = {
   /** Filter by the object’s `type` field. */
   type?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `value` field. */
-  value?: InputMaybe<GqlBigFloatFilter>;
+  value?: InputMaybe<GqlJSONFilter>;
 };
 
 export type GqlAssetTransferMaxAggregateFilter = {
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
-  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferMaxAggregates = {
   /** Maximum of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Maximum of value across the matching connection */
-  value: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferMinAggregateFilter = {
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
-  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferMinAggregates = {
   /** Minimum of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Minimum of value across the matching connection */
-  value: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferStddevPopulationAggregateFilter = {
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
-  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferStddevPopulationAggregates = {
   /** Population standard deviation of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Population standard deviation of value across the matching connection */
-  value: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferStddevSampleAggregateFilter = {
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
-  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferStddevSampleAggregates = {
   /** Sample standard deviation of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Sample standard deviation of value across the matching connection */
-  value: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferSumAggregateFilter = {
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
-  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferSumAggregates = {
   /** Sum of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Scalars['BigFloat']['output'];
-  /** Sum of value across the matching connection */
-  value: Scalars['BigFloat']['output'];
 };
 
 export type GqlAssetTransferVariancePopulationAggregateFilter = {
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
-  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferVariancePopulationAggregates = {
   /** Population variance of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Population variance of value across the matching connection */
-  value: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferVarianceSampleAggregateFilter = {
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
-  value?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferVarianceSampleAggregates = {
   /** Sample variance of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Sample variance of value across the matching connection */
-  value: Maybe<Scalars['BigFloat']['output']>;
 };
 
 /** A connection to a list of `AssetTransfer` values. */
@@ -316,12 +292,10 @@ export enum GqlAssetTransfersGroupBy {
 
 export type GqlAssetTransfersHavingAverageInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingDistinctCountInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Conditions for `AssetTransfer` aggregates. */
@@ -341,37 +315,30 @@ export type GqlAssetTransfersHavingInput = {
 
 export type GqlAssetTransfersHavingMaxInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingMinInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingStddevPopulationInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingStddevSampleInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingSumInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingVariancePopulationInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingVarianceSampleInput = {
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
-  value?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `AssetTransfer`. */
@@ -2324,7 +2291,7 @@ export type GqlTableEstimate = {
 };
 
 export type GqlTokenBalance = GqlNode & {
-  balance: Scalars['BigFloat']['output'];
+  balance: Scalars['JSON']['output'];
   id: Scalars['String']['output'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output'];
@@ -2339,58 +2306,17 @@ export type GqlTokenBalance = GqlNode & {
 };
 
 export type GqlTokenBalanceAggregates = {
-  /** Mean average aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  average: Maybe<GqlTokenBalanceAverageAggregates>;
   /** Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset) */
   distinctCount: Maybe<GqlTokenBalanceDistinctCountAggregates>;
   keys: Maybe<Array<Scalars['String']['output']>>;
-  /** Maximum aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  max: Maybe<GqlTokenBalanceMaxAggregates>;
-  /** Minimum aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  min: Maybe<GqlTokenBalanceMinAggregates>;
-  /** Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  stddevPopulation: Maybe<GqlTokenBalanceStddevPopulationAggregates>;
-  /** Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  stddevSample: Maybe<GqlTokenBalanceStddevSampleAggregates>;
-  /** Sum aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  sum: Maybe<GqlTokenBalanceSumAggregates>;
-  /** Population variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  variancePopulation: Maybe<GqlTokenBalanceVariancePopulationAggregates>;
-  /** Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  varianceSample: Maybe<GqlTokenBalanceVarianceSampleAggregates>;
 };
 
 /** A filter to be used against aggregates of `TokenBalance` object types. */
 export type GqlTokenBalanceAggregatesFilter = {
-  /** Mean average aggregate over matching `TokenBalance` objects. */
-  average?: InputMaybe<GqlTokenBalanceAverageAggregateFilter>;
   /** Distinct count aggregate over matching `TokenBalance` objects. */
   distinctCount?: InputMaybe<GqlTokenBalanceDistinctCountAggregateFilter>;
   /** A filter that must pass for the relevant `TokenBalance` object to be included within the aggregate. */
   filter?: InputMaybe<GqlTokenBalanceFilter>;
-  /** Maximum aggregate over matching `TokenBalance` objects. */
-  max?: InputMaybe<GqlTokenBalanceMaxAggregateFilter>;
-  /** Minimum aggregate over matching `TokenBalance` objects. */
-  min?: InputMaybe<GqlTokenBalanceMinAggregateFilter>;
-  /** Population standard deviation aggregate over matching `TokenBalance` objects. */
-  stddevPopulation?: InputMaybe<GqlTokenBalanceStddevPopulationAggregateFilter>;
-  /** Sample standard deviation aggregate over matching `TokenBalance` objects. */
-  stddevSample?: InputMaybe<GqlTokenBalanceStddevSampleAggregateFilter>;
-  /** Sum aggregate over matching `TokenBalance` objects. */
-  sum?: InputMaybe<GqlTokenBalanceSumAggregateFilter>;
-  /** Population variance aggregate over matching `TokenBalance` objects. */
-  variancePopulation?: InputMaybe<GqlTokenBalanceVariancePopulationAggregateFilter>;
-  /** Sample variance aggregate over matching `TokenBalance` objects. */
-  varianceSample?: InputMaybe<GqlTokenBalanceVarianceSampleAggregateFilter>;
-};
-
-export type GqlTokenBalanceAverageAggregateFilter = {
-  balance?: InputMaybe<GqlBigFloatFilter>;
-};
-
-export type GqlTokenBalanceAverageAggregates = {
-  /** Mean average of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlTokenBalanceDistinctCountAggregateFilter = {
@@ -2428,7 +2354,7 @@ export type GqlTokenBalanceFilter = {
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<GqlTokenBalanceFilter>>;
   /** Filter by the object’s `balance` field. */
-  balance?: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlJSONFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<GqlStringFilter>;
   /** Negates the expression. */
@@ -2447,69 +2373,6 @@ export type GqlTokenBalanceFilter = {
   wallet?: InputMaybe<GqlWalletFilter>;
   /** Filter by the object’s `walletId` field. */
   walletId?: InputMaybe<GqlStringFilter>;
-};
-
-export type GqlTokenBalanceMaxAggregateFilter = {
-  balance?: InputMaybe<GqlBigFloatFilter>;
-};
-
-export type GqlTokenBalanceMaxAggregates = {
-  /** Maximum of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlTokenBalanceMinAggregateFilter = {
-  balance?: InputMaybe<GqlBigFloatFilter>;
-};
-
-export type GqlTokenBalanceMinAggregates = {
-  /** Minimum of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlTokenBalanceStddevPopulationAggregateFilter = {
-  balance?: InputMaybe<GqlBigFloatFilter>;
-};
-
-export type GqlTokenBalanceStddevPopulationAggregates = {
-  /** Population standard deviation of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlTokenBalanceStddevSampleAggregateFilter = {
-  balance?: InputMaybe<GqlBigFloatFilter>;
-};
-
-export type GqlTokenBalanceStddevSampleAggregates = {
-  /** Sample standard deviation of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlTokenBalanceSumAggregateFilter = {
-  balance?: InputMaybe<GqlBigFloatFilter>;
-};
-
-export type GqlTokenBalanceSumAggregates = {
-  /** Sum of balance across the matching connection */
-  balance: Scalars['BigFloat']['output'];
-};
-
-export type GqlTokenBalanceVariancePopulationAggregateFilter = {
-  balance?: InputMaybe<GqlBigFloatFilter>;
-};
-
-export type GqlTokenBalanceVariancePopulationAggregates = {
-  /** Population variance of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlTokenBalanceVarianceSampleAggregateFilter = {
-  balance?: InputMaybe<GqlBigFloatFilter>;
-};
-
-export type GqlTokenBalanceVarianceSampleAggregates = {
-  /** Sample variance of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
 };
 
 /** A connection to a list of `TokenBalance` values. */
@@ -2553,55 +2416,10 @@ export enum GqlTokenBalancesGroupBy {
   WALLET_ID = 'WALLET_ID'
 }
 
-export type GqlTokenBalancesHavingAverageInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlTokenBalancesHavingDistinctCountInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
 /** Conditions for `TokenBalance` aggregates. */
 export type GqlTokenBalancesHavingInput = {
   AND?: InputMaybe<Array<GqlTokenBalancesHavingInput>>;
   OR?: InputMaybe<Array<GqlTokenBalancesHavingInput>>;
-  average?: InputMaybe<GqlTokenBalancesHavingAverageInput>;
-  distinctCount?: InputMaybe<GqlTokenBalancesHavingDistinctCountInput>;
-  max?: InputMaybe<GqlTokenBalancesHavingMaxInput>;
-  min?: InputMaybe<GqlTokenBalancesHavingMinInput>;
-  stddevPopulation?: InputMaybe<GqlTokenBalancesHavingStddevPopulationInput>;
-  stddevSample?: InputMaybe<GqlTokenBalancesHavingStddevSampleInput>;
-  sum?: InputMaybe<GqlTokenBalancesHavingSumInput>;
-  variancePopulation?: InputMaybe<GqlTokenBalancesHavingVariancePopulationInput>;
-  varianceSample?: InputMaybe<GqlTokenBalancesHavingVarianceSampleInput>;
-};
-
-export type GqlTokenBalancesHavingMaxInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlTokenBalancesHavingMinInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlTokenBalancesHavingStddevPopulationInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlTokenBalancesHavingStddevSampleInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlTokenBalancesHavingSumInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlTokenBalancesHavingVariancePopulationInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlTokenBalancesHavingVarianceSampleInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `TokenBalance`. */
@@ -3672,8 +3490,8 @@ export type GqlTransaction = GqlNode & {
   blockHash: Scalars['String']['output'];
   blockNumber: Scalars['BigFloat']['output'];
   date: Scalars['Datetime']['output'];
-  fees: Scalars['BigFloat']['output'];
-  gasPrice: Scalars['BigFloat']['output'];
+  fees: Scalars['JSON']['output'];
+  gasPrice: Scalars['JSON']['output'];
   gasUsed: Scalars['BigFloat']['output'];
   id: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `Nft`. */
@@ -3784,10 +3602,6 @@ export type GqlTransactionAggregates = {
 export type GqlTransactionAverageAggregates = {
   /** Mean average of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Mean average of fees across the matching connection */
-  fees: Maybe<Scalars['BigFloat']['output']>;
-  /** Mean average of gasPrice across the matching connection */
-  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Mean average of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3830,9 +3644,9 @@ export type GqlTransactionFilter = {
   /** Filter by the object’s `date` field. */
   date?: InputMaybe<GqlDatetimeFilter>;
   /** Filter by the object’s `fees` field. */
-  fees?: InputMaybe<GqlBigFloatFilter>;
+  fees?: InputMaybe<GqlJSONFilter>;
   /** Filter by the object’s `gasPrice` field. */
-  gasPrice?: InputMaybe<GqlBigFloatFilter>;
+  gasPrice?: InputMaybe<GqlJSONFilter>;
   /** Filter by the object’s `gasUsed` field. */
   gasUsed?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `id` field. */
@@ -3848,10 +3662,6 @@ export type GqlTransactionFilter = {
 export type GqlTransactionMaxAggregates = {
   /** Maximum of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Maximum of fees across the matching connection */
-  fees: Maybe<Scalars['BigFloat']['output']>;
-  /** Maximum of gasPrice across the matching connection */
-  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Maximum of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3859,10 +3669,6 @@ export type GqlTransactionMaxAggregates = {
 export type GqlTransactionMinAggregates = {
   /** Minimum of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Minimum of fees across the matching connection */
-  fees: Maybe<Scalars['BigFloat']['output']>;
-  /** Minimum of gasPrice across the matching connection */
-  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Minimum of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3918,10 +3724,6 @@ export type GqlTransactionNftsByAssetTransferTransactionIdAndNftIdManyToManyEdge
 export type GqlTransactionStddevPopulationAggregates = {
   /** Population standard deviation of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Population standard deviation of fees across the matching connection */
-  fees: Maybe<Scalars['BigFloat']['output']>;
-  /** Population standard deviation of gasPrice across the matching connection */
-  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Population standard deviation of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3929,10 +3731,6 @@ export type GqlTransactionStddevPopulationAggregates = {
 export type GqlTransactionStddevSampleAggregates = {
   /** Sample standard deviation of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Sample standard deviation of fees across the matching connection */
-  fees: Maybe<Scalars['BigFloat']['output']>;
-  /** Sample standard deviation of gasPrice across the matching connection */
-  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Sample standard deviation of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3940,10 +3738,6 @@ export type GqlTransactionStddevSampleAggregates = {
 export type GqlTransactionSumAggregates = {
   /** Sum of blockNumber across the matching connection */
   blockNumber: Scalars['BigFloat']['output'];
-  /** Sum of fees across the matching connection */
-  fees: Scalars['BigFloat']['output'];
-  /** Sum of gasPrice across the matching connection */
-  gasPrice: Scalars['BigFloat']['output'];
   /** Sum of gasUsed across the matching connection */
   gasUsed: Scalars['BigFloat']['output'];
 };
@@ -4011,10 +3805,6 @@ export type GqlTransactionTokenContractsByAssetTransferTransactionIdAndTokenIdMa
 export type GqlTransactionVariancePopulationAggregates = {
   /** Population variance of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Population variance of fees across the matching connection */
-  fees: Maybe<Scalars['BigFloat']['output']>;
-  /** Population variance of gasPrice across the matching connection */
-  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Population variance of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -4022,10 +3812,6 @@ export type GqlTransactionVariancePopulationAggregates = {
 export type GqlTransactionVarianceSampleAggregates = {
   /** Sample variance of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
-  /** Sample variance of fees across the matching connection */
-  fees: Maybe<Scalars['BigFloat']['output']>;
-  /** Sample variance of gasPrice across the matching connection */
-  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Sample variance of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -4174,16 +3960,12 @@ export enum GqlTransactionsGroupBy {
 export type GqlTransactionsHavingAverageInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingDistinctCountInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
@@ -4205,56 +3987,42 @@ export type GqlTransactionsHavingInput = {
 export type GqlTransactionsHavingMaxInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingMinInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingStddevPopulationInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingStddevSampleInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingSumInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingVariancePopulationInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingVarianceSampleInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
-  fees?: InputMaybe<GqlHavingBigfloatFilter>;
-  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
@@ -4468,7 +4236,7 @@ export type GqlWallet = GqlNode & {
   assetTransfersByFromId: GqlAssetTransfersConnection;
   /** Reads and enables pagination through a set of `AssetTransfer`. */
   assetTransfersByToId: GqlAssetTransfersConnection;
-  balance: Scalars['BigFloat']['output'];
+  balance: Scalars['JSON']['output'];
   id: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `NftBalance`. */
   nfts: GqlNftBalancesConnection;
@@ -4695,30 +4463,9 @@ export type GqlWalletwalletsByAssetTransferToIdAndFromIdArgs = {
 };
 
 export type GqlWalletAggregates = {
-  /** Mean average aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  average: Maybe<GqlWalletAverageAggregates>;
   /** Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset) */
   distinctCount: Maybe<GqlWalletDistinctCountAggregates>;
   keys: Maybe<Array<Scalars['String']['output']>>;
-  /** Maximum aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  max: Maybe<GqlWalletMaxAggregates>;
-  /** Minimum aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  min: Maybe<GqlWalletMinAggregates>;
-  /** Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  stddevPopulation: Maybe<GqlWalletStddevPopulationAggregates>;
-  /** Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  stddevSample: Maybe<GqlWalletStddevSampleAggregates>;
-  /** Sum aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  sum: Maybe<GqlWalletSumAggregates>;
-  /** Population variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  variancePopulation: Maybe<GqlWalletVariancePopulationAggregates>;
-  /** Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
-  varianceSample: Maybe<GqlWalletVarianceSampleAggregates>;
-};
-
-export type GqlWalletAverageAggregates = {
-  /** Mean average of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlWalletDistinctCountAggregates = {
@@ -4745,7 +4492,7 @@ export type GqlWalletFilter = {
   /** Some related `assetTransfersByToId` exist. */
   assetTransfersByToIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `balance` field. */
-  balance?: InputMaybe<GqlBigFloatFilter>;
+  balance?: InputMaybe<GqlJSONFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `nfts` relation. */
@@ -4760,16 +4507,6 @@ export type GqlWalletFilter = {
   tokens?: InputMaybe<GqlWalletToManyTokenBalanceFilter>;
   /** Some related `tokens` exist. */
   tokensExist?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type GqlWalletMaxAggregates = {
-  /** Maximum of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlWalletMinAggregates = {
-  /** Minimum of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
 };
 
 /** A connection to a list of `Nft` values, with data from `AssetTransfer`. */
@@ -4914,21 +4651,6 @@ export type GqlWalletNftsByNftBalanceWalletIdAndNftIdManyToManyEdgenftBalancesAr
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<GqlNftBalancesOrderBy>>;
   orderByNull?: InputMaybe<GqlNullOrder>;
-};
-
-export type GqlWalletStddevPopulationAggregates = {
-  /** Population standard deviation of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlWalletStddevSampleAggregates = {
-  /** Sample standard deviation of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlWalletSumAggregates = {
-  /** Sum of balance across the matching connection */
-  balance: Scalars['BigFloat']['output'];
 };
 
 /** A filter to be used against many `AssetTransfer` object types. All fields are combined with a logical ‘and.’ */
@@ -5207,16 +4929,6 @@ export type GqlWalletTransactionsByAssetTransferToIdAndTransactionIdManyToManyEd
   orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
-export type GqlWalletVariancePopulationAggregates = {
-  /** Population variance of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
-export type GqlWalletVarianceSampleAggregates = {
-  /** Sample variance of balance across the matching connection */
-  balance: Maybe<Scalars['BigFloat']['output']>;
-};
-
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
 export type GqlWalletWalletsByAssetTransferFromIdAndToIdManyToManyConnection = {
   /** Aggregates across the matching connection (ignoring before/after/first/last/offset) */
@@ -5350,55 +5062,10 @@ export enum GqlWalletsGroupBy {
   ID = 'ID'
 }
 
-export type GqlWalletsHavingAverageInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlWalletsHavingDistinctCountInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
 /** Conditions for `Wallet` aggregates. */
 export type GqlWalletsHavingInput = {
   AND?: InputMaybe<Array<GqlWalletsHavingInput>>;
   OR?: InputMaybe<Array<GqlWalletsHavingInput>>;
-  average?: InputMaybe<GqlWalletsHavingAverageInput>;
-  distinctCount?: InputMaybe<GqlWalletsHavingDistinctCountInput>;
-  max?: InputMaybe<GqlWalletsHavingMaxInput>;
-  min?: InputMaybe<GqlWalletsHavingMinInput>;
-  stddevPopulation?: InputMaybe<GqlWalletsHavingStddevPopulationInput>;
-  stddevSample?: InputMaybe<GqlWalletsHavingStddevSampleInput>;
-  sum?: InputMaybe<GqlWalletsHavingSumInput>;
-  variancePopulation?: InputMaybe<GqlWalletsHavingVariancePopulationInput>;
-  varianceSample?: InputMaybe<GqlWalletsHavingVarianceSampleInput>;
-};
-
-export type GqlWalletsHavingMaxInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlWalletsHavingMinInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlWalletsHavingStddevPopulationInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlWalletsHavingStddevSampleInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlWalletsHavingSumInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlWalletsHavingVariancePopulationInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
-};
-
-export type GqlWalletsHavingVarianceSampleInput = {
-  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `Wallet`. */
@@ -6110,7 +5777,7 @@ export type GqlwalletBalanceQueryVariables = Exact<{
 export type GqlwalletBalanceQuery = {
   wallet: {
     id: string,
-    balance: string
+    balance: any
   } | null
 };
 
@@ -6148,7 +5815,7 @@ export type GqlwalletTokenBalancesQuery = {
       cursor: string | null,
       node: {
         id: string,
-        balance: string,
+        balance: any,
         token: {
           id: string,
           type: string,
@@ -6277,7 +5944,7 @@ export type GqlwalletAssetTransfersQuery = {
       node: {
         id: string,
         type: string,
-        value: string,
+        value: any,
         from: {
           id: string
         } | null,
@@ -6290,8 +5957,8 @@ export type GqlwalletAssetTransfersQuery = {
           blockHash: string,
           date: string,
           gasUsed: string,
-          gasPrice: string,
-          fees: string,
+          gasPrice: any,
+          fees: any,
           success: boolean
         } | null,
         token: {
@@ -6352,7 +6019,7 @@ export type GqlKeybanClient_TokenContractFragment = {
 
 export type GqlKeybanClient_TokenBalanceFragment = {
   id: string,
-  balance: string,
+  balance: any,
   token: {
     id: string,
     type: string,
@@ -6401,15 +6068,15 @@ export type GqlKeybanClient_TransactionFragment = {
   blockHash: string,
   date: string,
   gasUsed: string,
-  gasPrice: string,
-  fees: string,
+  gasPrice: any,
+  fees: any,
   success: boolean
 };
 
 export type GqlKeybanClient_AssetTransferFragment = {
   id: string,
   type: string,
-  value: string,
+  value: any,
   from: {
     id: string
   } | null,
@@ -6422,8 +6089,8 @@ export type GqlKeybanClient_AssetTransferFragment = {
     blockHash: string,
     date: string,
     gasUsed: string,
-    gasPrice: string,
-    fees: string,
+    gasPrice: any,
+    fees: any,
     success: boolean
   } | null,
   token: {
