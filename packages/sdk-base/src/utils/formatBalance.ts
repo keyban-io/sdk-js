@@ -25,7 +25,7 @@ export type Balance = {
  */
 export function formatBalance(client: KeybanClient, balance: Balance, token?: KeybanToken,): string {
   const decimals = balance.isNative ? client.nativeCurrency.decimals : balance.decimals ?? token?.decimals ?? 0;
-  const symbol = balance.isNative ? client.nativeCurrency.symbol : balance.decimals ?? token?.symbol ?? undefined;
+  const symbol = balance.isNative ? client.nativeCurrency.symbol : balance.symbol ?? token?.symbol ?? undefined;
 
   const fmt = formatUnits(typeof balance.raw === 'bigint' ? balance.raw : BigInt(balance.raw), decimals);
   return symbol ? `${fmt} ${symbol}` : fmt;
