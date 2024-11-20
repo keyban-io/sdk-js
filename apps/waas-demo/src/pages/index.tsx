@@ -1,9 +1,12 @@
-import React from "react";
+// src/pages/index.tsx
+
+import type React from "react";
+import { useEffect, useState } from "react";
 
 import { useErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
-import { fetchMaticToEuroRate } from "@/utils/apiUtils";
+import { fetchCryptoToEuroRate } from "@/utils/apiUtils";
 import {
   faCoins,
   faCube,
@@ -29,6 +32,10 @@ import NFTSection from "../components/NFTSection";
 import TokensSection from "../components/TokensSection";
 import TransferList from "../components/TransferList";
 
+interface CryptoToEuroRate {
+  [symbol: string]: number;
+}
+
 const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();
   const { showBoundary } = useErrorBoundary();
@@ -41,18 +48,42 @@ const WalletDashboardContent: React.FC = () => {
 
   const client = useKeybanClient();
 
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [maticToEuroRate, setMaticToEuroRate] = React.useState<number>(0);
-  React.useEffect(() => {
-    fetchMaticToEuroRate()
-      .then(setMaticToEuroRate)
-      .catch((error) => {
-        if (error.message === "Failed to fetch") {
-          console.error("Failed to fetch Matic to Euro rate");
-        } else showBoundary(error);
-      })
-      .finally(() => setLoading(false));
-  }, [showBoundary]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [cryptoToEuroRate, setCryptoToEuroRate] = useState<CryptoToEuroRate>(
+    {},
+  );
+
+  useEffect(() => {
+    const fetchRates = async () => {
+      try {
+        const rate = await fetchCryptoToEuroRate(client.nativeCurrency.symbol);
+        setCryptoToEuroRate((prevRates) => ({
+          ...prevRates,
+          [client.nativeCurrency.symbol]: rate,
+        }));
+      } catch (error) {
+        if (
+          error instanceof Error &&
+          error.message.includes("No mapping found")
+        ) {
+          console.error(
+            `No mapping found for symbol: ${client.nativeCurrency.symbol}`,
+          );
+        } else if (
+          error instanceof Error &&
+          error.message.includes("API request failed")
+        ) {
+          console.error(
+            `Failed to fetch ${client.nativeCurrency.symbol} to Euro rate: ${error.message}`,
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRates();
+  }, [client.nativeCurrency.symbol]);
 
   const handleTransferCrypto = () => {
     navigate("/transfer-native-crypto");
@@ -65,6 +96,7 @@ const WalletDashboardContent: React.FC = () => {
   const handleViewTokens = () => {
     navigate("/tokens");
   };
+
   const handleViewNfts = () => {
     navigate("/nfts");
   };
@@ -84,18 +116,21 @@ const WalletDashboardContent: React.FC = () => {
     );
   }
 
+  // Vérifier si le taux de conversion est disponible
+  const euroBalance =
+    cryptoToEuroRate[client.nativeCurrency.symbol] &&
+    (Number(balance.raw) / 10 ** balance.decimals) *
+      cryptoToEuroRate[client.nativeCurrency.symbol];
+
   return (
     <>
       <Stack spacing={2}>
         <AccountInfo />
         <BalanceInfo
           balance={balance}
-          euroBalance={
-            (Number(balance) / 10 ** client.nativeCurrency.decimals) *
-            maticToEuroRate
-          }
+          euroBalance={euroBalance}
           onSend={handleTransferCrypto}
-        />{" "}
+        />
         <Divider />
         <Typography variant="h6" color="primary">
           <FontAwesomeIcon icon={faCoins} style={{ marginRight: "8px" }} />

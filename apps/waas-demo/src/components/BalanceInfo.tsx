@@ -3,7 +3,7 @@ import type React from "react";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Balance,
+  type Balance,
   FormattedBalance,
 } from "@keyban/sdk-react";
 import {
@@ -34,7 +34,9 @@ const BalanceInfo: React.FC<BalanceInfoProps> = ({
       <Stack direction="row" alignItems="center">
         <Tooltip title="Cryptocurrency Balance" arrow>
           <Typography variant="h6">
-            {balance != null && <FormattedBalance balance={{ ...balance, isNative: true }} />}
+            {balance != null && (
+              <FormattedBalance balance={{ ...balance, isNative: true }} />
+            )}
           </Typography>
         </Tooltip>
       </Stack>
