@@ -1,9 +1,7 @@
 // src/pages/index.tsx
 
-import type React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { useErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
 import { fetchCryptoToEuroRate } from "@/utils/apiUtils";
@@ -19,9 +17,11 @@ import {
   useKeybanClient,
 } from "@keyban/sdk-react";
 import {
+  Box,
   Button,
   CircularProgress,
   Divider,
+  Grid2,
   Stack,
   Typography,
 } from "@mui/material";
@@ -38,7 +38,6 @@ interface CryptoToEuroRate {
 
 const WalletDashboardContent: React.FC = () => {
   const navigate = useNavigate();
-  const { showBoundary } = useErrorBoundary();
 
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
@@ -116,7 +115,7 @@ const WalletDashboardContent: React.FC = () => {
     );
   }
 
-  // Vérifier si le taux de conversion est disponible
+  // Validate if the conversion rate is available
   const euroBalance =
     cryptoToEuroRate[client.nativeCurrency.symbol] &&
     (Number(balance.raw) / 10 ** balance.decimals) *
@@ -124,7 +123,7 @@ const WalletDashboardContent: React.FC = () => {
 
   return (
     <>
-      <Stack spacing={2}>
+      <Stack spacing={4}>
         <AccountInfo />
         <BalanceInfo
           balance={balance}
@@ -132,35 +131,94 @@ const WalletDashboardContent: React.FC = () => {
           onSend={handleTransferCrypto}
         />
         <Divider />
-        <Typography variant="h6" color="primary">
-          <FontAwesomeIcon icon={faCoins} style={{ marginRight: "8px" }} />
-          Tokens with Recent Transactions
-        </Typography>
-        <TokensSection pageSize={5} disableInfiniteScroll />
-        <Button variant="contained" onClick={handleViewTokens}>
-          View all Tokens...
-        </Button>
+
+        {/* Tokens Section */}
+        <Box>
+          <Typography variant="h6" color="primary" gutterBottom>
+            <FontAwesomeIcon icon={faCoins} style={{ marginRight: "8px" }} />
+            Tokens with Recent Transactions
+          </Typography>
+          <TokensSection pageSize={5} disableInfiniteScroll />
+          <Grid2
+            container
+            spacing={2}
+            justifyContent="center" // Centrage horizontal
+            mt={2}
+          >
+            <Grid2>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleViewTokens}
+                startIcon={<FontAwesomeIcon icon={faCoins} />}
+                size="small"
+              >
+                View all Tokens
+              </Button>
+            </Grid2>
+          </Grid2>
+        </Box>
+
         <Divider />
-        <Typography variant="h6" color="primary">
-          <FontAwesomeIcon icon={faCube} style={{ marginRight: "8px" }} />
-          NFTs with Recent Transactions
-        </Typography>
-        <NFTSection pageSize={5} disableInfiniteScroll />
-        <Button variant="contained" onClick={handleViewNfts}>
-          View all NFTs...
-        </Button>
+
+        {/* NFTs Section */}
+        <Box>
+          <Typography variant="h6" color="primary" gutterBottom>
+            <FontAwesomeIcon icon={faCube} style={{ marginRight: "8px" }} />
+            NFTs with Recent Transactions
+          </Typography>
+          <NFTSection pageSize={5} disableInfiniteScroll />
+          <Grid2
+            container
+            spacing={2}
+            justifyContent="center" // Centrage horizontal
+            mt={2}
+          >
+            <Grid2>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleViewNfts}
+                startIcon={<FontAwesomeIcon icon={faCube} />}
+                size="small"
+              >
+                View all NFTs
+              </Button>
+            </Grid2>
+          </Grid2>
+        </Box>
+
         <Divider />
-        <Typography variant="h6" color="primary">
-          <FontAwesomeIcon
-            icon={faMoneyBillTransfer}
-            style={{ marginRight: "8px" }}
-          />
-          Latest Transfers
-        </Typography>
-        <TransferList pageSize={5} disableInfiniteScroll />
-        <Button variant="contained" onClick={handleViewTransfers}>
-          View all Transfers...
-        </Button>
+
+        {/* Transfers Section */}
+        <Box>
+          <Typography variant="h6" color="primary" gutterBottom>
+            <FontAwesomeIcon
+              icon={faMoneyBillTransfer}
+              style={{ marginRight: "8px" }}
+            />
+            Latest Transfers
+          </Typography>
+          <TransferList pageSize={5} disableInfiniteScroll />
+          <Grid2
+            container
+            spacing={2}
+            justifyContent="center" // Centrage horizontal
+            mt={2}
+          >
+            <Grid2>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleViewTransfers}
+                startIcon={<FontAwesomeIcon icon={faMoneyBillTransfer} />}
+                size="small"
+              >
+                View all Transfers
+              </Button>
+            </Grid2>
+          </Grid2>
+        </Box>
       </Stack>
     </>
   );
