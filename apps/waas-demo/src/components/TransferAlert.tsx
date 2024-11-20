@@ -67,7 +67,7 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}
-              <FormattedBalance balance={{raw: rawMaxFees, isNative: true}} />.
+              <FormattedBalance balance={{raw: rawMaxFees, isFees: true}} />.
             </Typography>
           </>
         ) : (
@@ -78,7 +78,7 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}
-              <FormattedBalance balance={{raw: rawMaxFees, isNative: true}} />.
+              <FormattedBalance balance={{raw: rawMaxFees, isFees: true}} />.
             </Typography>
             <Typography>
               Total (including fees): <FormattedBalance balance={{raw: total, isNative: true}} />.

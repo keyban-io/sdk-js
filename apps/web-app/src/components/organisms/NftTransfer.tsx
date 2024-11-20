@@ -126,7 +126,7 @@ export default function NftTransfer() {
             data-test-id="NftTransfer:estimate:rawValue"
           />
           <div data-test-id="NftTransfer:estimate:formattedValue">
-            <FormattedBalance balance={{raw: estimation.maxFees, isNative: true}} />
+            <FormattedBalance balance={{raw: estimation.maxFees, isFees: true}} />
           </div>
         </Row>
       )}

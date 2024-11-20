@@ -9,6 +9,7 @@ export type Balance = {
   decimals?: number;
   symbol?: string;
   isNative?: boolean;
+  isFees?: boolean;
 }
 
 /**
@@ -24,8 +25,19 @@ export type Balance = {
  * @see {@link useKeybanClient}
  */
 export function formatBalance(client: KeybanClient, balance: Balance, token?: KeybanToken,): string {
-  const decimals = balance.isNative ? client.nativeCurrency.decimals : balance.decimals ?? token?.decimals ?? 0;
-  const symbol = balance.isNative ? client.nativeCurrency.symbol : balance.symbol ?? token?.symbol ?? undefined;
+  let decimals = balance.decimals;
+  let symbol = balance.symbol;
+  if (balance.isFees) {
+    decimals = client.feesUnit.decimals;
+    symbol = client.feesUnit.symbol;
+  } else if (balance.isNative) {
+    decimals = client.nativeCurrency.decimals;
+    symbol = client.nativeCurrency.symbol;
+  } else if (token) {
+    decimals = token.decimals ?? undefined;
+    symbol = token.symbol ?? undefined;
+  }
+  decimals = decimals ?? 0;
 
   const fmt = formatUnits(typeof balance.raw === 'bigint' ? balance.raw : BigInt(balance.raw), decimals);
   return symbol ? `${fmt} ${symbol}` : fmt;

@@ -72,7 +72,7 @@ export default function NativeTransfer() {
           />
 
           <div data-test-id="NativeTransfer:estimate:formattedValue">
-            <FormattedBalance balance={{raw: estimation.maxFees, isNative: true}} />
+            <FormattedBalance balance={{raw: estimation.maxFees, isFees: true}} />
           </div>
         </Row>
       )}

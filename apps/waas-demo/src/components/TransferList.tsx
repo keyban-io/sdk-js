@@ -223,13 +223,13 @@ const TransferList: React.FC<TransferListProps> = ({
 
   const formatTransactionFee = (fee: string) => {
     const feeInWei = BigInt(fee);
-    const feeInNative = Number(feeInWei) / 10 ** client.nativeCurrency.decimals;
-    const formattedFee = feeInNative.toLocaleString(navigator.language, {
+    const feeInFeesUnit = Number(feeInWei) / 10 ** client.feesUnit.decimals;
+    const formattedFee = feeInFeesUnit.toLocaleString(navigator.language, {
       minimumFractionDigits: 8,
       maximumFractionDigits: 18,
     });
 
-    return `${formattedFee} ${client.nativeCurrency.symbol}`;
+    return `${formattedFee} ${client.feesUnit.symbol}`;
   };
 
   const getTxHash = (nftId: string | undefined) => {

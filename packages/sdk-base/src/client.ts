@@ -22,6 +22,8 @@ import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
 import {
+  FeesUnit,
+  feesUnitChainsMap,
   signersChainMap,
   viemChainsMap,
 } from "~/chains";
@@ -96,6 +98,7 @@ export class KeybanClient {
     symbol: string;
     decimals: number;
   };
+  feesUnit: FeesUnit;
 
   #accessTokenProvider: () => string | Promise<string>;
 
@@ -127,6 +130,7 @@ export class KeybanClient {
     this.appId = appId;
     this.chain = chain;
     this.nativeCurrency = viemChainsMap[this.chain].nativeCurrency;
+    this.feesUnit = feesUnitChainsMap[this.chain];
 
     this.#accessTokenProvider = accessTokenProvider;
 

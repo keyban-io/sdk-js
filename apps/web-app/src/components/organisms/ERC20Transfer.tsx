@@ -81,7 +81,7 @@ export default function ERC20Transfer() {
             data-test-id="ERC20Transfer:estimate:rawValue"
           />
           <div data-test-id="ERC20Transfer:estimate:formattedValue">
-            <FormattedBalance balance={{raw: estimation.maxFees, isNative: true}} />
+            <FormattedBalance balance={{raw: estimation.maxFees, isFees: true}} />
           </div>
         </Row>
       )}
