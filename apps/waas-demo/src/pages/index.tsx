@@ -117,13 +117,15 @@ const WalletDashboardContent: React.FC = () => {
 
   // Validate if the conversion rate is available
   const euroBalance =
-    cryptoToEuroRate[client.nativeCurrency.symbol] &&
-    (Number(balance.raw) / 10 ** balance.decimals) *
-      cryptoToEuroRate[client.nativeCurrency.symbol];
+    balance.raw === "0"
+      ? 0
+      : cryptoToEuroRate[client.nativeCurrency.symbol] &&
+        (Number(balance.raw) / 10 ** balance.decimals) *
+          cryptoToEuroRate[client.nativeCurrency.symbol];
 
   return (
     <>
-      <Stack spacing={4}>
+      <Stack spacing={1}>
         <AccountInfo />
         <BalanceInfo
           balance={balance}
