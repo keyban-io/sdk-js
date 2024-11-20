@@ -1,9 +1,5 @@
 import type React from "react";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -130,7 +126,14 @@ const TokensSection: React.FC<TokensSectionProps> = ({
                 ref={!disableInfiniteScroll && isLastItem ? lastTokenRef : null}
                 divider
                 disableGutters
-                sx={{ paddingY: 1 }}
+                sx={{
+                  paddingY: 1,
+                  transition: "background-color 0.3s, box-shadow 0.3s",
+                  "&:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.04)", // Change la couleur de fond au survol
+                    boxShadow: 3, // Ajoute une ombre pour l'emphase
+                  },
+                }}
               >
                 <Stack
                   direction="row"
@@ -138,7 +141,11 @@ const TokensSection: React.FC<TokensSectionProps> = ({
                   justifyContent="space-between"
                   sx={{ width: "100%" }}
                 >
-                  <Typography variant="h6" component="div">
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{ paddingLeft: 2 }} // Ajoute un padding à gauche
+                  >
                     {tokenBalance.token?.name
                       ? tokenBalance.token.name
                       : tokenBalance.token?.id}
