@@ -114,14 +114,14 @@ const TransferList: React.FC<TransferListProps> = ({
       setTransfers((prevTransfers) => {
         // Concaténer les nouveaux transferts aux précédents
         const newTransfers = transferHistory.edges
-          .map((edge) => edge.node)
-          .filter((node): node is Transfer => node !== null);
+          .map((edge: { node: any; }) => edge.node)
+          .filter((node: any): node is Transfer => node !== null);
 
         // Éviter les duplications en vérifiant les IDs
         const existingIds = new Set(prevTransfers.map((t) => t.id));
         const combinedTransfers = [
           ...prevTransfers,
-          ...newTransfers.filter((t) => !existingIds.has(t.id)),
+          ...newTransfers.filter((t: { id: string; }) => !existingIds.has(t.id)),
         ];
 
         return combinedTransfers;

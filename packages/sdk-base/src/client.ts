@@ -338,7 +338,19 @@ export class KeybanClient {
       variables: { walletId: address, ...pagination },
     });
 
-    return data.assetTransfers;
+    // Set the transaction date timezone to UTC
+    return {
+      ...data.assetTransfers,
+      edges: data.assetTransfers?.edges.map((transfer: any) => ({
+        node: {
+          ...transfer.node,
+          transaction: {
+            ...transfer.node.transaction,
+            date: `${transfer.node.transaction.date}Z`,
+          },
+        },
+      })),
+    };
   }
 
   /**
