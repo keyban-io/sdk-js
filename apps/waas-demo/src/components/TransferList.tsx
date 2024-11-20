@@ -1,14 +1,7 @@
 import type React from "react";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
-import {
-  format,
-  formatDistanceToNow,
-} from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 
 import {
   useKeybanAccount,
@@ -114,14 +107,14 @@ const TransferList: React.FC<TransferListProps> = ({
       setTransfers((prevTransfers) => {
         // Concaténer les nouveaux transferts aux précédents
         const newTransfers = transferHistory.edges
-          .map((edge: { node: any; }) => edge.node)
-          .filter((node: any): node is Transfer => node !== null);
+          .map((edge: { node: Transfer | null }) => edge.node)
+          .filter((node: Transfer | null): node is Transfer => node !== null);
 
         // Éviter les duplications en vérifiant les IDs
         const existingIds = new Set(prevTransfers.map((t) => t.id));
         const combinedTransfers = [
           ...prevTransfers,
-          ...newTransfers.filter((t: { id: string; }) => !existingIds.has(t.id)),
+          ...newTransfers.filter((t: { id: string }) => !existingIds.has(t.id)),
         ];
 
         return combinedTransfers;
@@ -185,13 +178,13 @@ const TransferList: React.FC<TransferListProps> = ({
     if (transfer?.type === "native") {
       const amountInETH =
         (Number(transfer?.value.raw) || 0) /
-        10 ** (transfer?.value?.decimals?? client.nativeCurrency.decimals);
+        10 ** (transfer?.value?.decimals ?? client.nativeCurrency.decimals);
       return `${amountInETH.toFixed(4)} ${client.nativeCurrency.symbol}`;
     }
     if (transfer.type === "erc20") {
       const amountInTokens =
         (Number(transfer?.value.raw) || 0) /
-        10 ** (transfer?.value?.decimals?? transfer?.token?.decimals ?? 0);
+        10 ** (transfer?.value?.decimals ?? transfer?.token?.decimals ?? 0);
       return `${amountInTokens.toFixed(4)} ${transfer.token?.symbol ?? ""}`;
     }
     if (transfer.type === "erc721") {
@@ -204,7 +197,7 @@ const TransferList: React.FC<TransferListProps> = ({
   };
 
   const formatHuman = (date: string) =>
-    formatDistanceToNow(new Date(`${date}Z`), {
+    formatDistanceToNow(new Date(`${date}`), {
       includeSeconds: true,
       addSuffix: true,
     });
