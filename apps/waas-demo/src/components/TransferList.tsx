@@ -290,7 +290,6 @@ const TransferList: React.FC<TransferListProps> = ({
             {transfers.map((transfer, index) => {
               const status = getStatus(transfer);
               const amount = formatAmount(transfer);
-              console.log("date", transfer?.transaction?.date);
               const dateHuman = transfer?.transaction?.date
                 ? formatHuman(transfer.transaction?.date)
                 : "Unknown";
