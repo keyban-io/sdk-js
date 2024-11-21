@@ -53,11 +53,11 @@ export function createApolloClient(
   return new ApolloClient({
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: "no-cache",
+        fetchPolicy: "cache-and-network",
         errorPolicy: "none",
       },
       query: {
-        fetchPolicy: "no-cache",
+        fetchPolicy: "cache-first",
         errorPolicy: "none",
       },
     },
