@@ -70,6 +70,15 @@ export function createApolloClient(
             assetTransfers: relayStylePagination(),
           },
         },
+        Transaction: {
+          fields: {
+            date: {
+              read(date) {
+                return date ? date + "Z" : date;
+              }
+            }
+          }
+        }
       },
     }),
     link: ApolloLink.from([authLink, transportLink]),

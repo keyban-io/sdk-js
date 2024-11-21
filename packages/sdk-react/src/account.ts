@@ -454,21 +454,7 @@ export function useKeybanAccountTransferHistory(
     },
   };
 
-  // Set the transaction date timezone to UTC
-  const assetTransfers = {
-    ...(data as any).assetTransfers,
-    edges: (data as any).assetTransfers?.edges.map((transfer: any) => ({
-      node: {
-        ...transfer.node,
-        transaction: {
-          ...transfer.node.transaction,
-          date: `${transfer.node.transaction.date}Z`,
-        },
-      },
-    })),
-  };
-
   return error
     ? ([null, error, extra] as const)
-    : ([assetTransfers, null, extra] as const);
+    : ([data.assetTransfers, null, extra] as const);
 }

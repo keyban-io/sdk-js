@@ -46,7 +46,7 @@ export default function TransferHistory() {
           </tr>
         </thead>
         <tbody>
-          {transactionHistory?.edges.map(({ cursor, node }: { cursor: string; node: any }) => (
+          {transactionHistory?.edges.map(({ cursor, node }) => (
             <tr key={cursor}>
               <td>
                 <code>{node?.transaction?.blockNumber}</code>
