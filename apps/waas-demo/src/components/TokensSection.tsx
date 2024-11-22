@@ -1,5 +1,8 @@
 import type React from "react";
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+} from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -34,8 +37,6 @@ const TokensSection: React.FC<TokensSectionProps> = ({
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [tokens, setTokens] = useState<KeybanTokenBalance[]>([]);
-  const [hasNextPage, setHasNextPage] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastTokenRef = useRef<HTMLLIElement | null>(null);
 
@@ -43,29 +44,7 @@ const TokensSection: React.FC<TokensSectionProps> = ({
     useKeybanAccountTokenBalances(account, { first: pageSize });
   if (tokenBalancesError) throw tokenBalancesError;
 
-  useEffect(() => {
-    if (tokenBalances) {
-      setHasNextPage(tokenBalances.pageInfo.hasNextPage);
-
-      setTokens((prevTokens) => {
-        const newTokens = tokenBalances.edges
-          .map((edge) => edge.node)
-          .filter(
-            (node): node is KeybanTokenBalance =>
-              node !== null && node.token !== null,
-          );
-
-        // Avoid duplicates by checking IDs
-        const existingIds = new Set(prevTokens.map((t) => t.id));
-        const combinedTokens = [
-          ...prevTokens,
-          ...newTokens.filter((t) => !existingIds.has(t.id)),
-        ];
-
-        return combinedTokens;
-      });
-    }
-  }, [tokenBalances]);
+  const hasNextPage = tokenBalances?.pageInfo.hasNextPage ?? false;
 
   useEffect(() => {
     if (disableInfiniteScroll || loading) return;
@@ -106,6 +85,14 @@ const TokensSection: React.FC<TokensSectionProps> = ({
       state: { contractAddress: token?.id },
     });
   };
+
+  const tokens =
+    tokenBalances?.edges
+      .map((edge) => edge.node)
+      .filter(
+        (node): node is KeybanTokenBalance =>
+          node !== null && node.token !== null,
+      ) ?? [];
 
   return (
     <Stack direction="column" spacing={2}>

@@ -2,7 +2,6 @@ import type React from "react";
 import {
   useEffect,
   useRef,
-  useState,
 } from "react";
 
 import {
@@ -85,7 +84,7 @@ interface Transfer {
 
 interface TransferListProps {
   pageSize?: number;
-  disableInfiniteScroll?: boolean; // Prop pour désactiver le défilement infini
+  disableInfiniteScroll?: boolean;
 }
 
 const TransferList: React.FC<TransferListProps> = ({
@@ -96,8 +95,6 @@ const TransferList: React.FC<TransferListProps> = ({
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [transfers, setTransfers] = useState<Transfer[]>([]);
-  const [hasNextPage, setHasNextPage] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastTransferRef = useRef<HTMLTableRowElement | null>(null);
 
@@ -107,27 +104,7 @@ const TransferList: React.FC<TransferListProps> = ({
     useKeybanAccountTransferHistory(account, { first: pageSize });
   if (transferHistoryError) throw transferHistoryError;
 
-  useEffect(() => {
-    if (transferHistory) {
-      setHasNextPage(transferHistory.pageInfo.hasNextPage);
-
-      setTransfers((prevTransfers) => {
-        // Concaténer les nouveaux transferts aux précédents
-        const newTransfers = transferHistory.edges
-          .map((edge) => edge.node)
-          .filter((node): node is Transfer => node !== null);
-
-        // Éviter les duplications en vérifiant les IDs
-        const existingIds = new Set(prevTransfers.map((t) => t.id));
-        const combinedTransfers = [
-          ...prevTransfers,
-          ...newTransfers.filter((t) => !existingIds.has(t.id)),
-        ];
-
-        return combinedTransfers;
-      });
-    }
-  }, [transferHistory]);
+  const hasNextPage = transferHistory?.pageInfo.hasNextPage ?? false;
 
   useEffect(() => {
     const loadMoreTransfers = async () => {
@@ -209,7 +186,7 @@ const TransferList: React.FC<TransferListProps> = ({
       addSuffix: true,
     });
 
-  const formatDate = (date: string) => format(new Date(date), "PPpp"); // Exemple : '14 oct. 2024 à 8:51 AM'
+  const formatDate = (date: string) => format(new Date(date), "PPpp");
 
   const getStatus = (transfer: Transfer | null) => {
     if (!transfer || !account) return "Unknown";
@@ -294,7 +271,10 @@ const TransferList: React.FC<TransferListProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {transfers.map((transfer, index) => {
+            {transferHistory?.edges.map((edge, index) => {
+              const transfer = edge.node;
+              if (!transfer) return null;
+
               const status = getStatus(transfer);
               const amount = formatAmount(transfer);
               const dateHuman = transfer?.transaction?.date
@@ -314,7 +294,7 @@ const TransferList: React.FC<TransferListProps> = ({
                 console.error("Error generating indexer URL:", error);
               }
 
-              const isLastItem = index === transfers.length - 1;
+              const isLastItem = index === transferHistory.edges.length - 1;
 
               return (
                 <TableRow

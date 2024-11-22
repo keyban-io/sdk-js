@@ -2,7 +2,6 @@ import type React from "react";
 import {
   useEffect,
   useRef,
-  useState,
 } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -54,8 +53,6 @@ const NFTSection: React.FC<NFTSectionProps> = ({
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [nfts, setNfts] = useState<KeybanNft[]>([]);
-  const [hasNextPage, setHasNextPage] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastNftRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,28 +64,7 @@ const NFTSection: React.FC<NFTSectionProps> = ({
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (nftBalances) {
-      setHasNextPage(nftBalances.pageInfo.hasNextPage);
-
-      setNfts((prevNfts) => {
-        const newNfts = nftBalances.edges
-          .map((edge) => edge.node)
-          .filter(
-            (node): node is KeybanNft => node !== null && node.nft !== null,
-          );
-
-        // Éviter les duplications en vérifiant les IDs
-        const existingIds = new Set(prevNfts.map((n) => n.id));
-        const combinedNfts = [
-          ...prevNfts,
-          ...newNfts.filter((n) => !existingIds.has(n.id)),
-        ];
-
-        return combinedNfts;
-      });
-    }
-  }, [nftBalances]);
+  const hasNextPage = nftBalances?.pageInfo.hasNextPage ?? false;
 
   useEffect(() => {
     if (disableInfiniteScroll || loading) return;
@@ -99,6 +75,7 @@ const NFTSection: React.FC<NFTSectionProps> = ({
         // `nftBalances` sera mis à jour automatiquement
       }
     };
+
     if (observer.current) observer.current.disconnect();
 
     observer.current = new IntersectionObserver(
@@ -137,6 +114,13 @@ const NFTSection: React.FC<NFTSectionProps> = ({
       {} as Record<string, KeybanNft[]>,
     );
   };
+
+  const nfts =
+    nftBalances?.edges
+      .map((edge) => edge.node)
+      .filter(
+        (node): node is KeybanNft => node !== null && node.nft !== null,
+      ) ?? [];
 
   if (!nfts.length) {
     return (
