@@ -75,7 +75,7 @@ export function useKeybanAccount(): KeybanSuspenseResult<KeybanAccount> {
 /**
  * Return the native balance of an account.
  *
- * @param - A Keyban account object.
+ * @param account - A Keyban account object.
  *
  * @example
  * ```tsx
@@ -126,8 +126,8 @@ export function useKeybanAccountBalance({
 /**
  * Return the ERC20 tokens of an account.
  *
- * @param - A Keyban account object.
- * @param - Optional pagination arguments for fetching the token balances.
+ * @param account - A Keyban account object.
+ * @param options - Optional pagination arguments for fetching the token balances.
  * @returns - A tuple containing:
  * - The token balances data or null if an error occurred.
  * - The error object or null if no error occurred.
@@ -249,8 +249,8 @@ export function useKeybanAccountTokenBalances(
 /**
  * Return the NFTs of an account.
  *
- * @param - A Keyban account object.
- * @param - Optional pagination arguments for fetching the NFTs.
+ * @param account - A Keyban account object.
+ * @param options - Optional pagination arguments for fetching the NFTs.
  * @returns - A tuple containing:
  * - The NFT balances data or null if an error occurred.
  * - The error object or null if no error occurred.
@@ -371,7 +371,7 @@ export function useKeybanAccountNfts(
 /**
  * Return one ERC721 or ERC1155 token of an account.
  *
- * @param - A Keyban account object.
+ * @param account - A Keyban account object.
  *
  * @example
  * ```tsx
@@ -426,8 +426,8 @@ export function useKeybanAccountNft(
 /**
  * Return the transfer history of an account.
  *
- * @param - A Keyban account object.
- * @param - Optional pagination arguments for fetching the transfer history.
+ * @param account - A Keyban account object.
+ * @param options - Optional pagination arguments for fetching the transfer history.
  * @returns - A tuple containing:
  * - The transfer history data or null if an error occurred.
  * - The error object or null if no error occurred.
