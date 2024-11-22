@@ -53,7 +53,7 @@ function MyWallet() {
 
   return (
     <div>
-      Your account balance: <FormattedBalance balance={balance} />
+      Your account balance: <FormattedBalance balance={{raw: balance}} />
     </div>
   );
 }

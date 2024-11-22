@@ -18,7 +18,8 @@ export type Balance = {
  * {@link KeybanAccount.getBalance | KeybanAccount.getBalance()}.
  *
  * @param client - The Keyban client to use for formatting.
- * @param balance - The balance as a bigint.
+ * @param balance - The balance as a raw balance object.
+ * @param token - The token object, if the balance is for a token.
  * @returns - The formatted balance as a string.
  *
  * @see {@link KeybanClient}

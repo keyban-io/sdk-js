@@ -2,11 +2,16 @@ import type React from "react";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { type Balance, FormattedBalance } from "@keyban/sdk-react";
-import { Button, Stack, Tooltip, Typography } from "@mui/material";
+import { FormattedBalance } from "@keyban/sdk-react";
+import {
+  Button,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
 interface BalanceInfoProps {
-  balance: Balance | undefined;
+  balance: string | undefined;
   euroBalance: number | null;
   onSend: () => void;
 }
@@ -27,7 +32,7 @@ const BalanceInfo: React.FC<BalanceInfoProps> = ({
         <Tooltip title="Cryptocurrency Balance" arrow>
           <Typography variant="h5">
             {balance != null && (
-              <FormattedBalance balance={{ ...balance, isNative: true }} />
+              <FormattedBalance balance={{ raw: balance, isNative: true }} />
             )}
           </Typography>
         </Tooltip>

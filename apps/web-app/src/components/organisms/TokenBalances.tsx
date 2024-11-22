@@ -1,5 +1,6 @@
 import React from "react";
 
+import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import TextField from "@/components/molecules/TextField";
@@ -7,7 +8,6 @@ import {
   useKeybanAccount,
   useKeybanAccountTokenBalances,
 } from "@keyban/sdk-react";
-import RefreshButton from "@/components/atoms/RefreshButton";
 
 export default function TokenBalances() {
   const [account, accountError] = useKeybanAccount();
@@ -70,7 +70,7 @@ export default function TokenBalances() {
                       textAlign: "right",
                     }}
                   >
-                    {node.balance.raw}
+                    {node.balance}
                   </td>
                   <td data-test-id="TokenBalances:symbol">
                     <code>{node.token?.symbol}</code>

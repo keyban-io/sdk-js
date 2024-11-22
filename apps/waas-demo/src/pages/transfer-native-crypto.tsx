@@ -99,7 +99,7 @@ const TransferNativeCrypto: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        Balance: <FormattedBalance balance={{...balance, isNative: true}} />
+        Balance: <FormattedBalance balance={{raw: balance, isNative: true}} />
       </Typography>
 
       <TextField

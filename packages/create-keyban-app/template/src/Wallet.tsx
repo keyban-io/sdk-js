@@ -34,7 +34,7 @@ function WalletContent() {
       <div>Address: {account?.address || "No address found"}</div>
       {/* Displays the account address */}
       <div>
-        <FormattedBalance balance={{...balance, isNative: true}} /> on {config.keyban.chain}{" "}
+        <FormattedBalance balance={{raw: balance, isNative: true}} /> on {config.keyban.chain}{" "}
         <button
           type="button"
           className="refresh-button"

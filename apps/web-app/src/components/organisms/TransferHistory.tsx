@@ -66,7 +66,7 @@ export default function TransferHistory() {
                   textAlign: "right",
                 }}
               >
-                <FormattedBalance balance={{...node?.value, isNative: node?.type === "native"}} token={node?.type=== "erc20"? node?.token?? undefined: undefined}/>
+                <FormattedBalance balance={{raw: node?.rawValue?? "0", decimals: node?.decimals?? undefined, isNative: node?.type === "native"}} token={node?.type=== "erc20"? node?.token?? undefined: undefined}/>
               </td>
               <td>
                 <code>{node?.type}</code>

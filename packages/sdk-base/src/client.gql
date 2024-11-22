@@ -200,7 +200,8 @@ fragment KeybanClient_AssetTransfer on AssetTransfer {
     ...KeybanClient_Transaction
   }
   type
-  value
+  rawValue
+  decimals
   token {
     id
     ...KeybanClient_TokenContract

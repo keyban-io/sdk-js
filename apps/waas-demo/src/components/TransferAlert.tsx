@@ -38,9 +38,7 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
   }
 
   try {
-    const decimals = tokenBalance?.token?.decimals
-      ? tokenBalance.token.decimals
-      : client.nativeCurrency.decimals;
+    const decimals = tokenBalance? tokenBalance.token?.decimals?? 0 : client.nativeCurrency.decimals;
 
     // Conversion du montant et des frais en bigint
     const amountInBigInt = BigInt(Number(amount) * 10 ** decimals);
@@ -58,9 +56,8 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
               <FormattedBalance
                 balance={{
                   raw: amountInBigInt,
-                  isNative: tokenBalance === undefined || tokenBalance === null,
                 }}
-                token={tokenBalance?.token?? undefined}
+                token={tokenBalance.token?? undefined}
 
               />{" "}
               to {recipient}.
@@ -74,7 +71,7 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
           <>
             <Typography>
               You are about to send{" "}
-              <FormattedBalance balance={{raw: amountInBigInt, decimals}} /> to {recipient}.
+              <FormattedBalance balance={{raw: amountInBigInt, isNative: true}} /> to {recipient}.
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}

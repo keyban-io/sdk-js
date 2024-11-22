@@ -1,6 +1,9 @@
 // src/pages/index.tsx
 
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -117,11 +120,8 @@ const WalletDashboardContent: React.FC = () => {
 
   // Validate if the conversion rate is available
   const euroBalance =
-    balance.raw === "0"
-      ? 0
-      : cryptoToEuroRate[client.nativeCurrency.symbol] &&
-        (Number(balance.raw) / 10 ** balance.decimals) *
-          cryptoToEuroRate[client.nativeCurrency.symbol];
+    balance === "0" ? 0:
+      (Number(balance) / 10 ** client.nativeCurrency.decimals) * cryptoToEuroRate[client.nativeCurrency.symbol];
 
   return (
     <>

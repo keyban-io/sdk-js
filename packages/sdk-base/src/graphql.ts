@@ -22,6 +22,7 @@ export type Scalars = {
 };
 
 export type GqlAssetTransfer = GqlNode & {
+  decimals: Maybe<Scalars['Int']['output']>;
   /** Reads a single `Wallet` that is related to this `AssetTransfer`. */
   from: Maybe<GqlWallet>;
   fromId: Scalars['String']['output'];
@@ -31,6 +32,7 @@ export type GqlAssetTransfer = GqlNode & {
   nftId: Maybe<Scalars['String']['output']>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output'];
+  rawValue: Scalars['BigFloat']['output'];
   /** Reads a single `Wallet` that is related to this `AssetTransfer`. */
   to: Maybe<GqlWallet>;
   toId: Maybe<Scalars['String']['output']>;
@@ -42,7 +44,6 @@ export type GqlAssetTransfer = GqlNode & {
   transactionBlockNumber: Scalars['BigFloat']['output'];
   transactionId: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  value: Scalars['JSON']['output'];
 };
 
 export type GqlAssetTransferAggregates = {
@@ -92,10 +93,16 @@ export type GqlAssetTransferAggregatesFilter = {
 };
 
 export type GqlAssetTransferAverageAggregateFilter = {
+  decimals?: InputMaybe<GqlBigFloatFilter>;
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferAverageAggregates = {
+  /** Mean average of decimals across the matching connection */
+  decimals: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of rawValue across the matching connection */
+  rawValue: Maybe<Scalars['BigFloat']['output']>;
   /** Mean average of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -103,15 +110,16 @@ export type GqlAssetTransferAverageAggregates = {
 export type GqlAssetTransferDistinctCountAggregateFilter = {
   _blockRange?: InputMaybe<GqlBigIntFilter>;
   _id?: InputMaybe<GqlBigIntFilter>;
+  decimals?: InputMaybe<GqlBigIntFilter>;
   fromId?: InputMaybe<GqlBigIntFilter>;
   id?: InputMaybe<GqlBigIntFilter>;
   nftId?: InputMaybe<GqlBigIntFilter>;
+  rawValue?: InputMaybe<GqlBigIntFilter>;
   toId?: InputMaybe<GqlBigIntFilter>;
   tokenId?: InputMaybe<GqlBigIntFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigIntFilter>;
   transactionId?: InputMaybe<GqlBigIntFilter>;
   type?: InputMaybe<GqlBigIntFilter>;
-  value?: InputMaybe<GqlBigIntFilter>;
 };
 
 export type GqlAssetTransferDistinctCountAggregates = {
@@ -119,12 +127,16 @@ export type GqlAssetTransferDistinctCountAggregates = {
   _blockRange: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of _id across the matching connection */
   _id: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of decimals across the matching connection */
+  decimals: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of fromId across the matching connection */
   fromId: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of id across the matching connection */
   id: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of nftId across the matching connection */
   nftId: Maybe<Scalars['BigInt']['output']>;
+  /** Distinct count of rawValue across the matching connection */
+  rawValue: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of toId across the matching connection */
   toId: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of tokenId across the matching connection */
@@ -135,14 +147,14 @@ export type GqlAssetTransferDistinctCountAggregates = {
   transactionId: Maybe<Scalars['BigInt']['output']>;
   /** Distinct count of type across the matching connection */
   type: Maybe<Scalars['BigInt']['output']>;
-  /** Distinct count of value across the matching connection */
-  value: Maybe<Scalars['BigInt']['output']>;
 };
 
 /** A filter to be used against `AssetTransfer` object types. All fields are combined with a logical ‘and.’ */
 export type GqlAssetTransferFilter = {
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<GqlAssetTransferFilter>>;
+  /** Filter by the object’s `decimals` field. */
+  decimals?: InputMaybe<GqlIntFilter>;
   /** Filter by the object’s `from` relation. */
   from?: InputMaybe<GqlWalletFilter>;
   /** Filter by the object’s `fromId` field. */
@@ -159,6 +171,8 @@ export type GqlAssetTransferFilter = {
   not?: InputMaybe<GqlAssetTransferFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<GqlAssetTransferFilter>>;
+  /** Filter by the object’s `rawValue` field. */
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `to` relation. */
   to?: InputMaybe<GqlWalletFilter>;
   /** A related `to` exists. */
@@ -179,69 +193,109 @@ export type GqlAssetTransferFilter = {
   transactionId?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `type` field. */
   type?: InputMaybe<GqlStringFilter>;
-  /** Filter by the object’s `value` field. */
-  value?: InputMaybe<GqlJSONFilter>;
 };
 
 export type GqlAssetTransferMaxAggregateFilter = {
+  decimals?: InputMaybe<GqlIntFilter>;
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferMaxAggregates = {
+  /** Maximum of decimals across the matching connection */
+  decimals: Maybe<Scalars['Int']['output']>;
+  /** Maximum of rawValue across the matching connection */
+  rawValue: Maybe<Scalars['BigFloat']['output']>;
   /** Maximum of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferMinAggregateFilter = {
+  decimals?: InputMaybe<GqlIntFilter>;
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferMinAggregates = {
+  /** Minimum of decimals across the matching connection */
+  decimals: Maybe<Scalars['Int']['output']>;
+  /** Minimum of rawValue across the matching connection */
+  rawValue: Maybe<Scalars['BigFloat']['output']>;
   /** Minimum of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferStddevPopulationAggregateFilter = {
+  decimals?: InputMaybe<GqlBigFloatFilter>;
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferStddevPopulationAggregates = {
+  /** Population standard deviation of decimals across the matching connection */
+  decimals: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of rawValue across the matching connection */
+  rawValue: Maybe<Scalars['BigFloat']['output']>;
   /** Population standard deviation of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferStddevSampleAggregateFilter = {
+  decimals?: InputMaybe<GqlBigFloatFilter>;
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferStddevSampleAggregates = {
+  /** Sample standard deviation of decimals across the matching connection */
+  decimals: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of rawValue across the matching connection */
+  rawValue: Maybe<Scalars['BigFloat']['output']>;
   /** Sample standard deviation of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferSumAggregateFilter = {
+  decimals?: InputMaybe<GqlBigIntFilter>;
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferSumAggregates = {
+  /** Sum of decimals across the matching connection */
+  decimals: Scalars['BigInt']['output'];
+  /** Sum of rawValue across the matching connection */
+  rawValue: Scalars['BigFloat']['output'];
   /** Sum of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Scalars['BigFloat']['output'];
 };
 
 export type GqlAssetTransferVariancePopulationAggregateFilter = {
+  decimals?: InputMaybe<GqlBigFloatFilter>;
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferVariancePopulationAggregates = {
+  /** Population variance of decimals across the matching connection */
+  decimals: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of rawValue across the matching connection */
+  rawValue: Maybe<Scalars['BigFloat']['output']>;
   /** Population variance of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlAssetTransferVarianceSampleAggregateFilter = {
+  decimals?: InputMaybe<GqlBigFloatFilter>;
+  rawValue?: InputMaybe<GqlBigFloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlBigFloatFilter>;
 };
 
 export type GqlAssetTransferVarianceSampleAggregates = {
+  /** Sample variance of decimals across the matching connection */
+  decimals: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of rawValue across the matching connection */
+  rawValue: Maybe<Scalars['BigFloat']['output']>;
   /** Sample variance of transactionBlockNumber across the matching connection */
   transactionBlockNumber: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -279,22 +333,27 @@ export type GqlAssetTransfersEdge = {
 
 /** Grouping methods for `AssetTransfer` for usage during aggregation. */
 export enum GqlAssetTransfersGroupBy {
+  DECIMALS = 'DECIMALS',
   FROM_ID = 'FROM_ID',
   ID = 'ID',
   NFT_ID = 'NFT_ID',
+  RAW_VALUE = 'RAW_VALUE',
   TOKEN_ID = 'TOKEN_ID',
   TO_ID = 'TO_ID',
   TRANSACTION_BLOCK_NUMBER = 'TRANSACTION_BLOCK_NUMBER',
   TRANSACTION_ID = 'TRANSACTION_ID',
-  TYPE = 'TYPE',
-  VALUE = 'VALUE'
+  TYPE = 'TYPE'
 }
 
 export type GqlAssetTransfersHavingAverageInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingDistinctCountInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
@@ -314,35 +373,51 @@ export type GqlAssetTransfersHavingInput = {
 };
 
 export type GqlAssetTransfersHavingMaxInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingMinInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingStddevPopulationInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingStddevSampleInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingSumInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingVariancePopulationInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlAssetTransfersHavingVarianceSampleInput = {
+  decimals?: InputMaybe<GqlHavingIntFilter>;
+  rawValue?: InputMaybe<GqlHavingBigfloatFilter>;
   transactionBlockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `AssetTransfer`. */
 export enum GqlAssetTransfersOrderBy {
+  DECIMALS_ASC = 'DECIMALS_ASC',
+  DECIMALS_DESC = 'DECIMALS_DESC',
   FROM_ID_ASC = 'FROM_ID_ASC',
   FROM_ID_DESC = 'FROM_ID_DESC',
   ID_ASC = 'ID_ASC',
@@ -352,6 +427,8 @@ export enum GqlAssetTransfersOrderBy {
   NFT_ID_DESC = 'NFT_ID_DESC',
   PRIMARY_KEY_ASC = 'PRIMARY_KEY_ASC',
   PRIMARY_KEY_DESC = 'PRIMARY_KEY_DESC',
+  RAW_VALUE_ASC = 'RAW_VALUE_ASC',
+  RAW_VALUE_DESC = 'RAW_VALUE_DESC',
   TOKEN_ID_ASC = 'TOKEN_ID_ASC',
   TOKEN_ID_DESC = 'TOKEN_ID_DESC',
   TO_ID_ASC = 'TO_ID_ASC',
@@ -361,9 +438,7 @@ export enum GqlAssetTransfersOrderBy {
   TRANSACTION_ID_ASC = 'TRANSACTION_ID_ASC',
   TRANSACTION_ID_DESC = 'TRANSACTION_ID_DESC',
   TYPE_ASC = 'TYPE_ASC',
-  TYPE_DESC = 'TYPE_DESC',
-  VALUE_ASC = 'VALUE_ASC',
-  VALUE_DESC = 'VALUE_DESC'
+  TYPE_DESC = 'TYPE_DESC'
 }
 
 /** A filter to be used against BigFloat fields. All fields are combined with a logical ‘and.’ */
@@ -1540,12 +1615,16 @@ export type GqlNftsHavingVarianceSampleInput = {
 export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_AVERAGE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_AVERAGE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_AVERAGE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_AVERAGE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_AVERAGE_DECIMALS_ASC = 'ASSET_TRANSFERS_AVERAGE_DECIMALS_ASC',
+  ASSET_TRANSFERS_AVERAGE_DECIMALS_DESC = 'ASSET_TRANSFERS_AVERAGE_DECIMALS_DESC',
   ASSET_TRANSFERS_AVERAGE_FROM_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_FROM_ID_ASC',
   ASSET_TRANSFERS_AVERAGE_FROM_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_FROM_ID_DESC',
   ASSET_TRANSFERS_AVERAGE_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_ID_ASC',
   ASSET_TRANSFERS_AVERAGE_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_ID_DESC',
   ASSET_TRANSFERS_AVERAGE_NFT_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_NFT_ID_ASC',
   ASSET_TRANSFERS_AVERAGE_NFT_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_NFT_ID_DESC',
+  ASSET_TRANSFERS_AVERAGE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_AVERAGE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_AVERAGE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_AVERAGE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_AVERAGE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_AVERAGE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_AVERAGE_TO_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_TO_ID_ASC',
@@ -1556,18 +1635,20 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_AVERAGE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_AVERAGE_TYPE_ASC = 'ASSET_TRANSFERS_AVERAGE_TYPE_ASC',
   ASSET_TRANSFERS_AVERAGE_TYPE_DESC = 'ASSET_TRANSFERS_AVERAGE_TYPE_DESC',
-  ASSET_TRANSFERS_AVERAGE_VALUE_ASC = 'ASSET_TRANSFERS_AVERAGE_VALUE_ASC',
-  ASSET_TRANSFERS_AVERAGE_VALUE_DESC = 'ASSET_TRANSFERS_AVERAGE_VALUE_DESC',
   ASSET_TRANSFERS_COUNT_ASC = 'ASSET_TRANSFERS_COUNT_ASC',
   ASSET_TRANSFERS_COUNT_DESC = 'ASSET_TRANSFERS_COUNT_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_DISTINCT_COUNT_DECIMALS_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_DECIMALS_ASC',
+  ASSET_TRANSFERS_DISTINCT_COUNT_DECIMALS_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_DECIMALS_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_FROM_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_FROM_ID_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_FROM_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_FROM_ID_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_ID_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_ID_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_NFT_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_NFT_ID_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_NFT_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_NFT_ID_DESC',
+  ASSET_TRANSFERS_DISTINCT_COUNT_RAW_VALUE_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_DISTINCT_COUNT_RAW_VALUE_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_RAW_VALUE_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TOKEN_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TOKEN_ID_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TOKEN_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TOKEN_ID_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TO_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TO_ID_ASC',
@@ -1578,16 +1659,18 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_DISTINCT_COUNT_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TYPE_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TYPE_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TYPE_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TYPE_DESC',
-  ASSET_TRANSFERS_DISTINCT_COUNT_VALUE_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_VALUE_ASC',
-  ASSET_TRANSFERS_DISTINCT_COUNT_VALUE_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_VALUE_DESC',
   ASSET_TRANSFERS_MAX_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_MAX_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_MAX_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_MAX_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_MAX_DECIMALS_ASC = 'ASSET_TRANSFERS_MAX_DECIMALS_ASC',
+  ASSET_TRANSFERS_MAX_DECIMALS_DESC = 'ASSET_TRANSFERS_MAX_DECIMALS_DESC',
   ASSET_TRANSFERS_MAX_FROM_ID_ASC = 'ASSET_TRANSFERS_MAX_FROM_ID_ASC',
   ASSET_TRANSFERS_MAX_FROM_ID_DESC = 'ASSET_TRANSFERS_MAX_FROM_ID_DESC',
   ASSET_TRANSFERS_MAX_ID_ASC = 'ASSET_TRANSFERS_MAX_ID_ASC',
   ASSET_TRANSFERS_MAX_ID_DESC = 'ASSET_TRANSFERS_MAX_ID_DESC',
   ASSET_TRANSFERS_MAX_NFT_ID_ASC = 'ASSET_TRANSFERS_MAX_NFT_ID_ASC',
   ASSET_TRANSFERS_MAX_NFT_ID_DESC = 'ASSET_TRANSFERS_MAX_NFT_ID_DESC',
+  ASSET_TRANSFERS_MAX_RAW_VALUE_ASC = 'ASSET_TRANSFERS_MAX_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_MAX_RAW_VALUE_DESC = 'ASSET_TRANSFERS_MAX_RAW_VALUE_DESC',
   ASSET_TRANSFERS_MAX_TOKEN_ID_ASC = 'ASSET_TRANSFERS_MAX_TOKEN_ID_ASC',
   ASSET_TRANSFERS_MAX_TOKEN_ID_DESC = 'ASSET_TRANSFERS_MAX_TOKEN_ID_DESC',
   ASSET_TRANSFERS_MAX_TO_ID_ASC = 'ASSET_TRANSFERS_MAX_TO_ID_ASC',
@@ -1598,16 +1681,18 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_MAX_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_MAX_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_MAX_TYPE_ASC = 'ASSET_TRANSFERS_MAX_TYPE_ASC',
   ASSET_TRANSFERS_MAX_TYPE_DESC = 'ASSET_TRANSFERS_MAX_TYPE_DESC',
-  ASSET_TRANSFERS_MAX_VALUE_ASC = 'ASSET_TRANSFERS_MAX_VALUE_ASC',
-  ASSET_TRANSFERS_MAX_VALUE_DESC = 'ASSET_TRANSFERS_MAX_VALUE_DESC',
   ASSET_TRANSFERS_MIN_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_MIN_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_MIN_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_MIN_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_MIN_DECIMALS_ASC = 'ASSET_TRANSFERS_MIN_DECIMALS_ASC',
+  ASSET_TRANSFERS_MIN_DECIMALS_DESC = 'ASSET_TRANSFERS_MIN_DECIMALS_DESC',
   ASSET_TRANSFERS_MIN_FROM_ID_ASC = 'ASSET_TRANSFERS_MIN_FROM_ID_ASC',
   ASSET_TRANSFERS_MIN_FROM_ID_DESC = 'ASSET_TRANSFERS_MIN_FROM_ID_DESC',
   ASSET_TRANSFERS_MIN_ID_ASC = 'ASSET_TRANSFERS_MIN_ID_ASC',
   ASSET_TRANSFERS_MIN_ID_DESC = 'ASSET_TRANSFERS_MIN_ID_DESC',
   ASSET_TRANSFERS_MIN_NFT_ID_ASC = 'ASSET_TRANSFERS_MIN_NFT_ID_ASC',
   ASSET_TRANSFERS_MIN_NFT_ID_DESC = 'ASSET_TRANSFERS_MIN_NFT_ID_DESC',
+  ASSET_TRANSFERS_MIN_RAW_VALUE_ASC = 'ASSET_TRANSFERS_MIN_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_MIN_RAW_VALUE_DESC = 'ASSET_TRANSFERS_MIN_RAW_VALUE_DESC',
   ASSET_TRANSFERS_MIN_TOKEN_ID_ASC = 'ASSET_TRANSFERS_MIN_TOKEN_ID_ASC',
   ASSET_TRANSFERS_MIN_TOKEN_ID_DESC = 'ASSET_TRANSFERS_MIN_TOKEN_ID_DESC',
   ASSET_TRANSFERS_MIN_TO_ID_ASC = 'ASSET_TRANSFERS_MIN_TO_ID_ASC',
@@ -1618,16 +1703,18 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_MIN_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_MIN_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_MIN_TYPE_ASC = 'ASSET_TRANSFERS_MIN_TYPE_ASC',
   ASSET_TRANSFERS_MIN_TYPE_DESC = 'ASSET_TRANSFERS_MIN_TYPE_DESC',
-  ASSET_TRANSFERS_MIN_VALUE_ASC = 'ASSET_TRANSFERS_MIN_VALUE_ASC',
-  ASSET_TRANSFERS_MIN_VALUE_DESC = 'ASSET_TRANSFERS_MIN_VALUE_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_STDDEV_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_STDDEV_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_ID_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_ID_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_STDDEV_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_STDDEV_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TO_ID_ASC',
@@ -1638,16 +1725,18 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_STDDEV_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_STDDEV_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_STDDEV_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_STDDEV_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_STDDEV_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_STDDEV_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_STDDEV_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TO_ID_ASC',
@@ -1658,16 +1747,18 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_STDDEV_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_STDDEV_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_STDDEV_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_VALUE_DESC',
   ASSET_TRANSFERS_SUM_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_SUM_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_SUM_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_SUM_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_SUM_DECIMALS_ASC = 'ASSET_TRANSFERS_SUM_DECIMALS_ASC',
+  ASSET_TRANSFERS_SUM_DECIMALS_DESC = 'ASSET_TRANSFERS_SUM_DECIMALS_DESC',
   ASSET_TRANSFERS_SUM_FROM_ID_ASC = 'ASSET_TRANSFERS_SUM_FROM_ID_ASC',
   ASSET_TRANSFERS_SUM_FROM_ID_DESC = 'ASSET_TRANSFERS_SUM_FROM_ID_DESC',
   ASSET_TRANSFERS_SUM_ID_ASC = 'ASSET_TRANSFERS_SUM_ID_ASC',
   ASSET_TRANSFERS_SUM_ID_DESC = 'ASSET_TRANSFERS_SUM_ID_DESC',
   ASSET_TRANSFERS_SUM_NFT_ID_ASC = 'ASSET_TRANSFERS_SUM_NFT_ID_ASC',
   ASSET_TRANSFERS_SUM_NFT_ID_DESC = 'ASSET_TRANSFERS_SUM_NFT_ID_DESC',
+  ASSET_TRANSFERS_SUM_RAW_VALUE_ASC = 'ASSET_TRANSFERS_SUM_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_SUM_RAW_VALUE_DESC = 'ASSET_TRANSFERS_SUM_RAW_VALUE_DESC',
   ASSET_TRANSFERS_SUM_TOKEN_ID_ASC = 'ASSET_TRANSFERS_SUM_TOKEN_ID_ASC',
   ASSET_TRANSFERS_SUM_TOKEN_ID_DESC = 'ASSET_TRANSFERS_SUM_TOKEN_ID_DESC',
   ASSET_TRANSFERS_SUM_TO_ID_ASC = 'ASSET_TRANSFERS_SUM_TO_ID_ASC',
@@ -1678,16 +1769,18 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_SUM_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_SUM_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_SUM_TYPE_ASC = 'ASSET_TRANSFERS_SUM_TYPE_ASC',
   ASSET_TRANSFERS_SUM_TYPE_DESC = 'ASSET_TRANSFERS_SUM_TYPE_DESC',
-  ASSET_TRANSFERS_SUM_VALUE_ASC = 'ASSET_TRANSFERS_SUM_VALUE_ASC',
-  ASSET_TRANSFERS_SUM_VALUE_DESC = 'ASSET_TRANSFERS_SUM_VALUE_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_VARIANCE_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_VARIANCE_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_VARIANCE_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_VARIANCE_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TO_ID_ASC',
@@ -1698,16 +1791,18 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_VARIANCE_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_VARIANCE_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_VARIANCE_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_VARIANCE_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_VARIANCE_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_VARIANCE_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_VARIANCE_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TO_ID_ASC',
@@ -1718,8 +1813,6 @@ export enum GqlNftsOrderBy {
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_VARIANCE_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_VARIANCE_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_VALUE_DESC',
   COLLECTION_ID_ASC = 'COLLECTION_ID_ASC',
   COLLECTION_ID_DESC = 'COLLECTION_ID_DESC',
   ID_ASC = 'ID_ASC',
@@ -2291,7 +2384,7 @@ export type GqlTableEstimate = {
 };
 
 export type GqlTokenBalance = GqlNode & {
-  balance: Scalars['JSON']['output'];
+  balance: Scalars['BigFloat']['output'];
   id: Scalars['String']['output'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output'];
@@ -2306,17 +2399,58 @@ export type GqlTokenBalance = GqlNode & {
 };
 
 export type GqlTokenBalanceAggregates = {
+  /** Mean average aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  average: Maybe<GqlTokenBalanceAverageAggregates>;
   /** Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset) */
   distinctCount: Maybe<GqlTokenBalanceDistinctCountAggregates>;
   keys: Maybe<Array<Scalars['String']['output']>>;
+  /** Maximum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  max: Maybe<GqlTokenBalanceMaxAggregates>;
+  /** Minimum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  min: Maybe<GqlTokenBalanceMinAggregates>;
+  /** Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  stddevPopulation: Maybe<GqlTokenBalanceStddevPopulationAggregates>;
+  /** Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  stddevSample: Maybe<GqlTokenBalanceStddevSampleAggregates>;
+  /** Sum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  sum: Maybe<GqlTokenBalanceSumAggregates>;
+  /** Population variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  variancePopulation: Maybe<GqlTokenBalanceVariancePopulationAggregates>;
+  /** Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  varianceSample: Maybe<GqlTokenBalanceVarianceSampleAggregates>;
 };
 
 /** A filter to be used against aggregates of `TokenBalance` object types. */
 export type GqlTokenBalanceAggregatesFilter = {
+  /** Mean average aggregate over matching `TokenBalance` objects. */
+  average?: InputMaybe<GqlTokenBalanceAverageAggregateFilter>;
   /** Distinct count aggregate over matching `TokenBalance` objects. */
   distinctCount?: InputMaybe<GqlTokenBalanceDistinctCountAggregateFilter>;
   /** A filter that must pass for the relevant `TokenBalance` object to be included within the aggregate. */
   filter?: InputMaybe<GqlTokenBalanceFilter>;
+  /** Maximum aggregate over matching `TokenBalance` objects. */
+  max?: InputMaybe<GqlTokenBalanceMaxAggregateFilter>;
+  /** Minimum aggregate over matching `TokenBalance` objects. */
+  min?: InputMaybe<GqlTokenBalanceMinAggregateFilter>;
+  /** Population standard deviation aggregate over matching `TokenBalance` objects. */
+  stddevPopulation?: InputMaybe<GqlTokenBalanceStddevPopulationAggregateFilter>;
+  /** Sample standard deviation aggregate over matching `TokenBalance` objects. */
+  stddevSample?: InputMaybe<GqlTokenBalanceStddevSampleAggregateFilter>;
+  /** Sum aggregate over matching `TokenBalance` objects. */
+  sum?: InputMaybe<GqlTokenBalanceSumAggregateFilter>;
+  /** Population variance aggregate over matching `TokenBalance` objects. */
+  variancePopulation?: InputMaybe<GqlTokenBalanceVariancePopulationAggregateFilter>;
+  /** Sample variance aggregate over matching `TokenBalance` objects. */
+  varianceSample?: InputMaybe<GqlTokenBalanceVarianceSampleAggregateFilter>;
+};
+
+export type GqlTokenBalanceAverageAggregateFilter = {
+  balance?: InputMaybe<GqlBigFloatFilter>;
+};
+
+export type GqlTokenBalanceAverageAggregates = {
+  /** Mean average of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlTokenBalanceDistinctCountAggregateFilter = {
@@ -2354,7 +2488,7 @@ export type GqlTokenBalanceFilter = {
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<GqlTokenBalanceFilter>>;
   /** Filter by the object’s `balance` field. */
-  balance?: InputMaybe<GqlJSONFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<GqlStringFilter>;
   /** Negates the expression. */
@@ -2373,6 +2507,69 @@ export type GqlTokenBalanceFilter = {
   wallet?: InputMaybe<GqlWalletFilter>;
   /** Filter by the object’s `walletId` field. */
   walletId?: InputMaybe<GqlStringFilter>;
+};
+
+export type GqlTokenBalanceMaxAggregateFilter = {
+  balance?: InputMaybe<GqlBigFloatFilter>;
+};
+
+export type GqlTokenBalanceMaxAggregates = {
+  /** Maximum of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlTokenBalanceMinAggregateFilter = {
+  balance?: InputMaybe<GqlBigFloatFilter>;
+};
+
+export type GqlTokenBalanceMinAggregates = {
+  /** Minimum of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlTokenBalanceStddevPopulationAggregateFilter = {
+  balance?: InputMaybe<GqlBigFloatFilter>;
+};
+
+export type GqlTokenBalanceStddevPopulationAggregates = {
+  /** Population standard deviation of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlTokenBalanceStddevSampleAggregateFilter = {
+  balance?: InputMaybe<GqlBigFloatFilter>;
+};
+
+export type GqlTokenBalanceStddevSampleAggregates = {
+  /** Sample standard deviation of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlTokenBalanceSumAggregateFilter = {
+  balance?: InputMaybe<GqlBigFloatFilter>;
+};
+
+export type GqlTokenBalanceSumAggregates = {
+  /** Sum of balance across the matching connection */
+  balance: Scalars['BigFloat']['output'];
+};
+
+export type GqlTokenBalanceVariancePopulationAggregateFilter = {
+  balance?: InputMaybe<GqlBigFloatFilter>;
+};
+
+export type GqlTokenBalanceVariancePopulationAggregates = {
+  /** Population variance of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlTokenBalanceVarianceSampleAggregateFilter = {
+  balance?: InputMaybe<GqlBigFloatFilter>;
+};
+
+export type GqlTokenBalanceVarianceSampleAggregates = {
+  /** Sample variance of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
 };
 
 /** A connection to a list of `TokenBalance` values. */
@@ -2416,10 +2613,55 @@ export enum GqlTokenBalancesGroupBy {
   WALLET_ID = 'WALLET_ID'
 }
 
+export type GqlTokenBalancesHavingAverageInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlTokenBalancesHavingDistinctCountInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
 /** Conditions for `TokenBalance` aggregates. */
 export type GqlTokenBalancesHavingInput = {
   AND?: InputMaybe<Array<GqlTokenBalancesHavingInput>>;
   OR?: InputMaybe<Array<GqlTokenBalancesHavingInput>>;
+  average?: InputMaybe<GqlTokenBalancesHavingAverageInput>;
+  distinctCount?: InputMaybe<GqlTokenBalancesHavingDistinctCountInput>;
+  max?: InputMaybe<GqlTokenBalancesHavingMaxInput>;
+  min?: InputMaybe<GqlTokenBalancesHavingMinInput>;
+  stddevPopulation?: InputMaybe<GqlTokenBalancesHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<GqlTokenBalancesHavingStddevSampleInput>;
+  sum?: InputMaybe<GqlTokenBalancesHavingSumInput>;
+  variancePopulation?: InputMaybe<GqlTokenBalancesHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<GqlTokenBalancesHavingVarianceSampleInput>;
+};
+
+export type GqlTokenBalancesHavingMaxInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlTokenBalancesHavingMinInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlTokenBalancesHavingStddevPopulationInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlTokenBalancesHavingStddevSampleInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlTokenBalancesHavingSumInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlTokenBalancesHavingVariancePopulationInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlTokenBalancesHavingVarianceSampleInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `TokenBalance`. */
@@ -3067,12 +3309,16 @@ export type GqlTokenContractsHavingVarianceSampleInput = {
 export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TO_ID_ASC',
@@ -3083,18 +3329,20 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_AVERAGE_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_COUNT_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_COUNT_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_COUNT_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_COUNT_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TO_ID_ASC',
@@ -3105,16 +3353,18 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_DISTINCT_COUNT_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_MAX_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_MAX_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_MAX_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_MAX_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TO_ID_ASC',
@@ -3125,16 +3375,18 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_MAX_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_MAX_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MAX_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_MIN_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_MIN_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_MIN_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_MIN_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TO_ID_ASC',
@@ -3145,16 +3397,18 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_MIN_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_MIN_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_MIN_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TO_ID_ASC',
@@ -3165,16 +3419,18 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TO_ID_ASC',
@@ -3185,16 +3441,18 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_STDDEV_SAMPLE_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_SUM_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_SUM_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_SUM_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_SUM_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TO_ID_ASC',
@@ -3205,16 +3463,18 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_SUM_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_SUM_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_SUM_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TO_ID_ASC',
@@ -3225,16 +3485,18 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TO_ID_ASC',
@@ -3245,8 +3507,6 @@ export enum GqlTokenContractsOrderBy {
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_BY_TOKEN_ID_VARIANCE_SAMPLE_VALUE_DESC',
   DECIMALS_ASC = 'DECIMALS_ASC',
   DECIMALS_DESC = 'DECIMALS_DESC',
   ICON_URL_ASC = 'ICON_URL_ASC',
@@ -3490,8 +3750,8 @@ export type GqlTransaction = GqlNode & {
   blockHash: Scalars['String']['output'];
   blockNumber: Scalars['BigFloat']['output'];
   date: Scalars['Datetime']['output'];
-  fees: Scalars['JSON']['output'];
-  gasPrice: Scalars['JSON']['output'];
+  fees: Scalars['BigFloat']['output'];
+  gasPrice: Scalars['BigFloat']['output'];
   gasUsed: Scalars['BigFloat']['output'];
   id: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `Nft`. */
@@ -3602,6 +3862,10 @@ export type GqlTransactionAggregates = {
 export type GqlTransactionAverageAggregates = {
   /** Mean average of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of fees across the matching connection */
+  fees: Maybe<Scalars['BigFloat']['output']>;
+  /** Mean average of gasPrice across the matching connection */
+  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Mean average of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3644,9 +3908,9 @@ export type GqlTransactionFilter = {
   /** Filter by the object’s `date` field. */
   date?: InputMaybe<GqlDatetimeFilter>;
   /** Filter by the object’s `fees` field. */
-  fees?: InputMaybe<GqlJSONFilter>;
+  fees?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `gasPrice` field. */
-  gasPrice?: InputMaybe<GqlJSONFilter>;
+  gasPrice?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `gasUsed` field. */
   gasUsed?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `id` field. */
@@ -3662,6 +3926,10 @@ export type GqlTransactionFilter = {
 export type GqlTransactionMaxAggregates = {
   /** Maximum of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
+  /** Maximum of fees across the matching connection */
+  fees: Maybe<Scalars['BigFloat']['output']>;
+  /** Maximum of gasPrice across the matching connection */
+  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Maximum of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3669,6 +3937,10 @@ export type GqlTransactionMaxAggregates = {
 export type GqlTransactionMinAggregates = {
   /** Minimum of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
+  /** Minimum of fees across the matching connection */
+  fees: Maybe<Scalars['BigFloat']['output']>;
+  /** Minimum of gasPrice across the matching connection */
+  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Minimum of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3724,6 +3996,10 @@ export type GqlTransactionNftsByAssetTransferTransactionIdAndNftIdManyToManyEdge
 export type GqlTransactionStddevPopulationAggregates = {
   /** Population standard deviation of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of fees across the matching connection */
+  fees: Maybe<Scalars['BigFloat']['output']>;
+  /** Population standard deviation of gasPrice across the matching connection */
+  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Population standard deviation of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3731,6 +4007,10 @@ export type GqlTransactionStddevPopulationAggregates = {
 export type GqlTransactionStddevSampleAggregates = {
   /** Sample standard deviation of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of fees across the matching connection */
+  fees: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample standard deviation of gasPrice across the matching connection */
+  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Sample standard deviation of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3738,6 +4018,10 @@ export type GqlTransactionStddevSampleAggregates = {
 export type GqlTransactionSumAggregates = {
   /** Sum of blockNumber across the matching connection */
   blockNumber: Scalars['BigFloat']['output'];
+  /** Sum of fees across the matching connection */
+  fees: Scalars['BigFloat']['output'];
+  /** Sum of gasPrice across the matching connection */
+  gasPrice: Scalars['BigFloat']['output'];
   /** Sum of gasUsed across the matching connection */
   gasUsed: Scalars['BigFloat']['output'];
 };
@@ -3805,6 +4089,10 @@ export type GqlTransactionTokenContractsByAssetTransferTransactionIdAndTokenIdMa
 export type GqlTransactionVariancePopulationAggregates = {
   /** Population variance of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of fees across the matching connection */
+  fees: Maybe<Scalars['BigFloat']['output']>;
+  /** Population variance of gasPrice across the matching connection */
+  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Population variance of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3812,6 +4100,10 @@ export type GqlTransactionVariancePopulationAggregates = {
 export type GqlTransactionVarianceSampleAggregates = {
   /** Sample variance of blockNumber across the matching connection */
   blockNumber: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of fees across the matching connection */
+  fees: Maybe<Scalars['BigFloat']['output']>;
+  /** Sample variance of gasPrice across the matching connection */
+  gasPrice: Maybe<Scalars['BigFloat']['output']>;
   /** Sample variance of gasUsed across the matching connection */
   gasUsed: Maybe<Scalars['BigFloat']['output']>;
 };
@@ -3960,12 +4252,16 @@ export enum GqlTransactionsGroupBy {
 export type GqlTransactionsHavingAverageInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingDistinctCountInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
@@ -3987,42 +4283,56 @@ export type GqlTransactionsHavingInput = {
 export type GqlTransactionsHavingMaxInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingMinInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingStddevPopulationInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingStddevSampleInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingSumInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingVariancePopulationInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 export type GqlTransactionsHavingVarianceSampleInput = {
   blockNumber?: InputMaybe<GqlHavingBigfloatFilter>;
   date?: InputMaybe<GqlHavingDatetimeFilter>;
+  fees?: InputMaybe<GqlHavingBigfloatFilter>;
+  gasPrice?: InputMaybe<GqlHavingBigfloatFilter>;
   gasUsed?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
@@ -4030,12 +4340,16 @@ export type GqlTransactionsHavingVarianceSampleInput = {
 export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_AVERAGE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_AVERAGE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_AVERAGE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_AVERAGE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_AVERAGE_DECIMALS_ASC = 'ASSET_TRANSFERS_AVERAGE_DECIMALS_ASC',
+  ASSET_TRANSFERS_AVERAGE_DECIMALS_DESC = 'ASSET_TRANSFERS_AVERAGE_DECIMALS_DESC',
   ASSET_TRANSFERS_AVERAGE_FROM_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_FROM_ID_ASC',
   ASSET_TRANSFERS_AVERAGE_FROM_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_FROM_ID_DESC',
   ASSET_TRANSFERS_AVERAGE_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_ID_ASC',
   ASSET_TRANSFERS_AVERAGE_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_ID_DESC',
   ASSET_TRANSFERS_AVERAGE_NFT_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_NFT_ID_ASC',
   ASSET_TRANSFERS_AVERAGE_NFT_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_NFT_ID_DESC',
+  ASSET_TRANSFERS_AVERAGE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_AVERAGE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_AVERAGE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_AVERAGE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_AVERAGE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_AVERAGE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_AVERAGE_TO_ID_ASC = 'ASSET_TRANSFERS_AVERAGE_TO_ID_ASC',
@@ -4046,18 +4360,20 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_AVERAGE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_AVERAGE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_AVERAGE_TYPE_ASC = 'ASSET_TRANSFERS_AVERAGE_TYPE_ASC',
   ASSET_TRANSFERS_AVERAGE_TYPE_DESC = 'ASSET_TRANSFERS_AVERAGE_TYPE_DESC',
-  ASSET_TRANSFERS_AVERAGE_VALUE_ASC = 'ASSET_TRANSFERS_AVERAGE_VALUE_ASC',
-  ASSET_TRANSFERS_AVERAGE_VALUE_DESC = 'ASSET_TRANSFERS_AVERAGE_VALUE_DESC',
   ASSET_TRANSFERS_COUNT_ASC = 'ASSET_TRANSFERS_COUNT_ASC',
   ASSET_TRANSFERS_COUNT_DESC = 'ASSET_TRANSFERS_COUNT_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_DISTINCT_COUNT_DECIMALS_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_DECIMALS_ASC',
+  ASSET_TRANSFERS_DISTINCT_COUNT_DECIMALS_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_DECIMALS_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_FROM_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_FROM_ID_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_FROM_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_FROM_ID_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_ID_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_ID_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_NFT_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_NFT_ID_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_NFT_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_NFT_ID_DESC',
+  ASSET_TRANSFERS_DISTINCT_COUNT_RAW_VALUE_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_DISTINCT_COUNT_RAW_VALUE_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_RAW_VALUE_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TOKEN_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TOKEN_ID_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TOKEN_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TOKEN_ID_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TO_ID_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TO_ID_ASC',
@@ -4068,16 +4384,18 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_DISTINCT_COUNT_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TYPE_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TYPE_ASC',
   ASSET_TRANSFERS_DISTINCT_COUNT_TYPE_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_TYPE_DESC',
-  ASSET_TRANSFERS_DISTINCT_COUNT_VALUE_ASC = 'ASSET_TRANSFERS_DISTINCT_COUNT_VALUE_ASC',
-  ASSET_TRANSFERS_DISTINCT_COUNT_VALUE_DESC = 'ASSET_TRANSFERS_DISTINCT_COUNT_VALUE_DESC',
   ASSET_TRANSFERS_MAX_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_MAX_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_MAX_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_MAX_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_MAX_DECIMALS_ASC = 'ASSET_TRANSFERS_MAX_DECIMALS_ASC',
+  ASSET_TRANSFERS_MAX_DECIMALS_DESC = 'ASSET_TRANSFERS_MAX_DECIMALS_DESC',
   ASSET_TRANSFERS_MAX_FROM_ID_ASC = 'ASSET_TRANSFERS_MAX_FROM_ID_ASC',
   ASSET_TRANSFERS_MAX_FROM_ID_DESC = 'ASSET_TRANSFERS_MAX_FROM_ID_DESC',
   ASSET_TRANSFERS_MAX_ID_ASC = 'ASSET_TRANSFERS_MAX_ID_ASC',
   ASSET_TRANSFERS_MAX_ID_DESC = 'ASSET_TRANSFERS_MAX_ID_DESC',
   ASSET_TRANSFERS_MAX_NFT_ID_ASC = 'ASSET_TRANSFERS_MAX_NFT_ID_ASC',
   ASSET_TRANSFERS_MAX_NFT_ID_DESC = 'ASSET_TRANSFERS_MAX_NFT_ID_DESC',
+  ASSET_TRANSFERS_MAX_RAW_VALUE_ASC = 'ASSET_TRANSFERS_MAX_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_MAX_RAW_VALUE_DESC = 'ASSET_TRANSFERS_MAX_RAW_VALUE_DESC',
   ASSET_TRANSFERS_MAX_TOKEN_ID_ASC = 'ASSET_TRANSFERS_MAX_TOKEN_ID_ASC',
   ASSET_TRANSFERS_MAX_TOKEN_ID_DESC = 'ASSET_TRANSFERS_MAX_TOKEN_ID_DESC',
   ASSET_TRANSFERS_MAX_TO_ID_ASC = 'ASSET_TRANSFERS_MAX_TO_ID_ASC',
@@ -4088,16 +4406,18 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_MAX_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_MAX_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_MAX_TYPE_ASC = 'ASSET_TRANSFERS_MAX_TYPE_ASC',
   ASSET_TRANSFERS_MAX_TYPE_DESC = 'ASSET_TRANSFERS_MAX_TYPE_DESC',
-  ASSET_TRANSFERS_MAX_VALUE_ASC = 'ASSET_TRANSFERS_MAX_VALUE_ASC',
-  ASSET_TRANSFERS_MAX_VALUE_DESC = 'ASSET_TRANSFERS_MAX_VALUE_DESC',
   ASSET_TRANSFERS_MIN_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_MIN_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_MIN_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_MIN_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_MIN_DECIMALS_ASC = 'ASSET_TRANSFERS_MIN_DECIMALS_ASC',
+  ASSET_TRANSFERS_MIN_DECIMALS_DESC = 'ASSET_TRANSFERS_MIN_DECIMALS_DESC',
   ASSET_TRANSFERS_MIN_FROM_ID_ASC = 'ASSET_TRANSFERS_MIN_FROM_ID_ASC',
   ASSET_TRANSFERS_MIN_FROM_ID_DESC = 'ASSET_TRANSFERS_MIN_FROM_ID_DESC',
   ASSET_TRANSFERS_MIN_ID_ASC = 'ASSET_TRANSFERS_MIN_ID_ASC',
   ASSET_TRANSFERS_MIN_ID_DESC = 'ASSET_TRANSFERS_MIN_ID_DESC',
   ASSET_TRANSFERS_MIN_NFT_ID_ASC = 'ASSET_TRANSFERS_MIN_NFT_ID_ASC',
   ASSET_TRANSFERS_MIN_NFT_ID_DESC = 'ASSET_TRANSFERS_MIN_NFT_ID_DESC',
+  ASSET_TRANSFERS_MIN_RAW_VALUE_ASC = 'ASSET_TRANSFERS_MIN_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_MIN_RAW_VALUE_DESC = 'ASSET_TRANSFERS_MIN_RAW_VALUE_DESC',
   ASSET_TRANSFERS_MIN_TOKEN_ID_ASC = 'ASSET_TRANSFERS_MIN_TOKEN_ID_ASC',
   ASSET_TRANSFERS_MIN_TOKEN_ID_DESC = 'ASSET_TRANSFERS_MIN_TOKEN_ID_DESC',
   ASSET_TRANSFERS_MIN_TO_ID_ASC = 'ASSET_TRANSFERS_MIN_TO_ID_ASC',
@@ -4108,16 +4428,18 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_MIN_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_MIN_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_MIN_TYPE_ASC = 'ASSET_TRANSFERS_MIN_TYPE_ASC',
   ASSET_TRANSFERS_MIN_TYPE_DESC = 'ASSET_TRANSFERS_MIN_TYPE_DESC',
-  ASSET_TRANSFERS_MIN_VALUE_ASC = 'ASSET_TRANSFERS_MIN_VALUE_ASC',
-  ASSET_TRANSFERS_MIN_VALUE_DESC = 'ASSET_TRANSFERS_MIN_VALUE_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_STDDEV_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_STDDEV_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_ID_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_ID_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_STDDEV_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_STDDEV_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TO_ID_ASC',
@@ -4128,16 +4450,18 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_STDDEV_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_STDDEV_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_STDDEV_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_STDDEV_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_STDDEV_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_STDDEV_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_STDDEV_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_STDDEV_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_STDDEV_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_STDDEV_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TO_ID_ASC',
@@ -4148,16 +4472,18 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_STDDEV_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_STDDEV_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_STDDEV_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_STDDEV_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_STDDEV_SAMPLE_VALUE_DESC',
   ASSET_TRANSFERS_SUM_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_SUM_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_SUM_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_SUM_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_SUM_DECIMALS_ASC = 'ASSET_TRANSFERS_SUM_DECIMALS_ASC',
+  ASSET_TRANSFERS_SUM_DECIMALS_DESC = 'ASSET_TRANSFERS_SUM_DECIMALS_DESC',
   ASSET_TRANSFERS_SUM_FROM_ID_ASC = 'ASSET_TRANSFERS_SUM_FROM_ID_ASC',
   ASSET_TRANSFERS_SUM_FROM_ID_DESC = 'ASSET_TRANSFERS_SUM_FROM_ID_DESC',
   ASSET_TRANSFERS_SUM_ID_ASC = 'ASSET_TRANSFERS_SUM_ID_ASC',
   ASSET_TRANSFERS_SUM_ID_DESC = 'ASSET_TRANSFERS_SUM_ID_DESC',
   ASSET_TRANSFERS_SUM_NFT_ID_ASC = 'ASSET_TRANSFERS_SUM_NFT_ID_ASC',
   ASSET_TRANSFERS_SUM_NFT_ID_DESC = 'ASSET_TRANSFERS_SUM_NFT_ID_DESC',
+  ASSET_TRANSFERS_SUM_RAW_VALUE_ASC = 'ASSET_TRANSFERS_SUM_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_SUM_RAW_VALUE_DESC = 'ASSET_TRANSFERS_SUM_RAW_VALUE_DESC',
   ASSET_TRANSFERS_SUM_TOKEN_ID_ASC = 'ASSET_TRANSFERS_SUM_TOKEN_ID_ASC',
   ASSET_TRANSFERS_SUM_TOKEN_ID_DESC = 'ASSET_TRANSFERS_SUM_TOKEN_ID_DESC',
   ASSET_TRANSFERS_SUM_TO_ID_ASC = 'ASSET_TRANSFERS_SUM_TO_ID_ASC',
@@ -4168,16 +4494,18 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_SUM_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_SUM_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_SUM_TYPE_ASC = 'ASSET_TRANSFERS_SUM_TYPE_ASC',
   ASSET_TRANSFERS_SUM_TYPE_DESC = 'ASSET_TRANSFERS_SUM_TYPE_DESC',
-  ASSET_TRANSFERS_SUM_VALUE_ASC = 'ASSET_TRANSFERS_SUM_VALUE_ASC',
-  ASSET_TRANSFERS_SUM_VALUE_DESC = 'ASSET_TRANSFERS_SUM_VALUE_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_VARIANCE_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_VARIANCE_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_VARIANCE_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_VARIANCE_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TO_ID_ASC',
@@ -4188,16 +4516,18 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_VARIANCE_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_VARIANCE_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_VARIANCE_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_VARIANCE_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_VARIANCE_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_VARIANCE_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_VARIANCE_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_VARIANCE_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_VARIANCE_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TO_ID_ASC',
@@ -4208,8 +4538,6 @@ export enum GqlTransactionsOrderBy {
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_VARIANCE_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_VARIANCE_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_VARIANCE_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_VARIANCE_SAMPLE_VALUE_DESC',
   BLOCK_HASH_ASC = 'BLOCK_HASH_ASC',
   BLOCK_HASH_DESC = 'BLOCK_HASH_DESC',
   BLOCK_NUMBER_ASC = 'BLOCK_NUMBER_ASC',
@@ -4236,7 +4564,7 @@ export type GqlWallet = GqlNode & {
   assetTransfersByFromId: GqlAssetTransfersConnection;
   /** Reads and enables pagination through a set of `AssetTransfer`. */
   assetTransfersByToId: GqlAssetTransfersConnection;
-  balance: Scalars['JSON']['output'];
+  balance: Scalars['BigFloat']['output'];
   id: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `NftBalance`. */
   nfts: GqlNftBalancesConnection;
@@ -4463,9 +4791,30 @@ export type GqlWalletwalletsByAssetTransferToIdAndFromIdArgs = {
 };
 
 export type GqlWalletAggregates = {
+  /** Mean average aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  average: Maybe<GqlWalletAverageAggregates>;
   /** Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset) */
   distinctCount: Maybe<GqlWalletDistinctCountAggregates>;
   keys: Maybe<Array<Scalars['String']['output']>>;
+  /** Maximum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  max: Maybe<GqlWalletMaxAggregates>;
+  /** Minimum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  min: Maybe<GqlWalletMinAggregates>;
+  /** Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  stddevPopulation: Maybe<GqlWalletStddevPopulationAggregates>;
+  /** Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  stddevSample: Maybe<GqlWalletStddevSampleAggregates>;
+  /** Sum aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  sum: Maybe<GqlWalletSumAggregates>;
+  /** Population variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  variancePopulation: Maybe<GqlWalletVariancePopulationAggregates>;
+  /** Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset) */
+  varianceSample: Maybe<GqlWalletVarianceSampleAggregates>;
+};
+
+export type GqlWalletAverageAggregates = {
+  /** Mean average of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
 };
 
 export type GqlWalletDistinctCountAggregates = {
@@ -4492,7 +4841,7 @@ export type GqlWalletFilter = {
   /** Some related `assetTransfersByToId` exist. */
   assetTransfersByToIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `balance` field. */
-  balance?: InputMaybe<GqlJSONFilter>;
+  balance?: InputMaybe<GqlBigFloatFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<GqlStringFilter>;
   /** Filter by the object’s `nfts` relation. */
@@ -4507,6 +4856,16 @@ export type GqlWalletFilter = {
   tokens?: InputMaybe<GqlWalletToManyTokenBalanceFilter>;
   /** Some related `tokens` exist. */
   tokensExist?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type GqlWalletMaxAggregates = {
+  /** Maximum of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlWalletMinAggregates = {
+  /** Minimum of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
 };
 
 /** A connection to a list of `Nft` values, with data from `AssetTransfer`. */
@@ -4651,6 +5010,21 @@ export type GqlWalletNftsByNftBalanceWalletIdAndNftIdManyToManyEdgenftBalancesAr
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<GqlNftBalancesOrderBy>>;
   orderByNull?: InputMaybe<GqlNullOrder>;
+};
+
+export type GqlWalletStddevPopulationAggregates = {
+  /** Population standard deviation of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlWalletStddevSampleAggregates = {
+  /** Sample standard deviation of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlWalletSumAggregates = {
+  /** Sum of balance across the matching connection */
+  balance: Scalars['BigFloat']['output'];
 };
 
 /** A filter to be used against many `AssetTransfer` object types. All fields are combined with a logical ‘and.’ */
@@ -4929,6 +5303,16 @@ export type GqlWalletTransactionsByAssetTransferToIdAndTransactionIdManyToManyEd
   orderByNull?: InputMaybe<GqlNullOrder>;
 };
 
+export type GqlWalletVariancePopulationAggregates = {
+  /** Population variance of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
+export type GqlWalletVarianceSampleAggregates = {
+  /** Sample variance of balance across the matching connection */
+  balance: Maybe<Scalars['BigFloat']['output']>;
+};
+
 /** A connection to a list of `Wallet` values, with data from `AssetTransfer`. */
 export type GqlWalletWalletsByAssetTransferFromIdAndToIdManyToManyConnection = {
   /** Aggregates across the matching connection (ignoring before/after/first/last/offset) */
@@ -5062,22 +5446,71 @@ export enum GqlWalletsGroupBy {
   ID = 'ID'
 }
 
+export type GqlWalletsHavingAverageInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlWalletsHavingDistinctCountInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
 /** Conditions for `Wallet` aggregates. */
 export type GqlWalletsHavingInput = {
   AND?: InputMaybe<Array<GqlWalletsHavingInput>>;
   OR?: InputMaybe<Array<GqlWalletsHavingInput>>;
+  average?: InputMaybe<GqlWalletsHavingAverageInput>;
+  distinctCount?: InputMaybe<GqlWalletsHavingDistinctCountInput>;
+  max?: InputMaybe<GqlWalletsHavingMaxInput>;
+  min?: InputMaybe<GqlWalletsHavingMinInput>;
+  stddevPopulation?: InputMaybe<GqlWalletsHavingStddevPopulationInput>;
+  stddevSample?: InputMaybe<GqlWalletsHavingStddevSampleInput>;
+  sum?: InputMaybe<GqlWalletsHavingSumInput>;
+  variancePopulation?: InputMaybe<GqlWalletsHavingVariancePopulationInput>;
+  varianceSample?: InputMaybe<GqlWalletsHavingVarianceSampleInput>;
+};
+
+export type GqlWalletsHavingMaxInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlWalletsHavingMinInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlWalletsHavingStddevPopulationInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlWalletsHavingStddevSampleInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlWalletsHavingSumInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlWalletsHavingVariancePopulationInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
+};
+
+export type GqlWalletsHavingVarianceSampleInput = {
+  balance?: InputMaybe<GqlHavingBigfloatFilter>;
 };
 
 /** Methods to use when ordering `Wallet`. */
 export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TO_ID_ASC',
@@ -5088,18 +5521,20 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_AVERAGE_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_COUNT_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_COUNT_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_COUNT_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_COUNT_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TO_ID_ASC',
@@ -5110,16 +5545,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_DISTINCT_COUNT_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_MAX_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_MAX_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_MAX_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_MAX_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_TO_ID_ASC',
@@ -5130,16 +5567,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_MAX_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MAX_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_MAX_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_MAX_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MAX_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_MIN_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_MIN_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_MIN_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_MIN_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_TO_ID_ASC',
@@ -5150,16 +5589,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_MIN_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_MIN_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_MIN_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_MIN_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_MIN_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TO_ID_ASC',
@@ -5170,16 +5611,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TO_ID_ASC',
@@ -5190,16 +5633,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_STDDEV_SAMPLE_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_SUM_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_SUM_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_SUM_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_SUM_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_TO_ID_ASC',
@@ -5210,16 +5655,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_SUM_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_SUM_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_SUM_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_SUM_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_SUM_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TO_ID_ASC',
@@ -5230,16 +5677,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TO_ID_ASC',
@@ -5250,16 +5699,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_BY_FROM_ID_VARIANCE_SAMPLE_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_AVERAGE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_AVERAGE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_AVERAGE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_AVERAGE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TO_ID_ASC',
@@ -5270,18 +5721,20 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_AVERAGE_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_AVERAGE_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_AVERAGE_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_COUNT_ASC = 'ASSET_TRANSFERS_BY_TO_ID_COUNT_ASC',
   ASSET_TRANSFERS_BY_TO_ID_COUNT_DESC = 'ASSET_TRANSFERS_BY_TO_ID_COUNT_DESC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TO_ID_ASC',
@@ -5292,16 +5745,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_DISTINCT_COUNT_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_MAX_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_MAX_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_MAX_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_MAX_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_TO_ID_ASC',
@@ -5312,16 +5767,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_MAX_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MAX_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_MAX_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_MAX_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MAX_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_MIN_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_MIN_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_MIN_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_MIN_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_TO_ID_ASC',
@@ -5332,16 +5789,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_MIN_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_MIN_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_MIN_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_MIN_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_MIN_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TO_ID_ASC',
@@ -5352,16 +5811,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TO_ID_ASC',
@@ -5372,16 +5833,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_STDDEV_SAMPLE_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_SUM_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_SUM_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_SUM_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_SUM_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_TO_ID_ASC',
@@ -5392,16 +5855,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_SUM_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_SUM_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_SUM_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_SUM_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_SUM_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TO_ID_ASC',
@@ -5412,16 +5877,18 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_POPULATION_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_BLOCK_RANGE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_BLOCK_RANGE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_BLOCK_RANGE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_BLOCK_RANGE_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_DECIMALS_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_DECIMALS_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_DECIMALS_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_DECIMALS_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_FROM_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_FROM_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_FROM_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_FROM_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_NFT_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_NFT_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_NFT_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_NFT_ID_DESC',
+  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_RAW_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_RAW_VALUE_ASC',
+  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_RAW_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_RAW_VALUE_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TOKEN_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TOKEN_ID_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TOKEN_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TOKEN_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TO_ID_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TO_ID_ASC',
@@ -5432,8 +5899,6 @@ export enum GqlWalletsOrderBy {
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TRANSACTION_ID_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TRANSACTION_ID_DESC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TYPE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TYPE_ASC',
   ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TYPE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_TYPE_DESC',
-  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_VALUE_ASC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_VALUE_ASC',
-  ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_VALUE_DESC = 'ASSET_TRANSFERS_BY_TO_ID_VARIANCE_SAMPLE_VALUE_DESC',
   BALANCE_ASC = 'BALANCE_ASC',
   BALANCE_DESC = 'BALANCE_DESC',
   ID_ASC = 'ID_ASC',
@@ -5709,15 +6174,16 @@ export type Gql_Metadatas = {
 };
 
 export enum Gqlasset_transfers_distinct_enum {
+  DECIMALS = 'DECIMALS',
   FROM_ID = 'FROM_ID',
   ID = 'ID',
   NFT_ID = 'NFT_ID',
+  RAW_VALUE = 'RAW_VALUE',
   TOKEN_ID = 'TOKEN_ID',
   TO_ID = 'TO_ID',
   TRANSACTION_BLOCK_NUMBER = 'TRANSACTION_BLOCK_NUMBER',
   TRANSACTION_ID = 'TRANSACTION_ID',
-  TYPE = 'TYPE',
-  VALUE = 'VALUE'
+  TYPE = 'TYPE'
 }
 
 export enum Gqlnft_balances_distinct_enum {
@@ -5777,7 +6243,7 @@ export type GqlwalletBalanceQueryVariables = Exact<{
 export type GqlwalletBalanceQuery = {
   wallet: {
     id: string,
-    balance: any
+    balance: string
   } | null
 };
 
@@ -5815,7 +6281,7 @@ export type GqlwalletTokenBalancesQuery = {
       cursor: string | null,
       node: {
         id: string,
-        balance: any,
+        balance: string,
         token: {
           id: string,
           type: string,
@@ -5944,7 +6410,8 @@ export type GqlwalletAssetTransfersQuery = {
       node: {
         id: string,
         type: string,
-        value: any,
+        rawValue: string,
+        decimals: number | null,
         from: {
           id: string
         } | null,
@@ -5957,8 +6424,8 @@ export type GqlwalletAssetTransfersQuery = {
           blockHash: string,
           date: string,
           gasUsed: string,
-          gasPrice: any,
-          fees: any,
+          gasPrice: string,
+          fees: string,
           success: boolean
         } | null,
         token: {
@@ -6019,7 +6486,7 @@ export type GqlKeybanClient_TokenContractFragment = {
 
 export type GqlKeybanClient_TokenBalanceFragment = {
   id: string,
-  balance: any,
+  balance: string,
   token: {
     id: string,
     type: string,
@@ -6068,15 +6535,16 @@ export type GqlKeybanClient_TransactionFragment = {
   blockHash: string,
   date: string,
   gasUsed: string,
-  gasPrice: any,
-  fees: any,
+  gasPrice: string,
+  fees: string,
   success: boolean
 };
 
 export type GqlKeybanClient_AssetTransferFragment = {
   id: string,
   type: string,
-  value: any,
+  rawValue: string,
+  decimals: number | null,
   from: {
     id: string
   } | null,
@@ -6089,8 +6557,8 @@ export type GqlKeybanClient_AssetTransferFragment = {
     blockHash: string,
     date: string,
     gasUsed: string,
-    gasPrice: any,
-    fees: any,
+    gasPrice: string,
+    fees: string,
     success: boolean
   } | null,
   token: {
@@ -6122,7 +6590,7 @@ export const KeybanClient_TokenBalanceFragmentDoc = {"kind":"Document","definiti
 export const KeybanClient_NftFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_NftFragment, unknown>;
 export const KeybanClient_NftBalanceFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_NftBalanceFragment, unknown>;
 export const KeybanClient_TransactionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_TransactionFragment, unknown>;
-export const KeybanClient_AssetTransferFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Transaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_AssetTransferFragment, unknown>;
+export const KeybanClient_AssetTransferFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Transaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"rawValue"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]} as unknown as DocumentNode<GqlKeybanClient_AssetTransferFragment, unknown>;
 export const walletBalanceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletBalance"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"wallet"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]}}]} as unknown as DocumentNode<GqlwalletBalanceQuery, GqlwalletBalanceQueryVariables>;
 export const walletSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"walletSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"wallets"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqlwalletSubscriptionSubscription, GqlwalletSubscriptionSubscriptionVariables>;
 export const walletTokenBalancesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletTokenBalances"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalancesOrderBy"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"walletId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenBalance"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletTokenBalancesQuery, GqlwalletTokenBalancesQueryVariables>;
@@ -6130,6 +6598,6 @@ export const tokenBalancesSubscriptionDocument = {"kind":"Document","definitions
 export const walletNftsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletNfts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalancesOrderBy"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"walletId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_NftBalance"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletNftsQuery, GqlwalletNftsQueryVariables>;
 export const nftBalancesSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"nftBalancesSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mutation_type"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqlnftBalancesSubscriptionSubscription, GqlnftBalancesSubscriptionSubscriptionVariables>;
 export const walletNftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletNft"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nftBalance"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nftBalanceId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_NftBalance"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_NftBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NftBalance"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]} as unknown as DocumentNode<GqlwalletNftQuery, GqlwalletNftQueryVariables>;
-export const walletAssetTransfersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletAssetTransfers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfersOrderBy"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetTransfers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"fromId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"toId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Transaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}}]} as unknown as DocumentNode<GqlwalletAssetTransfersQuery, GqlwalletAssetTransfersQueryVariables>;
+export const walletAssetTransfersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"walletAssetTransfers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfersOrderBy"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetTransfers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"fromId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"toId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"equalTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"walletId"}}}]}}]}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_PageInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_PageInfo"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PageInfo"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_TokenContract"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenContract"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"iconUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Nft"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Nft"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_Transaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"blockNumber"}},{"kind":"Field","name":{"kind":"Name","value":"blockHash"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"gasUsed"}},{"kind":"Field","name":{"kind":"Name","value":"gasPrice"}},{"kind":"Field","name":{"kind":"Name","value":"fees"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"KeybanClient_AssetTransfer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AssetTransfer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"to"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Transaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"rawValue"}},{"kind":"Field","name":{"kind":"Name","value":"decimals"}},{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_TokenContract"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nft"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"KeybanClient_Nft"}}]}}]}}]} as unknown as DocumentNode<GqlwalletAssetTransfersQuery, GqlwalletAssetTransfersQueryVariables>;
 export const assetTransfersSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"assetTransfersSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"assetTransferIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MutationType"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetTransfers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"assetTransferIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"mutation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mutation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mutation_type"}},{"kind":"Field","name":{"kind":"Name","value":"_entity"}}]}}]}}]} as unknown as DocumentNode<GqlassetTransfersSubscriptionSubscription, GqlassetTransfersSubscriptionSubscriptionVariables>;
 

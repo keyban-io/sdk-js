@@ -20,14 +20,14 @@ export default function Balance() {
       <Row>
         <span>Formatted:</span>
         <div data-test-id="Balance:formattedValue">
-          <FormattedBalance balance={{...balance, isNative: true}} />
+          <FormattedBalance balance={{raw: balance, isNative: true}} />
         </div>
       </Row>
 
       <Row>
         <span>Raw:</span>
         <SerializedValue
-          value={balance.raw}
+          value={balance}
           style={{ flexGrow: 1 }}
           data-test-id="Balance:rawValue"
         />
