@@ -10,6 +10,8 @@ import {
 import {
   type Address,
   type KeybanAccount,
+  type KeybanBalance,
+  type KeybanTokenBalances,
   type PaginationArgs,
   SdkError,
   SdkErrorTypes,
@@ -37,6 +39,15 @@ export function useKeybanAccount() {
   return usePromise("account", () => client.initialize(), { suspense: true });
 }
 
+export type KeybanSuspenceResult<T> = readonly [
+  T | null,
+  Error | null,
+  {
+    loading: boolean;
+    refresh: () => void;
+    fetchMore?: () => void;
+  }
+];
 /**
  * Return the native balance of an account.
  *
@@ -47,7 +58,7 @@ export function useKeybanAccount() {
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountBalance({ address }: KeybanAccount) {
+export function useKeybanAccountBalance({ address }: KeybanAccount): KeybanSuspenceResult<KeybanBalance> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -123,7 +134,7 @@ export function useKeybanAccountBalance({ address }: KeybanAccount) {
 export function useKeybanAccountTokenBalances(
   { address }: KeybanAccount,
   options?: PaginationArgs,
-) {
+): KeybanSuspenceResult<KeybanTokenBalances> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();

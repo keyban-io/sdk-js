@@ -41,6 +41,7 @@ import {
 } from "~/graphql";
 import {
   type Address,
+  type KeybanBalance,
   KeybanChain,
 } from "~/index";
 import type { IKeybanSigner } from "~/signer";
@@ -271,7 +272,7 @@ export class KeybanClient {
    * @param address - The address for which to retrieve the balance.
    * @returns - A promise resolving to the balance as a BigInt.
    */
-  async getBalance(address: Address) {
+  async getBalance(address: Address): Promise<KeybanBalance> {
     if (!isAddress(address)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,

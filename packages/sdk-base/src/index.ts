@@ -1,3 +1,8 @@
+import {
+  GqlKeybanClient_TokenBalanceFragment,
+  GqlwalletTokenBalancesQuery,
+} from "~/graphql";
+
 export {
   EstimateERC20TransferParams,
   EstimateNftTransferParams,
@@ -14,12 +19,34 @@ export { IKeybanSigner, KeybanSigner } from "./signer";
 export { SdkError, SdkErrorTypes } from "./errors";
 export { IKeybanStorage } from "./storage";
 export * from "./utils";
-
 export type {
+  GqlKeybanClient_AssetTransferFragment as KeybanAssetTransfer,
   GqlKeybanClient_NftBalanceFragment as KeybanNft,
-  GqlKeybanClient_TokenBalanceFragment as KeybanTokenBalance,
+  GqlKeybanClient_TokenBalanceFragment,
   GqlKeybanClient_TokenContractFragment as KeybanToken,
+  GqlwalletTokenBalancesQuery,
 } from "~/graphql";
+
+type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
+export type KeybanBalance = {
+  raw: string;
+  decimals?: number;
+};
+
+export type KeybanTokenBalance = Prettify<GqlKeybanClient_TokenBalanceFragment & {
+  balance: KeybanBalance;
+}>;
+
+//export type KeybanTokenBalances = ResultOf<typeof walletTokenBalancesDocument>
+export type KeybanTokenBalances = GqlwalletTokenBalancesQuery["tokenBalances"] & {
+  edges: Array<{
+    cursor: string | null,
+    node: KeybanTokenBalance | null
+  }>
+}
 
 /**
  * Alias for an Ethereum address. It must be a string that begins with "0x".
