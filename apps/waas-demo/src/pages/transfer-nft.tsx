@@ -1,13 +1,7 @@
 import type React from "react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import TransferAlert from "@/components/TransferAlert";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -90,9 +84,9 @@ const TransferNFT: React.FC = () => {
   const [nftBalances, nftsError] = useKeybanAccountNfts(account);
   if (nftsError) throw nftsError;
 
-  const selectedNft = nftBalances?.edges.find(
-    ({ node }) => node?.id === selectedNftId,
-  )?.node;
+  const selectedNft = nftBalances?.nodes.find(
+    (node) => node?.id === selectedNftId,
+  );
   const metadata = selectedNft?.nft?.metadata as NftMetadata;
   const isERC1155 = selectedNft?.nft?.collection?.type === "erc1155";
   const userNftBalance = Number(selectedNft?.balance ?? 0);
@@ -182,7 +176,7 @@ const TransferNFT: React.FC = () => {
 
         <Grid2 container spacing={4}>
           <Grid2 size={{ xs: 12, md: 6 }}>
-            {nftBalances?.edges.length ? (
+            {nftBalances?.nodes.length ? (
               <>
                 <FormControl fullWidth>
                   <InputLabel id="select-nft-label">Select an NFT</InputLabel>
@@ -193,7 +187,7 @@ const TransferNFT: React.FC = () => {
                     label="Select an NF"
                     onChange={(e) => setSelectedNftId(e.target.value as string)}
                   >
-                    {nftBalances.edges.map(({ node }) => {
+                    {nftBalances.nodes.map((node) => {
                       if (!node) return null;
 
                       const nftMetadata = node.nft?.metadata as NftMetadata;
@@ -253,7 +247,7 @@ const TransferNFT: React.FC = () => {
               </Typography>
               <Typography variant="body1">
                 <strong>Native balance (for fees):</strong>{" "}
-                <FormattedBalance balance={{raw: balance, isNative: true}} />
+                <FormattedBalance balance={{ raw: balance, isNative: true }} />
               </Typography>
 
               <Divider />

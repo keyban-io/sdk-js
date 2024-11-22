@@ -1,14 +1,7 @@
 import type React from "react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-import {
-  type Location,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { type Location, useLocation, useNavigate } from "react-router-dom";
 
 import TransferAlert from "@/components/TransferAlert";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -60,9 +53,9 @@ const TransferERC20: React.FC = () => {
     useKeybanAccountTokenBalances(account);
   if (tokenBalancesError) throw tokenBalancesError;
 
-  const token = tokenBalances?.edges.find(
-    ({ node }) => node?.token?.id === location.state.contractAddress,
-  )?.node;
+  const token = tokenBalances?.nodes.find(
+    (node) => node?.token?.id === location.state.contractAddress,
+  );
 
   useEffect(() => {
     const estimateFeesAsync = async () => {
@@ -138,9 +131,14 @@ const TransferERC20: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        {token?.token?.name} Balance: <FormattedBalance balance={ {raw: token?.balance ?? "0"}} token={token?.token?? undefined} />
+        {token?.token?.name} Balance:{" "}
+        <FormattedBalance
+          balance={{ raw: token?.balance ?? "0" }}
+          token={token?.token ?? undefined}
+        />
         <br />
-        Native Balance (for the fees): <FormattedBalance balance={{raw: balance, isNative: true}} />
+        Native Balance (for the fees):{" "}
+        <FormattedBalance balance={{ raw: balance, isNative: true }} />
       </Typography>
 
       <TextField
