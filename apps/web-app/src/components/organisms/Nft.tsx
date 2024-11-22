@@ -39,28 +39,25 @@ export default function Nft() {
           </tr>
         </thead>
         <tbody>
-          {nftBalances?.edges.map(
-            ({ cursor, node }) =>
-              node && (
-                <tr
-                  key={cursor}
-                  data-test-id={`Nft:collection:${node.nft?.collection?.id}:${node.nft?.tokenId}`}
-                >
-                  <th data-test-id="Nft:collection:name">
-                    {node.nft?.collection?.name}
-                  </th>
-                  <td data-test-id="Nft:collection:address">
-                    <code>{node.nft?.collection?.id}</code>
-                  </td>
-                  <td data-test-id="Nft:collection:type">
-                    <code>{node.nft?.collection?.type}</code>
-                  </td>
-                  <td data-test-id="Nft:nft:tokenId">
-                    <code>{node.nft?.tokenId}</code>
-                  </td>
-                </tr>
-              ),
-          )}
+          {nftBalances?.nodes.map((node) => (
+            <tr
+              key={node.id}
+              data-test-id={`Nft:collection:${node.nft?.collection?.id}:${node.nft?.tokenId}`}
+            >
+              <th data-test-id="Nft:collection:name">
+                {node.nft?.collection?.name}
+              </th>
+              <td data-test-id="Nft:collection:address">
+                <code>{node.nft?.collection?.id}</code>
+              </td>
+              <td data-test-id="Nft:collection:type">
+                <code>{node.nft?.collection?.type}</code>
+              </td>
+              <td data-test-id="Nft:nft:tokenId">
+                <code>{node.nft?.tokenId}</code>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -74,7 +71,7 @@ export default function Nft() {
 
         <button
           onClick={fetchMore}
-          disabled={!nftBalances?.pageInfo.hasNextPage}
+          disabled={!nftBalances.hasNextPage}
           data-test-id="Nft:fetchMoreButton"
         >
           Fetch more
@@ -91,7 +88,7 @@ export default function Nft() {
         />
       </Row>
 
-      <SerializedValue value={nftBalances?.edges} data-test-id="Nft:raw" />
+      <SerializedValue value={nftBalances.nodes} data-test-id="Nft:raw" />
     </fieldset>
   );
 }

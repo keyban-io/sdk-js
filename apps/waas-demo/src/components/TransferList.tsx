@@ -1,15 +1,10 @@
 import type React from "react";
-import {
-  useEffect,
-  useRef,
-} from "react";
+import { useEffect, useRef } from "react";
+
+import { format, formatDistanceToNow } from "date-fns";
 
 import {
-  format,
-  formatDistanceToNow,
-} from "date-fns";
-
-import {
+  KeybanAssetTransfer,
   useKeybanAccount,
   useKeybanAccountTransferHistory,
   useKeybanClient,
@@ -29,50 +24,6 @@ import {
 } from "@mui/material";
 
 import { getIndexerUrl } from "../lib/getIndexerUrl";
-
-interface Transfer {
-  id: string;
-  transaction: {
-    id: string;
-    blockNumber: string;
-    blockHash: string;
-    date: string;
-    gasUsed: string;
-    gasPrice: string;
-    fees: string;
-    success: boolean;
-  } | null;
-  type: string;
-  rawValue: string;
-  decimals: number | null;
-  from: {
-    id: string;
-  } | null;
-  to: {
-    id: string;
-  } | null;
-  token: {
-    id: string;
-    type: string;
-    name: string | null;
-    symbol: string | null;
-    decimals: number | null;
-    iconUrl: string | null;
-  } | null;
-  nft: {
-    id: string;
-    tokenId: string;
-    metadata: Record<string, unknown>;
-    collection: {
-      id: string;
-      type: string;
-      name: string | null;
-      symbol: string | null;
-      decimals: number | null;
-      iconUrl: string | null;
-    } | null;
-  } | null;
-}
 
 interface TransferListProps {
   pageSize?: number;
@@ -96,12 +47,12 @@ const TransferList: React.FC<TransferListProps> = ({
     useKeybanAccountTransferHistory(account, { first: pageSize });
   if (transferHistoryError) throw transferHistoryError;
 
-  const hasNextPage = transferHistory?.pageInfo.hasNextPage ?? false;
+  const hasNextPage = transferHistory.hasNextPage;
 
   useEffect(() => {
     const loadMoreTransfers = async () => {
       if (hasNextPage) {
-        await fetchMore();
+        fetchMore?.();
         // `transferHistory` sera mis à jour automatiquement
       }
     };
@@ -148,26 +99,24 @@ const TransferList: React.FC<TransferListProps> = ({
     }
   };
 
-  const formatAmount = (transfer: Transfer | null) => {
-    if (!transfer) return "";
-
-    if (transfer?.type === "native") {
+  const formatAmount = (transfer: KeybanAssetTransfer) => {
+    if (transfer.type === "native") {
       const amountInETH =
-        (Number(transfer?.rawValue) || 0) /
-        10 ** (transfer?.decimals ?? client.nativeCurrency.decimals);
+        (Number(transfer.rawValue) || 0) /
+        10 ** (transfer.decimals ?? client.nativeCurrency.decimals);
       return `${amountInETH.toFixed(4)} ${client.nativeCurrency.symbol}`;
     }
     if (transfer.type === "erc20") {
       const amountInTokens =
-        (Number(transfer?.rawValue) || 0) /
-        10 ** (transfer?.decimals ?? transfer?.token?.decimals ?? 0);
+        (Number(transfer.rawValue) || 0) /
+        10 ** (transfer.decimals ?? transfer.token?.decimals ?? 0);
       return `${amountInTokens.toFixed(4)} ${transfer.token?.symbol ?? ""}`;
     }
     if (transfer.type === "erc721") {
-      return `Token ID: ${transfer?.nft?.tokenId}`;
+      return `Token ID: ${transfer.nft?.tokenId}`;
     }
     if (transfer.type === "erc1155") {
-      return `${transfer.rawValue} Token ID: ${transfer?.nft?.tokenId}`;
+      return `${transfer.rawValue} Token ID: ${transfer.nft?.tokenId}`;
     }
     return `${transfer.rawValue ?? ""}`;
   };
@@ -180,8 +129,8 @@ const TransferList: React.FC<TransferListProps> = ({
 
   const formatDate = (date: string) => format(new Date(date), "PPpp");
 
-  const getStatus = (transfer: Transfer | null) => {
-    if (!transfer || !account) return "Unknown";
+  const getStatus = (transfer: KeybanAssetTransfer) => {
+    if (!account) return "Unknown";
 
     const { from, to } = transfer;
     const accountAddress = account.address.toLowerCase();
@@ -214,8 +163,7 @@ const TransferList: React.FC<TransferListProps> = ({
     return `${address.slice(0, chars + 2)}...${address.slice(-chars)}`;
   };
 
-  const getAssetType = (transfer: Transfer | null) => {
-    if (!transfer) return "Unknown";
+  const getAssetType = (transfer: KeybanAssetTransfer) => {
     if (transfer?.type === "native") {
       return "Native";
     }
@@ -229,8 +177,7 @@ const TransferList: React.FC<TransferListProps> = ({
     return "Unknown";
   };
 
-  const getCryptoDisplay = (transfer: Transfer | null) => {
-    if (!transfer) return "Unknown";
+  const getCryptoDisplay = (transfer: KeybanAssetTransfer) => {
     if (transfer.type === "native") {
       return client.nativeCurrency.symbol;
     }
@@ -263,10 +210,7 @@ const TransferList: React.FC<TransferListProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {transferHistory?.edges.map((edge, index) => {
-              const transfer = edge.node;
-              if (!transfer) return null;
-
+            {transferHistory.nodes.map((transfer, index) => {
               const status = getStatus(transfer);
               const amount = formatAmount(transfer);
               const dateHuman = transfer?.transaction?.date
@@ -286,7 +230,7 @@ const TransferList: React.FC<TransferListProps> = ({
                 console.error("Error generating indexer URL:", error);
               }
 
-              const isLastItem = index === transferHistory.edges.length - 1;
+              const isLastItem = index === transferHistory.nodes.length - 1;
 
               return (
                 <TableRow

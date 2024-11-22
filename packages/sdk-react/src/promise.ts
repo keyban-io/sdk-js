@@ -40,14 +40,14 @@ export type UsePromiseOptions<B extends boolean> = {
 type PromiseResultExtra = {
   refresh: () => void;
   reset: () => void;
-  isLoading: boolean;
+  loading: boolean;
 };
 
 type PromiseResult<T> = {
   [S in PromiseState]: {
-    [PromiseState.Pending]: [null, null, PromiseResultExtra];
-    [PromiseState.Fulfilled]: [T, null, PromiseResultExtra];
-    [PromiseState.Rejected]: [null, Error, PromiseResultExtra];
+    readonly [PromiseState.Pending]: [null, null, PromiseResultExtra];
+    readonly [PromiseState.Fulfilled]: [T, null, PromiseResultExtra];
+    readonly [PromiseState.Rejected]: [null, Error, PromiseResultExtra];
   }[S];
 };
 
@@ -92,26 +92,26 @@ export function usePromise<T, B extends boolean>(
     cache.set(key, cached);
   }
 
-  const [isLoading, setIsLoading] = React.useState(
+  const [loading, setLoading] = React.useState(
     cached.status === PromiseState.Pending,
   );
   React.useEffect(() => {
-    cached.promise.finally(() => setIsLoading(false));
+    cached.promise.finally(() => setLoading(false));
   }, [cached.promise]);
 
   const refresh = React.useCallback(() => {
-    setIsLoading(true);
+    setLoading(true);
 
     cached.promise = promise();
     updateWrappedPromise(cached);
   }, [cached, promise]);
 
   const reset = React.useCallback(() => {
-    setIsLoading(true);
+    setLoading(true);
     cache.delete(key);
   }, [cached, promise]);
 
-  const extra: PromiseResultExtra = { refresh, reset, isLoading };
+  const extra: PromiseResultExtra = { refresh, reset, loading };
 
   switch (cached.status) {
     case PromiseState.Pending:

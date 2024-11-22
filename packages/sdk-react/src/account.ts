@@ -3,16 +3,14 @@ import React from "react";
 import { usePromise } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
-import {
-  useSubscription,
-  useSuspenseQuery,
-} from "@apollo/client";
+import { useSubscription, useSuspenseQuery } from "@apollo/client";
 import {
   type Address,
   type KeybanAccount,
-  type KeybanBalance,
-  type KeybanTokenBalances,
+  type KeybanTokenBalance,
+  type KeybanNftBalance,
   type PaginationArgs,
+  type KeybanAssetTransfer,
   SdkError,
   SdkErrorTypes,
 } from "@keyban/sdk-base";
@@ -31,25 +29,53 @@ import {
   walletTokenBalancesDocument,
 } from "@keyban/sdk-base/graphql";
 
+// Generic types
+
+/**
+ * Extra
+ */
+export type KeybanSuspenseResultExtra = {
+  /** A boolean indicating if the data is currently being fetched. */
+  loading: boolean;
+  /** A function to manually refetch the data. */
+  refresh: () => void;
+  /** A function to fetch more data if there are more pages available. */
+  fetchMore?: () => void;
+};
+
+/**
+ * @typeParam T - The data eventually returned
+ */
+export type KeybanSuspenseResult<T> =
+  | readonly [T, null, KeybanSuspenseResultExtra]
+  | readonly [null, Error, KeybanSuspenseResultExtra];
+
+/**
+ * @typeParam T - The data type being paginated
+ */
+export type PaginatedData<T> = {
+  /** A boolean indicating if the paginated data has a previous page. */
+  hasPrevPage: boolean;
+  /** A boolean indicating if the paginated data has a next page. */
+  hasNextPage: boolean;
+  /** The number of total results. */
+  totalCount: number;
+  /** An array of the data. */
+  nodes: T[];
+};
+
 /**
  * Fetches the account information.
  */
-export function useKeybanAccount() {
+export function useKeybanAccount(): KeybanSuspenseResult<KeybanAccount> {
   const client = useKeybanClient();
   return usePromise("account", () => client.initialize(), { suspense: true });
 }
 
-export type KeybanSuspenceResult<T> = readonly [
-  T | null,
-  Error | null,
-  {
-    loading: boolean;
-    refresh: () => void;
-    fetchMore?: () => void;
-  }
-];
 /**
  * Return the native balance of an account.
+ *
+ * @param - A Keyban account object.
  *
  * @example
  * ```tsx
@@ -58,7 +84,9 @@ export type KeybanSuspenceResult<T> = readonly [
  * ```
  * @see {@link useFormattedBalance}
  */
-export function useKeybanAccountBalance({ address }: KeybanAccount): KeybanSuspenceResult<KeybanBalance> {
+export function useKeybanAccountBalance({
+  address,
+}: KeybanAccount): KeybanSuspenseResult<string> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -98,9 +126,9 @@ export function useKeybanAccountBalance({ address }: KeybanAccount): KeybanSuspe
 /**
  * Return the ERC20 tokens of an account.
  *
- * @param {KeybanAccount} param0 - An object containing the address of the Keyban account.
- * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the token balances.
- * @returns {readonly [TokenBalances | null, Error | null, Extra]} - A tuple containing:
+ * @param - A Keyban account object.
+ * @param - Optional pagination arguments for fetching the token balances.
+ * @returns - A tuple containing:
  * - The token balances data or null if an error occurred.
  * - The error object or null if no error occurred.
  * - An extra object containing additional information and functions:
@@ -134,7 +162,7 @@ export function useKeybanAccountBalance({ address }: KeybanAccount): KeybanSuspe
 export function useKeybanAccountTokenBalances(
   { address }: KeybanAccount,
   options?: PaginationArgs,
-): KeybanSuspenceResult<KeybanTokenBalances> {
+): KeybanSuspenseResult<PaginatedData<KeybanTokenBalance>> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -204,15 +232,26 @@ export function useKeybanAccountTokenBalances(
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.tokenBalances, null, extra] as const);
+    : ([
+        {
+          hasPrevPage: data.tokenBalances!.pageInfo.hasPreviousPage,
+          hasNextPage: data.tokenBalances!.pageInfo.hasNextPage,
+          totalCount: data.tokenBalances!.totalCount,
+          nodes: data
+            .tokenBalances!.edges.map(({ node }) => node)
+            .filter(Boolean as unknown as <T>(x?: T | null) => x is T),
+        },
+        null,
+        extra,
+      ] as const);
 }
 
 /**
  * Return the NFTs of an account.
  *
- * @param {KeybanAccount} param0 - An object containing the address of the Keyban account.
- * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the NFTs.
- * @returns {readonly [NftBalances | null, Error | null, Extra]} - A tuple containing:
+ * @param - A Keyban account object.
+ * @param - Optional pagination arguments for fetching the NFTs.
+ * @returns - A tuple containing:
  * - The NFT balances data or null if an error occurred.
  * - The error object or null if no error occurred.
  * - An extra object containing additional information and functions:
@@ -246,7 +285,7 @@ export function useKeybanAccountTokenBalances(
 export function useKeybanAccountNfts(
   { address }: KeybanAccount,
   options?: PaginationArgs,
-) {
+): KeybanSuspenseResult<PaginatedData<KeybanNftBalance>> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -315,11 +354,24 @@ export function useKeybanAccountNfts(
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.nftBalances, null, extra] as const);
+    : ([
+        {
+          hasPrevPage: data.nftBalances!.pageInfo.hasPreviousPage,
+          hasNextPage: data.nftBalances!.pageInfo.hasNextPage,
+          totalCount: data.nftBalances!.totalCount,
+          nodes: data
+            .nftBalances!.edges.map(({ node }) => node)
+            .filter(Boolean as unknown as <T>(x?: T | null) => x is T),
+        },
+        null,
+        extra,
+      ] as const);
 }
 
 /**
  * Return one ERC721 or ERC1155 token of an account.
+ *
+ * @param - A Keyban account object.
  *
  * @example
  * ```tsx
@@ -332,8 +384,10 @@ export function useKeybanAccountNft(
   { address }: KeybanAccount,
   tokenAddress: Address,
   tokenId: string,
-) {
+): KeybanSuspenseResult<KeybanNftBalance> {
   const client = useKeybanClient();
+
+  const [isPending, startTransition] = React.useTransition();
 
   const id = [address, tokenAddress, tokenId].join(":");
   const { data, error, refetch } = useSuspenseQuery(walletNftDocument, {
@@ -341,7 +395,20 @@ export function useKeybanAccountNft(
     variables: { nftBalanceId: id },
   });
 
-  const extra = { refresh: () => refetch() };
+  const debounceTimeoutRef = React.useRef<NodeJS.Timeout>();
+  const refresh = React.useCallback(() => {
+    clearTimeout(debounceTimeoutRef.current);
+    debounceTimeoutRef.current = setTimeout(() => {
+      startTransition(() => {
+        refetch();
+      });
+    }, 100);
+  }, [startTransition, refetch]);
+
+  const extra = {
+    loading: isPending,
+    refresh,
+  };
 
   if (error) return [null, error, extra] as const;
   if (!data.nftBalance)
@@ -359,9 +426,9 @@ export function useKeybanAccountNft(
 /**
  * Return the transfer history of an account.
  *
- * @param {KeybanAccount} param0 - An object containing the address of the Keyban account.
- * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the transfer history.
- * @returns {readonly [AssetTransfers | null, Error | null, Extra]} - A tuple containing:
+ * @param - A Keyban account object.
+ * @param - Optional pagination arguments for fetching the transfer history.
+ * @returns - A tuple containing:
  * - The transfer history data or null if an error occurred.
  * - The error object or null if no error occurred.
  * - An extra object containing additional information and functions:
@@ -395,7 +462,7 @@ export function useKeybanAccountNft(
 export function useKeybanAccountTransferHistory(
   { address }: KeybanAccount,
   options?: PaginationArgs,
-) {
+): KeybanSuspenseResult<PaginatedData<KeybanAssetTransfer>> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -467,5 +534,16 @@ export function useKeybanAccountTransferHistory(
 
   return error
     ? ([null, error, extra] as const)
-    : ([data.assetTransfers, null, extra] as const);
+    : ([
+        {
+          hasPrevPage: data.assetTransfers!.pageInfo.hasPreviousPage,
+          hasNextPage: data.assetTransfers!.pageInfo.hasNextPage,
+          totalCount: data.assetTransfers!.totalCount,
+          nodes: data
+            .assetTransfers!.edges.map(({ node }) => node)
+            .filter(Boolean as unknown as <T>(x?: T | null) => x is T),
+        },
+        null,
+        extra,
+      ] as const);
 }

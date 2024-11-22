@@ -1,15 +1,12 @@
 import type React from "react";
-import {
-  useEffect,
-  useRef,
-} from "react";
+import { useEffect, useRef } from "react";
 
 import { useNavigate } from "react-router-dom";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  type KeybanNft,
+  type KeybanNftBalance,
   useKeybanAccount,
   useKeybanAccountNfts,
 } from "@keyban/sdk-react";
@@ -64,14 +61,14 @@ const NFTSection: React.FC<NFTSectionProps> = ({
 
   const navigate = useNavigate();
 
-  const hasNextPage = nftBalances?.pageInfo.hasNextPage ?? false;
+  const hasNextPage = nftBalances.hasNextPage;
 
   useEffect(() => {
     if (disableInfiniteScroll || loading) return;
 
     const loadMoreNfts = async () => {
       if (hasNextPage && !loading) {
-        await fetchMore();
+        fetchMore?.();
         // `nftBalances` sera mis à jour automatiquement
       }
     };
@@ -100,7 +97,7 @@ const NFTSection: React.FC<NFTSectionProps> = ({
     };
   }, [fetchMore, hasNextPage, loading, disableInfiniteScroll]);
 
-  const groupNftsByCollection = (nfts: KeybanNft[]) => {
+  const groupNftsByCollection = (nfts: KeybanNftBalance[]) => {
     return nfts.reduce(
       (acc, nftBalance) => {
         const metadata = nftBalance.nft?.metadata as NftMetadata;
@@ -111,16 +108,13 @@ const NFTSection: React.FC<NFTSectionProps> = ({
         acc[collectionName].push(nftBalance);
         return acc;
       },
-      {} as Record<string, KeybanNft[]>,
+      {} as Record<string, KeybanNftBalance[]>,
     );
   };
 
-  const nfts =
-    nftBalances?.edges
-      .map((edge) => edge.node)
-      .filter(
-        (node): node is KeybanNft => node !== null && node.nft !== null,
-      ) ?? [];
+  const nfts = nftBalances.nodes.filter(
+    (node): node is KeybanNftBalance => node.nft != null,
+  );
 
   if (!nfts.length) {
     return (

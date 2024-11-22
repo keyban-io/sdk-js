@@ -43,41 +43,38 @@ export default function TokenBalances() {
           </tr>
         </thead>
         <tbody>
-          {tokenBalances?.edges.map(
-            ({ cursor, node }) =>
-              node && (
-                <tr
-                  key={cursor}
-                  data-test-id={`TokenBalances:token:${node.token?.id}`}
-                >
-                  <th data-test-id="TokenBalances:name">{node.token?.name}</th>
-                  <td data-test-id="TokenBalances:address">
-                    <code>{node.token?.id}</code>
-                  </td>
-                  <td
-                    data-test-id="TokenBalances:decimals"
-                    style={{
-                      fontVariantNumeric: "tabular-nums",
-                      textAlign: "right",
-                    }}
-                  >
-                    {node.token?.decimals}
-                  </td>
-                  <td
-                    data-test-id="TokenBalances:balance"
-                    style={{
-                      fontVariantNumeric: "tabular-nums",
-                      textAlign: "right",
-                    }}
-                  >
-                    {node.balance}
-                  </td>
-                  <td data-test-id="TokenBalances:symbol">
-                    <code>{node.token?.symbol}</code>
-                  </td>
-                </tr>
-              ),
-          )}
+          {tokenBalances.nodes.map((node) => (
+            <tr
+              key={node.id}
+              data-test-id={`TokenBalances:token:${node.token?.id}`}
+            >
+              <th data-test-id="TokenBalances:name">{node.token?.name}</th>
+              <td data-test-id="TokenBalances:address">
+                <code>{node.token?.id}</code>
+              </td>
+              <td
+                data-test-id="TokenBalances:decimals"
+                style={{
+                  fontVariantNumeric: "tabular-nums",
+                  textAlign: "right",
+                }}
+              >
+                {node.token?.decimals}
+              </td>
+              <td
+                data-test-id="TokenBalances:balance"
+                style={{
+                  fontVariantNumeric: "tabular-nums",
+                  textAlign: "right",
+                }}
+              >
+                {node.balance}
+              </td>
+              <td data-test-id="TokenBalances:symbol">
+                <code>{node.token?.symbol}</code>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -91,7 +88,7 @@ export default function TokenBalances() {
 
         <button
           onClick={fetchMore}
-          disabled={!tokenBalances?.pageInfo.hasNextPage}
+          disabled={!tokenBalances.hasNextPage}
           data-test-id="TokenBalances:fetchMoreButton"
         >
           Fetch more
@@ -109,7 +106,7 @@ export default function TokenBalances() {
       </Row>
 
       <SerializedValue
-        value={tokenBalances?.edges}
+        value={tokenBalances.nodes}
         data-test-id="TokenBalances:raw"
       />
     </fieldset>

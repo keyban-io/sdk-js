@@ -1,8 +1,4 @@
-import type {
-  Chain,
-  PublicClient,
-  Transport,
-} from "viem";
+import type { Chain, PublicClient, Transport } from "viem";
 import {
   createPublicClient,
   createWalletClient,
@@ -14,10 +10,7 @@ import {
   parseSignature,
   serializeTransaction,
 } from "viem";
-import {
-  publicKeyToAddress,
-  toAccount,
-} from "viem/accounts";
+import { publicKeyToAddress, toAccount } from "viem/accounts";
 import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
@@ -27,11 +20,7 @@ import {
   signersChainMap,
   viemChainsMap,
 } from "~/chains";
-import {
-  SdkError,
-  SdkErrorTypes,
-  StorageError,
-} from "~/errors";
+import { SdkError, SdkErrorTypes, StorageError } from "~/errors";
 import {
   walletAssetTransfersDocument,
   walletBalanceDocument,
@@ -39,11 +28,7 @@ import {
   walletNftsDocument,
   walletTokenBalancesDocument,
 } from "~/graphql";
-import {
-  type Address,
-  type KeybanBalance,
-  KeybanChain,
-} from "~/index";
+import { type Address, KeybanChain } from "~/index";
 import type { IKeybanSigner } from "~/signer";
 import type { IKeybanStorage } from "~/storage";
 import { parseJwt } from "~/utils/jwt";
@@ -261,7 +246,7 @@ export class KeybanClient {
     })();
 
     this.#pendingAccounts.set(sub, promise);
-    promise.catch(() => { }).finally(() => this.#pendingAccounts.delete(sub));
+    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
 
     return promise;
   }
@@ -272,7 +257,7 @@ export class KeybanClient {
    * @param address - The address for which to retrieve the balance.
    * @returns - A promise resolving to the balance as a BigInt.
    */
-  async getBalance(address: Address): Promise<KeybanBalance> {
+  async getBalance(address: Address): Promise<string> {
     if (!isAddress(address)) {
       throw new SdkError(
         SdkErrorTypes.AddressInvalid,
@@ -285,7 +270,7 @@ export class KeybanClient {
       variables: { walletId: address },
     });
 
-    return data.wallet?.balance;
+    return data.wallet?.balance ?? "0";
   }
 
   /**

@@ -46,8 +46,8 @@ export default function TransferHistory() {
           </tr>
         </thead>
         <tbody>
-          {transactionHistory?.edges.map(({ cursor, node }) => (
-            <tr key={cursor}>
+          {transactionHistory.nodes.map((node) => (
+            <tr key={node.id}>
               <td>
                 <code>{node?.transaction?.blockNumber}</code>
               </td>
@@ -66,7 +66,18 @@ export default function TransferHistory() {
                   textAlign: "right",
                 }}
               >
-                <FormattedBalance balance={{raw: node?.rawValue?? "0", decimals: node?.decimals?? undefined, isNative: node?.type === "native"}} token={node?.type=== "erc20"? node?.token?? undefined: undefined}/>
+                <FormattedBalance
+                  balance={{
+                    raw: node?.rawValue ?? "0",
+                    decimals: node?.decimals ?? undefined,
+                    isNative: node?.type === "native",
+                  }}
+                  token={
+                    node?.type === "erc20"
+                      ? (node?.token ?? undefined)
+                      : undefined
+                  }
+                />
               </td>
               <td>
                 <code>{node?.type}</code>
@@ -86,7 +97,7 @@ export default function TransferHistory() {
 
         <button
           onClick={fetchMore}
-          disabled={!transactionHistory?.pageInfo.hasNextPage}
+          disabled={!transactionHistory.hasNextPage}
           data-test-id="TransferHistory:fetchMoreButton"
         >
           Fetch more
@@ -104,7 +115,7 @@ export default function TransferHistory() {
       </Row>
 
       <SerializedValue
-        value={transactionHistory?.edges}
+        value={transactionHistory?.nodes}
         data-test-id="TransferHistory:raw"
       />
     </fieldset>

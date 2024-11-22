@@ -1,8 +1,5 @@
 import type React from "react";
-import {
-  useEffect,
-  useRef,
-} from "react";
+import { useEffect, useRef } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -44,14 +41,12 @@ const TokensSection: React.FC<TokensSectionProps> = ({
     useKeybanAccountTokenBalances(account, { first: pageSize });
   if (tokenBalancesError) throw tokenBalancesError;
 
-  const hasNextPage = tokenBalances?.pageInfo.hasNextPage ?? false;
-
   useEffect(() => {
     if (disableInfiniteScroll || loading) return;
 
     const loadMoreTokens = async () => {
-      if (hasNextPage && !loading) {
-        await fetchMore();
+      if (tokenBalances.hasNextPage && !loading) {
+        fetchMore?.();
         // `tokenBalances` will be updated automatically
       }
     };
@@ -78,7 +73,7 @@ const TokensSection: React.FC<TokensSectionProps> = ({
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [fetchMore, hasNextPage, loading, disableInfiniteScroll]);
+  }, [fetchMore, tokenBalances.hasNextPage, loading, disableInfiniteScroll]);
 
   const handleSend = ({ token }: KeybanTokenBalance) => {
     navigate("/transfer-erc20", {
@@ -87,12 +82,9 @@ const TokensSection: React.FC<TokensSectionProps> = ({
   };
 
   const tokens =
-    tokenBalances?.edges
-      .map((edge) => edge.node)
-      .filter(
-        (node): node is KeybanTokenBalance =>
-          node !== null && node.token !== null,
-      ) ?? [];
+    tokenBalances.nodes.filter(
+      (node): node is KeybanTokenBalance => node.token != null,
+    ) ?? [];
 
   return (
     <Stack direction="column" spacing={2}>
@@ -141,7 +133,7 @@ const TokensSection: React.FC<TokensSectionProps> = ({
                     <Typography variant="body1" component="div">
                       {/* Display the formatted balance */}
                       <FormattedBalance
-                        balance={{raw: tokenBalance.balance}}
+                        balance={{ raw: tokenBalance.balance }}
                         token={tokenBalance.token ?? undefined}
                       />
                     </Typography>
