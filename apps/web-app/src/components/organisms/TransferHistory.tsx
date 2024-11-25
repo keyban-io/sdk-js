@@ -1,6 +1,3 @@
-import React from "react";
-
-import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
 import TextField from "@/components/molecules/TextField";
 import {
@@ -10,14 +7,15 @@ import {
 } from "@keyban/sdk-react";
 
 import SerializedValue from "../atoms/SerializedValue";
+import { useSearchParam } from "@/lib/urlSearchParam";
 
 export default function TransferHistory() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [pageSize, setPageSize] = React.useState("");
+  const [pageSize, setPageSize] = useSearchParam("TransferHistory:pageSize");
 
-  const [transactionHistory, transactionHistoryError, { refresh, fetchMore }] =
+  const [transactionHistory, transactionHistoryError, { fetchMore }] =
     useKeybanAccountTransferHistory(account, {
       first: Number(pageSize) || undefined,
     });
@@ -25,14 +23,7 @@ export default function TransferHistory() {
 
   return (
     <fieldset>
-      <legend>
-        Transfer history
-        <RefreshButton
-          onClick={refresh}
-          style={{ marginInlineStart: "0.5ch" }}
-          data-test-id="TransferHistory:refresh"
-        />
-      </legend>
+      <legend>Transfer history</legend>
 
       <table data-test-id="TransferHistory:table">
         <thead>
@@ -68,7 +59,7 @@ export default function TransferHistory() {
               >
                 <FormattedBalance
                   balance={{
-                    raw: node?.rawValue ?? "0",
+                    raw: node?.value ?? "0",
                     decimals: node?.decimals ?? undefined,
                     isNative: node?.type === "native",
                   }}

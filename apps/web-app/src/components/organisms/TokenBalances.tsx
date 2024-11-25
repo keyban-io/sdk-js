@@ -1,6 +1,3 @@
-import React from "react";
-
-import RefreshButton from "@/components/atoms/RefreshButton";
 import Row from "@/components/atoms/Row";
 import SerializedValue from "@/components/atoms/SerializedValue";
 import TextField from "@/components/molecules/TextField";
@@ -8,14 +5,15 @@ import {
   useKeybanAccount,
   useKeybanAccountTokenBalances,
 } from "@keyban/sdk-react";
+import { useSearchParam } from "@/lib/urlSearchParam";
 
 export default function TokenBalances() {
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
 
-  const [pageSize, setPageSize] = React.useState("");
+  const [pageSize, setPageSize] = useSearchParam("TokenBalances:pageSize");
 
-  const [tokenBalances, tokenBalancesError, { fetchMore, refresh }] =
+  const [tokenBalances, tokenBalancesError, { fetchMore }] =
     useKeybanAccountTokenBalances(account, {
       first: Number(pageSize) || undefined,
     });
@@ -23,14 +21,7 @@ export default function TokenBalances() {
 
   return (
     <fieldset>
-      <legend>
-        Token balances
-        <RefreshButton
-          onClick={refresh}
-          style={{ marginInlineStart: "0.5ch" }}
-          data-test-id="TokenBalances:refresh"
-        />
-      </legend>
+      <legend>Token balances</legend>
 
       <table data-test-id="TokenBalances:table">
         <thead>

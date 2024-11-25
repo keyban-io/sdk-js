@@ -38,14 +38,17 @@ export default function App() {
   });
 
   React.useEffect(() => {
-    setSearchParams((prev) => ({
-      ...prev,
-      apiUrl: config.apiUrl,
-      appId: config.appId,
-      accessToken: config.accessToken,
-      chain: config.chain,
-      signer: getSignerName(config),
-    }));
+    setSearchParams((prev) => {
+      prev.set("apiUrl", config.apiUrl ?? "");
+      prev.set("appId", config.appId);
+      prev.set("accessToken", config.accessToken);
+      prev.set("chain", config.chain);
+
+      const signer = getSignerName(config);
+      if (signer) prev.set("signer", signer);
+
+      return prev;
+    });
   }, [config, setSearchParams]);
 
   return (

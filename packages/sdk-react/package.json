@@ -43,7 +43,7 @@
     "prepack": "pnpm install @keyban/sdk-base@latest && pnpm install @keyban/sdk-base@latest"
   },
   "dependencies": {
-    "@apollo/client": "^3.11.8",
+    "@apollo/client": "^3.11.10",
     "@keyban/sdk-base": "workspace:*"
   },
   "peerDependencies": {
@@ -52,10 +52,10 @@
   },
   "devDependencies": {
     "@types/node": "^20.16.0",
-    "@types/react": "^18.3.11",
+    "@types/react": "^18.3.12",
     "prettier": "^3.3.3",
-    "tsup": "^8.3.0",
-    "typescript": "^5.6.3"
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
   },
   "publishConfig": {
     "access": "public"

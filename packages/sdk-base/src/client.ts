@@ -270,7 +270,7 @@ export class KeybanClient {
       variables: { walletId: address },
     });
 
-    return data.wallet?.balance ?? "0";
+    return data.res?.balance ?? "0";
   }
 
   /**
@@ -289,7 +289,7 @@ export class KeybanClient {
       variables: { walletId: address, ...pagination },
     });
 
-    return data.tokenBalances;
+    return data.res;
   }
 
   /**
@@ -305,7 +305,7 @@ export class KeybanClient {
       variables: { walletId: address, ...pagination },
     });
 
-    return data.nftBalances;
+    return data.res;
   }
 
   /**
@@ -324,7 +324,7 @@ export class KeybanClient {
       variables: { walletId: address, ...pagination },
     });
 
-    return data.assetTransfers;
+    return data.res;
   }
 
   /**
@@ -345,7 +345,7 @@ export class KeybanClient {
       variables: { nftBalanceId: id },
     });
 
-    const nft = data.nftBalance;
+    const nft = data.res;
 
     if (!nft) {
       throw new SdkError(SdkErrorTypes.NftNotFound, "KeybanClient.getNft");

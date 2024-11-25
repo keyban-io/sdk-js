@@ -1,5 +1,4 @@
 import { createClient } from "graphql-ws";
-
 import { InMemoryCache } from "@apollo/client/cache";
 import {
   ApolloClient,
@@ -9,7 +8,6 @@ import {
 } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { WebSocketLink } from "@apollo/client/link/ws";
 import {
   getMainDefinition,
   relayStylePagination,
@@ -34,9 +32,7 @@ export function createApolloClient(
 
   const wsUrl = new URL(apiUrl);
   wsUrl.protocol = "wss";
-  const wsLink = wsUrl.hostname.includes("subql")
-    ? new WebSocketLink({ uri: wsUrl.toString(), options: { reconnect: true } })
-    : new GraphQLWsLink(createClient({ url: wsUrl.toString() }));
+  const wsLink = new GraphQLWsLink(createClient({ url: wsUrl.toString() }));
 
   const transportLink = split(
     ({ query }) => {
@@ -51,16 +47,7 @@ export function createApolloClient(
   );
 
   return new ApolloClient({
-    defaultOptions: {
-      watchQuery: {
-        fetchPolicy: "cache-and-network",
-        errorPolicy: "none",
-      },
-      query: {
-        fetchPolicy: "cache-first",
-        errorPolicy: "none",
-      },
-    },
+    connectToDevTools: true,
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
@@ -75,10 +62,10 @@ export function createApolloClient(
             date: {
               read(date) {
                 return date ? date + "Z" : date;
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       },
     }),
     link: ApolloLink.from([authLink, transportLink]),

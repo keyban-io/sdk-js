@@ -102,13 +102,13 @@ const TransferList: React.FC<TransferListProps> = ({
   const formatAmount = (transfer: KeybanAssetTransfer) => {
     if (transfer.type === "native") {
       const amountInETH =
-        (Number(transfer.rawValue) || 0) /
+        (Number(transfer.value) || 0) /
         10 ** (transfer.decimals ?? client.nativeCurrency.decimals);
       return `${amountInETH.toFixed(4)} ${client.nativeCurrency.symbol}`;
     }
     if (transfer.type === "erc20") {
       const amountInTokens =
-        (Number(transfer.rawValue) || 0) /
+        (Number(transfer.value) || 0) /
         10 ** (transfer.decimals ?? transfer.token?.decimals ?? 0);
       return `${amountInTokens.toFixed(4)} ${transfer.token?.symbol ?? ""}`;
     }
@@ -116,9 +116,9 @@ const TransferList: React.FC<TransferListProps> = ({
       return `Token ID: ${transfer.nft?.tokenId}`;
     }
     if (transfer.type === "erc1155") {
-      return `${transfer.rawValue} Token ID: ${transfer.nft?.tokenId}`;
+      return `${transfer.value} Token ID: ${transfer.nft?.tokenId}`;
     }
-    return `${transfer.rawValue ?? ""}`;
+    return `${transfer.value ?? ""}`;
   };
 
   const formatHuman = (date: string) =>

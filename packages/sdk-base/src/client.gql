@@ -1,14 +1,17 @@
 query walletBalance($walletId: String!) {
-  wallet(id: $walletId) {
+  res: wallet(id: $walletId) {
     id
-    balance
+    ...KeybanClient_Wallet
   }
 }
 
 subscription walletSubscription($walletIds: [ID!], $mutation: [MutationType!]) {
-  wallets(id: $walletIds, mutation: $mutation) {
-    id
-    _entity
+  sub: wallets(id: $walletIds, mutation: $mutation) {
+    mutation_type
+    _entity {
+      id
+      ...KeybanClient_Wallet
+    }
   }
 }
 
@@ -18,7 +21,7 @@ query walletTokenBalances(
   $after: Cursor
   $orderBy: [TokenBalancesOrderBy!]
 ) {
-  tokenBalances(
+  res: tokenBalances(
     filter: { walletId: { equalTo: $walletId } }
     first: $first
     after: $after
@@ -42,10 +45,12 @@ subscription tokenBalancesSubscription(
   $tokenBalancesIds: [ID!]
   $mutation: [MutationType!]
 ) {
-  tokenBalances(id: $tokenBalancesIds, mutation: $mutation) {
-    id
+  sub: tokenBalances(id: $tokenBalancesIds, mutation: $mutation) {
     mutation_type
-    _entity
+    _entity {
+      id
+      ...KeybanClient_TokenBalance
+    }
   }
 }
 
@@ -55,7 +60,7 @@ query walletNfts(
   $after: Cursor
   $orderBy: [NftBalancesOrderBy!]
 ) {
-  nftBalances(
+  res: nftBalances(
     filter: { walletId: { equalTo: $walletId } }
     first: $first
     after: $after
@@ -79,15 +84,17 @@ subscription nftBalancesSubscription(
   $nftBalanceIds: [ID!]
   $mutation: [MutationType!]
 ) {
-  nftBalances(id: $nftBalanceIds, mutation: $mutation) {
-    id
+  sub: nftBalances(id: $nftBalanceIds, mutation: $mutation) {
     mutation_type
-    _entity
+    _entity {
+      id
+      ...KeybanClient_NftBalance
+    }
   }
 }
 
 query walletNft($nftBalanceId: String!) {
-  nftBalance(id: $nftBalanceId) {
+  res: nftBalance(id: $nftBalanceId) {
     id
     ...KeybanClient_NftBalance
   }
@@ -99,7 +106,7 @@ query walletAssetTransfers(
   $after: Cursor
   $orderBy: [AssetTransfersOrderBy!]
 ) {
-  assetTransfers(
+  res: assetTransfers(
     filter: {
       or: [{ fromId: { equalTo: $walletId } }, { toId: { equalTo: $walletId } }]
     }
@@ -125,10 +132,12 @@ subscription assetTransfersSubscription(
   $assetTransferIds: [ID!]
   $mutation: [MutationType!]
 ) {
-  assetTransfers(id: $assetTransferIds, mutation: $mutation) {
-    id
+  sub: assetTransfers(id: $assetTransferIds, mutation: $mutation) {
     mutation_type
-    _entity
+    _entity {
+      id
+      ...KeybanClient_AssetTransfer
+    }
   }
 }
 
@@ -137,6 +146,11 @@ fragment KeybanClient_PageInfo on PageInfo {
   startCursor
   hasNextPage
   hasPreviousPage
+}
+
+fragment KeybanClient_Wallet on Wallet {
+  id
+  balance
 }
 
 fragment KeybanClient_TokenContract on TokenContract {
@@ -200,7 +214,7 @@ fragment KeybanClient_AssetTransfer on AssetTransfer {
     ...KeybanClient_Transaction
   }
   type
-  rawValue
+  value
   decimals
   token {
     id
