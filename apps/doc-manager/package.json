@@ -4,20 +4,20 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-docs": "typedoc --tsconfig ./tsconfig.json"
+    "generate-docs": "node ./scripts/update-typedoc-options.js && typedoc --options ../../../docs/docusaurus/typedocOptions.temp.json && rm ../../../docs/docusaurus/typedocOptions.temp.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "typedoc": "^0.26.11",
-    "typedoc-plugin-markdown": "^4.2.10"
+    "typedoc": "^0.26.11"
   },
   "devDependencies": {
     "@types/node": "^22.9.3",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "typedoc-plugin-markdown": "^4.2.10",
     "typescript": "5.6"
   }
 }
