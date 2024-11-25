@@ -21,6 +21,14 @@ options.plugin = options.plugin.map((plugin) =>
     : plugin,
 );
 
+// Ajout et mise à jour des options
+Object.assign(options, {
+  alwaysCreateEntryPointModule: false,
+  outputFileStrategy: "modules",
+  flattenOutputFiles: true,
+  mergeReadme: true,
+});
+
 // Sauvegarde de la copie mise à jour
 fs.writeFileSync(copyPath, JSON.stringify(options, null, 2), "utf8");
 

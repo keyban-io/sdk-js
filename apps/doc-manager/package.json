@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-docs": "node ./scripts/update-typedoc-options.js && typedoc --options ../../../docs/docusaurus/typedocOptions.temp.json && rm ../../../docs/docusaurus/typedocOptions.temp.json"
+    "generate-docs": "node ./scripts/update-typedoc-options.js && typedoc --options ../../../docs/docusaurus/typedocOptions.temp.json"
   },
   "keywords": [],
   "author": "",
