@@ -12,10 +12,10 @@ importers:
     dependencies:
       typedoc:
         specifier: ^0.26.11
-        version: 0.26.11(typescript@5.7.2)
+        version: 0.26.11(typescript@5.6.3)
       typedoc-plugin-markdown:
         specifier: ^4.2.10
-        version: 4.2.10(typedoc@0.26.11(typescript@5.7.2))
+        version: 4.2.10(typedoc@0.26.11(typescript@5.6.3))
     devDependencies:
       '@types/node':
         specifier: ^22.9.3
@@ -26,6 +26,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.1
         version: 18.3.1
+      typescript:
+        specifier: '5.6'
+        version: 5.6.3
 
   apps/loyalty-demo:
     dependencies:
@@ -19236,17 +19239,17 @@ snapshots:
     dependencies:
       is-typedarray: 1.0.0
 
-  typedoc-plugin-markdown@4.2.10(typedoc@0.26.11(typescript@5.7.2)):
+  typedoc-plugin-markdown@4.2.10(typedoc@0.26.11(typescript@5.6.3)):
     dependencies:
-      typedoc: 0.26.11(typescript@5.7.2)
+      typedoc: 0.26.11(typescript@5.6.3)
 
-  typedoc@0.26.11(typescript@5.7.2):
+  typedoc@0.26.11(typescript@5.6.3):
     dependencies:
       lunr: 2.3.9
       markdown-it: 14.1.0
       minimatch: 9.0.5
       shiki: 1.21.0
-      typescript: 5.7.2
+      typescript: 5.6.3
       yaml: 2.5.1
 
   typescript-eslint@8.8.1(eslint@9.12.0(jiti@2.0.0))(typescript@5.6.3):
