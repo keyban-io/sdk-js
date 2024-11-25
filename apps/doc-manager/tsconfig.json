@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020", "dom"],
+    "target": "es2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "../../packages/sdk-base/src/*",
+        "../../packages/sdk-react/src/*"
+      ],
+      "@keyban/sdk-base/*": ["../../packages/sdk-base/src/*"],
+      "@keyban/sdk-react/*": ["../../packages/sdk-react/src/*"]
+    }
+  },
+  "include": [
+    "../../packages/sdk-base/src/**/*",
+    "../../packages/sdk-react/src/**/*"
+  ],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
