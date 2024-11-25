@@ -32,31 +32,41 @@ import {
 // Generic types
 
 /**
- * Extra
+ * An object allowing extra interactions with the Keyban API.
  */
-export type KeybanSuspenseResultExtra = {
+export type ApiResultExtra = {
   /** A boolean indicating if the data is currently being fetched. */
   loading: boolean;
   /** A function to manually refetch the data. */
   refresh: () => void;
-  /** A function to fetch more data if there are more pages available. */
+  /** A function to fetch more data when the result is a paginated data type. */
   fetchMore?: () => void;
 };
 
 /**
+ * A tuple representing the result to an API call to the Keyban servers.
+ * Since all Keyban hooks uses the [React Suspense API](https://react.dev/reference/react/Suspense),
+ * there is only two possible states for the tuple: success ad error.
+ * The tuple contains teh following data:
+ * - the data result of the API call in case of success, or null in case of error
+ * - null in case of success, or teh error in case of error
+ * - an {@link ApiResultExtra} object
+ *
  * @typeParam T - The data eventually returned
  */
-export type KeybanSuspenseResult<T> =
-  | readonly [T, null, KeybanSuspenseResultExtra]
-  | readonly [null, Error, KeybanSuspenseResultExtra];
+export type ApiResult<T> =
+  | readonly [T, null, ApiResultExtra]
+  | readonly [null, Error, ApiResultExtra];
 
 /**
+ * An object representing a paginated data API result.
+ *
  * @typeParam T - The data type being paginated
  */
 export type PaginatedData<T> = {
-  /** A boolean indicating if the paginated data has a previous page. */
+  /** A boolean indicating wether the paginated data has a previous page or not. */
   hasPrevPage: boolean;
-  /** A boolean indicating if the paginated data has a next page. */
+  /** A boolean indicating wether the paginated data has a next page or not. */
   hasNextPage: boolean;
   /** The number of total results. */
   totalCount: number;
@@ -67,26 +77,29 @@ export type PaginatedData<T> = {
 /**
  * Fetches the account information.
  */
-export function useKeybanAccount(): KeybanSuspenseResult<KeybanAccount> {
+export function useKeybanAccount(): ApiResult<KeybanAccount> {
   const client = useKeybanClient();
   return usePromise("account", () => client.initialize(), { suspense: true });
 }
 
 /**
- * Return the native balance of an account.
+ * Returns an {@link ApiResult} of the native balance of an account.
  *
  * @param account - A Keyban account object.
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balance, balanceError, { refresh: refreshBalance }] = useKeybanAccountBalance(account);
+ * if (accountError) throw accountError;
+ *
+ * const [balance, balanceError] = useKeybanAccountBalance(account);
+ * if (balanceError) throw balanceError;
  * ```
  * @see {@link useFormattedBalance}
  */
 export function useKeybanAccountBalance({
   address,
-}: KeybanAccount): KeybanSuspenseResult<string> {
+}: KeybanAccount): ApiResult<string> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -124,45 +137,33 @@ export function useKeybanAccountBalance({
 }
 
 /**
- * Return the ERC20 tokens of an account.
+ * Returns an {@link ApiResult} of the ERC20 tokens of an account.
  *
  * @param account - A Keyban account object.
  * @param options - Optional pagination arguments for fetching the token balances.
- * @returns - A tuple containing:
- * - The token balances data or null if an error occurred.
- * - The error object or null if no error occurred.
- * - An extra object containing additional information and functions:
- *   - `loading`: A boolean indicating if the data is currently being fetched.
- *   - `refresh`: A function to manually refetch the data.
- *   - `fetchMore`: A function to fetch more data if there are more pages available.
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balances, balanceError, { loading, fetchMore: fetchMoreBalances }] = useKeybanAccountTokenBalances(account, { first: 5 });
+ * if (accountError) throw accountError;
  *
- * if (loading) {
- *   // Show loading state
- * }
- *
- * if (balanceError) {
- *   // Handle error
- * }
+ * const [balances, balanceError, { fetchMore }] = useKeybanAccountTokenBalances(account, { first: 5 });
+ * if (balanceError) throw balanceError;
  *
  * // Use the token balances
- * console.log(balances);
+ * console.log(balances.nodes);
  *
  * // To fetch more token balances
- * if (balances && balances.pageInfo.hasNextPage) {
- *   fetchMoreBalances();
- * }
+ * <button onClick={fetchMore} disabled={!balances.hasNextPage}>
+ *   Fetch next page
+ * </button>
  * ```
  * @see {@link useFormattedBalance}
  */
 export function useKeybanAccountTokenBalances(
   { address }: KeybanAccount,
   options?: PaginationArgs,
-): KeybanSuspenseResult<PaginatedData<KeybanTokenBalance>> {
+): ApiResult<PaginatedData<KeybanTokenBalance>> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -247,45 +248,33 @@ export function useKeybanAccountTokenBalances(
 }
 
 /**
- * Return the NFTs of an account.
+ * Returns an {@link ApiResult} of the NFTs of an account.
  *
  * @param account - A Keyban account object.
  * @param options - Optional pagination arguments for fetching the NFTs.
- * @returns - A tuple containing:
- * - The NFT balances data or null if an error occurred.
- * - The error object or null if no error occurred.
- * - An extra object containing additional information and functions:
- *   - `loading`: A boolean indicating if the data is currently being fetched.
- *   - `refresh`: A function to manually refetch the data.
- *   - `fetchMore`: A function to fetch more data if there are more pages available.
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [nfts, nftsError, { loading, fetchMore: fetchMoreNfts }] = useKeybanAccountNfts(account, { first: 5 });
+ * if (accountError) throw accountError;
  *
- * if (loading) {
- *   // Show loading state
- * }
- *
- * if (nftsError) {
- *   // Handle error
- * }
+ * const [nfts, nftsError, { fetchMore }] = useKeybanAccountNfts(account, { first: 5 });
+ * if (nftsError) throw nftsError;
  *
  * // Use the NFT data
- * console.log(nfts);
+ * console.log(nfts.nodes);
  *
  * // To fetch more NFTs
- * if (nfts && nfts.pageInfo.hasNextPage) {
- *   fetchMoreNfts();
- * }
+ * <button onClick={fetchMore} disabled={!nfts.hasNextPage}>
+ *   Fetch next page
+ * </button>
  * ```
  * @see {@link useFormattedBalance}
  */
 export function useKeybanAccountNfts(
   { address }: KeybanAccount,
   options?: PaginationArgs,
-): KeybanSuspenseResult<PaginatedData<KeybanNftBalance>> {
+): ApiResult<PaginatedData<KeybanNftBalance>> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -369,14 +358,17 @@ export function useKeybanAccountNfts(
 }
 
 /**
- * Return one ERC721 or ERC1155 token of an account.
+ * Returns an {@link ApiResult} of one ERC721 or ERC1155 token of an account.
  *
  * @param account - A Keyban account object.
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [balance, balanceError, { refresh: refreshNft }] = useKeybanAccountNft(account, tokenAddress, tokenId);
+ * if (accountError) throw accountError;
+ *
+ * const [balance, balanceError, { refresh }] = useKeybanAccountNft(account, tokenAddress, tokenId);
+ * if (balanceError) throw balanceError;
  * ```
  * @see {@link useFormattedBalance}
  */
@@ -384,7 +376,7 @@ export function useKeybanAccountNft(
   { address }: KeybanAccount,
   tokenAddress: Address,
   tokenId: string,
-): KeybanSuspenseResult<KeybanNftBalance> {
+): ApiResult<KeybanNftBalance> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
@@ -424,45 +416,33 @@ export function useKeybanAccountNft(
 }
 
 /**
- * Return the transfer history of an account.
+ * Returns an {@link ApiResult} of the transfer history of an account.
  *
  * @param account - A Keyban account object.
  * @param options - Optional pagination arguments for fetching the transfer history.
- * @returns - A tuple containing:
- * - The transfer history data or null if an error occurred.
- * - The error object or null if no error occurred.
- * - An extra object containing additional information and functions:
- *   - `loading`: A boolean indicating if the data is currently being fetched.
- *   - `refresh`: A function to manually refetch the data.
- *   - `fetchMore`: A function to fetch more data if there are more pages available.
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
- * const [txHistory, txHistoryError, { loading, fetchMore: fetchMoreTransferHistory }] = useKeybanAccountTransferHistory(account, { first: 5 });
-
- * if (loading) {
- *   // Show loading state
- * }
+ * if (accountError) throw accountError;
  *
- * if (txHistoryError) {
- *   // Handle error
- * }
+ * const [txHistory, txHistoryError, { fetchMore }] = useKeybanAccountTransferHistory(account, { first: 5 });
+ * if (txHistoryError) throw txHistoryError;
  *
  * // Use the transfer data
- * console.log(txHistory);
+ * console.log(txHistory.nodes);
  *
  * // To fetch more transfer history
- * if (txHistory && txHistory.pageInfo.hasNextPage) {
- *   fetchMoreTransferHistory();
- * }
+ * <button onClick={fetchMore} disabled={!txHistory.hasNextPage}>
+ *   Fetch next page
+ * </button>
  * ```
  * @see {@link useFormattedBalance}
  */
 export function useKeybanAccountTransferHistory(
   { address }: KeybanAccount,
   options?: PaginationArgs,
-): KeybanSuspenseResult<PaginatedData<KeybanAssetTransfer>> {
+): ApiResult<PaginatedData<KeybanAssetTransfer>> {
   const client = useKeybanClient();
 
   const [isPending, startTransition] = React.useTransition();
