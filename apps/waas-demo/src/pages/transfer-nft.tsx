@@ -1,12 +1,3 @@
-import type React from "react";
-import { useEffect, useState } from "react";
-
-import { useLocation, useNavigate } from "react-router-dom";
-
-import TransferAlert from "@/components/TransferAlert";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useTransferReducer } from "@/hooks/useTransferReducer";
-import { getIndexerUrl } from "@/lib/getIndexerUrl";
 import type { Address } from "@keyban/sdk-react";
 import {
   FormattedBalance,
@@ -35,6 +26,14 @@ import {
   Typography,
 } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import TransferAlert from "~/components/TransferAlert";
+import { useDebounce } from "~/hooks/useDebounce";
+import { useTransferReducer } from "~/hooks/useTransferReducer";
+import { getIndexerUrl } from "~/lib/getIndexerUrl";
 
 interface NftMetadataProperty {
   type: string;

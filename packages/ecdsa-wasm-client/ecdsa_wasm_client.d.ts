@@ -1,7 +1,7 @@
 declare module "@keyban/ecdsa-wasm-client";
 
 declare global {
-  var ecdsa: {
+  const ecdsa: {
     dkg(apiUrl: string, appId: string, accessToken: string): Promise<string>;
     sign(
       apiUrl: string,

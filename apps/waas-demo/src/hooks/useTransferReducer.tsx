@@ -1,7 +1,4 @@
-import {
-  useReducer,
-  useState,
-} from 'react';
+import { useReducer, useState } from "react";
 
 interface TransferState {
   isTransferring: boolean;

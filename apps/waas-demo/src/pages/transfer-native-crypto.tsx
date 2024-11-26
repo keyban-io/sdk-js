@@ -1,15 +1,3 @@
-import type React from "react";
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import { useNavigate } from "react-router-dom";
-
-import TransferAlert from "@/components/TransferAlert";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useTransferReducer } from "@/hooks/useTransferReducer";
-import { getIndexerUrl } from "@/lib/getIndexerUrl"; // Import de la fonction
 import type { Address } from "@keyban/sdk-react";
 import {
   FormattedBalance,
@@ -26,6 +14,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import TransferAlert from "~/components/TransferAlert";
+import { useDebounce } from "~/hooks/useDebounce";
+import { useTransferReducer } from "~/hooks/useTransferReducer";
+import { getIndexerUrl } from "~/lib/getIndexerUrl"; // Import de la fonction
 
 const TransferNativeCrypto: React.FC = () => {
   const navigate = useNavigate();
@@ -99,7 +95,7 @@ const TransferNativeCrypto: React.FC = () => {
       <Typography>
         From this address: {account.address}
         <br />
-        Balance: <FormattedBalance balance={{raw: balance, isNative: true}} />
+        Balance: <FormattedBalance balance={{ raw: balance, isNative: true }} />
       </Typography>
 
       <TextField

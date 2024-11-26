@@ -1,4 +1,3 @@
-import { createClient } from "graphql-ws";
 import { InMemoryCache } from "@apollo/client/cache";
 import {
   ApolloClient,
@@ -12,6 +11,7 @@ import {
   getMainDefinition,
   relayStylePagination,
 } from "@apollo/client/utilities";
+import { createClient } from "graphql-ws";
 
 export function createApolloClient(
   apiUrl: URL,

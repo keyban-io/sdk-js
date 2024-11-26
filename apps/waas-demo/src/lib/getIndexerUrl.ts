@@ -14,8 +14,10 @@ const indexerUrlMapping: Record<HostChainKey, string> = {
 
   // Sepolia mappings (même indexeur pour tous les domaines)
   localhost_PolygonAmoy: "https://rpc-amoy.polygon.technology",
-  "waas-demo.keyban.localtest.me_PolygonAmoy": "https://rpc-amoy.polygon.technology",
-  "waas-demo.testing.keyban.io_PolygonAmoy": "https://rpc-amoy.polygon.technology",
+  "waas-demo.keyban.localtest.me_PolygonAmoy":
+    "https://rpc-amoy.polygon.technology",
+  "waas-demo.testing.keyban.io_PolygonAmoy":
+    "https://rpc-amoy.polygon.technology",
   "waas-demo.demo.keyban.io_PolygonAmoy": "https://rpc-amoy.polygon.technology",
 };
 

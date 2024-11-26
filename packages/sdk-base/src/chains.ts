@@ -1,8 +1,6 @@
 import * as chains from "viem/chains";
-import {
-  type IKeybanSigner,
-  KeybanSigner,
-} from "~/signer";
+
+import { type IKeybanSigner, KeybanSigner } from "~/signer";
 
 export enum KeybanChain {
   KeybanTestnet = "KeybanTestnet",
@@ -20,10 +18,10 @@ export const viemChainsMap: { [C in KeybanChain]: chains.Chain } = {
 };
 
 export const signersChainMap: { [C in KeybanChain]: new () => IKeybanSigner } =
-{
-  [KeybanChain.KeybanTestnet]: KeybanSigner.ECDSA,
-  [KeybanChain.PolygonAmoy]: KeybanSigner.ECDSA,
-};
+  {
+    [KeybanChain.KeybanTestnet]: KeybanSigner.ECDSA,
+    [KeybanChain.PolygonAmoy]: KeybanSigner.ECDSA,
+  };
 
 export const feesUnitChainsMap: { [C in KeybanChain]: FeesUnit } = {
   [KeybanChain.KeybanTestnet]: {

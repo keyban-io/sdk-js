@@ -1,5 +1,3 @@
-import type React from "react";
-
 import { KeybanChain } from "@keyban/sdk-react";
 import {
   FormControl,
@@ -8,6 +6,7 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material";
+import type React from "react";
 
 interface NetworkSelectorProps {
   chain: KeybanChain;

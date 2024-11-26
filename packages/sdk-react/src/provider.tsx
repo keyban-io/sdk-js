@@ -1,9 +1,5 @@
+import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
 import React from "react";
-
-import {
-  KeybanClient,
-  type KeybanClientConfig,
-} from "@keyban/sdk-base";
 
 import { PromiseCacheProvider } from "./promise";
 

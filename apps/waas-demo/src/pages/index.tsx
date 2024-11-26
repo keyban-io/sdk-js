@@ -1,13 +1,5 @@
 // src/pages/index.tsx
 
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
-import { useNavigate } from "react-router-dom";
-
-import { fetchCryptoToEuroRate } from "@/utils/apiUtils";
 import {
   faCoins,
   faCube,
@@ -28,6 +20,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { fetchCryptoToEuroRate } from "~/utils/apiUtils";
 
 import AccountInfo from "../components/AccountInfo";
 import BalanceInfo from "../components/BalanceInfo";
@@ -120,8 +116,10 @@ const WalletDashboardContent: React.FC = () => {
 
   // Validate if the conversion rate is available
   const euroBalance =
-    balance === "0" ? 0:
-      (Number(balance) / 10 ** client.nativeCurrency.decimals) * cryptoToEuroRate[client.nativeCurrency.symbol];
+    balance === "0"
+      ? 0
+      : (Number(balance) / 10 ** client.nativeCurrency.decimals) *
+        cryptoToEuroRate[client.nativeCurrency.symbol];
 
   return (
     <>

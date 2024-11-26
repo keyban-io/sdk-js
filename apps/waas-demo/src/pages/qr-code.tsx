@@ -1,16 +1,7 @@
-import type React from "react";
-
+import { Button, Stack, Typography } from "@mui/material";
 import { QRCodeSVG } from "qrcode.react";
-import {
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-
-import {
-  Button,
-  Stack,
-  Typography,
-} from "@mui/material";
+import type React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const QRCodePage: React.FC = () => {
   const navigate = useNavigate();

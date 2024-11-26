@@ -1,6 +1,7 @@
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
 import { useKeybanAccount } from "@keyban/sdk-react";
+
+import Row from "~/components/atoms/Row";
+import SerializedValue from "~/components/atoms/SerializedValue";
 
 export default function AccountInfo() {
   const [account, accountError] = useKeybanAccount();

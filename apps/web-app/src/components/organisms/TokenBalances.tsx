@@ -1,11 +1,12 @@
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
-import TextField from "@/components/molecules/TextField";
 import {
   useKeybanAccount,
   useKeybanAccountTokenBalances,
 } from "@keyban/sdk-react";
-import { useSearchParam } from "@/lib/urlSearchParam";
+
+import Row from "~/components/atoms/Row";
+import SerializedValue from "~/components/atoms/SerializedValue";
+import TextField from "~/components/molecules/TextField";
+import { useSearchParam } from "~/lib/urlSearchParam";
 
 export default function TokenBalances() {
   const [account, accountError] = useKeybanAccount();

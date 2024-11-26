@@ -1,16 +1,15 @@
-import React from "react";
-
-import { useErrorBoundary } from "react-error-boundary";
-
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
-import TextField from "@/components/molecules/TextField";
 import {
   Address,
   FeesEstimation,
   FormattedBalance,
   useKeybanAccount,
 } from "@keyban/sdk-react";
+import React from "react";
+import { useErrorBoundary } from "react-error-boundary";
+
+import Row from "~/components/atoms/Row";
+import SerializedValue from "~/components/atoms/SerializedValue";
+import TextField from "~/components/molecules/TextField";
 
 export default function NativeTransfer() {
   const { showBoundary } = useErrorBoundary();
@@ -36,7 +35,7 @@ export default function NativeTransfer() {
           data-test-id="NativeTransfer:value:input"
         />
         <div data-test-id="NativeTransfer:formattedValue">
-          <FormattedBalance balance={{raw: value, isNative: true}} />
+          <FormattedBalance balance={{ raw: value, isNative: true }} />
         </div>
       </Row>
 
@@ -72,7 +71,9 @@ export default function NativeTransfer() {
           />
 
           <div data-test-id="NativeTransfer:estimate:formattedValue">
-            <FormattedBalance balance={{raw: estimation.maxFees, isFees: true}} />
+            <FormattedBalance
+              balance={{ raw: estimation.maxFees, isFees: true }}
+            />
           </div>
         </Row>
       )}

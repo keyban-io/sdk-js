@@ -1,8 +1,3 @@
-import type React from "react";
-import { useEffect, useRef } from "react";
-
-import { useNavigate } from "react-router-dom";
-
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,6 +17,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import type React from "react";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface NftMetadataProperty {
   type: string;

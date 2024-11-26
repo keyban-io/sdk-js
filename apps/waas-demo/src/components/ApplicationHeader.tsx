@@ -1,6 +1,3 @@
-import { useState } from "react";
-
-import NetworkSelector from "@/components/NetworkSelector";
 import { useAuth0 } from "@auth0/auth0-react";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +14,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
+
+import NetworkSelector from "~/components/NetworkSelector";
 
 type ApplicationHeaderProps = {
   selectedChainId: KeybanChain;

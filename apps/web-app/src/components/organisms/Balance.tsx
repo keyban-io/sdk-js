@@ -1,10 +1,11 @@
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
 import {
   FormattedBalance,
   useKeybanAccount,
   useKeybanAccountBalance,
 } from "@keyban/sdk-react";
+
+import Row from "~/components/atoms/Row";
+import SerializedValue from "~/components/atoms/SerializedValue";
 
 export default function Balance() {
   const [account, accountError] = useKeybanAccount();
@@ -20,7 +21,7 @@ export default function Balance() {
       <Row>
         <span>Formatted:</span>
         <div data-test-id="Balance:formattedValue">
-          <FormattedBalance balance={{raw: balance, isNative: true}} />
+          <FormattedBalance balance={{ raw: balance, isNative: true }} />
         </div>
       </Row>
 

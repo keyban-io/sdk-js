@@ -1,6 +1,6 @@
-import type { Hex } from '~/index';
+import type { Hex } from "~/index";
 
-import { KeybanSigner_ECDSA } from './ecdsa';
+import { KeybanSigner_ECDSA } from "./ecdsa";
 
 /**
  * Interface for the Keyban signer.

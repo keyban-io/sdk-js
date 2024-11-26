@@ -1,8 +1,4 @@
-import {
-  Balance,
-  formatBalance,
-  KeybanToken,
-} from "@keyban/sdk-base";
+import { Balance, formatBalance, KeybanToken } from "@keyban/sdk-base";
 
 import { useKeybanClient } from "./provider";
 
@@ -23,7 +19,10 @@ import { useKeybanClient } from "./provider";
  * console.log(formattedBalance); // "0.2 ETH"
  * ```
  */
-export function useFormattedBalance(balance: Balance, token?: KeybanToken): string {
+export function useFormattedBalance(
+  balance: Balance,
+  token?: KeybanToken,
+): string {
   return formatBalance(useKeybanClient(), balance, token);
 }
 

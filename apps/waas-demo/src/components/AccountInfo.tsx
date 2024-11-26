@@ -1,8 +1,3 @@
-import type React from "react";
-import { useState } from "react";
-
-import { useNavigate } from "react-router-dom";
-
 import { faCopy, faQrcode } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useKeybanAccount } from "@keyban/sdk-react";
@@ -14,6 +9,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import type React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AccountInfo: React.FC = () => {
   const navigate = useNavigate();

@@ -1,15 +1,10 @@
-import type React from "react";
-
 import {
   FormattedBalance,
   type KeybanTokenBalance,
   useKeybanClient,
 } from "@keyban/sdk-react";
-import {
-  Alert,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
+import { Alert, CircularProgress, Typography } from "@mui/material";
+import type React from "react";
 
 interface TransferAlertProps {
   isEstimatingFees: boolean;
@@ -38,7 +33,9 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
   }
 
   try {
-    const decimals = tokenBalance? tokenBalance.token?.decimals?? 0 : client.nativeCurrency.decimals;
+    const decimals = tokenBalance
+      ? (tokenBalance.token?.decimals ?? 0)
+      : client.nativeCurrency.decimals;
 
     // Conversion du montant et des frais en bigint
     const amountInBigInt = BigInt(Number(amount) * 10 ** decimals);
@@ -57,28 +54,31 @@ const TransferAlert: React.FC<TransferAlertProps> = ({
                 balance={{
                   raw: amountInBigInt,
                 }}
-                token={tokenBalance.token?? undefined}
-
+                token={tokenBalance.token ?? undefined}
               />{" "}
               to {recipient}.
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}
-              <FormattedBalance balance={{raw: rawMaxFees, isFees: true}} />.
+              <FormattedBalance balance={{ raw: rawMaxFees, isFees: true }} />.
             </Typography>
           </>
         ) : (
           <>
             <Typography>
               You are about to send{" "}
-              <FormattedBalance balance={{raw: amountInBigInt, isNative: true}} /> to {recipient}.
+              <FormattedBalance
+                balance={{ raw: amountInBigInt, isNative: true }}
+              />{" "}
+              to {recipient}.
             </Typography>
             <Typography>
               Maximum estimated transaction fees:{" "}
-              <FormattedBalance balance={{raw: rawMaxFees, isFees: true}} />.
+              <FormattedBalance balance={{ raw: rawMaxFees, isFees: true }} />.
             </Typography>
             <Typography>
-              Total (including fees): <FormattedBalance balance={{raw: total, isNative: true}} />.
+              Total (including fees):{" "}
+              <FormattedBalance balance={{ raw: total, isNative: true }} />.
             </Typography>
           </>
         )}

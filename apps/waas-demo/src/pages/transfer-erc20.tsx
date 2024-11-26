@@ -1,12 +1,3 @@
-import type React from "react";
-import { useEffect, useState } from "react";
-
-import { type Location, useLocation, useNavigate } from "react-router-dom";
-
-import TransferAlert from "@/components/TransferAlert";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useTransferReducer } from "@/hooks/useTransferReducer";
-import { getIndexerUrl } from "@/lib/getIndexerUrl";
 import type { Address } from "@keyban/sdk-react";
 import {
   FormattedBalance,
@@ -24,6 +15,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { type Location, useLocation, useNavigate } from "react-router-dom";
+
+import TransferAlert from "~/components/TransferAlert";
+import { useDebounce } from "~/hooks/useDebounce";
+import { useTransferReducer } from "~/hooks/useTransferReducer";
+import { getIndexerUrl } from "~/lib/getIndexerUrl";
 
 const TransferERC20: React.FC = () => {
   const location: Location<{ contractAddress: Address }> = useLocation();

@@ -1,6 +1,7 @@
-import RefreshButton from "@/components/atoms/RefreshButton";
-import SerializedValue from "@/components/atoms/SerializedValue";
 import { FallbackProps } from "react-error-boundary";
+
+import RefreshButton from "~/components/atoms/RefreshButton";
+import SerializedValue from "~/components/atoms/SerializedValue";
 
 export default function AppError({ error, resetErrorBoundary }: FallbackProps) {
   console.error(error);

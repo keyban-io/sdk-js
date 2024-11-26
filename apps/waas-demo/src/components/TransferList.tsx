@@ -1,8 +1,3 @@
-import type React from "react";
-import { useEffect, useRef } from "react";
-
-import { format, formatDistanceToNow } from "date-fns";
-
 import {
   KeybanAssetTransfer,
   useKeybanAccount,
@@ -22,6 +17,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { format, formatDistanceToNow } from "date-fns";
+import type React from "react";
+import { useEffect, useRef } from "react";
 
 import { getIndexerUrl } from "../lib/getIndexerUrl";
 

@@ -1,14 +1,13 @@
-import type React from 'react';
-
-import { faClose } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
-} from '@mui/material';
+} from "@mui/material";
+import type React from "react";
 
 interface ModalProps {
   show: boolean;

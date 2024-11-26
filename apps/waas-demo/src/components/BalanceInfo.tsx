@@ -1,14 +1,8 @@
-import type React from "react";
-
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FormattedBalance } from "@keyban/sdk-react";
-import {
-  Button,
-  Stack,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, Tooltip, Typography } from "@mui/material";
+import type React from "react";
 
 interface BalanceInfoProps {
   balance: string | undefined;

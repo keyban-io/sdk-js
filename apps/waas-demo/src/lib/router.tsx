@@ -1,19 +1,10 @@
-import React from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+import { CircularProgress, Stack, Typography } from "@mui/material";
+import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
-import { ErrorBoundary } from 'react-error-boundary';
-import {
-  createBrowserRouter,
-  Outlet,
-  RouterProvider,
-} from 'react-router-dom';
-
-import { ErrorFallback } from '@/components/ErrorFallback';
-import { useAuth0 } from '@auth0/auth0-react';
-import {
-  CircularProgress,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { ErrorFallback } from "~/components/ErrorFallback";
 
 // Fonction pour mapper les chemins de fichiers à des chemins de route
 const mapFilepath = (filepath: string) =>

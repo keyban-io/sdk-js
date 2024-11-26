@@ -1,16 +1,15 @@
-import React from "react";
-
-import { useErrorBoundary } from "react-error-boundary";
-import { Address } from "viem";
-
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
-import TextField from "@/components/molecules/TextField";
 import {
   FeesEstimation,
   FormattedBalance,
   useKeybanAccount,
 } from "@keyban/sdk-react";
+import React from "react";
+import { useErrorBoundary } from "react-error-boundary";
+import { Address } from "viem";
+
+import Row from "~/components/atoms/Row";
+import SerializedValue from "~/components/atoms/SerializedValue";
+import TextField from "~/components/molecules/TextField";
 
 export default function NftTransfer() {
   const { showBoundary } = useErrorBoundary();
@@ -126,7 +125,9 @@ export default function NftTransfer() {
             data-test-id="NftTransfer:estimate:rawValue"
           />
           <div data-test-id="NftTransfer:estimate:formattedValue">
-            <FormattedBalance balance={{raw: estimation.maxFees, isFees: true}} />
+            <FormattedBalance
+              balance={{ raw: estimation.maxFees, isFees: true }}
+            />
           </div>
         </Row>
       )}

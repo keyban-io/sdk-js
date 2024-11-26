@@ -1,11 +1,3 @@
-import React from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { useSearchParams } from "react-router-dom";
-
-import ConfigEditor, {
-  ConfigEditorProps,
-} from "@/components/organisms/ConfigEditor";
-import KeybanTest from "@/KeybanTest";
 import {
   KeybanChain,
   type KeybanClientConfig,
@@ -13,7 +5,15 @@ import {
   KeybanProvider,
   KeybanSigner,
 } from "@keyban/sdk-react";
-import AppError from "@/components/molecules/AppError";
+import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { useSearchParams } from "react-router-dom";
+
+import AppError from "~/components/molecules/AppError";
+import ConfigEditor, {
+  ConfigEditorProps,
+} from "~/components/organisms/ConfigEditor";
+import KeybanTest from "~/KeybanTest";
 
 const DEFAULT_API_URL = "https://api.keyban.localtest.me";
 const DEFAULT_APP_ID = "INVALID_APP_ID";

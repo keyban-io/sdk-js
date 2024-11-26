@@ -1,12 +1,6 @@
+import { Button, Stack, Typography } from "@mui/material";
 import type React from "react";
-
 import { useNavigate } from "react-router-dom";
-
-import {
-  Button,
-  Stack,
-  Typography,
-} from "@mui/material";
 
 import TokensSection from "../components/TokensSection";
 

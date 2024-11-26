@@ -11,13 +11,14 @@
     "allowSyntheticDefaultImports":true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
-    "paths": {
-      "~/*": ["./src/*"]
-    },
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ESNext"
+    "target": "ESNext",
+
+    "paths": {
+      "~/*": ["./src/*"]
+    }
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

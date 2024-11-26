@@ -12,10 +12,10 @@ import {
   type Transport,
   type WalletClient,
 } from "viem";
+
+import { ERC1155_ABI_TRANSFER_FROM } from "~/const";
 import { SdkError, SdkErrorTypes } from "~/errors";
 import type { Address, Hash, Hex, KeybanClient } from "~/index";
-
-import { ERC1155_ABI_TRANSFER_FROM } from "./const";
 
 /**
  * Represents the estimation of the fees required for a token transfer.

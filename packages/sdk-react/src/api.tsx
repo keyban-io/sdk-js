@@ -1,5 +1,5 @@
-import { useKeybanClient } from "~/provider";
 import { usePromise } from "~/promise";
+import { useKeybanClient } from "~/provider";
 
 /**
  * @private

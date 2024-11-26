@@ -1,7 +1,3 @@
-import type React from "react";
-
-import { useNavigate, useParams } from "react-router-dom";
-
 import {
   type Address,
   useKeybanAccount,
@@ -19,6 +15,8 @@ import {
   Typography,
 } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
+import type React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface NftMetadataProperty {
   type: string;

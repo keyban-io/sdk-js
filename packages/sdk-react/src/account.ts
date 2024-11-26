@@ -1,8 +1,3 @@
-import React from "react";
-
-import { usePromise } from "~/promise";
-import { useKeybanClient } from "~/provider";
-
 import { useSubscription, useSuspenseQuery } from "@apollo/client";
 import {
   type Address,
@@ -30,6 +25,10 @@ import {
   walletSubscriptionDocument,
   walletTokenBalancesDocument,
 } from "@keyban/sdk-base/graphql";
+import React from "react";
+
+import { usePromise } from "~/promise";
+import { useKeybanClient } from "~/provider";
 
 // Generic types
 

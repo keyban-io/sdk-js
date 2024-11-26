@@ -1,12 +1,5 @@
-import ApplicationHeader from "@/components/ApplicationHeader";
-import config from "@/config";
-import { useLocalStorage } from "@/lib/localStorage";
-import { AppRouter } from "@/lib/router";
 import { useAuth0 } from "@auth0/auth0-react";
-import {
-  type KeybanChain,
-  KeybanProvider,
-} from "@keyban/sdk-react";
+import { type KeybanChain, KeybanProvider } from "@keyban/sdk-react";
 import {
   Box,
   Button,
@@ -15,6 +8,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+
+import ApplicationHeader from "~/components/ApplicationHeader";
+import config from "~/config";
+import { useLocalStorage } from "~/lib/localStorage";
+import { AppRouter } from "~/lib/router";
 
 export default function App() {
   const { getAccessTokenSilently } = useAuth0();

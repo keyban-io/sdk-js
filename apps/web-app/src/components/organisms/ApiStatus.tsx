@@ -1,6 +1,7 @@
-import RefreshButton from "@/components/atoms/RefreshButton";
-import SerializedValue from "@/components/atoms/SerializedValue";
 import { useKeybanApiStatus } from "@keyban/sdk-react";
+
+import RefreshButton from "~/components/atoms/RefreshButton";
+import SerializedValue from "~/components/atoms/SerializedValue";
 
 export default function ApiStatus() {
   const [apiStatus, apiStatusError, { reset }] = useKeybanApiStatus();

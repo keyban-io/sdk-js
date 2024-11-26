@@ -1,13 +1,13 @@
-import React from "react";
-
-import SerializedValue from "@/components/atoms/SerializedValue";
-import TextField from "@/components/molecules/TextField";
 import {
   Address,
   KeybanAccount,
   useKeybanAccount,
   useKeybanAccountNft,
 } from "@keyban/sdk-react";
+import React from "react";
+
+import SerializedValue from "~/components/atoms/SerializedValue";
+import TextField from "~/components/molecules/TextField";
 
 export default function NftFetch() {
   const [account, accountError] = useKeybanAccount();
@@ -56,8 +56,14 @@ function NftFetchResult({
   tokenAddress,
   tokenId,
 }: NftFetchResultProps) {
-  const [nftBalance, nftError] = useKeybanAccountNft(account, tokenAddress, tokenId);
+  const [nftBalance, nftError] = useKeybanAccountNft(
+    account,
+    tokenAddress,
+    tokenId,
+  );
   if (nftError) throw nftError;
 
-  return <SerializedValue value={nftBalance} data-test-id="NftFetch:result:raw" />;
+  return (
+    <SerializedValue value={nftBalance} data-test-id="NftFetch:result:raw" />
+  );
 }

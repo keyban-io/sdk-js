@@ -13,15 +13,15 @@ export const WasmKeybanSigner = (initWasmFile: () => Promise<unknown>) => {
     static #wasmPromise = initWasmFile();
 
     static wrap =
-      <Args extends any[], Ret = unknown>(
+      <Args extends unknown[], Ret = unknown>(
         fn: (...args: Args) => Promise<Ret>,
       ) =>
-      async (...args: Args) => {
-        await AbstractWasmKeybanSigner.#wasmPromise;
-        return fn(...args).catch((err) => {
-          throw new KeybanBaseError(err);
-        });
-      };
+      (...args: Args) =>
+        AbstractWasmKeybanSigner.#wasmPromise
+          .then(() => fn(...args))
+          .catch((err) => {
+            throw new KeybanBaseError(err);
+          });
   }
 
   return AbstractWasmKeybanSigner;

@@ -1,5 +1,6 @@
 import React from "react";
-import Row from "@/components/atoms/Row";
+
+import Row from "~/components/atoms/Row";
 
 export type SelectFieldProps = Omit<
   React.HTMLProps<HTMLSelectElement>,

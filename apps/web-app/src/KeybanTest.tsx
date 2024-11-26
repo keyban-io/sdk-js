@@ -1,17 +1,17 @@
 import React from "react";
 
-import AccountInfo from "@/components/organisms/AccountInfo";
-import ApiStatus from "@/components/organisms/ApiStatus";
-import Balance from "@/components/organisms/Balance";
-import ERC20Transfer from "@/components/organisms/ERC20Transfer";
-import NativeCurrency from "@/components/organisms/NativeCurrency";
-import NativeTransfer from "@/components/organisms/NativeTransfer";
-import Nft from "@/components/organisms/Nft";
-import NftFetch from "@/components/organisms/NftFetch";
-import NftTransfer from "@/components/organisms/NftTransfer";
-import Signature from "@/components/organisms/Signature";
-import TokenBalances from "@/components/organisms/TokenBalances";
-import TransferHistory from "@/components/organisms/TransferHistory";
+import AccountInfo from "~/components/organisms/AccountInfo";
+import ApiStatus from "~/components/organisms/ApiStatus";
+import Balance from "~/components/organisms/Balance";
+import ERC20Transfer from "~/components/organisms/ERC20Transfer";
+import NativeCurrency from "~/components/organisms/NativeCurrency";
+import NativeTransfer from "~/components/organisms/NativeTransfer";
+import Nft from "~/components/organisms/Nft";
+import NftFetch from "~/components/organisms/NftFetch";
+import NftTransfer from "~/components/organisms/NftTransfer";
+import Signature from "~/components/organisms/Signature";
+import TokenBalances from "~/components/organisms/TokenBalances";
+import TransferHistory from "~/components/organisms/TransferHistory";
 
 const wrapSuspense = (Comp: React.ComponentType) => (
   <React.Suspense fallback={<div>Loading...</div>}>

@@ -1,9 +1,10 @@
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
-import TextField from "@/components/molecules/TextField";
 import { useKeybanAccount } from "@keyban/sdk-react";
 import React from "react";
 import { useErrorBoundary } from "react-error-boundary";
+
+import Row from "~/components/atoms/Row";
+import SerializedValue from "~/components/atoms/SerializedValue";
+import TextField from "~/components/molecules/TextField";
 
 export default function Signature() {
   const { showBoundary } = useErrorBoundary();

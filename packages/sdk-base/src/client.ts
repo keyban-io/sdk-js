@@ -1,3 +1,5 @@
+import type { NormalizedCacheObject } from "@apollo/client/cache";
+import type { ApolloClient } from "@apollo/client/core";
 import type { Chain, PublicClient, Transport } from "viem";
 import {
   createPublicClient,
@@ -11,6 +13,7 @@ import {
   serializeTransaction,
 } from "viem";
 import { publicKeyToAddress, toAccount } from "viem/accounts";
+
 import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
@@ -32,9 +35,6 @@ import { type Address, KeybanChain } from "~/index";
 import type { IKeybanSigner } from "~/signer";
 import type { IKeybanStorage } from "~/storage";
 import { parseJwt } from "~/utils/jwt";
-
-import type { NormalizedCacheObject } from "@apollo/client/cache";
-import type { ApolloClient } from "@apollo/client/core";
 
 /**
  * Configuration object for the Keyban client.

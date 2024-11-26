@@ -1,7 +1,7 @@
 import { useKeybanClient } from "@keyban/sdk-react";
 
-import Row from "@/components/atoms/Row";
-import SerializedValue from "@/components/atoms/SerializedValue";
+import Row from "~/components/atoms/Row";
+import SerializedValue from "~/components/atoms/SerializedValue";
 
 export default function NativeCurrency() {
   const { nativeCurrency } = useKeybanClient();
