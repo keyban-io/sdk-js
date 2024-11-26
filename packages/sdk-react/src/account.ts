@@ -154,19 +154,50 @@ export function useKeybanAccount(): ApiResult<KeybanAccount> {
 }
 
 /**
- * Returns an {@link ApiResult} of the native balance of an account.
+ * Hook to retrieve and subscribe to the balance of a Keyban account.
  *
- * @param account - A Keyban account object.
+ * This React hook allows you to fetch the native balance of a Keyban account and automatically updates when the balance changes.
+ * It returns an `ApiResult` tuple containing the balance or an error if one occurred during retrieval.
+ *
+ * @param account - The `KeybanAccount` object representing the user account.
+ *
+ * @returns An `ApiResult<string>` tuple containing:
+ * - **First element (`balance`)**: A `string` representing the account's native token balance in the smallest unit (e.g., wei for Ethereum). This value automatically updates when the balance changes.
+ * - **Second element (`error`)**: An `Error` object if an error occurred during retrieval, or `null` if the balance was fetched successfully.
+ *
+ * **Return Structure:**
+ * ```typescript
+ * [balance: string, error: Error | null]
+ * ```
+ * - `balance`: The current balance of the Keyban account as a string.
+ * - `error`: An `Error` object if there was an error fetching the balance, otherwise `null`.
  *
  * @example
  * ```tsx
- * const [account, accountError] = useKeybanAccount();
- * if (accountError) throw accountError;
+ * import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
  *
- * const [balance, balanceError] = useKeybanAccountBalance(account);
- * if (balanceError) throw balanceError;
+ * const AccountBalance: React.FC = () => {
+ *   const [account, accountError] = useKeybanAccount();
+ *   if (accountError) throw accountError;
+ *
+ *   const [balance, balanceError] = useKeybanAccountBalance(account);
+ *   if (balanceError) throw balanceError;
+ *
+ *   return <div>Balance: {balance}</div>;
+ * };
  * ```
- * @see {@link useFormattedBalance}
+ *
+ * @remarks
+ * - **Balance Format:** The balance is returned as a string representing the amount in the smallest denomination (e.g., wei). You may need to format it to a human-readable format (e.g., Ether) using utility functions.
+ * - **Real-Time Updates:** The hook subscribes to balance changes, so your component will re-render automatically when the balance updates.
+ * - **Error Handling:** Always check the `error` element to handle any issues that might occur during balance retrieval.
+ * - Ensure that your component is wrapped within a `KeybanProvider` to have access to the Keyban client context.
+ *
+ * @throws Will throw an error if used outside of a `KeybanProvider` or if there's an issue retrieving the balance.
+ *
+ * @see {@link useKeybanAccount}
+ * @see {@link KeybanAccount}
+ * @see {@link KeybanProvider}
  */
 export function useKeybanAccountBalance({
   address,
