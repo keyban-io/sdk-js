@@ -33,16 +33,44 @@ import { useKeybanClient } from "~/provider";
 // Generic types
 
 /**
- * A tuple representing the result to an API call to the Keyban servers.
- * Since all Keyban hooks uses the [React Suspense API](https://react.dev/reference/react/Suspense),
- * there is only two possible states for the tuple: success ad error.
- * The tuple contains teh following data:
- * - the data result of the API call in case of success, or null in case of error
- * - null in case of success, or teh error in case of error
- * - an optional extra object allowing for interactions with teh data
+ * A tuple representing the result of an API call to the Keyban servers.
  *
- * @typeParam T - The data eventually returned
- * @typeParam Extra - The data eventually returned
+ * Since all Keyban hooks use the [React Suspense API](https://react.dev/reference/react/Suspense),
+ * there are only two possible states for the tuple: success and error.
+ *
+ * The tuple contains the following data:
+ * - On **success**:
+ *   - The data result of the API call (of type `T`).
+ *   - `null` for the error.
+ *   - An optional extra object (of type `Extra`) allowing for additional interactions.
+ * - On **error**:
+ *   - `null` for the data.
+ *   - An `Error` object representing the error.
+ *   - An optional extra object (of type `Extra`) allowing for additional interactions.
+ *
+ * @typeParam T - The type of the data returned on success.
+ * @typeParam Extra - The type of the optional extra object for additional interactions.
+ *
+ * @remarks
+ * The `ApiResult` type is designed to simplify handling asynchronous API responses in Keyban hooks.
+ * It adheres to the pattern `[data, error, extra]`, where:
+ * - `data`: The result of the API call if successful, or `null` if there was an error.
+ * - `error`: `null` if the call was successful, or an `Error` object if there was an error.
+ * - `extra`: An optional object providing additional information or methods, defaulting to `undefined` if not used.
+ *
+ * **Example Usage:**
+ * ```typescript
+ * const [data, error, extra] = useKeybanSomeHook();
+ * if (error) {
+ *   // Handle the error
+ *   console.error(error);
+ * } else {
+ *   // Use the data
+ *   console.log(data);
+ *   // Optionally use extra interactions
+ *   extra?.someMethod();
+ * }
+ * ```
  */
 export type ApiResult<T, Extra = undefined> =
   | readonly [T, null, Extra]
