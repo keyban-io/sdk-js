@@ -34,6 +34,10 @@ importers:
         version: 5.6.3
 
   apps/signer-client:
+    dependencies:
+      '@keyban/ecdsa-wasm-client':
+        specifier: workspace:*
+        version: link:../../packages/ecdsa-wasm-client
     devDependencies:
       eslint:
         specifier: ^9.15.0
