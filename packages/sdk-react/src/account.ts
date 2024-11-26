@@ -110,8 +110,39 @@ function usePaginationExtra(
 }
 
 /**
- * Fetches the account information.
+ * Custom hook to fetch and manage the Keyban account data.
+ *
+ * This hook uses the `useKeybanClient` to initialize the client and `usePromise`
+ * to handle the asynchronous operation of fetching the account data.
+ *
+ * @returns {ApiResult<KeybanAccount>} An array containing the account data, error, and an undefined value.
+ *
+ * @example
+ * ```typescript
+ * import { useKeybanAccount } from './account';
+ *
+ * function AccountComponent() {
+ *   const [accountData, accountError] = useKeybanAccount();
+ *
+ *   if (accountError) {
+ *     return <div>Error: {accountError.message}</div>;
+ *   }
+ *
+ *   if (!accountData) {
+ *     return <div>Loading...</div>;
+ *   }
+ *
+ *   return (
+ *     <div>
+ *       <h1>Account Information</h1>
+ *       <p>Name: {accountData.name}</p>
+ *       <p>Email: {accountData.email}</p>
+ *     </div>
+ *   );
+ * }
+ * ```
  */
+
 export function useKeybanAccount(): ApiResult<KeybanAccount> {
   const client = useKeybanClient();
   const [data, error] = usePromise("account", () => client.initialize(), {

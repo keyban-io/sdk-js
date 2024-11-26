@@ -115,7 +115,25 @@ export class KeybanClient {
   chain: KeybanChain;
 
   /**
-   * The native currency information for the selected blockchain.
+   * Represents the native currency of a blockchain network.
+   *
+   * @property {string} name - The name of the native currency (e.g., "Ether").
+   * @property {string} symbol - The symbol of the native currency (e.g., "ETH").
+   * @property {number} decimals - The number of decimal places the currency can be divided into.
+   *
+   * @example
+   * const nativeCurrency = {
+   *   name: "Ether",
+   *   symbol: "ETH",
+   *   decimals: 18
+   * };
+   *
+   * @example
+   * const nativeCurrency = {
+   *   name: "Bitcoin",
+   *   symbol: "BTC",
+   *   decimals: 8
+   * };
    */
   nativeCurrency: {
     name: string;
@@ -172,13 +190,7 @@ export class KeybanClient {
   /**
    * Creates a new instance of `KeybanClient`.
    *
-   * @param config - The configuration object to initialize the client.
-   * @param config.apiUrl - The URL for the Keyban API. Defaults to "https://api.keyban.io" if not provided.
-   * @param config.appId - The application ID used for authentication.
-   * @param config.accessTokenProvider - A function that returns an access token for authentication.
-   * @param config.chain - The blockchain Keyban operates on.
-   * @param config.signer - The signer class to use for signing transactions and messages.
-   * @param config.storage - The storage handler class for managing client-side storage.
+   * @param {KeybanClientConfig} config - The configuration object to initialize the client.
    *
    * @throws {SdkError} If the configuration is invalid.
    *
@@ -539,6 +551,8 @@ export class KeybanClient {
    * const status = await client.apiStatus();
    * console.log(`API Status: ${status}`);
    * ```
+   *
+   * @throws {Error} Throws an error if the health check request fails.
    *
    * @see {@link KeybanApiStatus}
    */

@@ -26,6 +26,9 @@ importers:
       typedoc-plugin-markdown:
         specifier: ^4.2.10
         version: 4.2.10(typedoc@0.26.11(typescript@5.6.3))
+      typedoc-plugin-merge-modules:
+        specifier: ^6.0.3
+        version: 6.0.3(typedoc@0.26.11(typescript@5.6.3))
       typescript:
         specifier: '5.6'
         version: 5.6.3
@@ -503,6 +506,8 @@ importers:
       typescript-eslint:
         specifier: ^8.16.0
         version: 8.16.0(eslint@9.15.0(jiti@2.0.0))(typescript@5.7.2)
+
+  packages/sdk-eddsa-wasm: {}
 
   packages/sdk-react:
     dependencies:
@@ -8689,6 +8694,11 @@ packages:
   typedoc-plugin-markdown@4.2.10:
     resolution: {integrity: sha512-PLX3pc1/7z13UJm4TDE9vo9jWGcClFUErXXtd5LdnoLjV6mynPpqZLU992DwMGFSRqJFZeKbVyqlNNeNHnk2tQ==}
     engines: {node: '>= 18'}
+    peerDependencies:
+      typedoc: 0.26.x
+
+  typedoc-plugin-merge-modules@6.0.3:
+    resolution: {integrity: sha512-66mKhcU3RqjLnFzrC4jObqKpnKg+yCyBmTYfzGHjuVlBb1ZhPyD64kLBR6ZsSx5oy99W/Kizu5xc5NBN2nY3kQ==}
     peerDependencies:
       typedoc: 0.26.x
 
@@ -19018,6 +19028,10 @@ snapshots:
       is-typedarray: 1.0.0
 
   typedoc-plugin-markdown@4.2.10(typedoc@0.26.11(typescript@5.6.3)):
+    dependencies:
+      typedoc: 0.26.11(typescript@5.6.3)
+
+  typedoc-plugin-merge-modules@6.0.3(typedoc@0.26.11(typescript@5.6.3)):
     dependencies:
       typedoc: 0.26.11(typescript@5.6.3)
 
