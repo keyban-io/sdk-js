@@ -1,7 +1,8 @@
 declare module "@keyban/ecdsa-wasm-client";
 
 declare global {
-  const ecdsa: {
+  // eslint-disable-next-line no-var
+  var ecdsa: {
     dkg(apiUrl: string, appId: string, accessToken: string): Promise<string>;
     sign(
       apiUrl: string,
