@@ -15,7 +15,7 @@ import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
 import {
-  FeesUnit,
+  type FeesUnit,
   feesUnitChainsMap,
   signersChainMap,
   viemChainsMap,
@@ -40,8 +40,10 @@ import type { ApolloClient } from "@apollo/client/core";
  * Configuration object for the Keyban client.
  *
  * @property {string} [apiUrl] - The URL for the Keyban API. Defaults to "https://api.keyban.io" if not provided.
+ * @property {string} appId - The application ID used for authentication.
+ * @property {() => string | Promise<string>} accessTokenProvider - A function that returns an access token for authentication.
  * @property {KeybanChain} chain - The blockchain Keyban operates on.
- * @property {new () => IKeybanSigner} signer - Constructor for the Keyban-specific signer.
+ * @property {new () => IKeybanSigner} [signer] - Constructor for the Keyban-specific signer.
  * @property {new () => IKeybanStorage} storage - Constructor for the Keyban-specific storage handler.
  */
 export type KeybanClientConfig = {
@@ -55,51 +57,141 @@ export type KeybanClientConfig = {
 
 /**
  * Arguments for paginating a collection.
+ *
+ * @property {number} [first] - The maximum number of items to retrieve in the current page.
+ * @property {string} [after] - A cursor representing the starting point for the next page of items.
  */
 export type PaginationArgs = {
-  /** The maximum number of items to retrieve in the current page. */
   first?: number;
-
-  /** A cursor representing the starting point for the next page of items. */
   after?: string;
 };
 
 /**
  * Main client for interacting with the Keyban API and associated services.
+ * This class provides methods to initialize accounts, retrieve balances, query NFTs,
+ * and interact with the Keyban blockchain.
  *
- * @property {KeybanChain} chain - The blockchain used by Keyban.
- * @property {string} [chainUrl] - Optional URL for the chain, overriding the default.
- * @property {string} apiUrl - The Keyban API URL, defaulting to "https://api.keyban.io".
+ * @remarks
+ * The `KeybanClient` serves as the primary interface for developers to interact with
+ * the Keyban ecosystem. It handles authentication, communication with the Keyban API,
+ * and provides utility methods for common tasks.
  *
+ * @example
+ * ```typescript
+ * // Initialize the client
+ * const client = new KeybanClient({
+ *   apiUrl: "https://api.keyban.io",
+ *   appId: "your-app-id",
+ *   accessTokenProvider: () => "your-access-token",
+ *   chain: KeybanChain.KeybanTestnet,
+ *   storage: KeybanLocalStorage,
+ * });
+ *
+ * // Initialize an account
+ * const account = await client.initialize();
+ *
+ * // Get balance
+ * const balance = await client.getBalance(account.address);
+ * console.log(`Balance: ${balance}`);
+ * ```
+ *
+ * @see {@link KeybanAccount}
  * @see {@link useKeybanClient}
- *
- * @class
  */
 export class KeybanClient {
+  /**
+   * The Keyban API URL, defaulting to "https://api.keyban.io".
+   */
   apiUrl: string;
+
+  /**
+   * The application ID used for authentication with the Keyban API.
+   */
   appId: string;
+
+  /**
+   * The blockchain used by Keyban.
+   */
   chain: KeybanChain;
+
+  /**
+   * The native currency information for the selected blockchain.
+   */
   nativeCurrency: {
     name: string;
     symbol: string;
     decimals: number;
   };
+
+  /**
+   * The unit used for fees on the selected blockchain.
+   */
   feesUnit: FeesUnit;
 
+  /**
+   * Function that provides the access token for authentication.
+   * @private
+   */
   #accessTokenProvider: () => string | Promise<string>;
 
+  /**
+   * The signer instance used for signing transactions and messages.
+   * @private
+   */
   #signer: IKeybanSigner;
+
+  /**
+   * The storage handler instance for managing client-side storage.
+   * @private
+   */
   #storage: IKeybanStorage;
 
+  /**
+   * The Apollo GraphQL client used for making API requests.
+   */
   apolloClient: ApolloClient<NormalizedCacheObject>;
 
+  /**
+   * The transport layer used for blockchain communication.
+   * @private
+   */
   #transport: Promise<Transport>;
+
+  /**
+   * The public client used for interacting with the blockchain.
+   * @private
+   */
   #publicClient: Promise<PublicClient<Transport, Chain>>;
+
+  /**
+   * Map to keep track of pending account initializations.
+   * @private
+   */
+  #pendingAccounts: Map<string, Promise<KeybanAccount>> = new Map();
 
   /**
    * Creates a new instance of `KeybanClient`.
    *
    * @param config - The configuration object to initialize the client.
+   * @param config.apiUrl - The URL for the Keyban API. Defaults to "https://api.keyban.io" if not provided.
+   * @param config.appId - The application ID used for authentication.
+   * @param config.accessTokenProvider - A function that returns an access token for authentication.
+   * @param config.chain - The blockchain Keyban operates on.
+   * @param config.signer - The signer class to use for signing transactions and messages.
+   * @param config.storage - The storage handler class for managing client-side storage.
+   *
+   * @throws {SdkError} If the configuration is invalid.
+   *
+   * @example
+   * ```typescript
+   * const client = new KeybanClient({
+   *   apiUrl: "https://api.keyban.io",
+   *   appId: "your-app-id",
+   *   accessTokenProvider: () => "your-access-token",
+   *   chain: KeybanChain.KeybanTestnet,
+   *   storage: KeybanLocalStorage,
+   * });
+   * ```
    */
   constructor({
     apiUrl,
@@ -146,11 +238,23 @@ export class KeybanClient {
     );
   }
 
-  #pendingAccounts: Map<string, Promise<KeybanAccount>> = new Map();
   /**
-   * Initializes a KeybanAccount associated with a specific key ID.
+   * Initializes a `KeybanAccount` associated with the current client.
+   * This method sets up the account by retrieving or generating the client share,
+   * and prepares the account for transactions and other operations.
    *
-   * @returns - A promise that resolves to an instance of `KeybanAccount`.
+   * @returns A promise that resolves to an instance of `KeybanAccount`.
+   *
+   * @throws {StorageError} If there is an error retrieving or saving the client share.
+   * @throws {SdkError} If initialization fails due to signing errors.
+   *
+   * @example
+   * ```typescript
+   * const account = await client.initialize();
+   * console.log(`Account address: ${account.address}`);
+   * ```
+   *
+   * @see {@link KeybanAccount}
    */
   async initialize(): Promise<KeybanAccount> {
     const accessToken = await this.#accessTokenProvider();
@@ -201,7 +305,7 @@ export class KeybanClient {
         signTransaction: async (transaction, options) => {
           const serializer = options?.serializer ?? serializeTransaction;
 
-          // For EIP-4844 Transactions, we want to sign the transaction payload body (tx_payload_body) without the sidecars (ie. without the network wrapper).
+          // For EIP-4844 Transactions, we want to sign the transaction payload body (tx_payload_body) without the sidecars (i.e., without the network wrapper).
           // See: https://github.com/ethereum/EIPs/blob/e00f4daa66bd56e2dbd5f1d36d09fd613811a48b/EIPS/eip-4844.md#networking
           const signableTransaction =
             transaction.type === "eip4844"
@@ -232,7 +336,7 @@ export class KeybanClient {
         },
       });
 
-      // Did viem forgot to fill the publicKey?
+      // Assign the public key to the account
       account.publicKey = publicKey;
 
       const publicClient = await this.#publicClient;
@@ -252,10 +356,19 @@ export class KeybanClient {
   }
 
   /**
-   * Retrieves the balance for a given address.
+   * Retrieves the native token balance for a given address.
    *
-   * @param address - The address for which to retrieve the balance.
-   * @returns - A promise resolving to the balance as a BigInt.
+   * @param address - The Ethereum address for which to retrieve the balance.
+   *
+   * @returns A promise resolving to the balance as a string (representing a BigInt in wei).
+   *
+   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
+   *
+   * @example
+   * ```typescript
+   * const balance = await client.getBalance("0x123...");
+   * console.log(`Balance: ${balance}`);
+   * ```
    */
   async getBalance(address: Address): Promise<string> {
     if (!isAddress(address)) {
@@ -274,7 +387,22 @@ export class KeybanClient {
   }
 
   /**
-   * @returns - An account balance in ERC20 tokens.
+   * Retrieves the ERC20 token balances for a given address.
+   *
+   * @param address - The Ethereum address for which to retrieve the token balances.
+   * @param pagination - Optional pagination arguments.
+   *
+   * @returns A promise resolving to the token balances, including token details and balances.
+   *
+   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
+   *
+   * @example
+   * ```typescript
+   * const tokenBalances = await client.getTokenBalances("0x123...", { first: 10 });
+   * console.log(tokenBalances);
+   * ```
+   *
+   * @see {@link PaginationArgs}
    */
   async getTokenBalances(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
@@ -293,7 +421,22 @@ export class KeybanClient {
   }
 
   /**
-   * @returns - ERC721 and ERC1155 tokens of the account.
+   * Retrieves the NFTs (ERC721 and ERC1155 tokens) owned by a given address.
+   *
+   * @param address - The Ethereum address of the owner.
+   * @param pagination - Optional pagination arguments.
+   *
+   * @returns A promise resolving to the list of NFTs, including metadata and collection details.
+   *
+   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
+   *
+   * @example
+   * ```typescript
+   * const nfts = await client.getNfts("0x123...", { first: 5 });
+   * console.log(nfts);
+   * ```
+   *
+   * @see {@link PaginationArgs}
    */
   async getNfts(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
@@ -309,7 +452,22 @@ export class KeybanClient {
   }
 
   /**
-   * @returns - The account transaction history for native currency, tokens and Nfts.
+   * Retrieves the transaction history for a given address, including native currency transfers, token transfers, and NFT transfers.
+   *
+   * @param address - The Ethereum address for which to retrieve the transaction history.
+   * @param pagination - Optional pagination arguments.
+   *
+   * @returns A promise resolving to the transaction history, including detailed information about each transfer.
+   *
+   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
+   *
+   * @example
+   * ```typescript
+   * const history = await client.getTransferHistory("0x123...", { first: 10 });
+   * console.log(history);
+   * ```
+   *
+   * @see {@link PaginationArgs}
    */
   async getTransferHistory(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
@@ -328,7 +486,24 @@ export class KeybanClient {
   }
 
   /**
-   * @returns - ERC721 and ERC1155 tokens of the account.
+   * Retrieves a specific NFT (ERC721 or ERC1155) owned by an address.
+   *
+   * @param address - The Ethereum address of the owner.
+   * @param tokenAddress - The contract address of the NFT.
+   * @param tokenId - The token ID of the NFT.
+   *
+   * @returns A promise resolving to the NFT data, including metadata and collection details.
+   *
+   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided addresses are invalid.
+   * @throws {SdkError} Throws `SdkErrorTypes.NftNotFound` if the NFT is not found.
+   *
+   * @example
+   * ```typescript
+   * const nft = await client.getNft("0xowner...", "0xcontract...", "1");
+   * console.log(nft);
+   * ```
+   *
+   * @see {@link KeybanNftBalance}
    */
   async getNft(address: Address, tokenAddress: Address, tokenId: string) {
     if (!isAddress(address)) {
@@ -357,7 +532,15 @@ export class KeybanClient {
   /**
    * Performs a health check on the Keyban API to determine its operational status.
    *
-   * @returns - The API status, either "operational" or "down".
+   * @returns A promise resolving to the API status, either `"operational"` or `"down"`.
+   *
+   * @example
+   * ```typescript
+   * const status = await client.apiStatus();
+   * console.log(`API Status: ${status}`);
+   * ```
+   *
+   * @see {@link KeybanApiStatus}
    */
   async apiStatus(): Promise<KeybanApiStatus> {
     return fetch(`${this.apiUrl}/health`)
