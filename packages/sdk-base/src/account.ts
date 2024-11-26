@@ -12,16 +12,8 @@ import {
   type Transport,
   type WalletClient,
 } from "viem";
-import {
-  SdkError,
-  SdkErrorTypes,
-} from "~/errors";
-import type {
-  Address,
-  Hash,
-  Hex,
-  KeybanClient,
-} from "~/index";
+import { SdkError, SdkErrorTypes } from "~/errors";
+import type { Address, Hash, Hex, KeybanClient } from "~/index";
 
 import { ERC1155_ABI_TRANSFER_FROM } from "./const";
 
@@ -103,28 +95,32 @@ export type EstimateERC20TransferParams = Omit<
 export type EstimateNftTransferParams = Omit<TransferNftParams, "txOptions">;
 
 /**
- * The Keyban account is the entry class to access all features related to an account
- * such as balance, token balances, transfers, estimate fees, and sign messages.
+ * The `KeybanAccount` class represents a user's account in the Keyban system.
+ * It provides methods to interact with the blockchain, including signing messages,
+ * fetching balances, transferring tokens, and estimating transaction costs.
+ * @class
+ *
+ * @property {string} sub - Represents the unique identifier of the client, extracted from the JWT (JSON Web Token).
+ * @property {Address} address - The blockchain address associated with the account.
+ * @property {Hex} publicKey - The public key associated with the account.
+ * @property {KeybanClient} #client - The Keyban client for making requests (private).
+ * @property {PublicClient<Transport, Chain>} #publicClient - The client for public interactions (e.g., fetching balances) (private).
+ * @property {WalletClient<Transport, Chain, LocalAccount>} #walletClient - The wallet client used for signing and sending transactions (private).
  */
 export class KeybanAccount implements KeybanAccount {
-  /**
-   * Represents the unique identifier of the client.
-   * This data is extracted from the JWT (JSON Web Token).
-   */
   sub: string;
   address: Address;
   publicKey: Hex;
-
   #client: KeybanClient;
   #publicClient: PublicClient<Transport, Chain>;
   #walletClient: WalletClient<Transport, Chain, LocalAccount>;
 
   /**
    * @private
-   * @param sub - The unique identifier for the Keyban account.
-   * @param client - The Keyban client for making requests.
-   * @param publicClient - The client for public interactions (e.g., fetching balances).
-   * @param walletClient - The wallet client used for signing and sending transactions.
+   * @param {string} sub - The unique identifier for the Keyban account.
+   * @param {KeybanClient} client - The Keyban client for making requests.
+   * @param {PublicClient<Transport, Chain>} publicClient - The client for public interactions (e.g., fetching balances).
+   * @param {WalletClient<Transport, Chain, LocalAccount>} walletClient - The wallet client used for signing and sending transactions.
    */
   constructor(
     sub: string,
@@ -143,9 +139,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Signs an Ethereum message.
-   *
-   * @param message - The message to be signed.
-   * @returns - The signed message as a hex string.
+   * @param {string} message - The message to be signed.
+   * @returns {Promise<Hex>} - The signed message as a hex string.
    * @throws {Error} If the message is empty or there is an issue during signing.
    */
   async signMessage(message: string): Promise<Hex> {
@@ -155,7 +150,8 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns - The account balance in native tokens.
+   * Retrieves the account balance in native tokens.
+   * @returns {Promise<Balance>} - The account balance in native tokens.
    * @see {@link useKeybanAccountBalance}
    */
   getBalance() {
@@ -163,7 +159,8 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns - The account balance in ERC20 tokens.
+   * Retrieves the account balance in ERC20 tokens.
+   * @returns {Promise<TokenBalances>} - The account balance in ERC20 tokens.
    * @see {@link useKeybanAccountTokenBalances}
    */
   async getTokenBalances() {
@@ -171,7 +168,8 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns - The account ERC721 and ERC1155 tokens.
+   * Retrieves the account ERC721 and ERC1155 tokens.
+   * @returns {Promise<Nfts>} - The account ERC721 and ERC1155 tokens.
    * @see {@link useKeybanAccountNfts}
    */
   async getNfts() {
@@ -179,7 +177,10 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns - The account ERC721 and ERC1155 token balances.
+   * Retrieves the account ERC721 and ERC1155 token balances.
+   * @param {Address} tokenAddress - The address of the token contract.
+   * @param {string} tokenId - The ID of the token.
+   * @returns {Promise<Nft>} - The account ERC721 and ERC1155 token balances.
    * @see {@link useKeybanAccountNft}
    */
   async getNft(tokenAddress: Address, tokenId: string) {
@@ -187,7 +188,8 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * @returns - The account transaction history for native currency, tokens and Nfts.
+   *  Retrieves the account transaction history for native currency, tokens, and NFTs.
+   * @returns {Promise<TransferHistory>} - The account transaction history.
    * @see {@link useKeybanAccountTransferHistory}
    */
   async getTransferHistory() {
@@ -196,12 +198,11 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Transfers native tokens to another address.
-   *
-   * @param to - The recipient's address.
-   * @param value - The transfer amount in wei (must be greater than 0).
-   * @returns - A promise that resolves to the transaction hash.
+   * @param {Address} to - The recipient's address.
+   * @param {bigint} value - The transfer amount in wei (must be greater than 0).
+   * @param {TransactionOptions} [txOptions] - Optional transaction options.
+   * @returns {Promise<Hash>} - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid or the transfer amount is invalid.
-   *
    * @example
    * ```ts
    * const handleTransfer = async () => {
@@ -247,9 +248,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring native tokens to another address.
-   *
-   * @param to - The recipient's address.
-   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @param {Address} to - The recipient's address.
+   * @returns {Promise<FeesEstimation>} - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    */
   async estimateTransfer(to: Address): Promise<FeesEstimation> {
@@ -271,9 +271,9 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   *  Transfers ERC20 tokens to another address.
-   * @param options - The parameters for the ERC20 transfer.
-   * @returns - A promise that resolves to the transaction hash.
+   * Transfers ERC20 tokens to another address.
+   * @param {TransferERC20Params} options - The parameters for the ERC20 transfer.
+   * @returns {Promise<Hash>} - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid, the contract address is invalid, or the transfer amount is invalid.
    * @example
    * ```ts
@@ -292,7 +292,6 @@ export class KeybanAccount implements KeybanAccount {
    *  }
    * };
    * ```
-   *
    */
   async transferERC20({
     contractAddress,
@@ -354,8 +353,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring ERC20 tokens to another address.
-   * @param options - The parameters for estimating the ERC20 transfer.
-   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @param {EstimateERC20TransferParams} options - The parameters for estimating the ERC20 transfer.
+   * @returns {Promise<FeesEstimation>} - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    * @example
    * ```ts
@@ -405,8 +404,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Transfers ERC721 and ERC1155 tokens to another address.
-   * @param options - The parameters for the NFT transfer.
-   * @returns - A promise that resolves to the transaction hash.
+   * @param {TransferNftParams} options - The parameters for the NFT transfer.
+   * @returns {Promise<Hash>} - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid, the contract address is invalid, the transfer amount is invalid, or the token standard is invalid.
    * @example
    * ```ts

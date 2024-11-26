@@ -7,10 +7,10 @@ import { useSubscription, useSuspenseQuery } from "@apollo/client";
 import {
   type Address,
   type KeybanAccount,
-  type KeybanTokenBalance,
-  type KeybanNftBalance,
-  type PaginationArgs,
   type KeybanAssetTransfer,
+  type KeybanNftBalance,
+  type KeybanTokenBalance,
+  type PaginationArgs,
   SdkError,
   SdkErrorTypes,
 } from "@keyban/sdk-base";
@@ -19,7 +19,7 @@ import {
   GqlAssetTransfersOrderBy,
   GqlMutationType,
   GqlNftBalancesOrderBy,
-  GqlPageInfo,
+  type GqlPageInfo,
   GqlTokenBalancesOrderBy,
   nftBalancesSubscriptionDocument,
   tokenBalancesSubscriptionDocument,
@@ -310,17 +310,29 @@ export function useKeybanAccountNfts(
 }
 
 /**
- * Returns an {@link ApiResult} of one ERC721 or ERC1155 token of an account.
+ * Returns an {@link ApiResult} containing a specific NFT (ERC721 or ERC1155) of an account.
  *
- * @param account - A Keyban account object.
+ * @param account - A `KeybanAccount` object representing the user account.
+ * @param tokenAddress - The address of the NFT contract (ERC721 or ERC1155).
+ * @param tokenId - The unique identifier of the NFT within the contract.
+ *
+ * @returns An `ApiResult` tuple containing the `KeybanNftBalance` if successful, or an error otherwise.
+ *
+ * @throws {SdkError} If the NFT is not found (`SdkErrorTypes.NftNotFound`).
  *
  * @example
  * ```tsx
  * const [account, accountError] = useKeybanAccount();
  * if (accountError) throw accountError;
  *
- * const [balance, balanceError, { refresh }] = useKeybanAccountNft(account, tokenAddress, tokenId);
- * if (balanceError) throw balanceError;
+ * const [nftBalance, nftError] = useKeybanAccountNft(account, tokenAddress, tokenId);
+ * if (nftError) {
+ *   // Handle the error (e.g., NFT not found)
+ *   console.error(nftError);
+ * } else {
+ *   // Use the NFT data
+ *   console.log(nftBalance);
+ * }
  * ```
  * @see {@link useFormattedBalance}
  */
@@ -345,9 +357,7 @@ export function useKeybanAccountNft(
       undefined,
     ];
 
-  return error
-    ? ([null, error, undefined] as const)
-    : ([data.res, null, undefined] as const);
+  return [data.res, null, undefined] as const;
 }
 
 /**
