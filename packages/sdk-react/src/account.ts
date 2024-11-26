@@ -110,39 +110,41 @@ function usePaginationExtra(
 }
 
 /**
- * Custom hook to fetch and manage the Keyban account data.
+ * Retrieves the current `KeybanAccount` associated with the Keyban client.
  *
- * This hook uses the `useKeybanClient` to initialize the client and `usePromise`
- * to handle the asynchronous operation of fetching the account data.
+ * This React hook allows you to access the user's Keyban account within a functional component.
+ * It returns an `ApiResult` tuple containing the account data or an error if one occurred during retrieval.
+ *
  *
  * @returns {ApiResult<KeybanAccount>} An array containing the account data, error, and an undefined value.
  *
  * @example
- * ```typescript
- * import { useKeybanAccount } from './account';
+ * ```tsx
+ * import { useKeybanAccount } from "@keyban/sdk-react";
  *
- * function AccountComponent() {
- *   const [accountData, accountError] = useKeybanAccount();
- *
- *   if (accountError) {
- *     return <div>Error: {accountError.message}</div>;
- *   }
- *
- *   if (!accountData) {
- *     return <div>Loading...</div>;
- *   }
+ * const MyComponent: React.FC = () => {
+ *   const [account, accountError] = useKeybanAccount();
+ *   if (accountError) throw accountError;
  *
  *   return (
  *     <div>
- *       <h1>Account Information</h1>
- *       <p>Name: {accountData.name}</p>
- *       <p>Email: {accountData.email}</p>
+ *       <p>Your wallet address: {account.address}</p>
  *     </div>
  *   );
- * }
+ * };
  * ```
+ *
+ * @remarks
+ * - Ensure that your component is wrapped within a `KeybanProvider` to have access to the Keyban client context.
+ * - The hook internally uses React Suspense and may throw a promise if the data is not yet available.
+ * - Handle errors appropriately to ensure a good user experience.
+ *
+ * @throws Will throw an error if used outside of a `KeybanProvider` or if there's an issue retrieving the account.
+ *
+ * @see {@link KeybanClient}
+ * @see {@link KeybanAccount}
+ * @see {@link KeybanProvider}
  */
-
 export function useKeybanAccount(): ApiResult<KeybanAccount> {
   const client = useKeybanClient();
   const [data, error] = usePromise("account", () => client.initialize(), {
