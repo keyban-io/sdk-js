@@ -36,24 +36,27 @@ export type FormatedBalanceProps = {
 };
 
 /**
- * Component to display a formatted balance.
- * This is typically used to display the balance of an account, as retrieved by
- * {@link KeybanAccount.getBalance | KeybanAccount.getBalance()}.
+ * A React component that formats and displays a balance.
  *
- * @returns - A JSX element displaying the formatted balance.
+ * @param {FormatedBalanceProps} props - The properties for the FormattedBalance component.
+ * @param {Balance} props.balance - The balance to be formatted.
+ * @param {KeybanToken} [props.token] - The token associated with the balance.
+ * @returns {JSX.Element} The formatted balance.
  *
  * @example
  * ```tsx
  * import { FormattedBalance } from "@keyban/sdk-react";
+ * const MyComponent: React.FC = () => {
+ *   const balance = {
+ *     raw: BigInt(1000000000000000000),
+ *     decimals: 18,
+ *     symbol: "ETH",
+ *     isNative: true,
+ *     isFees: false,
+ *   };
  *
- * function BalanceDisplay() {
- *   return (
- *     <p>Native Balance: <FormattedBalance balance={{raw: BigInt(2e17), isNative: true}} /></p>
- *   );
- * }
- *
- * export default BalanceDisplay;
- * ```
+ *   return <div>Your balance: <FormattedBalance balance={balance} /></div>;
+ * };
  */
 export function FormattedBalance({ balance, token }: FormatedBalanceProps) {
   return useFormattedBalance(balance, token);
