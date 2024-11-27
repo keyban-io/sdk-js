@@ -18,20 +18,30 @@ import { SdkError, SdkErrorTypes } from "~/errors";
 import type { Address, Hash, Hex, KeybanClient } from "~/index";
 
 /**
- * Represents the estimation of the fees required for a token transfer.
- * @property {bigint} maxFees - The total maximum fees for the transaction
- * @property {Object} details - The breakdown of gas-related fees
- * @property {bigint} details.maxFeePerGas - The maximum fee per unit of gas
- * @property {bigint} details.maxPriorityFeePerGas - The maximum priority fee per unit of gas
- * @property {bigint} details.gasCost - The estimated gas units to be consumed by the transaction
+ * Represents the estimation of fees for a transaction.
  * @see {@link KeybanAccount#estimateTransfer}
  */
 export type FeesEstimation = {
-  maxFees: bigint; // The total maximum fees for the transaction
+  /**
+   * The total maximum fees for the transaction.
+   */
+  maxFees: bigint;
+
   details: {
-    maxFeePerGas: bigint; // The maximum fee per unit of gas
-    maxPriorityFeePerGas: bigint; // The maximum priority fee per unit of gas
-    gasCost: bigint; // The estimated gas cost for the transaction
+    /**
+     * The maximum fee per unit of gas.
+     */
+    maxFeePerGas: bigint;
+
+    /**
+     * The maximum priority fee per unit of gas.
+     */
+    maxPriorityFeePerGas: bigint;
+
+    /**
+     * The estimated gas cost for the transaction.
+     */
+    gasCost: bigint;
   };
 };
 
@@ -81,7 +91,10 @@ export type TransferNftParams = {
 };
 
 /**
- * Represents the parameters for estimating the cost of transferring ERC20 tokens.
+ * Represents the parameters required to estimate an ERC20 token transfer,
+ * excluding the transaction options.
+ *
+ * This type is derived from `TransferERC20Params` by omitting the `txOptions` property.
  */
 export type EstimateERC20TransferParams = Omit<
   TransferERC20Params,
@@ -89,7 +102,10 @@ export type EstimateERC20TransferParams = Omit<
 >;
 
 /**
- * Represents the parameters for estimating the cost of transferring ERC721 and ERC1155 tokens.
+ * Parameters required to estimate the transfer of an NFT, excluding transaction options.
+ *
+ * This type is derived from `TransferNftParams` by omitting the `txOptions` property.
+ *
  * @see {@link TransferNftParams}
  */
 export type EstimateNftTransferParams = Omit<TransferNftParams, "txOptions">;

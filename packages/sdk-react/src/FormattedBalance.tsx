@@ -28,10 +28,15 @@ export function useFormattedBalance(
 
 /**
  * Props for the FormattedBalance component.
+ *
+ * @typedef {Object} FormatedBalanceProps
+ *
  * @see {@link FormattedBalance}
  */
 export type FormatedBalanceProps = {
+  /** The balance to be formatted and displayed.  */
   balance: Balance;
+  /** Optional token information associated with the balance. */
   token?: KeybanToken;
 };
 
@@ -39,8 +44,6 @@ export type FormatedBalanceProps = {
  * A React component that formats and displays a balance.
  *
  * @param {FormatedBalanceProps} props - The properties for the FormattedBalance component.
- * @param {Balance} props.balance - The balance to be formatted.
- * @param {KeybanToken} [props.token] - The token associated with the balance.
  * @returns {JSX.Element} The formatted balance.
  *
  * @example
@@ -57,6 +60,7 @@ export type FormatedBalanceProps = {
  *
  *   return <div>Your balance: <FormattedBalance balance={balance} /></div>;
  * };
+ * ```
  */
 export function FormattedBalance({ balance, token }: FormatedBalanceProps) {
   return useFormattedBalance(balance, token);

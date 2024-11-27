@@ -20,9 +20,23 @@ export enum StorageErrorTypes {
   SaveFailed = "SaveFailed",
 }
 
+/**
+ * Represents an error related to storage operations in the SDK.
+ * Extends the `KeybanBaseError` class with specific error types for storage.
+ */
 export class StorageError extends KeybanBaseError<StorageErrorTypes> {
+  /**
+   * A static reference to the `StorageErrorTypes` enum.
+   */
   static types = StorageErrorTypes;
 
+  /**
+   * Constructs a new `StorageError` instance.
+   *
+   * @param type - The type of the storage error.
+   * @param instance - The instance identifier where the error occurred.
+   * @param rootError - An optional root error that caused this storage error.
+   */
   constructor(type: StorageErrorTypes, instance: string, rootError?: Error) {
     super({
       type,
@@ -32,6 +46,12 @@ export class StorageError extends KeybanBaseError<StorageErrorTypes> {
     });
   }
 
+  /**
+   * Retrieves the title message for a given storage error type.
+   *
+   * @param errorType - The type of the storage error.
+   * @returns The title message corresponding to the error type.
+   */
   static #getTitle(errorType: StorageErrorTypes) {
     switch (errorType) {
       case StorageErrorTypes.SaveFailed:

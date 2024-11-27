@@ -31,19 +31,27 @@ import { RpcClient } from "~/rpc";
 import { parseJwt } from "~/utils/jwt";
 
 /**
- * Configuration object for the Keyban client.
- *
- * @property {string} [apiUrl] - The URL for the Keyban API. Defaults to "https://api.keyban.io" if not provided.
- * @property {string} appId - The application ID used for authentication.
- * @property {() => string | Promise<string>} accessTokenProvider - A function that returns an access token for authentication.
- * @property {KeybanChain} chain - The blockchain Keyban operates on.
- * @property {new () => IKeybanSigner} [signer] - Constructor for the Keyban-specific signer.
- * @property {new () => IKeybanStorage} storage - Constructor for the Keyban-specific storage handler.
+ * Configuration options for the Keyban client.
  */
 export type KeybanClientConfig = {
+  /**
+   * The base URL of the API. Optional. Defaults to "https://api.keyban.io" if not provided.
+   */
   apiUrl?: string;
+
+  /**
+   * The application ID.
+   */
   appId: string;
+
+  /**
+   * A function that provides the access token, either synchronously or asynchronously.
+   */
   accessTokenProvider: () => string | Promise<string>;
+
+  /**
+   * The blockchain configuration for Keyban.
+   */
   chain: KeybanChain;
 };
 
