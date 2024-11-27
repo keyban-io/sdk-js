@@ -17,7 +17,7 @@ type Hex = `0x${string}`;
 export interface IKeybanSigner {
   dkg(appId: string, accessToken: string): Promise<void>;
   sign(appId: string, accessToken: string, message: string): Promise<Hex>;
-  publicKey(): Promise<Hex>;
+  publicKey(appId: string, accessToken: string): Promise<Hex>;
 }
 
 /*

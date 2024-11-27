@@ -263,7 +263,12 @@ export class KeybanClient {
         await this.#accessTokenProvider(),
       );
 
-      const publicKey = await this.#rpcClient.call("ecdsa", "publicKey");
+      const publicKey = await this.#rpcClient.call(
+        "ecdsa",
+        "publicKey",
+        this.appId,
+        accessToken,
+      );
 
       const account = toAccount({
         address: publicKeyToAddress(publicKey),

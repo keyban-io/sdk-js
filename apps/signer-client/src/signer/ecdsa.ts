@@ -39,9 +39,14 @@ export class KeybanSigner_ECDSA
     },
   );
 
-  publicKey: IKeybanSigner["publicKey"] = KeybanSigner_ECDSA.wrap(() => {
-    const clientShare = localStorage.getItem("KEYBAN_ECDSA");
-    if (!clientShare) throw new Error("InvalidClientShare");
-    return globalThis.ecdsa.publicKey(clientShare);
-  });
+  publicKey: IKeybanSigner["publicKey"] = KeybanSigner_ECDSA.wrap(
+    (_, accessToken) => {
+      const { sub } = parseJwt(accessToken);
+
+      const clientShare = localStorage.getItem(`KEYBAN_ECDSA:${sub}`);
+      if (!clientShare) throw new Error("InvalidClientShare");
+
+      return globalThis.ecdsa.publicKey(clientShare);
+    },
+  );
 }
