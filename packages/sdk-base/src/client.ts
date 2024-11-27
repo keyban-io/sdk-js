@@ -205,7 +205,7 @@ export class KeybanClient {
 
     this.#accessTokenProvider = accessTokenProvider;
 
-    this.#rpcClient = new RpcClient(new URL("/signer-client", this.apiUrl));
+    this.#rpcClient = new RpcClient(new URL("/signer-client", apiUrl));
 
     const indexerPrefix = {
       [KeybanChain.KeybanTestnet]: "subql-anvil.",
@@ -259,7 +259,6 @@ export class KeybanClient {
       await this.#rpcClient.call(
         "ecdsa",
         "dkg",
-        this.apiUrl,
         this.appId,
         await this.#accessTokenProvider(),
       );
@@ -273,7 +272,6 @@ export class KeybanClient {
           return this.#rpcClient.call(
             "ecdsa",
             "sign",
-            this.apiUrl,
             this.appId,
             await this.#accessTokenProvider(),
             hash,
@@ -293,7 +291,6 @@ export class KeybanClient {
             .call(
               "ecdsa",
               "sign",
-              this.apiUrl,
               this.appId,
               await this.#accessTokenProvider(),
               keccak256(serializer(signableTransaction)),
@@ -307,7 +304,6 @@ export class KeybanClient {
           return this.#rpcClient.call(
             "ecdsa",
             "sign",
-            this.apiUrl,
             this.appId,
             await this.#accessTokenProvider(),
             hash,
