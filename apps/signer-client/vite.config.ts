@@ -8,7 +8,7 @@ export default defineConfig(() => ({
     host: true,
     port: 4200,
   },
-  base: "/signer-client/",
+  base: "/signer-client",
   build: {
     outDir: "dist/signer-client",
   },
