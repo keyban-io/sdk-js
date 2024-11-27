@@ -167,7 +167,7 @@ function usePaginationExtra(
  * - The hook internally uses React Suspense and may throw a promise if the data is not yet available.
  * - Handle errors appropriately to ensure a good user experience.
  *
- * @throws Will throw an error if used outside of a `KeybanProvider` or if there's an issue retrieving the account.
+ * @throws {} Will throw an error if used outside of a `KeybanProvider` or if there's an issue retrieving the account.
  *
  * @see {@link KeybanClient}
  * @see {@link KeybanAccount}
@@ -219,7 +219,7 @@ export function useKeybanAccount(): ApiResult<KeybanAccount> {
  * - **Balance Format:** The balance is returned as a string representing the amount in the smallest denomination (e.g., wei). You may need to format it to a human-readable format (e.g., Ether) using utility functions.
  * - **Real-Time Updates:** The hook subscribes to balance changes, so your component will re-render automatically when the balance updates.
  * - **Error Handling:** Always check the `error` element to handle any issues that might occur during balance retrieval.
- * - Ensure that your component is wrapped within a `KeybanProvider` to have access to the Keyban client context.
+ * - Ensure that your component is wrapped within a {@link KeybanProvider} to have access to the Keyban client context.
  *
  * @throws Will throw an error if used outside of a `KeybanProvider` or if there's an issue retrieving the balance.
  *
@@ -326,15 +326,11 @@ export function useKeybanAccountBalance({
  * ```
  *
  * @remarks
- * - **Pagination Support:** Utilize the `PaginationArgs` to control the number of ERC20 token balances fetched per request and to navigate through pages using cursors.
+ * - **Pagination Support:** Utilize the {@link PaginationArgs} to control the number of ERC20 token balances fetched per request and to navigate through pages using cursors.
  * - **Real-Time Updates:** The hook subscribes to changes in the ERC20 token balances, ensuring that your UI reflects the latest data without manual refreshes.
  * - **Error Handling:** Always check for errors returned by the hook to provide informative feedback to the user and handle different error scenarios gracefully.
- * - **Context Requirement:** Ensure that your component is wrapped within a `KeybanProvider` to provide the necessary context for the hooks to function correctly.
- *
- * **Best Practices**
- * - **Consistent Data Fetching:** Combine `useKeybanAccountTokenBalances` with other hooks like `useKeybanAccountBalance` to provide a comprehensive overview of the user's assets.
- * - **User Feedback:** Provide visual indicators (like loaders or spinners) when fetching data to enhance user experience.
- * - **Modular Components:** Break down the token balance display into smaller, reusable components for better maintainability and scalability.
+ * - **Context Requirement:** Ensure that your component is wrapped within a {@link KeybanProvider} to provide the necessary context for the hooks to function correctly.
+
  *
  * @see {@link useFormattedBalance}
  * @see {@link KeybanAccount}
@@ -454,17 +450,10 @@ export function useKeybanAccountTokenBalances(
  * ```
  *
  * @remarks
- * - **Pagination Support:** Utilize the `PaginationArgs` to control the number of NFTs fetched per request and to navigate through pages using cursors.
+ * - **Pagination Support:** Utilize the {@link PaginationArgs} to control the number of NFTs fetched per request and to navigate through pages using cursors.
  * - **Real-Time Updates:** The hook subscribes to changes in the NFT balances, ensuring that your UI reflects the latest data without manual refreshes.
  * - **Error Handling:** Always check for errors returned by the hook to provide informative feedback to the user and handle different error scenarios gracefully.
- * - **Performance Optimization:** When dealing with large NFT collections, consider implementing virtualization (e.g., using `react-window` or `react-virtualized`) to optimize rendering performance.
- * - **Security Considerations:** Ensure that NFT data, especially metadata, is handled securely, especially if it contains sensitive information.
- * - **Context Requirement:** Ensure that your component is wrapped within a `KeybanProvider` to provide the necessary context for the hooks to function correctly.
- *
- * **Best Practices**
- * - **Consistent Data Fetching:** Combine `useKeybanAccountNfts` with other hooks like `useKeybanAccountBalance` to provide a comprehensive overview of the user's assets.
- * - **User Feedback:** Provide visual indicators (like loaders or spinners) when fetching data to enhance user experience.
- * - **Modular Components:** Break down the NFT display into smaller, reusable components for better maintainability and scalability.
+ * - **Context Requirement:** Ensure that your component is wrapped within a {@link KeybanProvider} to provide the necessary context for the hooks to function correctly.
  *
  * @see {@link useFormattedBalance}
  * @see {@link KeybanAccount}
@@ -599,26 +588,77 @@ export function useKeybanAccountNft(
 /**
  * Returns an {@link ApiResult} of the transfer history of an account.
  *
- * @param account - A Keyban account object.
- * @param options - Optional pagination arguments for fetching the transfer history.
+ * The `useKeybanAccountTransferHistory` React hook allows you to fetch and subscribe to the list of all asset transfers (both incoming and outgoing) associated with a specific Keyban account. It supports pagination, enabling efficient retrieval of extensive transfer histories by fetching data in manageable chunks. This hook returns an `ApiResult` tuple containing the paginated transfer data, any potential errors, and additional pagination controls.
+ *
+ * @param {KeybanAccount} account - The Keyban account object containing the address.
+ * @param {PaginationArgs} [options] - Optional pagination arguments.
+ * @returns {ApiResult<PaginatedData<KeybanAssetTransfer>, PaginationExtra>} - The API result containing paginated data of Keyban asset transfers and pagination extra information.
+ * @throws {SdkError} If the provided `KeybanAccount` has an invalid address (`SdkErrorTypes.AddressInvalid').
+ * @throws {SdkError} If no transfer history is found for the provided account (`SdkErrorTypes.TransferHistoryNotFound`).
  *
  * @example
  * ```tsx
- * const [account, accountError] = useKeybanAccount();
- * if (accountError) throw accountError;
+ * import React from 'react';
+ * import { useKeybanAccount, useKeybanAccountTransferHistory } from "@keyban/sdk-react";
  *
- * const [txHistory, txHistoryError, { fetchMore }] = useKeybanAccountTransferHistory(account, { first: 5 });
- * if (txHistoryError) throw txHistoryError;
+ * const TransferHistoryList: React.FC = () => {
+ *   const [account, accountError] = useKeybanAccount();
  *
- * // Use the transfer data
- * console.log(txHistory.nodes);
+ *   if (accountError) {
+ *     return <div>Error fetching account: {accountError.message}</div>;
+ *   }
  *
- * // To fetch more transfer history
- * <button onClick={fetchMore} disabled={!txHistory.hasNextPage}>
- *   Fetch next page
- * </button>
+ *   const [txHistory, txHistoryError, { fetchMore, loading }] = useKeybanAccountTransferHistory(account, { first: 5 });
+ *
+ *   if (txHistoryError) {
+ *     return <div>Error fetching transfer history: {txHistoryError.message}</div>;
+ *   }
+ *
+ *   if (!txHistory) {
+ *     return <div>Loading transfer history...</div>;
+ *   }
+ *
+ *   return (
+ *     <div>
+ *       <h3>Your Transfer History</h3>
+ *       <ul>
+ *         {txHistory.nodes.map((transfer) => (
+ *           <li key={transfer.id}>
+ *             <p>Transaction ID: {transfer.transactionId}</p>
+ *             <p>From: {transfer.fromAddress}</p>
+ *             <p>To: {transfer.toAddress}</p>
+ *             <p>Amount: {transfer.amount}</p>
+ *             <p>Asset: {transfer.assetSymbol}</p>
+ *             <p>Timestamp: {new Date(transfer.timestamp).toLocaleString()}</p>
+ *             // Render additional transfer details as needed
+ *           </li>
+ *         ))}
+ *       </ul>
+ *       {txHistory.hasNextPage && (
+ *         <button onClick={fetchMore} disabled={loading}>
+ *           {loading ? 'Loading...' : 'Load More'}
+ *         </button>
+ *       )}
+ *     </div>
+ *   );
+ * };
+ *
+ * export default TransferHistoryList;
  * ```
+ *
+ * @remarks
+ *
+ * - **Pagination Support:** Utilize the {@link PaginationArgs} to control the number of transfer records fetched per request and to navigate through pages using cursors.
+ * - **Real-Time Updates:** The hook subscribes to changes in the transfer history, ensuring that your UI reflects the latest data without manual refreshes.
+ * - **Error Handling:** Always check for errors returned by the hook to provide informative feedback to the user and handle different error scenarios gracefully.
+ * - **Context Requirement:** Ensure that your component is wrapped within a {@link KeybanProvider} to provide the necessary context for the hooks to function correctly.
+ *
+ *
  * @see {@link useFormattedBalance}
+ * @see {@link KeybanAccount}
+ * @see {@link PaginationArgs}
+ * @see {@link PaginationExtra}
+ * @see {@link KeybanProvider}
  */
 export function useKeybanAccountTransferHistory(
   { address }: KeybanAccount,
