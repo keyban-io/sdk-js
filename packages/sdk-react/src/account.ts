@@ -399,15 +399,14 @@ export function useKeybanAccountNfts(
     ? ([null, error, extra] as const)
     : ([getPaginatedResults(data.res!), null, extra] as const);
 }
-
 /**
- * Returns an {@link ApiResult} containing a specific NFT (ERC721 or ERC1155) of an account.
+ * Hook to fetch the NFT balance of a Keyban account.
  *
- * @param account - A `KeybanAccount` object representing the user account.
- * @param tokenAddress - The address of the NFT contract (ERC721 or ERC1155).
- * @param tokenId - The unique identifier of the NFT within the contract.
+ * @param {KeybanAccount} account - The Keyban account object containing the address.
+ * @param {Address} tokenAddress - The address of the token contract.
+ * @param {string} tokenId - The ID of the token.
  *
- * @returns An `ApiResult` tuple containing the `KeybanNftBalance` if successful, or an error otherwise.
+ * @returns {ApiResult<KeybanNftBalance>} - The result containing the NFT balance or an error.
  *
  * @throws {SdkError} If the NFT is not found (`SdkErrorTypes.NftNotFound`).
  *
@@ -425,7 +424,7 @@ export function useKeybanAccountNfts(
  *   console.log(nftBalance);
  * }
  * ```
- * @see {@link useFormattedBalance}
+ *
  */
 export function useKeybanAccountNft(
   { address }: KeybanAccount,
