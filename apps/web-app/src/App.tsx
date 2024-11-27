@@ -1,8 +1,4 @@
-import {
-  KeybanChain,
-  KeybanLocalStorage,
-  KeybanProvider,
-} from "@keyban/sdk-react";
+import { KeybanChain, KeybanProvider } from "@keyban/sdk-react";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useSearchParams } from "react-router-dom";
@@ -26,7 +22,6 @@ export default function App() {
     appId: searchParams.get("appId") ?? DEFAULT_APP_ID,
     accessToken: searchParams.get("accessToken") ?? DEFAULT_ACCESS_TOKEN,
     chain: (searchParams.get("chain") as KeybanChain) ?? DEFAULT_CHAIN,
-    storage: KeybanLocalStorage,
   });
 
   React.useEffect(() => {

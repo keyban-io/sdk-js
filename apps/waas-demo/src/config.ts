@@ -1,10 +1,5 @@
 import { Auth0ProviderOptions } from "@auth0/auth0-react";
-import {
-  KeybanChain,
-  KeybanClientConfig,
-  KeybanLocalStorage,
-  KeybanSigner,
-} from "@keyban/sdk-react";
+import { KeybanChain, KeybanClientConfig } from "@keyban/sdk-react";
 
 const API_URL = {
   "https://waas-demo.demo.keyban.io": "https://api.demo.keyban.io",
@@ -15,9 +10,10 @@ const API_URL = {
 
 export type Config = {
   auth: Auth0ProviderOptions;
-  keyban: KeybanClientConfig;
+  keyban: Omit<KeybanClientConfig, "accessTokenProvider">;
 };
-const config = {
+
+const config: Config = {
   auth: {
     domain: "dev-dgn0003beuaahtmi.eu.auth0.com",
     clientId: "8VD9NHScJBXRh4AvynJAR2vmbT7imYKh",
@@ -26,12 +22,10 @@ const config = {
       audience: API_URL,
     },
   },
-  keybanProvider: {
+  keyban: {
     apiUrl: API_URL,
     appId: "8febdb3d-75d4-409c-8453-aa5d81e92926",
     chain: KeybanChain.PolygonAmoy,
-    signer: KeybanSigner.ECDSA,
-    storage: KeybanLocalStorage,
   },
 };
 

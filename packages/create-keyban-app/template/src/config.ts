@@ -1,6 +1,5 @@
 import {
   KeybanChain,
-  KeybanLocalStorage,
   KeybanSigner,
 } from "@keyban/sdk-react";
 
@@ -20,6 +19,5 @@ export default {
     appId: "d3f29b27-1c5d-4e6e-8b49-123456789abc",
     chain: KeybanChain.PolygonAmoy,
     signer: KeybanSigner.ECDSA,
-    storage: KeybanLocalStorage,
   },
 } as const;

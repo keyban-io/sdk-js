@@ -18,7 +18,7 @@ import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
 import { type FeesUnit, feesUnitChainsMap, viemChainsMap } from "~/chains";
-import { SdkError, SdkErrorTypes, StorageError } from "~/errors";
+import { SdkError, SdkErrorTypes } from "~/errors";
 import {
   walletAssetTransfersDocument,
   walletBalanceDocument,
@@ -28,7 +28,6 @@ import {
 } from "~/graphql";
 import { type Address, KeybanChain } from "~/index";
 import { RpcClient } from "~/rpc";
-import type { IKeybanStorage } from "~/storage";
 import { parseJwt } from "~/utils/jwt";
 
 /**
@@ -46,7 +45,6 @@ export type KeybanClientConfig = {
   appId: string;
   accessTokenProvider: () => string | Promise<string>;
   chain: KeybanChain;
-  storage: new () => IKeybanStorage;
 };
 
 /**
@@ -78,7 +76,6 @@ export type PaginationArgs = {
  *   appId: "your-app-id",
  *   accessTokenProvider: () => "your-access-token",
  *   chain: KeybanChain.KeybanTestnet,
- *   storage: KeybanLocalStorage,
  * });
  *
  * // Initialize an account
@@ -153,12 +150,6 @@ export class KeybanClient {
   #rpcClient: RpcClient;
 
   /**
-   * The storage handler instance for managing client-side storage.
-   * @private
-   */
-  #storage: IKeybanStorage;
-
-  /**
    * The Apollo GraphQL client used for making API requests.
    */
   apolloClient: ApolloClient<NormalizedCacheObject>;
@@ -195,7 +186,6 @@ export class KeybanClient {
    *   appId: "your-app-id",
    *   accessTokenProvider: () => "your-access-token",
    *   chain: KeybanChain.KeybanTestnet,
-   *   storage: KeybanLocalStorage,
    * });
    * ```
    */
@@ -204,7 +194,6 @@ export class KeybanClient {
     appId,
     accessTokenProvider,
     chain,
-    storage,
   }: KeybanClientConfig) {
     apiUrl ??= "https://api.keyban.io";
 
@@ -217,8 +206,6 @@ export class KeybanClient {
     this.#accessTokenProvider = accessTokenProvider;
 
     this.#rpcClient = new RpcClient(new URL("/signer-client", this.apiUrl));
-
-    this.#storage = new storage();
 
     const indexerPrefix = {
       [KeybanChain.KeybanTestnet]: "subql-anvil.",
@@ -269,17 +256,7 @@ export class KeybanClient {
     if (pending) return pending;
 
     const promise = (async () => {
-      const storageKey = `KEYBAN-ECDSA-${sub}`;
-
-      let clientShare = await this.#storage.get(storageKey).catch((err) => {
-        throw new StorageError(
-          StorageError.types.RetrivalFailed,
-          "KeybanClient.initialize",
-          err,
-        );
-      });
-
-      clientShare ??= await this.#rpcClient.call(
+      await this.#rpcClient.call(
         "ecdsa",
         "dkg",
         this.apiUrl,
@@ -287,19 +264,7 @@ export class KeybanClient {
         await this.#accessTokenProvider(),
       );
 
-      await this.#storage.set(storageKey, clientShare).catch((err) => {
-        throw new StorageError(
-          StorageError.types.SaveFailed,
-          "KeybanClient.initialize",
-          err,
-        );
-      });
-
-      const publicKey = await this.#rpcClient.call(
-        "ecdsa",
-        "publicKey",
-        clientShare,
-      );
+      const publicKey = await this.#rpcClient.call("ecdsa", "publicKey");
 
       const account = toAccount({
         address: publicKeyToAddress(publicKey),
@@ -311,7 +276,6 @@ export class KeybanClient {
             this.apiUrl,
             this.appId,
             await this.#accessTokenProvider(),
-            clientShare,
             hash,
           );
         },
@@ -332,7 +296,6 @@ export class KeybanClient {
               this.apiUrl,
               this.appId,
               await this.#accessTokenProvider(),
-              clientShare,
               keccak256(serializer(signableTransaction)),
             )
             .then(parseSignature);
@@ -347,7 +310,6 @@ export class KeybanClient {
             this.apiUrl,
             this.appId,
             await this.#accessTokenProvider(),
-            clientShare,
             hash,
           );
         },

@@ -19,7 +19,7 @@ export default function App() {
 
   const [chain, setChain] = useLocalStorage<KeybanChain>(
     "selectedChain",
-    config.keybanProvider.chain,
+    config.keyban.chain,
   );
 
   const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
@@ -84,7 +84,7 @@ export default function App() {
         <Stack spacing={2}>
           <ApplicationHeader selectedChainId={chain} onSelectChain={setChain} />
           <KeybanProvider
-            {...config.keybanProvider}
+            {...config.keyban}
             chain={chain}
             accessTokenProvider={getAccessTokenSilently}
           >

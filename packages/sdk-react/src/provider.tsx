@@ -36,7 +36,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *
  * @example
  * ```tsx
- * import { KeybanProvider, KeybanChain, KeybanSigner, KeybanLocalStorage } from "@keyban/sdk-react";
+ * import { KeybanProvider, KeybanChain, KeybanSigner } from "@keyban/sdk-react";
  * import { useState } from 'react';
  * import { AppRouter } from './AppRouter';
  *
@@ -61,10 +61,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *   return (
  *     <>
  *       <ChainSelector onSelectChain={handleChainSelect} />
- *       <KeybanProvider
- *         chain={chain}
- *         storage={KeybanLocalStorage}
- *       >
+ *       <KeybanProvider chain={chain}>
  *         <AppRouter />  // The application router component
  *       </KeybanProvider>
  *     </>

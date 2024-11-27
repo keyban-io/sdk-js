@@ -1,6 +1,5 @@
 import {
   KeybanChain,
-  KeybanLocalStorage,
   KeybanSigner,
 } from "@keyban/sdk-react";
 
@@ -26,7 +25,6 @@ export function getConfig() {
       appId: "your-keyban-app-id",  // Replace with your own App ID
       chain: KeybanChain.PolygonAmoy,  // Polygon Amoy Testnet
       signer: KeybanSigner.ECDSA,  // Signature mechanism
-      storage: new KeybanLocalStorage(),  // Storage solution (development only)
     },
     ...(audience ? { audience } : null),
   };

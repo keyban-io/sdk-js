@@ -2,6 +2,8 @@
  * RPC services
  */
 
+import { KeybanBaseError } from "~/errors";
+
 type Hex = `0x${string}`;
 
 /**
@@ -13,15 +15,14 @@ type Hex = `0x${string}`;
  * @private
  */
 export interface IKeybanSigner {
-  dkg(apiUrl: string, keyId: string, accessToken: string): Promise<string>;
+  dkg(apiUrl: string, keyId: string, accessToken: string): Promise<void>;
   sign(
     apiUrl: string,
     appId: string,
     accessToken: string,
-    clientShare: string,
     message: string,
   ): Promise<Hex>;
-  publicKey(clientShare: string): Promise<Hex>;
+  publicKey(): Promise<Hex>;
 }
 
 /*
@@ -129,7 +130,9 @@ export class RpcClient {
         data: [result, error],
       }: MessageEvent<RpcResult<S, M>>) => {
         channel.port1.close();
-        return error != null ? reject(JSON.parse(error)) : resolve(result);
+        return error != null
+          ? reject(new KeybanBaseError(JSON.parse(error)))
+          : resolve(result);
       };
 
       const message: RpcCall<S, M> = {

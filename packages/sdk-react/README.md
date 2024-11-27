@@ -7,7 +7,6 @@ The Keyban SDK React is designed to integrate Keyban's MPC wallet solution seaml
 ## Key Features
 
 - **TypeScript Support**: Fully typed for safer and more efficient development.
-- **Flexible Storage**: `KeybanLocalStorage` is provided as the default storage for user data. Additional storage options will be available in future updates.
 - **Blockchain Support**: Currently supports Polygon's Amoy testnet (Mainnet coming soon).
 - **Error Handling**: Built-in support for `react-error-boundary` for graceful error handling.
 - **Suspense Compatibility**: Supports React's Suspense API for loading asynchronous data seamlessly.
@@ -27,14 +26,13 @@ This example shows how to set up the SDK with basic components, integrating with
 import React from "react";
 import ReactDOM from "react-dom";
 import { ErrorBoundary } from "react-error-boundary";
-import { KeybanProvider, KeybanChain, KeybanLocalStorage } from "@keyban/sdk-react";
+import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <KeybanProvider
     appId="your-keyban-app-id"
     accessTokenProvider={async () => "user's access token"}
     chain={KeybanChain.PolygonAmoy}
-    storage={KeybanLocalStorage}
   >
     <ErrorBoundary fallbackRender={({ error }) => <pre>{error.message}</pre>}>
       <React.Suspense fallback="Loading...">
@@ -77,7 +75,7 @@ Mainnet support will be added in a future release.
 
 ### Custom Storage and Signing
 
-Developers can implement their own storage and signing mechanisms if needed. In this release, the SDK comes with `KeybanLocalStorage` by default. More advanced storage options are planned.
+Developers can implement their own storage and signing mechanisms if needed. More advanced storage options are planned.
 
 ### Bundlers
 
