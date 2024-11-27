@@ -1,8 +1,4 @@
-import {
-  KeybanChain,
-  KeybanClientConfig,
-  KeybanSigner,
-} from "@keyban/sdk-react";
+import { KeybanChain, KeybanClientConfig } from "@keyban/sdk-react";
 import * as jose from "jose";
 import React from "react";
 
@@ -122,25 +118,6 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
           </option>
         ))}
       </SelectField>
-
-      <Row>
-        <span>Signer:</span>
-        {Object.entries(KeybanSigner).map(([key, value]) => (
-          <label key={key}>
-            <input
-              type="radio"
-              name="signer"
-              value={key}
-              checked={value === config.signer}
-              onChange={(e) =>
-                onChange({ ...config, signer: KeybanSigner[e.target.value] })
-              }
-              data-test-id={`ConfigEditor:signer:${key}`}
-            />
-            <span>{key}</span>
-          </label>
-        ))}
-      </Row>
     </fieldset>
   );
 }

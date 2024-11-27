@@ -1,6 +1,6 @@
 import initWasmFile from "@keyban/ecdsa-wasm-client";
+import { IKeybanSigner } from "@keyban/sdk-base/rpc";
 
-import { type IKeybanSigner } from "~/signer";
 import { WasmKeybanSigner } from "~/signer/wasm";
 
 export class KeybanSigner_ECDSA

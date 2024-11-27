@@ -38,6 +38,9 @@ importers:
       '@keyban/ecdsa-wasm-client':
         specifier: workspace:*
         version: link:../../packages/ecdsa-wasm-client
+      '@keyban/sdk-base':
+        specifier: workspace:*
+        version: link:../../packages/sdk-base
       jose:
         specifier: ^5.9.6
         version: 5.9.6
@@ -421,9 +424,6 @@ importers:
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.9.0)
-      '@keyban/ecdsa-wasm-client':
-        specifier: workspace:*
-        version: link:../ecdsa-wasm-client
       graphql-ws:
         specifier: ^5.16.0
         version: 5.16.0(graphql@16.9.0)
@@ -7252,7 +7252,7 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     deprecated: |-
       You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
-      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
+
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qrcode.react@4.1.0:

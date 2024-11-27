@@ -17,12 +17,7 @@ import { publicKeyToAddress, toAccount } from "viem/accounts";
 import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
-import {
-  type FeesUnit,
-  feesUnitChainsMap,
-  signersChainMap,
-  viemChainsMap,
-} from "~/chains";
+import { type FeesUnit, feesUnitChainsMap, viemChainsMap } from "~/chains";
 import { SdkError, SdkErrorTypes, StorageError } from "~/errors";
 import {
   walletAssetTransfersDocument,
@@ -32,7 +27,7 @@ import {
   walletTokenBalancesDocument,
 } from "~/graphql";
 import { type Address, KeybanChain } from "~/index";
-import type { IKeybanSigner } from "~/signer";
+import { RpcClient } from "~/rpc";
 import type { IKeybanStorage } from "~/storage";
 import { parseJwt } from "~/utils/jwt";
 
@@ -51,7 +46,6 @@ export type KeybanClientConfig = {
   appId: string;
   accessTokenProvider: () => string | Promise<string>;
   chain: KeybanChain;
-  signer?: new () => IKeybanSigner;
   storage: new () => IKeybanStorage;
 };
 
@@ -153,10 +147,10 @@ export class KeybanClient {
   #accessTokenProvider: () => string | Promise<string>;
 
   /**
-   * The signer instance used for signing transactions and messages.
+   * The iframe rpc client
    * @private
    */
-  #signer: IKeybanSigner;
+  #rpcClient: RpcClient;
 
   /**
    * The storage handler instance for managing client-side storage.
@@ -210,11 +204,9 @@ export class KeybanClient {
     appId,
     accessTokenProvider,
     chain,
-    signer,
     storage,
   }: KeybanClientConfig) {
     apiUrl ??= "https://api.keyban.io";
-    signer ??= signersChainMap[chain];
 
     this.apiUrl = apiUrl;
     this.appId = appId;
@@ -224,7 +216,8 @@ export class KeybanClient {
 
     this.#accessTokenProvider = accessTokenProvider;
 
-    this.#signer = new signer();
+    this.#rpcClient = new RpcClient(new URL("/signer-client", this.apiUrl));
+
     this.#storage = new storage();
 
     const indexerPrefix = {
@@ -276,7 +269,7 @@ export class KeybanClient {
     if (pending) return pending;
 
     const promise = (async () => {
-      const storageKey = `${this.#signer.storagePrefix}-${sub}`;
+      const storageKey = `KEYBAN-ECDSA-${sub}`;
 
       let clientShare = await this.#storage.get(storageKey).catch((err) => {
         throw new StorageError(
@@ -286,7 +279,9 @@ export class KeybanClient {
         );
       });
 
-      clientShare ??= await this.#signer.dkg(
+      clientShare ??= await this.#rpcClient.call(
+        "ecdsa",
+        "dkg",
         this.apiUrl,
         this.appId,
         await this.#accessTokenProvider(),
@@ -300,13 +295,19 @@ export class KeybanClient {
         );
       });
 
-      const publicKey = await this.#signer.publicKey(clientShare);
+      const publicKey = await this.#rpcClient.call(
+        "ecdsa",
+        "publicKey",
+        clientShare,
+      );
 
       const account = toAccount({
         address: publicKeyToAddress(publicKey),
         signMessage: async ({ message }) => {
           const hash = hashMessage(message, "hex");
-          return this.#signer.sign(
+          return this.#rpcClient.call(
+            "ecdsa",
+            "sign",
             this.apiUrl,
             this.appId,
             await this.#accessTokenProvider(),
@@ -324,8 +325,10 @@ export class KeybanClient {
               ? { ...transaction, sidecars: false }
               : transaction;
 
-          const signature = await this.#signer
-            .sign(
+          const signature = await this.#rpcClient
+            .call(
+              "ecdsa",
+              "sign",
               this.apiUrl,
               this.appId,
               await this.#accessTokenProvider(),
@@ -338,7 +341,9 @@ export class KeybanClient {
         },
         signTypedData: async (typedDataDefinition) => {
           const hash = hashTypedData(typedDataDefinition);
-          return this.#signer.sign(
+          return this.#rpcClient.call(
+            "ecdsa",
+            "sign",
             this.apiUrl,
             this.appId,
             await this.#accessTokenProvider(),

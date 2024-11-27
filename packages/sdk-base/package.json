@@ -34,6 +34,11 @@
       "import": "./dist/graphql.mjs",
       "require": "./dist/graphql.js"
     },
+    "./rpc": {
+      "types": "./dist/rpc.d.ts",
+      "import": "./dist/rpc.mjs",
+      "require": "./dist/rpc.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -55,7 +60,6 @@
   "dependencies": {
     "@apollo/client": "^3.11.10",
     "@graphql-typed-document-node/core": "^3.2.0",
-    "@keyban/ecdsa-wasm-client": "workspace:*",
     "graphql-ws": "^5.16.0",
     "subscriptions-transport-ws": "^0.11.0",
     "viem": "^2.21.51"

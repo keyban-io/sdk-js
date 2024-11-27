@@ -39,6 +39,18 @@ export class KeybanBaseError<T extends string> extends Error {
    */
   rootError?: Error | Record<string, unknown>;
 
+  toJSON() {
+    return {
+      type: this.type,
+      title: this.title,
+      instance: this.instance,
+      status: this.status,
+      detail: this.detail,
+      timestamp: this.timestamp,
+      rootError: this.rootError,
+    };
+  }
+
   constructor({
     type,
     title,

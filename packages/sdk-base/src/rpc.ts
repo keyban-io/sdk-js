@@ -2,11 +2,26 @@
  * RPC services
  */
 
-import { IKeybanSigner } from "~/signer";
+type Hex = `0x${string}`;
 
-export interface IExample {
-  greet(name: string): Promise<void>;
-  square(x: number): number;
+/**
+ * Interface for the Keyban signer.
+ * This interface defines the methods that a Keyban signer must implement.
+ * The signer is responsible for generating and signing keys.
+ * The signer is also responsible for generating the public key from the client share.
+ * The signer is used by the Keyban client to sign messages and generate public keys.
+ * @private
+ */
+export interface IKeybanSigner {
+  dkg(apiUrl: string, keyId: string, accessToken: string): Promise<string>;
+  sign(
+    apiUrl: string,
+    appId: string,
+    accessToken: string,
+    clientShare: string,
+    message: string,
+  ): Promise<Hex>;
+  publicKey(clientShare: string): Promise<Hex>;
 }
 
 /*
@@ -18,7 +33,6 @@ type CastFn<T> = T extends (...args: any[]) => any ? T : never;
 
 interface IRpc {
   ecdsa: IKeybanSigner;
-  example: IExample;
 }
 
 type Service = keyof IRpc;
@@ -41,7 +55,7 @@ type RpcResult<
   S extends Service,
   M extends Method<S>,
   CM extends ClassMethod<S, M> = ClassMethod<S, M>,
-> = [Awaited<ReturnType<CM>>, null] | [null, Error];
+> = [Awaited<ReturnType<CM>>, null] | [null, string];
 
 /*
  * RPC implementation
@@ -49,7 +63,6 @@ type RpcResult<
 
 export class RpcServer implements IRpc {
   ecdsa!: IKeybanSigner;
-  example!: IExample;
 
   constructor(services: IRpc) {
     Object.assign(this, services);
@@ -72,7 +85,7 @@ export class RpcServer implements IRpc {
 
           ports[0].postMessage([result, null]);
         } catch (error) {
-          ports[0].postMessage([null, error]);
+          ports[0].postMessage([null, JSON.stringify(error)]);
         }
       },
     );
@@ -116,7 +129,7 @@ export class RpcClient {
         data: [result, error],
       }: MessageEvent<RpcResult<S, M>>) => {
         channel.port1.close();
-        return error ? reject(error) : resolve(result);
+        return error != null ? reject(JSON.parse(error)) : resolve(result);
       };
 
       const message: RpcCall<S, M> = {

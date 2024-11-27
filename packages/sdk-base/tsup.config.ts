@@ -5,6 +5,7 @@ export default defineConfig(({ watch = false }) => ({
   entry: {
     index: "src/index.ts",
     graphql: "src/graphql.ts",
+    rpc: "src/rpc.ts",
   },
   external: [],
   format: ["cjs", "esm"],

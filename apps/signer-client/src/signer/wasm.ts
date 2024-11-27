@@ -1,4 +1,4 @@
-import { KeybanBaseError, SdkError } from "~/errors";
+import { KeybanBaseError, SdkError } from "@keyban/sdk-base";
 
 export const WasmKeybanSigner = (initWasmFile: () => Promise<unknown>) => {
   abstract class AbstractWasmKeybanSigner {
