@@ -112,7 +112,6 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
   /**
    * The available SDK error types.
    *
-   * @static
    * @type {typeof SdkErrorTypes}
    */
   static types = SdkErrorTypes;
