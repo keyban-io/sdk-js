@@ -4,7 +4,7 @@
 
 export interface ISigner {
   greet(name: string): Promise<void>;
-  square(x: number): Promise<number>;
+  square(x: number): number;
 }
 
 export interface IYolo {
@@ -32,7 +32,7 @@ type RpcCall<
   M extends Method<S>,
   CM extends ClassMethod<S, M> = ClassMethod<S, M>,
 > = {
-  __keybanRPC: true;
+  __KEYBAN_RPC: true;
 
   service: S;
   method: M;
@@ -59,23 +59,24 @@ export class RpcServer implements IRpc {
 
     window.addEventListener(
       "message",
-      <S extends Service, M extends Method<S>>({
+      async <S extends Service, M extends Method<S>>({
         data,
         ports,
       }: MessageEvent<RpcCall<S, M>>) => {
-        if (!data.__keybanRPC) return;
+        if (!data.__KEYBAN_RPC) return;
 
-        const fn = this[data.service]?.[data.method] as ClassMethod<S, M>;
-        if (!fn)
-          return ports[0].postMessage([null, new Error("Invalid RPC call")]);
+        try {
+          const { service, method } = data;
 
-        fn(...data.params)
-          .then((result: ReturnType<ClassMethod<S, M>>) => {
-            ports[0].postMessage([result, null]);
-          })
-          .catch((error: Error) => {
-            ports[0].postMessage([null, error]);
-          });
+          const fn = this[service]?.[method] as ClassMethod<S, M>;
+          if (!fn) throw new Error("Invalid RPC call");
+
+          const result = await fn(...data.params);
+
+          ports[0].postMessage([result, null]);
+        } catch (error) {
+          ports[0].postMessage([null, error]);
+        }
       },
     );
   }
@@ -122,7 +123,7 @@ export class RpcClient {
       };
 
       const message: RpcCall<S, M> = {
-        __keybanRPC: true,
+        __KEYBAN_RPC: true,
         service,
         method,
         params,
@@ -132,26 +133,3 @@ export class RpcClient {
     });
   }
 }
-
-export const createRpcClient = (iframeURL: URL) => {
-  const client = new RpcClient(iframeURL);
-
-  type S = Service;
-  type M = Method<Service>;
-  type CM = ClassMethod<S, M>;
-
-  return new Proxy({} as IRpc, {
-    get(_, service: Service) {
-      return new Proxy(
-        {},
-        {
-          get(_, method: Method<Service>) {
-            return async (...params: Parameters<CM>) => {
-              return client.call(service, method, ...params);
-            };
-          },
-        },
-      );
-    },
-  });
-};

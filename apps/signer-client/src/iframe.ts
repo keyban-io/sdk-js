@@ -4,7 +4,7 @@ class Signer implements ISigner {
   async greet(name: string) {
     console.log(`hello ${name}!`);
   }
-  async square(x: number) {
+  square(x: number) {
     return x ** 2;
   }
 }
