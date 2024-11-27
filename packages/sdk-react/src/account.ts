@@ -263,26 +263,84 @@ export function useKeybanAccountBalance({
 /**
  * Returns an {@link ApiResult} of the ERC20 tokens of an account.
  *
- * @param account - A Keyban account object.
- * @param options - Optional pagination arguments for fetching the token balances.
+ * The `useKeybanAccountTokenBalances` React hook enables you to fetch and monitor the list of ERC20 token balances owned by a specific Keyban account. It supports pagination, allowing efficient handling of large token collections by fetching data in manageable segments. This hook returns an `ApiResult` tuple containing the paginated token balance data, any potential errors, and additional pagination controls.
+ *
+ * @param {KeybanAccount} account - The Keyban account object containing the address.
+ * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the token balances.
+ *
+ * @returns {ApiResult<PaginatedData<KeybanTokenBalance>, PaginationExtra>} - The result containing paginated ERC20 token balances or an error, along with pagination controls.
+ *
+ * @throws {SdkError} If the provided account has an invalid address (`SdkErrorTypes.AddressInvalid`).
+ * @throws {SdkError} If no ERC20 token balances are found for the provided account (`SdkErrorTypes.TokenBalancesNotFound`).
  *
  * @example
  * ```tsx
- * const [account, accountError] = useKeybanAccount();
- * if (accountError) throw accountError;
+ * import React from 'react';
+ * import { useKeybanAccount, useKeybanAccountTokenBalances } from "@keyban/sdk-react";
  *
- * const [balances, balanceError, { fetchMore }] = useKeybanAccountTokenBalances(account, { first: 5 });
- * if (balanceError) throw balanceError;
+ * const TokenBalancesList: React.FC = () => {
+ *   const [account, accountError] = useKeybanAccount();
  *
- * // Use the token balances
- * console.log(balances.nodes);
+ *   if (accountError) {
+ *     return <div>Error fetching account: {accountError.message}</div>;
+ *   }
  *
- * // To fetch more token balances
- * <button onClick={fetchMore} disabled={!balances.hasNextPage}>
- *   Fetch next page
- * </button>
+ *   const [balances, balancesError, { fetchMore, loading }] = useKeybanAccountTokenBalances(account, { first: 5 });
+ *
+ *   if (balancesError) {
+ *     return <div>Error fetching token balances: {balancesError.message}</div>;
+ *   }
+ *
+ *   if (!balances) {
+ *     return <div>Loading token balances...</div>;
+ *   }
+ *
+ *   return (
+ *     <div>
+ *       <h3>Your ERC20 Token Balances</h3>
+ *       <ul>
+ *         {balances.nodes.map((balance) => (
+ *           <li key={balance.id}>
+ *             <p>Token: {balance.token?.symbol || "Unknown"}</p>
+ *             <p>Balance: {balance.balance}</p>
+ *             {balance.token && (
+ *               <>
+ *                 <p>Name: {balance.token.name || "N/A"}</p>
+ *                 <p>Decimals: {balance.token.decimals !== null ? balance.token.decimals : "N/A"}</p>
+ *                 <img src={balance.token.iconUrl || ""} alt={`${balance.token.symbol} icon`} width={24} height={24} />
+ *               </>
+ *             )}
+ *           </li>
+ *         ))}
+ *       </ul>
+ *       {balances.hasNextPage && (
+ *         <button onClick={fetchMore} disabled={loading}>
+ *           {loading ? 'Loading...' : 'Load More'}
+ *         </button>
+ *       )}
+ *     </div>
+ *   );
+ * };
+ *
+ * export default TokenBalancesList;
  * ```
+ *
+ * @remarks
+ * - **Pagination Support:** Utilize the `PaginationArgs` to control the number of ERC20 token balances fetched per request and to navigate through pages using cursors.
+ * - **Real-Time Updates:** The hook subscribes to changes in the ERC20 token balances, ensuring that your UI reflects the latest data without manual refreshes.
+ * - **Error Handling:** Always check for errors returned by the hook to provide informative feedback to the user and handle different error scenarios gracefully.
+ * - **Context Requirement:** Ensure that your component is wrapped within a `KeybanProvider` to provide the necessary context for the hooks to function correctly.
+ *
+ * **Best Practices**
+ * - **Consistent Data Fetching:** Combine `useKeybanAccountTokenBalances` with other hooks like `useKeybanAccountBalance` to provide a comprehensive overview of the user's assets.
+ * - **User Feedback:** Provide visual indicators (like loaders or spinners) when fetching data to enhance user experience.
+ * - **Modular Components:** Break down the token balance display into smaller, reusable components for better maintainability and scalability.
+ *
  * @see {@link useFormattedBalance}
+ * @see {@link KeybanAccount}
+ * @see {@link PaginationArgs}
+ * @see {@link PaginationExtra}
+ * @see {@link KeybanProvider}
  */
 export function useKeybanAccountTokenBalances(
   { address }: KeybanAccount,
@@ -403,7 +461,7 @@ export function useKeybanAccountTokenBalances(
  * - **Security Considerations:** Ensure that NFT data, especially metadata, is handled securely, especially if it contains sensitive information.
  * - **Context Requirement:** Ensure that your component is wrapped within a `KeybanProvider` to provide the necessary context for the hooks to function correctly.
  *
- * Best Practices
+ * **Best Practices**
  * - **Consistent Data Fetching:** Combine `useKeybanAccountNfts` with other hooks like `useKeybanAccountBalance` to provide a comprehensive overview of the user's assets.
  * - **User Feedback:** Provide visual indicators (like loaders or spinners) when fetching data to enhance user experience.
  * - **Modular Components:** Break down the NFT display into smaller, reusable components for better maintainability and scalability.
