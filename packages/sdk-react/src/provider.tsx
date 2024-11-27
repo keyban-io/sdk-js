@@ -108,21 +108,48 @@ export function KeybanProvider({
 }
 
 /**
- * Hook to access the Keyban SDK functionalities within a component.
- * This hook provides access to the initialized Keyban client, allowing the component
- * to interact with the SDK. It throws an error if called outside of a {@link KeybanProvider}.
+ * Hook to access the Keyban SDK functionalities within a React component.
  *
- * @throws {Error} If the hook is used outside of a {@link KeybanProvider}.
+ * The `useKeybanClient` hook allows you to access the initialized Keyban client,
+ * enabling direct interaction with the SDK from functional React components. This hook
+ * ensures that the Keyban client is available within the application's context and allows
+ * you to utilize features such as account management, transactions, and blockchain queries.
  *
- * @returns - The initialized Keyban client.
+ * @returns {KeybanClient} The initialized Keyban client.
+ *
+ * @throws {Error} If the hook is used outside of a {@link KeybanProvider}, indicating that
+ * the context is not properly configured to provide the Keyban client.
  *
  * @example
  * ```tsx
- * const MyComponent = () => {
+ * import React from 'react';
+ * import { useKeybanClient } from "@keyban/sdk-react";
+ *
+ * const MyComponent: React.FC = () => {
  *   const keybanClient = useKeybanClient();
- *   // Use the Keyban client to interact with blockchain functionality
+ *
+ *   const handleCheckStatus = async () => {
+ *     try {
+ *       const status = await keybanClient.apiStatus();
+ *       console.log(`Keyban API Status: ${status}`);
+ *     } catch (error) {
+ *       console.error("Error checking Keyban API status:", error);
+ *     }
+ *   };
+ *
+ *   return (
+ *     <div>
+ *       <button onClick={handleCheckStatus}>Check API Status</button>
+ *     </div>
+ *   );
  * };
+ *
+ * export default MyComponent;
  * ```
+ *
+ * @see {@link KeybanClient} For more details on the Keyban client.
+ * @see {@link KeybanProvider} To understand how to set up the Keyban SDK context in your application.
+ *
  */
 export const useKeybanClient = () => {
   const ctx = React.useContext(KeybanContext);
