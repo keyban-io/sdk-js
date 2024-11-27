@@ -333,26 +333,86 @@ export function useKeybanAccountTokenBalances(
 /**
  * Returns an {@link ApiResult} of the NFTs of an account.
  *
- * @param account - A Keyban account object.
- * @param options - Optional pagination arguments for fetching the NFTs.
+ * The `useKeybanAccountNfts` React hook allows you to fetch and subscribe to the list of all NFTs (both ERC721 and ERC1155) owned by a specific Keyban account. It supports pagination, enabling efficient retrieval of large NFT collections by fetching data in manageable chunks. This hook returns an `ApiResult` tuple containing the paginated NFT data, any potential errors, and additional pagination controls.
+ *
+ * @param {KeybanAccount} account - A Keyban account object.
+ * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the NFTs.
+ *
+ * @returns {ApiResult<PaginatedData<KeybanNftBalance>, PaginationExtra>} - The result containing paginated NFT balances or an error, along with pagination controls.
+ *
+ * @throws {SdkError} If the provided account has an invalid address (`SdkErrorTypes.AddressInvalid`).
+ * @throws {SdkError} If no NFTs are found for the provided account (`SdkErrorTypes.NftNotFound`).
  *
  * @example
  * ```tsx
- * const [account, accountError] = useKeybanAccount();
- * if (accountError) throw accountError;
+ * import React from 'react';
+ * import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
  *
- * const [nfts, nftsError, { fetchMore }] = useKeybanAccountNfts(account, { first: 5 });
- * if (nftsError) throw nftsError;
+ * const NftsList: React.FC = () => {
+ *   const [account, accountError] = useKeybanAccount();
  *
- * // Use the NFT data
- * console.log(nfts.nodes);
+ *   if (accountError) {
+ *     return <div>Error fetching account: {accountError.message}</div>;
+ *   }
  *
- * // To fetch more NFTs
- * <button onClick={fetchMore} disabled={!nfts.hasNextPage}>
- *   Fetch next page
- * </button>
+ *   const [nfts, nftsError, { fetchMore, loading }] = useKeybanAccountNfts(account, { first: 5 });
+ *
+ *   if (nftsError) {
+ *     return <div>Error fetching NFTs: {nftsError.message}</div>;
+ *   }
+ *
+ *   if (!nfts) {
+ *     return <div>Loading NFTs...</div>;
+ *   }
+ *
+ *   return (
+ *     <div>
+ *       <h3>Your NFTs</h3>
+ *       <ul>
+ *         {nfts.nodes.map((nft) => (
+ *           <li key={nft.id}>
+ *             <p>NFT ID: {nft.id}</p>
+ *             {nft.nft && (
+ *               <>
+ *                 <p>Collection: {nft.nft.collection?.name || "Unknown"}</p>
+ *                 <p>Symbol: {nft.nft.collection?.symbol || "N/A"}</p>
+ *                 <p>Token ID: {nft.nft.tokenId}</p>
+ *                 // Render additional metadata as needed
+ *               </>
+ *             )}
+ *           </li>
+ *         ))}
+ *       </ul>
+ *       {nfts.hasNextPage && (
+ *         <button onClick={fetchMore} disabled={loading}>
+ *           {loading ? 'Loading...' : 'Load More'}
+ *         </button>
+ *       )}
+ *     </div>
+ *   );
+ * };
+ *
+ * export default NftsList;
  * ```
+ *
+ * @remarks
+ * - **Pagination Support:** Utilize the `PaginationArgs` to control the number of NFTs fetched per request and to navigate through pages using cursors.
+ * - **Real-Time Updates:** The hook subscribes to changes in the NFT balances, ensuring that your UI reflects the latest data without manual refreshes.
+ * - **Error Handling:** Always check for errors returned by the hook to provide informative feedback to the user and handle different error scenarios gracefully.
+ * - **Performance Optimization:** When dealing with large NFT collections, consider implementing virtualization (e.g., using `react-window` or `react-virtualized`) to optimize rendering performance.
+ * - **Security Considerations:** Ensure that NFT data, especially metadata, is handled securely, especially if it contains sensitive information.
+ * - **Context Requirement:** Ensure that your component is wrapped within a `KeybanProvider` to provide the necessary context for the hooks to function correctly.
+ *
+ * Best Practices
+ * - **Consistent Data Fetching:** Combine `useKeybanAccountNfts` with other hooks like `useKeybanAccountBalance` to provide a comprehensive overview of the user's assets.
+ * - **User Feedback:** Provide visual indicators (like loaders or spinners) when fetching data to enhance user experience.
+ * - **Modular Components:** Break down the NFT display into smaller, reusable components for better maintainability and scalability.
+ *
  * @see {@link useFormattedBalance}
+ * @see {@link KeybanAccount}
+ * @see {@link PaginationArgs}
+ * @see {@link PaginationExtra}
+ * @see {@link KeybanProvider}
  */
 export function useKeybanAccountNfts(
   { address }: KeybanAccount,
@@ -399,8 +459,9 @@ export function useKeybanAccountNfts(
     ? ([null, error, extra] as const)
     : ([getPaginatedResults(data.res!), null, extra] as const);
 }
+
 /**
- * Hook to fetch the NFT balance of a Keyban account.
+ * The `useKeybanAccountNft` React hook allows you to fetch the balance of a specific NFT (ERC721 or ERC1155) owned by a Keyban account. It provides detailed information about the NFT, including metadata and collection details, offering a reactive and easy-to-use interface within functional components.
  *
  * @param {KeybanAccount} account - The Keyban account object containing the address.
  * @param {Address} tokenAddress - The address of the token contract.
@@ -412,19 +473,46 @@ export function useKeybanAccountNfts(
  *
  * @example
  * ```tsx
- * const [account, accountError] = useKeybanAccount();
- * if (accountError) throw accountError;
+ * import { useKeybanAccount, useKeybanAccountNft } from "@keyban/sdk-react";
  *
- * const [nftBalance, nftError] = useKeybanAccountNft(account, tokenAddress, tokenId);
- * if (nftError) {
- *   // Handle the error (e.g., NFT not found)
- *   console.error(nftError);
- * } else {
- *   // Use the NFT data
- *   console.log(nftBalance);
- * }
+ * const NftDisplay: React.FC<{ tokenAddress: Address; tokenId: string }> = ({ tokenAddress, tokenId }) => {
+ *   const [account, accountError] = useKeybanAccount();
+ *
+ *   if (accountError) {
+ *     // Handle account retrieval error
+ *     return <div>Error fetching account: {accountError.message}</div>;
+ *   }
+ *
+ *   const [nftBalance, nftError] = useKeybanAccountNft(account, tokenAddress, tokenId);
+ *
+ *   if (nftError) {
+ *     // Handle NFT retrieval error (e.g., NFT not found)
+ *     return <div>Error fetching NFT: {nftError.message}</div>;
+ *   }
+ *
+ *   if (!nftBalance) {
+ *     // Display a loading indicator or an appropriate message
+ *     return <div>Loading NFT...</div>;
+ *   }
+ *
+ *   return (
+ *     <div>
+ *       <h3>NFT Details</h3>
+ *       <p>NFT ID: {nftBalance.id}</p>
+ *       {nftBalance.nft && (
+ *         <>
+ *           <p>Collection Name: {nftBalance.nft.collection?.name || "Unknown"}</p>
+ *           <p>Symbol: {nftBalance.nft.collection?.symbol || "N/A"}</p>
+ *           <p>Token ID: {nftBalance.nft.tokenId}</p>
+ *           // Display additional metadata as needed
+ *         </>
+ *       )}
+ *     </div>
+ *   );
+ * };
+ *
+ * export default NftDisplay;
  * ```
- *
  */
 export function useKeybanAccountNft(
   { address }: KeybanAccount,
