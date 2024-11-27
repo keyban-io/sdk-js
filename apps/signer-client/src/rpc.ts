@@ -2,13 +2,11 @@
  * RPC services
  */
 
-export interface ISigner {
+import { IKeybanSigner } from "~/signer";
+
+export interface IExample {
   greet(name: string): Promise<void>;
   square(x: number): number;
-}
-
-export interface IYolo {
-  yolo(): Promise<void>;
 }
 
 /*
@@ -19,8 +17,8 @@ export interface IYolo {
 type CastFn<T> = T extends (...args: any[]) => any ? T : never;
 
 interface IRpc {
-  signer: ISigner;
-  yolo: IYolo;
+  ecdsa: IKeybanSigner;
+  example: IExample;
 }
 
 type Service = keyof IRpc;
@@ -50,12 +48,11 @@ type RpcResult<
  */
 
 export class RpcServer implements IRpc {
-  signer: ISigner;
-  yolo: IYolo;
+  ecdsa!: IKeybanSigner;
+  example!: IExample;
 
-  constructor(signer: ISigner, yolo: IYolo) {
-    this.signer = signer;
-    this.yolo = yolo;
+  constructor(services: IRpc) {
+    Object.assign(this, services);
 
     window.addEventListener(
       "message",

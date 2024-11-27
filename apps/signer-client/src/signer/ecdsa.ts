@@ -7,8 +7,6 @@ export class KeybanSigner_ECDSA
   extends WasmKeybanSigner(initWasmFile)
   implements IKeybanSigner
 {
-  storagePrefix = "KEYBAN-ECDSA";
-
   dkg: IKeybanSigner["dkg"] = KeybanSigner_ECDSA.wrap((...args) =>
     globalThis.ecdsa.dkg(...args),
   );

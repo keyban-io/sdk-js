@@ -23,6 +23,7 @@
     "vite-tsconfig-paths": "^5.1.3"
   },
   "dependencies": {
-    "@keyban/ecdsa-wasm-client": "workspace:*"
+    "@keyban/ecdsa-wasm-client": "workspace:*",
+    "jose": "^5.9.6"
   }
 }

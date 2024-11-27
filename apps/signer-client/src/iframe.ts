@@ -1,6 +1,7 @@
-import { ISigner, IYolo, RpcServer } from "~/rpc";
+import { IExample, RpcServer } from "~/rpc";
+import { KeybanSigner_ECDSA } from "~/signer/ecdsa";
 
-class Signer implements ISigner {
+class Example implements IExample {
   async greet(name: string) {
     console.log(`hello ${name}!`);
   }
@@ -9,10 +10,7 @@ class Signer implements ISigner {
   }
 }
 
-class Yolo implements IYolo {
-  async yolo() {
-    console.log("YOLO");
-  }
-}
-
-new RpcServer(new Signer(), new Yolo());
+new RpcServer({
+  ecdsa: new KeybanSigner_ECDSA(),
+  example: new Example(),
+});

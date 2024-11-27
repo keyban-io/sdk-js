@@ -1,7 +1,5 @@
 import type { Hex } from "~/index";
 
-import { KeybanSigner_ECDSA } from "./ecdsa";
-
 /**
  * Interface for the Keyban signer.
  * This interface defines the methods that a Keyban signer must implement.
@@ -11,7 +9,6 @@ import { KeybanSigner_ECDSA } from "./ecdsa";
  * @private
  */
 export interface IKeybanSigner {
-  storagePrefix: string;
   dkg(apiUrl: string, keyId: string, accessToken: string): Promise<string>;
   sign(
     apiUrl: string,
@@ -22,11 +19,3 @@ export interface IKeybanSigner {
   ): Promise<Hex>;
   publicKey(clientShare: string): Promise<Hex>;
 }
-
-/**
- * Object that contains the Keyban signers.
- * @private
- */
-export const KeybanSigner: Record<string, new () => IKeybanSigner> = {
-  ECDSA: KeybanSigner_ECDSA,
-};

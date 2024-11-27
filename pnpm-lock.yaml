@@ -38,6 +38,9 @@ importers:
       '@keyban/ecdsa-wasm-client':
         specifier: workspace:*
         version: link:../../packages/ecdsa-wasm-client
+      jose:
+        specifier: ^5.9.6
+        version: 5.9.6
     devDependencies:
       eslint:
         specifier: ^9.15.0
