@@ -167,8 +167,6 @@ function usePaginationExtra(
  * - The hook internally uses React Suspense and may throw a promise if the data is not yet available.
  * - Handle errors appropriately to ensure a good user experience.
  *
- * @throws {} Will throw an error if used outside of a `KeybanProvider` or if there's an issue retrieving the account.
- *
  * @see {@link KeybanClient}
  * @see {@link KeybanAccount}
  * @see {@link KeybanProvider}
@@ -593,6 +591,7 @@ export function useKeybanAccountNft(
  * @param {KeybanAccount} account - The Keyban account object containing the address.
  * @param {PaginationArgs} [options] - Optional pagination arguments.
  * @returns {ApiResult<PaginatedData<KeybanAssetTransfer>, PaginationExtra>} - The API result containing paginated data of Keyban asset transfers and pagination extra information.
+ *
  * @throws {SdkError} If the provided `KeybanAccount` has an invalid address (`SdkErrorTypes.AddressInvalid').
  * @throws {SdkError} If no transfer history is found for the provided account (`SdkErrorTypes.TransferHistoryNotFound`).
  *
