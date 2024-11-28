@@ -45,15 +45,23 @@ export type Balance = {
  * @example
  * ```typescript
  * const client = new KeybanClient(...);
- * const balance = { raw: 1000000000000000000n, decimals: 18, symbol: 'ETH', isFees: false, isNative: true };
- * console.log(formatBalance(client, balance)); // "1.0 ETH"
+ * const balance = { raw: 1000000000000000000n, decimals: 18, isNative: true };
+ * console.log(formatBalance(client, balance)); // "1 ETH"
  *
- * const token = { decimals: 6, symbol: 'USDT' };
- * const balanceWithToken = { raw: 1000000n, decimals: 6, symbol: 'USDT', isFees: false, isNative: false };
- * console.log(formatBalance(client, balanceWithToken, token)); // "1.0 USDT"
+ 
+ * const balanceWithToken = { raw: 1000000n };
+ * const token = {
+ *   id: '1',
+ *   type: 'ERC20',
+ *   name: 'Tether',
+ *   symbol: 'USDT',
+ *   decimals: 6,
+ *   iconUrl: 'https://example.com/usdt-icon.png'
+ * };
+ * console.log(formatBalance(client, balanceWithToken, token)); // "1 USDT"
  *
- * const feeBalance = { raw: 1000n, decimals: 2, symbol: 'GWEI', isFees: true, isNative: false };
- * console.log(formatBalance(client, feeBalance)); // "10.00 GWEI"
+ * const feeBalance = { raw: 1000n, isFees: true };
+ * console.log(formatBalance(client, feeBalance)); // "0.000001 gwei"
  * ```
  */
 export function formatBalance(
