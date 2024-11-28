@@ -1,5 +1,7 @@
 import {
+  FormattedBalance,
   KeybanAssetTransfer,
+  KeybanToken,
   useKeybanAccount,
   useKeybanAccountTransferHistory,
   useKeybanClient,
@@ -97,28 +99,6 @@ const TransferList: React.FC<TransferListProps> = ({
     }
   };
 
-  const formatAmount = (transfer: KeybanAssetTransfer) => {
-    if (transfer.type === "native") {
-      const amountInETH =
-        (Number(transfer.value) || 0) /
-        10 ** (transfer.decimals ?? client.nativeCurrency.decimals);
-      return `${amountInETH.toFixed(4)} ${client.nativeCurrency.symbol}`;
-    }
-    if (transfer.type === "erc20") {
-      const amountInTokens =
-        (Number(transfer.value) || 0) /
-        10 ** (transfer.decimals ?? transfer.token?.decimals ?? 0);
-      return `${amountInTokens.toFixed(4)} ${transfer.token?.symbol ?? ""}`;
-    }
-    if (transfer.type === "erc721") {
-      return `Token ID: ${transfer.nft?.tokenId}`;
-    }
-    if (transfer.type === "erc1155") {
-      return `${transfer.value} Token ID: ${transfer.nft?.tokenId}`;
-    }
-    return `${transfer.value ?? ""}`;
-  };
-
   const formatHuman = (date: string) =>
     formatDistanceToNow(new Date(`${date}`), {
       includeSeconds: true,
@@ -135,17 +115,6 @@ const TransferList: React.FC<TransferListProps> = ({
     if (to?.id.toLowerCase() === accountAddress) return "Received";
     if (from?.id?.toLowerCase() === accountAddress) return "Sent";
     return "Unknown";
-  };
-
-  const formatTransactionFee = (fee: string) => {
-    const feeInWei = BigInt(fee);
-    const feeInFeesUnit = Number(feeInWei) / 10 ** client.feesUnit.decimals;
-    const formattedFee = feeInFeesUnit.toLocaleString(navigator.language, {
-      minimumFractionDigits: 8,
-      maximumFractionDigits: 18,
-    });
-
-    return `${formattedFee} ${client.feesUnit.symbol}`;
   };
 
   const getTxHash = (nftId: string | undefined) => {
@@ -210,16 +179,12 @@ const TransferList: React.FC<TransferListProps> = ({
           <TableBody>
             {transferHistory.nodes.map((transfer, index) => {
               const status = getStatus(transfer);
-              const amount = formatAmount(transfer);
               const dateHuman = transfer?.transaction?.date
                 ? formatHuman(transfer.transaction?.date)
                 : "Unknown";
               const date = transfer?.transaction?.date
                 ? formatDate(transfer.transaction?.date)
                 : "Unknown";
-              const transactionFee = formatTransactionFee(
-                transfer?.transaction?.fees ?? "0",
-              );
 
               let indexerUrl = "";
               try {
@@ -277,12 +242,30 @@ const TransferList: React.FC<TransferListProps> = ({
                       {status}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">{amount}</TableCell>
+                  <TableCell align="center">
+                    {" "}
+                    <FormattedBalance
+                      balance={{
+                        raw: transfer.value,
+                        decimals: transfer.decimals ?? undefined,
+                        isNative: transfer.type === "native",
+                      }}
+                      token={transfer.token as KeybanToken}
+                    />
+                  </TableCell>
                   <TableCell align="center">
                     {getCryptoDisplay(transfer)}
                   </TableCell>
                   <TableCell align="center">{getAssetType(transfer)}</TableCell>
-                  <TableCell align="center">{transactionFee}</TableCell>
+                  <TableCell align="center">
+                    {" "}
+                    <FormattedBalance
+                      balance={{
+                        isFees: true,
+                        raw: transfer.transaction?.fees ?? "0",
+                      }}
+                    />
+                  </TableCell>
                   <TableCell align="center">
                     <Tooltip title={getTxHash(transfer.id).txHash ?? ""} arrow>
                       <div>
