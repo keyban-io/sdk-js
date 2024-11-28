@@ -8,7 +8,10 @@ const clients = new Map<string, KeybanClient>();
 const KeybanContext = React.createContext<KeybanClient | null>(null);
 
 /**
- * @private
+ * Props for the KeybanProvider component, which includes KeybanClientConfig properties.
+ * @typedef {object} KeybanProviderProps
+ * @property {React.ReactNode} children - The child components to be rendered within the provider.
+ * @property {KeybanClientConfig} KeybanClientConfig - Configuration settings for the Keyban client.
  */
 export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
 
@@ -27,8 +30,6 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * allowing components to adjust the blockchain network or other configurations during the
  * application's lifecycle.
  * @param {KeybanProviderProps} props - The Keyban provider configuration options.
- * @param {React.ReactNode} props.children - The children components to be wrapped by the provider.
- * @param {() => Promise<string>} props.accessTokenProvider - The function to provide access tokens.
  * @throws {Error} If the configuration is invalid.
  * @returns {string} The provider component wrapping the children components.
  * @see {@link KeybanClientConfig} for the available configuration options.
