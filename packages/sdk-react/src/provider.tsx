@@ -26,14 +26,12 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * The provider supports dynamic updates to certain configuration options, such as `chain`,
  * allowing components to adjust the blockchain network or other configurations during the
  * application's lifecycle.
- *
- * @param props - The Keyban provider configuration options.
- * @returns - The provider component that includes the Keyban client context.
- *
+ * @param {KeybanProviderProps} props - The Keyban provider configuration options.
+ * @param {React.ReactNode} props.children - The children components to be wrapped by the provider.
+ * @param {() => Promise<string>} props.accessTokenProvider - The function to provide access tokens.
  * @throws {Error} If the configuration is invalid.
- *
+ * @returns {string} The provider component wrapping the children components.
  * @see {@link KeybanClientConfig} for the available configuration options.
- *
  * @example
  * ```tsx
  * import { KeybanProvider, KeybanChain, KeybanSigner } from "@keyban/sdk-react";
@@ -114,12 +112,9 @@ export function KeybanProvider({
  * enabling direct interaction with the SDK from functional React components. This hook
  * ensures that the Keyban client is available within the application's context and allows
  * you to utilize features such as account management, transactions, and blockchain queries.
- *
  * @returns {KeybanClient} The initialized Keyban client.
- *
  * @throws {Error} If the hook is used outside of a {@link KeybanProvider}, indicating that
  * the context is not properly configured to provide the Keyban client.
- *
  * @example
  * ```tsx
  * import React from 'react';
@@ -146,10 +141,8 @@ export function KeybanProvider({
  *
  * export default MyComponent;
  * ```
- *
  * @see {@link KeybanClient} For more details on the Keyban client.
  * @see {@link KeybanProvider} To understand how to set up the Keyban SDK context in your application.
- *
  */
 export const useKeybanClient = () => {
   const ctx = React.useContext(KeybanContext);

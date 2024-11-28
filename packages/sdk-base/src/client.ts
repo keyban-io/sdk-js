@@ -57,12 +57,12 @@ export type KeybanClientConfig = {
 
 /**
  * Arguments for paginating a collection.
- *
- * @property {number} [first] - The maximum number of items to retrieve in the current page.
- * @property {string} [after] - A cursor representing the starting point for the next page of items.
+ * @property {number} first - The maximum number of items to retrieve in the current page.
  */
 export type PaginationArgs = {
+  /** The maximum number of items to retrieve in the current page. */
   first?: number;
+  /** A cursor representing the starting point for the next page */
   after?: string;
 };
 
@@ -70,12 +70,10 @@ export type PaginationArgs = {
  * Main client for interacting with the Keyban API and associated services.
  * This class provides methods to initialize accounts, retrieve balances, query NFTs,
  * and interact with the Keyban blockchain.
- *
  * @remarks
  * The `KeybanClient` serves as the primary interface for developers to interact with
  * the Keyban ecosystem. It handles authentication, communication with the Keyban API,
  * and provides utility methods for common tasks.
- *
  * @example
  * ```typescript
  * // Initialize the client
@@ -93,9 +91,7 @@ export type PaginationArgs = {
  * const balance = await client.getBalance(account.address);
  * console.log(`Balance: ${balance}`);
  * ```
- *
  * @see {@link KeybanAccount}
- * @see {@link useKeybanClient}
  */
 export class KeybanClient {
   /**
@@ -115,18 +111,15 @@ export class KeybanClient {
 
   /**
    * Represents the native currency of a blockchain network.
-   *
    * @property {string} name - The name of the native currency (e.g., "Ether").
    * @property {string} symbol - The symbol of the native currency (e.g., "ETH").
    * @property {number} decimals - The number of decimal places the currency can be divided into.
-   *
    * @example
    * const nativeCurrency = {
    *   name: "Ether",
    *   symbol: "ETH",
    *   decimals: 18
    * };
-   *
    * @example
    * const nativeCurrency = {
    *   name: "Bitcoin",
@@ -182,11 +175,8 @@ export class KeybanClient {
 
   /**
    * Creates a new instance of `KeybanClient`.
-   *
    * @param {KeybanClientConfig} config - The configuration object to initialize the client.
-   *
    * @throws {SdkError} If the configuration is invalid.
-   *
    * @example
    * ```typescript
    * const client = new KeybanClient({
@@ -242,18 +232,13 @@ export class KeybanClient {
    * Initializes a `KeybanAccount` associated with the current client.
    * This method sets up the account by retrieving or generating the client share,
    * and prepares the account for transactions and other operations.
-   *
-   * @returns A promise that resolves to an instance of `KeybanAccount`.
-   *
-   * @throws {StorageError} If there is an error retrieving or saving the client share.
+   * @returns {Promise<KeybanAccount>} A promise that resolves to an instance of `KeybanAccount`.
    * @throws {SdkError} If initialization fails due to signing errors.
-   *
    * @example
    * ```typescript
    * const account = await client.initialize();
    * console.log(`Account address: ${account.address}`);
    * ```
-   *
    * @see {@link KeybanAccount}
    */
   async initialize(): Promise<KeybanAccount> {
@@ -345,13 +330,9 @@ export class KeybanClient {
 
   /**
    * Retrieves the native token balance for a given address.
-   *
-   * @param address - The Ethereum address for which to retrieve the balance.
-   *
-   * @returns A promise resolving to the balance as a string (representing a BigInt in wei).
-   *
+   * @param {Address} address - The Ethereum address for which to retrieve the balance.
+   * @returns {Promise<string>} A promise resolving to the balance as a string (representing a BigInt in wei).
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
-   *
    * @example
    * ```typescript
    * const balance = await client.getBalance("0x123...");
@@ -376,20 +357,15 @@ export class KeybanClient {
 
   /**
    * Retrieves the ERC20 token balances for a given address.
-   *
-   * @param address - The Ethereum address for which to retrieve the token balances.
-   * @param pagination - Optional pagination arguments.
-   *
-   * @returns A promise resolving to the token balances, including token details and balances.
-   *
+   * @param {Address} address - The Ethereum address for which to retrieve the token balances.
+   * @param {PaginationArgs} pagination - Optional pagination arguments.
+   * @returns {Promise<any>} A promise resolving to the token balances, including token details and balances.
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
-   *
    * @example
    * ```typescript
    * const tokenBalances = await client.getTokenBalances("0x123...", { first: 10 });
    * console.log(tokenBalances);
    * ```
-   *
    * @see {@link PaginationArgs}
    */
   async getTokenBalances(address: Address, pagination?: PaginationArgs) {
@@ -410,20 +386,15 @@ export class KeybanClient {
 
   /**
    * Retrieves the NFTs (ERC721 and ERC1155 tokens) owned by a given address.
-   *
-   * @param address - The Ethereum address of the owner.
-   * @param pagination - Optional pagination arguments.
-   *
-   * @returns A promise resolving to the list of NFTs, including metadata and collection details.
-   *
+   * @param {Address} address - The Ethereum address of the owner.
+   * @param {PaginationArgs} pagination - Optional pagination arguments.
+   * @returns {Promise<any>} A promise resolving to the list of NFTs, including metadata and collection details.
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
-   *
    * @example
    * ```typescript
    * const nfts = await client.getNfts("0x123...", { first: 5 });
    * console.log(nfts);
    * ```
-   *
    * @see {@link PaginationArgs}
    */
   async getNfts(address: Address, pagination?: PaginationArgs) {
@@ -441,20 +412,15 @@ export class KeybanClient {
 
   /**
    * Retrieves the transaction history for a given address, including native currency transfers, token transfers, and NFT transfers.
-   *
-   * @param address - The Ethereum address for which to retrieve the transaction history.
-   * @param pagination - Optional pagination arguments.
-   *
-   * @returns A promise resolving to the transaction history, including detailed information about each transfer.
-   *
+   * @param {Address} address - The Ethereum address for which to retrieve the transaction history.
+   * @param {PaginationArgs} pagination - Optional pagination arguments.
+   * @returns {Promise<any>} A promise resolving to the transaction history, including detailed information about each transfer.
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
-   *
    * @example
    * ```typescript
    * const history = await client.getTransferHistory("0x123...", { first: 10 });
    * console.log(history);
    * ```
-   *
    * @see {@link PaginationArgs}
    */
   async getTransferHistory(address: Address, pagination?: PaginationArgs) {
@@ -475,23 +441,17 @@ export class KeybanClient {
 
   /**
    * Retrieves a specific NFT (ERC721 or ERC1155) owned by an address.
-   *
-   * @param address - The Ethereum address of the owner.
-   * @param tokenAddress - The contract address of the NFT.
-   * @param tokenId - The token ID of the NFT.
-   *
-   * @returns A promise resolving to the NFT data, including metadata and collection details.
-   *
+   * @param {Address} address - The Ethereum address of the owner.
+   * @param {Address} tokenAddress - The contract address of the NFT.
+   * @param {string} tokenId - The token ID of the NFT.
+   * @returns {Promise<any>} A promise resolving to the NFT data, including metadata and collection details.
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided addresses are invalid.
    * @throws {SdkError} Throws `SdkErrorTypes.NftNotFound` if the NFT is not found.
-   *
    * @example
    * ```typescript
    * const nft = await client.getNft("0xowner...", "0xcontract...", "1");
    * console.log(nft);
    * ```
-   *
-   * @see {@link KeybanNftBalance}
    */
   async getNft(address: Address, tokenAddress: Address, tokenId: string) {
     if (!isAddress(address)) {
@@ -519,17 +479,13 @@ export class KeybanClient {
 
   /**
    * Performs a health check on the Keyban API to determine its operational status.
-   *
-   * @returns A promise resolving to the API status, either `"operational"` or `"down"`.
-   *
+   * @returns {Promise<KeybanApiStatus>} A promise resolving to the API status, either `"operational"` or `"down"`.
    * @example
    * ```typescript
    * const status = await client.apiStatus();
    * console.log(`API Status: ${status}`);
    * ```
-   *
    * @throws {Error} Throws an error if the health check request fails.
-   *
    * @see {@link KeybanApiStatus}
    */
   async apiStatus(): Promise<KeybanApiStatus> {

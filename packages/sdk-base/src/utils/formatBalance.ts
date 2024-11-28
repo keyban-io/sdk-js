@@ -4,7 +4,6 @@ import type { KeybanClient, KeybanToken } from "~/index";
 
 /**
  * Represents a balance with optional metadata.
- *
  * @example
  * // Example of a balance in native currency with fees
  * const balance: Balance = {
@@ -14,7 +13,6 @@ import type { KeybanClient, KeybanToken } from "~/index";
  *   isNative: true,
  *   isFees: true
  * };
- *
  * @example
  * // Example of a balance in a token
  * const tokenBalance: Balance = {
@@ -38,12 +36,12 @@ export type Balance = {
 
 /**
  * Formats the balance into a human-readable string with the appropriate decimals and symbol.
- *
- * @param client - The KeybanClient instance which provides information about fees and native currency.
- * @param balance - The balance object containing raw balance, decimals, symbol, and flags indicating if it's fees or native currency.
- * @param token - (Optional) The KeybanToken object which provides token-specific decimals and symbol.
- * @returns A formatted string representing the balance with the appropriate decimals and symbol.
- *
+ * @param {KeybanClient} client - The KeybanClient instance which provides information about fees and native currency.
+ * @param {Balance} balance - The balance object containing raw balance, decimals, symbol, and flags indicating if it's fees or native currency.
+ * @param {KeybanToken} [token] - (Optional) The KeybanToken object which provides token-specific decimals and symbol.
+ * @returns {string} A formatted string representing the balance with the appropriate decimals and symbol.
+ 
+ * test
  * @example
  * ```typescript
  * const client = new KeybanClient(...);

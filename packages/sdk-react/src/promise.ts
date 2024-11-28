@@ -11,7 +11,15 @@ const caches: WeakMap<KeybanClient, Cache> = new WeakMap();
 
 const CacheContext = React.createContext<Cache>(new Map());
 
-export function PromiseCacheProvider({ children }: React.PropsWithChildren) {
+/**
+ * Provides a cache context for promises.
+ * @param {object} root0 - The props object.
+ * @param {React.ReactNode} root0.children - The child components.
+ * @returns {React.JSX.Element} The provider component.
+ */
+export function PromiseCacheProvider({
+  children,
+}: React.PropsWithChildren): JSX.Element {
   const client = useKeybanClient();
 
   let cache = caches.get(client);
@@ -73,6 +81,15 @@ const updateWrappedPromise = <T>(wrapped: WrappedPromise<T>) => {
     });
 };
 
+/**
+ * A hook to manage promises with caching and suspense support.
+ * @param {string} key - The unique key to identify the promise.
+ * @template T
+ * @template B
+ * @param {() => Promise<T>} promise - The function that returns the promise.
+ * @param {UsePromiseOptions<B>} [options] - Options to configure the hook behavior.
+ * @returns {UsePromiseResult<T, B>} The result of the promise with additional controls.
+ */
 export function usePromise<T, B extends boolean>(
   key: string,
   promise: () => Promise<T>,

@@ -1,7 +1,12 @@
 import { SdkError, SdkErrorTypes } from "~/errors";
 
-// Unicode text JWT parser function
-// @see https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
+/**
+ * Parses a JWT access token and returns the decoded payload.
+ * @param {string} accessToken - The JWT access token to parse.
+ * @returns {object} The decoded payload of the JWT.
+ * @throws {SdkError} If the access token is invalid.
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
+ */
 export function parseJwt(accessToken: string) {
   try {
     const base64 = accessToken.split(".")[1];

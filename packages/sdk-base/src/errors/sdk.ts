@@ -6,7 +6,6 @@ import { KeybanBaseError } from "./base";
  * This enumeration defines the various error conditions that can occur within the Keyban SDK.
  * Each error type is associated with a specific scenario, allowing developers to handle errors
  * gracefully and provide meaningful feedback to users.
- *
  * @enum {string}
  */
 export enum SdkErrorTypes {
@@ -14,6 +13,7 @@ export enum SdkErrorTypes {
    * The environment does not support WebAssembly modules.
    *
    * **Description:** WebAssembly is required for certain SDK functionalities.
+   *
    * **Possible Cause:** Running the SDK in an outdated browser or environment that lacks WebAssembly support.
    */
   WebAssemblyNotSupported = "WebAssemblyNotSupported",
@@ -30,6 +30,7 @@ export enum SdkErrorTypes {
    * The provided address is invalid.
    *
    * **Description:** The Ethereum address does not conform to the expected format.
+   *
    * **Possible Cause:** Typographical errors in the address or incorrect formatting.
    */
   AddressInvalid = "AddressInvalid",
@@ -38,6 +39,7 @@ export enum SdkErrorTypes {
    * The provided amount is invalid.
    *
    * **Description:** The amount specified for a transaction is not acceptable.
+   *
    * **Possible Cause:** Amount is zero, negative, or exceeds allowed limits.
    */
   AmountInvalid = "AmountInvalid",
@@ -46,6 +48,7 @@ export enum SdkErrorTypes {
    * The amount is required for this operation.
    *
    * **Description:** An operation that requires a monetary amount did not receive one.
+   *
    * **Possible Cause:** Missing amount parameter in the function call.
    */
   AmountRequired = "AmountRequired",
@@ -70,6 +73,7 @@ export enum SdkErrorTypes {
    * Gas estimation failed during transaction processing.
    *
    * **Description:** The SDK was unable to estimate the gas required for a transaction.
+   *
    * **Possible Cause:** Network issues, incorrect transaction parameters, or contract errors.
    */
   EstimateGasExecution = "EstimateGasExecution",
@@ -78,6 +82,7 @@ export enum SdkErrorTypes {
    * The account has insufficient funds to perform the operation.
    *
    * **Description:** The user's account balance is too low to cover the transaction amount and associated fees.
+   *
    * **Possible Cause:** Attempting a transaction with an amount exceeding the available balance.
    */
   InsufficientFunds = "InsufficientFunds",
@@ -86,6 +91,7 @@ export enum SdkErrorTypes {
    * The NFT standard provided is invalid.
    *
    * **Description:** An unsupported NFT standard was specified.
+   *
    * **Possible Cause:** Using an NFT standard other than ERC721 or ERC1155.
    */
   InvalidNftStandard = "InvalidNftStandard",
@@ -94,6 +100,7 @@ export enum SdkErrorTypes {
    * The specified NFT was not found.
    *
    * **Description:** The NFT identified by the provided contract address and token ID does not exist.
+   *
    * **Possible Cause:** Incorrect token ID, wrong contract address, or the NFT has been burned.
    */
   NftNotFound = "NftNotFound",
@@ -105,26 +112,21 @@ export enum SdkErrorTypes {
  * The `SdkError` class extends the `KeybanBaseError` to provide detailed error information
  * based on predefined `SdkErrorTypes`. It facilitates consistent error handling across
  * the Keyban SDK by categorizing errors and providing meaningful messages.
- *
- * @extends KeybanBaseError
+ * @augments KeybanBaseError
  */
 export class SdkError extends KeybanBaseError<SdkErrorTypes> {
   /**
    * The available SDK error types.
-   *
    * @type {typeof SdkErrorTypes}
    */
   static types = SdkErrorTypes;
 
   /**
    * Creates an instance of `SdkError`.
-   *
    * @param {SdkErrorTypes} type - The specific type of SDK error.
    * @param {string} instance - The identifier of the instance where the error occurred.
    * @param {Error} [rootError] - The original error that caused this SDK error, if any.
-   *
    * @throws {SdkError} Throws an error if an unknown `SdkErrorTypes` is provided.
-   *
    * @example
    * ```typescript
    * throw new SdkError(SdkErrorTypes.InsufficientFunds, "transferFunction");
@@ -141,11 +143,9 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
 
   /**
    * Retrieves a human-readable title based on the error type.
-   *
    * @private
    * @param {SdkErrorTypes} errorType - The type of SDK error.
    * @returns {string} A descriptive title for the error.
-   *
    * @example
    * ```typescript
    * const title = SdkError.#getTitle(SdkErrorTypes.InvalidAccessToken);

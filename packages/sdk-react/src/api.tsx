@@ -2,7 +2,9 @@ import { usePromise } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
 /**
+ * This hook returns the status of the Keyban API.
  * @private
+ * @returns {Promise<any>} The promise resolving to the API status.
  */
 export function useKeybanApiStatus() {
   const client = useKeybanClient();

@@ -27,7 +27,6 @@ export * from "~/utils";
 
 /**
  * Represents an Ethereum address in hexadecimal format.
- *
  * @remarks
  * An Ethereum address is a 42-character string that uniquely identifies an account on the Ethereum blockchain.
  * It consists of the prefix `"0x"` followed by 40 hexadecimal characters (digits 0-9 and letters a-f).
@@ -44,13 +43,11 @@ export * from "~/utils";
  * **Usage:**
  * This type alias enforces that any variable of type `Address` must be a string that adheres to the Ethereum address format.
  * It is used throughout the SDK to represent addresses in a type-safe manner, reducing errors related to address handling.
- *
  */
 export type Address = `0x${string}`;
 
 /**
  * Represents a cryptographic hash value in hexadecimal format.
- *
  * @remarks
  * A `Hash` is typically a 66-character hexadecimal string used to uniquely identify
  * transactions, blocks, or other data in the blockchain. It is the result of a hash
@@ -75,7 +72,6 @@ export type Hash = `0x${string}`;
 
 /**
  * Represents a hexadecimal value in blockchain-related contexts.
- *
  * @remarks
  * The `Hex` type is a string that starts with the `"0x"` prefix, followed by a sequence of hexadecimal characters.
  * It is commonly used to represent various types of data in hexadecimal format, such as public keys, signed messages,

@@ -14,18 +14,24 @@ const copyPath = path.resolve(
 // Charger le fichier original
 const options = JSON.parse(fs.readFileSync(originalPath, "utf8"));
 
-// Conserver les plugins d'origine et ajouter le plugin markdown
+// Conserver les plugins d'origine et ajouter les plugins markdown et remark
 if (!options.plugin.includes("typedoc-plugin-markdown")) {
   options.plugin.push("typedoc-plugin-markdown");
+}
+if (!options.plugin.includes("typedoc-plugin-remark")) {
+  options.plugin.push("typedoc-plugin-remark");
 }
 
 // Ajout et mise à jour des options
 Object.assign(options, {
+  name: "Keyban SDK",
   alwaysCreateEntryPointModule: false,
   outputFileStrategy: "modules",
   flattenOutputFiles: true,
   mergeReadme: true,
   entryFileName: "Keyban-sdk",
+  hideBreadcrumbs: true,
+  remarkPlugins: [["remark-toc", { maxDepth: 3 }]],
 });
 
 // Sauvegarde de la copie mise à jour

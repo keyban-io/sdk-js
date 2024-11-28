@@ -3,7 +3,6 @@ import { KeybanBaseError } from "./base";
 /**
  * @enum
  * Enum representing possible storage error types.
- *
  */
 export enum StorageErrorTypes {
   /**
@@ -32,10 +31,9 @@ export class StorageError extends KeybanBaseError<StorageErrorTypes> {
 
   /**
    * Constructs a new `StorageError` instance.
-   *
-   * @param type - The type of the storage error.
-   * @param instance - The instance identifier where the error occurred.
-   * @param rootError - An optional root error that caused this storage error.
+   * @param {StorageErrorTypes} type - The type of the storage error.
+   * @param {string} instance - The instance identifier where the error occurred.
+   * @param {Error} [rootError] - An optional root error that caused this storage error.
    */
   constructor(type: StorageErrorTypes, instance: string, rootError?: Error) {
     super({
@@ -48,9 +46,8 @@ export class StorageError extends KeybanBaseError<StorageErrorTypes> {
 
   /**
    * Retrieves the title message for a given storage error type.
-   *
-   * @param errorType - The type of the storage error.
-   * @returns The title message corresponding to the error type.
+   * @param {StorageErrorTypes} errorType - The type of the storage error.
+   * @returns {string} The title message corresponding to the error type.
    */
   static #getTitle(errorType: StorageErrorTypes) {
     switch (errorType) {

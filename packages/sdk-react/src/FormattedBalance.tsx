@@ -5,12 +5,9 @@ import { useKeybanClient } from "./provider";
 /**
  * Formats a balance in a human-readable format using the Keyban client.
  * This is typically used to display the balance of an account, as retrieved by
- * {@link KeybanAccount.getBalance | KeybanAccount.getBalance()}.
- *
- * @param balance - The raw balance to format.
- * @param token - The token details, if the balance is not native.
- * @returns - The formatted balance as a string.
- *
+ * @param {Balance} balance - The raw balance to format.
+ * @param {KeybanToken} token - The token details, if the balance is not native.
+ * @returns {string} - The formatted balance as a string.
  * @example
  * ```tsx
  * import { useFormattedBalance } from "@keyban/sdk-react";
@@ -28,9 +25,7 @@ export function useFormattedBalance(
 
 /**
  * Props for the FormattedBalance component.
- *
- * @typedef {Object} FormatedBalanceProps
- *
+ * @typedef {object} FormatedBalanceProps
  * @see {@link FormattedBalance}
  */
 export type FormatedBalanceProps = {
@@ -42,10 +37,8 @@ export type FormatedBalanceProps = {
 
 /**
  * A React component that formats and displays a balance.
- *
  * @param {FormatedBalanceProps} props - The properties for the FormattedBalance component.
- * @returns {JSX.Element} The formatted balance.
- *
+ * @returns {string} The formatted balance.
  * @example
  * ```tsx
  * import { FormattedBalance } from "@keyban/sdk-react";

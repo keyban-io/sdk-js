@@ -47,12 +47,12 @@ export type FeesEstimation = {
 
 /**
  * Represents the options for a transaction.
- * @property {bigint} maxFeePerGas - The maximum fee per unit of gas
- * @property {bigint} maxPriorityFeePerGas - The maximum priority fee per unit of gas
  * see {@link KeybanAccount#transfer}
  */
 export type TransactionOptions = {
+  /** The maximum fee per unit of gas */
   maxFeePerGas?: bigint;
+  /** The maximum priority fee per unit of gas */
   maxPriorityFeePerGas?: bigint;
 };
 
@@ -105,7 +105,6 @@ export type EstimateERC20TransferParams = Omit<
  * Parameters required to estimate the transfer of an NFT, excluding transaction options.
  *
  * This type is derived from `TransferNftParams` by omitting the `txOptions` property.
- *
  * @see {@link TransferNftParams}
  */
 export type EstimateNftTransferParams = Omit<TransferNftParams, "txOptions">;
@@ -115,13 +114,12 @@ export type EstimateNftTransferParams = Omit<TransferNftParams, "txOptions">;
  * It provides methods to interact with the blockchain, including signing messages,
  * fetching balances, transferring tokens, and estimating transaction costs.
  * @class
- *
  * @property {string} sub - Represents the unique identifier of the client, extracted from the JWT (JSON Web Token).
  * @property {Address} address - The blockchain address associated with the account.
  * @property {Hex} publicKey - The public key associated with the account.
- * @property {KeybanClient} #client - The Keyban client for making requests (private).
- * @property {PublicClient<Transport, Chain>} #publicClient - The client for public interactions (e.g., fetching balances) (private).
- * @property {WalletClient<Transport, Chain, LocalAccount>} #walletClient - The wallet client used for signing and sending transactions (private).
+ * @property {KeybanClient} client - The Keyban client for making requests (private).
+ * @property {PublicClient<Transport, Chain>} publicClient - The client for public interactions (e.g., fetching balances) (private).
+ * @property {WalletClient<Transport, Chain, LocalAccount>} walletClient - The wallet client used for signing and sending transactions (private).
  */
 export class KeybanAccount implements KeybanAccount {
   sub: string;
@@ -131,6 +129,7 @@ export class KeybanAccount implements KeybanAccount {
   #publicClient: PublicClient<Transport, Chain>;
   #walletClient: WalletClient<Transport, Chain, LocalAccount>;
 
+  // eslint-disable-next-line jsdoc/require-description
   /**
    * @private
    * @param {string} sub - The unique identifier for the Keyban account.
@@ -166,18 +165,16 @@ export class KeybanAccount implements KeybanAccount {
   }
 
   /**
-   * Retrieves the account balance in native tokens.
-   * @returns {Promise<Balance>} - The account balance in native tokens.
-   * @see {@link useKeybanAccountBalance}
+   * Retrieves the balance of the account associated with the current address.
+   * @returns {Promise<number>} A promise that resolves to the balance of the account.
    */
   getBalance() {
     return this.#publicClient.getBalance({ address: this.address });
   }
 
   /**
-   * Retrieves the account balance in ERC20 tokens.
-   * @returns {Promise<TokenBalances>} - The account balance in ERC20 tokens.
-   * @see {@link useKeybanAccountTokenBalances}
+   * Retrieves the token balances for the current account.
+   * @returns {Promise<any>} A promise that resolves to the token balances of the account.
    */
   async getTokenBalances() {
     return this.#client.getTokenBalances(this.address);
@@ -185,8 +182,7 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Retrieves the account ERC721 and ERC1155 tokens.
-   * @returns {Promise<Nfts>} - The account ERC721 and ERC1155 tokens.
-   * @see {@link useKeybanAccountNfts}
+   * @returns {Promise<any>} A promise that resolves to the account's ERC721 and ERC1155 tokens.
    */
   async getNfts() {
     return this.#client.getNfts(this.address);
@@ -196,8 +192,7 @@ export class KeybanAccount implements KeybanAccount {
    * Retrieves the account ERC721 and ERC1155 token balances.
    * @param {Address} tokenAddress - The address of the token contract.
    * @param {string} tokenId - The ID of the token.
-   * @returns {Promise<Nft>} - The account ERC721 and ERC1155 token balances.
-   * @see {@link useKeybanAccountNft}
+   * @returns {Promise<any>} A promise that resolves to the account's ERC721 and ERC1155 tokens.
    */
   async getNft(tokenAddress: Address, tokenId: string) {
     return this.#client.getNft(this.address, tokenAddress, tokenId);
@@ -205,8 +200,7 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    *  Retrieves the account transaction history for native currency, tokens, and NFTs.
-   * @returns {Promise<TransferHistory>} - The account transaction history.
-   * @see {@link useKeybanAccountTransferHistory}
+   *  @returns {Promise<any>} A promise that resolves to the account's transaction history.
    */
   async getTransferHistory() {
     return this.#client.getTransferHistory(this.address);
@@ -577,8 +571,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring ERC721 and ERC1155 tokens to another address.
-   * @param options - The parameters for estimating the NFT transfer.
-   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @param {EstimateNftTransferParams} options - The parameters for estimating the NFT transfer.
+   * @returns {Promise<FeesEstimation>} - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    * @example
    * ```ts
