@@ -25,6 +25,7 @@
   "dependencies": {
     "@keyban/ecdsa-wasm-client": "workspace:*",
     "@keyban/sdk-base": "workspace:*",
+    "core-js": "^3.39.0",
     "jose": "^5.9.6"
   }
 }

@@ -50,6 +50,9 @@ importers:
       '@keyban/sdk-base':
         specifier: workspace:*
         version: link:../../packages/sdk-base
+      core-js:
+        specifier: ^3.39.0
+        version: 3.39.0
       jose:
         specifier: ^5.9.6
         version: 5.9.6
