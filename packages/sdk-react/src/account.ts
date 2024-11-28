@@ -568,7 +568,7 @@ export function useKeybanAccountNft(
  * @param {KeybanAccount} account - The Keyban account object containing the address.
  * @param {PaginationArgs} [options] - Optional pagination arguments.
  * @returns {ApiResult<PaginatedData<KeybanAssetTransfer>, PaginationExtra>} - The API result containing paginated data of Keyban asset transfers and pagination extra information.
- * @throws {SdkError} If the provided `KeybanAccount` has an invalid address (`SdkErrorTypes.AddressInvalid').
+ * @throws {SdkError} If the provided `KeybanAccount` has an invalid address (`SdkErrorTypes.AddressInvalid`).
  * @throws {SdkError} If no transfer history is found for the provided account (`SdkErrorTypes.TransferHistoryNotFound`).
  * @example
  * ```tsx
