@@ -1,3 +1,6 @@
+/**
+ * @module Format Balances
+ */
 import { formatUnits } from "viem";
 
 import type { KeybanClient, KeybanToken } from "~/index";

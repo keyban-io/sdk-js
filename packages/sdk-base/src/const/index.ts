@@ -1,3 +1,6 @@
+/**
+ * @private
+ */
 export const ERC1155_ABI_TRANSFER_FROM = [
   {
     type: "function",

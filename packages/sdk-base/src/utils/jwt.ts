@@ -1,3 +1,6 @@
+/**
+ * @module Utils
+ */
 import { SdkError, SdkErrorTypes } from "~/errors";
 
 /**

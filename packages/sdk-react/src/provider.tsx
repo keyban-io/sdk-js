@@ -1,3 +1,7 @@
+/**
+ * @module Provider
+ */
+
 import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
 import React from "react";
 

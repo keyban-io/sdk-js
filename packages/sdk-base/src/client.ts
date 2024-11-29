@@ -1,3 +1,6 @@
+/**
+ * @module Client
+ */
 import type { NormalizedCacheObject } from "@apollo/client/cache";
 import type { ApolloClient } from "@apollo/client/core";
 import type { Chain, PublicClient, Transport } from "viem";

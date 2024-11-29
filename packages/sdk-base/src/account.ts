@@ -1,3 +1,6 @@
+/**
+ * @module Account
+ */
 import {
   type Chain,
   type ContractFunctionExecutionErrorType,

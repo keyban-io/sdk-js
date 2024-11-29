@@ -1,5 +1,5 @@
 /*
- * RPC services
+ * @module RPC services
  */
 
 import { KeybanBaseError } from "~/errors";

@@ -1,3 +1,6 @@
+/**
+ * @module API
+ */
 import { usePromise } from "~/promise";
 import { useKeybanClient } from "~/provider";
 

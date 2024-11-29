@@ -1,3 +1,6 @@
+/**
+ * @module Chains
+ */
 import * as chains from "viem/chains";
 
 /**
@@ -43,6 +46,11 @@ export enum KeybanChain {
   PolygonAmoy = "PolygonAmoy",
 }
 
+/**
+ * Represents the unit of fees in a specific blockchain.
+ * @property {string} symbol - The symbol of the fee unit (e.g., "gwei").
+ * @property {number} decimals - The number of decimal places for the fee unit.
+ */
 export interface FeesUnit {
   symbol: string;
   decimals: number;
