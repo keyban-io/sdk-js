@@ -1,11 +1,13 @@
-import { KeybanBaseError, SdkError } from "@keyban/sdk-base";
+import { KeybanBaseError } from "@keyban/sdk-base";
+
+import { SignerClientError } from "~/errors/SignerClientError";
 
 export const WasmKeybanSigner = (initWasmFile: () => Promise<unknown>) => {
   abstract class AbstractWasmKeybanSigner {
     constructor() {
       if (!WebAssembly)
-        throw new SdkError(
-          SdkError.types.WebAssemblyNotSupported,
+        throw new SignerClientError(
+          SignerClientError.types.WebAssemblyNotSupported,
           "AbstractWasmKeybanSigner",
         );
     }

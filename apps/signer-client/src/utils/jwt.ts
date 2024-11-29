@@ -1,6 +1,6 @@
 // Unicode text JWT parser function
 
-import { SdkError, SdkErrorTypes } from "@keyban/sdk-base";
+import { SignerClientError } from "~/errors/SignerClientError";
 
 // @see https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
 export function parseJwt(accessToken: string) {
@@ -15,8 +15,8 @@ export function parseJwt(accessToken: string) {
 
     return JSON.parse(json);
   } catch (err) {
-    throw new SdkError(
-      SdkErrorTypes.InvalidAccessToken,
+    throw new SignerClientError(
+      SignerClientError.types.InvalidAccessToken,
       "parseJwt",
       err as Error,
     );

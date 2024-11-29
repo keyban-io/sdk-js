@@ -2,6 +2,7 @@ import initWasmFile from "@keyban/ecdsa-wasm-client";
 import { IKeybanSigner } from "@keyban/sdk-base/rpc";
 
 import { API_URL } from "~/constants";
+import { SignerClientError } from "~/errors/SignerClientError";
 import { WasmKeybanSigner } from "~/signer/wasm";
 import { decrypt, encrypt, EncryptedData, generateKey } from "~/utils/crypto";
 import { parseJwt } from "~/utils/jwt";
@@ -25,7 +26,15 @@ export class KeybanSigner_ECDSA
           method: "GET",
           headers: { Authorization: `Bearer ${accessToken}` },
         },
-      ).then((res) => res.json());
+      )
+        .then((res) => res.json())
+        .catch((err: Error) => {
+          throw new SignerClientError(
+            SignerClientError.types.ClientShare,
+            "ecdsa.getClientShare.fetch",
+            err,
+          );
+        });
 
       // Return decrypted share
       return decrypt(JSON.parse(storedKey), data);
@@ -45,6 +54,12 @@ export class KeybanSigner_ECDSA
         Authorization: `Bearer ${accessToken}`,
       },
       body: await encrypt(key, clientShare).then(JSON.stringify),
+    }).catch((err: Error) => {
+      throw new SignerClientError(
+        SignerClientError.types.ClientShare,
+        "ecdsa.getClientShare.create",
+        err,
+      );
     });
 
     // Save the encryption key locally
