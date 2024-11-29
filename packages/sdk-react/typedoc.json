@@ -1,11 +1,9 @@
 {
   "lang": "en",
-  "name": "@keyban/sdk-react",
+  "name": "Keyban React SDK",
   "entryPoints": ["./src/index.ts"],
-  "entryFileName": "index",
-  "entryPointStrategy": "expand",
-  "readme": "none",
-  "disableSources": true,
+  "readme": "README.md",
+  "disableSources": false,
   "hidePageHeader": true,
   "hidePageTitle": true,
   "hideGroupHeadings": true,
@@ -15,7 +13,11 @@
   "expandObjects": true,
   "expandParameters": true,
   "useCodeBlocks": true,
-  "plugin": ["typedoc-plugin-merge-modules", "typedoc-plugin-markdown"],
+  "plugin": [
+    "typedoc-plugin-merge-modules",
+    "typedoc-plugin-markdown",
+    "typedoc-plugin-remark"
+  ],
   "navigation": {
     "includeCategories": true,
     "includeGroups": true,
@@ -26,5 +28,10 @@
   "propertiesFormat": "table",
   "typeDeclarationFormat": "table",
   "indexFormat": "table",
-  "flattenOutputFiles": true
+  "alwaysCreateEntryPointModule": false,
+  "outputFileStrategy": "modules",
+  "flattenOutputFiles": true,
+  "mergeReadme": true,
+  "entryFileName": "sdk-react",
+  "hideBreadcrumbs": true
 }
