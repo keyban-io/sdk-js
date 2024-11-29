@@ -8,13 +8,14 @@ export {
   TransferNftParams,
 } from "~/account";
 export { KeybanApiStatus } from "~/api";
-export { KeybanChain } from "~/chains";
+export { FeesUnit, KeybanChain } from "~/chains";
 export { KeybanClient, KeybanClientConfig, PaginationArgs } from "~/client";
 export {
   KeybanBaseError,
   SdkError,
   SdkErrorTypes,
   StorageError,
+  StorageErrorTypes,
 } from "~/errors";
 export type {
   GqlwalletTokenBalancesQuery,

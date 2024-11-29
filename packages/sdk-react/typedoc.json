@@ -1,0 +1,27 @@
+{
+  "lang": "en",
+  "name": "@keyban/sdk-react",
+  "entryPoints": ["../../sdk/packages/sdk-react/src/index.ts"],
+  "entryFileName": "References",
+  "readme": "none",
+  "disableSources": true,
+  "hidePageTitle": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "expandObjects": true,
+  "expandParameters": true,
+  "useCodeBlocks": true,
+  "plugin": ["typedoc-plugin-merge-modules"],
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true,
+    "includeFolders": true
+  },
+  "enumMembersFormat": "table",
+  "parametersFormat": "table",
+  "propertiesFormat": "table",
+  "typeDeclarationFormat": "table",
+  "indexFormat": "table",
+  "flattenOutputFiles": true
+}

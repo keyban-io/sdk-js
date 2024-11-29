@@ -1,0 +1,28 @@
+{
+  "lang": "en",
+  "name": "@keyban/base",
+  "entryPoints": ["./src/index.ts"],
+  "entryFileName": "References",
+  "entryPointStrategy": "expand",
+  "readme": "none",
+  "disableSources": true,
+  "hidePageTitle": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "expandObjects": true,
+  "expandParameters": true,
+  "useCodeBlocks": true,
+  "plugin": ["typedoc-plugin-merge-modules", "typedoc-plugin-markdown"],
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true,
+    "includeFolders": true
+  },
+  "enumMembersFormat": "table",
+  "parametersFormat": "table",
+  "propertiesFormat": "table",
+  "typeDeclarationFormat": "table",
+  "indexFormat": "table",
+  "flattenOutputFiles": true
+}

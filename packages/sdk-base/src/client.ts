@@ -341,6 +341,7 @@ export class KeybanClient {
    * const balance = await client.getBalance("0x123...");
    * console.log(`Balance: ${balance}`);
    * ```
+   * @deprecated
    */
   async getBalance(address: Address): Promise<string> {
     if (!isAddress(address)) {
@@ -370,6 +371,7 @@ export class KeybanClient {
    * console.log(tokenBalances);
    * ```
    * @see {@link PaginationArgs}
+   * @deprecated
    */
   async getTokenBalances(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
@@ -399,6 +401,7 @@ export class KeybanClient {
    * console.log(nfts);
    * ```
    * @see {@link PaginationArgs}
+   * @deprecated
    */
   async getNfts(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
@@ -425,6 +428,7 @@ export class KeybanClient {
    * console.log(history);
    * ```
    * @see {@link PaginationArgs}
+   * @deprecated
    */
   async getTransferHistory(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
@@ -455,6 +459,7 @@ export class KeybanClient {
    * const nft = await client.getNft("0xowner...", "0xcontract...", "1");
    * console.log(nft);
    * ```
+   * @deprecated
    */
   async getNft(address: Address, tokenAddress: Address, tokenId: string) {
     if (!isAddress(address)) {

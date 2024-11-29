@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "dist",
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
@@ -13,9 +12,11 @@
     "sourceMap": true,
     "strict": true,
     "target": "ESNext",
-    "exclude": ["node_modules", "dist"],
     "paths": {
       "~/*": ["./src/*"]
-    }
-  }
+    },
+    "declaration": true,
+    "declarationMap": true
+  },
+  "exclude": ["node_modules", "dist"]
 }
