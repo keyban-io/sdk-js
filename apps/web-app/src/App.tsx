@@ -39,16 +39,16 @@ export default function App() {
     <>
       <ConfigEditor config={config} onChange={setConfig} />
 
-      <KeybanProvider
-        apiUrl={config.apiUrl}
-        appId={config.appId}
-        chain={config.chain}
-        accessTokenProvider={() => config.accessToken}
-      >
-        <ErrorBoundary FallbackComponent={AppError}>
+      <ErrorBoundary FallbackComponent={AppError}>
+        <KeybanProvider
+          apiUrl={config.apiUrl}
+          appId={config.appId}
+          chain={config.chain}
+          accessTokenProvider={() => config.accessToken}
+        >
           <KeybanTest />
-        </ErrorBoundary>
-      </KeybanProvider>
+        </KeybanProvider>
+      </ErrorBoundary>
     </>
   );
 }
