@@ -1,8 +1,8 @@
-# Keyban SDK Base
+# Keyban JavaScript SDK
 
 ## Overview
 
-The Keyban SDK Base provides the core functionality for Keyban's MPC wallet solution, simplifying the development of web and Node.js applications. It offers essential configurations, utilities, and functions that serve as the foundation for creating decentralized wallet experiences.
+The Keyban JavaScript SDK provides the core functionality for Keyban's MPC wallet solution, simplifying the development of web and Node.js applications. It offers essential configurations, utilities, and functions that serve as the foundation for creating decentralized wallet experiences.
 
 ## Key Features
 

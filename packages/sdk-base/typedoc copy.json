@@ -3,7 +3,7 @@
   "name": "Keyban Javascript SDK",
   "entryPoints": ["./src/index.ts"],
   "readme": "README.md",
-  "disableSources": true,
+  "disableSources": false,
   "hidePageHeader": true,
   "hidePageTitle": true,
   "hideGroupHeadings": true,
@@ -13,7 +13,11 @@
   "expandObjects": true,
   "expandParameters": true,
   "useCodeBlocks": true,
-  "plugin": ["typedoc-plugin-merge-modules", "typedoc-plugin-markdown"],
+  "plugin": [
+    "typedoc-plugin-merge-modules",
+    "typedoc-plugin-markdown",
+    "typedoc-plugin-remark"
+  ],
   "navigation": {
     "includeCategories": true,
     "includeGroups": true,
@@ -24,7 +28,9 @@
   "propertiesFormat": "table",
   "typeDeclarationFormat": "table",
   "indexFormat": "table",
+  "alwaysCreateEntryPointModule": false,
   "outputFileStrategy": "modules",
+  "flattenOutputFiles": true,
   "mergeReadme": true,
   "entryFileName": "sdk-base",
   "hideBreadcrumbs": true
