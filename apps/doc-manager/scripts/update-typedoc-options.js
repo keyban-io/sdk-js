@@ -32,6 +32,7 @@ Object.assign(options, {
   entryFileName: "Keyban-sdk",
   hideBreadcrumbs: true,
   remarkPlugins: [["remark-toc", { maxDepth: 3 }]],
+  disableSources: false,
 });
 
 // Sauvegarde de la copie mise à jour
