@@ -1,4 +1,5 @@
 import initWasmFile from "@keyban/ecdsa-wasm-client";
+import { KeybanBaseError } from "@keyban/sdk-base";
 import { IKeybanSigner } from "@keyban/sdk-base/rpc";
 
 import { API_URL } from "~/constants";
@@ -27,8 +28,13 @@ export class KeybanSigner_ECDSA
           headers: { Authorization: `Bearer ${accessToken}` },
         },
       )
-        .then((res) => res.json())
+        .then(async (res) => {
+          if (res.ok) return res.json();
+          throw new KeybanBaseError(await res.json());
+        })
         .catch((err: Error) => {
+          if (err instanceof KeybanBaseError) throw err;
+
           throw new SignerClientError(
             SignerClientError.types.ClientShare,
             "ecdsa.getClientShare.fetch",
