@@ -26,7 +26,6 @@ export default tseslint.config(
       "jsdoc/require-description": "warn",
       "jsdoc/check-tag-names": ["error", { typed: true }],
       "jsdoc/check-tag-names": ["error", { definedTags: ["remarks"] }],
-
     },
   },
 );
