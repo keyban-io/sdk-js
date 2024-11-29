@@ -1,3 +1,6 @@
+/**
+ * @module Promise
+ */
 import { KeybanClient } from "@keyban/sdk-base";
 import React from "react";
 

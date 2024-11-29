@@ -1,3 +1,6 @@
+/**
+ * @module Storage Errors
+ */
 import { KeybanBaseError } from "./base";
 
 /**

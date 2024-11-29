@@ -1,5 +1,7 @@
 /**
- * @class
+ * @module Errors
+ */
+/**
  * The `KeybanBaseError` class serves as the foundational structure for all custom errors within the Keyban SDK.
  * It extends the native JavaScript `Error` class, providing additional properties to enrich error handling
  * with more context and information.

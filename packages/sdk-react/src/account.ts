@@ -1,3 +1,6 @@
+/**
+ * @module Account
+ */
 import { useSubscription, useSuspenseQuery } from "@apollo/client";
 import {
   type Address,

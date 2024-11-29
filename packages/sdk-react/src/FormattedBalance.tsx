@@ -1,3 +1,6 @@
+/**
+ * @module Formatted Balance
+ */
 import { Balance, formatBalance, KeybanToken } from "@keyban/sdk-base";
 
 import { useKeybanClient } from "./provider";

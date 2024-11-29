@@ -1,3 +1,6 @@
+/**
+ * @module SDK Errors
+ */
 import { KeybanBaseError } from "./base";
 
 /**
