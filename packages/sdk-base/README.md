@@ -70,4 +70,4 @@ Developers can define their own storage and signing strategies. The SDK offers f
 
 ## Documentation
 
-For more detailed API references and advanced features, visit the official [Keyban API Reference Portal](https://docs.demo.keyban.io/api/References).
+For more detailed API references and advanced features, visit the official [Keyban API Reference Portal](https://docs.demo.keyban.io/api/sdk-base/)).

@@ -95,4 +95,4 @@ export default defineConfig({
 
 ## Documentation
 
-For more details and advanced usage, refer to the official [Keyban API Reference Portal](https://docs.demo.keyban.io/api/References).
+For more details and advanced usage, refer to the official [Keyban API Reference Portal](https://docs.demo.keyban.io/api/sdk-react).
