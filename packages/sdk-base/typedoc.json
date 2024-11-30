@@ -1,5 +1,4 @@
 {
-  "lang": "en",
   "name": "Keyban Javascript SDK",
   "entryPoints": ["./src/index.ts"],
   "readme": "README.md",

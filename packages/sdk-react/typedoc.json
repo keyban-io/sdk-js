@@ -1,5 +1,4 @@
 {
-  "lang": "en",
   "name": "Keyban React SDK",
   "entryPoints": ["./src/index.ts"],
   "readme": "README.md",
