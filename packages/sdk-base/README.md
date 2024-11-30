@@ -7,8 +7,9 @@ The Keyban JavaScript SDK provides the core functionality for Keyban's MPC walle
 ## Key Features
 
 - **TypeScript Support**: Fully typed to enhance code quality and development experience.
-- **Flexible Storage**: Developers can use custom storage solutions, with more options planned in future releases.
-- **Blockchain Support**: Supports Polygon Amoy testnet (Mainnet support to be added in future releases).
+- **Flexible Storage**: Support for custom storage solutions, with built-in options coming soon.
+- **Blockchain Support**: Supports Ethereum testnets and the Polygon Amoy testnet.
+- **ERC-20, ERC-721, and ERC-1155 Support**: Transfer and interact with ERC-20 tokens and NFTs (ERC-721 and ERC-1155).
 - **Bundling**: Efficiently bundled using `tsup` for optimized builds in development and production.
 
 ## Installation
@@ -19,55 +20,78 @@ npm install @keyban/sdk-base
 
 ## Basic Example
 
-The following example demonstrates how to initialize the SDK, retrieve account information, estimate transaction fees, and perform token transfers.
+The following example demonstrates how to initialize the SDK, retrieve account information, estimate transaction fees, and perform token and NFT transfers.
 
 ```ts
-import { KeybanClient } from '@keyban/sdk-base';
+import { KeybanClient, KeybanChain, KeybanAccount } from '@keyban/sdk-base';
 
 const client = new KeybanClient({
-  appId: "your-keyban-app-id",  // Your Keyban application ID
-  accessTokenProvider: async () => "user's access token",  // Function to provide the access token
-  chain: KeybanChain.PolygonAmoy,  // Polygon testnet is supported for now
-  storage: MyStorage,  // Custom storage solution (more options coming soon)
+  appId: "your-keyban-app-id",                 // Your Keyban application ID
+  accessTokenProvider: async () => "access-token", // Function to provide the access token
+  chain: KeybanChain.KeybanTestnet,            // Select the desired blockchain network
 });
 
-const account = await client.init();
+const account: KeybanAccount = await client.initialize();
 
 // Fetch native balance
-const balance = await account.getBalance();
+const balance = await client.getBalance(account.address);
+console.log(`Native Balance: ${balance}`);
 
-// Estimate transaction fees and perform a native token transfer
-const { maxFees, details } = await account.estimateTransfer("0x...address..");
-await account.transfer("0x...address...", 1000n);  // Transfer native tokens
+// Estimate fees and perform a native token transfer
+const transferEstimate = await account.estimateTransfer("0xRecipientAddress", BigInt('1000000000000000000')); // 1 ETH in wei
+await account.transfer("0xRecipientAddress", BigInt('1000000000000000000'));
+console.log(`Transferred 1 ETH to 0xRecipientAddress`);
 
-// Retrieve ERC20 token balances
-const tokenBalance = await account.getTokenBalances();
+// Retrieve ERC-20 token balances
+const tokenBalances = await client.getTokenBalances(account.address);
+console.log('ERC-20 Token Balances:', tokenBalances);
 
-// Estimate fees and perform an ERC20 token transfer
-const { maxFees: erc20MaxFees, details: erc20Details } = await account.estimateERC20Transfer({
-  contractAddress: "0x...",  // ERC20 contract address
-  to: "0x...",  // Recipient address
-  value: 1000n,  // Amount to transfer
+// Estimate fees and perform an ERC-20 token transfer
+const erc20Estimate = await account.estimateERC20Transfer({
+  contractAddress: "0xTokenContractAddress",   // ERC-20 contract address
+  to: "0xRecipientAddress",                    // Recipient address
+  value: BigInt('500000000000000000'),         // Amount to transfer (0.5 tokens in wei)
 });
 await account.transferERC20({
-  contractAddress: "0x...",
-  to: "0x...",
-  value: 1000n,
+  contractAddress: "0xTokenContractAddress",
+  to: "0xRecipientAddress",
+  value: BigInt('500000000000000000'),
 });
+console.log(`Transferred 0.5 tokens to 0xRecipientAddress`);
+
+// Retrieve NFTs owned by the account
+const nfts = await client.getNfts(account.address);
+console.log('Owned NFTs:', nfts);
+
+// Estimate fees and perform an NFT transfer (ERC-721 or ERC-1155)
+const nftEstimate = await account.estimateNftTransfer({
+  contractAddress: "0xNftContractAddress",
+  to: "0xRecipientAddress",
+  tokenId: BigInt(1),                          // Token ID
+  standard: 'ERC721',                          // 'ERC721' or 'ERC1155'
+});
+await account.transferNft({
+  contractAddress: "0xNftContractAddress",
+  to: "0xRecipientAddress",
+  tokenId: BigInt(1),
+  standard: 'ERC721',
+});
+console.log(`Transferred NFT with Token ID 1 to 0xRecipientAddress`);
 ```
 
-### Supported Blockchains
+## Supported Blockchains
 
-In this initial release, only Ethereum testnets are supported:
+The Keyban SDK supports the following blockchains:
 
-- **Polygon Testnet**: `KeybanChain.PolygonAmoy`
+- **Keyban Testnet**: `KeybanChain.KeybanTestnet`
+- **Polygon Amoy Testnet**: `KeybanChain.PolygonAmoy`
 
-Support for Ethereum Mainnet will be introduced in future releases.
+Support for additional blockchains and mainnets will be introduced in future releases.
 
-### Custom Storage and Signing
+## Custom Storage and Signing
 
-Developers can define their own storage and signing strategies. The SDK offers flexibility with the `IKeybanStorage` interface, enabling integration with custom storage mechanisms. Future releases will bring more built-in storage options.
+Developers can define their own storage and signing strategies. The SDK offers flexibility with custom storage mechanisms, and future releases will bring more built-in storage options.
 
 ## Documentation
 
-For more detailed API references and advanced features, visit the official [Keyban API Reference Portal](https://docs.demo.keyban.io/api/sdk-base/)).
+For more detailed API references and advanced features, visit the official [Keyban API Reference Portal](https://docs.demo.keyban.io/api/sdk-base/).

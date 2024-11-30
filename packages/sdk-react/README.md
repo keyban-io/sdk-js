@@ -1,98 +1,282 @@
-# Keyban SDK React
+# Keyban React SDK
 
-## Overview
-
-The Keyban SDK React is designed to integrate Keyban's MPC wallet solution seamlessly into React applications. It simplifies the use of decentralized wallets by providing developers with an easy-to-use set of components, hooks, and utilities, fully compatible with React's ecosystem.
-
-## Key Features
-
-- **TypeScript Support**: Fully typed for safer and more efficient development.
-- **Blockchain Support**: Currently supports Polygon's Amoy testnet (Mainnet coming soon).
-- **Error Handling**: Built-in support for `react-error-boundary` for graceful error handling.
-- **Suspense Compatibility**: Supports React's Suspense API for loading asynchronous data seamlessly.
-- **Bundling**: Efficient bundling with `tsup`, optimizing development and production builds.
+The Keyban React SDK provides a seamless way to integrate Keyban's blockchain services into your React applications. It offers React hooks and components to manage accounts, perform transactions, retrieve balances, interact with NFTs, and more, all within the React ecosystem.
 
 ## Installation
+
+Install the Keyban React SDK using npm or yarn:
 
 ```bash
 npm install @keyban/sdk-react
 ```
 
-## Basic Example
+or
 
-This example shows how to set up the SDK with basic components, integrating with React's error boundaries and Suspense API.
+```bash
+yarn add @keyban/sdk-react
+```
 
-```tsx
-import React from "react";
-import ReactDOM from "react-dom";
-import { ErrorBoundary } from "react-error-boundary";
+## Configuration
+
+To start using the Keyban React SDK, wrap your application with the `KeybanProvider` component. This component provides the necessary context for the SDK's hooks to function correctly.
+
+### Example of `KeybanProvider` Usage
+
+```jsx
 import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <KeybanProvider
-    appId="your-keyban-app-id"
-    accessTokenProvider={async () => "user's access token"}
-    chain={KeybanChain.PolygonAmoy}
-  >
-    <ErrorBoundary fallbackRender={({ error }) => <pre>{error.message}</pre>}>
-      <React.Suspense fallback="Loading...">
-        <MyWallet />
-      </React.Suspense>
-    </ErrorBoundary>
-  </KeybanProvider>,
-);
+const App = () => {
+  return (
+    <KeybanProvider
+      apiUrl="https://api.keyban.io"
+      appId="your-app-id"
+      chain={KeybanChain.KeybanTestnet}
+      accessTokenProvider={() => "your-access-token"}
+    >
+      {/* Your application components */}
+    </KeybanProvider>
+  );
+};
+```
 
-function MyWallet() {
-  const [account, accountError] = useKeybanAccount({ suspense: true });
-  if (accountError) throw accountError;
+### Configuration Options
 
-  const [balance, balanceError] = useKeybanAccountBalance(account, { suspense: true });
-  if (balanceError) throw balanceError;
+- **`apiUrl`**: The Keyban API URL (default: [https://api.keyban.io](https://api.keyban.io)).
+- **`appId`**: Your application ID for authentication with the Keyban API.
+- **`chain`**: The blockchain network used by Keyban (e.g., `KeybanChain.KeybanTestnet`).
+- **`accessTokenProvider`**: A function that returns your access token for authentication.
+
+## Using React Hooks
+
+The Keyban React SDK provides several React hooks that allow you to interact with the Keyban API in a declarative and efficient manner.
+
+### Accessing the Keyban Client
+
+Use the `useKeybanClient` hook to access the Keyban client within your components.
+
+```jsx
+import { useKeybanClient } from "@keyban/sdk-react";
+
+const MyComponent = () => {
+  const keybanClient = useKeybanClient();
+
+  // Use keybanClient to interact with the Keyban API
+};
+```
+
+### Retrieving the Keyban Account
+
+Use the `useKeybanAccount` hook to get the Keyban account associated with the current user.
+
+```jsx
+import { useKeybanAccount } from "@keyban/sdk-react";
+
+const AccountInfo = () => {
+  const [account, error] = useKeybanAccount();
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  return <div>Account Address: {account.address}</div>;
+};
+```
+
+### Retrieving the Account Balance
+
+Use the `useKeybanAccountBalance` hook to get the native token balance of the account.
+
+```jsx
+import { useKeybanAccount, useKeybanAccountBalance } from "@keyban/sdk-react";
+
+const BalanceInfo = () => {
+  const [account, accountError] = useKeybanAccount();
+  const [balance, balanceError] = useKeybanAccountBalance(account);
+
+  if (accountError || balanceError) {
+    return <div>Error: {accountError?.message || balanceError?.message}</div>;
+  }
+
+  return <div>Balance: {balance}</div>;
+};
+```
+
+### Retrieving NFTs of the Account
+
+Use the `useKeybanAccountNfts` hook to get the list of NFTs owned by the account.
+
+```jsx
+import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
+
+const NftsList = () => {
+  const [account, accountError] = useKeybanAccount();
+  const [nfts, nftsError, { fetchMore, loading }] = useKeybanAccountNfts(account, { first: 5 });
+
+  if (accountError || nftsError) {
+    return <div>Error: {accountError?.message || nftsError?.message}</div>;
+  }
 
   return (
     <div>
-      Your account balance: <FormattedBalance balance={{raw: balance}} />
+      <h3>Your NFTs</h3>
+      <ul>
+        {nfts.nodes.map((nft) => (
+          <li key={nft.id}>
+            <p>NFT ID: {nft.id}</p>
+            <p>Collection: {nft.nft.collection?.name || "Unknown"}</p>
+            <p>Token ID: {nft.nft.tokenId}</p>
+          </li>
+        ))}
+      </ul>
+      {nfts.hasNextPage && (
+        <button onClick={fetchMore} disabled={loading}>
+          {loading ? 'Loading...' : 'Load More'}
+        </button>
+      )}
     </div>
   );
+};
+```
+
+### Performing Transactions
+
+Use the methods available on the `KeybanAccount` instance to perform transactions.
+
+#### Transferring Native Tokens
+
+```jsx
+import { useKeybanAccount } from "@keyban/sdk-react";
+
+const TransferNativeToken = () => {
+  const [account] = useKeybanAccount();
+
+  const handleTransfer = async () => {
+    try {
+      const valueInWei = BigInt(1e18); // 1 ETH in Wei
+      const txHash = await account.transfer("0xRecipientAddress", valueInWei);
+      console.log(`Transaction sent: ${txHash}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return <button onClick={handleTransfer}>Send 1 ETH</button>;
+};
+```
+
+#### Transferring ERC20 Tokens
+
+```jsx
+import { useKeybanAccount } from "@keyban/sdk-react";
+
+const TransferERC20Token = () => {
+  const [account] = useKeybanAccount();
+
+  const handleTransferERC20 = async () => {
+    try {
+      const valueInWei = BigInt(1e18); // Amount to transfer in Wei
+      const txHash = await account.transferERC20({
+        contractAddress: "0xTokenContractAddress",
+        to: "0xRecipientAddress",
+        value: valueInWei,
+      });
+      console.log(`Transaction sent: ${txHash}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return <button onClick={handleTransferERC20}>Send ERC20 Token</button>;
+};
+```
+
+#### Transferring NFTs
+
+```jsx
+import { useKeybanAccount } from "@keyban/sdk-react";
+
+const TransferNft = () => {
+  const [account] = useKeybanAccount();
+
+  const handleTransferNft = async () => {
+    try {
+      const txHash = await account.transferNft({
+        contractAddress: "0xNftContractAddress",
+        tokenId: BigInt(1), // Token ID
+        to: "0xRecipientAddress",
+        standard: 'ERC721', // or 'ERC1155'
+      });
+      console.log(`Transaction sent: ${txHash}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return <button onClick={handleTransferNft}>Send NFT</button>;
+};
+```
+
+## Error Handling
+
+The SDK provides error classes to handle different errors that may occur when using the SDK.
+
+- **`SdkError`**: Represents an SDK-specific error.
+- **`SdkErrorTypes`**: Enumeration of possible error types.
+
+### Example of Error Handling
+
+```jsx
+import { SdkError, SdkErrorTypes } from "@keyban/sdk-react";
+
+try {
+  // Operation that might fail
+} catch (error) {
+  if (error instanceof SdkError) {
+    switch (error.type) {
+      case SdkErrorTypes.AddressInvalid:
+        console.error("Invalid address");
+        break;
+      // Handle other error types
+      default:
+        console.error("SDK Error:", error.message);
+    }
+  } else {
+    console.error("Unexpected Error:", error);
+  }
 }
 ```
 
-### Hooks and Components
+## Other Features
 
-The SDK provides key React hooks and components to simplify wallet and balance management:
+### Formatting a Balance
 
-- **`useKeybanAccount`**: Hook to retrieve account details.
-- **`useKeybanAccountBalance`**: Hook to fetch the account's balance.
-- **`FormattedBalance`**: Component to format and display balances in a readable format.
+Use the `FormattedBalance` component to display a balance in a readable format.
 
-### Supported Blockchains
+```jsx
+import { FormattedBalance } from "@keyban/sdk-react";
 
-Currently, the SDK supports testnets only:
+const balance = {
+  raw: BigInt(1000000000000000000), // 1 ETH in Wei
+  decimals: 18,
+  symbol: "ETH",
+  isNative: true,
+};
 
-- **Amoy Testnet**: `KeybanChain.PolygonAmoy`
-
-Mainnet support will be added in a future release.
-
-### Custom Storage and Signing
-
-Developers can implement their own storage and signing mechanisms if needed. More advanced storage options are planned.
-
-### Bundlers
-
-#### Vite.js
-
-When using Vite.js, you might encounter a [known issue regarding WebAssembly (WASM) modules](https://github.com/vitejs/vite/issues/8427) in development mode. To resolve this, exclude the `@keyban/ecdsa-wasm-client` package from optimized dependencies by updating your `vite.config.ts` as follows:
-
-```ts
-import { defineConfig } from "vite";
-
-export default defineConfig({
-  optimizeDeps: {
-    exclude: ["@keyban/ecdsa-wasm-client"],
-  },
-});
+const BalanceDisplay = () => {
+  return (
+    <div>
+      Balance: <FormattedBalance balance={balance} />
+    </div>
+  );
+};
 ```
 
-## Documentation
+## Notes
 
-For more details and advanced usage, refer to the official [Keyban API Reference Portal](https://docs.demo.keyban.io/api/sdk-react).
+- **Ensure your components are wrapped by `KeybanProvider`** for the hooks to function correctly.
+- **Handle errors** by checking the second element of the array returned by the hooks.
+- **Stay Updated**: Keep an eye on future releases for new features and improvements.
+
+## Additional Resources
+
+- [Complete Keyban React SDK Documentation](https://docs.demo.keyban.io/api/sdk-react)
