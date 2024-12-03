@@ -5,7 +5,7 @@ import { IKeybanSigner } from "@keyban/sdk-base/rpc";
 import { API_URL } from "~/constants";
 import { SignerClientError } from "~/errors/SignerClientError";
 import { WasmKeybanSigner } from "~/signer/wasm";
-import { decrypt, encrypt, EncryptedData, generateKey } from "~/utils/crypto";
+import { decrypt, encrypt, generateKey } from "~/utils/crypto";
 import { parseJwt } from "~/utils/jwt";
 
 export class KeybanSigner_ECDSA
@@ -21,17 +21,23 @@ export class KeybanSigner_ECDSA
 
     // If we have an encryption key, feth the client share and decrypt it
     if (storedKey) {
-      const data: EncryptedData = await fetch(
-        new URL(`/client-shares/${appId}`, API_URL),
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
-      )
-        .then(async (res) => {
-          if (res.ok) return res.json();
+      return fetch(new URL(`/client-shares/${appId}`, API_URL), {
+        method: "GET",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+        .then(async (res): Promise<string> => {
+          if (res.ok) {
+            const data = await res.json();
+            return decrypt(JSON.parse(storedKey), data);
+          }
+
+          if (res.status === 404) {
+            localStorage.removeItem(localStorageKey);
+            return this.#getClientShare(appId, accessToken);
+          }
           throw new KeybanBaseError(await res.json());
         })
+
         .catch((err: Error) => {
           if (err instanceof KeybanBaseError) throw err;
 
@@ -41,9 +47,6 @@ export class KeybanSigner_ECDSA
             err,
           );
         });
-
-      // Return decrypted share
-      return decrypt(JSON.parse(storedKey), data);
     }
 
     // Create an encryption key and a share
