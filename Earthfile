@@ -92,6 +92,16 @@ lint:
     RUN pnpm install
     RUN pnpm -r lint
 
+test:
+    FROM ../+node
+    DO ../+USEPNPM
+
+    WORKDIR /app
+    COPY . ./
+
+    RUN pnpm install
+    RUN pnpm -r test
+
 build:
     ARG --required app
     FROM +app-base --app=${app}

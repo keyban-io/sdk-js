@@ -5,7 +5,6 @@
   "scripts": {
     "start": "npm-run-all --parallel spa api-server",
     "build": "BUILD_PATH=dist react-app-rewired build",
-    "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "spa": "react-app-rewired start",
     "server": "node server.js",

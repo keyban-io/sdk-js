@@ -2,18 +2,18 @@ import initWasmFile from "@keyban/ecdsa-wasm-client";
 import { KeybanBaseError } from "@keyban/sdk-base";
 import { IKeybanSigner } from "@keyban/sdk-base/rpc";
 
-import { API_URL } from "~/constants";
 import { SignerClientError } from "~/errors/SignerClientError";
 import { WasmKeybanSigner } from "~/signer/wasm";
+import { API_URL, apiUrl } from "~/utils/api";
 import { decrypt, encrypt, generateKey } from "~/utils/crypto";
-import { parseJwt } from "~/utils/jwt";
+import { decodeJwt } from "~/utils/jwt";
 
 export class KeybanSigner_ECDSA
   extends WasmKeybanSigner(initWasmFile)
   implements IKeybanSigner
 {
   async #getClientShare(appId: string, accessToken: string) {
-    const { sub } = parseJwt(accessToken);
+    const { sub } = decodeJwt(accessToken);
     const localStorageKey = `keyban:ecdsa:${appId}:${sub}:key`;
 
     // Get the encryption key
@@ -21,7 +21,7 @@ export class KeybanSigner_ECDSA
 
     // If we have an encryption key, feth the client share and decrypt it
     if (storedKey) {
-      return fetch(new URL(`/client-shares/${appId}`, API_URL), {
+      return fetch(apiUrl(`/client-shares/${appId}`), {
         method: "GET",
         headers: { Authorization: `Bearer ${accessToken}` },
       })
@@ -37,7 +37,6 @@ export class KeybanSigner_ECDSA
           }
           throw new KeybanBaseError(await res.json());
         })
-
         .catch((err: Error) => {
           if (err instanceof KeybanBaseError) throw err;
 
@@ -56,7 +55,7 @@ export class KeybanSigner_ECDSA
     ]);
 
     // Send the encrypted share to our API
-    await fetch(new URL(`/client-shares/${appId}`, API_URL), {
+    await fetch(apiUrl(`/client-shares/${appId}`), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

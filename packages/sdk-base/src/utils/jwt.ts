@@ -10,7 +10,7 @@ import { SdkError, SdkErrorTypes } from "~/errors";
  * @throws {SdkError} If the access token is invalid.
  * @see https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
  */
-export function parseJwt(accessToken: string) {
+export function decodeJwt(accessToken: string) {
   try {
     const base64 = accessToken.split(".")[1];
     const bin = Uint8Array.from(
@@ -24,7 +24,7 @@ export function parseJwt(accessToken: string) {
   } catch (err) {
     throw new SdkError(
       SdkErrorTypes.InvalidAccessToken,
-      "parseJwt",
+      "decodeJwt",
       err as Error,
     );
   }

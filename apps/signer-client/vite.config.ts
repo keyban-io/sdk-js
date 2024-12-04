@@ -12,4 +12,8 @@ export default defineConfig(() => ({
   build: {
     outDir: "dist/signer-client",
   },
+  test: {
+    environment: "happy-dom",
+    setupFiles: ["./src/vitest.setup.ts"],
+  },
 }));

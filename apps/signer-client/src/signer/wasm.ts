@@ -22,6 +22,7 @@ export const WasmKeybanSigner = (initWasmFile: () => Promise<unknown>) => {
         AbstractWasmKeybanSigner.#wasmPromise
           .then(() => fn(...args))
           .catch((err) => {
+            console.error(err);
             throw new KeybanBaseError(err);
           });
   }

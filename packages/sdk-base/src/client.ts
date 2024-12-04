@@ -31,7 +31,7 @@ import {
 } from "~/graphql";
 import { type Address, KeybanChain } from "~/index";
 import { RpcClient } from "~/rpc";
-import { parseJwt } from "~/utils/jwt";
+import { decodeJwt } from "~/utils/jwt";
 
 /**
  * Configuration options for the Keyban client.
@@ -246,7 +246,7 @@ export class KeybanClient {
    */
   async initialize(): Promise<KeybanAccount> {
     const accessToken = await this.#accessTokenProvider();
-    const { sub } = parseJwt(accessToken);
+    const { sub } = decodeJwt(accessToken);
 
     const pending = this.#pendingAccounts.get(sub);
     if (pending) return pending;

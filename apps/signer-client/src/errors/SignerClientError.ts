@@ -78,6 +78,12 @@ export class SignerClientError extends KeybanBaseError<SignerClientErrorType> {
       case SignerClientErrorType.InvalidAccessToken:
         return "You provided an invalid access token";
 
+      case SignerClientErrorType.CryptoError:
+        return "CryptoError";
+
+      case SignerClientErrorType.ClientShare:
+        return "ClientShare";
+
       default:
         return `Unknown error type: ${errorType}`;
     }

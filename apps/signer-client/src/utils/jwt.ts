@@ -2,7 +2,7 @@ import "core-js/actual/typed-array/from-base64";
 
 import { SignerClientError } from "~/errors/SignerClientError";
 
-export function parseJwt(accessToken: string) {
+export function decodeJwt(accessToken: string) {
   try {
     const base64 = accessToken.split(".")[1];
     // @ts-expect-error: Uint8Array.fromBase64 is polyfilled by core-js
@@ -13,7 +13,7 @@ export function parseJwt(accessToken: string) {
   } catch (err) {
     throw new SignerClientError(
       SignerClientError.types.InvalidAccessToken,
-      "parseJwt",
+      "decodeJwt",
       err as Error,
     );
   }
