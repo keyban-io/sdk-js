@@ -172,7 +172,7 @@ export class KeybanAccount implements KeybanAccount {
    * @returns {Promise<number>} A promise that resolves to the balance of the account.
    */
   getBalance() {
-    return this.#publicClient.getBalance({ address: this.address });
+    return this.#client.getBalance(this.address);
   }
 
   /**
