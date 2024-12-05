@@ -20,7 +20,7 @@ npm install @keyban/sdk-base
 
 ## Basic Example
 
-The following example demonstrates how to initialize the SDK, retrieve account information, estimate transaction fees, and perform token and NFT transfers.
+### Initialize the SDK
 
 ```ts
 import { KeybanClient, KeybanChain, KeybanAccount } from '@keyban/sdk-base';
@@ -30,23 +30,37 @@ const client = new KeybanClient({
   accessTokenProvider: async () => "access-token", // Function to provide the access token
   chain: KeybanChain.KeybanTestnet,            // Select the desired blockchain network
 });
+```
 
+### Retrieve Account Information
+
+```ts
 const account: KeybanAccount = await client.initialize();
+```
 
-// Fetch native balance
-const balance = await client.getBalance(account.address);
-console.log(`Native Balance: ${balance}`);
+### Estimate Transaction Fees
 
-// Estimate fees and perform a native token transfer
+```ts
 const transferEstimate = await account.estimateTransfer("0xRecipientAddress", BigInt('1000000000000000000')); // 1 ETH in wei
+```
+
+### Perform Token Transfer
+
+```ts
 await account.transfer("0xRecipientAddress", BigInt('1000000000000000000'));
 console.log(`Transferred 1 ETH to 0xRecipientAddress`);
+```
 
-// Retrieve ERC-20 token balances
+### Retrieve ERC-20 Token Balances
+
+```ts
 const tokenBalances = await client.getTokenBalances(account.address);
 console.log('ERC-20 Token Balances:', tokenBalances);
+```
 
-// Estimate fees and perform an ERC-20 token transfer
+### Perform ERC-20 Token Transfer
+
+```ts
 const erc20Estimate = await account.estimateERC20Transfer({
   contractAddress: "0xTokenContractAddress",   // ERC-20 contract address
   to: "0xRecipientAddress",                    // Recipient address
@@ -58,12 +72,18 @@ await account.transferERC20({
   value: BigInt('500000000000000000'),
 });
 console.log(`Transferred 0.5 tokens to 0xRecipientAddress`);
+```
 
-// Retrieve NFTs owned by the account
+### Retrieve NFTs Owned by the Account
+
+```ts
 const nfts = await client.getNfts(account.address);
 console.log('Owned NFTs:', nfts);
+```
 
-// Estimate fees and perform an NFT transfer (ERC-721 or ERC-1155)
+### Perform NFT Transfer
+
+```ts
 const nftEstimate = await account.estimateNftTransfer({
   contractAddress: "0xNftContractAddress",
   to: "0xRecipientAddress",
