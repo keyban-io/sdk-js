@@ -55,5 +55,5 @@ fs.cpSync(
   path.resolve(process.cwd(), "vite.config.ts"),
 );
 
-// Step 7: Run the development server
+// Step 6: Run the development server
 execSync("npm run dev", { stdio: "inherit" });

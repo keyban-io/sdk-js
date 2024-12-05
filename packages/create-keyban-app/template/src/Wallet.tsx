@@ -2,10 +2,7 @@ import "./Wallet.css";
 
 import React from "react";
 
-import {
-  ErrorBoundary,
-  FallbackProps,
-} from "react-error-boundary";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import {
@@ -25,8 +22,8 @@ function WalletContent() {
   if (accountError) throw accountError; // Throws an error if the account cannot be retrieved
 
   // Retrieves the account balance, with error handling, and refreshes the balance
-  const [balance, balanceError, { refresh: refreshBalance }] =
-    useKeybanAccountBalance(account);
+  const [balance, balanceError] = useKeybanAccountBalance(account);
+
   if (balanceError) throw balanceError; // Throws an error if the balance cannot be retrieved
 
   return (
@@ -34,14 +31,8 @@ function WalletContent() {
       <div>Address: {account?.address || "No address found"}</div>
       {/* Displays the account address */}
       <div>
-        <FormattedBalance balance={{raw: balance, isNative: true}} /> on {config.keyban.chain}{" "}
-        <button
-          type="button"
-          className="refresh-button"
-          onClick={refreshBalance}
-        >
-          refresh
-        </button>
+        <FormattedBalance balance={{ raw: balance, isNative: true }} /> on{" "}
+        {config.keyban.chain}{" "}
       </div>
     </div>
   );
