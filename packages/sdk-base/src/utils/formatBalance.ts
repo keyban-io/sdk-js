@@ -39,11 +39,11 @@ export type Balance = {
 
 /**
  * Formats the balance into a human-readable string with the appropriate decimals and symbol.
- * @param {KeybanClient} client - The KeybanClient instance which provides information about fees and native currency.
- * @param {Balance} balance - The balance object containing raw balance, decimals, symbol, and flags indicating if it's fees or native currency.
- * @param {KeybanToken} [token] - (Optional) The KeybanToken object which provides token-specific decimals and symbol.
- * @returns {string} A formatted string representing the balance with the appropriate decimals and symbol.
- 
+ * @param client - The KeybanClient instance which provides information about fees and native currency.
+ * @param balance - The balance object containing raw balance, decimals, symbol, and flags indicating if it's fees or native currency.
+ * @param [token] - (Optional) The KeybanToken object which provides token-specific decimals and symbol.
+ * @returns A formatted string representing the balance with the appropriate decimals and symbol.
+ *
  * test
  * @example
  * ```typescript
@@ -51,7 +51,6 @@ export type Balance = {
  * const balance = { raw: 1000000000000000000n, decimals: 18, isNative: true };
  * console.log(formatBalance(client, balance)); // "1 ETH"
  *
- 
  * const balanceWithToken = { raw: 1000000n };
  * const token = {
  *   id: '1',

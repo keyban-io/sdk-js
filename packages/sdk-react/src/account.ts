@@ -106,11 +106,11 @@ export type PaginationExtra = {
 
 /**
  * Extracts paginated results from the given data.
- * @param {object} data - The data containing pagination information and edges.
- * @param {GqlPageInfo} data.pageInfo - Information about the pagination state.
- * @param {number} data.totalCount - The total number of results.
- * @param {Array} data.edges - The edges containing the nodes.
- * @returns {PaginatedData<T>} The paginated data.
+ * @param data - The data containing pagination information and edges.
+ * @param data.pageInfo - Information about the pagination state.
+ * @param data.totalCount - The total number of results.
+ * @param data.edges - The edges containing the nodes.
+ * @returns The paginated data.
  * @template T - The type of the data being paginated.
  */
 function getPaginatedResults<T>(data: {
@@ -130,10 +130,10 @@ function getPaginatedResults<T>(data: {
 
 /**
  * Provides extra pagination controls for fetching more data.
- * @param {object} data - The data containing pagination information.
- * @param {object} data.res - The response object containing pagination information.
- * @param {Function} fetchMore - A function to fetch more data.
- * @returns {PaginationExtra} An object containing loading state and fetchMore function.
+ * @param data - The data containing pagination information.
+ * @param data.res - The response object containing pagination information.
+ * @param fetchMore - A function to fetch more data.
+ * @returns An object containing loading state and fetchMore function.
  */
 function usePaginationExtra(
   data: {
@@ -158,7 +158,7 @@ function usePaginationExtra(
  *
  * This React hook allows you to access the user's Keyban account within a functional component.
  * It returns an `ApiResult` tuple containing the account data or an error if one occurred during retrieval.
- * @returns {ApiResult<KeybanAccount>} An array containing the account data, error, and an undefined value.
+ * @returns An array containing the account data, error, and an undefined value.
  * @example
  * ```tsx
  * import { useKeybanAccount } from "@keyban/sdk-react";
@@ -193,8 +193,9 @@ export function useKeybanAccount(): ApiResult<KeybanAccount> {
  *
  * This React hook allows you to fetch the native balance of a Keyban account and automatically updates when the balance changes.
  * It returns an `ApiResult` tuple containing the balance or an error if one occurred during retrieval.
- * @param {KeybanAccount} account  - The `KeybanAccount` object representing the user account.
- * @returns {ApiResult<string>} An `ApiResult<string>` tuple containing:
+ * @param account  - The `KeybanAccount` object representing the user account.
+ * @param account.address
+ * @returns An `ApiResult<string>` tuple containing:
  * - **First element (`balance`)**: A `string` representing the account's native token balance in the smallest unit (e.g., wei for Ethereum). This value automatically updates when the balance changes.
  * - **Second element (`error`)**: An `Error` object if an error occurred during retrieval, or `null` if the balance was fetched successfully.
  *
@@ -264,9 +265,10 @@ export function useKeybanAccountBalance({
  * Returns an {@link ApiResult} of the ERC20 tokens of an account.
  *
  * The `useKeybanAccountTokenBalances` React hook enables you to fetch and monitor the list of ERC20 token balances owned by a specific Keyban account. It supports pagination, allowing efficient handling of large token collections by fetching data in manageable segments. This hook returns an `ApiResult` tuple containing the paginated token balance data, any potential errors, and additional pagination controls.
- * @param {KeybanAccount} account - The Keyban account object containing the address.
- * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the token balances.
- * @returns {ApiResult<PaginatedData<KeybanTokenBalance>, PaginationExtra>} - The result containing paginated ERC20 token balances or an error, along with pagination controls.
+ * @param account - The Keyban account object containing the address.
+ * @param account.address
+ * @param [options] - Optional pagination arguments for fetching the token balances.
+ * @returns - The result containing paginated ERC20 token balances or an error, along with pagination controls.
  * @throws {SdkError} If the provided account has an invalid address (`SdkErrorTypes.AddressInvalid`).
  * @throws {SdkError} If no ERC20 token balances are found for the provided account (`SdkErrorTypes.TokenBalancesNotFound`).
  * @example
@@ -379,9 +381,10 @@ export function useKeybanAccountTokenBalances(
  * Returns an {@link ApiResult} of the NFTs of an account.
  *
  * The `useKeybanAccountNfts` React hook allows you to fetch and subscribe to the list of all NFTs (both ERC721 and ERC1155) owned by a specific Keyban account. It supports pagination, enabling efficient retrieval of large NFT collections by fetching data in manageable chunks. This hook returns an `ApiResult` tuple containing the paginated NFT data, any potential errors, and additional pagination controls.
- * @param {KeybanAccount} account - A Keyban account object.
- * @param {PaginationArgs} [options] - Optional pagination arguments for fetching the NFTs.
- * @returns {ApiResult<PaginatedData<KeybanNftBalance>, PaginationExtra>} - The result containing paginated NFT balances or an error, along with pagination controls.
+ * @param account - A Keyban account object.
+ * @param account.address
+ * @param [options] - Optional pagination arguments for fetching the NFTs.
+ * @returns - The result containing paginated NFT balances or an error, along with pagination controls.
  * @throws {SdkError} If the provided account has an invalid address (`SdkErrorTypes.AddressInvalid`).
  * @throws {SdkError} If no NFTs are found for the provided account (`SdkErrorTypes.NftNotFound`).
  * @example
@@ -492,10 +495,11 @@ export function useKeybanAccountNfts(
 
 /**
  * The `useKeybanAccountNft` React hook allows you to fetch the balance of a specific NFT (ERC721 or ERC1155) owned by a Keyban account. It provides detailed information about the NFT, including metadata and collection details, offering a reactive and easy-to-use interface within functional components.
- * @param {KeybanAccount} account - The Keyban account object containing the address.
- * @param {Address} tokenAddress - The address of the token contract.
- * @param {string} tokenId - The ID of the token.
- * @returns {ApiResult<KeybanNftBalance>} - The result containing the NFT balance or an error.
+ * @param account - The Keyban account object containing the address.
+ * @param account.address
+ * @param tokenAddress - The address of the token contract.
+ * @param tokenId - The ID of the token.
+ * @returns - The result containing the NFT balance or an error.
  * @throws {SdkError} If the NFT is not found (`SdkErrorTypes.NftNotFound`).
  * @example
  * ```tsx
@@ -568,9 +572,10 @@ export function useKeybanAccountNft(
  * Returns an {@link ApiResult} of the transfer history of an account.
  *
  * The `useKeybanAccountTransferHistory` React hook allows you to fetch and subscribe to the list of all asset transfers (both incoming and outgoing) associated with a specific Keyban account. It supports pagination, enabling efficient retrieval of extensive transfer histories by fetching data in manageable chunks. This hook returns an `ApiResult` tuple containing the paginated transfer data, any potential errors, and additional pagination controls.
- * @param {KeybanAccount} account - The Keyban account object containing the address.
- * @param {PaginationArgs} [options] - Optional pagination arguments.
- * @returns {ApiResult<PaginatedData<KeybanAssetTransfer>, PaginationExtra>} - The API result containing paginated data of Keyban asset transfers and pagination extra information.
+ * @param account - The Keyban account object containing the address.
+ * @param account.address
+ * @param [options] - Optional pagination arguments.
+ * @returns - The API result containing paginated data of Keyban asset transfers and pagination extra information.
  * @throws {SdkError} If the provided `KeybanAccount` has an invalid address (`SdkErrorTypes.AddressInvalid`).
  * @throws {SdkError} If no transfer history is found for the provided account (`SdkErrorTypes.TransferHistoryNotFound`).
  * @example

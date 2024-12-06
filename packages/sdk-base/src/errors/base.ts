@@ -106,7 +106,7 @@ export class KeybanBaseError<T extends string> extends Error {
   /**
    * Serializes the error instance into a JSON object, including all relevant properties.
    * This is useful for logging, debugging, or transmitting error information.
-   * @returns {object} A JSON representation of the error.
+   * @returns A JSON representation of the error.
    * @example
    * ```typescript
    * const errorJson = error.toJSON();
@@ -128,13 +128,13 @@ export class KeybanBaseError<T extends string> extends Error {
   /**
    * Creates an instance of `KeybanBaseError`. It initializes the error with the provided properties,
    * sets the error message, and records the timestamp.
-   * @param {object} params - The parameters to initialize the error.
-   * @param {T} params.type - The specific error type identifier.
-   * @param {string} [params.title] - A short summary of the error. Defaults to the `type` if not provided.
-   * @param {string} params.instance - A unique identifier for this specific error occurrence.
-   * @param {Error | Record<string, unknown>} [params.rootError] - The original error, if any.
-   * @param {string} [params.detail] - A detailed explanation of the error.
-   * @param {number} [params.status] - The HTTP status code associated with the error.
+   * @param params - The parameters to initialize the error.
+   * @param params.type - The specific error type identifier.
+   * @param [params.title] - A short summary of the error. Defaults to the `type` if not provided.
+   * @param params.instance - A unique identifier for this specific error occurrence.
+   * @param [params.rootError] - The original error, if any.
+   * @param [params.detail] - A detailed explanation of the error.
+   * @param [params.status] - The HTTP status code associated with the error.
    * @example
    * ```typescript
    * const error = new KeybanBaseError({

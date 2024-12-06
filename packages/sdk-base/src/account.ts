@@ -135,10 +135,10 @@ export class KeybanAccount implements KeybanAccount {
   // eslint-disable-next-line jsdoc/require-description
   /**
    * @private
-   * @param {string} sub - The unique identifier for the Keyban account.
-   * @param {KeybanClient} client - The Keyban client for making requests.
-   * @param {PublicClient<Transport, Chain>} publicClient - The client for public interactions (e.g., fetching balances).
-   * @param {WalletClient<Transport, Chain, LocalAccount>} walletClient - The wallet client used for signing and sending transactions.
+   * @param sub - The unique identifier for the Keyban account.
+   * @param client - The Keyban client for making requests.
+   * @param publicClient - The client for public interactions (e.g., fetching balances).
+   * @param walletClient - The wallet client used for signing and sending transactions.
    */
   constructor(
     sub: string,
@@ -157,8 +157,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Signs an Ethereum message.
-   * @param {string} message - The message to be signed.
-   * @returns {Promise<Hex>} - The signed message as a hex string.
+   * @param message - The message to be signed.
+   * @returns - The signed message as a hex string.
    * @throws {Error} If the message is empty or there is an issue during signing.
    */
   async signMessage(message: string): Promise<Hex> {
@@ -169,7 +169,7 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Retrieves the balance of the account associated with the current address.
-   * @returns {Promise<number>} A promise that resolves to the balance of the account.
+   * @returns A promise that resolves to the balance of the account.
    */
   getBalance() {
     return this.#client.getBalance(this.address);
@@ -177,7 +177,7 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Retrieves the token balances for the current account.
-   * @returns {Promise<any>} A promise that resolves to the token balances of the account.
+   * @returns A promise that resolves to the token balances of the account.
    */
   async getTokenBalances() {
     return this.#client.getTokenBalances(this.address);
@@ -185,7 +185,7 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Retrieves the account ERC721 and ERC1155 tokens.
-   * @returns {Promise<any>} A promise that resolves to the account's ERC721 and ERC1155 tokens.
+   * @returns A promise that resolves to the account's ERC721 and ERC1155 tokens.
    */
   async getNfts() {
     return this.#client.getNfts(this.address);
@@ -193,9 +193,9 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Retrieves the account ERC721 and ERC1155 token balances.
-   * @param {Address} tokenAddress - The address of the token contract.
-   * @param {string} tokenId - The ID of the token.
-   * @returns {Promise<any>} A promise that resolves to the account's ERC721 and ERC1155 tokens.
+   * @param tokenAddress - The address of the token contract.
+   * @param tokenId - The ID of the token.
+   * @returns A promise that resolves to the account's ERC721 and ERC1155 tokens.
    */
   async getNft(tokenAddress: Address, tokenId: string) {
     return this.#client.getNft(this.address, tokenAddress, tokenId);
@@ -203,7 +203,7 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    *  Retrieves the account transaction history for native currency, tokens, and NFTs.
-   *  @returns {Promise<any>} A promise that resolves to the account's transaction history.
+   *  @returns A promise that resolves to the account's transaction history.
    */
   async getTransferHistory() {
     return this.#client.getTransferHistory(this.address);
@@ -211,10 +211,10 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Transfers native tokens to another address.
-   * @param {Address} to - The recipient's address.
-   * @param {bigint} value - The transfer amount in wei (must be greater than 0).
-   * @param {TransactionOptions} [txOptions] - Optional transaction options.
-   * @returns {Promise<Hash>} - A promise that resolves to the transaction hash.
+   * @param to - The recipient's address.
+   * @param value - The transfer amount in wei (must be greater than 0).
+   * @param [txOptions] - Optional transaction options.
+   * @returns - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid or the transfer amount is invalid.
    * @example
    * ```ts
@@ -261,8 +261,8 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring native tokens to another address.
-   * @param {Address} to - The recipient's address.
-   * @returns {Promise<FeesEstimation>} - A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @param to - The recipient's address.
+   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    */
   async estimateTransfer(to: Address): Promise<FeesEstimation> {
@@ -285,8 +285,12 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Transfers ERC20 tokens to another address.
-   * @param {TransferERC20Params} options - The parameters for the ERC20 transfer.
-   * @returns {Promise<Hash>} - A promise that resolves to the transaction hash.
+   * @param options - The parameters for the ERC20 transfer.
+   * @param options.contractAddress
+   * @param options.to
+   * @param options.value
+   * @param options.txOptions
+   * @returns - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid, the contract address is invalid, or the transfer amount is invalid.
    * @example
    * ```ts
@@ -366,8 +370,11 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring ERC20 tokens to another address.
-   * @param {EstimateERC20TransferParams} options - The parameters for estimating the ERC20 transfer.
-   * @returns {Promise<FeesEstimation>} - A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @param options - The parameters for estimating the ERC20 transfer.
+   * @param options.contractAddress
+   * @param options.to
+   * @param options.value
+   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    * @example
    * ```ts
@@ -417,8 +424,14 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Transfers ERC721 and ERC1155 tokens to another address.
-   * @param {TransferNftParams} options - The parameters for the NFT transfer.
-   * @returns {Promise<Hash>} - A promise that resolves to the transaction hash.
+   * @param options - The parameters for the NFT transfer.
+   * @param options.contractAddress
+   * @param options.tokenId
+   * @param options.to
+   * @param options.value
+   * @param options.standard
+   * @param options.txOptions
+   * @returns - A promise that resolves to the transaction hash.
    * @throws {SdkError} If the recipient's address is invalid, the contract address is invalid, the transfer amount is invalid, or the token standard is invalid.
    * @example
    * ```ts
@@ -574,8 +587,13 @@ export class KeybanAccount implements KeybanAccount {
 
   /**
    * Estimates the cost of transferring ERC721 and ERC1155 tokens to another address.
-   * @param {EstimateNftTransferParams} options - The parameters for estimating the NFT transfer.
-   * @returns {Promise<FeesEstimation>} - A promise that resolves to a `FeesEstimation` object containing the fee details.
+   * @param options - The parameters for estimating the NFT transfer.
+   * @param options.standard
+   * @param options.contractAddress
+   * @param options.tokenId
+   * @param options.to
+   * @param options.value
+   * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    * @example
    * ```ts

@@ -6,7 +6,7 @@ import simpleImportSort from "eslint-plugin-simple-import-sort";
 import jsdoc from "eslint-plugin-jsdoc";
 
 export default tseslint.config(
-  jsdoc.configs["flat/recommended"],
+  jsdoc.configs["flat/recommended-typescript"],
   { ignores: ["dist", "src/graphql.ts"] },
   {
     extends: [

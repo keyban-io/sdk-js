@@ -178,7 +178,11 @@ export class KeybanClient {
 
   /**
    * Creates a new instance of `KeybanClient`.
-   * @param {KeybanClientConfig} config - The configuration object to initialize the client.
+   * @param config - The configuration object to initialize the client.
+   * @param config.apiUrl
+   * @param config.appId
+   * @param config.accessTokenProvider
+   * @param config.chain
    * @throws {SdkError} If the configuration is invalid.
    * @example
    * ```typescript
@@ -235,7 +239,7 @@ export class KeybanClient {
    * Initializes a `KeybanAccount` associated with the current client.
    * This method sets up the account by retrieving or generating the client share,
    * and prepares the account for transactions and other operations.
-   * @returns {Promise<KeybanAccount>} A promise that resolves to an instance of `KeybanAccount`.
+   * @returns A promise that resolves to an instance of `KeybanAccount`.
    * @throws {SdkError} If initialization fails due to signing errors.
    * @example
    * ```typescript
@@ -333,8 +337,8 @@ export class KeybanClient {
 
   /**
    * Retrieves the native token balance for a given address.
-   * @param {Address} address - The Ethereum address for which to retrieve the balance.
-   * @returns {Promise<string>} A promise resolving to the balance as a string (representing a BigInt in wei).
+   * @param address - The Ethereum address for which to retrieve the balance.
+   * @returns A promise resolving to the balance as a string (representing a BigInt in wei).
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
    * @example
    * ```typescript
@@ -361,9 +365,9 @@ export class KeybanClient {
 
   /**
    * Retrieves the ERC20 token balances for a given address.
-   * @param {Address} address - The Ethereum address for which to retrieve the token balances.
-   * @param {PaginationArgs} pagination - Optional pagination arguments.
-   * @returns {Promise<any>} A promise resolving to the token balances, including token details and balances.
+   * @param address - The Ethereum address for which to retrieve the token balances.
+   * @param pagination - Optional pagination arguments.
+   * @returns A promise resolving to the token balances, including token details and balances.
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
    * @example
    * ```typescript
@@ -391,9 +395,9 @@ export class KeybanClient {
 
   /**
    * Retrieves the NFTs (ERC721 and ERC1155 tokens) owned by a given address.
-   * @param {Address} address - The Ethereum address of the owner.
-   * @param {PaginationArgs} pagination - Optional pagination arguments.
-   * @returns {Promise<any>} A promise resolving to the list of NFTs, including metadata and collection details.
+   * @param address - The Ethereum address of the owner.
+   * @param pagination - Optional pagination arguments.
+   * @returns A promise resolving to the list of NFTs, including metadata and collection details.
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
    * @example
    * ```typescript
@@ -418,9 +422,9 @@ export class KeybanClient {
 
   /**
    * Retrieves the transaction history for a given address, including native currency transfers, token transfers, and NFT transfers.
-   * @param {Address} address - The Ethereum address for which to retrieve the transaction history.
-   * @param {PaginationArgs} pagination - Optional pagination arguments.
-   * @returns {Promise<any>} A promise resolving to the transaction history, including detailed information about each transfer.
+   * @param address - The Ethereum address for which to retrieve the transaction history.
+   * @param pagination - Optional pagination arguments.
+   * @returns A promise resolving to the transaction history, including detailed information about each transfer.
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
    * @example
    * ```typescript
@@ -448,10 +452,10 @@ export class KeybanClient {
 
   /**
    * Retrieves a specific NFT (ERC721 or ERC1155) owned by an address.
-   * @param {Address} address - The Ethereum address of the owner.
-   * @param {Address} tokenAddress - The contract address of the NFT.
-   * @param {string} tokenId - The token ID of the NFT.
-   * @returns {Promise<any>} A promise resolving to the NFT data, including metadata and collection details.
+   * @param address - The Ethereum address of the owner.
+   * @param tokenAddress - The contract address of the NFT.
+   * @param tokenId - The token ID of the NFT.
+   * @returns A promise resolving to the NFT data, including metadata and collection details.
    * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided addresses are invalid.
    * @throws {SdkError} Throws `SdkErrorTypes.NftNotFound` if the NFT is not found.
    * @example
@@ -487,7 +491,7 @@ export class KeybanClient {
 
   /**
    * Performs a health check on the Keyban API to determine its operational status.
-   * @returns {Promise<KeybanApiStatus>} A promise resolving to the API status, either `"operational"` or `"down"`.
+   * @returns A promise resolving to the API status, either `"operational"` or `"down"`.
    * @example
    * ```typescript
    * const status = await client.apiStatus();

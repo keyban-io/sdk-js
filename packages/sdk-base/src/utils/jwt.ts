@@ -5,8 +5,8 @@ import { SdkError, SdkErrorTypes } from "~/errors";
 
 /**
  * Parses a JWT access token and returns the decoded payload.
- * @param {string} accessToken - The JWT access token to parse.
- * @returns {object} The decoded payload of the JWT.
+ * @param accessToken - The JWT access token to parse.
+ * @returns The decoded payload of the JWT.
  * @throws {SdkError} If the access token is invalid.
  * @see https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
  */

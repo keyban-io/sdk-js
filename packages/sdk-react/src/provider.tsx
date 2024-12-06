@@ -33,9 +33,11 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * The provider supports dynamic updates to certain configuration options, such as `chain`,
  * allowing components to adjust the blockchain network or other configurations during the
  * application's lifecycle.
- * @param {KeybanProviderProps} props - The Keyban provider configuration options.
+ * @param props - The Keyban provider configuration options.
+ * @param props.children
+ * @param props.accessTokenProvider
  * @throws {Error} If the configuration is invalid.
- * @returns {string} The provider component wrapping the children components.
+ * @returns The provider component wrapping the children components.
  * @see {@link KeybanClientConfig} for the available configuration options.
  * @example
  * ```tsx
@@ -117,7 +119,7 @@ export function KeybanProvider({
  * enabling direct interaction with the SDK from functional React components. This hook
  * ensures that the Keyban client is available within the application's context and allows
  * you to utilize features such as account management, transactions, and blockchain queries.
- * @returns {KeybanClient} The initialized Keyban client.
+ * @returns The initialized Keyban client.
  * @throws {Error} If the hook is used outside of a {@link KeybanProvider}, indicating that
  * the context is not properly configured to provide the Keyban client.
  * @example

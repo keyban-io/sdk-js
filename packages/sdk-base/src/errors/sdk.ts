@@ -120,15 +120,14 @@ export enum SdkErrorTypes {
 export class SdkError extends KeybanBaseError<SdkErrorTypes> {
   /**
    * The available SDK error types.
-   * @type {typeof SdkErrorTypes}
    */
   static types = SdkErrorTypes;
 
   /**
    * Creates an instance of `SdkError`.
-   * @param {SdkErrorTypes} type - The specific type of SDK error.
-   * @param {string} instance - The identifier of the instance where the error occurred.
-   * @param {Error} [rootError] - The original error that caused this SDK error, if any.
+   * @param type - The specific type of SDK error.
+   * @param instance - The identifier of the instance where the error occurred.
+   * @param [rootError] - The original error that caused this SDK error, if any.
    * @throws {SdkError} Throws an error if an unknown `SdkErrorTypes` is provided.
    * @example
    * ```typescript
@@ -147,8 +146,8 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
   /**
    * Retrieves a human-readable title based on the error type.
    * @private
-   * @param {SdkErrorTypes} errorType - The type of SDK error.
-   * @returns {string} A descriptive title for the error.
+   * @param errorType - The type of SDK error.
+   * @returns A descriptive title for the error.
    * @example
    * ```typescript
    * const title = SdkError.#getTitle(SdkErrorTypes.InvalidAccessToken);

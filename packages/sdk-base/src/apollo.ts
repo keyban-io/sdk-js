@@ -15,9 +15,9 @@ import { createClient } from "graphql-ws";
 
 /**
  * Creates an Apollo Client instance.
- * @param {URL} apiUrl - The API URL.
- * @param {() => string | Promise<string>} [accessTokenProvider] - Optional function to provide access token.
- * @returns {ApolloClient} The Apollo Client instance.
+ * @param apiUrl - The API URL.
+ * @param accessTokenProvider - Optional function to provide access token.
+ * @returns The Apollo Client instance.
  * @private
  */
 export function createApolloClient(
