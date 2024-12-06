@@ -93,7 +93,7 @@ lint:
     RUN pnpm -r lint
 
 test:
-    FROM ../+sdk-build
+    FROM +sdk-build
     COPY ./apps ./apps
     # Ignore tss-storage-consent-poc as it should be removed soon and it's build is broken
     RUN rm -rf ./apps/tss-storage-consent-poc
