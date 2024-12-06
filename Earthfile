@@ -98,10 +98,10 @@ test:
 
     WORKDIR /app
     COPY . ./
+    # Ignore tss-storage-consent-poc as it should be removed soon and it's build is broken
+    RUN rm -rf ./apps/tss-storage-consent-poc
 
     RUN pnpm install
-    # Ignore tss-storage-consent-poc as it should be removed soon and it's build is broken
-    RUN rn -rf ./apps/tss-storage-consent-poc
     RUN pnpm -r build
     RUN pnpm -r test
 
