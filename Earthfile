@@ -100,6 +100,7 @@ test:
     COPY . ./
 
     RUN pnpm install
+    RUN pnpm -r build
     RUN pnpm -r test
 
 build:
