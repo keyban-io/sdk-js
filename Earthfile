@@ -122,3 +122,16 @@ docker:
     ARG --required ref
     ARG extra_ref
     SAVE IMAGE --push ${ref} ${extra_ref}
+
+create-keyban-app:
+    FROM +sdk-build
+    RUN apt update && apt install -y jq
+    RUN cd /app/packages/create-keyban-app && node index.js ./../../apps/create-keyban-app-dev --pm pnpm
+    RUN cd /app/apps/create-keyban-app-dev && \
+        pnpm remove @keyban/sdk-react && \
+        jq '.dependencies["@keyban/sdk-react"] = "workspace:*"' package.json > tmp.json && \
+        mv tmp.json package.json && \
+        pnpm install
+    RUN cd /app/apps/create-keyban-app-dev && sed -i 's|const API_URL = "https://api.demo.keyban.io";|const API_URL = "https://api.keyban.localtest.me";|' /app/apps/create-keyban-app-dev/src/config.ts
+    RUN cd /app/apps/create-keyban-app-dev && sed -i 's|chain: KeybanChain.PolygonAmoy,|chain: KeybanChain.KeybanTestnet,|' /app/apps/create-keyban-app-dev/src/config.ts
+    SAVE ARTIFACT /app/apps/create-keyban-app-dev AS LOCAL ./apps/create-keyban-app-dev
