@@ -10,13 +10,7 @@ export {
 export { KeybanApiStatus } from "~/api";
 export { FeesUnit, KeybanChain } from "~/chains";
 export { KeybanClient, KeybanClientConfig, PaginationArgs } from "~/client";
-export {
-  KeybanBaseError,
-  SdkError,
-  SdkErrorTypes,
-  StorageError,
-  StorageErrorTypes,
-} from "~/errors";
+export { KeybanBaseError, SdkError, SdkErrorTypes } from "~/errors";
 export type {
   GqlwalletTokenBalancesQuery,
   GqlKeybanClient_AssetTransferFragment as KeybanAssetTransfer,
