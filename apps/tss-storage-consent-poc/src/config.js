@@ -1,7 +1,4 @@
-import {
-  KeybanChain,
-  KeybanSigner,
-} from "@keyban/sdk-react";
+import { KeybanChain } from "@keyban/sdk-react";
 
 import configJson from "./auth_config.json";
 
@@ -24,7 +21,6 @@ export function getConfig() {
       apiUrl: "https://api.example.keyban.io",  // Replace with your Keyban API URL
       appId: "your-keyban-app-id",  // Replace with your own App ID
       chain: KeybanChain.PolygonAmoy,  // Polygon Amoy Testnet
-      signer: KeybanSigner.ECDSA,  // Signature mechanism
     },
     ...(audience ? { audience } : null),
   };
