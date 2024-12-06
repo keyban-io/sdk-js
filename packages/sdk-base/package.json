@@ -39,6 +39,11 @@
       "import": "./dist/rpc.mjs",
       "require": "./dist/rpc.js"
     },
+    "./errors": {
+      "types": "./dist/errors.d.ts",
+      "import": "./dist/errors.mjs",
+      "require": "./dist/errors.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [

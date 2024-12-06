@@ -34,8 +34,6 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * allowing components to adjust the blockchain network or other configurations during the
  * application's lifecycle.
  * @param props - The Keyban provider configuration options.
- * @param props.children
- * @param props.accessTokenProvider
  * @throws {Error} If the configuration is invalid.
  * @returns The provider component wrapping the children components.
  * @see {@link KeybanClientConfig} for the available configuration options.
@@ -78,11 +76,9 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * - The blockchain network (`chain`) can be dynamically updated using the `handleChainSelect` function.
  * - The `ChainSelector` component is responsible for triggering updates to the `chain` configuration, and it is placed outside the `KeybanProvider` to ensure proper re-initialization of the provider.
  */
-export function KeybanProvider({
-  children,
-  accessTokenProvider,
-  ...config
-}: KeybanProviderProps) {
+export function KeybanProvider(props: KeybanProviderProps) {
+  const { children, accessTokenProvider, ...config } = props;
+
   const atProviderRef = React.useRef(accessTokenProvider);
   React.useImperativeHandle(atProviderRef, () => accessTokenProvider, [
     accessTokenProvider,

@@ -21,7 +21,7 @@ import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
 import { type FeesUnit, feesUnitChainsMap, viemChainsMap } from "~/chains";
-import { SdkError, SdkErrorTypes } from "~/errors";
+import { SdkError } from "~/errors";
 import {
   walletAssetTransfersDocument,
   walletBalanceDocument,
@@ -179,10 +179,6 @@ export class KeybanClient {
   /**
    * Creates a new instance of `KeybanClient`.
    * @param config - The configuration object to initialize the client.
-   * @param config.apiUrl
-   * @param config.appId
-   * @param config.accessTokenProvider
-   * @param config.chain
    * @throws {SdkError} If the configuration is invalid.
    * @example
    * ```typescript
@@ -194,13 +190,13 @@ export class KeybanClient {
    * });
    * ```
    */
-  constructor({
-    apiUrl,
-    appId,
-    accessTokenProvider,
-    chain,
-  }: KeybanClientConfig) {
-    apiUrl ??= "https://api.keyban.io";
+  constructor(config: KeybanClientConfig) {
+    const {
+      apiUrl = "https://api.keyban.io",
+      appId,
+      accessTokenProvider,
+      chain,
+    } = config;
 
     this.apiUrl = apiUrl;
     this.appId = appId;
@@ -350,7 +346,7 @@ export class KeybanClient {
   async getBalance(address: Address): Promise<string> {
     if (!isAddress(address)) {
       throw new SdkError(
-        SdkErrorTypes.AddressInvalid,
+        SdkError.types.AddressInvalid,
         "KeybanClient.getBalance",
       );
     }
@@ -380,7 +376,7 @@ export class KeybanClient {
   async getTokenBalances(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
       throw new SdkError(
-        SdkErrorTypes.AddressInvalid,
+        SdkError.types.AddressInvalid,
         "KeybanClient.getTokenBalances",
       );
     }
@@ -409,7 +405,7 @@ export class KeybanClient {
    */
   async getNfts(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
-      throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNfts");
+      throw new SdkError(SdkError.types.AddressInvalid, "KeybanClient.getNfts");
     }
 
     const { data } = await this.apolloClient.query({
@@ -437,7 +433,7 @@ export class KeybanClient {
   async getTransferHistory(address: Address, pagination?: PaginationArgs) {
     if (!isAddress(address)) {
       throw new SdkError(
-        SdkErrorTypes.AddressInvalid,
+        SdkError.types.AddressInvalid,
         "KeybanClient.getTransferHistory",
       );
     }
@@ -467,11 +463,11 @@ export class KeybanClient {
    */
   async getNft(address: Address, tokenAddress: Address, tokenId: string) {
     if (!isAddress(address)) {
-      throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNft");
+      throw new SdkError(SdkError.types.AddressInvalid, "KeybanClient.getNft");
     }
 
     if (!isAddress(tokenAddress)) {
-      throw new SdkError(SdkErrorTypes.AddressInvalid, "KeybanClient.getNft");
+      throw new SdkError(SdkError.types.AddressInvalid, "KeybanClient.getNft");
     }
 
     const id = [address, tokenAddress, tokenId].join(":");
@@ -483,7 +479,7 @@ export class KeybanClient {
     const nft = data.res;
 
     if (!nft) {
-      throw new SdkError(SdkErrorTypes.NftNotFound, "KeybanClient.getNft");
+      throw new SdkError(SdkError.types.NftNotFound, "KeybanClient.getNft");
     }
 
     return nft;

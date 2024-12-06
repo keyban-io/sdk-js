@@ -194,7 +194,6 @@ export function useKeybanAccount(): ApiResult<KeybanAccount> {
  * This React hook allows you to fetch the native balance of a Keyban account and automatically updates when the balance changes.
  * It returns an `ApiResult` tuple containing the balance or an error if one occurred during retrieval.
  * @param account  - The `KeybanAccount` object representing the user account.
- * @param account.address
  * @returns An `ApiResult<string>` tuple containing:
  * - **First element (`balance`)**: A `string` representing the account's native token balance in the smallest unit (e.g., wei for Ethereum). This value automatically updates when the balance changes.
  * - **Second element (`error`)**: An `Error` object if an error occurred during retrieval, or `null` if the balance was fetched successfully.
@@ -228,20 +227,20 @@ export function useKeybanAccount(): ApiResult<KeybanAccount> {
  * @see {@link useKeybanAccount}
  * @see {@link KeybanAccount}
  */
-export function useKeybanAccountBalance({
-  address,
-}: KeybanAccount): ApiResult<string> {
+export function useKeybanAccountBalance(
+  account: KeybanAccount,
+): ApiResult<string> {
   const client = useKeybanClient();
 
   const { data, error } = useSuspenseQuery(walletBalanceDocument, {
     client: client.apolloClient,
-    variables: { walletId: address },
+    variables: { walletId: account.address },
   });
 
   useSubscription(walletSubscriptionDocument, {
     client: client.apolloClient,
     variables: {
-      walletIds: [address],
+      walletIds: [account.address],
     },
     onData({ client, data: { data } }) {
       // Setting up the subscription isn't enouth, in case of an insert, the
@@ -249,7 +248,7 @@ export function useKeybanAccountBalance({
       client.cache.updateQuery(
         {
           query: walletBalanceDocument,
-          variables: { walletId: address },
+          variables: { walletId: account.address },
         },
         () => ({ res: data!.sub!._entity }),
       );
@@ -266,7 +265,6 @@ export function useKeybanAccountBalance({
  *
  * The `useKeybanAccountTokenBalances` React hook enables you to fetch and monitor the list of ERC20 token balances owned by a specific Keyban account. It supports pagination, allowing efficient handling of large token collections by fetching data in manageable segments. This hook returns an `ApiResult` tuple containing the paginated token balance data, any potential errors, and additional pagination controls.
  * @param account - The Keyban account object containing the address.
- * @param account.address
  * @param [options] - Optional pagination arguments for fetching the token balances.
  * @returns - The result containing paginated ERC20 token balances or an error, along with pagination controls.
  * @throws {SdkError} If the provided account has an invalid address (`SdkErrorTypes.AddressInvalid`).
@@ -332,7 +330,7 @@ export function useKeybanAccountBalance({
  * @see {@link PaginationExtra}
  */
 export function useKeybanAccountTokenBalances(
-  { address }: KeybanAccount,
+  account: KeybanAccount,
   options?: PaginationArgs,
 ): ApiResult<PaginatedData<KeybanTokenBalance>, PaginationExtra> {
   const client = useKeybanClient();
@@ -342,7 +340,7 @@ export function useKeybanAccountTokenBalances(
     {
       client: client.apolloClient,
       variables: {
-        walletId: address,
+        walletId: account.address,
         orderBy: [GqlTokenBalancesOrderBy.TOKEN_SYMBOL_ASC],
         ...options,
       },
@@ -382,7 +380,6 @@ export function useKeybanAccountTokenBalances(
  *
  * The `useKeybanAccountNfts` React hook allows you to fetch and subscribe to the list of all NFTs (both ERC721 and ERC1155) owned by a specific Keyban account. It supports pagination, enabling efficient retrieval of large NFT collections by fetching data in manageable chunks. This hook returns an `ApiResult` tuple containing the paginated NFT data, any potential errors, and additional pagination controls.
  * @param account - A Keyban account object.
- * @param account.address
  * @param [options] - Optional pagination arguments for fetching the NFTs.
  * @returns - The result containing paginated NFT balances or an error, along with pagination controls.
  * @throws {SdkError} If the provided account has an invalid address (`SdkErrorTypes.AddressInvalid`).
@@ -448,7 +445,7 @@ export function useKeybanAccountTokenBalances(
  * @see {@link PaginationExtra}
  */
 export function useKeybanAccountNfts(
-  { address }: KeybanAccount,
+  account: KeybanAccount,
   options?: PaginationArgs,
 ): ApiResult<PaginatedData<KeybanNftBalance>, PaginationExtra> {
   const client = useKeybanClient();
@@ -458,7 +455,7 @@ export function useKeybanAccountNfts(
     {
       client: client.apolloClient,
       variables: {
-        walletId: address,
+        walletId: account.address,
         orderBy: GqlNftBalancesOrderBy.NFT_TOKEN_ID_ASC,
         ...options,
       },
@@ -496,7 +493,6 @@ export function useKeybanAccountNfts(
 /**
  * The `useKeybanAccountNft` React hook allows you to fetch the balance of a specific NFT (ERC721 or ERC1155) owned by a Keyban account. It provides detailed information about the NFT, including metadata and collection details, offering a reactive and easy-to-use interface within functional components.
  * @param account - The Keyban account object containing the address.
- * @param account.address
  * @param tokenAddress - The address of the token contract.
  * @param tokenId - The ID of the token.
  * @returns - The result containing the NFT balance or an error.
@@ -545,13 +541,13 @@ export function useKeybanAccountNfts(
  * ```
  */
 export function useKeybanAccountNft(
-  { address }: KeybanAccount,
+  account: KeybanAccount,
   tokenAddress: Address,
   tokenId: string,
 ): ApiResult<KeybanNftBalance> {
   const client = useKeybanClient();
 
-  const id = [address, tokenAddress, tokenId].join(":");
+  const id = [account.address, tokenAddress, tokenId].join(":");
   const { data, error } = useSuspenseQuery(walletNftDocument, {
     client: client.apolloClient,
     variables: { nftBalanceId: id },
@@ -573,7 +569,6 @@ export function useKeybanAccountNft(
  *
  * The `useKeybanAccountTransferHistory` React hook allows you to fetch and subscribe to the list of all asset transfers (both incoming and outgoing) associated with a specific Keyban account. It supports pagination, enabling efficient retrieval of extensive transfer histories by fetching data in manageable chunks. This hook returns an `ApiResult` tuple containing the paginated transfer data, any potential errors, and additional pagination controls.
  * @param account - The Keyban account object containing the address.
- * @param account.address
  * @param [options] - Optional pagination arguments.
  * @returns - The API result containing paginated data of Keyban asset transfers and pagination extra information.
  * @throws {SdkError} If the provided `KeybanAccount` has an invalid address (`SdkErrorTypes.AddressInvalid`).
@@ -638,7 +633,7 @@ export function useKeybanAccountNft(
  * @see {@link PaginationExtra}
  */
 export function useKeybanAccountTransferHistory(
-  { address }: KeybanAccount,
+  account: KeybanAccount,
   options?: PaginationArgs,
 ): ApiResult<PaginatedData<KeybanAssetTransfer>, PaginationExtra> {
   const client = useKeybanClient();
@@ -648,7 +643,7 @@ export function useKeybanAccountTransferHistory(
     {
       client: client.apolloClient,
       variables: {
-        walletId: address,
+        walletId: account.address,
         orderBy: GqlAssetTransfersOrderBy.TRANSACTION_BLOCK_NUMBER_DESC,
         ...options,
       },

@@ -24,9 +24,9 @@ export default tseslint.config(
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "warn",
       "jsdoc/require-description": "warn",
+      "jsdoc/require-hyphen-before-param-description": "warn",
       "jsdoc/check-tag-names": ["error", { typed: true }],
       "jsdoc/check-tag-names": ["error", { definedTags: ["remarks"] }],
-      "jsdoc/require-property": "off"
     }
   }
 );
