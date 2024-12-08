@@ -1,11 +1,11 @@
 import * as jose from "jose";
-import { describe, expect, it } from "vitest";
+import { describe, test } from "vitest";
 
-import { SignerClientError } from "~/errors/SignerClientError";
+import { JwtError } from "~/errors/JwtError";
 import { decodeJwt } from "~/utils/jwt";
 
-describe("with a valid jwt", () => {
-  it("should return payload", async () => {
+describe("decodeJwt", () => {
+  test("a valid jwt should return payload", async ({ expect }) => {
     const payload = { foo: "bar" };
 
     const token = await new jose.SignJWT(payload)
@@ -14,16 +14,11 @@ describe("with a valid jwt", () => {
 
     expect(decodeJwt(token)).toMatchObject(payload);
   });
-});
 
-describe("with invalid jwt", () => {
-  it("should throw an error", async () => {
+  test("an invalid jwt should throw an error", async ({ expect }) => {
     const token = `header.${btoa("not a valid json")}.signature`;
     expect(() => decodeJwt(token)).toThrowError(
-      new SignerClientError(
-        SignerClientError.types.InvalidAccessToken,
-        "decodesJwt",
-      ),
+      new JwtError(JwtError.types.InvalidToken, "decodeJwt"),
     );
   });
 });

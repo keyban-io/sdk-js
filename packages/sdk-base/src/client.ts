@@ -254,7 +254,7 @@ export class KeybanClient {
     const promise = (async () => {
       await this.#rpcClient.call(
         "ecdsa",
-        "dkg",
+        "init",
         this.appId,
         await this.#accessTokenProvider(),
       );

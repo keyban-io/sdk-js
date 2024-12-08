@@ -15,7 +15,7 @@ type Hex = `0x${string}`;
  * @private
  */
 export interface IKeybanSigner {
-  dkg(appId: string, accessToken: string): Promise<void>;
+  init(appId: string, accessToken: string): Promise<void>;
   sign(appId: string, accessToken: string, message: string): Promise<Hex>;
   publicKey(appId: string, accessToken: string): Promise<Hex>;
 }
@@ -60,6 +60,19 @@ type RpcResult<
 export class RpcServer implements IRpc {
   ecdsa!: IKeybanSigner;
 
+  // Forced validation of service's methods, see listener below
+  static #definitions: {
+    [S in Service]: {
+      [M in Method<S>]: true;
+    };
+  } = {
+    ecdsa: {
+      init: true,
+      sign: true,
+      publicKey: true,
+    },
+  };
+
   constructor(services: IRpc) {
     Object.assign(this, services);
 
@@ -74,13 +87,20 @@ export class RpcServer implements IRpc {
         try {
           const { service, method } = data;
 
+          // An attacker could possibly try to call a method on the service
+          // object that is not intended to be exposed (eg. ecdsa.dkg). This
+          // ensures the method is effectively allowed.
+          if (!RpcServer.#definitions[service]?.[method])
+            throw new Error("Invalid RPC call");
+
           const fn = this[service]?.[method] as ClassMethod<S, M>;
           if (!fn) throw new Error("Invalid RPC call");
 
-          const result = await fn(...data.params);
+          const result = await fn.apply(this[service], data.params);
 
           ports[0].postMessage([result, null]);
         } catch (error) {
+          console.error(error);
           ports[0].postMessage([null, JSON.stringify(error)]);
         }
       },

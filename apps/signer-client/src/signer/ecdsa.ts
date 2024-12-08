@@ -1,106 +1,63 @@
-import initWasmFile from "@keyban/ecdsa-wasm-client";
-import { KeybanBaseError } from "@keyban/sdk-base";
+import initWasm from "@keyban/ecdsa-wasm-client";
+import { KeybanBaseError } from "@keyban/sdk-base/errors";
 import { IKeybanSigner } from "@keyban/sdk-base/rpc";
 
-import { SignerClientError } from "~/errors/SignerClientError";
-import { WasmKeybanSigner } from "~/signer/wasm";
-import { API_URL, apiUrl } from "~/utils/api";
-import { decrypt, encrypt, generateKey } from "~/utils/crypto";
-import { decodeJwt } from "~/utils/jwt";
+import { WasmError } from "~/errors/WasmError";
+import { AbstractKeybanSigner } from "~/signer/signer";
+import { API_URL } from "~/utils/api";
 
 export class KeybanSigner_ECDSA
-  extends WasmKeybanSigner(initWasmFile)
+  extends AbstractKeybanSigner
   implements IKeybanSigner
 {
-  async #getClientShare(appId: string, accessToken: string) {
-    const { sub } = decodeJwt(accessToken);
-    const localStorageKey = `keyban:ecdsa:${appId}:${sub}:key`;
-
-    // Get the encryption key
-    const storedKey = localStorage.getItem(localStorageKey);
-
-    // If we have an encryption key, feth the client share and decrypt it
-    if (storedKey) {
-      return fetch(apiUrl(`/client-shares/${appId}`), {
-        method: "GET",
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-        .then(async (res): Promise<string> => {
-          if (res.ok) {
-            const data = await res.json();
-            return decrypt(JSON.parse(storedKey), data);
-          }
-
-          if (res.status === 404) {
-            localStorage.removeItem(localStorageKey);
-            return this.#getClientShare(appId, accessToken);
-          }
-          throw new KeybanBaseError(await res.json());
-        })
-        .catch((err: Error) => {
-          if (err instanceof KeybanBaseError) throw err;
-
-          throw new SignerClientError(
-            SignerClientError.types.ClientShare,
-            "ecdsa.getClientShare.fetch",
-            err,
-          );
-        });
-    }
-
-    // Create an encryption key and a share
-    const [key, clientShare] = await Promise.all([
-      generateKey(),
-      globalThis.ecdsa.dkg(API_URL.origin, appId, accessToken),
-    ]);
-
-    // Send the encrypted share to our API
-    await fetch(apiUrl(`/client-shares/${appId}`), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: await encrypt(key, clientShare).then(JSON.stringify),
-    }).catch((err: Error) => {
-      throw new SignerClientError(
-        SignerClientError.types.ClientShare,
-        "ecdsa.getClientShare.create",
+  static #wasm = initWasm()
+    .then(() => globalThis.ecdsa)
+    .catch((err) => {
+      throw new WasmError(
+        WasmError.types.WebAssemblyInitialization,
+        "KeybanSigner_ECDSA",
         err,
       );
     });
 
-    // Save the encryption key locally
-    localStorage.setItem(localStorageKey, JSON.stringify(key));
+  constructor() {
+    if (!WebAssembly)
+      throw new WasmError(
+        WasmError.types.WebAssemblyNotSupported,
+        "KeybanSigner_ECDSA",
+      );
 
-    // Return decrypted share
-    return clientShare;
+    super();
   }
 
-  dkg: IKeybanSigner["dkg"] = KeybanSigner_ECDSA.wrap(
-    async (appId, accessToken) => {
-      await this.#getClientShare(appId, accessToken);
-    },
-  );
+  async dkg(appId: string, accessToken: string) {
+    const wasm = await KeybanSigner_ECDSA.#wasm;
+    return wasm.dkg(API_URL.origin, appId, accessToken).catch((err) => {
+      throw new KeybanBaseError(err);
+    });
+  }
 
-  sign: IKeybanSigner["sign"] = KeybanSigner_ECDSA.wrap(
-    async (appId, accessToken, message) => {
-      const clientShare = await this.#getClientShare(appId, accessToken);
+  async sign(appId: string, accessToken: string, message: string) {
+    const [wasm, clientShare] = await Promise.all([
+      KeybanSigner_ECDSA.#wasm,
+      this.getClientShare(appId, accessToken),
+    ]);
 
-      return globalThis.ecdsa.sign(
-        API_URL.origin,
-        appId,
-        accessToken,
-        clientShare,
-        message,
-      );
-    },
-  );
+    return wasm
+      .sign(API_URL.origin, appId, accessToken, clientShare, message)
+      .catch((err) => {
+        throw new KeybanBaseError(err);
+      });
+  }
 
-  publicKey: IKeybanSigner["publicKey"] = KeybanSigner_ECDSA.wrap(
-    async (appId, accessToken) => {
-      const clientShare = await this.#getClientShare(appId, accessToken);
-      return globalThis.ecdsa.publicKey(clientShare);
-    },
-  );
+  async publicKey(appId: string, accessToken: string) {
+    const [wasm, clientShare] = await Promise.all([
+      KeybanSigner_ECDSA.#wasm,
+      this.getClientShare(appId, accessToken),
+    ]);
+
+    return wasm.publicKey(clientShare).catch((err) => {
+      throw new KeybanBaseError(err);
+    });
+  }
 }

@@ -1,6 +1,6 @@
 import "core-js/actual/typed-array/from-base64";
 
-import { SignerClientError } from "~/errors/SignerClientError";
+import { JwtError } from "~/errors/JwtError";
 
 export function decodeJwt(accessToken: string) {
   try {
@@ -11,10 +11,6 @@ export function decodeJwt(accessToken: string) {
 
     return JSON.parse(json);
   } catch (err) {
-    throw new SignerClientError(
-      SignerClientError.types.InvalidAccessToken,
-      "decodeJwt",
-      err as Error,
-    );
+    throw new JwtError(JwtError.types.InvalidToken, "decodeJwt", err as Error);
   }
 }

@@ -1,7 +1,7 @@
 import "core-js/actual/typed-array/from-hex";
 import "core-js/actual/typed-array/to-hex";
 
-import { SignerClientError } from "~/errors/SignerClientError";
+import { CryptoError } from "~/errors/CryptoError";
 
 const ALGORITHM: AesKeyGenParams = {
   name: "AES-GCM", // AES-GCM is recommended for authenticated encryption
@@ -21,16 +21,16 @@ export async function generateKey() {
       ["encrypt", "decrypt"], // Key usages
     )
     .catch((err: Error) => {
-      throw new SignerClientError(
-        SignerClientError.types.CryptoError,
+      throw new CryptoError(
+        CryptoError.types.GenerateKey,
         "generateKey.generateKey",
         err,
       );
     });
 
   return crypto.subtle.exportKey("jwk", key).catch((err: Error) => {
-    throw new SignerClientError(
-      SignerClientError.types.CryptoError,
+    throw new CryptoError(
+      CryptoError.types.ExportKey,
       "generateKey.exportKey",
       err,
     );
@@ -46,23 +46,11 @@ export async function encrypt(
   const encryptedData = await crypto.subtle
     .encrypt(
       { ...ALGORITHM, iv },
-      await crypto.subtle
-        .importKey("jwk", key, ALGORITHM, false, ["encrypt"])
-        .catch((err: Error) => {
-          throw new SignerClientError(
-            SignerClientError.types.CryptoError,
-            "encrypt.importKey",
-            err,
-          );
-        }),
+      await importKey(key, ["encrypt"]),
       new TextEncoder().encode(data),
     )
     .catch((err: Error) => {
-      throw new SignerClientError(
-        SignerClientError.types.CryptoError,
-        "encrypt.encrypt",
-        err,
-      );
+      throw new CryptoError(CryptoError.types.Encrypt, "encrypt.encrypt", err);
     });
 
   return {
@@ -81,25 +69,25 @@ export async function decrypt(key: JsonWebKey, { iv, cipher }: EncryptedData) {
         // @ts-expect-error: Uint8Array.fromHex is polyfilled by core-js
         iv: Uint8Array.fromHex(iv),
       },
-      await crypto.subtle
-        .importKey("jwk", key, ALGORITHM, false, ["decrypt"])
-        .catch((err: Error) => {
-          throw new SignerClientError(
-            SignerClientError.types.CryptoError,
-            "decrypt.importKey",
-            err,
-          );
-        }),
+      await importKey(key, ["decrypt"]),
       // @ts-expect-error: Uint8Array.fromHex is polyfilled by core-js
       Uint8Array.fromHex(cipher),
     )
     .catch((err: Error) => {
-      throw new SignerClientError(
-        SignerClientError.types.CryptoError,
-        "decrypt.decrypt",
-        err,
-      );
+      throw new CryptoError(CryptoError.types.Decrypt, "decrypt.decrypt", err);
     });
 
   return new TextDecoder().decode(decrypted);
+}
+
+function importKey(key: JsonWebKey, usages: ReadonlyArray<KeyUsage>) {
+  return crypto.subtle
+    .importKey("jwk", key, ALGORITHM, false, usages)
+    .catch((err: Error) => {
+      throw new CryptoError(
+        CryptoError.types.ImportKey,
+        "decrypt.importKey",
+        err,
+      );
+    });
 }
