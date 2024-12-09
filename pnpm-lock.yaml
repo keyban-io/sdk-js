@@ -16,9 +16,6 @@ importers:
       '@keyban/sdk-base':
         specifier: workspace:*
         version: link:../../packages/sdk-base
-      core-js:
-        specifier: ^3.39.0
-        version: 3.39.0
     devDependencies:
       '@vitest/ui':
         specifier: ^2.1.8
@@ -41,9 +38,6 @@ importers:
       happy-dom:
         specifier: ^15.11.7
         version: 15.11.7
-      jose:
-        specifier: ^5.9.6
-        version: 5.9.6
       msw:
         specifier: ^2.6.6
         version: 2.6.6(@types/node@22.10.1)(typescript@5.7.2)
@@ -414,6 +408,9 @@ importers:
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.9.0)
+      core-js:
+        specifier: ^3.39.0
+        version: 3.39.0
       graphql-ws:
         specifier: ^5.16.0
         version: 5.16.0(graphql@16.9.0)
@@ -454,6 +451,9 @@ importers:
       globals:
         specifier: ^15.12.0
         version: 15.12.0
+      jose:
+        specifier: ^5.9.6
+        version: 5.9.6
       prettier:
         specifier: ^3.4.1
         version: 3.4.1

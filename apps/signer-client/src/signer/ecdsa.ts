@@ -37,10 +37,15 @@ export class KeybanSigner_ECDSA
     });
   }
 
-  async sign(appId: string, accessToken: string, message: string) {
+  async sign(
+    appId: string,
+    clientShareKey: JsonWebKey,
+    accessToken: string,
+    message: string,
+  ) {
     const [wasm, clientShare] = await Promise.all([
       KeybanSigner_ECDSA.#wasm,
-      this.getClientShare(appId, accessToken),
+      this.getClientShare(appId, clientShareKey, accessToken),
     ]);
 
     return wasm
@@ -50,10 +55,14 @@ export class KeybanSigner_ECDSA
       });
   }
 
-  async publicKey(appId: string, accessToken: string) {
+  async publicKey(
+    appId: string,
+    clientShareKey: JsonWebKey,
+    accessToken: string,
+  ) {
     const [wasm, clientShare] = await Promise.all([
       KeybanSigner_ECDSA.#wasm,
-      this.getClientShare(appId, accessToken),
+      this.getClientShare(appId, clientShareKey, accessToken),
     ]);
 
     return wasm.publicKey(clientShare).catch((err) => {

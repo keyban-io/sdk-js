@@ -1,4 +1,4 @@
-import { KeybanChain, KeybanProvider } from "@keyban/sdk-react";
+import { generateKey, KeybanChain, KeybanProvider } from "@keyban/sdk-react";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useSearchParams } from "react-router-dom";
@@ -45,6 +45,16 @@ export default function App() {
           appId={config.appId}
           chain={config.chain}
           accessTokenProvider={() => config.accessToken}
+          clientShareKeyProvider={async () => {
+            try {
+              return JSON.parse(localStorage.getItem("MYKEY") ?? "");
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (_err) {
+              const key = await generateKey();
+              localStorage.setItem("MYKEY", JSON.stringify(key));
+              return key;
+            }
+          }}
         >
           <KeybanTest />
         </KeybanProvider>

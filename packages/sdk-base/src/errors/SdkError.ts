@@ -1,7 +1,7 @@
 /**
  * @module SDK Errors
  */
-import { KeybanBaseError } from "./base";
+import { KeybanBaseError } from "./KeybanBaseError";
 
 /**
  * Enum representing all possible SDK error types.
@@ -12,14 +12,6 @@ import { KeybanBaseError } from "./base";
  * @enum {string}
  */
 export enum SdkErrorTypes {
-  /**
-   * An invalid access token was provided.
-   *
-   * **Description:** The access token used for authentication is either malformed or expired.
-   * **Possible Cause:** Using an incorrect token, token has expired, or token was not properly retrieved.
-   */
-  InvalidAccessToken = "InvalidAccessToken",
-
   /**
    * An unknown error during iframe RPC call.
    */
@@ -145,9 +137,6 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
    */
   static #getTitle(errorType: SdkErrorTypes): string {
     switch (errorType) {
-      case SdkErrorTypes.InvalidAccessToken:
-        return "You provided an invalid access token";
-
       case SdkErrorTypes.UnknownIframeRpcError:
         return "An unknown error occured with iframe rpc call";
 

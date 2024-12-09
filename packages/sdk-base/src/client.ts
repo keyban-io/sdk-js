@@ -53,6 +53,11 @@ export type KeybanClientConfig = {
   accessTokenProvider: () => string | Promise<string>;
 
   /**
+   * A function that provides the client share encryption key, either synchronously or asynchronously.
+   */
+  clientShareKeyProvider: () => JsonWebKey | Promise<JsonWebKey>;
+
+  /**
    * The blockchain configuration for Keyban.
    */
   chain: KeybanChain;
@@ -148,6 +153,12 @@ export class KeybanClient {
   #accessTokenProvider: () => string | Promise<string>;
 
   /**
+   * Function that provides the client share encryption key.
+   * @private
+   */
+  #clientShareKeyProvider: () => JsonWebKey | Promise<JsonWebKey>;
+
+  /**
    * The iframe rpc client
    * @private
    */
@@ -186,6 +197,7 @@ export class KeybanClient {
    *   apiUrl: "https://api.keyban.io",
    *   appId: "your-app-id",
    *   accessTokenProvider: () => "your-access-token",
+   *   clientShareKeyProvider: () => "your-client-shares-encryption-key-provider",
    *   chain: KeybanChain.KeybanTestnet,
    * });
    * ```
@@ -195,6 +207,7 @@ export class KeybanClient {
       apiUrl = "https://api.keyban.io",
       appId,
       accessTokenProvider,
+      clientShareKeyProvider,
       chain,
     } = config;
 
@@ -205,6 +218,7 @@ export class KeybanClient {
     this.feesUnit = feesUnitChainsMap[this.chain];
 
     this.#accessTokenProvider = accessTokenProvider;
+    this.#clientShareKeyProvider = clientShareKeyProvider;
 
     this.#rpcClient = new RpcClient(new URL("/signer-client", apiUrl));
 
@@ -246,6 +260,7 @@ export class KeybanClient {
    */
   async initialize(): Promise<KeybanAccount> {
     const accessToken = await this.#accessTokenProvider();
+    const clientShareKey = await this.#clientShareKeyProvider();
     const { sub } = decodeJwt(accessToken);
 
     const pending = this.#pendingAccounts.get(sub);
@@ -256,6 +271,7 @@ export class KeybanClient {
         "ecdsa",
         "init",
         this.appId,
+        clientShareKey,
         await this.#accessTokenProvider(),
       );
 
@@ -263,6 +279,7 @@ export class KeybanClient {
         "ecdsa",
         "publicKey",
         this.appId,
+        clientShareKey,
         accessToken,
       );
 
@@ -274,6 +291,7 @@ export class KeybanClient {
             "ecdsa",
             "sign",
             this.appId,
+            clientShareKey,
             await this.#accessTokenProvider(),
             hash,
           );
@@ -293,6 +311,7 @@ export class KeybanClient {
               "ecdsa",
               "sign",
               this.appId,
+              clientShareKey,
               await this.#accessTokenProvider(),
               keccak256(serializer(signableTransaction)),
             )
@@ -306,6 +325,7 @@ export class KeybanClient {
             "ecdsa",
             "sign",
             this.appId,
+            clientShareKey,
             await this.#accessTokenProvider(),
             hash,
           );

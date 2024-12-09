@@ -1,7 +1,10 @@
 /**
  * @module Utils
  */
-import { SdkError, SdkErrorTypes } from "~/errors";
+
+import "core-js/actual/typed-array/from-base64";
+
+import { JwtError } from "~/errors";
 
 /**
  * Parses a JWT access token and returns the decoded payload.
@@ -13,19 +16,12 @@ import { SdkError, SdkErrorTypes } from "~/errors";
 export function decodeJwt(accessToken: string) {
   try {
     const base64 = accessToken.split(".")[1];
-    const bin = Uint8Array.from(
-      atob(base64)
-        .split("")
-        .map((m) => m.codePointAt(0)!),
-    );
+    // @ts-expect-error: Uint8Array.fromBase64 is polyfilled by core-js
+    const bin = Uint8Array.fromBase64(base64);
     const json = new TextDecoder().decode(bin);
 
     return JSON.parse(json);
   } catch (err) {
-    throw new SdkError(
-      SdkErrorTypes.InvalidAccessToken,
-      "decodeJwt",
-      err as Error,
-    );
+    throw new JwtError(JwtError.types.InvalidToken, "decodeJwt", err as Error);
   }
 }

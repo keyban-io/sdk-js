@@ -77,11 +77,17 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * - The `ChainSelector` component is responsible for triggering updates to the `chain` configuration, and it is placed outside the `KeybanProvider` to ensure proper re-initialization of the provider.
  */
 export function KeybanProvider(props: KeybanProviderProps) {
-  const { children, accessTokenProvider, ...config } = props;
+  const { children, accessTokenProvider, clientShareKeyProvider, ...config } =
+    props;
 
   const atProviderRef = React.useRef(accessTokenProvider);
   React.useImperativeHandle(atProviderRef, () => accessTokenProvider, [
     accessTokenProvider,
+  ]);
+
+  const keyProviderRef = React.useRef(clientShareKeyProvider);
+  React.useImperativeHandle(keyProviderRef, () => clientShareKeyProvider, [
+    clientShareKeyProvider,
   ]);
 
   const key = JSON.stringify(config);
@@ -89,6 +95,7 @@ export function KeybanProvider(props: KeybanProviderProps) {
   if (!client) {
     client = new KeybanClient({
       accessTokenProvider: () => atProviderRef.current(),
+      clientShareKeyProvider: () => keyProviderRef.current(),
       ...config,
     });
     clients.set(key, client);

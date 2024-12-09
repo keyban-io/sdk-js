@@ -1,5 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { type KeybanChain, KeybanProvider } from "@keyban/sdk-react";
+import {
+  generateKey,
+  type KeybanChain,
+  KeybanProvider,
+} from "@keyban/sdk-react";
 import {
   Box,
   Button,
@@ -87,6 +91,16 @@ export default function App() {
             {...config.keyban}
             chain={chain}
             accessTokenProvider={getAccessTokenSilently}
+            clientShareKeyProvider={async () => {
+              const key = localStorage.getItem("MYKEY");
+              if (key) {
+                return JSON.parse(key);
+              } else {
+                const key = await generateKey();
+                localStorage.setItem("MYKEY", JSON.stringify(key));
+                return key;
+              }
+            }}
           >
             <AppRouter />
           </KeybanProvider>

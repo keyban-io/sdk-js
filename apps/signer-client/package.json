@@ -20,7 +20,6 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^15.12.0",
     "happy-dom": "^15.11.7",
-    "jose": "^5.9.6",
     "msw": "^2.6.6",
     "prettier": "^3.4.1",
     "typescript": "^5.7.2",
@@ -31,7 +30,6 @@
   },
   "dependencies": {
     "@keyban/ecdsa-wasm-client": "workspace:*",
-    "@keyban/sdk-base": "workspace:*",
-    "core-js": "^3.39.0"
+    "@keyban/sdk-base": "workspace:*"
   }
 }

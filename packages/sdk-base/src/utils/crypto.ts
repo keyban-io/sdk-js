@@ -1,7 +1,7 @@
 import "core-js/actual/typed-array/from-hex";
 import "core-js/actual/typed-array/to-hex";
 
-import { CryptoError } from "~/errors/CryptoError";
+import { CryptoError } from "~/errors";
 
 const ALGORITHM: AesKeyGenParams = {
   name: "AES-GCM", // AES-GCM is recommended for authenticated encryption
@@ -13,6 +13,10 @@ export type EncryptedData = {
   cipher: string;
 };
 
+/**
+ * Generates a new encryption key
+ * @returns An encryption key
+ */
 export async function generateKey() {
   const key = await crypto.subtle
     .generateKey(
@@ -37,6 +41,12 @@ export async function generateKey() {
   });
 }
 
+/**
+ * Encrypt data
+ * @param key - The encryption key
+ * @param data - The data to encrypt
+ * @returns The encrypted data
+ */
 export async function encrypt(
   key: JsonWebKey,
   data: string,
@@ -61,7 +71,14 @@ export async function encrypt(
   };
 }
 
-export async function decrypt(key: JsonWebKey, { iv, cipher }: EncryptedData) {
+/**
+ * Decrypt data
+ * @param key - The encryption key
+ * @param data - The data to decrypt
+ * @returns The decrypted data
+ */
+export async function decrypt(key: JsonWebKey, data: EncryptedData) {
+  const { iv, cipher } = data;
   const decrypted = await crypto.subtle
     .decrypt(
       {
@@ -80,6 +97,13 @@ export async function decrypt(key: JsonWebKey, { iv, cipher }: EncryptedData) {
   return new TextDecoder().decode(decrypted);
 }
 
+/**
+ * Import a key
+ * @param key - The encryption key
+ * @param usages - The data to decrypt
+ * @returns The key
+ * @private
+ */
 function importKey(key: JsonWebKey, usages: ReadonlyArray<KeyUsage>) {
   return crypto.subtle
     .importKey("jwk", key, ALGORITHM, false, usages)

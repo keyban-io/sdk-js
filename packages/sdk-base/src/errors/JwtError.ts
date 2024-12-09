@@ -1,4 +1,4 @@
-import { KeybanBaseError } from "@keyban/sdk-base/errors";
+import { KeybanBaseError } from "./KeybanBaseError";
 
 export enum JwtErrorType {
   InvalidToken = "InvalidToken",

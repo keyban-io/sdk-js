@@ -6,7 +6,10 @@ import Row from "~/components/atoms/Row";
 import SelectField from "~/components/molecules/SelectField";
 import TextField from "~/components/molecules/TextField";
 
-type Config = Omit<KeybanClientConfig, "accessTokenProvider"> & {
+type Config = Omit<
+  KeybanClientConfig,
+  "accessTokenProvider" | "clientShareKeyProvider"
+> & {
   accessToken: string;
 };
 
