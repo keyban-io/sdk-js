@@ -1,3 +1,4 @@
+import { EncryptedData, generateKey } from "@keyban/sdk-base/crypto";
 import * as jose from "jose";
 import { http, HttpResponse } from "msw";
 import { setupServer, SetupServerApi } from "msw/node";
@@ -8,13 +9,13 @@ import {
 } from "vitest";
 
 import { apiUrl } from "~/utils/api";
-import { EncryptedData } from "~/utils/crypto";
 
 type Fixtures = {
   clientShares: Map<string, EncryptedData>;
   server: SetupServerApi;
 
   appId: string;
+  clientShareKey: JsonWebKey;
   jwtSubject: string;
   accessToken: string;
   storageKey: string;
@@ -68,6 +69,8 @@ export const test = testBase.extend<Fixtures>({
   ],
 
   appId: ({}, use) => use(crypto.randomUUID()),
+
+  clientShareKey: async ({}, use) => use(await generateKey()),
 
   jwtSubject: ({}, use) => use(crypto.randomUUID()),
 

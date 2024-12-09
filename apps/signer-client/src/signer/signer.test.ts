@@ -14,12 +14,13 @@ class TestSigner extends AbstractKeybanSigner {
 test("init should call implementation dkg", async ({
   expect,
   appId,
+  clientShareKey,
   accessToken,
 }) => {
   const signer = new TestSigner();
   vi.spyOn(signer, "dkg");
 
-  await signer.init(appId, accessToken);
+  await signer.init(appId, clientShareKey, accessToken);
 
   expect(signer.dkg).toHaveBeenCalledWith(appId, accessToken);
 });
@@ -39,28 +40,32 @@ describe("when server respond with an error", () => {
   test.only("init should throw back the error", async ({
     expect,
     appId,
+    clientShareKey,
     accessToken,
   }) => {
     const signer = new TestSigner();
 
-    await expect(signer.init(appId, accessToken)).rejects.toThrow();
+    await expect(
+      signer.init(appId, clientShareKey, accessToken),
+    ).rejects.toThrow();
   });
 });
 
 describe("when an encryption key is already stored", async () => {
-  beforeEach(async ({ appId, accessToken }) => {
-    await new TestSigner().init(appId, accessToken);
+  beforeEach(async ({ appId, clientShareKey, accessToken }) => {
+    await new TestSigner().init(appId, clientShareKey, accessToken);
   });
 
   test("init should get encrypted client share from server", async ({
     expect,
     appId,
+    clientShareKey,
     accessToken,
   }) => {
     const signer = new TestSigner();
     vi.spyOn(signer, "dkg");
 
-    await signer.init(appId, accessToken);
+    await signer.init(appId, clientShareKey, accessToken);
 
     expect(signer.dkg).not.toHaveBeenCalled();
   });
@@ -69,6 +74,7 @@ describe("when an encryption key is already stored", async () => {
     expect,
     clientShares,
     appId,
+    clientShareKey,
     jwtSubject,
     accessToken,
   }) => {
@@ -77,7 +83,7 @@ describe("when an encryption key is already stored", async () => {
     const signer = new TestSigner();
     vi.spyOn(signer, "dkg");
 
-    await signer.init(appId, accessToken);
+    await signer.init(appId, clientShareKey, accessToken);
 
     expect(signer.dkg).toHaveBeenCalledWith(appId, accessToken);
   });
