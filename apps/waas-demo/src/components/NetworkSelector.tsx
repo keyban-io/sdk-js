@@ -39,7 +39,11 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
           onChange={(e) => onChange(e.target.value as KeybanChain)}
           labelId="network-select-label"
           inputProps={{ "aria-label": "Network Selector" }}
-          sx={{ maxWidth: 140, color: theme.palette.secondary.dark, mr: 1 }}
+          sx={{
+            maxWidth: 140,
+            color: theme.palette.secondary.contrastText,
+            mr: 1,
+          }}
         >
           {availableChains.map((chain) => (
             <MenuItem key={chain} value={chain}>

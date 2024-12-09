@@ -1,9 +1,7 @@
-import "@fontsource/nunito/300.css";
-import "@fontsource/nunito/400.css";
-import "@fontsource/nunito/500.css";
-import "@fontsource/nunito/700.css";
-import "@fontsource/chivo/300.css";
-import "@fontsource/chivo/400.css";
+import "@fontsource/inter/300.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/700.css";
 import "@fontsource/chivo/500.css";
 import "@fontsource/chivo/700.css";
 
@@ -11,64 +9,75 @@ import { createTheme } from "@mui/material/styles";
 
 const KeybanTheme = createTheme({
   palette: {
-    mode: "light",
+    mode: 'light',
     primary: {
-      main: "#07689f",
-      light: "#a2d5f2",
-      dark: "#283149",
+      main: '#183E5B',
+      light: '#9DCFF4',
+      dark: '#0a2435',
+      contrastText: '#ffffff',
     },
     secondary: {
-      main: "#a2d5f2",
-      dark: "#ffffff",
+      main: '#EF9341',
+      light: '#F2BC40',
+      dark: '#BF7634',
+      contrastText: '#ffffff',
     },
     background: {
-      default: "#edf1f4",
+      default: "#f4f4f4",
     },
     text: {
-      primary: "#707070",
-      secondary: "#07689F",
-      disabled: "#707070",
+      primary: '#0a2435',
+      secondary: '#0a2435',
+      disabled: '#0a2435',
     },
-    error: {
-      main: "#d32f2f",
-    },
-    warning: {
-      main: "#ed6c02",
-    },
-    success: {
-      main: "#2e7d32",
-    },
-    info: {
-      main: "#07689f",
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        containedPrimary: {
+          backgroundColor: '#EF9341', // Couleur de fond des boutons primaires
+          color: '#ffffff',            // Texte en blanc
+          '&:hover': {
+            backgroundColor: '#d88e34', // Optionnel : Couleur au survol
+          },
+        },
+        containedSecondary: {
+          backgroundColor: '#9DCFF4', // Couleur de fond des boutons secondaires
+          color: '#ffffff',            // Texte en blanc
+          '&:hover': {
+            backgroundColor: '#7AB8E3', // Couleur au survol des boutons secondaires (foncée de 10%)
+          },
+        },
+      },
     },
   },
   typography: {
     // Réduction de la taille de police de base de 14px (par défaut) à 12px
     fontSize: 12,
-    fontFamily: '"Nunito", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter"',
     h1: {
-      fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Chivo"',
       // Vous pouvez ajuster les tailles spécifiques si nécessaire
       fontSize: "2rem", // Exemple de réduction
     },
     h2: {
-      fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Chivo"',
       fontSize: "1.75rem",
     },
     h3: {
-      fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Chivo"',
       fontSize: "1.5rem",
     },
     h4: {
-      fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Chivo"',
       fontSize: "1.25rem",
     },
     h5: {
-      fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Chivo"',
       fontSize: "1rem",
     },
     h6: {
-      fontFamily: '"Chivo", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Chivo"',
       fontSize: "0.875rem",
     },
     body1: {
@@ -77,8 +86,13 @@ const KeybanTheme = createTheme({
     body2: {
       fontSize: "0.75rem",
     },
-    // Vous pouvez ajuster d'autres variantes si nécessaire
-  },
+    subtitle1: {
+      fontFamily: 'Chivo',
+    },
+    subtitle2: {
+      fontFamily: 'Chivo',
+    },
+    },
 });
 
 export default KeybanTheme;
