@@ -1,17 +1,19 @@
+// src/App.tsx
 import { useAuth0 } from "@auth0/auth0-react";
-import {
-  generateKey,
-  type KeybanChain,
-  KeybanProvider,
-} from "@keyban/sdk-react";
+import { darkThemeOptions, lightThemeOptions } from "@keyban/mui-theme"; // Ajustez le chemin si nécessaire
+import { generateKey, KeybanChain } from "@keyban/sdk-base";
+import { KeybanProvider } from "@keyban/sdk-react";
 import {
   Box,
   Button,
   CircularProgress,
   Container,
+  CssBaseline,
   Stack,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
+import { useEffect, useMemo } from "react";
 
 import ApplicationHeader from "~/components/ApplicationHeader";
 import config from "~/config";
@@ -19,14 +21,44 @@ import { useLocalStorage } from "~/lib/localStorage";
 import { AppRouter } from "~/lib/router";
 
 export default function App() {
-  const { getAccessTokenSilently } = useAuth0();
+  const {
+    getAccessTokenSilently,
+    loginWithRedirect,
+    isAuthenticated,
+    isLoading,
+  } = useAuth0();
 
   const [chain, setChain] = useLocalStorage<KeybanChain>(
     "selectedChain",
     config.keyban.chain,
   );
 
-  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+  // État pour le thème, par défaut 'light'
+  const [themeMode, setThemeMode] = useLocalStorage<"light" | "dark">(
+    "themeMode",
+    "light",
+  );
+
+  // Définir le thème basé sur le mode actuel
+  const theme = useMemo(() => {
+    return themeMode === "light" ? lightThemeOptions : darkThemeOptions;
+  }, [themeMode]);
+
+  // Fonction pour basculer le thème
+  const toggleTheme = () => {
+    setThemeMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+  };
+
+  // Assurez-vous que le thème est chargé depuis localStorage au démarrage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("themeMode") as
+      | "light"
+      | "dark"
+      | null;
+    if (savedTheme) {
+      setThemeMode(savedTheme);
+    }
+  }, [setThemeMode]);
 
   const handleLogin = async () => {
     try {
@@ -42,70 +74,91 @@ export default function App() {
 
   if (isLoading) {
     return (
-      <Stack
-        sx={{
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-        <Typography variant="h6">Loading...</Typography>
-      </Stack>
-    );
-  }
-
-  return (
-    <Container maxWidth="md" sx={{ py: [2], backgroundColor: "white" }}>
-      {!isAuthenticated ? (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Stack
-          spacing={2}
           sx={{
             justifyContent: "center",
             alignItems: "center",
             height: "100vh",
           }}
         >
-          <Box
-            component="img"
-            sx={{
-              height: 200,
-              width: 200,
-              maxHeight: { xs: 150, md: 200 },
-              maxWidth: { xs: 150, md: 200 },
-            }}
-            alt="KEYBAN logo"
-            src="/images/keyban-logo-small.svg"
-          />
-          <Stack>
-            <Typography variant="h4">KEYBAN WAAS Demo</Typography>
-          </Stack>
-          <Button variant="contained" onClick={handleLogin}>
-            Login
-          </Button>
+          <CircularProgress />
+          <Typography variant="h6">Loading...</Typography>
         </Stack>
-      ) : (
-        <Stack spacing={2}>
-          <ApplicationHeader selectedChainId={chain} onSelectChain={setChain} />
-          <KeybanProvider
-            {...config.keyban}
-            chain={chain}
-            accessTokenProvider={getAccessTokenSilently}
-            clientShareKeyProvider={async () => {
-              const key = localStorage.getItem("MYKEY");
-              if (key) {
-                return JSON.parse(key);
-              } else {
-                const key = await generateKey();
-                localStorage.setItem("MYKEY", JSON.stringify(key));
-                return key;
-              }
-            }}
-          >
-            <AppRouter />
-          </KeybanProvider>
-        </Stack>
-      )}
-    </Container>
+      </ThemeProvider>
+    );
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="md" sx={{ py: [2] }}>
+        {!isAuthenticated ? (
+          <>
+            <ApplicationHeader
+              selectedChainId={chain}
+              onSelectChain={setChain}
+              onToggleTheme={toggleTheme} // Passer la fonction de bascule
+              themeMode={themeMode} // Passer le mode actuel
+            />
+            <Stack
+              spacing={2}
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}
+            >
+              <Box
+                component="img"
+                sx={{
+                  height: 200,
+                  width: 200,
+                  maxHeight: { xs: 150, md: 200 },
+                  maxWidth: { xs: 150, md: 200 },
+                }}
+                alt="KEYBAN logo"
+                src="/images/keyban-logo-small.svg"
+              />
+              <Stack>
+                <Typography variant="h4">KEYBAN WAAS Demo</Typography>
+              </Stack>
+              <Button variant="contained" onClick={handleLogin}>
+                Login
+              </Button>
+            </Stack>
+          </>
+        ) : (
+          <>
+            <ApplicationHeader
+              selectedChainId={chain}
+              onSelectChain={setChain}
+              onToggleTheme={toggleTheme} // Passer la fonction de bascule
+              themeMode={themeMode} // Passer le mode actuel
+            />
+            <Stack spacing={2}>
+              <KeybanProvider
+                {...config.keyban}
+                chain={chain}
+                accessTokenProvider={getAccessTokenSilently}
+                clientShareKeyProvider={async () => {
+                  const key = localStorage.getItem("MYKEY");
+                  if (key) {
+                    return JSON.parse(key);
+                  } else {
+                    const key = await generateKey();
+                    localStorage.setItem("MYKEY", JSON.stringify(key));
+                    return key;
+                  }
+                }}
+              >
+                <AppRouter />
+              </KeybanProvider>
+            </Stack>
+          </>
+        )}
+      </Container>
+    </ThemeProvider>
   );
 }

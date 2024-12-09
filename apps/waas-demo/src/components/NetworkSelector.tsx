@@ -43,6 +43,21 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
             maxWidth: 140,
             color: theme.palette.secondary.contrastText,
             mr: 1,
+            "& .MuiSelect-icon": {
+              color: theme.palette.secondary.contrastText,
+            },
+            "&:before": {
+              borderBottom: `1px solid ${theme.palette.secondary.contrastText}`,
+            },
+            "&:hover:not(.Mui-disabled):before": {
+              borderBottom: `2px solid ${theme.palette.secondary.contrastText}`,
+            },
+            "&.Mui-focused:after": {
+              borderBottom: `2px solid ${theme.palette.secondary.contrastText}`,
+            },
+            "&.Mui-focused .MuiSelect-select": {
+              color: theme.palette.secondary.contrastText,
+            },
           }}
         >
           {availableChains.map((chain) => (

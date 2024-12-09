@@ -64,7 +64,11 @@ const NftDetailsPage: React.FC = () => {
         <Typography variant="h6" component="div">
           Balance not found
         </Typography>
-        <Button variant="contained" onClick={() => navigate("/")}>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/")}
+          color="secondary"
+        >
           Back to Dashboard
         </Button>
       </Alert>

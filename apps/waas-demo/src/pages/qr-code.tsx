@@ -28,7 +28,7 @@ const QRCodePage: React.FC = () => {
         {address || "No address provided"}
       </Typography>
       {address ? <QRCodeSVG value={address} size={256} level="H" /> : null}
-      <Button variant="contained" onClick={handleBackClick}>
+      <Button variant="contained" onClick={handleBackClick} color="secondary">
         Back to Dashboard
       </Button>
     </Stack>

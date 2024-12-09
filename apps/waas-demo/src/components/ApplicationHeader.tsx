@@ -1,5 +1,6 @@
+// src/components/ApplicationHeader.tsx
 import { useAuth0 } from "@auth0/auth0-react";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faMoon, faSun } from "@fortawesome/free-solid-svg-icons"; // Import des icônes
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { KeybanChain } from "@keyban/sdk-react";
 import {
@@ -21,11 +22,15 @@ import NetworkSelector from "~/components/NetworkSelector";
 type ApplicationHeaderProps = {
   selectedChainId: KeybanChain;
   onSelectChain: (chainId: KeybanChain) => void;
+  onToggleTheme: () => void; // Nouvelle prop pour basculer le thème
+  themeMode: "light" | "dark"; // Nouvelle prop pour le mode actuel
 };
 
 const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   selectedChainId,
   onSelectChain,
+  onToggleTheme, // Déstructuration de la nouvelle prop
+  themeMode, // Déstructuration de la nouvelle prop
 }) => {
   const { user, logout } = useAuth0();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -71,6 +76,12 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
           }}
         >
           <NetworkSelector chain={selectedChainId} onChange={onSelectChain} />
+
+          {/* Bouton de Bascule du Thème */}
+          <IconButton onClick={onToggleTheme} color="inherit" sx={{ mx: 1 }}>
+            <FontAwesomeIcon icon={themeMode === "light" ? faMoon : faSun} />
+          </IconButton>
+
           <IconButton color="inherit" sx={{ mx: 1 }}>
             <Badge badgeContent={4} color="secondary">
               <FontAwesomeIcon icon={faBell} />

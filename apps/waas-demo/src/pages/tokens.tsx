@@ -13,7 +13,7 @@ const TransferPage: React.FC = () => {
 
   return (
     <Stack direction="column" spacing={4}>
-      <Typography variant="h6" align="center" color="primary">
+      <Typography variant="h5" align="center" color="primary">
         Tokens
       </Typography>
       <TokensSection pageSize={2} />
@@ -25,7 +25,7 @@ const TransferPage: React.FC = () => {
           marginTop: "auto",
         }}
       >
-        <Button variant="contained" onClick={handleBackClick}>
+        <Button variant="contained" onClick={handleBackClick} color="secondary">
           Back to Dashboard
         </Button>
       </div>

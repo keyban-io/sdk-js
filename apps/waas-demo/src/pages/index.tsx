@@ -145,20 +145,18 @@ const WalletDashboardContent: React.FC = () => {
             justifyContent="center" // Centrage horizontal
             mt={2}
           >
-            <Grid2>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleViewTokens}
-                startIcon={<FontAwesomeIcon icon={faCoins} />}
-                size="small"
-              >
-                View all Tokens
-              </Button>
-            </Grid2>
+            {" "}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleViewTokens}
+              startIcon={<FontAwesomeIcon icon={faCoins} />}
+              size="small"
+            >
+              View all Tokens
+            </Button>
           </Grid2>
         </Box>
-
         <Divider />
 
         {/* NFTs Section */}
@@ -174,17 +172,15 @@ const WalletDashboardContent: React.FC = () => {
             justifyContent="center" // Centrage horizontal
             mt={2}
           >
-            <Grid2>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleViewNfts}
-                startIcon={<FontAwesomeIcon icon={faCube} />}
-                size="small"
-              >
-                View all NFTs
-              </Button>
-            </Grid2>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleViewNfts}
+              startIcon={<FontAwesomeIcon icon={faCube} />}
+              size="small"
+            >
+              View all NFTs
+            </Button>
           </Grid2>
         </Box>
 
@@ -206,17 +202,15 @@ const WalletDashboardContent: React.FC = () => {
             justifyContent="center" // Centrage horizontal
             mt={2}
           >
-            <Grid2>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleViewTransfers}
-                startIcon={<FontAwesomeIcon icon={faMoneyBillTransfer} />}
-                size="small"
-              >
-                View all Transfers
-              </Button>
-            </Grid2>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleViewTransfers}
+              startIcon={<FontAwesomeIcon icon={faMoneyBillTransfer} />}
+              size="small"
+            >
+              View all Transfers
+            </Button>
           </Grid2>
         </Box>
       </Stack>

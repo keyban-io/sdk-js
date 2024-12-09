@@ -25,7 +25,7 @@ const TransferPage: React.FC = () => {
           marginTop: "auto",
         }}
       >
-        <Button variant="contained" onClick={handleBackClick}>
+        <Button variant="contained" onClick={handleBackClick} color="secondary">
           Back to Dashboard
         </Button>
       </div>

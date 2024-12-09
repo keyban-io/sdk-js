@@ -216,7 +216,11 @@ const TransferERC20: React.FC = () => {
         </Alert>
       )}
 
-      <Button variant="contained" onClick={() => navigate("/")}>
+      <Button
+        variant="contained"
+        onClick={() => navigate("/")}
+        color="secondary"
+      >
         Back to Dashboard
       </Button>
     </Stack>
