@@ -2,7 +2,7 @@
  * @module RPC services
  */
 
-import { KeybanBaseError } from "~/errors";
+import { KeybanBaseError, SdkError } from "~/errors";
 
 type Hex = `0x${string}`;
 
@@ -100,8 +100,17 @@ export class RpcServer implements IRpc {
 
           ports[0].postMessage([result, null]);
         } catch (error) {
-          console.error(error);
-          ports[0].postMessage([null, JSON.stringify(error)]);
+          let err = error;
+
+          if (!(err instanceof KeybanBaseError)) {
+            err = new SdkError(
+              SdkError.types.UnknownIframeRpcError,
+              "RpcServer",
+              error as Error,
+            );
+          }
+
+          ports[0].postMessage([null, JSON.stringify(err)]);
         }
       },
     );

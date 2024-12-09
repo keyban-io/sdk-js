@@ -13,15 +13,6 @@ import { KeybanBaseError } from "./base";
  */
 export enum SdkErrorTypes {
   /**
-   * The environment does not support WebAssembly modules.
-   *
-   * **Description:** WebAssembly is required for certain SDK functionalities.
-   *
-   * **Possible Cause:** Running the SDK in an outdated browser or environment that lacks WebAssembly support.
-   */
-  WebAssemblyNotSupported = "WebAssemblyNotSupported",
-
-  /**
    * An invalid access token was provided.
    *
    * **Description:** The access token used for authentication is either malformed or expired.
@@ -30,10 +21,14 @@ export enum SdkErrorTypes {
   InvalidAccessToken = "InvalidAccessToken",
 
   /**
+   * An unknown error during iframe RPC call.
+   */
+  UnknownIframeRpcError = "UnknownIframeRpcError",
+
+  /**
    * The provided address is invalid.
    *
    * **Description:** The Ethereum address does not conform to the expected format.
-   *
    * **Possible Cause:** Typographical errors in the address or incorrect formatting.
    */
   AddressInvalid = "AddressInvalid",
@@ -42,7 +37,6 @@ export enum SdkErrorTypes {
    * The provided amount is invalid.
    *
    * **Description:** The amount specified for a transaction is not acceptable.
-   *
    * **Possible Cause:** Amount is zero, negative, or exceeds allowed limits.
    */
   AmountInvalid = "AmountInvalid",
@@ -51,7 +45,6 @@ export enum SdkErrorTypes {
    * The amount is required for this operation.
    *
    * **Description:** An operation that requires a monetary amount did not receive one.
-   *
    * **Possible Cause:** Missing amount parameter in the function call.
    */
   AmountRequired = "AmountRequired",
@@ -76,7 +69,6 @@ export enum SdkErrorTypes {
    * Gas estimation failed during transaction processing.
    *
    * **Description:** The SDK was unable to estimate the gas required for a transaction.
-   *
    * **Possible Cause:** Network issues, incorrect transaction parameters, or contract errors.
    */
   EstimateGasExecution = "EstimateGasExecution",
@@ -85,7 +77,6 @@ export enum SdkErrorTypes {
    * The account has insufficient funds to perform the operation.
    *
    * **Description:** The user's account balance is too low to cover the transaction amount and associated fees.
-   *
    * **Possible Cause:** Attempting a transaction with an amount exceeding the available balance.
    */
   InsufficientFunds = "InsufficientFunds",
@@ -94,7 +85,6 @@ export enum SdkErrorTypes {
    * The NFT standard provided is invalid.
    *
    * **Description:** An unsupported NFT standard was specified.
-   *
    * **Possible Cause:** Using an NFT standard other than ERC721 or ERC1155.
    */
   InvalidNftStandard = "InvalidNftStandard",
@@ -103,7 +93,6 @@ export enum SdkErrorTypes {
    * The specified NFT was not found.
    *
    * **Description:** The NFT identified by the provided contract address and token ID does not exist.
-   *
    * **Possible Cause:** Incorrect token ID, wrong contract address, or the NFT has been burned.
    */
   NftNotFound = "NftNotFound",
@@ -156,11 +145,11 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
    */
   static #getTitle(errorType: SdkErrorTypes): string {
     switch (errorType) {
-      case SdkErrorTypes.WebAssemblyNotSupported:
-        return "Environment does not support WebAssembly modules";
-
       case SdkErrorTypes.InvalidAccessToken:
         return "You provided an invalid access token";
+
+      case SdkErrorTypes.UnknownIframeRpcError:
+        return "An unknown error occured with iframe rpc call";
 
       case SdkErrorTypes.AddressInvalid:
         return "Address is invalid";
