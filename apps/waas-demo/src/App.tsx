@@ -97,10 +97,8 @@ export default function App() {
         {!isAuthenticated ? (
           <>
             <ApplicationHeader
-              selectedChainId={chain}
-              onSelectChain={setChain}
-              onToggleTheme={toggleTheme} // Passer la fonction de bascule
-              themeMode={themeMode} // Passer le mode actuel
+              onToggleTheme={toggleTheme}
+              themeMode={themeMode}
             />
             <Stack
               spacing={2}

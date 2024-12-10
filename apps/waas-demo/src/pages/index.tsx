@@ -151,7 +151,6 @@ const WalletDashboardContent: React.FC = () => {
               color="primary"
               onClick={handleViewTokens}
               startIcon={<FontAwesomeIcon icon={faCoins} />}
-              size="small"
             >
               View all Tokens
             </Button>
@@ -177,7 +176,6 @@ const WalletDashboardContent: React.FC = () => {
               color="primary"
               onClick={handleViewNfts}
               startIcon={<FontAwesomeIcon icon={faCube} />}
-              size="small"
             >
               View all NFTs
             </Button>
@@ -207,7 +205,6 @@ const WalletDashboardContent: React.FC = () => {
               color="primary"
               onClick={handleViewTransfers}
               startIcon={<FontAwesomeIcon icon={faMoneyBillTransfer} />}
-              size="small"
             >
               View all Transfers
             </Button>

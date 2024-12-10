@@ -20,8 +20,8 @@ import { useState } from "react";
 import NetworkSelector from "~/components/NetworkSelector";
 
 type ApplicationHeaderProps = {
-  selectedChainId: KeybanChain;
-  onSelectChain: (chainId: KeybanChain) => void;
+  selectedChainId?: KeybanChain;
+  onSelectChain?: (chainId: KeybanChain) => void;
   onToggleTheme: () => void; // Nouvelle prop pour basculer le thème
   themeMode: "light" | "dark"; // Nouvelle prop pour le mode actuel
 };
@@ -67,7 +67,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
           KEYBAN WAAS Demo
         </Typography>
 
-        <Box sx={{ flexGrow: 1 }} />
+        {selectedChainId && onSelectChain && <Box sx={{ flexGrow: 1 }} />}
 
         <Box
           sx={{
@@ -75,53 +75,61 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
             alignItems: "center",
           }}
         >
-          <NetworkSelector chain={selectedChainId} onChange={onSelectChain} />
+          {selectedChainId && onSelectChain && (
+            <NetworkSelector chain={selectedChainId} onChange={onSelectChain} />
+          )}
 
           {/* Bouton de Bascule du Thème */}
           <IconButton onClick={onToggleTheme} color="inherit" sx={{ mx: 1 }}>
             <FontAwesomeIcon icon={themeMode === "light" ? faMoon : faSun} />
           </IconButton>
 
-          <IconButton color="inherit" sx={{ mx: 1 }}>
-            <Badge badgeContent={4} color="secondary">
-              <FontAwesomeIcon icon={faBell} />
-            </Badge>
-          </IconButton>
-
-          <Tooltip title="Open settings">
-            <IconButton
-              onClick={handleMenuOpen}
-              color="inherit"
-              sx={{ p: 0, ml: 1 }}
-            >
-              <Avatar
-                sx={{ width: 32, height: 32 }}
-                src={user?.picture}
-                alt={user?.name}
-              />
+          {selectedChainId && onSelectChain && (
+            <IconButton color="inherit" sx={{ mx: 1 }}>
+              <Badge badgeContent={4} color="secondary">
+                <FontAwesomeIcon icon={faBell} />
+              </Badge>
             </IconButton>
-          </Tooltip>
+          )}
 
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={() => logoutWithRedirect()}>
-              <Typography sx={{ textAlign: "center" }}>Logout</Typography>
-            </MenuItem>
-          </Menu>
+          {selectedChainId && onSelectChain && (
+            <>
+              <Tooltip title="Open settings">
+                <IconButton
+                  onClick={handleMenuOpen}
+                  color="inherit"
+                  sx={{ p: 0, ml: 1 }}
+                >
+                  <Avatar
+                    sx={{ width: 32, height: 32 }}
+                    src={user?.picture}
+                    alt={user?.name}
+                  />
+                </IconButton>
+              </Tooltip>
+
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={() => logoutWithRedirect()}>
+                  <Typography sx={{ textAlign: "center" }}>Logout</Typography>
+                </MenuItem>
+              </Menu>
+            </>
+          )}
         </Box>
       </Toolbar>
     </AppBar>
