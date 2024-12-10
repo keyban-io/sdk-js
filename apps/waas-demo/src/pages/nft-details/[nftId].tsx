@@ -9,7 +9,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Container,
   Skeleton,
   Stack,
   Typography,
