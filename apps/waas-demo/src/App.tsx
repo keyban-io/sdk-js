@@ -12,8 +12,9 @@ import {
   Stack,
   ThemeProvider,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 import ApplicationHeader from "~/components/ApplicationHeader";
 import config from "~/config";
@@ -34,9 +35,10 @@ export default function App() {
   );
 
   // État pour le thème, par défaut 'light'
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [themeMode, setThemeMode] = useLocalStorage<"light" | "dark">(
     "themeMode",
-    "light",
+    prefersDarkMode ? "dark" : "light",
   );
 
   // Définir le thème basé sur le mode actuel
@@ -48,17 +50,6 @@ export default function App() {
   const toggleTheme = () => {
     setThemeMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
   };
-
-  // Assurez-vous que le thème est chargé depuis localStorage au démarrage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("themeMode") as
-      | "light"
-      | "dark"
-      | null;
-    if (savedTheme) {
-      setThemeMode(savedTheme);
-    }
-  }, [setThemeMode]);
 
   const handleLogin = async () => {
     try {
