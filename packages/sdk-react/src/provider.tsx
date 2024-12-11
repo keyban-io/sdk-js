@@ -16,6 +16,11 @@ const KeybanContext = React.createContext<KeybanClient | null>(null);
  * @typedef {object} KeybanProviderProps
  * @property {React.ReactNode} children - The child components to be rendered within the provider.
  * @property {KeybanClientConfig} KeybanClientConfig - Configuration settings for the Keyban client.
+ * @property {() => Promise<string>} [clientShareKeyProvider] -
+ *   An optional provider function that returns a shared key for client-side operations.
+ *   This key is used to cipher the client's share of the end user and is stored securely in Keyban's infrastructure.
+ *   By managing the key this way, Keyban as the server and client share will not be able to sign operations on behalf of the end users.
+ *   We recommend providing a unique key per client share to enhance security.
  */
 export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
 
@@ -33,48 +38,54 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * The provider supports dynamic updates to certain configuration options, such as `chain`,
  * allowing components to adjust the blockchain network or other configurations during the
  * application's lifecycle.
+ *
+ * Additionally, the `clientShareKeyProvider` prop allows for the injection of a shared key provider function.
+ * This function is used to cipher the client's share of the end user and is stored securely within Keyban's infrastructure.
+ * By utilizing this, Keyban as the server and client share cannot sign operations on behalf of the end users.
+ * We recommend providing a unique key per client share to enhance security.
  * @param props - The Keyban provider configuration options.
  * @throws {Error} If the configuration is invalid.
  * @returns The provider component wrapping the children components.
  * @see {@link KeybanClientConfig} for the available configuration options.
+ * @see {@link clientShareKeyProvider} for managing shared keys in client-side operations.
  * @example
  * ```tsx
- * import { KeybanProvider, KeybanChain, KeybanSigner } from "@keyban/sdk-react";
- * import { useState } from 'react';
- * import { AppRouter } from './AppRouter';
- *
- * // A component to allow the user to select the blockchain network (chain)
- * const ChainSelector: React.FC<{ onSelectChain: (chain: KeybanChain) => void }> = ({ onSelectChain }) => {
- *   return (
- *     <div>
- *       <button onClick={() => onSelectChain(KeybanChain.KeybanTestnet)}>Switch to Testnet</button>
- *       <button onClick={() => onSelectChain(KeybanChain.PolygonAmoy)}>Switch to Polygon Amoy</button>
- *     </div>
- *   );
- * };
+ * import React from "react";
+ * import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
  *
  * const App: React.FC = () => {
- *   const [chain, setChain] = useState<KeybanChain>(KeybanChain.KeybanTestnet);
+ *   // Function to provide the access token.
+ *   // You can implement logic here to retrieve the token from a secure source,
+ *   // such as environment variables, a secure vault, or an authentication service.
+ *   const getAccessToken = () => {
+ *     // Example: Retrieve the access token from environment variables
+ *     return process.env.REACT_APP_KEYBAN_ACCESS_TOKEN || "your-access-token";
+ *   };
  *
- *   // Function to handle changes in the selected blockchain network
- *   const handleChainSelect = (newChain: KeybanChain) => {
- *     setChain(newChain);
+ *   // Function to provide the shared key for client-side operations.
+ *   // This key is used to cipher the client's share of the end user and is stored securely in Keyban's infrastructure.
+ *   // By managing the key this way, Keyban as the server and client share will not be able to sign operations on behalf of the end users.
+ *   // We recommend providing a unique key per client share to enhance security.
+ *   const clientShareKeyProvider = async () => {
+ *     // Logic to retrieve or generate the shared key
+ *     return "your-unique-shared-key";
  *   };
  *
  *   return (
- *     <>
- *       <ChainSelector onSelectChain={handleChainSelect} />
- *       <KeybanProvider chain={chain}>
- *         <AppRouter />  // The application router component
- *       </KeybanProvider>
- *     </>
+ *     <KeybanProvider
+ *       apiUrl="https://api.keyban.io" // Base URL for Keyban API
+ *       appId="your-app-id" // Your unique application ID from Keyban
+ *       chain={KeybanChain.KeybanTestnet} // Specify the blockchain network (e.g., Testnet or Mainnet)
+ *       accessTokenProvider={getAccessToken} // Function that provides the access token
+ *       clientShareKeyProvider={clientShareKeyProvider} // Function that provides the shared key
+ *     >
+ *       <YourMainComponent />
+ *     </KeybanProvider>
  *   );
  * };
- * ```
  *
- * In this example:
- * - The blockchain network (`chain`) can be dynamically updated using the `handleChainSelect` function.
- * - The `ChainSelector` component is responsible for triggering updates to the `chain` configuration, and it is placed outside the `KeybanProvider` to ensure proper re-initialization of the provider.
+ * export default App;
+ * ```
  */
 export function KeybanProvider(props: KeybanProviderProps) {
   const { children, accessTokenProvider, clientShareKeyProvider, ...config } =

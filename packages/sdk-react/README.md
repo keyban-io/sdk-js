@@ -23,20 +23,46 @@ To start using the Keyban React SDK, wrap your application with the `KeybanProvi
 ### Example of `KeybanProvider` Usage
 
 ```jsx
+import React from "react";
 import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
 
 const App = () => {
+  /**
+   * Function to provide the access token.
+   * You can implement logic here to retrieve the token from a secure source,
+   * such as environment variables, a secure vault, or an authentication service.
+   */
+  const getAccessToken = () => {
+    // Example: Retrieve the access token from environment variables
+    return process.env.REACT_APP_KEYBAN_ACCESS_TOKEN || "your-access-token";
+  };
+
+  /**
+   * Function to provide the shared key for client-side operations.
+   * This key is used to cipher the client's share of the end user and is stored securely in Keyban's infrastructure.
+   * By managing the key this way, Keyban as the server and client share will not be able to sign operations on behalf of the end users.
+   * We recommend providing a unique key per client share to enhance security.
+   */
+  const clientShareKeyProvider = async () => {
+    // Example: Retrieve the shared key from a secure source
+    return process.env.REACT_APP_KEYBAN_SHARED_KEY || "your-shared-key";
+  };
+
   return (
     <KeybanProvider
-      apiUrl="https://api.keyban.io"
-      appId="your-app-id"
-      chain={KeybanChain.KeybanTestnet}
-      accessTokenProvider={() => "your-access-token"}
+      apiUrl="https://api.keyban.io" // Base URL for Keyban API
+      appId="your-app-id" // Your unique application ID from Keyban
+      chain={KeybanChain.KeybanTestnet} // Specify the blockchain network (e.g., Testnet or Mainnet)
+      accessTokenProvider={getAccessToken} // Function that provides the access token
+      clientShareKeyProvider={clientShareKeyProvider} // Function that provides the shared key
     >
-      {/* Your application components */}
+      {/* Your application components go here */}
+      <YourMainComponent />
     </KeybanProvider>
   );
 };
+
+export default App;
 ```
 
 ### Configuration Options
@@ -45,6 +71,7 @@ const App = () => {
 - **`appId`**: Your application ID for authentication with the Keyban API.
 - **`chain`**: The blockchain network used by Keyban (e.g., `KeybanChain.KeybanTestnet`).
 - **`accessTokenProvider`**: A function that returns your access token for authentication.
+- **`clientShareKeyProvider`**: A function that provides a key used to cipher the client's share of the end user. This key is stored securely in Keyban's infrastructure, ensuring that Keyban cannot sign operations on behalf of end users. We recommend providing a unique key per client share to enhance security.
 
 ## Using React Hooks
 
