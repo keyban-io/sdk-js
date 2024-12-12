@@ -10,6 +10,7 @@ import {
   KeybanProvider,
   useKeybanAccount,
   useKeybanAccountBalance,
+  generateKey,
 } from "@keyban/sdk-react";
 
 import config from "./config";
@@ -57,10 +58,26 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
 export default function Wallet() {
   const { getAccessTokenSilently } = useAuth0();
 
+  async function getClientShareKeys(): Promise<JsonWebKey> {
+    // Check if the client share key exists in local storage
+    const storedKey = localStorage.getItem("clientShareKey");
+    if (storedKey) {
+      return JSON.parse(storedKey) as JsonWebKey;
+    }
+
+    // Generate a new key
+    const key = await generateKey();
+
+    // Store the generated key in local storage
+    localStorage.setItem("clientShareKey", JSON.stringify(key));
+
+    return key;
+  }
   return (
     <KeybanProvider
       {...config.keyban}
       accessTokenProvider={getAccessTokenSilently}
+      clientShareKeyProvider={getClientShareKeys}
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         {/* Displays a loading state while fetching data */}
