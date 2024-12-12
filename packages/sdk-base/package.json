@@ -79,7 +79,7 @@
     "core-js": "^3.39.0",
     "graphql-ws": "^5.16.0",
     "subscriptions-transport-ws": "^0.11.0",
-    "viem": "^2.21.53"
+    "viem": "^2.21.54"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

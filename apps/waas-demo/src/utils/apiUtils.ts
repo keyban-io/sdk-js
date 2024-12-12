@@ -1,5 +1,5 @@
 const symbolToIdMap: { [key: string]: string } = {
-  matic: "matic-network",
+  pol: "polygon-ecosystem-token",
   eth: "ethereum",
 };
 
