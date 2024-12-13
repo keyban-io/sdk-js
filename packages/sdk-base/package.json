@@ -74,33 +74,32 @@
     "generate-docs": "typedoc"
   },
   "dependencies": {
-    "@apollo/client": "^3.11.10",
+    "@apollo/client": "^3.12.3",
     "@graphql-typed-document-node/core": "^3.2.0",
     "core-js": "^3.39.0",
     "graphql-ws": "^5.16.0",
-    "subscriptions-transport-ws": "^0.11.0",
-    "viem": "^2.21.54"
+    "viem": "^2.21.55"
   },
   "devDependencies": {
-    "@eslint/js": "^9.15.0",
+    "@eslint/js": "^9.16.0",
     "@graphql-codegen/cli": "^5.0.3",
     "@graphql-codegen/typed-document-node": "^5.0.12",
-    "@types/node": "^22.10.1",
-    "eslint": "^9.15.0",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jsdoc": "^50.6.0",
+    "eslint-plugin-jsdoc": "^50.6.1",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "globals": "^15.12.0",
+    "globals": "^15.13.0",
     "jose": "^5.9.6",
-    "prettier": "^3.4.1",
+    "prettier": "^3.4.2",
     "tsup": "^8.3.5",
-    "typedoc": "^0.26.11",
-    "typedoc-plugin-markdown": "^4.2.10",
-    "typedoc-plugin-merge-modules": "^6.0.3",
-    "typedoc-plugin-remark": "^1.0.0",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.16.0",
+    "typedoc": "^0.27.4",
+    "typedoc-plugin-markdown": "^4.3.2",
+    "typedoc-plugin-merge-modules": "^6.1.0",
+    "typedoc-plugin-remark": "^1.2.1",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.0",
     "vitest": "^2.1.8"
   }
 }

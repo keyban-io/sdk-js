@@ -20,9 +20,7 @@ const CacheContext = React.createContext<Cache>(new Map());
  * @param root0.children - The child components.
  * @returns The provider component.
  */
-export function PromiseCacheProvider({
-  children,
-}: React.PropsWithChildren): JSX.Element {
+export function PromiseCacheProvider({ children }: React.PropsWithChildren) {
   const client = useKeybanClient();
 
   let cache = caches.get(client);

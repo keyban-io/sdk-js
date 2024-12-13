@@ -347,7 +347,7 @@ export function useKeybanAccountTokenBalances(
     },
   );
 
-  const debounceRef = React.useRef<NodeJS.Timeout>();
+  const debounceRef = React.useRef<NodeJS.Timeout>(undefined);
   useSubscription(tokenBalancesSubscriptionDocument, {
     client: client.apolloClient,
     onData({ data: { data } }) {
@@ -462,7 +462,7 @@ export function useKeybanAccountNfts(
     },
   );
 
-  const debounceRef = React.useRef<NodeJS.Timeout>();
+  const debounceRef = React.useRef<NodeJS.Timeout>(undefined);
   useSubscription(nftBalancesSubscriptionDocument, {
     client: client.apolloClient,
     onData({ data: { data } }) {
@@ -650,7 +650,7 @@ export function useKeybanAccountTransferHistory(
     },
   );
 
-  const debounceRef = React.useRef<NodeJS.Timeout>();
+  const debounceRef = React.useRef<NodeJS.Timeout>(undefined);
   useSubscription(assetTransfersSubscriptionDocument, {
     client: client.apolloClient,
     onData({ data: { data } }) {
