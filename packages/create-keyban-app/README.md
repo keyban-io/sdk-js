@@ -12,7 +12,7 @@ To create and run the app, follow these steps:
 cd $(mktemp -d)
 
 # Initialize the Keyban app using your preferred package manager
-npm init @keyban/keyban-app
+npm init @keyban/keyban-app@latest
 ```
 
 After the initialization completes, navigate to your project directory (if not already there) and start the development server:
