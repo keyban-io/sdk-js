@@ -129,11 +129,6 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
    * @private
    * @param errorType - The type of SDK error.
    * @returns A descriptive title for the error.
-   * @example
-   * ```typescript
-   * const title = SdkError.#getTitle(SdkErrorTypes.InvalidAccessToken);
-   * console.log(title); // Outputs: "You provided an invalid access token"
-   * ```
    */
   static #getTitle(errorType: SdkErrorTypes): string {
     switch (errorType) {

@@ -22,12 +22,7 @@ import { useLocalStorage } from "~/lib/localStorage";
 import { AppRouter } from "~/lib/router";
 
 export default function App() {
-  const {
-    getAccessTokenSilently,
-    loginWithRedirect,
-    isAuthenticated,
-    isLoading,
-  } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
   const [chain, setChain] = useLocalStorage<KeybanChain>(
     "selectedChain",
@@ -130,7 +125,6 @@ export default function App() {
               <KeybanProvider
                 {...config.keyban}
                 chain={chain}
-                accessTokenProvider={getAccessTokenSilently}
                 clientShareKeyProvider={async () => {
                   const key = localStorage.getItem("MYKEY");
                   if (key) {

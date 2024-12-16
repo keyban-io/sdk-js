@@ -117,17 +117,13 @@ export type EstimateNftTransferParams = Omit<TransferNftParams, "txOptions">;
  * It provides methods to interact with the blockchain, including signing messages,
  * fetching balances, transferring tokens, and estimating transaction costs.
  * @class
- * @property {string} sub - Represents the unique identifier of the client, extracted from the JWT (JSON Web Token).
  * @property {Address} address - The blockchain address associated with the account.
  * @property {Hex} publicKey - The public key associated with the account.
- * @property {KeybanClient} client - The Keyban client for making requests (private).
- * @property {PublicClient<Transport, Chain>} publicClient - The client for public interactions (e.g., fetching balances) (private).
- * @property {WalletClient<Transport, Chain, LocalAccount>} walletClient - The wallet client used for signing and sending transactions (private).
  */
-export class KeybanAccount implements KeybanAccount {
-  sub: string;
+export class KeybanAccount {
   address: Address;
   publicKey: Hex;
+
   #client: KeybanClient;
   #publicClient: PublicClient<Transport, Chain>;
   #walletClient: WalletClient<Transport, Chain, LocalAccount>;
@@ -135,18 +131,15 @@ export class KeybanAccount implements KeybanAccount {
   // eslint-disable-next-line jsdoc/require-description
   /**
    * @private
-   * @param sub - The unique identifier for the Keyban account.
    * @param client - The Keyban client for making requests.
    * @param publicClient - The client for public interactions (e.g., fetching balances).
    * @param walletClient - The wallet client used for signing and sending transactions.
    */
   constructor(
-    sub: string,
     client: KeybanClient,
     publicClient: PublicClient<Transport, Chain>,
     walletClient: WalletClient<Transport, Chain, LocalAccount>,
   ) {
-    this.sub = sub;
     this.address = walletClient.account.address.toLowerCase() as Address;
     this.publicKey = walletClient.account.publicKey.toLowerCase() as Hex;
 

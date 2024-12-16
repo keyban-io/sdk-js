@@ -1,5 +1,7 @@
+import { useKeybanClient } from "@keyban/sdk-react";
 import React from "react";
 
+import Row from "~/components/atoms/Row";
 import AccountInfo from "~/components/organisms/AccountInfo";
 import ApiStatus from "~/components/organisms/ApiStatus";
 import Balance from "~/components/organisms/Balance";
@@ -21,15 +23,30 @@ const wrapSuspense = (Comp: React.ComponentType) => (
 
 export default function KeybanTest() {
   const [init, setInit] = React.useState(false);
+  const keybanClient = useKeybanClient();
 
   return (
     <>
+      <NativeCurrency />
+
       <fieldset>
-        <legend>Client</legend>
+        <legend>Auth</legend>
 
-        {wrapSuspense(ApiStatus)}
+        <Row>
+          <button
+            onClick={() => keybanClient.login()}
+            data-test-id="KeybanTest:login"
+          >
+            Login
+          </button>
 
-        <NativeCurrency />
+          <button
+            onClick={() => keybanClient.logout()}
+            data-test-id="KeybanTest:logout"
+          >
+            Logout
+          </button>
+        </Row>
       </fieldset>
 
       <fieldset>
@@ -38,6 +55,8 @@ export default function KeybanTest() {
           Init
         </button>
       </fieldset>
+
+      {wrapSuspense(ApiStatus)}
 
       {init && (
         <>

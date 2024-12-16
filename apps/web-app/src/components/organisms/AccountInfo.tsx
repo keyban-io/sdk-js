@@ -12,15 +12,6 @@ export default function AccountInfo() {
       <legend>Account infos</legend>
 
       <Row>
-        <span>Sub:</span>
-        <SerializedValue
-          value={account.sub}
-          style={{ flexGrow: 1 }}
-          data-test-id="AccountInfo:sub"
-        />
-      </Row>
-
-      <Row>
         <span>Address:</span>
         <SerializedValue
           value={account.address}

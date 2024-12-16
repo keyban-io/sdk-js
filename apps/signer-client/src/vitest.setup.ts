@@ -10,3 +10,5 @@ vi.mock("@keyban/ecdsa-wasm-client", () => {
 
   return { default: async () => {} };
 });
+
+vi.mock("./utils/appId", () => ({ APP_ID: crypto.randomUUID() }));

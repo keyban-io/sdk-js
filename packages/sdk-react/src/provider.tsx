@@ -88,13 +88,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * ```
  */
 export function KeybanProvider(props: KeybanProviderProps) {
-  const { children, accessTokenProvider, clientShareKeyProvider, ...config } =
-    props;
-
-  const atProviderRef = React.useRef(accessTokenProvider);
-  React.useImperativeHandle(atProviderRef, () => accessTokenProvider, [
-    accessTokenProvider,
-  ]);
+  const { children, clientShareKeyProvider, ...config } = props;
 
   const keyProviderRef = React.useRef(clientShareKeyProvider);
   React.useImperativeHandle(keyProviderRef, () => clientShareKeyProvider, [
@@ -105,7 +99,6 @@ export function KeybanProvider(props: KeybanProviderProps) {
   let client = clients.get(key);
   if (!client) {
     client = new KeybanClient({
-      accessTokenProvider: () => atProviderRef.current(),
       clientShareKeyProvider: () => keyProviderRef.current(),
       ...config,
     });

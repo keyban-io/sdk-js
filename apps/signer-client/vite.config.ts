@@ -11,6 +11,13 @@ export default defineConfig(() => ({
   base: "/signer-client",
   build: {
     outDir: "dist/signer-client",
+    rollupOptions: {
+      input: {
+        main: "index.html",
+        login: "login.html",
+        logout: "logout.html",
+      },
+    },
   },
   test: {
     environment: "happy-dom",

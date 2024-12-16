@@ -11,61 +11,53 @@ class TestSigner extends AbstractKeybanSigner {
   }
 }
 
+let auth: { getToken(): Promise<string> };
+let signer: AbstractKeybanSigner;
+beforeEach(({ accessToken }) => {
+  auth = { getToken: vi.fn().mockResolvedValue(accessToken) };
+  signer = new TestSigner(auth);
+});
+
 test("init should call implementation dkg", async ({
   expect,
-  appId,
   clientShareKey,
-  accessToken,
 }) => {
-  const signer = new TestSigner();
   vi.spyOn(signer, "dkg");
 
-  await signer.init(appId, clientShareKey, accessToken);
+  await signer.init(clientShareKey);
 
-  expect(signer.dkg).toHaveBeenCalledWith(appId, accessToken);
+  expect(signer.dkg).toHaveBeenCalledWith();
 });
 
 describe("when server respond with an error", () => {
   beforeEach(({ server }) => {
     server.use(
-      http.post(apiUrl("/client-shares/:appId").toString(), () => {
-        return HttpResponse.json(
-          { title: "Internal server error" },
-          { status: 500 },
-        );
-      }),
+      http.post(apiUrl("/client-share").toString(), () =>
+        HttpResponse.json({ title: "Internal server error" }, { status: 500 }),
+      ),
     );
   });
 
-  test.only("init should throw back the error", async ({
+  test("init should throw back the error", async ({
     expect,
-    appId,
     clientShareKey,
-    accessToken,
   }) => {
-    const signer = new TestSigner();
-
-    await expect(
-      signer.init(appId, clientShareKey, accessToken),
-    ).rejects.toThrow();
+    await expect(signer.init(clientShareKey)).rejects.toThrow();
   });
 });
 
 describe("when an encryption key is already stored", async () => {
-  beforeEach(async ({ appId, clientShareKey, accessToken }) => {
-    await new TestSigner().init(appId, clientShareKey, accessToken);
+  beforeEach(async ({ clientShareKey }) => {
+    await signer.init(clientShareKey);
   });
 
   test("init should get encrypted client share from server", async ({
     expect,
-    appId,
     clientShareKey,
-    accessToken,
   }) => {
-    const signer = new TestSigner();
     vi.spyOn(signer, "dkg");
 
-    await signer.init(appId, clientShareKey, accessToken);
+    await signer.init(clientShareKey);
 
     expect(signer.dkg).not.toHaveBeenCalled();
   });
@@ -73,18 +65,15 @@ describe("when an encryption key is already stored", async () => {
   test("init should create new share when server does not have it anymore", async ({
     expect,
     clientShares,
-    appId,
     clientShareKey,
     jwtSubject,
-    accessToken,
   }) => {
-    clientShares.delete([appId, jwtSubject].join(":"));
+    clientShares.delete(jwtSubject);
 
-    const signer = new TestSigner();
     vi.spyOn(signer, "dkg");
 
-    await signer.init(appId, clientShareKey, accessToken);
+    await signer.init(clientShareKey);
 
-    expect(signer.dkg).toHaveBeenCalledWith(appId, accessToken);
+    expect(signer.dkg).toHaveBeenCalledWith();
   });
 });

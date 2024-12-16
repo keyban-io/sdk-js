@@ -9,12 +9,12 @@ import {
 } from "vitest";
 
 import { apiUrl } from "~/utils/api";
+import { APP_ID } from "~/utils/appId";
 
 type Fixtures = {
   clientShares: Map<string, EncryptedData>;
   server: SetupServerApi;
 
-  appId: string;
   clientShareKey: JsonWebKey;
   jwtSubject: string;
   accessToken: string;
@@ -26,37 +26,28 @@ export const test = testBase.extend<Fixtures>({
 
   server: [
     async ({ clientShares }, use) => {
-      const getClientShareKey = (params: { appId: string }, headers: Headers) =>
-        [
-          params.appId,
-          jose.decodeJwt(headers.get("Authorization")?.split(" ").pop() ?? "")
-            .sub,
-        ].join(":");
+      const getClientShareKey = (request: Request) => {
+        const jwt =
+          request.headers.get("Authorization")?.split(" ").pop() ?? "";
+        return jose.decodeJwt(jwt).sub!;
+      };
 
       const server = setupServer(
-        http.post<{ appId: string }, EncryptedData>(
-          apiUrl("/client-shares/:appId").toString(),
-          async ({ request, params }) => {
-            clientShares.set(
-              getClientShareKey(params, request.headers),
-              await request.json(),
-            );
+        http.post<never, EncryptedData>(
+          apiUrl("/client-share").toString(),
+          async ({ request }) => {
+            clientShares.set(getClientShareKey(request), await request.json());
 
             return HttpResponse.json({});
           },
         ),
-        http.get<{ appId: string }>(
-          apiUrl("/client-shares/:appId").toString(),
-          async ({ request, params }) => {
-            const clientShare = clientShares.get(
-              getClientShareKey(params, request.headers),
-            );
+        http.get(apiUrl("/client-share").toString(), async ({ request }) => {
+          const clientShare = clientShares.get(getClientShareKey(request));
 
-            if (!clientShare) return HttpResponse.json({}, { status: 404 });
+          if (!clientShare) return HttpResponse.json({}, { status: 404 });
 
-            return HttpResponse.json(clientShare);
-          },
-        ),
+          return HttpResponse.json(clientShare);
+        }),
       );
 
       server.listen({ onUnhandledRequest: "error" });
@@ -67,8 +58,6 @@ export const test = testBase.extend<Fixtures>({
     },
     { auto: true },
   ],
-
-  appId: ({}, use) => use(crypto.randomUUID()),
 
   clientShareKey: async ({}, use) => use(await generateKey()),
 
@@ -84,8 +73,8 @@ export const test = testBase.extend<Fixtures>({
     return use(token);
   },
 
-  storageKey: ({ appId, jwtSubject }, use) =>
-    use(`keyban:signer:${appId}:${jwtSubject}:key`),
+  storageKey: ({ jwtSubject }, use) =>
+    use(`keyban:signer:${APP_ID}:${jwtSubject}:key`),
 });
 
 export const beforeEach: typeof beforeEachBase<Fixtures> = beforeEachBase;

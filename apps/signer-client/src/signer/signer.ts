@@ -5,19 +5,21 @@ import { ClientShareError } from "~/errors/ClientShareError";
 import { apiUrl } from "~/utils/api";
 
 export abstract class AbstractKeybanSigner {
-  async createClientShare(
-    appId: string,
-    clientShareKey: JsonWebKey,
-    accessToken: string,
-  ) {
-    const clientShare = await this.dkg(appId, accessToken);
+  auth: { getToken(): Promise<string> };
+
+  constructor(auth: { getToken(): Promise<string> }) {
+    this.auth = auth;
+  }
+
+  async createClientShare(clientShareKey: JsonWebKey) {
+    const clientShare = await this.dkg();
 
     // Send the encrypted share to our API
-    await fetch(apiUrl(`/client-shares/${appId}`), {
+    await fetch(apiUrl("/client-share"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${await this.auth.getToken()}`,
       },
       body: await encrypt(clientShareKey, clientShare).then(JSON.stringify),
     })
@@ -37,14 +39,10 @@ export abstract class AbstractKeybanSigner {
     return clientShare;
   }
 
-  async getClientShare(
-    appId: string,
-    clientShareKey: JsonWebKey,
-    accessToken: string,
-  ) {
-    return fetch(apiUrl(`/client-shares/${appId}`), {
+  async getClientShare(clientShareKey: JsonWebKey) {
+    return fetch(apiUrl("/client-share"), {
       method: "GET",
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { Authorization: `Bearer ${await this.auth.getToken()}` },
     })
       .then(async (res): Promise<string> => {
         if (res.ok) {
@@ -52,8 +50,7 @@ export abstract class AbstractKeybanSigner {
           return decrypt(clientShareKey, data);
         }
 
-        if (res.status === 404)
-          return this.createClientShare(appId, clientShareKey, accessToken);
+        if (res.status === 404) return this.createClientShare(clientShareKey);
 
         throw new KeybanBaseError(await res.json());
       })
@@ -68,9 +65,9 @@ export abstract class AbstractKeybanSigner {
       });
   }
 
-  async init(appId: string, clientShareKey: JsonWebKey, accessToken: string) {
-    await this.getClientShare(appId, clientShareKey, accessToken);
+  async init(clientShareKey: JsonWebKey) {
+    await this.getClientShare(clientShareKey);
   }
 
-  abstract dkg(appId: string, accessToken: string): Promise<string>;
+  abstract dkg(): Promise<string>;
 }

@@ -4,8 +4,6 @@ import RefreshButton from "~/components/atoms/RefreshButton";
 import SerializedValue from "~/components/atoms/SerializedValue";
 
 export default function AppError({ error, resetErrorBoundary }: FallbackProps) {
-  console.error(error);
-
   return (
     <fieldset data-test-id="AppError">
       <legend>

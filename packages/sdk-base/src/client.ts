@@ -31,7 +31,6 @@ import {
 } from "~/graphql";
 import { type Address, KeybanChain } from "~/index";
 import { RpcClient } from "~/rpc";
-import { decodeJwt } from "~/utils/jwt";
 
 /**
  * Configuration options for the Keyban client.
@@ -46,11 +45,6 @@ export type KeybanClientConfig = {
    * The application ID.
    */
   appId: string;
-
-  /**
-   * A function that provides the access token, either synchronously or asynchronously.
-   */
-  accessTokenProvider: () => string | Promise<string>;
 
   /**
    * A function that provides the client share encryption key, either synchronously or asynchronously.
@@ -147,12 +141,6 @@ export class KeybanClient {
   feesUnit: FeesUnit;
 
   /**
-   * Function that provides the access token for authentication.
-   * @private
-   */
-  #accessTokenProvider: () => string | Promise<string>;
-
-  /**
    * Function that provides the client share encryption key.
    * @private
    */
@@ -206,7 +194,6 @@ export class KeybanClient {
     const {
       apiUrl = "https://api.keyban.io",
       appId,
-      accessTokenProvider,
       clientShareKeyProvider,
       chain,
     } = config;
@@ -217,10 +204,11 @@ export class KeybanClient {
     this.nativeCurrency = viemChainsMap[this.chain].nativeCurrency;
     this.feesUnit = feesUnitChainsMap[this.chain];
 
-    this.#accessTokenProvider = accessTokenProvider;
     this.#clientShareKeyProvider = clientShareKeyProvider;
 
-    this.#rpcClient = new RpcClient(new URL("/signer-client", apiUrl));
+    const rpcUrl = new URL("/signer-client/", apiUrl);
+    rpcUrl.searchParams.set("appId", appId);
+    this.#rpcClient = new RpcClient(rpcUrl);
 
     const indexerPrefix = {
       [KeybanChain.KeybanTestnet]: "subql-anvil.",
@@ -228,14 +216,13 @@ export class KeybanClient {
     }[chain];
     this.apolloClient = createApolloClient(
       new URL(apiUrl.replace("api.", indexerPrefix)),
-      this.#accessTokenProvider,
     );
 
     const metadataUrl = new URL("/metadata", apiUrl);
-    metadataUrl.searchParams.set("chainType", chain);
+    metadataUrl.searchParams.set("chain", chain);
     this.#transport = fetch(metadataUrl)
       .then((res) => res.json())
-      .then(({ rpcUrl }) => http(rpcUrl));
+      .then((config) => http(config.chain.rpcUrl));
 
     this.#publicClient = this.#transport.then((transport) =>
       createPublicClient({
@@ -243,6 +230,26 @@ export class KeybanClient {
         transport,
       }),
     );
+  }
+
+  async login() {
+    window.location.href = await this.#rpcClient.call(
+      "auth",
+      "getLoginUrl",
+      window.location.href,
+    );
+  }
+
+  async logout() {
+    window.location.href = await this.#rpcClient.call(
+      "auth",
+      "getLogoutUrl",
+      window.location.href,
+    );
+  }
+
+  isAuthenticated() {
+    return this.#rpcClient.call("auth", "isAuthenticated");
   }
 
   /**
@@ -259,42 +266,27 @@ export class KeybanClient {
    * @see {@link KeybanAccount}
    */
   async initialize(): Promise<KeybanAccount> {
-    const accessToken = await this.#accessTokenProvider();
+    const sub = "WHATEVER";
+
     const clientShareKey = await this.#clientShareKeyProvider();
-    const { sub } = decodeJwt(accessToken);
 
     const pending = this.#pendingAccounts.get(sub);
     if (pending) return pending;
 
     const promise = (async () => {
-      await this.#rpcClient.call(
-        "ecdsa",
-        "init",
-        this.appId,
-        clientShareKey,
-        await this.#accessTokenProvider(),
-      );
+      await this.#rpcClient.call("ecdsa", "init", clientShareKey);
 
       const publicKey = await this.#rpcClient.call(
         "ecdsa",
         "publicKey",
-        this.appId,
         clientShareKey,
-        accessToken,
       );
 
       const account = toAccount({
         address: publicKeyToAddress(publicKey),
         signMessage: async ({ message }) => {
           const hash = hashMessage(message, "hex");
-          return this.#rpcClient.call(
-            "ecdsa",
-            "sign",
-            this.appId,
-            clientShareKey,
-            await this.#accessTokenProvider(),
-            hash,
-          );
+          return this.#rpcClient.call("ecdsa", "sign", clientShareKey, hash);
         },
         signTransaction: async (transaction, options) => {
           const serializer = options?.serializer ?? serializeTransaction;
@@ -310,9 +302,7 @@ export class KeybanClient {
             .call(
               "ecdsa",
               "sign",
-              this.appId,
               clientShareKey,
-              await this.#accessTokenProvider(),
               keccak256(serializer(signableTransaction)),
             )
             .then(parseSignature);
@@ -321,14 +311,7 @@ export class KeybanClient {
         },
         signTypedData: async (typedDataDefinition) => {
           const hash = hashTypedData(typedDataDefinition);
-          return this.#rpcClient.call(
-            "ecdsa",
-            "sign",
-            this.appId,
-            clientShareKey,
-            await this.#accessTokenProvider(),
-            hash,
-          );
+          return this.#rpcClient.call("ecdsa", "sign", clientShareKey, hash);
         },
       });
 
@@ -342,7 +325,7 @@ export class KeybanClient {
         account,
       });
 
-      return new KeybanAccount(sub, this, publicClient, walletClient);
+      return new KeybanAccount(this, publicClient, walletClient);
     })();
 
     this.#pendingAccounts.set(sub, promise);

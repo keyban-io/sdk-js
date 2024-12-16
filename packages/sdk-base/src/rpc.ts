@@ -6,31 +6,16 @@ import { KeybanBaseError, SdkError } from "~/errors";
 
 type Hex = `0x${string}`;
 
-/**
- * Interface for the Keyban signer.
- * This interface defines the methods that a Keyban signer must implement.
- * The signer is responsible for generating and signing keys.
- * The signer is also responsible for generating the public key from the client share.
- * The signer is used by the Keyban client to sign messages and generate public keys.
- * @private
- */
+export interface IKeybanAuth {
+  isAuthenticated(): Promise<boolean>;
+  getLoginUrl(redirect?: string): Promise<string>;
+  getLogoutUrl(redirect?: string): Promise<string>;
+}
+
 export interface IKeybanSigner {
-  init(
-    appId: string,
-    clientShareKey: JsonWebKey,
-    accessToken: string,
-  ): Promise<void>;
-  sign(
-    appId: string,
-    clientShareKey: JsonWebKey,
-    accessToken: string,
-    message: string,
-  ): Promise<Hex>;
-  publicKey(
-    appId: string,
-    clientShareKey: JsonWebKey,
-    accessToken: string,
-  ): Promise<Hex>;
+  init(clientShareKey: JsonWebKey): Promise<void>;
+  sign(clientShareKey: JsonWebKey, message: string): Promise<Hex>;
+  publicKey(clientShareKey: JsonWebKey): Promise<Hex>;
 }
 
 /*
@@ -41,11 +26,12 @@ export interface IKeybanSigner {
 type CastFn<T> = T extends (...args: any[]) => any ? T : never;
 
 interface IRpc {
+  auth: IKeybanAuth;
   ecdsa: IKeybanSigner;
 }
 
 type Service = keyof IRpc;
-type Method<S extends Service> = keyof IRpc[S];
+type Method<S extends Service> = keyof IRpc[S] & string;
 type ClassMethod<S extends Service, M extends Method<S>> = CastFn<IRpc[S][M]>;
 
 type RpcCall<
@@ -71,7 +57,22 @@ type RpcResult<
  */
 
 export class RpcServer implements IRpc {
+  auth!: IKeybanAuth;
   ecdsa!: IKeybanSigner;
+
+  domains: Promise<string[]>;
+
+  constructor(services: IRpc) {
+    Object.assign(this, services);
+
+    const appId = new URL(window.location.href).searchParams.get("appId");
+    const apiUrl = new URL(window.location.origin);
+    this.domains = fetch(new URL(`/applications/${appId}`, apiUrl))
+      .then((res) => res.json())
+      .then(({ domains }) => domains);
+
+    window.addEventListener("message", this.handleMessage);
+  }
 
   // Forced validation of service's methods, see listener below
   static #definitions: {
@@ -79,6 +80,11 @@ export class RpcServer implements IRpc {
       [M in Method<S>]: true;
     };
   } = {
+    auth: {
+      isAuthenticated: true,
+      getLoginUrl: true,
+      getLogoutUrl: true,
+    },
     ecdsa: {
       init: true,
       sign: true,
@@ -86,48 +92,46 @@ export class RpcServer implements IRpc {
     },
   };
 
-  constructor(services: IRpc) {
-    Object.assign(this, services);
+  handleMessage = async <S extends Service, M extends Method<S>>(
+    event: MessageEvent<RpcCall<S, M>>,
+  ) => {
+    if (!event.data.__KEYBAN_RPC) return;
 
-    window.addEventListener(
-      "message",
-      async <S extends Service, M extends Method<S>>({
-        data,
-        ports,
-      }: MessageEvent<RpcCall<S, M>>) => {
-        if (!data.__KEYBAN_RPC) return;
+    try {
+      // Check the message originated from an allowed domain for this
+      // specific application.
+      const domains = await this.domains;
+      if (!domains.includes(event.origin))
+        throw new Error("Invalid RPC origin");
 
-        try {
-          const { service, method } = data;
+      const { service, method } = event.data;
 
-          // An attacker could possibly try to call a method on the service
-          // object that is not intended to be exposed (eg. ecdsa.dkg). This
-          // ensures the method is effectively allowed.
-          if (!RpcServer.#definitions[service]?.[method])
-            throw new Error("Invalid RPC call");
+      // An attacker could possibly try to call a method on the service
+      // object that is not intended to be exposed (eg. ecdsa.dkg). This
+      // ensures the method is effectively allowed.
+      if (!RpcServer.#definitions[service]?.[method])
+        throw new Error("Invalid RPC call");
 
-          const fn = this[service]?.[method] as ClassMethod<S, M>;
-          if (!fn) throw new Error("Invalid RPC call");
+      const fn = this[service]?.[method] as ClassMethod<S, M>;
+      if (!fn) throw new Error(`Invalid RPC call: ${service}.${method}`);
 
-          const result = await fn.apply(this[service], data.params);
+      const result = await fn.apply(this[service], event.data.params);
 
-          ports[0].postMessage([result, null]);
-        } catch (error) {
-          let err = error;
+      event.ports[0].postMessage([result, null]);
+    } catch (error) {
+      let err = error;
 
-          if (!(err instanceof KeybanBaseError)) {
-            err = new SdkError(
-              SdkError.types.UnknownIframeRpcError,
-              "RpcServer",
-              error as Error,
-            );
-          }
+      if (!(err instanceof KeybanBaseError)) {
+        err = new SdkError(
+          SdkError.types.UnknownIframeRpcError,
+          "RpcServer",
+          error as Error,
+        );
+      }
 
-          ports[0].postMessage([null, JSON.stringify(err)]);
-        }
-      },
-    );
-  }
+      event.ports[0].postMessage([null, JSON.stringify(err)]);
+    }
+  };
 }
 
 /*

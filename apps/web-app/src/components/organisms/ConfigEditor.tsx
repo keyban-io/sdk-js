@@ -1,17 +1,11 @@
 import { KeybanChain, KeybanClientConfig } from "@keyban/sdk-react";
-import * as jose from "jose";
 import React from "react";
 
 import Row from "~/components/atoms/Row";
 import SelectField from "~/components/molecules/SelectField";
 import TextField from "~/components/molecules/TextField";
 
-type Config = Omit<
-  KeybanClientConfig,
-  "accessTokenProvider" | "clientShareKeyProvider"
-> & {
-  accessToken: string;
-};
+type Config = Omit<KeybanClientConfig, "clientShareKeyProvider">;
 
 export type ConfigEditorProps = Omit<
   React.HTMLProps<HTMLFieldSetElement>,
@@ -22,52 +16,14 @@ export type ConfigEditorProps = Omit<
 };
 
 export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
-  const alg = "PS256";
-
   const handleCreateApp = async () => {
-    const { publicKey, privateKey } = await jose.generateKeyPair(alg, {
-      extractable: true,
-    });
-
-    const jwk = await jose.exportJWK(publicKey);
-    const jwks = {
-      keys: [{ use: "sig", alg, ...jwk }],
-    };
-    const jwksUri = `data:text/plain;base64,${btoa(JSON.stringify(jwks))}`;
-
-    const { app_id } = await fetch(new URL("/applications", config.apiUrl), {
+    const { id } = await fetch(new URL("/applications", config.apiUrl), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ jwksUri }),
+      body: JSON.stringify({ domains: [window.location.origin] }),
     }).then((res) => res.json());
 
-    localStorage.setItem(
-      `keyban:cert:${app_id}`,
-      await jose.exportPKCS8(privateKey),
-    );
-
-    onChange({ ...config, appId: app_id });
-  };
-
-  const handleCreateAccessToken = async () => {
-    const pkcs8Pem = localStorage.getItem(`keyban:cert:${config.appId}`);
-    if (!pkcs8Pem)
-      return alert(
-        `Cannot find cert for app id ${config.appId}, try re-generate new one`,
-      );
-
-    const privateKey = await jose.importPKCS8(pkcs8Pem, alg);
-    const accessToken = await new jose.SignJWT()
-      .setProtectedHeader({ alg })
-      .setJti(crypto.randomUUID())
-      .setIssuedAt()
-      .setIssuer("KEYBAN_WEB_APP")
-      .setAudience(config.apiUrl ?? "https://api.keyban.io")
-      .setExpirationTime("2h")
-      .setSubject(crypto.randomUUID())
-      .sign(privateKey);
-
-    onChange({ ...config, accessToken });
+    onChange({ ...config, appId: id });
   };
 
   return (
@@ -90,21 +46,7 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
           data-test-id="ConfigEditor:appId"
         />
 
-        <button onClick={handleCreateApp}>Create an App ID</button>
-      </Row>
-
-      <Row>
-        <TextField
-          label="Access token"
-          value={config.accessToken}
-          onChange={(accessToken) => onChange({ ...config, accessToken })}
-          style={{ marginBlock: 0 }}
-          data-test-id="ConfigEditor:accessToken"
-        />
-
-        <button onClick={handleCreateAccessToken}>
-          Create an access token
-        </button>
+        <button onClick={handleCreateApp}>Create an App</button>
       </Row>
 
       <SelectField

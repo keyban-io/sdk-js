@@ -10,8 +10,7 @@ import ConfigEditor, {
 import KeybanTest from "~/KeybanTest";
 
 const DEFAULT_API_URL = "https://api.keyban.localtest.me";
-const DEFAULT_APP_ID = "INVALID_APP_ID";
-const DEFAULT_ACCESS_TOKEN = "INVALID_ACCESS_TOKEN";
+const DEFAULT_APP_ID = "a6f22ae8-341b-4b4f-8c22-f590254c3c21";
 const DEFAULT_CHAIN = KeybanChain.KeybanTestnet;
 
 export default function App() {
@@ -20,7 +19,6 @@ export default function App() {
   const [config, setConfig] = React.useState<ConfigEditorProps["config"]>({
     apiUrl: searchParams.get("apiUrl") ?? DEFAULT_API_URL,
     appId: searchParams.get("appId") ?? DEFAULT_APP_ID,
-    accessToken: searchParams.get("accessToken") ?? DEFAULT_ACCESS_TOKEN,
     chain: (searchParams.get("chain") as KeybanChain) ?? DEFAULT_CHAIN,
   });
 
@@ -28,7 +26,6 @@ export default function App() {
     setSearchParams((prev) => {
       prev.set("apiUrl", config.apiUrl ?? "");
       prev.set("appId", config.appId);
-      prev.set("accessToken", config.accessToken);
       prev.set("chain", config.chain);
 
       return prev;
@@ -44,7 +41,6 @@ export default function App() {
           apiUrl={config.apiUrl}
           appId={config.appId}
           chain={config.chain}
-          accessTokenProvider={() => config.accessToken}
           clientShareKeyProvider={async () => {
             try {
               return JSON.parse(localStorage.getItem("MYKEY") ?? "");
