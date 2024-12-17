@@ -18,8 +18,8 @@ export type Config = {
 
 const config: Config = {
   auth: {
-    domain: "dev-dgn0003beuaahtmi.eu.auth0.com",
-    clientId: "8VD9NHScJBXRh4AvynJAR2vmbT7imYKh",
+    domain: "mark-keyban.eu.auth0.com",
+    clientId: "Fyoq3Mi0aM9851TOS5TuPYNvDRlJ3RYu",
     authorizationParams: {
       redirect_uri: window.location.origin,
       audience: API_URL,
