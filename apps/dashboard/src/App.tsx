@@ -23,7 +23,14 @@ const NAVIGATION: Navigation = [
 ];
 
 const BRANDING = {
-  title: "My Toolpad Core App",
+  title: "Keyban Admin Dashboard",
+  logo: (
+    <img
+      src="src/assets/keyban-logo-small.svg"
+      alt="Keyban logo"
+      style={{ height: 128 }}
+    />
+  ),
 };
 
 export default function App() {
