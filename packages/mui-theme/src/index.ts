@@ -4,7 +4,7 @@ import "@fontsource/inter/600.css";
 import "@fontsource/chivo/500.css";
 import "@fontsource/chivo/700.css";
 
-import { createTheme } from "@mui/material/styles";
+import { createTheme, PaletteMode } from "@mui/material/styles";
 
 // Palette de couleurs communes aux deux modes
 const commonPalette = {
@@ -87,9 +87,9 @@ const commonComponents = {
 };
 
 // Thème Clair
-const lightThemeOptions = createTheme({
+const lightThemeOptions = {
   palette: {
-    mode: 'light',
+    mode: 'light' as PaletteMode,
     primary: {
       main: '#183E5B',
       light: '#9DCFF4',
@@ -114,14 +114,15 @@ const lightThemeOptions = createTheme({
   },
   components: commonComponents,
   typography: commonPalette.typography,
-});
+};
+const lightTheme = createTheme(lightThemeOptions);
 
 // Thème Sombre
-const darkThemeOptions = createTheme({
+const darkThemeOptions = {
   palette: {
-    mode: 'dark',
+    mode: 'dark' as PaletteMode,
     primary: {
-      main: '#9DCFF4', // Vous pouvez ajuster cette couleur pour le mode sombre si nécessaire
+      main: '#9DCFF4',
       light: '#E6F5FF',
       dark: '#2D669B',
       contrastText: '#ffffff',
@@ -141,10 +142,11 @@ const darkThemeOptions = createTheme({
       secondary: '#ffffff',
       disabled: '#ffffff',
     },
-    // Vous pouvez définir d'autres couleurs spécifiques au mode sombre ici
   },
   components: commonComponents,
   typography: commonPalette.typography,
-});
+};
+const darkTheme = createTheme(darkThemeOptions);
 
-export { lightThemeOptions, darkThemeOptions };
+
+export { lightTheme, lightThemeOptions, darkTheme, darkThemeOptions };
