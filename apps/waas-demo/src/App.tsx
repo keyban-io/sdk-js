@@ -8,6 +8,7 @@ import {
   Button,
   CircularProgress,
   Container,
+  createTheme,
   CssBaseline,
   Stack,
   ThemeProvider,
@@ -38,7 +39,9 @@ export default function App() {
 
   // Définir le thème basé sur le mode actuel
   const theme = useMemo(() => {
-    return themeMode === "light" ? lightThemeOptions : darkThemeOptions;
+    return themeMode === "light"
+      ? createTheme(lightThemeOptions)
+      : createTheme(darkThemeOptions);
   }, [themeMode]);
 
   // Fonction pour basculer le thème

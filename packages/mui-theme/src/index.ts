@@ -4,7 +4,7 @@ import "@fontsource/inter/600.css";
 import "@fontsource/chivo/500.css";
 import "@fontsource/chivo/700.css";
 
-import { createTheme, PaletteMode } from "@mui/material/styles";
+import { PaletteMode } from "@mui/material/styles";
 
 // Palette de couleurs communes aux deux modes
 const commonPalette = {
@@ -115,7 +115,6 @@ const lightThemeOptions = {
   components: commonComponents,
   typography: commonPalette.typography,
 };
-const lightTheme = createTheme(lightThemeOptions);
 
 // Thème Sombre
 const darkThemeOptions = {
@@ -146,7 +145,6 @@ const darkThemeOptions = {
   components: commonComponents,
   typography: commonPalette.typography,
 };
-const darkTheme = createTheme(darkThemeOptions);
 
 
-export { lightTheme, lightThemeOptions, darkTheme, darkThemeOptions };
+export { lightThemeOptions, darkThemeOptions };
