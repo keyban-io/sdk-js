@@ -16,7 +16,7 @@ const KeybanContext = React.createContext<KeybanClient | null>(null);
  * @typedef {object} KeybanProviderProps
  * @property {React.ReactNode} children - The child components to be rendered within the provider.
  * @property {KeybanClientConfig} KeybanClientConfig - Configuration settings for the Keyban client.
- * @property {() => Promise<string>} [clientShareKeyProvider] -
+ * @property {ClientShareProvider} [clientShareProvider] -
  *   An optional provider function that returns a shared key for client-side operations.
  *   This key is used to cipher the client's share of the end user and is stored securely in Keyban's infrastructure.
  *   By managing the key this way, Keyban as the server and client share will not be able to sign operations on behalf of the end users.
@@ -47,7 +47,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * @throws {Error} If the configuration is invalid.
  * @returns The provider component wrapping the children components.
  * @see {@link KeybanClientConfig} for the available configuration options.
- * @see {@link clientShareKeyProvider} for managing shared keys in client-side operations.
+ * @see {@link cclientShareProvider} for managing shared keys in client-side operations.
  * @example
  * ```tsx
  * import React from "react";
@@ -88,20 +88,12 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * ```
  */
 export function KeybanProvider(props: KeybanProviderProps) {
-  const { children, clientShareKeyProvider, ...config } = props;
-
-  const keyProviderRef = React.useRef(clientShareKeyProvider);
-  React.useImperativeHandle(keyProviderRef, () => clientShareKeyProvider, [
-    clientShareKeyProvider,
-  ]);
+  const { children, ...config } = props;
 
   const key = JSON.stringify(config);
   let client = clients.get(key);
   if (!client) {
-    client = new KeybanClient({
-      clientShareKeyProvider: () => keyProviderRef.current(),
-      ...config,
-    });
+    client = new KeybanClient(config);
     clients.set(key, client);
   }
 

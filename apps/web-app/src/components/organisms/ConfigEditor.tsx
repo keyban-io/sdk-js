@@ -5,7 +5,7 @@ import Row from "~/components/atoms/Row";
 import SelectField from "~/components/molecules/SelectField";
 import TextField from "~/components/molecules/TextField";
 
-type Config = Omit<KeybanClientConfig, "clientShareKeyProvider">;
+type Config = Omit<KeybanClientConfig, "clientShareProvider">;
 
 export type ConfigEditorProps = Omit<
   React.HTMLProps<HTMLFieldSetElement>,

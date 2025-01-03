@@ -7,7 +7,6 @@ export default defineConfig(({ watch = false }) => ({
     graphql: "src/graphql.ts",
     rpc: "src/rpc.ts",
     errors: "src/errors/index.ts",
-    crypto: "src/utils/crypto.ts",
   },
   external: [],
   format: ["cjs", "esm"],

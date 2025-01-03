@@ -10,10 +10,7 @@ const API_URL = {
 
 export type Config = {
   auth: Auth0ProviderOptions;
-  keyban: Omit<
-    KeybanClientConfig,
-    "accessTokenProvider" | "clientShareKeyProvider"
-  >;
+  keyban: Omit<KeybanClientConfig, "clientShareProvider">;
 };
 
 const config: Config = {

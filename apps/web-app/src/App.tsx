@@ -1,4 +1,4 @@
-import { generateKey, KeybanChain, KeybanProvider } from "@keyban/sdk-react";
+import { KeybanChain, KeybanProvider } from "@keyban/sdk-react";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useSearchParams } from "react-router-dom";
@@ -12,6 +12,18 @@ import KeybanTest from "~/KeybanTest";
 const DEFAULT_API_URL = "https://api.keyban.localtest.me";
 const DEFAULT_APP_ID = "a6f22ae8-341b-4b4f-8c22-f590254c3c21";
 const DEFAULT_CHAIN = KeybanChain.KeybanTestnet;
+
+class ClientShareProvider {
+  #key: string = "KEYBAN-CLIENT-SHARE";
+
+  async get() {
+    return localStorage.getItem(this.#key);
+  }
+
+  async set(clientShare: string) {
+    return localStorage.setItem(this.#key, clientShare);
+  }
+}
 
 export default function App() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,6 +44,11 @@ export default function App() {
     });
   }, [config, setSearchParams]);
 
+  const clientShareProvider = React.useMemo(
+    () => new ClientShareProvider(),
+    [],
+  );
+
   return (
     <>
       <ConfigEditor config={config} onChange={setConfig} />
@@ -41,16 +58,7 @@ export default function App() {
           apiUrl={config.apiUrl}
           appId={config.appId}
           chain={config.chain}
-          clientShareKeyProvider={async () => {
-            try {
-              return JSON.parse(localStorage.getItem("MYKEY") ?? "");
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            } catch (_err) {
-              const key = await generateKey();
-              localStorage.setItem("MYKEY", JSON.stringify(key));
-              return key;
-            }
-          }}
+          clientShareProvider={clientShareProvider}
         >
           <KeybanTest />
         </KeybanProvider>

@@ -1,7 +1,7 @@
 // src/App.tsx
 import { useAuth0 } from "@auth0/auth0-react";
 import { darkThemeOptions, lightThemeOptions } from "@keyban/mui-theme"; // Ajustez le chemin si nécessaire
-import { generateKey, KeybanChain } from "@keyban/sdk-base";
+import { KeybanChain } from "@keyban/sdk-base";
 import { KeybanProvider } from "@keyban/sdk-react";
 import {
   Box,
@@ -15,12 +15,24 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 import ApplicationHeader from "~/components/ApplicationHeader";
 import config from "~/config";
 import { useLocalStorage } from "~/lib/localStorage";
 import { AppRouter } from "~/lib/router";
+
+class ClientShareProvider {
+  #key: string = "KEYBAN-CLIENT-SHARE";
+
+  async get() {
+    return localStorage.getItem(this.#key);
+  }
+
+  async set(clientShare: string) {
+    return localStorage.setItem(this.#key, clientShare);
+  }
+}
 
 export default function App() {
   const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
@@ -28,6 +40,11 @@ export default function App() {
   const [chain, setChain] = useLocalStorage<KeybanChain>(
     "selectedChain",
     config.keyban.chain,
+  );
+
+  const clientShareProvider = React.useMemo(
+    () => new ClientShareProvider(),
+    [],
   );
 
   // État pour le thème, par défaut 'light'
@@ -128,16 +145,7 @@ export default function App() {
               <KeybanProvider
                 {...config.keyban}
                 chain={chain}
-                clientShareKeyProvider={async () => {
-                  const key = localStorage.getItem("MYKEY");
-                  if (key) {
-                    return JSON.parse(key);
-                  } else {
-                    const key = await generateKey();
-                    localStorage.setItem("MYKEY", JSON.stringify(key));
-                    return key;
-                  }
-                }}
+                clientShareProvider={clientShareProvider}
               >
                 <AppRouter />
               </KeybanProvider>

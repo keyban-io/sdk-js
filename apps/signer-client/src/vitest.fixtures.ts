@@ -1,6 +1,4 @@
-import { EncryptedData, generateKey } from "@keyban/sdk-base/crypto";
 import * as jose from "jose";
-import { http, HttpResponse } from "msw";
 import { setupServer, SetupServerApi } from "msw/node";
 import {
   afterEach as afterEachBase,
@@ -8,47 +6,20 @@ import {
   test as testBase,
 } from "vitest";
 
-import { apiUrl } from "~/utils/api";
 import { APP_ID } from "~/utils/appId";
 
 type Fixtures = {
-  clientShares: Map<string, EncryptedData>;
   server: SetupServerApi;
 
-  clientShareKey: JsonWebKey;
   jwtSubject: string;
   accessToken: string;
   storageKey: string;
 };
 
 export const test = testBase.extend<Fixtures>({
-  clientShares: ({}, use) => use(new Map()),
-
   server: [
-    async ({ clientShares }, use) => {
-      const getClientShareKey = (request: Request) => {
-        const jwt =
-          request.headers.get("Authorization")?.split(" ").pop() ?? "";
-        return jose.decodeJwt(jwt).sub!;
-      };
-
-      const server = setupServer(
-        http.post<never, EncryptedData>(
-          apiUrl("/client-share").toString(),
-          async ({ request }) => {
-            clientShares.set(getClientShareKey(request), await request.json());
-
-            return HttpResponse.json({});
-          },
-        ),
-        http.get(apiUrl("/client-share").toString(), async ({ request }) => {
-          const clientShare = clientShares.get(getClientShareKey(request));
-
-          if (!clientShare) return HttpResponse.json({}, { status: 404 });
-
-          return HttpResponse.json(clientShare);
-        }),
-      );
+    async ({}, use) => {
+      const server = setupServer();
 
       server.listen({ onUnhandledRequest: "error" });
 
@@ -58,8 +29,6 @@ export const test = testBase.extend<Fixtures>({
     },
     { auto: true },
   ],
-
-  clientShareKey: async ({}, use) => use(await generateKey()),
 
   jwtSubject: ({}, use) => use(crypto.randomUUID()),
 

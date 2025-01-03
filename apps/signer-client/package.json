@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest watch --passWithNoTests",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0",

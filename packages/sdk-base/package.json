@@ -44,16 +44,6 @@
       "import": "./dist/errors.mjs",
       "require": "./dist/errors.js"
     },
-    "./crypto": {
-      "types": "./dist/crypto.d.ts",
-      "import": "./dist/crypto.mjs",
-      "require": "./dist/crypto.js"
-    },
-    "./jwt": {
-      "types": "./dist/jwt.d.ts",
-      "import": "./dist/jwt.mjs",
-      "require": "./dist/jwt.js"
-    },
     "./package.json": "./package.json"
   },
   "files": [

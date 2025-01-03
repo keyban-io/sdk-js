@@ -32,6 +32,11 @@ import {
 import { type Address, KeybanChain } from "~/index";
 import { RpcClient } from "~/rpc";
 
+export interface ClientShareProvider {
+  get(): Promise<string | null>;
+  set(clientShare: string): Promise<unknown>;
+}
+
 /**
  * Configuration options for the Keyban client.
  */
@@ -49,7 +54,7 @@ export type KeybanClientConfig = {
   /**
    * A function that provides the client share encryption key, either synchronously or asynchronously.
    */
-  clientShareKeyProvider: () => JsonWebKey | Promise<JsonWebKey>;
+  clientShareProvider: ClientShareProvider;
 
   /**
    * The blockchain configuration for Keyban.
@@ -144,7 +149,7 @@ export class KeybanClient {
    * Function that provides the client share encryption key.
    * @private
    */
-  #clientShareKeyProvider: () => JsonWebKey | Promise<JsonWebKey>;
+  #clientShareProvider: ClientShareProvider;
 
   /**
    * The iframe rpc client
@@ -185,7 +190,7 @@ export class KeybanClient {
    *   apiUrl: "https://api.keyban.io",
    *   appId: "your-app-id",
    *   accessTokenProvider: () => "your-access-token",
-   *   clientShareKeyProvider: () => "your-client-shares-encryption-key-provider",
+   *   clientShareProvider: () => "your-client-shares-provider",
    *   chain: KeybanChain.KeybanTestnet,
    * });
    * ```
@@ -194,7 +199,7 @@ export class KeybanClient {
     const {
       apiUrl = "https://api.keyban.io",
       appId,
-      clientShareKeyProvider,
+      clientShareProvider,
       chain,
     } = config;
 
@@ -204,7 +209,7 @@ export class KeybanClient {
     this.nativeCurrency = viemChainsMap[this.chain].nativeCurrency;
     this.feesUnit = feesUnitChainsMap[this.chain];
 
-    this.#clientShareKeyProvider = clientShareKeyProvider;
+    this.#clientShareProvider = clientShareProvider;
 
     const rpcUrl = new URL("/signer-client/", apiUrl);
     rpcUrl.searchParams.set("appId", appId);
@@ -268,25 +273,27 @@ export class KeybanClient {
   async initialize(): Promise<KeybanAccount> {
     const sub = "WHATEVER";
 
-    const clientShareKey = await this.#clientShareKeyProvider();
-
     const pending = this.#pendingAccounts.get(sub);
     if (pending) return pending;
 
     const promise = (async () => {
-      await this.#rpcClient.call("ecdsa", "init", clientShareKey);
+      let clientShare = await this.#clientShareProvider.get();
+      if (!clientShare) {
+        clientShare = await this.#rpcClient.call("ecdsa", "dkg");
+        await this.#clientShareProvider.set(clientShare);
+      }
 
       const publicKey = await this.#rpcClient.call(
         "ecdsa",
         "publicKey",
-        clientShareKey,
+        clientShare,
       );
 
       const account = toAccount({
         address: publicKeyToAddress(publicKey),
         signMessage: async ({ message }) => {
           const hash = hashMessage(message, "hex");
-          return this.#rpcClient.call("ecdsa", "sign", clientShareKey, hash);
+          return this.#rpcClient.call("ecdsa", "sign", clientShare, hash);
         },
         signTransaction: async (transaction, options) => {
           const serializer = options?.serializer ?? serializeTransaction;
@@ -302,7 +309,7 @@ export class KeybanClient {
             .call(
               "ecdsa",
               "sign",
-              clientShareKey,
+              clientShare,
               keccak256(serializer(signableTransaction)),
             )
             .then(parseSignature);
@@ -311,7 +318,7 @@ export class KeybanClient {
         },
         signTypedData: async (typedDataDefinition) => {
           const hash = hashTypedData(typedDataDefinition);
-          return this.#rpcClient.call("ecdsa", "sign", clientShareKey, hash);
+          return this.#rpcClient.call("ecdsa", "sign", clientShare, hash);
         },
       });
 

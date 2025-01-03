@@ -13,9 +13,9 @@ export interface IKeybanAuth {
 }
 
 export interface IKeybanSigner {
-  init(clientShareKey: JsonWebKey): Promise<void>;
-  sign(clientShareKey: JsonWebKey, message: string): Promise<Hex>;
-  publicKey(clientShareKey: JsonWebKey): Promise<Hex>;
+  dkg(): Promise<string>;
+  sign(clientShare: string, message: string): Promise<Hex>;
+  publicKey(clientShare: string): Promise<Hex>;
 }
 
 /*
@@ -86,7 +86,7 @@ export class RpcServer implements IRpc {
       getLogoutUrl: true,
     },
     ecdsa: {
-      init: true,
+      dkg: true,
       sign: true,
       publicKey: true,
     },
@@ -107,8 +107,8 @@ export class RpcServer implements IRpc {
       const { service, method } = event.data;
 
       // An attacker could possibly try to call a method on the service
-      // object that is not intended to be exposed (eg. ecdsa.dkg). This
-      // ensures the method is effectively allowed.
+      // object that is not intended to be exposed. This  ensures the
+      // method is effectively allowed.
       if (!RpcServer.#definitions[service]?.[method])
         throw new Error("Invalid RPC call");
 

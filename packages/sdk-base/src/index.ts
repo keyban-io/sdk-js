@@ -9,7 +9,12 @@ export {
 } from "~/account";
 export { KeybanApiStatus } from "~/api";
 export { FeesUnit, KeybanChain } from "~/chains";
-export { KeybanClient, KeybanClientConfig, PaginationArgs } from "~/client";
+export {
+  ClientShareProvider,
+  KeybanClient,
+  KeybanClientConfig,
+  PaginationArgs,
+} from "~/client";
 export { KeybanBaseError, SdkError, SdkErrorTypes } from "~/errors";
 export type {
   GqlwalletTokenBalancesQuery,
