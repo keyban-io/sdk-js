@@ -18,6 +18,7 @@ export class KeybanAuth implements IKeybanAuth {
       .then(({ auth }) => {
         return new Auth0Client({
           ...auth,
+          useRefreshTokens: true,
           cacheLocation: "localstorage",
           authorizationParams: {
             scope: "openid",
