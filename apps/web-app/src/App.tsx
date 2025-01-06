@@ -14,7 +14,11 @@ const DEFAULT_APP_ID = "a6f22ae8-341b-4b4f-8c22-f590254c3c21";
 const DEFAULT_CHAIN = KeybanChain.KeybanTestnet;
 
 class ClientShareProvider {
-  #key: string = "KEYBAN-CLIENT-SHARE";
+  #key: string;
+
+  constructor(appId: string) {
+    this.#key = `KEYBAN-CLIENT-SHARE:${appId}`;
+  }
 
   async get() {
     return localStorage.getItem(this.#key);
@@ -45,8 +49,8 @@ export default function App() {
   }, [config, setSearchParams]);
 
   const clientShareProvider = React.useMemo(
-    () => new ClientShareProvider(),
-    [],
+    () => new ClientShareProvider(config.appId),
+    [config.appId],
   );
 
   return (
