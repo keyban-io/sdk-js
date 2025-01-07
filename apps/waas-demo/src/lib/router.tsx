@@ -19,7 +19,7 @@ const pages = import.meta.glob("../pages/**/*.tsx") as Record<
   () => Promise<{ default: React.ComponentType }>
 >;
 
-const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
+const ProtectedRoute = async ({ element }: { element: React.ReactNode }) => {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
   const {
     isAuthenticated: isKeybanAuthenticated,
@@ -54,7 +54,7 @@ const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
 
   if (!isKeybanAuthenticated) {
     console.log("Keyban not authenticated, logging in...");
-    keybanLogin();
+    await keybanLogin();
     return null;
   }
 
