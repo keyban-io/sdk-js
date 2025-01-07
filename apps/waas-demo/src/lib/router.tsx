@@ -1,4 +1,3 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { useKeybanAuth } from "@keyban/sdk-react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import React from "react";
@@ -19,18 +18,16 @@ const pages = import.meta.glob("../pages/**/*.tsx") as Record<
   () => Promise<{ default: React.ComponentType }>
 >;
 
-const ProtectedRoute = async ({ element }: { element: React.ReactNode }) => {
-  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
   const {
     isAuthenticated: isKeybanAuthenticated,
     isLoading: isKeybanLoading,
     login: keybanLogin,
   } = useKeybanAuth();
 
-  console.log("isAuthenticated (auth0)", isAuthenticated);
   console.log("isKeybanAuthenticated (keyban)", isKeybanAuthenticated);
 
-  if (isLoading || isKeybanLoading) {
+  if (isKeybanLoading) {
     return (
       <Stack
         sx={{
@@ -45,16 +42,8 @@ const ProtectedRoute = async ({ element }: { element: React.ReactNode }) => {
     );
   }
 
-  // Si l'utilisateur n'est pas authentifié, on redirige vers la page de connexion via Auth0
-  if (!isAuthenticated) {
-    console.log("Auth0 not authenticated, redirecting to login...");
-    loginWithRedirect();
-    return null; // on retourne null pendant que la redirection est en cours
-  }
-
   if (!isKeybanAuthenticated) {
-    console.log("Keyban not authenticated, logging in...");
-    await keybanLogin();
+    keybanLogin();
     return null;
   }
 

@@ -2,7 +2,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { faBell, faMoon, faSun } from "@fortawesome/free-solid-svg-icons"; // Import des icônes
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { KeybanChain } from "@keyban/sdk-react";
+import { type KeybanChain, useKeybanAuth } from "@keyban/sdk-react";
 import {
   AppBar,
   Avatar,
@@ -33,6 +33,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   themeMode, // Déstructuration de la nouvelle prop
 }) => {
   const { user, logout } = useAuth0();
+  const { logout: keybanLogout } = useKeybanAuth();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -44,11 +45,13 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   };
 
   const logoutWithRedirect = () =>
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin,
-      },
-    });
+    keybanLogout().then(() =>
+      logout({
+        logoutParams: {
+          returnTo: window.location.origin,
+        },
+      }),
+    );
 
   return (
     <AppBar position="static">
