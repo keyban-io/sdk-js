@@ -1,6 +1,7 @@
 // src/App.tsx
 import { useAuth0 } from "@auth0/auth0-react";
 import { darkThemeOptions, lightThemeOptions } from "@keyban/mui-theme"; // Ajustez le chemin si nécessaire
+import { KeybanChain } from "@keyban/sdk-react";
 import {
   Box,
   Button,
@@ -13,18 +14,19 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 import ApplicationHeader from "~/components/ApplicationHeader";
+import config from "~/config";
 import { useLocalStorage } from "~/lib/localStorage";
 import { AppRouter } from "~/lib/router";
 
-const [chain, setChain] = useLocalStorage<KeybanChain>(
-  "selectedChain",
-  config.keyban.chain,
-);
-
 export default function App() {
+  const [chain, setChain] = useLocalStorage<KeybanChain>(
+    "selectedChain",
+    config.keyban.chain,
+  );
+
   const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
   // État pour le thème, par défaut 'light'

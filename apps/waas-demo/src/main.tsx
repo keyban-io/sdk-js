@@ -1,14 +1,13 @@
 import { Auth0Provider } from "@auth0/auth0-react";
-import { KeybanProvider } from "@keyban/sdk-react";
+import { KeybanChain, KeybanProvider } from "@keyban/sdk-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "~/App.tsx";
 import config from "~/config";
-import { useLocalStorage } from "~/lib/localStorage";
 
 class ClientShareProvider {
-  #key: string = "KEYBAN-CLIENT-SHARE";
+  #key: string = "WAAS-DEMO-CLIENT-SHARE";
 
   async get() {
     return localStorage.getItem(this.#key);
@@ -19,12 +18,11 @@ class ClientShareProvider {
   }
 }
 
-const clientShareProvider = React.useMemo(() => new ClientShareProvider(), []);
+const clientShareProvider = new ClientShareProvider();
 
-const [chain] = useLocalStorage<KeybanChain>(
-  "selectedChain",
-  config.keyban.chain,
-);
+const chain =
+  (localStorage.getItem("selectedChain") as KeybanChain) || config.keyban.chain;
+console.log("chain", chain);
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
