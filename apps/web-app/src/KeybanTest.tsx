@@ -31,7 +31,7 @@ export default function KeybanTest() {
 
       <fieldset>
         <legend>Init</legend>
-        <button onClick={() => setInit(true)} data-test-id="Auth:init">
+        <button onClick={() => setInit(true)} data-test-id="KeybanTest:init">
           Init
         </button>
       </fieldset>

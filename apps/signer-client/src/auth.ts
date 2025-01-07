@@ -66,6 +66,8 @@ export class KeybanAuth implements IKeybanAuth {
     const auth0 = await this.#auth0;
 
     return auth0.getTokenSilently().catch((err) => {
+      if (err.error === "missing_refresh_token") return null;
+
       throw new KeybanBaseError({
         type: err.error,
         instance: "KeybanAuth.getToken",
