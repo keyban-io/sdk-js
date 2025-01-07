@@ -3,8 +3,12 @@ import React from "react";
 import { useKeybanClient } from "~/provider";
 
 /**
- * Keyban authentication methods.
- * @returns An object with authentication properties.
+ * Hook that provides authentication functionality using the Keyban client.
+ * @returns An object containing:
+ * - `login`: A memoized function to log in the user.
+ * - `logout`: A memoized function to log out the user.
+ * - `isAuthenticated`: A boolean indicating whether the user is authenticated.
+ * - `isLoading`: A boolean indicating whether the authentication status is still being determined.
  */
 export function useKeybanAuth() {
   const client = useKeybanClient();
