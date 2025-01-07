@@ -16,16 +16,6 @@ export type ConfigEditorProps = Omit<
 };
 
 export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
-  const handleCreateApp = async () => {
-    const { id } = await fetch(new URL("/applications", config.apiUrl), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ domains: [window.location.origin] }),
-    }).then((res) => res.json());
-
-    onChange({ ...config, appId: id });
-  };
-
   return (
     <fieldset data-test-id="config-editor">
       <legend>Client config</legend>
@@ -45,8 +35,6 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
           style={{ marginBlock: 0 }}
           data-test-id="ConfigEditor:appId"
         />
-
-        <button onClick={handleCreateApp}>Create an App</button>
       </Row>
 
       <SelectField
