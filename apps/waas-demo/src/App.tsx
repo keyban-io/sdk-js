@@ -64,16 +64,24 @@ export default function App() {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Stack
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <CircularProgress />
-          <Typography variant="h6">Loading...</Typography>
-        </Stack>
+        <Container maxWidth="md" sx={{ py: [2] }}>
+          <ApplicationHeader
+            selectedChainId={chain}
+            onSelectChain={setChain}
+            onToggleTheme={toggleTheme}
+            themeMode={themeMode}
+          />
+          <Stack
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <CircularProgress />
+            <Typography variant="h6">Authenticating...</Typography>
+          </Stack>
+        </Container>
       </ThemeProvider>
     );
   }

@@ -20,8 +20,20 @@ class ClientShareProvider {
 
 const clientShareProvider = new ClientShareProvider();
 
-const chain =
-  (localStorage.getItem("selectedChain") as KeybanChain) || config.keyban.chain;
+let chain: KeybanChain;
+
+try {
+  const stored = localStorage.getItem("selectedChain");
+  if (stored) {
+    chain = JSON.parse(stored) as KeybanChain;
+  } else {
+    chain = config.keyban.chain;
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+} catch (e) {
+  chain = config.keyban.chain;
+}
+
 console.log("chain", chain);
 
 const rootElement = document.getElementById("root");

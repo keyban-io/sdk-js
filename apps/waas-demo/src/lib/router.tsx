@@ -37,7 +37,7 @@ const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
         }}
       >
         <CircularProgress />
-        <Typography variant="h6">Checking authentication...</Typography>
+        <Typography variant="h6">Authenticating...</Typography>
       </Stack>
     );
   }
