@@ -28,33 +28,21 @@ import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
 
 const App = () => {
   /**
-   * Function to provide the access token.
-   * You can implement logic here to retrieve the token from a secure source,
-   * such as environment variables, a secure vault, or an authentication service.
+   * Function to provide the client's share of data for end-user operations.
+   * This share is used to ensure secure operations and is stored securely in Keyban's infrastructure.
+   * By managing the share this way, Keyban as the server and client cannot independently perform operations on behalf of end users.
+   * We recommend providing a unique share per client to enhance security.
    */
-  const getAccessToken = () => {
-    // Example: Retrieve the access token from environment variables
-    return process.env.REACT_APP_KEYBAN_ACCESS_TOKEN || "your-access-token";
-  };
-
-  /**
-   * Function to provide the shared key for client-side operations.
-   * This key is used to cipher the client's share of the end user and is stored securely in Keyban's infrastructure.
-   * By managing the key this way, Keyban as the server and client share will not be able to sign operations on behalf of the end users.
-   * We recommend providing a unique key per client share to enhance security.
-   */
-  const clientShareKeyProvider = async () => {
-    // Example: Retrieve the shared key from a secure source
-    return process.env.REACT_APP_KEYBAN_SHARED_KEY || "your-shared-key";
+  const clientShareProvider = async () => {
+    // Example: Retrieve the client share from a secure source
+    return process.env.REACT_APP_KEYBAN_CLIENT_SHARE || "your-client-share";
   };
 
   return (
     <KeybanProvider
-      apiUrl="https://api.keyban.io" // Base URL for Keyban API
       appId="your-app-id" // Your unique application ID from Keyban
       chain={KeybanChain.KeybanTestnet} // Specify the blockchain network (e.g., Testnet or Mainnet)
-      accessTokenProvider={getAccessToken} // Function that provides the access token
-      clientShareKeyProvider={clientShareKeyProvider} // Function that provides the shared key
+      clientShareProvider={clientShareProvider} // Function that provides the client share
     >
       {/* Your application components go here */}
       <YourMainComponent />

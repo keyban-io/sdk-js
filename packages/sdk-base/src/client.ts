@@ -11,13 +11,33 @@ import { type FeesUnit, NativeCurrency } from "~/chains";
 import { KeybanChain } from "~/index";
 import { RpcClient } from "~/rpc";
 
+/**
+ * Represents a storage provider for the client share.
+ *
+ * The purpose of ClientShareProvider is to provide an interface that allows integrators
+ * to save and restore the client share of their customers. The integrator has the
+ * responsibility to securely store the client share.
+ *
+ * Note: The client share is not considered sensitive data because only the client
+ * can use it, and its usage is secured by strong authentication between the client
+ * and the Keyban services.
+ */
 export interface ClientShareProvider {
+  /**
+   * Retrieves the client share information.
+   * @returns A promise that resolves to a string containing the client share, or null if not available.
+   */
   get(): Promise<string | null>;
+  /**
+   * Sets the client share information.
+   * @param clientShare - The client share string to set.
+   * @returns A promise that resolves when the client share has been set.
+   */
   set(clientShare: string): Promise<unknown>;
 }
 
 /**
- * Configuration options for the Keyban client.
+ * Configuration options for initializing the Keyban client.
  */
 export type KeybanClientConfig = {
   /**
@@ -31,14 +51,14 @@ export type KeybanClientConfig = {
   appId: string;
 
   /**
+   * The client share provider.
+   */
+  clientShareProvider: ClientShareProvider;
+
+  /**
    * The blockchain configuration for Keyban.
    */
   chain: KeybanChain;
-
-  /**
-   * A function that provides the client share encryption key, either synchronously or asynchronously.
-   */
-  clientShareProvider: ClientShareProvider;
 };
 
 export abstract class KeybanClientBase {
