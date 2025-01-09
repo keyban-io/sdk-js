@@ -17,7 +17,8 @@ import { RpcClient } from "~/rpc";
  * The purpose of `ClientShareProvider` is to provide an interface that allows integrators
  * to save and restore the client share of their customers. The integrator has the
  * responsibility to securely store the client share.
- * @remarks: The client share is not considered sensitive data because only the client
+ * @remarks
+ * The client share is not considered sensitive data because only the client
  * can use it, and its usage is secured by strong authentication between the client
  * and the Keyban services.
  *
