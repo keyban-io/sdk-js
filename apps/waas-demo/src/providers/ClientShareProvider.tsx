@@ -2,7 +2,7 @@ import CustomFetchBaseProvider from "./CustomFetchBaseProvider";
 
 class ClientShareProvider extends CustomFetchBaseProvider {
   constructor(appId: string) {
-    super(`KEYBAN-CLIENT-SHARE:${appId}`);
+    super(`CLIENT-SHARE:${appId}`);
   }
 
   // Retrieving data (GET)
