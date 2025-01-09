@@ -47,6 +47,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * ```tsx
  * import React from "react";
  * import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
+ * import { MyClientShareProvider } from './ClientShareProvider';
  *
  * const App: React.FC = () => {
  *
@@ -55,7 +56,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *       apiUrl="https://api.keyban.io" // Base URL for Keyban API
  *       appId="your-app-id" // Your unique application ID from Keyban
  *       chain={KeybanChain.KeybanTestnet} // Specify the blockchain network (e.g., Testnet or Mainnet)
- *       clientShareProvider={clientShareProvider} // Function that provides the end user client share
+ *       clientShareProvider={new MyClientShareProvider()} // Custom provider for client shares
  *     >
  *       <YourMainComponent />
  *     </KeybanProvider>
