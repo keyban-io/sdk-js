@@ -25,8 +25,6 @@ const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
     login: keybanLogin,
   } = useKeybanAuth();
 
-  console.log("isKeybanAuthenticated (keyban)", isKeybanAuthenticated);
-
   if (isKeybanLoading) {
     return (
       <Stack

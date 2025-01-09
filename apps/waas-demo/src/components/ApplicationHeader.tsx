@@ -32,8 +32,9 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   onToggleTheme, // Déstructuration de la nouvelle prop
   themeMode, // Déstructuration de la nouvelle prop
 }) => {
-  const { user, logout } = useAuth0();
-  const { logout: keybanLogout } = useKeybanAuth();
+  const { user, logout: auth0Logout } = useAuth0();
+  const { logout: keybanLogout, isAuthenticated: isKeybanAuthenticated } =
+    useKeybanAuth();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -44,14 +45,15 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
     setAnchorElUser(null);
   };
 
-  const logoutWithRedirect = () =>
-    keybanLogout().then(() =>
-      logout({
+  const logout = () =>
+    keybanLogout().then(() => {
+      console.log("isKeybanAuthenticated", isKeybanAuthenticated);
+      auth0Logout({
         logoutParams: {
           returnTo: window.location.origin,
         },
-      }),
-    );
+      });
+    });
 
   return (
     <AppBar position="static">
@@ -127,7 +129,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
                 open={Boolean(anchorElUser)}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={() => logoutWithRedirect()}>
+                <MenuItem onClick={() => logout()}>
                   <Typography sx={{ textAlign: "center" }}>Logout</Typography>
                 </MenuItem>
               </Menu>
