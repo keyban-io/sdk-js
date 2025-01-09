@@ -12,15 +12,10 @@ const clients = new Map<string, KeybanClient>();
 const KeybanContext = React.createContext<KeybanClient | null>(null);
 
 /**
- * Props for the KeybanProvider component, which includes KeybanClientConfig properties.
- * @typedef {object} KeybanProviderProps
- * @property {React.ReactNode} children - The child components to be rendered within the provider.
- * @property {KeybanClientConfig} KeybanClientConfig - Configuration settings for the Keyban client.
- * @property {ClientShareProvider} [clientShareProvider] -
- *   An optional provider function that returns a shared key for client-side operations.
- *   This key is used to cipher the client's share of the end user and is stored securely in Keyban's infrastructure.
- *   By managing the key this way, Keyban as the server and client share will not be able to sign operations on behalf of the end users.
- *   We recommend providing a unique key per client share to enhance security.
+ * Defines the properties for the KeybanProvider component.
+ *
+ * Includes the Keyban client configuration and supports React children.
+ * @see {@link KeybanClientConfig} for the available configuration options.
  */
 export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
 
@@ -39,7 +34,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * allowing components to adjust the blockchain network or other configurations during the
  * application's lifecycle.
  *
- * Additionally, the `clientShareKeyProvider` prop allows for the injection of a shared key provider function.
+ * Additionally, the `clientShareProvider` prop allows for the injection of a client share provider function.
  * This function is used to cipher the client's share of the end user and is stored securely within Keyban's infrastructure.
  * By utilizing this, Keyban as the server and client share cannot sign operations on behalf of the end users.
  * We recommend providing a unique key per client share to enhance security.
@@ -54,25 +49,13 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
  *
  * const App: React.FC = () => {
- *   // Function to provide the access token.
- *   // You can implement logic here to retrieve the token from a secure source,
- *   // such as environment variables, a secure vault, or an authentication service.
- *
- *   // Function to provide the shared key for client-side operations.
- *   // This key is used to cipher the client's share of the end user and is stored securely in Keyban's infrastructure.
- *   // By managing the key this way, Keyban as the server and client share will not be able to sign operations on behalf of the end users.
- *   // We recommend providing a unique key per client share to enhance security.
- *   const clientShareKeyProvider = async () => {
- *     // Logic to retrieve or generate the shared key
- *     return "your-unique-shared-key";
- *   };
  *
  *   return (
  *     <KeybanProvider
  *       apiUrl="https://api.keyban.io" // Base URL for Keyban API
  *       appId="your-app-id" // Your unique application ID from Keyban
  *       chain={KeybanChain.KeybanTestnet} // Specify the blockchain network (e.g., Testnet or Mainnet)
- *       clientShareProvider={clientShareProvider} // Function that provides the shared key
+ *       clientShareProvider={clientShareProvider} // Function that provides the end user client share
  *     >
  *       <YourMainComponent />
  *     </KeybanProvider>

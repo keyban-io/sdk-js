@@ -27,16 +27,25 @@ import React from "react";
 import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
 
 const App = () => {
-  /**
-   * Function to provide the client's share of data for end-user operations.
-   * This share is used to ensure secure operations and is stored securely in Keyban's infrastructure.
-   * By managing the share this way, Keyban as the server and client cannot independently perform operations on behalf of end users.
-   * We recommend providing a unique share per client to enhance security.
-   */
-  const clientShareProvider = async () => {
-    // Example: Retrieve the client share from a secure source
-    return process.env.REACT_APP_KEYBAN_CLIENT_SHARE || "your-client-share";
-  };
+ 
+ class ClientShareProvider extends FetchBaseProvider {
+    // Retrieving data (GET)
+    async get(): Promise<string | null> {
+      return this.fetch("/api/clientShare", {
+        method: "GET",
+      });
+    }
+
+    // Sending/Saving data (POST or PUT)
+    async set(clientShare: string): Promise<void> {
+      await this.fetch("/api/clientShare", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: clientShare,
+      });
+    }
+  }
+  clientShareProvider = new ClientShareProvider();
 
   return (
     <KeybanProvider
