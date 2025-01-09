@@ -25,7 +25,7 @@ function ClientShareProvider({ children }: React.PropsWithChildren) {
     () => ({
       async get(): Promise<string | null> {
         if (!user || !user.sub) {
-          return null; // Aucun utilisateur identifié
+          return null;
         }
         const userId = user.sub;
         const key = `clientShare_${userId}`;
