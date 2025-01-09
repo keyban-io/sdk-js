@@ -1,8 +1,7 @@
 // src/App.tsx
 import { useAuth0 } from "@auth0/auth0-react";
 import { darkThemeOptions, lightThemeOptions } from "@keyban/mui-theme"; // Ajustez le chemin si nécessaire
-import { KeybanChain } from "@keyban/sdk-base";
-import { KeybanProvider } from "@keyban/sdk-react";
+import { KeybanChain } from "@keyban/sdk-react";
 import {
   Box,
   Button,
@@ -15,37 +14,20 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 import ApplicationHeader from "~/components/ApplicationHeader";
 import config from "~/config";
 import { useLocalStorage } from "~/lib/localStorage";
 import { AppRouter } from "~/lib/router";
 
-class ClientShareProvider {
-  #key: string = "KEYBAN-CLIENT-SHARE";
-
-  async get() {
-    return localStorage.getItem(this.#key);
-  }
-
-  async set(clientShare: string) {
-    return localStorage.setItem(this.#key, clientShare);
-  }
-}
-
 export default function App() {
-  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
-
   const [chain, setChain] = useLocalStorage<KeybanChain>(
     "selectedChain",
     config.keyban.chain,
   );
 
-  const clientShareProvider = React.useMemo(
-    () => new ClientShareProvider(),
-    [],
-  );
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
   // État pour le thème, par défaut 'light'
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -82,16 +64,24 @@ export default function App() {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Stack
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <CircularProgress />
-          <Typography variant="h6">Loading...</Typography>
-        </Stack>
+        <Container maxWidth="md" sx={{ py: [2] }}>
+          <ApplicationHeader
+            selectedChainId={chain}
+            onSelectChain={setChain}
+            onToggleTheme={toggleTheme}
+            themeMode={themeMode}
+          />
+          <Stack
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <CircularProgress />
+            <Typography variant="h6">Authenticating...</Typography>
+          </Stack>
+        </Container>
       </ThemeProvider>
     );
   }
@@ -142,13 +132,7 @@ export default function App() {
               themeMode={themeMode} // Passer le mode actuel
             />
             <Stack spacing={2}>
-              <KeybanProvider
-                {...config.keyban}
-                chain={chain}
-                clientShareProvider={clientShareProvider}
-              >
-                <AppRouter />
-              </KeybanProvider>
+              <AppRouter />
             </Stack>
           </>
         )}

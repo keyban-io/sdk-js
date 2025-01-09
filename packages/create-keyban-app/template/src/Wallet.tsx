@@ -76,7 +76,6 @@ export default function Wallet() {
   return (
     <KeybanProvider
       {...config.keyban}
-      accessTokenProvider={getAccessTokenSilently}
       clientShareKeyProvider={getClientShareKeys}
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>

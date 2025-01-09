@@ -1,4 +1,4 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { useKeybanAuth } from "@keyban/sdk-react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -19,9 +19,13 @@ const pages = import.meta.glob("../pages/**/*.tsx") as Record<
 >;
 
 const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
-  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const {
+    isAuthenticated: isKeybanAuthenticated,
+    isLoading: isKeybanLoading,
+    login: keybanLogin,
+  } = useKeybanAuth();
 
-  if (isLoading) {
+  if (isKeybanLoading) {
     return (
       <Stack
         sx={{
@@ -31,15 +35,14 @@ const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
         }}
       >
         <CircularProgress />
-        <Typography variant="h6">Checking authentication...</Typography>
+        <Typography variant="h6">Authenticating...</Typography>
       </Stack>
     );
   }
 
-  // Si l'utilisateur n'est pas authentifié, on redirige vers la page de connexion via Auth0
-  if (!isAuthenticated) {
-    loginWithRedirect();
-    return null; // on retourne null pendant que la redirection est en cours
+  if (!isKeybanAuthenticated) {
+    keybanLogin();
+    return null;
   }
 
   return <>{element}</>;

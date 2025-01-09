@@ -16,7 +16,6 @@
  * const client = new KeybanClient({
  *   apiUrl: "https://api.keyban.io",
  *   appId: "your-app-id",
- *   accessTokenProvider: () => "your-access-token",
  *   chain: KeybanChain.KeybanTestnet,
  * });
  * ```

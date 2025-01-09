@@ -2,7 +2,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { faBell, faMoon, faSun } from "@fortawesome/free-solid-svg-icons"; // Import des icônes
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { KeybanChain } from "@keyban/sdk-react";
+import { type KeybanChain, useKeybanAuth } from "@keyban/sdk-react";
 import {
   AppBar,
   Avatar,
@@ -32,7 +32,9 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   onToggleTheme, // Déstructuration de la nouvelle prop
   themeMode, // Déstructuration de la nouvelle prop
 }) => {
-  const { user, logout } = useAuth0();
+  const { user, logout: auth0Logout } = useAuth0();
+  const { logout: keybanLogout, isAuthenticated: isKeybanAuthenticated } =
+    useKeybanAuth();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -43,11 +45,14 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
     setAnchorElUser(null);
   };
 
-  const logoutWithRedirect = () =>
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin,
-      },
+  const logout = () =>
+    keybanLogout().then(() => {
+      console.log("isKeybanAuthenticated", isKeybanAuthenticated);
+      auth0Logout({
+        logoutParams: {
+          returnTo: window.location.origin,
+        },
+      });
     });
 
   return (
@@ -124,7 +129,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
                 open={Boolean(anchorElUser)}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={() => logoutWithRedirect()}>
+                <MenuItem onClick={() => logout()}>
                   <Typography sx={{ textAlign: "center" }}>Logout</Typography>
                 </MenuItem>
               </Menu>
