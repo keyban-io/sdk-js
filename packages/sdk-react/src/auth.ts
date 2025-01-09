@@ -4,6 +4,11 @@ import { useKeybanClient } from "~/provider";
 
 /**
  * Hook that provides authentication functionality using the Keyban client.
+ *
+ * To access the Keyban service, the user must authenticate with the Keyban services.
+ * The goal is to ensure that only the user has access to their wallet. The application
+ * itself does not have direct access to the wallet unless the user authenticates.
+ * This approach enhances security by preventing unauthorized access.
  * @returns An object containing:
  * - `login`: A memoized function to log in the user.
  * - `logout`: A memoized function to log out the user.
