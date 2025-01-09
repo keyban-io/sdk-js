@@ -3,33 +3,12 @@
  */
 import type { NormalizedCacheObject } from "@apollo/client/cache";
 import type { ApolloClient } from "@apollo/client/core";
-import type { Chain, PublicClient, Transport } from "viem";
-import {
-  createPublicClient,
-  createWalletClient,
-  hashMessage,
-  hashTypedData,
-  http,
-  isAddress,
-  keccak256,
-  parseSignature,
-  serializeTransaction,
-} from "viem";
-import { publicKeyToAddress, toAccount } from "viem/accounts";
 
 import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
-import { type FeesUnit, feesUnitChainsMap, viemChainsMap } from "~/chains";
-import { SdkError } from "~/errors";
-import {
-  walletAssetTransfersDocument,
-  walletBalanceDocument,
-  walletNftDocument,
-  walletNftsDocument,
-  walletTokenBalancesDocument,
-} from "~/graphql";
-import { type Address, KeybanChain } from "~/index";
+import { type FeesUnit, NativeCurrency } from "~/chains";
+import { KeybanChain } from "~/index";
 import { RpcClient } from "~/rpc";
 
 export interface ClientShareProvider {
@@ -52,26 +31,177 @@ export type KeybanClientConfig = {
   appId: string;
 
   /**
-   * A function that provides the client share encryption key, either synchronously or asynchronously.
-   */
-  clientShareProvider: ClientShareProvider;
-
-  /**
    * The blockchain configuration for Keyban.
    */
   chain: KeybanChain;
+
+  /**
+   * A function that provides the client share encryption key, either synchronously or asynchronously.
+   */
+  clientShareProvider: ClientShareProvider;
 };
 
-/**
- * Arguments for paginating a collection.
- * @property {number} first - The maximum number of items to retrieve in the current page.
- */
-export type PaginationArgs = {
-  /** The maximum number of items to retrieve in the current page. */
-  first?: number;
-  /** A cursor representing the starting point for the next page */
-  after?: string;
-};
+export abstract class KeybanClientBase {
+  /**
+   * The Keyban API URL, defaulting to "https://api.keyban.io".
+   */
+  apiUrl: string;
+
+  /**
+   * The application ID used for authentication with the Keyban API.
+   */
+  appId: string;
+
+  /**
+   * The blockchain used by Keyban.
+   */
+  chain: KeybanChain;
+
+  protected clientShareProvider: ClientShareProvider;
+  protected rpcClient: RpcClient;
+
+  /**
+   * The Apollo GraphQL client used for making API requests.
+   */
+  apolloClient: ApolloClient<NormalizedCacheObject>;
+
+  /**
+   * Creates a new instance of `KeybanClient`.
+   * @param config - The configuration object to initialize the client.
+   * @throws {SdkError} If the configuration is invalid.
+   * @example
+   * ```typescript
+   * const client = new KeybanClient({
+   *   apiUrl: "https://api.keyban.io",
+   *   appId: "your-app-id",
+   *   accessTokenProvider: {
+   *     get(): Promise<string> { ... },
+   *     set(clientShare: string): Promise<void> { ... },
+   *   },
+   *   clientShareProvider: () => "your-client-shares-provider",
+   *   chain: KeybanChain.KeybanTestnet,
+   * });
+   * ```
+   */
+  constructor(config: KeybanClientConfig) {
+    const {
+      apiUrl = "https://api.keyban.io",
+      appId,
+      clientShareProvider,
+      chain,
+    } = config;
+
+    this.apiUrl = apiUrl;
+    this.appId = appId;
+    this.chain = chain;
+    this.clientShareProvider = clientShareProvider;
+
+    const rpcUrl = new URL("/signer-client/", apiUrl);
+    rpcUrl.searchParams.set("appId", appId);
+    this.rpcClient = new RpcClient(rpcUrl);
+
+    const indexerPrefix = {
+      [KeybanChain.KeybanTestnet]: "subql-anvil.",
+      [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
+      [KeybanChain.Starknet]: "subql-???.",
+    }[chain];
+    this.apolloClient = createApolloClient(
+      new URL(apiUrl.replace("api.", indexerPrefix)),
+    );
+  }
+
+  get nativeCurrency(): NativeCurrency {
+    return {
+      [KeybanChain.KeybanTestnet]: {
+        decimals: 18,
+        name: "Ether",
+        symbol: "ETH",
+      },
+      [KeybanChain.PolygonAmoy]: {
+        name: "POL",
+        symbol: "POL",
+        decimals: 18,
+      },
+      [KeybanChain.Starknet]: {
+        name: "???",
+        symbol: "???",
+        decimals: 18,
+      },
+    }[this.chain];
+  }
+
+  get feesUnit(): FeesUnit {
+    return {
+      [KeybanChain.KeybanTestnet]: {
+        symbol: "gwei",
+        decimals: 9,
+      },
+      [KeybanChain.PolygonAmoy]: {
+        symbol: "gwei",
+        decimals: 9,
+      },
+      [KeybanChain.Starknet]: {
+        symbol: "????",
+        decimals: 9,
+      },
+    }[this.chain];
+  }
+
+  /**
+   * Performs a health check on the Keyban API to determine its operational status.
+   * @returns A promise resolving to the API status, either `"operational"` or `"down"`.
+   * @example
+   * ```typescript
+   * const status = await client.apiStatus();
+   * console.log(`API Status: ${status}`);
+   * ```
+   * @throws {Error} Throws an error if the health check request fails.
+   * @see {@link KeybanApiStatus}
+   */
+  async apiStatus(): Promise<KeybanApiStatus> {
+    return fetch(`${this.apiUrl}/health`)
+      .then((res) => (res.ok ? "operational" : "down"))
+      .catch((err) => {
+        console.error("Failed to perform health check", err);
+        return "down";
+      });
+  }
+
+  async login() {
+    window.location.href = await this.rpcClient.call(
+      "auth",
+      "getLoginUrl",
+      window.location.href,
+    );
+  }
+
+  async logout() {
+    window.location.href = await this.rpcClient.call(
+      "auth",
+      "getLogoutUrl",
+      window.location.href,
+    );
+  }
+
+  async isAuthenticated() {
+    return this.rpcClient.call("auth", "isAuthenticated");
+  }
+
+  /**
+   * Initializes a `KeybanAccount` associated with the current client.
+   * This method sets up the account by retrieving or generating the client share,
+   * and prepares the account for transactions and other operations.
+   * @returns A promise that resolves to an instance of `KeybanAccount`.
+   * @throws {SdkError} If initialization fails due to signing errors.
+   * @example
+   * ```typescript
+   * const account = await client.initialize();
+   * console.log(`Account address: ${account.address}`);
+   * ```
+   * @see {@link KeybanAccount}
+   */
+  abstract initialize(): Promise<KeybanAccount>;
+}
 
 /**
  * Main client for interacting with the Keyban API and associated services.
@@ -93,425 +223,32 @@ export type PaginationArgs = {
  *
  * // Initialize an account
  * const account = await client.initialize();
- *
- * // Get balance
- * const balance = await client.getBalance(account.address);
- * console.log(`Balance: ${balance}`);
  * ```
  * @see {@link KeybanAccount}
  */
-export class KeybanClient {
-  /**
-   * The Keyban API URL, defaulting to "https://api.keyban.io".
-   */
-  apiUrl: string;
+export class KeybanClient extends KeybanClientBase {
+  #client: Promise<KeybanClientBase>;
 
-  /**
-   * The application ID used for authentication with the Keyban API.
-   */
-  appId: string;
-
-  /**
-   * The blockchain used by Keyban.
-   */
-  chain: KeybanChain;
-
-  /**
-   * Represents the native currency of a blockchain network.
-   * @property {string} name - The name of the native currency (e.g., "Ether").
-   * @property {string} symbol - The symbol of the native currency (e.g., "ETH").
-   * @property {number} decimals - The number of decimal places the currency can be divided into.
-   * @example
-   * const nativeCurrency = {
-   *   name: "Ether",
-   *   symbol: "ETH",
-   *   decimals: 18
-   * };
-   * @example
-   * const nativeCurrency = {
-   *   name: "Bitcoin",
-   *   symbol: "BTC",
-   *   decimals: 8
-   * };
-   */
-  nativeCurrency: {
-    name: string;
-    symbol: string;
-    decimals: number;
-  };
-
-  /**
-   * The unit used for fees on the selected blockchain.
-   */
-  feesUnit: FeesUnit;
-
-  /**
-   * Function that provides the client share encryption key.
-   * @private
-   */
-  #clientShareProvider: ClientShareProvider;
-
-  /**
-   * The iframe rpc client
-   * @private
-   */
-  #rpcClient: RpcClient;
-
-  /**
-   * The Apollo GraphQL client used for making API requests.
-   */
-  apolloClient: ApolloClient<NormalizedCacheObject>;
-
-  /**
-   * The transport layer used for blockchain communication.
-   * @private
-   */
-  #transport: Promise<Transport>;
-
-  /**
-   * The public client used for interacting with the blockchain.
-   * @private
-   */
-  #publicClient: Promise<PublicClient<Transport, Chain>>;
-
-  /**
-   * Map to keep track of pending account initializations.
-   * @private
-   */
-  #pendingAccounts: Map<string, Promise<KeybanAccount>> = new Map();
-
-  /**
-   * Creates a new instance of `KeybanClient`.
-   * @param config - The configuration object to initialize the client.
-   * @throws {SdkError} If the configuration is invalid.
-   * @example
-   * ```typescript
-   * const client = new KeybanClient({
-   *   apiUrl: "https://api.keyban.io",
-   *   appId: "your-app-id",
-   *   accessTokenProvider: () => "your-access-token",
-   *   clientShareProvider: () => "your-client-shares-provider",
-   *   chain: KeybanChain.KeybanTestnet,
-   * });
-   * ```
-   */
   constructor(config: KeybanClientConfig) {
-    const {
-      apiUrl = "https://api.keyban.io",
-      appId,
-      clientShareProvider,
-      chain,
-    } = config;
+    super(config);
 
-    this.apiUrl = apiUrl;
-    this.appId = appId;
-    this.chain = chain;
-    this.nativeCurrency = viemChainsMap[this.chain].nativeCurrency;
-    this.feesUnit = feesUnitChainsMap[this.chain];
-
-    this.#clientShareProvider = clientShareProvider;
-
-    const rpcUrl = new URL("/signer-client/", apiUrl);
-    rpcUrl.searchParams.set("appId", appId);
-    this.#rpcClient = new RpcClient(rpcUrl);
-
-    const indexerPrefix = {
-      [KeybanChain.KeybanTestnet]: "subql-anvil.",
-      [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
-    }[chain];
-    this.apolloClient = createApolloClient(
-      new URL(apiUrl.replace("api.", indexerPrefix)),
-    );
-
-    const metadataUrl = new URL("/metadata", apiUrl);
-    metadataUrl.searchParams.set("chain", chain);
-    this.#transport = fetch(metadataUrl)
-      .then((res) => res.json())
-      .then((config) => http(config.chain.rpcUrl));
-
-    this.#publicClient = this.#transport.then((transport) =>
-      createPublicClient({
-        chain: viemChainsMap[this.chain],
-        transport,
-      }),
-    );
+    this.#client = {
+      [KeybanChain.KeybanTestnet]: () =>
+        import("~/evm").then(
+          ({ KeybanEvmClient }) => new KeybanEvmClient(config),
+        ),
+      [KeybanChain.PolygonAmoy]: () =>
+        import("~/evm").then(
+          ({ KeybanEvmClient }) => new KeybanEvmClient(config),
+        ),
+      [KeybanChain.Starknet]: () =>
+        import("~/starknet").then(
+          ({ KeybanStarknetClient }) => new KeybanStarknetClient(config),
+        ),
+    }[this.chain]();
   }
 
-  async login() {
-    window.location.href = await this.#rpcClient.call(
-      "auth",
-      "getLoginUrl",
-      window.location.href,
-    );
-  }
-
-  async logout() {
-    window.location.href = await this.#rpcClient.call(
-      "auth",
-      "getLogoutUrl",
-      window.location.href,
-    );
-  }
-
-  isAuthenticated() {
-    return this.#rpcClient.call("auth", "isAuthenticated");
-  }
-
-  /**
-   * Initializes a `KeybanAccount` associated with the current client.
-   * This method sets up the account by retrieving or generating the client share,
-   * and prepares the account for transactions and other operations.
-   * @returns A promise that resolves to an instance of `KeybanAccount`.
-   * @throws {SdkError} If initialization fails due to signing errors.
-   * @example
-   * ```typescript
-   * const account = await client.initialize();
-   * console.log(`Account address: ${account.address}`);
-   * ```
-   * @see {@link KeybanAccount}
-   */
-  async initialize(): Promise<KeybanAccount> {
-    const sub = "WHATEVER";
-
-    const pending = this.#pendingAccounts.get(sub);
-    if (pending) return pending;
-
-    const promise = (async () => {
-      let clientShare = await this.#clientShareProvider.get();
-      if (!clientShare) {
-        clientShare = await this.#rpcClient.call("ecdsa", "dkg");
-        await this.#clientShareProvider.set(clientShare);
-      }
-
-      const publicKey = await this.#rpcClient.call(
-        "ecdsa",
-        "publicKey",
-        clientShare,
-      );
-
-      const account = toAccount({
-        address: publicKeyToAddress(publicKey),
-        signMessage: async ({ message }) => {
-          const hash = hashMessage(message, "hex");
-          return this.#rpcClient.call("ecdsa", "sign", clientShare, hash);
-        },
-        signTransaction: async (transaction, options) => {
-          const serializer = options?.serializer ?? serializeTransaction;
-
-          // For EIP-4844 Transactions, we want to sign the transaction payload body (tx_payload_body) without the sidecars (i.e., without the network wrapper).
-          // See: https://github.com/ethereum/EIPs/blob/e00f4daa66bd56e2dbd5f1d36d09fd613811a48b/EIPS/eip-4844.md#networking
-          const signableTransaction =
-            transaction.type === "eip4844"
-              ? { ...transaction, sidecars: false }
-              : transaction;
-
-          const signature = await this.#rpcClient
-            .call(
-              "ecdsa",
-              "sign",
-              clientShare,
-              keccak256(serializer(signableTransaction)),
-            )
-            .then(parseSignature);
-
-          return serializer(transaction, signature);
-        },
-        signTypedData: async (typedDataDefinition) => {
-          const hash = hashTypedData(typedDataDefinition);
-          return this.#rpcClient.call("ecdsa", "sign", clientShare, hash);
-        },
-      });
-
-      // Assign the public key to the account
-      account.publicKey = publicKey;
-
-      const publicClient = await this.#publicClient;
-      const walletClient = createWalletClient({
-        chain: publicClient.chain,
-        transport: await this.#transport,
-        account,
-      });
-
-      return new KeybanAccount(this, publicClient, walletClient);
-    })();
-
-    this.#pendingAccounts.set(sub, promise);
-    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
-
-    return promise;
-  }
-
-  /**
-   * Retrieves the native token balance for a given address.
-   * @param address - The Ethereum address for which to retrieve the balance.
-   * @returns A promise resolving to the balance as a string (representing a BigInt in wei).
-   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
-   * @example
-   * ```typescript
-   * const balance = await client.getBalance("0x123...");
-   * console.log(`Balance: ${balance}`);
-   * ```
-   * @deprecated
-   */
-  async getBalance(address: Address): Promise<string> {
-    if (!isAddress(address)) {
-      throw new SdkError(
-        SdkError.types.AddressInvalid,
-        "KeybanClient.getBalance",
-      );
-    }
-
-    const { data } = await this.apolloClient.query({
-      query: walletBalanceDocument,
-      variables: { walletId: address },
-    });
-
-    return data.res?.balance ?? "0";
-  }
-
-  /**
-   * Retrieves the ERC20 token balances for a given address.
-   * @param address - The Ethereum address for which to retrieve the token balances.
-   * @param pagination - Optional pagination arguments.
-   * @returns A promise resolving to the token balances, including token details and balances.
-   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
-   * @example
-   * ```typescript
-   * const tokenBalances = await client.getTokenBalances("0x123...", { first: 10 });
-   * console.log(tokenBalances);
-   * ```
-   * @see {@link PaginationArgs}
-   * @deprecated
-   */
-  async getTokenBalances(address: Address, pagination?: PaginationArgs) {
-    if (!isAddress(address)) {
-      throw new SdkError(
-        SdkError.types.AddressInvalid,
-        "KeybanClient.getTokenBalances",
-      );
-    }
-
-    const { data } = await this.apolloClient.query({
-      query: walletTokenBalancesDocument,
-      variables: { walletId: address, ...pagination },
-    });
-
-    return data.res;
-  }
-
-  /**
-   * Retrieves the NFTs (ERC721 and ERC1155 tokens) owned by a given address.
-   * @param address - The Ethereum address of the owner.
-   * @param pagination - Optional pagination arguments.
-   * @returns A promise resolving to the list of NFTs, including metadata and collection details.
-   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
-   * @example
-   * ```typescript
-   * const nfts = await client.getNfts("0x123...", { first: 5 });
-   * console.log(nfts);
-   * ```
-   * @see {@link PaginationArgs}
-   * @deprecated
-   */
-  async getNfts(address: Address, pagination?: PaginationArgs) {
-    if (!isAddress(address)) {
-      throw new SdkError(SdkError.types.AddressInvalid, "KeybanClient.getNfts");
-    }
-
-    const { data } = await this.apolloClient.query({
-      query: walletNftsDocument,
-      variables: { walletId: address, ...pagination },
-    });
-
-    return data.res;
-  }
-
-  /**
-   * Retrieves the transaction history for a given address, including native currency transfers, token transfers, and NFT transfers.
-   * @param address - The Ethereum address for which to retrieve the transaction history.
-   * @param pagination - Optional pagination arguments.
-   * @returns A promise resolving to the transaction history, including detailed information about each transfer.
-   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided address is invalid.
-   * @example
-   * ```typescript
-   * const history = await client.getTransferHistory("0x123...", { first: 10 });
-   * console.log(history);
-   * ```
-   * @see {@link PaginationArgs}
-   * @deprecated
-   */
-  async getTransferHistory(address: Address, pagination?: PaginationArgs) {
-    if (!isAddress(address)) {
-      throw new SdkError(
-        SdkError.types.AddressInvalid,
-        "KeybanClient.getTransferHistory",
-      );
-    }
-
-    const { data } = await this.apolloClient.query({
-      query: walletAssetTransfersDocument,
-      variables: { walletId: address, ...pagination },
-    });
-
-    return data.res;
-  }
-
-  /**
-   * Retrieves a specific NFT (ERC721 or ERC1155) owned by an address.
-   * @param address - The Ethereum address of the owner.
-   * @param tokenAddress - The contract address of the NFT.
-   * @param tokenId - The token ID of the NFT.
-   * @returns A promise resolving to the NFT data, including metadata and collection details.
-   * @throws {SdkError} Throws `SdkErrorTypes.AddressInvalid` if the provided addresses are invalid.
-   * @throws {SdkError} Throws `SdkErrorTypes.NftNotFound` if the NFT is not found.
-   * @example
-   * ```typescript
-   * const nft = await client.getNft("0xowner...", "0xcontract...", "1");
-   * console.log(nft);
-   * ```
-   * @deprecated
-   */
-  async getNft(address: Address, tokenAddress: Address, tokenId: string) {
-    if (!isAddress(address)) {
-      throw new SdkError(SdkError.types.AddressInvalid, "KeybanClient.getNft");
-    }
-
-    if (!isAddress(tokenAddress)) {
-      throw new SdkError(SdkError.types.AddressInvalid, "KeybanClient.getNft");
-    }
-
-    const id = [address, tokenAddress, tokenId].join(":");
-    const { data } = await this.apolloClient.query({
-      query: walletNftDocument,
-      variables: { nftBalanceId: id },
-    });
-
-    const nft = data.res;
-
-    if (!nft) {
-      throw new SdkError(SdkError.types.NftNotFound, "KeybanClient.getNft");
-    }
-
-    return nft;
-  }
-
-  /**
-   * Performs a health check on the Keyban API to determine its operational status.
-   * @returns A promise resolving to the API status, either `"operational"` or `"down"`.
-   * @example
-   * ```typescript
-   * const status = await client.apiStatus();
-   * console.log(`API Status: ${status}`);
-   * ```
-   * @throws {Error} Throws an error if the health check request fails.
-   * @see {@link KeybanApiStatus}
-   */
-  async apiStatus(): Promise<KeybanApiStatus> {
-    return fetch(`${this.apiUrl}/health`)
-      .then((res) => (res.ok ? "operational" : "down"))
-      .catch((err) => {
-        console.error("Failed to perform health check", err);
-        return "down";
-      });
+  async initialize() {
+    return this.#client.then((client) => client.initialize());
   }
 }

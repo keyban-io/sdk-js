@@ -1,7 +1,6 @@
 /**
  * @module Chains
  */
-import * as chains from "viem/chains";
 
 /**
  * @enum {string}
@@ -27,10 +26,6 @@ export enum KeybanChain {
    * Keyban Testnet Chain.
    * Primarily used for development and testing purposes. This chain allows simulation of
    * transactions and interactions without affecting the main chain.
-   * @example
-   * ```typescript
-   * const testnetChain = KeybanChain.KeybanTestnet;
-   * ```
    */
   KeybanTestnet = "KeybanTestnet",
 
@@ -38,12 +33,14 @@ export enum KeybanChain {
    * Polygon Amoy Chain.
    * Represents the Polygon Amoy mainnet, offering fast transactions and reduced fees.
    * Ideal for production applications requiring high performance.
-   * @example
-   * ```typescript
-   * const polygonChain = KeybanChain.PolygonAmoy;
-   * ```
    */
   PolygonAmoy = "PolygonAmoy",
+
+  /**
+   * Starknet Chain.
+   * Represents the Starknet mainnet.
+   */
+  Starknet = "Starknet",
 }
 
 /**
@@ -51,23 +48,31 @@ export enum KeybanChain {
  * @property {string} symbol - The symbol of the fee unit (e.g., "gwei").
  * @property {number} decimals - The number of decimal places for the fee unit.
  */
-export interface FeesUnit {
+export type FeesUnit = {
   symbol: string;
   decimals: number;
-}
-
-export const viemChainsMap: { [C in KeybanChain]: chains.Chain } = {
-  [KeybanChain.KeybanTestnet]: chains.anvil,
-  [KeybanChain.PolygonAmoy]: chains.polygonAmoy,
 };
 
-export const feesUnitChainsMap: { [C in KeybanChain]: FeesUnit } = {
-  [KeybanChain.KeybanTestnet]: {
-    symbol: "gwei",
-    decimals: 9,
-  },
-  [KeybanChain.PolygonAmoy]: {
-    symbol: "gwei",
-    decimals: 9,
-  },
+/**
+ * Represents the native currency of a blockchain network.
+ * @property {string} name - The name of the native currency (e.g., "Ether").
+ * @property {string} symbol - The symbol of the native currency (e.g., "ETH").
+ * @property {number} decimals - The number of decimal places the currency can be divided into.
+ * @example
+ * const nativeCurrency = {
+ *   name: "Ether",
+ *   symbol: "ETH",
+ *   decimals: 18
+ * };
+ * @example
+ * const nativeCurrency = {
+ *   name: "Bitcoin",
+ *   symbol: "BTC",
+ *   decimals: 8
+ * };
+ */
+export type NativeCurrency = {
+  name: string;
+  symbol: string;
+  decimals: number;
 };

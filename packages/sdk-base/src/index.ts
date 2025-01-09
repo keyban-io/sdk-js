@@ -13,7 +13,6 @@ export {
   ClientShareProvider,
   KeybanClient,
   KeybanClientConfig,
-  PaginationArgs,
 } from "~/client";
 export { KeybanBaseError, SdkError, SdkErrorTypes } from "~/errors";
 export type {
@@ -99,3 +98,14 @@ export type Hash = `0x${string}`;
  * - **Hashes and Digests:** While specific types like `Hash` exist, `Hex` can be used for general-purpose hexadecimal data.
  */
 export type Hex = `0x${string}`;
+
+/**
+ * Arguments for paginating a collection.
+ * @property {number} first - The maximum number of items to retrieve in the current page.
+ */
+export type PaginationArgs = {
+  /** The maximum number of items to retrieve in the current page. */
+  first?: number;
+  /** A cursor representing the starting point for the next page */
+  after?: string;
+};
