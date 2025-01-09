@@ -2,7 +2,7 @@ import { KeybanClientBase } from "~/client";
 import { KeybanClientConfig } from "~/index";
 import { KeybanStarknetAccount } from "~/starknet/account";
 
-export class KeybanEvmClient extends KeybanClientBase {
+export class KeybanStarknetClient extends KeybanClientBase {
   constructor(config: KeybanClientConfig) {
     super(config);
   }
