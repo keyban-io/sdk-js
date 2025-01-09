@@ -14,13 +14,44 @@ import { RpcClient } from "~/rpc";
 /**
  * Represents a storage provider for the client share.
  *
- * The purpose of ClientShareProvider is to provide an interface that allows integrators
+ * The purpose of `ClientShareProvider` is to provide an interface that allows integrators
  * to save and restore the client share of their customers. The integrator has the
  * responsibility to securely store the client share.
  *
  * Note: The client share is not considered sensitive data because only the client
  * can use it, and its usage is secured by strong authentication between the client
  * and the Keyban services.
+ *
+ * ### Example Implementation
+ *
+ * Below is a basic implementation of the `ClientShareProvider` using a custom fetch-based provider:
+ *
+ * ```typescript
+ * class ClientShareProvider extends FetchBaseProvider{
+ *
+ *   // Retrieving data (GET)
+ *   async get(): Promise<string | null> {
+ *     return this.fetch("/api/clientShare", {
+ *       method: "GET",
+ *     });
+ *   }
+ *
+ *   // Sending/Saving data (POST or PUT)
+ *   async set(clientShare: string): Promise<void> {
+ *     await this.fetch("/api/clientShare", {
+ *       method: "POST",
+ *       headers: { "Content-Type": "application/json" },
+ *       body: clientShare,
+ *     });
+ *   }
+ * }
+ *
+ * export default ClientShareProvider;
+ * ```
+ *
+ * This implementation assumes the existence of an API endpoint `/api/clientShare`
+ * to manage the client share on the server side. The integrator should ensure that
+ * the endpoint is appropriately secured.
  */
 export interface ClientShareProvider {
   /**
@@ -94,10 +125,6 @@ export abstract class KeybanClientBase {
    * const client = new KeybanClient({
    *   apiUrl: "https://api.keyban.io",
    *   appId: "your-app-id",
-   *   accessTokenProvider: {
-   *     get(): Promise<string> { ... },
-   *     set(clientShare: string): Promise<void> { ... },
-   *   },
    *   clientShareProvider: () => "your-client-shares-provider",
    *   chain: KeybanChain.KeybanTestnet,
    * });

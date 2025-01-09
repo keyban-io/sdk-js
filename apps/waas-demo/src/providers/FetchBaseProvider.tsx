@@ -1,4 +1,4 @@
-class CustomFetchBaseProvider {
+class FetchBaseProvider {
   #key: string;
 
   constructor(key: string) {
@@ -26,4 +26,4 @@ class CustomFetchBaseProvider {
     }
   }
 }
-export default CustomFetchBaseProvider;
+export default FetchBaseProvider;

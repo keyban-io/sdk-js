@@ -1,6 +1,6 @@
-import CustomFetchBaseProvider from "./CustomFetchBaseProvider";
+import FetchBaseProvider from "./FetchBaseProvider";
 
-class ClientShareProvider extends CustomFetchBaseProvider {
+class ClientShareProvider extends FetchBaseProvider {
   constructor(appId: string) {
     super(`CLIENT-SHARE:${appId}`);
   }

@@ -47,7 +47,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * @throws {Error} If the configuration is invalid.
  * @returns The provider component wrapping the children components.
  * @see {@link KeybanClientConfig} for the available configuration options.
- * @see {@link cclientShareProvider} for managing shared keys in client-side operations.
+ * @see {@link ClientShareProvider} for managing shared keys in client-side operations.
  * @example
  * ```tsx
  * import React from "react";
@@ -57,10 +57,6 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *   // Function to provide the access token.
  *   // You can implement logic here to retrieve the token from a secure source,
  *   // such as environment variables, a secure vault, or an authentication service.
- *   const getAccessToken = () => {
- *     // Example: Retrieve the access token from environment variables
- *     return process.env.REACT_APP_KEYBAN_ACCESS_TOKEN || "your-access-token";
- *   };
  *
  *   // Function to provide the shared key for client-side operations.
  *   // This key is used to cipher the client's share of the end user and is stored securely in Keyban's infrastructure.
@@ -76,8 +72,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *       apiUrl="https://api.keyban.io" // Base URL for Keyban API
  *       appId="your-app-id" // Your unique application ID from Keyban
  *       chain={KeybanChain.KeybanTestnet} // Specify the blockchain network (e.g., Testnet or Mainnet)
- *       accessTokenProvider={getAccessToken} // Function that provides the access token
- *       clientShareKeyProvider={clientShareKeyProvider} // Function that provides the shared key
+ *       clientShareProvider={clientShareProvider} // Function that provides the shared key
  *     >
  *       <YourMainComponent />
  *     </KeybanProvider>

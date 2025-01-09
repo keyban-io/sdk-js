@@ -27,7 +27,6 @@ import { KeybanClient, KeybanChain, KeybanAccount } from '@keyban/sdk-base';
 
 const client = new KeybanClient({
   appId: "your-keyban-app-id",                 // Your Keyban application ID
-  accessTokenProvider: async () => "access-token", // Function to provide the access token
   chain: KeybanChain.KeybanTestnet,            // Select the desired blockchain network
 });
 ```

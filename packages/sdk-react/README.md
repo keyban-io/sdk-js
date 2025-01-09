@@ -58,7 +58,6 @@ export default App;
 - **`apiUrl`**: The Keyban API URL (default: [https://api.keyban.io](https://api.keyban.io)).
 - **`appId`**: Your application ID for authentication with the Keyban API.
 - **`chain`**: The blockchain network used by Keyban (e.g., `KeybanChain.KeybanTestnet`).
-- **`accessTokenProvider`**: A function that returns your access token for authentication.
 - **`clientShareKeyProvider`**: A function that provides a key used to cipher the client's share of the end user. This key is stored securely in Keyban's infrastructure, ensuring that Keyban cannot sign operations on behalf of end users. We recommend providing a unique key per client share to enhance security.
 
 ## Using React Hooks
