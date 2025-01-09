@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Account } from "starknet";
+
 import {
   type Address,
   EstimateERC20TransferParams,
@@ -13,14 +15,17 @@ import {
 } from "~/index";
 
 export class KeybanStarknetAccount implements KeybanAccount {
-  constructor() {}
+  // eslint-disable-next-line no-unused-private-class-members
+  #account: Account;
 
-  get address(): Address {
-    throw new Error("Unimplemented");
-  }
+  address: Address;
+  publicKey: Hex;
 
-  get publicKey(): Hex {
-    throw new Error("Unimplemented");
+  constructor(account: Account, publicKey: Hex) {
+    this.#account = account;
+
+    this.address = account.address as Address;
+    this.publicKey = publicKey;
   }
 
   async signMessage(_message: string): Promise<Hex> {

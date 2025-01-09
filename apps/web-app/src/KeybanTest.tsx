@@ -1,3 +1,4 @@
+import { KeybanChain, useKeybanClient } from "@keyban/sdk-react";
 import React from "react";
 
 import ApiStatus from "~/components/organisms/ApiStatus";
@@ -21,6 +22,9 @@ const wrapSuspense = (Comp: React.ComponentType) => (
 );
 
 export default function KeybanTest() {
+  const client = useKeybanClient();
+  const isStarknet = client.chain === KeybanChain.Starknet;
+
   const [init, setInit] = React.useState(false);
 
   return (
@@ -42,14 +46,14 @@ export default function KeybanTest() {
         <>
           {wrapSuspense(WalletInfo)}
           {wrapSuspense(Signature)}
-          {wrapSuspense(Balance)}
-          {wrapSuspense(NativeTransfer)}
-          {wrapSuspense(TokenBalances)}
-          {wrapSuspense(ERC20Transfer)}
-          {wrapSuspense(Nft)}
-          {wrapSuspense(NftFetch)}
-          {wrapSuspense(NftTransfer)}
-          {wrapSuspense(TransferHistory)}
+          {!isStarknet && wrapSuspense(Balance)}
+          {!isStarknet && wrapSuspense(NativeTransfer)}
+          {!isStarknet && wrapSuspense(TokenBalances)}
+          {!isStarknet && wrapSuspense(ERC20Transfer)}
+          {!isStarknet && wrapSuspense(Nft)}
+          {!isStarknet && wrapSuspense(NftFetch)}
+          {!isStarknet && wrapSuspense(NftTransfer)}
+          {!isStarknet && wrapSuspense(TransferHistory)}
         </>
       )}
     </>

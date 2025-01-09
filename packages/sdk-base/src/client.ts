@@ -108,13 +108,17 @@ export abstract class KeybanClientBase {
    */
   chain: KeybanChain;
 
-  protected clientShareProvider: ClientShareProvider;
-  protected rpcClient: RpcClient;
-
   /**
    * The Apollo GraphQL client used for making API requests.
    */
   apolloClient: ApolloClient<NormalizedCacheObject>;
+
+  protected clientShareProvider: ClientShareProvider;
+  protected rpcClient: RpcClient;
+  protected metadataConfig: Promise<{
+    chain: { rpcUrl: string; indexerUrl: string };
+    auth: { domain: string; clientId: string };
+  }>;
 
   /**
    * Creates a new instance of `KeybanClient`.
@@ -143,10 +147,6 @@ export abstract class KeybanClientBase {
     this.chain = chain;
     this.clientShareProvider = clientShareProvider;
 
-    const rpcUrl = new URL("/signer-client/", apiUrl);
-    rpcUrl.searchParams.set("appId", appId);
-    this.rpcClient = new RpcClient(rpcUrl);
-
     const indexerPrefix = {
       [KeybanChain.KeybanTestnet]: "subql-anvil.",
       [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
@@ -155,6 +155,14 @@ export abstract class KeybanClientBase {
     this.apolloClient = createApolloClient(
       new URL(apiUrl.replace("api.", indexerPrefix)),
     );
+
+    const rpcUrl = new URL("/signer-client/", apiUrl);
+    rpcUrl.searchParams.set("appId", appId);
+    this.rpcClient = new RpcClient(rpcUrl);
+
+    const metadataUrl = new URL("/metadata", apiUrl);
+    metadataUrl.searchParams.set("chain", chain);
+    this.metadataConfig = fetch(metadataUrl).then((res) => res.json());
   }
 
   get nativeCurrency(): NativeCurrency {
@@ -276,6 +284,8 @@ export abstract class KeybanClientBase {
 export class KeybanClient extends KeybanClientBase {
   #client: Promise<KeybanClientBase>;
 
+  #pendingAccounts: Map<string, Promise<KeybanAccount>> = new Map();
+
   constructor(config: KeybanClientConfig) {
     super(config);
 
@@ -296,6 +306,16 @@ export class KeybanClient extends KeybanClientBase {
   }
 
   async initialize() {
-    return this.#client.then((client) => client.initialize());
+    const sub = "WHATEVER";
+
+    const pending = this.#pendingAccounts.get(sub);
+    if (pending) return pending;
+
+    const promise = this.#client.then((client) => client.initialize());
+
+    this.#pendingAccounts.set(sub, promise);
+    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
+
+    return promise;
   }
 }
