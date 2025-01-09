@@ -8,7 +8,7 @@ export {
   TransferNftParams,
 } from "~/account";
 export { KeybanApiStatus } from "~/api";
-export { FeesUnit, KeybanChain } from "~/chains";
+export { FeesUnit, KeybanChain, NativeCurrency } from "~/chains";
 export {
   ClientShareProvider,
   KeybanClient,
