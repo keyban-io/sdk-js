@@ -1,10 +1,9 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { useKeybanAuth } from "@keyban/sdk-react";
 import Wallet from "./Wallet";
 import "./App.css";
 
 export default function App() {
-  const { loginWithRedirect, logout, isAuthenticated, user, isLoading } =
-    useAuth0();
+  const { login, logout, isAuthenticated, isLoading } = useKeybanAuth();
 
   if (isLoading) {
     return (
@@ -18,24 +17,18 @@ export default function App() {
     <div className="app-container">
       {isAuthenticated ? (
         <>
-          <h2>Welcome, {user?.name}</h2>
+          <h2>Welcome!</h2>
           <Wallet />
           <button
             type="button"
             className="logout-button"
-            onClick={() =>
-              logout({ logoutParams: { returnTo: window.location.origin } })
-            }
+            onClick={() => logout()}
           >
             Logout
           </button>
         </>
       ) : (
-        <button
-          type="button"
-          className="login-button"
-          onClick={() => loginWithRedirect()}
-        >
+        <button type="button" className="login-button" onClick={() => login()}>
           Login to get access to your Wallet
         </button>
       )}

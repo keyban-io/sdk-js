@@ -1,19 +1,13 @@
 import "./Wallet.css";
 
 import React from "react";
+import config from "./config";
 
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-
-import { useAuth0 } from "@auth0/auth0-react";
 import {
   FormattedBalance,
-  KeybanProvider,
   useKeybanAccount,
   useKeybanAccountBalance,
-  generateKey,
 } from "@keyban/sdk-react";
-
-import config from "./config";
 
 // WalletContent Component
 // This component contains the main logic to display the account ID, address, and balance
@@ -39,52 +33,12 @@ function WalletContent() {
   );
 }
 
-// ErrorFallback Component
-// This component is displayed when something goes wrong in the child components
-function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
-  return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre style={{ color: "red" }}>{error.message}</pre>
-      <button type="button" onClick={resetErrorBoundary}>
-        Try again
-      </button>
-    </div>
-  );
-}
-
 // Main Wallet Component
 // This component wraps the WalletContent with the KeybanProvider and handles errors and loading states
 export default function Wallet() {
-  const { getAccessTokenSilently } = useAuth0();
-
-  async function getClientShareKeys(): Promise<JsonWebKey> {
-    // Check if the client share key exists in local storage
-    const storedKey = localStorage.getItem("clientShareKey");
-    if (storedKey) {
-      return JSON.parse(storedKey) as JsonWebKey;
-    }
-
-    // Generate a new key
-    const key = await generateKey();
-
-    // Store the generated key in local storage
-    localStorage.setItem("clientShareKey", JSON.stringify(key));
-
-    return key;
-  }
   return (
-    <KeybanProvider
-      {...config.keyban}
-      clientShareKeyProvider={getClientShareKeys}
-    >
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        {/* Displays a loading state while fetching data */}
-        <React.Suspense fallback={<div>Loading...</div>}>
-          {/* Renders the main content of the wallet */}
-          <WalletContent />
-        </React.Suspense>
-      </ErrorBoundary>
-    </KeybanProvider>
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <WalletContent />
+    </React.Suspense>
   );
 }
