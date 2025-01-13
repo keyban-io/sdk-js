@@ -154,6 +154,10 @@ export class RpcClient {
     });
   }
 
+  destroy() {
+    this.#iframe.then((iframe) => document.body.removeChild(iframe));
+  }
+
   async call<
     S extends Service,
     M extends Method<S>,

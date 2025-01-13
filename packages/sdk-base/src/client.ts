@@ -82,14 +82,19 @@ export type KeybanClientConfig = {
   appId: string;
 
   /**
-   * The client share provider.
-   */
-  clientShareProvider: ClientShareProvider;
-
-  /**
    * The blockchain configuration for Keyban.
    */
   chain: KeybanChain;
+
+  /**
+   * The client share provider.
+   */
+  clientShareProvider: ClientShareProvider;
+};
+
+export type MetadataConfig = {
+  chain: { rpcUrl: string; indexerUrl: string };
+  auth: { domain: string; clientId: string };
 };
 
 export abstract class KeybanClientBase {
@@ -115,54 +120,43 @@ export abstract class KeybanClientBase {
 
   protected clientShareProvider: ClientShareProvider;
   protected rpcClient: RpcClient;
-  protected metadataConfig: Promise<{
-    chain: { rpcUrl: string; indexerUrl: string };
-    auth: { domain: string; clientId: string };
-  }>;
+  protected metadataConfig: Promise<MetadataConfig>;
 
-  /**
-   * Creates a new instance of `KeybanClient`.
-   * @param config - The configuration object to initialize the client.
-   * @throws {SdkError} If the configuration is invalid.
-   * @example
-   * ```typescript
-   * const client = new KeybanClient({
-   *   apiUrl: "https://api.keyban.io",
-   *   appId: "your-app-id",
-   *   clientShareProvider: () => "your-client-shares-provider",
-   *   chain: KeybanChain.KeybanTestnet,
-   * });
-   * ```
-   */
-  constructor(config: KeybanClientConfig) {
-    const {
-      apiUrl = "https://api.keyban.io",
-      appId,
-      clientShareProvider,
-      chain,
-    } = config;
-
-    this.apiUrl = apiUrl;
-    this.appId = appId;
-    this.chain = chain;
-    this.clientShareProvider = clientShareProvider;
+  constructor(
+    config: KeybanClientConfig,
+    rpcClient?: RpcClient,
+    metadataConfig?: Promise<MetadataConfig>,
+  ) {
+    this.apiUrl = config.apiUrl ?? "https://api.keyban.io";
+    this.appId = config.appId;
+    this.chain = config.chain;
+    this.clientShareProvider = config.clientShareProvider;
 
     const indexerPrefix = {
       [KeybanChain.KeybanTestnet]: "subql-anvil.",
       [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
       [KeybanChain.Starknet]: "subql-???.",
-    }[chain];
+    }[this.chain];
     this.apolloClient = createApolloClient(
-      new URL(apiUrl.replace("api.", indexerPrefix)),
+      new URL(this.apiUrl.replace("api.", indexerPrefix)),
     );
 
-    const rpcUrl = new URL("/signer-client/", apiUrl);
-    rpcUrl.searchParams.set("appId", appId);
-    this.rpcClient = new RpcClient(rpcUrl);
+    const rpcUrl = new URL("/signer-client/", this.apiUrl);
+    rpcUrl.searchParams.set("appId", this.appId);
+    this.rpcClient = rpcClient ?? new RpcClient(rpcUrl);
 
-    const metadataUrl = new URL("/metadata", apiUrl);
-    metadataUrl.searchParams.set("chain", chain);
-    this.metadataConfig = fetch(metadataUrl).then((res) => res.json());
+    const metadataUrl = new URL("/metadata", this.apiUrl);
+    metadataUrl.searchParams.set("chain", this.chain);
+    this.metadataConfig =
+      metadataConfig ?? fetch(metadataUrl).then((res) => res.json());
+  }
+
+  /**
+   * Cleanup
+   * @private
+   */
+  destroy() {
+    this.rpcClient.destroy();
   }
 
   get nativeCurrency(): NativeCurrency {
@@ -286,21 +280,42 @@ export class KeybanClient extends KeybanClientBase {
 
   #pendingAccounts: Map<string, Promise<KeybanAccount>> = new Map();
 
+  /**
+   * Creates a new instance of `KeybanClient`.
+   * @param config - The configuration object to initialize the client.
+   * @throws {SdkError} If the configuration is invalid.
+   * @example
+   * ```typescript
+   * const client = new KeybanClient({
+   *   apiUrl: "https://api.keyban.io",
+   *   appId: "your-app-id",
+   *   clientShareProvider: () => "your-client-shares-provider",
+   *   chain: KeybanChain.KeybanTestnet,
+   * });
+   * ```
+   */
   constructor(config: KeybanClientConfig) {
     super(config);
 
     this.#client = {
       [KeybanChain.KeybanTestnet]: () =>
         import("~/evm").then(
-          ({ KeybanEvmClient }) => new KeybanEvmClient(config),
+          ({ KeybanEvmClient }) =>
+            new KeybanEvmClient(config, this.rpcClient, this.metadataConfig),
         ),
       [KeybanChain.PolygonAmoy]: () =>
         import("~/evm").then(
-          ({ KeybanEvmClient }) => new KeybanEvmClient(config),
+          ({ KeybanEvmClient }) =>
+            new KeybanEvmClient(config, this.rpcClient, this.metadataConfig),
         ),
       [KeybanChain.Starknet]: () =>
         import("~/starknet").then(
-          ({ KeybanStarknetClient }) => new KeybanStarknetClient(config),
+          ({ KeybanStarknetClient }) =>
+            new KeybanStarknetClient(
+              config,
+              this.rpcClient,
+              this.metadataConfig,
+            ),
         ),
     }[this.chain]();
   }

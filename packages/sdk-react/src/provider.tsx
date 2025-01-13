@@ -78,6 +78,7 @@ export function KeybanProvider(props: KeybanProviderProps) {
 
   React.useEffect(
     () => () => {
+      clients.get(key)?.destroy();
       clients.delete(key);
     },
     [key],

@@ -11,18 +11,19 @@ export class KeybanAuth implements IKeybanAuth {
   constructor() {
     const audienceUrl = apiUrl();
     audienceUrl.searchParams.set("appId", APP_ID);
-    const audience = audienceUrl.toString();
 
     this.#auth0 = fetch(apiUrl("/metadata"))
       .then((res) => res.json())
       .then(({ auth }) => {
         return new Auth0Client({
           ...auth,
+          // Fixes state handling in arc w/ pinned tab
+          useCookiesForTransactions: true,
           useRefreshTokens: true,
           cacheLocation: "localstorage",
           authorizationParams: {
             scope: "openid",
-            audience,
+            audience: audienceUrl.toString(),
             redirect_uri: apiUrl("/signer-client/login").toString(),
           },
         });

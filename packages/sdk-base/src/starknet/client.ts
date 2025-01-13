@@ -1,7 +1,8 @@
 import { Account, CallData, hash, RpcProvider } from "starknet";
 
-import { KeybanClientBase } from "~/client";
-import { Hex, KeybanClientConfig } from "~/index";
+import { KeybanClientBase, KeybanClientConfig, MetadataConfig } from "~/client";
+import { Hex } from "~/index";
+import { RpcClient } from "~/rpc";
 import { KeybanStarknetAccount } from "~/starknet/account";
 import { StarknetSigner } from "~/starknet/signer";
 
@@ -10,11 +11,12 @@ import { ETH_ACCOUNT_ABI } from "./abi";
 export class KeybanStarknetClient extends KeybanClientBase {
   #starknetRpcProvider: Promise<RpcProvider>;
 
-  constructor(config: KeybanClientConfig) {
-    super(config);
-
-    const metadataUrl = new URL("/metadata", this.apiUrl);
-    metadataUrl.searchParams.set("chain", this.chain);
+  constructor(
+    config: KeybanClientConfig,
+    rpcClient?: RpcClient,
+    metadataConfig?: Promise<MetadataConfig>,
+  ) {
+    super(config, rpcClient, metadataConfig);
 
     this.#starknetRpcProvider = this.metadataConfig.then(
       (config) => new RpcProvider({ nodeUrl: config.chain.rpcUrl }),

@@ -15,14 +15,13 @@ import {
 } from "~/index";
 
 export class KeybanStarknetAccount implements KeybanAccount {
-  // eslint-disable-next-line no-unused-private-class-members
-  #account: Account;
+  // #account: Account;
 
   address: Address;
   publicKey: Hex;
 
   constructor(account: Account, publicKey: Hex) {
-    this.#account = account;
+    // this.#account = account;
 
     this.address = account.address as Address;
     this.publicKey = publicKey;
