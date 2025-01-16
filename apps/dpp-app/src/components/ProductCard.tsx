@@ -6,7 +6,6 @@ import {
   Button,
   Box,
   Chip,
-  Grid,
 } from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -15,15 +14,14 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import BuildIcon from "@mui/icons-material/Build";
-import WarningIcon from "@mui/icons-material/Warning";
+import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
   image: string;
   alt: string;
   name: string;
   event: string;
-  benefits: { label: string; icon: React.ReactNode }[];
+  benefits: { label: string; icon: React.ReactElement }[];
   date: string;
   additionalEvents?: {
     date: string;
@@ -47,6 +45,34 @@ export default function ProductCard({
   eventIcon,
   fullSizeImage,
 }: ProductCardProps) {
+  const navigate = useNavigate();
+
+  const handleDetailsClick = () => {
+    navigate("/product-details", {
+      state: {
+        product: {
+          image,
+          alt,
+          name,
+          event,
+          benefits: benefits.map((benefit) => ({
+            label: benefit.label,
+            icon: benefit.icon.type.displayName,
+            description: benefit.description,
+          })),
+          date,
+          additionalEvents: additionalEvents?.map((event) => ({
+            ...event,
+            icon: event.icon.type.displayName,
+          })),
+          status,
+          eventIcon: eventIcon.type.displayName,
+          events: additionalEvents?.map((event) => event.description) || [],
+        },
+      },
+    });
+  };
+
   return (
     <Card
       sx={{
@@ -147,7 +173,7 @@ export default function ProductCard({
               {benefits.map((benefit, index) => (
                 <Chip
                   key={index}
-                  icon={benefit.icon}
+                  icon={benefit.icon as React.ReactElement}
                   label={benefit.label}
                   color="primary"
                 />
@@ -156,7 +182,11 @@ export default function ProductCard({
           </Box>
         </Box>
       </CardContent>
-      <Button variant="contained" sx={{ mt: 2, alignSelf: "center" }}>
+      <Button
+        variant="contained"
+        sx={{ mt: 2, alignSelf: "center" }}
+        onClick={handleDetailsClick}
+      >
         Voir les détails
       </Button>
     </Card>

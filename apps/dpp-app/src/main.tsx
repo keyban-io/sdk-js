@@ -7,6 +7,7 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import BottomNav from "./components/BottomNav";
+import ProductDetails from "./pages/ProductDetails";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/product-details" element={<ProductDetails />} />
           {/* ...add more routes if needed... */}
         </Routes>
         <BottomNav />
