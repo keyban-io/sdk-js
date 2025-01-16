@@ -3,10 +3,10 @@ import {
   Card,
   CardContent,
   Typography,
-  Button,
   Box,
   Chip,
-  Grid,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -22,11 +22,12 @@ import BuildIcon from "@mui/icons-material/Build";
 import UpdateIcon from "@mui/icons-material/Update";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EventIcon from "@mui/icons-material/Event";
+import InfoIcon from "@mui/icons-material/Info";
 import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
 import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
 import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
 
-const iconMap: { [key: string]: React.ReactNode } = {
+const iconMap: { [key: string]: React.ReactElement } = {
   VerifiedIcon: <VerifiedIcon />,
   BuildIcon: <BuildIcon />,
   UpdateIcon: <UpdateIcon />,
@@ -97,6 +98,7 @@ export default function ProductCard({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            position: "relative",
           }}
         >
           <Box
@@ -106,6 +108,7 @@ export default function ProductCard({
               alignItems: "center",
               justifyContent: "center",
               height: fullSizeImage ? "auto" : "150px",
+              position: "relative",
             }}
           >
             <img
@@ -116,6 +119,29 @@ export default function ProductCard({
                 maxHeight: fullSizeImage ? "auto" : "100%",
               }}
             />
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: fullSizeImage ? 16 : 8,
+                right: fullSizeImage ? 16 : 8,
+                display: "flex",
+                gap: 1,
+              }}
+            >
+              <Tooltip title="Voir les détails">
+                <IconButton
+                  color="primary"
+                  onClick={handleDetailsClick}
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                    border: "1px solid rgba(0, 0, 0, 0.1)",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                  }}
+                >
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </Box>
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Typography>{product.name}</Typography>
@@ -166,13 +192,6 @@ export default function ProductCard({
           </Box>
         </Box>
       </CardContent>
-      <Button
-        variant="contained"
-        sx={{ mt: 2, alignSelf: "center" }}
-        onClick={handleDetailsClick}
-      >
-        Voir les détails
-      </Button>
     </Card>
   );
 }

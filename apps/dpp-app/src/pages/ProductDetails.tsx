@@ -7,7 +7,8 @@ import {
   Chip,
   Card,
   CardContent,
-  Grid,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import products from "../data/products.json";
@@ -21,6 +22,9 @@ import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
 import EventIcon from "@mui/icons-material/Event";
 import BenefitsIcon from "@mui/icons-material/ThumbUp";
 import ActionsIcon from "@mui/icons-material/AssignmentTurnedIn";
+import DownloadIcon from "@mui/icons-material/Download";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import ShareIcon from "@mui/icons-material/Share";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -86,6 +90,7 @@ export default function ProductDetails() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              position: "relative",
             }}
           >
             <Box
@@ -95,6 +100,7 @@ export default function ProductDetails() {
                 alignItems: "center",
                 justifyContent: "center",
                 height: "auto",
+                position: "relative",
               }}
             >
               <img
@@ -105,10 +111,56 @@ export default function ProductDetails() {
                   maxHeight: "auto",
                 }}
               />
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: 16,
+                  right: 16,
+                  display: "flex",
+                  gap: 1,
+                }}
+              >
+                <Tooltip title="Télécharger le certificat">
+                  <IconButton
+                    color="primary"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      border: "1px solid rgba(0, 0, 0, 0.1)",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
+                    <DownloadIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Signaler un problème">
+                  <IconButton
+                    color="primary"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      border: "1px solid rgba(0, 0, 0, 0.1)",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
+                    <ReportProblemIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Partager les informations du produit">
+                  <IconButton
+                    color="primary"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      border: "1px solid rgba(0, 0, 0, 0.1)",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
+                    <ShareIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
             <Box sx={{ textAlign: "center", mt: 2 }}>
               <Typography variant="h4" gutterBottom>
-                TPP - {product.name}
+                {product.name}
               </Typography>
               <Typography variant="h6" gutterBottom>
                 Modèle : EcoBubble 2023
@@ -167,20 +219,6 @@ export default function ProductDetails() {
                 ))}
               </Timeline>
               <Button variant="text">[ Voir l’historique complet ]</Button>
-              <Typography variant="h5" gutterBottom>
-                <ActionsIcon /> Actions Disponibles :
-              </Typography>
-              <Box sx={{ mb: 3 }}>
-                <Button variant="contained" sx={{ mb: 1 }}>
-                  Télécharger le certificat
-                </Button>
-                <Button variant="contained" sx={{ mb: 1 }}>
-                  Signaler un problème
-                </Button>
-                <Button variant="contained" sx={{ mb: 1 }}>
-                  Partager les informations du produit
-                </Button>
-              </Box>
             </Box>
           </Box>
         </CardContent>
