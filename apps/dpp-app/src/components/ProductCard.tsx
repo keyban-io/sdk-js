@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   CardContent,
@@ -5,6 +6,7 @@ import {
   Button,
   Box,
   Chip,
+  Grid,
 } from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -12,18 +14,24 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
+import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import BuildIcon from "@mui/icons-material/Build";
 import WarningIcon from "@mui/icons-material/Warning";
-import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 
 interface ProductCardProps {
   image: string;
   alt: string;
   name: string;
   event: string;
-  benefit: string;
+  benefits: { label: string; icon: React.ReactNode }[];
   date: string;
-  benefitIcon: React.ReactNode;
+  additionalEvents?: {
+    date: string;
+    description: string;
+    icon: React.ReactNode;
+  }[];
+  status?: string;
+  eventIcon: React.ReactNode;
 }
 
 export default function ProductCard({
@@ -31,20 +39,12 @@ export default function ProductCard({
   alt,
   name,
   event,
-  benefit,
+  benefits,
   date,
-  benefitIcon,
+  additionalEvents,
+  status,
+  eventIcon,
 }: ProductCardProps) {
-  const getEventIcon = (event: string) => {
-    if (event.includes("Maintenance")) {
-      return <BuildIcon />;
-    } else if (event.includes("Rappel")) {
-      return <WarningIcon />;
-    } else {
-      return <TimelineDot />;
-    }
-  };
-
   return (
     <Card
       sx={{
@@ -86,10 +86,15 @@ export default function ProductCard({
           </Box>
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Typography>{name}</Typography>
+            {status && (
+              <Typography variant="body1" color="textSecondary" gutterBottom>
+                {status}
+              </Typography>
+            )}
             <Timeline>
               <TimelineItem>
                 <TimelineOppositeContent
-                  sx={{ m: "auto 0" }}
+                  sx={{ py: "20px" }}
                   align="right"
                   variant="body2"
                   color="text.secondary"
@@ -97,13 +102,36 @@ export default function ProductCard({
                   {date}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                  <TimelineDot color="primary">
-                    {getEventIcon(event)}
-                  </TimelineDot>
+                  <TimelineDot color="primary">{eventIcon}</TimelineDot>
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{event}</TimelineContent>
+                <TimelineContent>
+                  <Typography>{event}</Typography>
+                </TimelineContent>
               </TimelineItem>
+              {additionalEvents?.map((additionalEvent, index) => (
+                <TimelineItem key={index}>
+                  <TimelineOppositeContent
+                    sx={{ py: "20px" }}
+                    align="right"
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    {additionalEvent.date}
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot color="secondary">
+                      {additionalEvent.icon}
+                    </TimelineDot>
+                    {index < additionalEvents.length - 1 && (
+                      <TimelineConnector />
+                    )}
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Typography>{additionalEvent.description}</Typography>
+                  </TimelineContent>
+                </TimelineItem>
+              ))}
             </Timeline>
             <Box
               sx={{
@@ -114,14 +142,21 @@ export default function ProductCard({
                 mt: 2,
               }}
             >
-              <Chip icon={benefitIcon} label={benefit} color="primary" />
+              {benefits.map((benefit, index) => (
+                <Chip
+                  key={index}
+                  icon={benefit.icon}
+                  label={benefit.label}
+                  color="primary"
+                />
+              ))}
             </Box>
-            <Button variant="contained" sx={{ mt: 2 }}>
-              Voir les détails
-            </Button>
           </Box>
         </Box>
       </CardContent>
+      <Button variant="contained" sx={{ mt: 2, alignSelf: "center" }}>
+        Voir les détails
+      </Button>
     </Card>
   );
 }

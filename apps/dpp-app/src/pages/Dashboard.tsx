@@ -1,28 +1,12 @@
-import {
-  Typography,
-  Card,
-  CardContent,
-  Button,
-  Container,
-  Grid,
-} from "@mui/material";
+import { Typography, Container, Grid } from "@mui/material";
 import productImage from "../assets/Samsung WW80CGC04DTH washing machine.webp";
 import fridgeImage from "../assets/LG GBV3100EPY Refrigerator.webp";
 import ovenImage from "../assets/Bosch HBA171BB3F integrated oven.webp";
 import ProductCard from "../components/ProductCard";
-import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineDot from "@mui/lab/TimelineDot";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import UpdateIcon from "@mui/icons-material/Update";
-import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import Chip from "@mui/material/Chip";
-import Box from "@mui/material/Box";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import BuildIcon from "@mui/icons-material/Build";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export default function Dashboard() {
   return (
@@ -33,94 +17,26 @@ export default function Dashboard() {
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5" gutterBottom>
-                Mon Dernier Produit Acquis
-              </Typography>
-              <img
-                src={productImage}
-                alt="Lave-linge Samsung EcoBubble"
-                style={{
-                  width: "100%",
-                  maxWidth: "200px",
-                  height: "auto",
-                  margin: "0 auto",
-                  display: "block",
-                }}
-              />
-              <Typography variant="h6" gutterBottom>
-                Lave-linge Samsung EcoBubble
-              </Typography>
-              <Typography variant="body1" color="textSecondary" gutterBottom>
-                Reconditionné - Comme neuf
-              </Typography>
-              <Timeline>
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{ py: "20px" }}
-                    align="right"
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    12/01/2025
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineDot color="primary">
-                      <CheckCircleIcon />
-                    </TimelineDot>
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: "16px" }}>
-                    Inspection qualité réalisée
-                  </TimelineContent>
-                </TimelineItem>
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{ py: "20px" }}
-                    align="right"
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    10/01/2025
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineDot color="secondary">
-                      <UpdateIcon />
-                    </TimelineDot>
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    Certificat de garantie mis à jour
-                  </TimelineContent>
-                </TimelineItem>
-              </Timeline>
-              <Typography variant="body2" gutterBottom>
-                <strong>Bénéfices :</strong>
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 1,
-                  flexWrap: "wrap",
-                }}
-              >
-                <Chip
-                  icon={<VerifiedIcon />}
-                  label="Traçabilité"
-                  color="primary"
-                />
-                <Chip
-                  icon={<BuildIcon />}
-                  label="Réparabilité"
-                  color="secondary"
-                />
-              </Box>
-              <Button variant="contained" sx={{ mt: 2 }}>
-                Voir les détails
-              </Button>
-            </CardContent>
-          </Card>
+          <ProductCard
+            image={productImage}
+            alt="Lave-linge Samsung EcoBubble"
+            name="Lave-linge Samsung EcoBubble"
+            event="Inspection qualité réalisée"
+            benefits={[
+              { label: "Traçabilité", icon: <VerifiedIcon /> },
+              { label: "Réparabilité", icon: <BuildIcon /> },
+            ]}
+            date="12/01/2025"
+            additionalEvents={[
+              {
+                date: "10/01/2025",
+                description: "Certificat de garantie mis à jour",
+                icon: <UpdateIcon />,
+              },
+            ]}
+            status="Reconditionné - Comme neuf"
+            eventIcon={<CheckCircleIcon />}
+          />
         </Grid>
       </Grid>
 
@@ -135,9 +51,9 @@ export default function Dashboard() {
             alt="Réfrigérateur LG"
             name="Réfrigérateur LG"
             event="Maintenance recommandée"
-            benefit="Traçabilité"
+            benefits={[{ label: "Traçabilité", icon: <VerifiedIcon /> }]}
             date="12/01/2025"
-            benefitIcon={<VerifiedIcon />}
+            eventIcon={<BuildIcon />}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -146,9 +62,9 @@ export default function Dashboard() {
             alt="Four Bosch"
             name="Four Bosch"
             event="Rappel émis"
-            benefit="Recyclabilité"
+            benefits={[{ label: "Recyclabilité", icon: <BuildIcon /> }]}
             date="12/01/2025"
-            benefitIcon={<BuildIcon />}
+            eventIcon={<BuildIcon />}
           />
         </Grid>
       </Grid>
