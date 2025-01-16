@@ -9,6 +9,13 @@ import {
 import productImage from "../assets/Samsung WW80CGC04DTH washing machine.webp";
 import fridgeImage from "../assets/LG GBV3100EPY Refrigerator.webp";
 import ovenImage from "../assets/Bosch HBA171BB3F integrated oven.webp";
+import ProductCard from "../components/ProductCard";
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
 
 export default function Dashboard() {
   return (
@@ -44,10 +51,25 @@ export default function Dashboard() {
               <Typography variant="body2" gutterBottom>
                 <strong>Événements :</strong>
               </Typography>
-              <ul>
-                <li>Inspection qualité réalisée (12/01/2025)</li>
-                <li>Certificat de garantie mis à jour (10/01/2025)</li>
-              </ul>
+              <Timeline>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    Inspection qualité réalisée (12/01/2025)
+                  </TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    Certificat de garantie mis à jour (10/01/2025)
+                  </TimelineContent>
+                </TimelineItem>
+              </Timeline>
               <Typography variant="body2" gutterBottom>
                 <strong>Bénéfices :</strong> ✅ Traçabilité | 🔧 Réparabilité
               </Typography>
@@ -63,48 +85,22 @@ export default function Dashboard() {
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <img
-                src={fridgeImage}
-                alt="Réfrigérateur LG"
-                style={{
-                  width: "100%",
-                  maxWidth: "100px",
-                  height: "auto",
-                  margin: "0 auto",
-                  display: "block",
-                }}
-              />
-              <Typography>Réfrigérateur LG</Typography>
-              <Typography>
-                Dernier Événement : Maintenance recommandée
-              </Typography>
-              <Typography>Bénéfice : ✅ Traçabilité</Typography>
-              <Button variant="contained">Voir les détails</Button>
-            </CardContent>
-          </Card>
+          <ProductCard
+            image={fridgeImage}
+            alt="Réfrigérateur LG"
+            name="Réfrigérateur LG"
+            event="Dernier Événement : Maintenance recommandée"
+            benefit="Bénéfice : ✅ Traçabilité"
+          />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <img
-                src={ovenImage}
-                alt="Four Bosch"
-                style={{
-                  width: "100%",
-                  maxWidth: "100px",
-                  height: "auto",
-                  margin: "0 auto",
-                  display: "block",
-                }}
-              />
-              <Typography>Four Bosch</Typography>
-              <Typography>Dernier Événement : Rappel émis</Typography>
-              <Typography>Bénéfice : ♻️ Recyclabilité</Typography>
-              <Button variant="contained">Voir les détails</Button>
-            </CardContent>
-          </Card>
+          <ProductCard
+            image={ovenImage}
+            alt="Four Bosch"
+            name="Four Bosch"
+            event="Dernier Événement : Rappel émis"
+            benefit="Bénéfice : ♻️ Recyclabilité"
+          />
         </Grid>
       </Grid>
     </Container>

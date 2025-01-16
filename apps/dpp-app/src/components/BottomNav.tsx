@@ -17,7 +17,7 @@ export default function BottomNav() {
   return (
     <BottomNavigation
       value={value}
-      onChange={(event, newValue) => {
+      onChange={(_event, newValue) => {
         setValue(newValue);
         if (newValue === 0) navigate("/dashboard");
         if (newValue === 1) navigate("/products");
