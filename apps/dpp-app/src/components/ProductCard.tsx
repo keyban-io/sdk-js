@@ -6,6 +6,7 @@ import {
   Button,
   Box,
   Chip,
+  Grid,
 } from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -15,61 +16,47 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { useNavigate } from "react-router-dom";
+import products from "../data/products.json";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import BuildIcon from "@mui/icons-material/Build";
+import UpdateIcon from "@mui/icons-material/Update";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
+import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
+import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
+
+const iconMap: { [key: string]: React.ReactNode } = {
+  VerifiedIcon: <VerifiedIcon />,
+  BuildIcon: <BuildIcon />,
+  UpdateIcon: <UpdateIcon />,
+  CheckCircleIcon: <CheckCircleIcon />,
+};
+
+const imageMap: { [key: string]: string } = {
+  samsungWashingMachine,
+  lgRefrigerator,
+  boschOven,
+};
 
 interface ProductCardProps {
-  image: string;
-  alt: string;
-  name: string;
-  event: string;
-  benefits: { label: string; icon: React.ReactElement }[];
-  date: string;
-  additionalEvents?: {
-    date: string;
-    description: string;
-    icon: React.ReactNode;
-  }[];
-  status?: string;
-  eventIcon: React.ReactNode;
+  productId: string;
   fullSizeImage?: boolean;
 }
 
 export default function ProductCard({
-  image,
-  alt,
-  name,
-  event,
-  benefits,
-  date,
-  additionalEvents,
-  status,
-  eventIcon,
+  productId,
   fullSizeImage,
 }: ProductCardProps) {
   const navigate = useNavigate();
+  const product = products.find((p) => p.id === productId);
+
+  if (!product) {
+    return null;
+  }
 
   const handleDetailsClick = () => {
     navigate("/product-details", {
-      state: {
-        product: {
-          image,
-          alt,
-          name,
-          event,
-          benefits: benefits.map((benefit) => ({
-            label: benefit.label,
-            icon: benefit.icon.type.displayName,
-            description: benefit.description,
-          })),
-          date,
-          additionalEvents: additionalEvents?.map((event) => ({
-            ...event,
-            icon: event.icon.type.displayName,
-          })),
-          status,
-          eventIcon: eventIcon.type.displayName,
-          events: additionalEvents?.map((event) => event.description) || [],
-        },
-      },
+      state: { product },
     });
   };
 
@@ -104,8 +91,8 @@ export default function ProductCard({
             }}
           >
             <img
-              src={image}
-              alt={alt}
+              src={imageMap[product.imageKey]}
+              alt={product.alt}
               style={{
                 maxWidth: fullSizeImage ? "100%" : "100%",
                 maxHeight: fullSizeImage ? "auto" : "100%",
@@ -113,10 +100,10 @@ export default function ProductCard({
             />
           </Box>
           <Box sx={{ textAlign: "center", mt: 2 }}>
-            <Typography>{name}</Typography>
-            {status && (
+            <Typography>{product.name}</Typography>
+            {product.status && (
               <Typography variant="body1" color="textSecondary" gutterBottom>
-                {status}
+                {product.status}
               </Typography>
             )}
             <Timeline>
@@ -127,17 +114,19 @@ export default function ProductCard({
                   variant="body2"
                   color="text.secondary"
                 >
-                  {date}
+                  {product.date}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                  <TimelineDot color="primary">{eventIcon}</TimelineDot>
+                  <TimelineDot color="primary">
+                    {iconMap[product.eventIcon]}
+                  </TimelineDot>
                   <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent>
-                  <Typography>{event}</Typography>
+                  <Typography>{product.event}</Typography>
                 </TimelineContent>
               </TimelineItem>
-              {additionalEvents?.map((additionalEvent, index) => (
+              {product.additionalEvents?.map((additionalEvent, index) => (
                 <TimelineItem key={index}>
                   <TimelineOppositeContent
                     sx={{ py: "20px" }}
@@ -149,9 +138,9 @@ export default function ProductCard({
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineDot color="secondary">
-                      {additionalEvent.icon}
+                      {iconMap[additionalEvent.icon]}
                     </TimelineDot>
-                    {index < additionalEvents.length - 1 && (
+                    {index < product.additionalEvents.length - 1 && (
                       <TimelineConnector />
                     )}
                   </TimelineSeparator>
@@ -170,10 +159,10 @@ export default function ProductCard({
                 mt: 2,
               }}
             >
-              {benefits.map((benefit, index) => (
+              {product.benefits.map((benefit, index) => (
                 <Chip
                   key={index}
-                  icon={benefit.icon as React.ReactElement}
+                  icon={iconMap[benefit.icon]}
                   label={benefit.label}
                   color="primary"
                 />

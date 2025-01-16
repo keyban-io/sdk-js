@@ -1,0 +1,43 @@
+[
+  {
+    "id": "1",
+    "imageKey": "samsungWashingMachine",
+    "alt": "Lave-linge Samsung EcoBubble",
+    "name": "Lave-linge Samsung EcoBubble",
+    "event": "Inspection qualité réalisée",
+    "benefits": [
+      { "label": "Traçabilité", "icon": "VerifiedIcon" },
+      { "label": "Réparabilité", "icon": "BuildIcon" }
+    ],
+    "date": "12/01/2025",
+    "additionalEvents": [
+      {
+        "date": "10/01/2025",
+        "description": "Certificat de garantie mis à jour",
+        "icon": "UpdateIcon"
+      }
+    ],
+    "status": "Reconditionné - Comme neuf",
+    "eventIcon": "CheckCircleIcon"
+  },
+  {
+    "id": "2",
+    "imageKey": "lgRefrigerator",
+    "alt": "Réfrigérateur LG",
+    "name": "Réfrigérateur LG",
+    "event": "Maintenance recommandée",
+    "benefits": [{ "label": "Traçabilité", "icon": "VerifiedIcon" }],
+    "date": "12/01/2025",
+    "eventIcon": "BuildIcon"
+  },
+  {
+    "id": "3",
+    "imageKey": "boschOven",
+    "alt": "Four Bosch",
+    "name": "Four Bosch",
+    "event": "Rappel émis",
+    "benefits": [{ "label": "Recyclabilité", "icon": "BuildIcon" }],
+    "date": "12/01/2025",
+    "eventIcon": "BuildIcon"
+  }
+]

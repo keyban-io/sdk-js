@@ -1,15 +1,15 @@
 import React from "react";
 import { Container, Typography, Box, Button, Chip } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import UpdateIcon from "@mui/icons-material/Update";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import BuildIcon from "@mui/icons-material/Build";
+import UpdateIcon from "@mui/icons-material/Update";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const iconMap: { [key: string]: React.ReactNode } = {
-  UpdateIcon: <UpdateIcon />,
   VerifiedIcon: <VerifiedIcon />,
   BuildIcon: <BuildIcon />,
+  UpdateIcon: <UpdateIcon />,
   CheckCircleIcon: <CheckCircleIcon />,
 };
 
