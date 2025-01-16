@@ -21,6 +21,7 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import BuildIcon from "@mui/icons-material/Build";
 import UpdateIcon from "@mui/icons-material/Update";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import EventIcon from "@mui/icons-material/Event";
 import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
 import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
 import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
@@ -30,6 +31,7 @@ const iconMap: { [key: string]: React.ReactNode } = {
   BuildIcon: <BuildIcon />,
   UpdateIcon: <UpdateIcon />,
   CheckCircleIcon: <CheckCircleIcon />,
+  EventIcon: <EventIcon />,
 };
 
 const imageMap: { [key: string]: string } = {
@@ -57,6 +59,14 @@ export default function ProductCard({
   const handleDetailsClick = () => {
     navigate(`/product-details/${productId}`);
   };
+
+  // Sort events by date from most recent to oldest
+  const sortedEvents = product.events.sort(
+    (a, b) => new Date(b.date) - new Date(a.date),
+  );
+
+  // Find the most recent event
+  const mostRecentEvent = sortedEvents[0];
 
   return (
     <Card
@@ -105,27 +115,25 @@ export default function ProductCard({
               </Typography>
             )}
             <Timeline>
-              {product.events.map((event, index) => (
-                <TimelineItem key={index}>
-                  <TimelineOppositeContent
-                    sx={{ py: "20px" }}
-                    align="right"
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    {event.date}
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineDot color="primary">
-                      {iconMap[event.icon]}
-                    </TimelineDot>
-                    {index < product.events.length - 1 && <TimelineConnector />}
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>{event.description}</Typography>
-                  </TimelineContent>
-                </TimelineItem>
-              ))}
+              <TimelineItem>
+                <TimelineOppositeContent
+                  sx={{ py: "20px" }}
+                  align="right"
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  {mostRecentEvent.date}
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot color="primary">
+                    {iconMap[mostRecentEvent.icon]}
+                  </TimelineDot>
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  <Typography>{mostRecentEvent.description}</Typography>
+                </TimelineContent>
+              </TimelineItem>
             </Timeline>
             <Box
               sx={{

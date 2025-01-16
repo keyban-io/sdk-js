@@ -29,11 +29,12 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 
-const iconMap: { [key: string]: React.ReactNode } = {
+const iconMap: { [key: string]: React.ReactElement } = {
   VerifiedIcon: <VerifiedIcon />,
   BuildIcon: <BuildIcon />,
   UpdateIcon: <UpdateIcon />,
   CheckCircleIcon: <CheckCircleIcon />,
+  EventIcon: <EventIcon />,
 };
 
 const imageMap: { [key: string]: string } = {
@@ -49,6 +50,11 @@ export default function ProductDetails() {
   if (!product) {
     return <Typography variant="h6">Produit non trouvé</Typography>;
   }
+
+  // Sort events by date from most recent to oldest
+  const sortedEvents = product.events.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
 
   return (
     <Container maxWidth="sm" sx={{ py: 2, pb: 8 }}>
@@ -128,7 +134,7 @@ export default function ProductDetails() {
                 <EventIcon /> Événements Récents :
               </Typography>
               <Timeline>
-                {product.events?.map((event, index) => (
+                {sortedEvents.map((event, index) => (
                   <TimelineItem key={index}>
                     <TimelineOppositeContent
                       sx={{ py: "20px" }}
@@ -142,9 +148,7 @@ export default function ProductDetails() {
                       <TimelineDot color="secondary">
                         {iconMap[event.icon]}
                       </TimelineDot>
-                      {index < product.events.length - 1 && (
-                        <TimelineConnector />
-                      )}
+                      {index < sortedEvents.length - 1 && <TimelineConnector />}
                     </TimelineSeparator>
                     <TimelineContent>
                       <Typography>{event.description}</Typography>
