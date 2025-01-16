@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, Typography, Button, Box } from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -6,6 +5,9 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
+import BuildIcon from "@mui/icons-material/Build";
+import WarningIcon from "@mui/icons-material/Warning";
+import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 
 interface ProductCardProps {
   image: string;
@@ -13,6 +15,7 @@ interface ProductCardProps {
   name: string;
   event: string;
   benefit: string;
+  date: string;
 }
 
 export default function ProductCard({
@@ -21,7 +24,18 @@ export default function ProductCard({
   name,
   event,
   benefit,
+  date,
 }: ProductCardProps) {
+  const getEventIcon = (event: string) => {
+    if (event.includes("Maintenance")) {
+      return <BuildIcon />;
+    } else if (event.includes("Rappel")) {
+      return <WarningIcon />;
+    } else {
+      return <TimelineDot />;
+    }
+  };
+
   return (
     <Card>
       <CardContent>
@@ -58,8 +72,18 @@ export default function ProductCard({
             <Typography>{name}</Typography>
             <Timeline>
               <TimelineItem>
+                <TimelineOppositeContent
+                  sx={{ m: "auto 0" }}
+                  align="right"
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  {date}
+                </TimelineOppositeContent>
                 <TimelineSeparator>
-                  <TimelineDot />
+                  <TimelineDot color="primary">
+                    {getEventIcon(event)}
+                  </TimelineDot>
                   <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent>{event}</TimelineContent>

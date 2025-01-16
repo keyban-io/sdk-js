@@ -16,6 +16,9 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import UpdateIcon from "@mui/icons-material/Update";
+import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 
 export default function Dashboard() {
   return (
@@ -29,7 +32,7 @@ export default function Dashboard() {
           <Card>
             <CardContent>
               <Typography variant="h5" gutterBottom>
-                🔥 Mon Dernier Produit Acquis
+                Mon Dernier Produit Acquis
               </Typography>
               <img
                 src={productImage}
@@ -49,24 +52,44 @@ export default function Dashboard() {
                 Reconditionné - Comme neuf
               </Typography>
               <Typography variant="body2" gutterBottom>
-                <strong>Événements :</strong>
+                <strong>Événements</strong>
               </Typography>
               <Timeline>
                 <TimelineItem>
+                  <TimelineOppositeContent
+                    sx={{ py: "20px" }}
+                    align="right"
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    12/01/2025
+                  </TimelineOppositeContent>
                   <TimelineSeparator>
-                    <TimelineDot />
+                    <TimelineDot color="primary">
+                      <CheckCircleIcon />
+                    </TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent>
-                    Inspection qualité réalisée (12/01/2025)
+                  <TimelineContent sx={{ py: "16px" }}>
+                    Inspection qualité réalisée
                   </TimelineContent>
                 </TimelineItem>
                 <TimelineItem>
+                  <TimelineOppositeContent
+                    sx={{ py: "20px" }}
+                    align="right"
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    10/01/2025
+                  </TimelineOppositeContent>
                   <TimelineSeparator>
-                    <TimelineDot />
+                    <TimelineDot color="secondary">
+                      <UpdateIcon />
+                    </TimelineDot>
                   </TimelineSeparator>
                   <TimelineContent>
-                    Certificat de garantie mis à jour (10/01/2025)
+                    Certificat de garantie mis à jour
                   </TimelineContent>
                 </TimelineItem>
               </Timeline>
@@ -89,8 +112,9 @@ export default function Dashboard() {
             image={fridgeImage}
             alt="Réfrigérateur LG"
             name="Réfrigérateur LG"
-            event="Dernier Événement : Maintenance recommandée"
+            event="Maintenance recommandée"
             benefit="Bénéfice : ✅ Traçabilité"
+            date="12/01/2025"
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -98,8 +122,9 @@ export default function Dashboard() {
             image={ovenImage}
             alt="Four Bosch"
             name="Four Bosch"
-            event="Dernier Événement : Rappel émis"
+            event="Rappel émis"
             benefit="Bénéfice : ♻️ Recyclabilité"
+            date="12/01/2025"
           />
         </Grid>
       </Grid>
