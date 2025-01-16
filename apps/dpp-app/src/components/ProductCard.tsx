@@ -46,13 +46,20 @@ export default function ProductCard({
   };
 
   return (
-    <Card>
+    <Card
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        pb: 2,
+      }}
+    >
       <CardContent>
         <Box
           sx={{
             width: "100%",
             maxWidth: "200px",
-            height: "300px",
             margin: "0 auto",
             display: "flex",
             flexDirection: "column",

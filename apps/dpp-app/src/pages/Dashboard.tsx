@@ -26,7 +26,7 @@ import BuildIcon from "@mui/icons-material/Build";
 
 export default function Dashboard() {
   return (
-    <Container maxWidth="sm" sx={{ py: 2 }}>
+    <Container maxWidth="sm" sx={{ py: 2, pb: 8 }}>
       <Typography variant="h4" gutterBottom>
         Tableau de Bord | Weavenn x Keyban
       </Typography>

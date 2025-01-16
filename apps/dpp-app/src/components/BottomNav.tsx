@@ -25,7 +25,7 @@ export default function BottomNav() {
         if (newValue === 3) navigate("/settings");
       }}
       showLabels={false}
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+      sx={{ position: "fixed", bottom: 0, left: 0, right: 0, height: "56px" }}
     >
       <Tooltip title="Dashboard">
         <BottomNavigationAction icon={<HomeIcon />} />
