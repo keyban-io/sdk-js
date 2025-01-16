@@ -1,10 +1,14 @@
 import React from "react";
 import { Container, Typography, Box, Button, Chip } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import products from "../data/products.json";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import BuildIcon from "@mui/icons-material/Build";
 import UpdateIcon from "@mui/icons-material/Update";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
+import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
+import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
 
 const iconMap: { [key: string]: React.ReactNode } = {
   VerifiedIcon: <VerifiedIcon />,
@@ -13,9 +17,19 @@ const iconMap: { [key: string]: React.ReactNode } = {
   CheckCircleIcon: <CheckCircleIcon />,
 };
 
+const imageMap: { [key: string]: string } = {
+  samsungWashingMachine,
+  lgRefrigerator,
+  boschOven,
+};
+
 export default function ProductDetails() {
-  const location = useLocation();
-  const { product } = location.state;
+  const { productId } = useParams();
+  const product = products.find((p) => p.id === productId);
+
+  if (!product) {
+    return <Typography variant="h6">Produit non trouvé</Typography>;
+  }
 
   return (
     <Container maxWidth="sm" sx={{ py: 2, pb: 8 }}>
@@ -25,7 +39,7 @@ export default function ProductDetails() {
 
       <Box sx={{ textAlign: "center", mb: 3 }}>
         <img
-          src={product.image}
+          src={imageMap[product.imageKey]}
           alt={product.alt}
           style={{
             width: "100%",

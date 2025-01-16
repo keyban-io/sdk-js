@@ -55,9 +55,7 @@ export default function ProductCard({
   }
 
   const handleDetailsClick = () => {
-    navigate("/product-details", {
-      state: { product },
-    });
+    navigate(`/product-details/${productId}`);
   };
 
   return (

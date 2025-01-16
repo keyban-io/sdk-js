@@ -17,7 +17,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/product-details" element={<ProductDetails />} />
+          <Route
+            path="/product-details/:productId"
+            element={<ProductDetails />}
+          />
           {/* ...add more routes if needed... */}
         </Routes>
         <BottomNav />
