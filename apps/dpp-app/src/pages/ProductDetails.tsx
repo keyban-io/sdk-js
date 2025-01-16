@@ -21,7 +21,6 @@ import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
 import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
 import EventIcon from "@mui/icons-material/Event";
 import BenefitsIcon from "@mui/icons-material/ThumbUp";
-import ActionsIcon from "@mui/icons-material/AssignmentTurnedIn";
 import DownloadIcon from "@mui/icons-material/Download";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import ShareIcon from "@mui/icons-material/Share";
