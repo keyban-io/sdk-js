@@ -1,4 +1,11 @@
-import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  Chip,
+} from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -16,6 +23,7 @@ interface ProductCardProps {
   event: string;
   benefit: string;
   date: string;
+  benefitIcon: React.ReactNode;
 }
 
 export default function ProductCard({
@@ -25,6 +33,7 @@ export default function ProductCard({
   event,
   benefit,
   date,
+  benefitIcon,
 }: ProductCardProps) {
   const getEventIcon = (event: string) => {
     if (event.includes("Maintenance")) {
@@ -89,8 +98,20 @@ export default function ProductCard({
                 <TimelineContent>{event}</TimelineContent>
               </TimelineItem>
             </Timeline>
-            <Typography>{benefit}</Typography>
-            <Button variant="contained">Voir les détails</Button>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 1,
+                flexWrap: "wrap",
+                mt: 2,
+              }}
+            >
+              <Chip icon={benefitIcon} label={benefit} color="primary" />
+            </Box>
+            <Button variant="contained" sx={{ mt: 2 }}>
+              Voir les détails
+            </Button>
           </Box>
         </Box>
       </CardContent>

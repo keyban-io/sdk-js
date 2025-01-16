@@ -19,6 +19,10 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import UpdateIcon from "@mui/icons-material/Update";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
+import Chip from "@mui/material/Chip";
+import Box from "@mui/material/Box";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import BuildIcon from "@mui/icons-material/Build";
 
 export default function Dashboard() {
   return (
@@ -50,9 +54,6 @@ export default function Dashboard() {
               </Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
                 Reconditionné - Comme neuf
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                <strong>Événements</strong>
               </Typography>
               <Timeline>
                 <TimelineItem>
@@ -94,9 +95,30 @@ export default function Dashboard() {
                 </TimelineItem>
               </Timeline>
               <Typography variant="body2" gutterBottom>
-                <strong>Bénéfices :</strong> ✅ Traçabilité | 🔧 Réparabilité
+                <strong>Bénéfices :</strong>
               </Typography>
-              <Button variant="contained">Voir les détails</Button>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
+                <Chip
+                  icon={<VerifiedIcon />}
+                  label="Traçabilité"
+                  color="primary"
+                />
+                <Chip
+                  icon={<BuildIcon />}
+                  label="Réparabilité"
+                  color="secondary"
+                />
+              </Box>
+              <Button variant="contained" sx={{ mt: 2 }}>
+                Voir les détails
+              </Button>
             </CardContent>
           </Card>
         </Grid>
@@ -113,8 +135,9 @@ export default function Dashboard() {
             alt="Réfrigérateur LG"
             name="Réfrigérateur LG"
             event="Maintenance recommandée"
-            benefit="Bénéfice : ✅ Traçabilité"
+            benefit="Traçabilité"
             date="12/01/2025"
+            benefitIcon={<VerifiedIcon />}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -123,8 +146,9 @@ export default function Dashboard() {
             alt="Four Bosch"
             name="Four Bosch"
             event="Rappel émis"
-            benefit="Bénéfice : ♻️ Recyclabilité"
+            benefit="Recyclabilité"
             date="12/01/2025"
+            benefitIcon={<BuildIcon />}
           />
         </Grid>
       </Grid>
