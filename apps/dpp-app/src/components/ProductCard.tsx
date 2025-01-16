@@ -32,6 +32,7 @@ interface ProductCardProps {
   }[];
   status?: string;
   eventIcon: React.ReactNode;
+  fullSizeImage?: boolean;
 }
 
 export default function ProductCard({
@@ -44,6 +45,7 @@ export default function ProductCard({
   additionalEvents,
   status,
   eventIcon,
+  fullSizeImage,
 }: ProductCardProps) {
   return (
     <Card
@@ -59,7 +61,7 @@ export default function ProductCard({
         <Box
           sx={{
             width: "100%",
-            maxWidth: "200px",
+            maxWidth: fullSizeImage ? "100%" : "200px",
             margin: "0 auto",
             display: "flex",
             flexDirection: "column",
@@ -72,15 +74,15 @@ export default function ProductCard({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              height: "150px",
+              height: fullSizeImage ? "auto" : "150px",
             }}
           >
             <img
               src={image}
               alt={alt}
               style={{
-                maxWidth: "100%",
-                maxHeight: "100%",
+                maxWidth: fullSizeImage ? "100%" : "100%",
+                maxHeight: fullSizeImage ? "auto" : "100%",
               }}
             />
           </Box>

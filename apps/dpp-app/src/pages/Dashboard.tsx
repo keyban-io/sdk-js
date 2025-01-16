@@ -36,6 +36,7 @@ export default function Dashboard() {
             ]}
             status="Reconditionné - Comme neuf"
             eventIcon={<CheckCircleIcon />}
+            fullSizeImage
           />
         </Grid>
       </Grid>
