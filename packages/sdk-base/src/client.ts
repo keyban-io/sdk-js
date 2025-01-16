@@ -74,7 +74,7 @@ export type KeybanClientConfig = {
   /**
    * The base URL of the API. Optional. Defaults to "https://api.keyban.io" if not provided.
    */
-  apiUrl?: string;
+  apiUrl?: URL | string;
 
   /**
    * The application ID.
@@ -101,7 +101,7 @@ export abstract class KeybanClientBase {
   /**
    * The Keyban API URL, defaulting to "https://api.keyban.io".
    */
-  apiUrl: string;
+  apiUrl: URL;
 
   /**
    * The application ID used for authentication with the Keyban API.
@@ -127,7 +127,7 @@ export abstract class KeybanClientBase {
     rpcClient?: RpcClient,
     metadataConfig?: Promise<MetadataConfig>,
   ) {
-    this.apiUrl = config.apiUrl ?? "https://api.keyban.io";
+    this.apiUrl = new URL(config.apiUrl ?? "https://api.keyban.io");
     this.appId = config.appId;
     this.chain = config.chain;
     this.clientShareProvider = config.clientShareProvider;
@@ -138,7 +138,7 @@ export abstract class KeybanClientBase {
       [KeybanChain.Starknet]: "subql-???.",
     }[this.chain];
     this.apolloClient = createApolloClient(
-      new URL(this.apiUrl.replace("api.", indexerPrefix)),
+      new URL(this.apiUrl.href.replace("api.", indexerPrefix)),
     );
 
     const rpcUrl = new URL("/signer-client/", this.apiUrl);
@@ -208,7 +208,7 @@ export abstract class KeybanClientBase {
    * @see {@link KeybanApiStatus}
    */
   async apiStatus(): Promise<KeybanApiStatus> {
-    return fetch(`${this.apiUrl}/health`)
+    return fetch(new URL("/health", this.apiUrl))
       .then((res) => (res.ok ? "operational" : "down"))
       .catch((err) => {
         console.error("Failed to perform health check", err);
@@ -217,11 +217,48 @@ export abstract class KeybanClientBase {
   }
 
   async login() {
-    window.location.href = await this.rpcClient.call(
-      "auth",
-      "getLoginUrl",
-      window.location.href,
+    const loginUrl = await this.rpcClient.call("auth", "getLoginUrl");
+
+    const width = 500;
+    const height = 685;
+    const left = window.screenX + (window.innerWidth - width) / 2;
+    const top = window.screenY + (window.innerHeight - height) / 2;
+
+    window.open(
+      loginUrl,
+      `keyban:auth:${this.appId}`,
+      `left=${left},top=${top},width=${width},height=${height},popup,resizable,scrollbars`,
     );
+
+    await new Promise<void>((resolve) => {
+      const handler = (event: MessageEvent) => {
+        if (event.origin !== this.apiUrl.origin) return;
+        if (event.data !== "keyban:auth:closed") return;
+
+        window.removeEventListener("message", handler);
+
+        resolve();
+      };
+
+      window.addEventListener("message", handler);
+    });
+
+    await Promise.race([
+      new Promise<void>((resolve) => {
+        const handler = (event: MessageEvent) => {
+          if (event.origin !== this.apiUrl.origin) return;
+          if (event.data !== "keyban:auth:isAuthenticated") return;
+
+          window.removeEventListener("message", handler);
+
+          resolve();
+        };
+
+        window.addEventListener("message", handler);
+        setTimeout(() => window.removeEventListener("message", handler), 5000);
+      }),
+      new Promise((resolve) => setTimeout(resolve, 5000)),
+    ]);
   }
 
   async logout() {

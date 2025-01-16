@@ -17,8 +17,6 @@ export class KeybanAuth implements IKeybanAuth {
       .then(({ auth }) => {
         return new Auth0Client({
           ...auth,
-          // Fixes state handling in arc w/ pinned tab
-          useCookiesForTransactions: true,
           useRefreshTokens: true,
           cacheLocation: "localstorage",
           authorizationParams: {
@@ -28,6 +26,19 @@ export class KeybanAuth implements IKeybanAuth {
           },
         });
       });
+
+    window.addEventListener(
+      "message",
+      async (event: MessageEvent<{ __KEYBAN_AUTH: true; url: string }>) => {
+        if (event.origin !== window.location.origin) return;
+        if (!event.data.__KEYBAN_AUTH) return;
+
+        const auth0 = await this.#auth0;
+        await auth0.handleRedirectCallback(event.data.url);
+
+        window.parent.postMessage("keyban:auth:isAuthenticated", "*");
+      },
+    );
   }
 
   async isAuthenticated() {
@@ -35,15 +46,11 @@ export class KeybanAuth implements IKeybanAuth {
     return auth0.isAuthenticated();
   }
 
-  async getLoginUrl(redirect: string) {
+  async getLoginUrl() {
     const auth0 = await this.#auth0;
-
-    const audience = apiUrl();
-    audience.searchParams.set("appId", APP_ID);
 
     return new Promise<string>((resolve) => {
       auth0.loginWithRedirect({
-        appState: { redirect },
         openUrl: resolve,
       });
     });
@@ -75,14 +82,6 @@ export class KeybanAuth implements IKeybanAuth {
         rootError: err,
         title: err.error_description,
       });
-    });
-  }
-
-  async handleRedirectCallback() {
-    const auth0 = await this.#auth0;
-
-    auth0.handleRedirectCallback().then(({ appState }) => {
-      window.location.href = appState.redirect;
     });
   }
 }

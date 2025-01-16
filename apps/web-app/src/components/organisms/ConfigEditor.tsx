@@ -22,8 +22,8 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
 
       <TextField
         label="API URL"
-        value={config.apiUrl}
-        onChange={(apiUrl) => onChange({ ...config, apiUrl })}
+        value={config.apiUrl?.toString()}
+        onChange={(value) => onChange({ ...config, apiUrl: new URL(value) })}
         data-test-id="ConfigEditor:apiUrl"
       />
 

@@ -8,7 +8,7 @@ type Hex = `0x${string}`;
 
 export interface IKeybanAuth {
   isAuthenticated(): Promise<boolean>;
-  getLoginUrl(redirect?: string): Promise<string>;
+  getLoginUrl(): Promise<string>;
   getLogoutUrl(redirect?: string): Promise<string>;
 }
 
@@ -139,12 +139,15 @@ export class RpcServer implements IRpc {
  */
 
 export class RpcClient {
+  #iframeUrl: URL;
   #iframe: Promise<HTMLIFrameElement>;
 
-  constructor(iframeURL: URL) {
+  constructor(iframeUrl: URL) {
+    this.#iframeUrl = iframeUrl;
+
     this.#iframe = new Promise((resolve, reject) => {
       const iframe = Object.assign(document.createElement("iframe"), {
-        src: iframeURL,
+        src: this.#iframeUrl,
         hidden: true,
         onload: () => resolve(iframe),
         onerror: reject,
@@ -187,7 +190,9 @@ export class RpcClient {
         params,
       };
 
-      iframe.contentWindow?.postMessage(message, "*", [channel.port2]);
+      iframe.contentWindow?.postMessage(message, this.#iframeUrl.origin, [
+        channel.port2,
+      ]);
     });
   }
 }
