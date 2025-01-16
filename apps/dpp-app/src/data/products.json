@@ -18,7 +18,8 @@
       }
     ],
     "status": "Reconditionné - Comme neuf",
-    "eventIcon": "CheckCircleIcon"
+    "eventIcon": "CheckCircleIcon",
+    "acquisitionDate": "10/01/2025"
   },
   {
     "id": "2",
@@ -28,7 +29,8 @@
     "event": "Maintenance recommandée",
     "benefits": [{ "label": "Traçabilité", "icon": "VerifiedIcon" }],
     "date": "12/01/2025",
-    "eventIcon": "BuildIcon"
+    "eventIcon": "BuildIcon",
+    "acquisitionDate": "15/02/2024"
   },
   {
     "id": "3",
@@ -38,6 +40,7 @@
     "event": "Rappel émis",
     "benefits": [{ "label": "Recyclabilité", "icon": "BuildIcon" }],
     "date": "12/01/2025",
-    "eventIcon": "BuildIcon"
+    "eventIcon": "BuildIcon",
+    "acquisitionDate": "20/03/2023"
   }
 ]
