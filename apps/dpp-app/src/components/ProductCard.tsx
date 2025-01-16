@@ -105,26 +105,7 @@ export default function ProductCard({
               </Typography>
             )}
             <Timeline>
-              <TimelineItem>
-                <TimelineOppositeContent
-                  sx={{ py: "20px" }}
-                  align="right"
-                  variant="body2"
-                  color="text.secondary"
-                >
-                  {product.date}
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot color="primary">
-                    {iconMap[product.eventIcon]}
-                  </TimelineDot>
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <Typography>{product.event}</Typography>
-                </TimelineContent>
-              </TimelineItem>
-              {product.additionalEvents?.map((additionalEvent, index) => (
+              {product.events.map((event, index) => (
                 <TimelineItem key={index}>
                   <TimelineOppositeContent
                     sx={{ py: "20px" }}
@@ -132,18 +113,16 @@ export default function ProductCard({
                     variant="body2"
                     color="text.secondary"
                   >
-                    {additionalEvent.date}
+                    {event.date}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
-                    <TimelineDot color="secondary">
-                      {iconMap[additionalEvent.icon]}
+                    <TimelineDot color="primary">
+                      {iconMap[event.icon]}
                     </TimelineDot>
-                    {index < product.additionalEvents.length - 1 && (
-                      <TimelineConnector />
-                    )}
+                    {index < product.events.length - 1 && <TimelineConnector />}
                   </TimelineSeparator>
                   <TimelineContent>
-                    <Typography>{additionalEvent.description}</Typography>
+                    <Typography>{event.description}</Typography>
                   </TimelineContent>
                 </TimelineItem>
               ))}

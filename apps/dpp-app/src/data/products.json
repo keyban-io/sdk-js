@@ -4,21 +4,28 @@
     "imageKey": "samsungWashingMachine",
     "alt": "Lave-linge Samsung EcoBubble",
     "name": "Lave-linge Samsung EcoBubble",
-    "event": "Inspection qualité réalisée",
-    "benefits": [
-      { "label": "Traçabilité", "icon": "VerifiedIcon" },
-      { "label": "Réparabilité", "icon": "BuildIcon" }
-    ],
-    "date": "12/01/2025",
-    "additionalEvents": [
+    "events": [
+      {
+        "date": "12/01/2025",
+        "description": "Inspection qualité réalisée",
+        "icon": "CheckCircleIcon"
+      },
       {
         "date": "10/01/2025",
         "description": "Certificat de garantie mis à jour",
         "icon": "UpdateIcon"
+      },
+      {
+        "date": "08/01/2025",
+        "description": "Réparation effectuée",
+        "icon": "BuildIcon"
       }
     ],
+    "benefits": [
+      { "label": "Traçabilité", "icon": "VerifiedIcon" },
+      { "label": "Réparabilité", "icon": "BuildIcon" }
+    ],
     "status": "Reconditionné - Comme neuf",
-    "eventIcon": "CheckCircleIcon",
     "acquisitionDate": "10/01/2025"
   },
   {
@@ -26,10 +33,25 @@
     "imageKey": "lgRefrigerator",
     "alt": "Réfrigérateur LG",
     "name": "Réfrigérateur LG",
-    "event": "Maintenance recommandée",
+    "events": [
+      {
+        "date": "12/01/2025",
+        "description": "Maintenance recommandée",
+        "icon": "BuildIcon"
+      },
+      {
+        "date": "05/01/2025",
+        "description": "Inspection annuelle",
+        "icon": "CheckCircleIcon"
+      },
+      {
+        "date": "01/01/2025",
+        "description": "Nettoyage complet",
+        "icon": "BuildIcon"
+      }
+    ],
     "benefits": [{ "label": "Traçabilité", "icon": "VerifiedIcon" }],
-    "date": "12/01/2025",
-    "eventIcon": "BuildIcon",
+    "status": "En service",
     "acquisitionDate": "15/02/2024"
   },
   {
@@ -37,10 +59,25 @@
     "imageKey": "boschOven",
     "alt": "Four Bosch",
     "name": "Four Bosch",
-    "event": "Rappel émis",
+    "events": [
+      {
+        "date": "12/01/2025",
+        "description": "Rappel émis",
+        "icon": "BuildIcon"
+      },
+      {
+        "date": "20/12/2024",
+        "description": "Mise à jour du logiciel",
+        "icon": "UpdateIcon"
+      },
+      {
+        "date": "15/12/2024",
+        "description": "Inspection de sécurité",
+        "icon": "CheckCircleIcon"
+      }
+    ],
     "benefits": [{ "label": "Recyclabilité", "icon": "BuildIcon" }],
-    "date": "12/01/2025",
-    "eventIcon": "BuildIcon",
+    "status": "En service",
     "acquisitionDate": "20/03/2023"
   }
 ]

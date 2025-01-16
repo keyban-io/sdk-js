@@ -18,6 +18,16 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
 import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
 import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
+import EventIcon from "@mui/icons-material/Event";
+import BenefitsIcon from "@mui/icons-material/ThumbUp";
+import ActionsIcon from "@mui/icons-material/AssignmentTurnedIn";
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 
 const iconMap: { [key: string]: React.ReactNode } = {
   VerifiedIcon: <VerifiedIcon />,
@@ -94,7 +104,7 @@ export default function ProductDetails() {
                 Date d’acquisition : {product.acquisitionDate}
               </Typography>
               <Typography variant="h5" gutterBottom>
-                ✅ Bénéfices Associés :
+                <BenefitsIcon /> Bénéfices Associés :
               </Typography>
               <Box
                 sx={{
@@ -115,18 +125,36 @@ export default function ProductDetails() {
                 ))}
               </Box>
               <Typography variant="h5" gutterBottom sx={{ mt: 3 }}>
-                🛠 Événements Récents :
+                <EventIcon /> Événements Récents :
               </Typography>
-              <Box sx={{ mb: 3 }}>
-                {product.additionalEvents?.map((event, index) => (
-                  <Typography key={index} variant="body2" gutterBottom>
-                    - {event.description} ({event.date})
-                  </Typography>
+              <Timeline>
+                {product.events?.map((event, index) => (
+                  <TimelineItem key={index}>
+                    <TimelineOppositeContent
+                      sx={{ py: "20px" }}
+                      align="right"
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      {event.date}
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                      <TimelineDot color="secondary">
+                        {iconMap[event.icon]}
+                      </TimelineDot>
+                      {index < product.events.length - 1 && (
+                        <TimelineConnector />
+                      )}
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      <Typography>{event.description}</Typography>
+                    </TimelineContent>
+                  </TimelineItem>
                 ))}
-                <Button variant="text">[ Voir l’historique complet ]</Button>
-              </Box>
+              </Timeline>
+              <Button variant="text">[ Voir l’historique complet ]</Button>
               <Typography variant="h5" gutterBottom>
-                🎯 Actions Disponibles :
+                <ActionsIcon /> Actions Disponibles :
               </Typography>
               <Box sx={{ mb: 3 }}>
                 <Button variant="contained" sx={{ mb: 1 }}>
