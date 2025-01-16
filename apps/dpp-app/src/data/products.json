@@ -6,24 +6,25 @@
     "name": "Lave-linge Samsung EcoBubble",
     "events": [
       {
-        "date": "12/01/2025",
-        "description": "Inspection qualité réalisée",
-        "icon": "CheckCircleIcon"
+        "date": "2023-02-01T00:00:00Z",
+        "description": "Date d’acquisition",
+        "icon": "EventIcon"
       },
+
       {
-        "date": "10/01/2025",
+        "date": "2023-01-21T00:00:00Z",
         "description": "Certificat de garantie mis à jour",
         "icon": "UpdateIcon"
       },
       {
-        "date": "08/01/2025",
+        "date": "2023-01-20T00:00:00Z",
         "description": "Réparation effectuée",
         "icon": "BuildIcon"
       },
       {
-        "date": "10/01/2025",
-        "description": "Date d’acquisition",
-        "icon": "EventIcon"
+        "date": "2023-01-20T00:00:00Z",
+        "description": "Inspection qualité réalisée",
+        "icon": "CheckCircleIcon"
       }
     ],
     "benefits": [
@@ -31,7 +32,7 @@
       { "label": "Réparabilité", "icon": "BuildIcon" }
     ],
     "status": "Reconditionné - Comme neuf",
-    "acquisitionDate": "10/01/2025"
+    "acquisitionDate": "2023-01-10T00:00:00Z"
   },
   {
     "id": "2",
@@ -40,29 +41,29 @@
     "name": "Réfrigérateur LG",
     "events": [
       {
-        "date": "12/01/2025",
-        "description": "Maintenance recommandée",
-        "icon": "BuildIcon"
+        "date": "2022-02-15T00:00:00Z",
+        "description": "Date d’acquisition",
+        "icon": "EventIcon"
       },
       {
-        "date": "05/01/2025",
-        "description": "Inspection annuelle",
-        "icon": "CheckCircleIcon"
-      },
-      {
-        "date": "01/01/2025",
+        "date": "2023-01-01T00:00:00Z",
         "description": "Nettoyage complet",
         "icon": "BuildIcon"
       },
       {
-        "date": "15/02/2024",
-        "description": "Date d’acquisition",
-        "icon": "EventIcon"
+        "date": "2023-01-05T00:00:00Z",
+        "description": "Inspection annuelle",
+        "icon": "CheckCircleIcon"
+      },
+      {
+        "date": "2023-01-12T00:00:00Z",
+        "description": "Maintenance recommandée",
+        "icon": "BuildIcon"
       }
     ],
     "benefits": [{ "label": "Traçabilité", "icon": "VerifiedIcon" }],
     "status": "En service",
-    "acquisitionDate": "15/02/2024"
+    "acquisitionDate": "2022-02-15T00:00:00Z"
   },
   {
     "id": "3",
@@ -71,28 +72,28 @@
     "name": "Four Bosch",
     "events": [
       {
-        "date": "12/01/2025",
-        "description": "Rappel émis",
-        "icon": "BuildIcon"
+        "date": "2021-03-20T00:00:00Z",
+        "description": "Date d’acquisition",
+        "icon": "EventIcon"
       },
       {
-        "date": "20/12/2024",
-        "description": "Mise à jour du logiciel",
-        "icon": "UpdateIcon"
-      },
-      {
-        "date": "15/12/2024",
+        "date": "2022-12-15T00:00:00Z",
         "description": "Inspection de sécurité",
         "icon": "CheckCircleIcon"
       },
       {
-        "date": "20/03/2023",
-        "description": "Date d’acquisition",
-        "icon": "EventIcon"
+        "date": "2022-12-20T00:00:00Z",
+        "description": "Mise à jour du logiciel",
+        "icon": "UpdateIcon"
+      },
+      {
+        "date": "2023-01-12T00:00:00Z",
+        "description": "Rappel émis",
+        "icon": "BuildIcon"
       }
     ],
     "benefits": [{ "label": "Recyclabilité", "icon": "BuildIcon" }],
     "status": "En service",
-    "acquisitionDate": "20/03/2023"
+    "acquisitionDate": "2021-03-20T00:00:00Z"
   }
 ]

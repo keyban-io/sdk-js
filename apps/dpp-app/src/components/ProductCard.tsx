@@ -62,11 +62,21 @@ export default function ProductCard({
 
   // Sort events by date from most recent to oldest
   const sortedEvents = product.events.sort(
-    (a, b) => new Date(b.date) - new Date(a.date),
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 
   // Find the most recent event
   const mostRecentEvent = sortedEvents[0];
+
+  // Format date to be human-readable
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <Card
@@ -122,7 +132,7 @@ export default function ProductCard({
                   variant="body2"
                   color="text.secondary"
                 >
-                  {mostRecentEvent.date}
+                  {formatDate(mostRecentEvent.date)}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
                   <TimelineDot color="primary">

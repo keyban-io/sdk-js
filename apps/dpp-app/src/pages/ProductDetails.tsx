@@ -56,6 +56,16 @@ export default function ProductDetails() {
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 
+  // Format date to be human-readable
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <Container maxWidth="sm" sx={{ py: 2, pb: 8 }}>
       <Card
@@ -107,7 +117,7 @@ export default function ProductDetails() {
                 Statut : {product.status}
               </Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
-                Date d’acquisition : {product.acquisitionDate}
+                Date d’acquisition : {formatDate(product.acquisitionDate)}
               </Typography>
               <Typography variant="h5" gutterBottom>
                 <BenefitsIcon /> Bénéfices Associés :
@@ -142,7 +152,7 @@ export default function ProductDetails() {
                       variant="body2"
                       color="text.secondary"
                     >
-                      {event.date}
+                      {formatDate(event.date)}
                     </TimelineOppositeContent>
                     <TimelineSeparator>
                       <TimelineDot color="secondary">
