@@ -47,20 +47,9 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
 
   const logout = () => {
     if (isKeybanAuthenticated) {
-      keybanLogout().then(() => {
-        console.log("isKeybanAuthenticated", isKeybanAuthenticated);
-        auth0Logout({
-          logoutParams: {
-            returnTo: window.location.origin,
-          },
-        });
-      });
+      keybanLogout().then(() => {});
     } else {
-      auth0Logout({
-        logoutParams: {
-          returnTo: window.location.origin,
-        },
-      });
+      auth0Logout();
     }
   };
 

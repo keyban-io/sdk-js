@@ -30,11 +30,7 @@ const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
     isAuthenticated: isKeybanAuthenticated,
     isLoading: isKeybanLoading,
     login: keybanLogin,
-    logout: keybanLogout,
   } = useKeybanAuth();
-
-  console.log("isKeybanAuthenticated", isKeybanAuthenticated);
-  console.log("isKeybanLoading", isKeybanLoading);
 
   if (isKeybanLoading) {
     return (
@@ -52,12 +48,7 @@ const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
   }
 
   return isKeybanAuthenticated ? (
-    <>
-      <Button variant="contained" onClick={keybanLogout}>
-        keyban logout
-      </Button>
-      <div>{element}</div>
-    </>
+    <>{element}</>
   ) : (
     <Stack
       sx={{

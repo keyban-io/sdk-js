@@ -50,7 +50,6 @@ export default function App() {
 
   const handleLogin = async () => {
     try {
-      console.log("Auth0 login...");
       await loginWithRedirect();
     } catch (error) {
       console.error("Login failed", error);
@@ -58,7 +57,6 @@ export default function App() {
   };
 
   if (isLoading) {
-    console.log("Auth0 loading...");
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
