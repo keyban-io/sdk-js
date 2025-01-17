@@ -34,7 +34,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
 }) => {
   const {
     user,
-    // logout: auth0Logout,
+    logout: auth0Logout,
     isAuthenticated: isAuth0Authenticated,
   } = useAuth0();
   const { logout: keybanLogout, isAuthenticated: isKeybanAuthenticated } =
@@ -43,9 +43,12 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
 
   if (localStorage.getItem("keybanLoggedOut")) {
     localStorage.removeItem("keybanLoggedOut");
-    console.log("auth0Logout from localstorage");
     if (isAuth0Authenticated) {
-      // auth0Logout();
+      auth0Logout({
+        logoutParams: {
+          returnTo: window.location.origin,
+        },
+      });
     }
   }
 
@@ -56,19 +59,17 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   const handleMenuClose = () => {
     setAnchorElUser(null);
   };
-  console.log("isKeybanAuthenticated", isKeybanAuthenticated);
 
   const logout = () => {
-    console.log("Logging out...");
-    console.log("isKeybanAuthenticated logout", isKeybanAuthenticated);
     if (isKeybanAuthenticated) {
       localStorage.setItem("keybanLoggedOut", "true");
-      console.log("keybanLogout");
-
       keybanLogout();
     } else {
-      console.log("auth0Logout");
-      // auth0Logout();
+      auth0Logout({
+        logoutParams: {
+          returnTo: window.location.origin,
+        },
+      });
     }
   };
 
