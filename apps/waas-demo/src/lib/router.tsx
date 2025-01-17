@@ -1,9 +1,16 @@
 import { useKeybanAuth } from "@keyban/sdk-react";
-import { CircularProgress, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Icon,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
+import keybanLogo from "/images/keyban-logo-small.svg";
 import { ErrorFallback } from "~/components/ErrorFallback";
 
 // Fonction pour mapper les chemins de fichiers à des chemins de route
@@ -46,11 +53,39 @@ const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
 
   return isKeybanAuthenticated ? (
     <>
-      <button onClick={keybanLogout}>keyban logout</button>
+      <Button variant="contained" onClick={keybanLogout}>
+        keyban logout
+      </Button>
       <div>{element}</div>
     </>
   ) : (
-    <button onClick={keybanLogin}>Login with keyban</button>
+    <Stack
+      sx={{
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        textAlign: "center",
+        padding: "0 20px",
+      }}
+      spacing={2}
+    >
+      <Typography variant="h5">Access my wallet secured by Keyban</Typography>
+      <Button
+        variant="contained"
+        onClick={keybanLogin}
+        startIcon={
+          <Icon>
+            <img
+              src={keybanLogo}
+              alt="Keyban Logo"
+              style={{ width: "24px", height: "24px" }}
+            />
+          </Icon>
+        }
+      >
+        Login with Keyban
+      </Button>
+    </Stack>
   );
 };
 
