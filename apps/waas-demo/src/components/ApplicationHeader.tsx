@@ -32,10 +32,22 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   onToggleTheme, // Déstructuration de la nouvelle prop
   themeMode, // Déstructuration de la nouvelle prop
 }) => {
-  const { user, logout: auth0Logout } = useAuth0();
+  const {
+    user,
+    // logout: auth0Logout,
+    isAuthenticated: isAuth0Authenticated,
+  } = useAuth0();
   const { logout: keybanLogout, isAuthenticated: isKeybanAuthenticated } =
     useKeybanAuth();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+  if (localStorage.getItem("keybanLoggedOut")) {
+    localStorage.removeItem("keybanLoggedOut");
+    console.log("auth0Logout from localstorage");
+    if (isAuth0Authenticated) {
+      // auth0Logout();
+    }
+  }
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -44,12 +56,19 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   const handleMenuClose = () => {
     setAnchorElUser(null);
   };
+  console.log("isKeybanAuthenticated", isKeybanAuthenticated);
 
   const logout = () => {
+    console.log("Logging out...");
+    console.log("isKeybanAuthenticated logout", isKeybanAuthenticated);
     if (isKeybanAuthenticated) {
-      keybanLogout().then(() => {});
+      localStorage.setItem("keybanLoggedOut", "true");
+      console.log("keybanLogout");
+
+      keybanLogout();
     } else {
-      auth0Logout();
+      console.log("auth0Logout");
+      // auth0Logout();
     }
   };
 
