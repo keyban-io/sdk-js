@@ -45,15 +45,24 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
     setAnchorElUser(null);
   };
 
-  const logout = () =>
-    keybanLogout().then(() => {
-      console.log("isKeybanAuthenticated", isKeybanAuthenticated);
+  const logout = () => {
+    if (isKeybanAuthenticated) {
+      keybanLogout().then(() => {
+        console.log("isKeybanAuthenticated", isKeybanAuthenticated);
+        auth0Logout({
+          logoutParams: {
+            returnTo: window.location.origin,
+          },
+        });
+      });
+    } else {
       auth0Logout({
         logoutParams: {
           returnTo: window.location.origin,
         },
       });
-    });
+    }
+  };
 
   return (
     <AppBar position="static">

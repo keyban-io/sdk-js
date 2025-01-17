@@ -50,17 +50,15 @@ export default function App() {
 
   const handleLogin = async () => {
     try {
-      await loginWithRedirect({
-        openUrl(url: string) {
-          window.location.replace(url);
-        },
-      });
+      console.log("Auth0 login...");
+      await loginWithRedirect();
     } catch (error) {
       console.error("Login failed", error);
     }
   };
 
   if (isLoading) {
+    console.log("Auth0 loading...");
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
