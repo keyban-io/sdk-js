@@ -7,8 +7,6 @@ import React from "react";
 
 import { PromiseCacheProvider } from "./promise";
 
-const clients = new Map<string, KeybanClient>();
-
 const KeybanContext = React.createContext<KeybanClient | null>(null);
 
 /**
@@ -67,22 +65,27 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * ```
  */
 export function KeybanProvider(props: KeybanProviderProps) {
-  const { children, ...config } = props;
+  const { children, clientShareProvider, ...config } = props;
 
-  const key = JSON.stringify(config);
-  let client = clients.get(key);
-  if (!client) {
-    client = new KeybanClient(config);
-    clients.set(key, client);
-  }
+  const clientShareProviderRef = React.useRef(clientShareProvider);
+  React.useImperativeHandle(clientShareProviderRef, () => clientShareProvider, [
+    clientShareProvider,
+  ]);
 
-  React.useEffect(
-    () => () => {
-      clients.get(key)?.destroy();
-      clients.delete(key);
-    },
-    [key],
+  const client = React.useMemo(
+    () =>
+      new KeybanClient({
+        ...config,
+        clientShareProvider: {
+          get: () => clientShareProviderRef.current.get(),
+          set: (share: string) => clientShareProviderRef.current.set(share),
+        },
+      }),
+    Object.values(config),
   );
+
+  // In strict mode, this will cause the wrong client to be destroyed... 🤦
+  // React.useEffect(() => () => client.destroy(), [client]);
 
   return (
     <KeybanContext.Provider value={client}>

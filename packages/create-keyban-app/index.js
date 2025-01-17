@@ -60,7 +60,7 @@ process.chdir(projectName);
 
 // Step 3: Install additional dependencies using the chosen package manager
 execSync(
-  `${packageManager} install @keyban/sdk-react react-error-boundary @auth0/auth0-react`,
+  `${packageManager} install @keyban/sdk-react react-error-boundary`,
   { stdio: "inherit" },
 );
 
