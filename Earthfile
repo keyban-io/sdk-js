@@ -70,7 +70,7 @@ app-base:
     ARG --required app
     COPY ./apps/${app}/package.json ./apps/${app}/
 
-    RUN pnpm install
+    RUN pnpm install | grep -v "Progress: resolved"
 
     COPY ./apps/${app} ./apps/${app}
 
