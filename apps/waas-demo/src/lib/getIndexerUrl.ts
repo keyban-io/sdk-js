@@ -9,15 +9,15 @@ const indexerUrlMapping: Record<HostChainKey, string> = {
   localhost_KeybanTestnet: "https://blockscout.keyban.localtest.me",
   "waas-demo.keyban.lvh.me_KeybanTestnet":
     "https://blockscout.keyban.localtest.me",
-  "waas-demo.testing.keyban.io_KeybanTestnet":
+  "waas-demo.testing.keyban.fr_KeybanTestnet":
     "https://blockscout.testing.keyban.io",
 
   // Sepolia mappings (même indexeur pour tous les domaines)
   localhost_PolygonAmoy: "https://rpc-amoy.polygon.technology",
   "waas-demo.keyban.lvh.me_PolygonAmoy": "https://rpc-amoy.polygon.technology",
-  "waas-demo.testing.keyban.io_PolygonAmoy":
+  "waas-demo.testing.keyban.fr_PolygonAmoy":
     "https://rpc-amoy.polygon.technology",
-  "waas-demo.beta.keyban.io_PolygonAmoy": "https://rpc-amoy.polygon.technology",
+  "waas-demo.beta.keyban.fr_PolygonAmoy": "https://rpc-amoy.polygon.technology",
 };
 
 export const getIndexerUrl = (chain: KeybanChain, txHash: string): string => {
@@ -29,7 +29,7 @@ export const getIndexerUrl = (chain: KeybanChain, txHash: string): string => {
   // Vérifier si la chaîne KeybanTestnet est disponible sur le domaine actuel
   if (
     chain === KeybanChain.KeybanTestnet &&
-    hostname === "waas-demo.beta.keyban.io"
+    hostname === "waas-demo.beta.keyban.fr"
   ) {
     throw new Error(
       "KeybanTestnet n'est pas disponible sur l'environnement de démonstration",

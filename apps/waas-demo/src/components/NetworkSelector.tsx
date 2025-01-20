@@ -22,7 +22,7 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
   const currentDomain = window.location.hostname;
   const shouldExcludeKeybanTestnet =
     currentDomain === "waas-demo.keyban.io" ||
-    currentDomain === "waas-demo.beta.keyban.io";
+    currentDomain === "waas-demo.beta.keyban.fr";
 
   const availableChains = shouldExcludeKeybanTestnet
     ? Object.values(KeybanChain).filter((chain) => chain !== "KeybanTestnet")
