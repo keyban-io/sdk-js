@@ -4,7 +4,7 @@ import { KeybanChain, KeybanClientConfig } from "@keyban/sdk-react";
 const API_URL = {
   "https://waas-demo.beta.keyban.io": "https://api.beta.keyban.io",
   "https://waas-demo.testing.keyban.io": "https://api.testing.keyban.io",
-  "https://waas-demo.keyban.localtest.me": "https://api.keyban.localtest.me",
+  "https://waas-demo.keyban.lvh.me": "https://api.keyban.localtest.me",
   "http://localhost:4200": "https://api.keyban.localtest.me",
 }[window.location.origin];
 

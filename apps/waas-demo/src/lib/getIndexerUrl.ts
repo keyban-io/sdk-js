@@ -7,15 +7,14 @@ type HostChainKey = `${string}_${KeybanChain}`;
 const indexerUrlMapping: Record<HostChainKey, string> = {
   // KeybanTestnet mappings
   localhost_KeybanTestnet: "https://blockscout.keyban.localtest.me",
-  "waas-demo.keyban.localtest.me_KeybanTestnet":
+  "waas-demo.keyban.lvh.me_KeybanTestnet":
     "https://blockscout.keyban.localtest.me",
   "waas-demo.testing.keyban.io_KeybanTestnet":
     "https://blockscout.testing.keyban.io",
 
   // Sepolia mappings (même indexeur pour tous les domaines)
   localhost_PolygonAmoy: "https://rpc-amoy.polygon.technology",
-  "waas-demo.keyban.localtest.me_PolygonAmoy":
-    "https://rpc-amoy.polygon.technology",
+  "waas-demo.keyban.lvh.me_PolygonAmoy": "https://rpc-amoy.polygon.technology",
   "waas-demo.testing.keyban.io_PolygonAmoy":
     "https://rpc-amoy.polygon.technology",
   "waas-demo.beta.keyban.io_PolygonAmoy": "https://rpc-amoy.polygon.technology",
