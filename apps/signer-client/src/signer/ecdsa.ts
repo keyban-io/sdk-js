@@ -30,11 +30,16 @@ export class KeybanSigner_ECDSA implements IKeybanSigner {
     this.#auth = auth;
   }
 
-  async dkg() {
+  async dkg(network: string) {
     const wasm = await KeybanSigner_ECDSA.#wasm;
 
     return wasm
-      .dkg(API_URL.origin, APP_ID, await this.#auth.getToken())
+      .dkg(
+        API_URL.origin,
+        `?network=${network}`,
+        APP_ID,
+        await this.#auth.getToken(),
+      )
       .catch((err) => {
         throw new KeybanBaseError(err);
       });

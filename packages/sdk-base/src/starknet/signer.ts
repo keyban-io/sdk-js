@@ -31,6 +31,8 @@ import { parseSignature, type Signature as ECDSASignature } from "viem";
 import { Hex } from "~/index";
 import { RpcClient } from "~/rpc";
 
+import { ETH_ACCOUNT_ABI, ETH_ACCOUNT_CLASS_HASH } from "./const";
+
 export class StarknetSigner implements SignerInterface {
   #rpcClient: RpcClient;
   #clientShare: string;
@@ -185,4 +187,23 @@ function formatSignature(ethSignature: ECDSASignature) {
     num.toHex(s.high),
     num.toHex(ethSignature.yParity),
   ];
+}
+
+/**
+ * Calculates the StarkNet address based on the public key.
+ * Note that it uses a salt of 0 and assumes an origin-independent account (not bound to a deployer).
+ * @param publicKey - The public key.
+ * @returns The StarkNet address.
+ */
+export function calculateAddress(publicKey: Hex): string {
+  const myCallData = new CallData(ETH_ACCOUNT_ABI);
+  const tssAccountconstructorCalldata = myCallData.compile("constructor", {
+    public_key: publicKey,
+  });
+  return hash.calculateContractAddressFromHash(
+    "0",
+    ETH_ACCOUNT_CLASS_HASH,
+    tssAccountconstructorCalldata,
+    0,
+  );
 }

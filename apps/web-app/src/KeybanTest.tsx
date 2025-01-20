@@ -23,7 +23,9 @@ const wrapSuspense = (Comp: React.ComponentType) => (
 
 export default function KeybanTest() {
   const client = useKeybanClient();
-  const isStarknet = client.chain === KeybanChain.Starknet;
+  const isStarknet =
+    client.chain === KeybanChain.KeybanStarknet ||
+    client.chain === KeybanChain.StarknetSepolia;
 
   const [init, setInit] = React.useState(false);
 

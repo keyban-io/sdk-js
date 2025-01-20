@@ -36,7 +36,8 @@ export class KeybanEvmClient extends KeybanClientBase {
     const chain = {
       [KeybanChain.KeybanTestnet]: chains.anvil,
       [KeybanChain.PolygonAmoy]: chains.polygonAmoy,
-      [KeybanChain.Starknet]: null,
+      [KeybanChain.KeybanStarknet]: null,
+      [KeybanChain.StarknetSepolia]: null,
     }[this.chain]!;
 
     const publicClient = transport.then((transport) =>
@@ -49,7 +50,7 @@ export class KeybanEvmClient extends KeybanClientBase {
   async initialize(): Promise<KeybanEvmAccount> {
     let clientShare = await this.clientShareProvider.get();
     if (!clientShare) {
-      clientShare = await this.rpcClient.call("ecdsa", "dkg");
+      clientShare = await this.rpcClient.call("ecdsa", "dkg", this.chain);
       await this.clientShareProvider.set(clientShare);
     }
 

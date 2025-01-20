@@ -15,7 +15,7 @@ export interface IKeybanAuth {
 }
 
 export interface IKeybanSigner {
-  dkg(): Promise<string>;
+  dkg(network: string): Promise<string>;
   sign(clientShare: string, message: string): Promise<Hex>;
   publicKey(clientShare: string): Promise<Hex>;
 }

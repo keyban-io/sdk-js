@@ -157,7 +157,8 @@ export abstract class KeybanClientBase {
     const indexerPrefix = {
       [KeybanChain.KeybanTestnet]: "subql-anvil.",
       [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
-      [KeybanChain.Starknet]: "subql-???.",
+      [KeybanChain.KeybanStarknet]: "subql-starknet-devnet.",
+      [KeybanChain.StarknetSepolia]: "subql-starlink-sepolia.",
     }[this.chain];
     this.apolloClient = createApolloClient(
       new URL(this.apiUrl.href.replace("api.", indexerPrefix)),
@@ -185,9 +186,14 @@ export abstract class KeybanClientBase {
         symbol: "POL",
         decimals: 18,
       },
-      [KeybanChain.Starknet]: {
-        name: "???",
-        symbol: "???",
+      [KeybanChain.KeybanStarknet]: {
+        name: "Starknet Token",
+        symbol: "STRK",
+        decimals: 18,
+      },
+      [KeybanChain.StarknetSepolia]: {
+        name: "StarkNet Token",
+        symbol: "STRK",
         decimals: 18,
       },
     }[this.chain];
@@ -203,9 +209,13 @@ export abstract class KeybanClientBase {
         symbol: "gwei",
         decimals: 9,
       },
-      [KeybanChain.Starknet]: {
-        symbol: "????",
-        decimals: 9,
+      [KeybanChain.KeybanStarknet]: {
+        symbol: "STRK",
+        decimals: 18,
+      },
+      [KeybanChain.StarknetSepolia]: {
+        symbol: "STRK",
+        decimals: 18,
       },
     }[this.chain];
   }
@@ -372,7 +382,12 @@ export class KeybanClient extends KeybanClientBase {
           ({ KeybanEvmClient }) =>
             new KeybanEvmClient(config, this.metadataConfig),
         ),
-      [KeybanChain.Starknet]: () =>
+      [KeybanChain.KeybanStarknet]: () =>
+        import("~/starknet").then(
+          ({ KeybanStarknetClient }) =>
+            new KeybanStarknetClient(config, this.metadataConfig),
+        ),
+      [KeybanChain.StarknetSepolia]: () =>
         import("~/starknet").then(
           ({ KeybanStarknetClient }) =>
             new KeybanStarknetClient(config, this.metadataConfig),

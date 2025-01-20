@@ -22,7 +22,7 @@
  */
 export enum KeybanChain {
   /**
-   * Keyban Testnet Chain.
+   * Keyban Testnet Chain for EVM.
    * Primarily used for development and testing purposes. This chain allows simulation of
    * transactions and interactions without affecting the main chain.
    */
@@ -36,10 +36,14 @@ export enum KeybanChain {
   PolygonAmoy = "PolygonAmoy",
 
   /**
-   * Starknet Chain.
-   * Represents the Starknet mainnet.
+   * Keyban Testnet Chain for Starknet.
    */
-  Starknet = "Starknet",
+  KeybanStarknet = "KeybanStarknet",
+
+  /**
+   * Starknet Sepolia Chain.
+   */
+  StarknetSepolia = "StarknetSepolia",
 }
 
 /**

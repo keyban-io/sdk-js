@@ -1,3 +1,5 @@
+export const ETH_ACCOUNT_CLASS_HASH =
+  "0x1464145f4f402487c34eb6b906a275beb4f1768afe80b6db0122192a94857b5";
 export const ETH_ACCOUNT_ABI = [
   {
     type: "impl",
