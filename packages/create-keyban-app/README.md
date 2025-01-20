@@ -34,4 +34,4 @@ Once the development server is running, you can access the app by opening your b
 
 ## Documentation
 
-For more detailed information, check out the [Keyban documentation](https://docs.demo.keyban.io/).
+For more detailed information, check out the [Keyban documentation](https://docs.beta.keyban.io/).

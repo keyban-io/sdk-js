@@ -49,7 +49,7 @@ export default App;
 - **`chain`**: The blockchain network used by Keyban (e.g., `KeybanChain.KeybanTestnet`).
 - **`clientShareProvider`**: A custom implementation of the `ClientShareProvider` interface for managing client shares.
 
-If you need more information about `KeybanProvider`, you can refer to the [KeybanProvider documentation](https://docs.demo.keyban.io/api/sdk-react#keybanprovider).
+If you need more information about `KeybanProvider`, you can refer to the [KeybanProvider documentation](https://docs.beta.keyban.io/api/sdk-react#keybanprovider).
 
 ---
 
@@ -316,4 +316,4 @@ const BalanceDisplay = () => {
 
 ## Additional Resources
 
-- [Complete Keyban React SDK Documentation](https://docs.demo.keyban.io/api/sdk-react)
+- [Complete Keyban React SDK Documentation](https://docs.beta.keyban.io/api/sdk-react)

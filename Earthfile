@@ -129,6 +129,6 @@ create-keyban-app:
         jq '.dependencies["@keyban/sdk-react"] = "workspace:*"' package.json > tmp.json && \
         mv tmp.json package.json && \
         pnpm install
-    RUN cd /app/apps/create-keyban-app-dev && sed -i 's|const API_URL = "https://api.demo.keyban.io";|const API_URL = "https://api.keyban.localtest.me";|' /app/apps/create-keyban-app-dev/src/config.ts
+    RUN cd /app/apps/create-keyban-app-dev && sed -i 's|const API_URL = "https://api.beta.keyban.io";|const API_URL = "https://api.keyban.localtest.me";|' /app/apps/create-keyban-app-dev/src/config.ts
     RUN cd /app/apps/create-keyban-app-dev && sed -i 's|chain: KeybanChain.PolygonAmoy,|chain: KeybanChain.KeybanTestnet,|' /app/apps/create-keyban-app-dev/src/config.ts
     SAVE ARTIFACT /app/apps/create-keyban-app-dev AS LOCAL ./apps/create-keyban-app-dev

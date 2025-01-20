@@ -2,7 +2,7 @@
   "name": "@keyban/sdk-base",
   "version": "0.0.0",
   "description": "Keyban Javascript SDK provides core functionalities for the MPC wallet solution, supporting web and Node.js apps with TypeScript, custom storage, and Ethereum blockchain integration.",
-  "homepage": "https://docs.demo.keyban.io/",
+  "homepage": "https://docs.beta.keyban.io/",
   "author": {
     "name": "Keyban",
     "email": "it@keyban.io",

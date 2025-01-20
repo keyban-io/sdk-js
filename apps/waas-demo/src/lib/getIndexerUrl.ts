@@ -18,7 +18,7 @@ const indexerUrlMapping: Record<HostChainKey, string> = {
     "https://rpc-amoy.polygon.technology",
   "waas-demo.testing.keyban.io_PolygonAmoy":
     "https://rpc-amoy.polygon.technology",
-  "waas-demo.demo.keyban.io_PolygonAmoy": "https://rpc-amoy.polygon.technology",
+  "waas-demo.beta.keyban.io_PolygonAmoy": "https://rpc-amoy.polygon.technology",
 };
 
 export const getIndexerUrl = (chain: KeybanChain, txHash: string): string => {
@@ -30,7 +30,7 @@ export const getIndexerUrl = (chain: KeybanChain, txHash: string): string => {
   // Vérifier si la chaîne KeybanTestnet est disponible sur le domaine actuel
   if (
     chain === KeybanChain.KeybanTestnet &&
-    hostname === "waas-demo.demo.keyban.io"
+    hostname === "waas-demo.beta.keyban.io"
   ) {
     throw new Error(
       "KeybanTestnet n'est pas disponible sur l'environnement de démonstration",
