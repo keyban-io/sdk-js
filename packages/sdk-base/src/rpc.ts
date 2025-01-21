@@ -2,7 +2,7 @@
  * @module RPC services
  */
 
-import { KeybanBaseError, SdkError } from "~/errors";
+import { IFrameRpcError, KeybanBaseError, SdkError } from "~/errors";
 
 type Hex = `0x${string}`;
 
@@ -102,7 +102,10 @@ export class RpcServer implements IRpc {
       // specific application.
       const domains = await this.domains;
       if (!domains.includes(event.origin))
-        throw new Error("Invalid RPC origin");
+        throw new IFrameRpcError(
+          IFrameRpcError.types.InvalidOrigin,
+          "RpcServer",
+        );
 
       const { service, method } = event.data;
 
@@ -110,10 +113,17 @@ export class RpcServer implements IRpc {
       // object that is not intended to be exposed. This  ensures the
       // method is effectively allowed.
       if (!RpcServer.#definitions[service]?.[method])
-        throw new Error("Invalid RPC call");
+        throw new IFrameRpcError(
+          IFrameRpcError.types.InvalidCall,
+          `RpcServer:${service}.${method}`,
+        );
 
       const fn = this[service]?.[method] as ClassMethod<S, M>;
-      if (!fn) throw new Error(`Invalid RPC call: ${service}.${method}`);
+      if (!fn)
+        throw new IFrameRpcError(
+          IFrameRpcError.types.InvalidCall,
+          `RpcServer:${service}.${method}`,
+        );
 
       const result = await fn.apply(this[service], event.data.params);
 
@@ -122,6 +132,7 @@ export class RpcServer implements IRpc {
       let err = error;
 
       if (!(err instanceof KeybanBaseError)) {
+        console.error(error);
         err = new SdkError(
           SdkError.types.UnknownIframeRpcError,
           "RpcServer",
