@@ -28,7 +28,7 @@ export default function App() {
 
   React.useEffect(() => {
     setSearchParams((prev) => {
-      prev.set("apiUrl", config.apiUrl?.toString() ?? DEFAULT_API_URL);
+      prev.set("apiUrl", config.apiUrl?.toString() ?? "");
       prev.set("appId", config.appId);
       prev.set("chain", config.chain);
 
