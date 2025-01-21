@@ -124,7 +124,6 @@ export abstract class KeybanClientBase {
 
   constructor(
     config: KeybanClientConfig,
-    rpcClient?: RpcClient,
     metadataConfig?: Promise<MetadataConfig>,
   ) {
     this.apiUrl = new URL(config.apiUrl ?? "https://api.keyban.io");
@@ -143,20 +142,12 @@ export abstract class KeybanClientBase {
 
     const rpcUrl = new URL("/signer-client/", this.apiUrl);
     rpcUrl.searchParams.set("appId", this.appId);
-    this.rpcClient = rpcClient ?? new RpcClient(rpcUrl);
+    this.rpcClient = RpcClient.getInstance(rpcUrl);
 
     const metadataUrl = new URL("/metadata", this.apiUrl);
     metadataUrl.searchParams.set("chain", this.chain);
     this.metadataConfig =
       metadataConfig ?? fetch(metadataUrl).then((res) => res.json());
-  }
-
-  /**
-   * Cleanup
-   * @private
-   */
-  destroy() {
-    this.rpcClient.destroy();
   }
 
   get nativeCurrency(): NativeCurrency {
@@ -338,21 +329,17 @@ export class KeybanClient extends KeybanClientBase {
       [KeybanChain.KeybanTestnet]: () =>
         import("~/evm").then(
           ({ KeybanEvmClient }) =>
-            new KeybanEvmClient(config, this.rpcClient, this.metadataConfig),
+            new KeybanEvmClient(config, this.metadataConfig),
         ),
       [KeybanChain.PolygonAmoy]: () =>
         import("~/evm").then(
           ({ KeybanEvmClient }) =>
-            new KeybanEvmClient(config, this.rpcClient, this.metadataConfig),
+            new KeybanEvmClient(config, this.metadataConfig),
         ),
       [KeybanChain.Starknet]: () =>
         import("~/starknet").then(
           ({ KeybanStarknetClient }) =>
-            new KeybanStarknetClient(
-              config,
-              this.rpcClient,
-              this.metadataConfig,
-            ),
+            new KeybanStarknetClient(config, this.metadataConfig),
         ),
     }[this.chain]();
   }

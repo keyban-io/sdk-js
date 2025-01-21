@@ -18,6 +18,11 @@ export interface IKeybanSigner {
   publicKey(clientShare: string): Promise<Hex>;
 }
 
+export interface IKeybanClientShareStorage {
+  get(): Promise<string>;
+  set(clientShare: string): Promise<void>;
+}
+
 /*
  * RPC types
  */
@@ -28,6 +33,7 @@ type CastFn<T> = T extends (...args: any[]) => any ? T : never;
 interface IRpc {
   auth: IKeybanAuth;
   ecdsa: IKeybanSigner;
+  clientShareStorage: IKeybanClientShareStorage;
 }
 
 type Service = keyof IRpc;
@@ -59,6 +65,7 @@ type RpcResult<
 export class RpcServer implements IRpc {
   auth!: IKeybanAuth;
   ecdsa!: IKeybanSigner;
+  clientShareStorage!: IKeybanClientShareStorage;
 
   domains: Promise<string[]>;
 
@@ -89,6 +96,10 @@ export class RpcServer implements IRpc {
       dkg: true,
       sign: true,
       publicKey: true,
+    },
+    clientShareStorage: {
+      get: true,
+      set: true,
     },
   };
 
@@ -153,7 +164,17 @@ export class RpcClient {
   #iframeUrl: URL;
   #iframe: Promise<HTMLIFrameElement>;
 
-  constructor(iframeUrl: URL) {
+  static #instances: Map<string, RpcClient> = new Map();
+
+  static getInstance(iframeUrl: URL): RpcClient {
+    const key = iframeUrl.toString();
+    if (!RpcClient.#instances.has(key))
+      RpcClient.#instances.set(key, new RpcClient(iframeUrl));
+
+    return RpcClient.#instances.get(key)!;
+  }
+
+  private constructor(iframeUrl: URL) {
     this.#iframeUrl = iframeUrl;
 
     this.#iframe = new Promise((resolve, reject) => {

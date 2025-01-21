@@ -1,4 +1,8 @@
-import { KeybanChain, KeybanProvider } from "@keyban/sdk-react";
+import {
+  KeybanChain,
+  KeybanClientShareProvider,
+  KeybanProvider,
+} from "@keyban/sdk-react";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useSearchParams } from "react-router-dom";
@@ -13,22 +17,6 @@ const DEFAULT_API_URL = "https://api.keyban.localtest.me";
 const DEFAULT_APP_ID = "a6f22ae8-341b-4b4f-8c22-f590254c3c21";
 const DEFAULT_CHAIN = KeybanChain.KeybanTestnet;
 
-class ClientShareProvider {
-  #key: string;
-
-  constructor(appId: string) {
-    this.#key = `KEYBAN-CLIENT-SHARE:${appId}`;
-  }
-
-  async get() {
-    return localStorage.getItem(this.#key);
-  }
-
-  async set(clientShare: string) {
-    return localStorage.setItem(this.#key, clientShare);
-  }
-}
-
 export default function App() {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -40,7 +28,7 @@ export default function App() {
 
   React.useEffect(() => {
     setSearchParams((prev) => {
-      prev.set("apiUrl", config.apiUrl?.toString() ?? "");
+      prev.set("apiUrl", config.apiUrl?.toString() ?? DEFAULT_API_URL);
       prev.set("appId", config.appId);
       prev.set("chain", config.chain);
 
@@ -49,8 +37,8 @@ export default function App() {
   }, [config, setSearchParams]);
 
   const clientShareProvider = React.useMemo(
-    () => new ClientShareProvider(config.appId),
-    [config.appId],
+    () => new KeybanClientShareProvider(config.apiUrl!, config.appId),
+    [config.apiUrl, config.appId],
   );
 
   return (

@@ -91,9 +91,6 @@ export function KeybanProvider(props: KeybanProviderProps) {
     Object.values(config),
   );
 
-  // In strict mode, this will cause the wrong client to be destroyed... 🤦
-  // React.useEffect(() => () => client.destroy(), [client]);
-
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>();
   const updateIsAuthenticated = React.useCallback(
     () => client.isAuthenticated().then(setIsAuthenticated),

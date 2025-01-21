@@ -15,7 +15,6 @@ import * as chains from "viem/chains";
 import { KeybanChain } from "~/chains";
 import { KeybanClientBase, KeybanClientConfig, MetadataConfig } from "~/client";
 import { KeybanEvmAccount } from "~/evm/account";
-import { RpcClient } from "~/rpc";
 
 export class KeybanEvmClient extends KeybanClientBase {
   #viem: {
@@ -26,10 +25,9 @@ export class KeybanEvmClient extends KeybanClientBase {
 
   constructor(
     config: KeybanClientConfig,
-    rpcClient?: RpcClient,
     metadataConfig?: Promise<MetadataConfig>,
   ) {
-    super(config, rpcClient, metadataConfig);
+    super(config, metadataConfig);
 
     const transport = this.metadataConfig.then((config) =>
       http(config.chain.rpcUrl),

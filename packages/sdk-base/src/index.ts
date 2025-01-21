@@ -14,6 +14,7 @@ export {
   KeybanClient,
   KeybanClientConfig,
 } from "~/client";
+export { KeybanClientShareProvider } from "~/clientShareProvider";
 export { KeybanBaseError, SdkError, SdkErrorTypes } from "~/errors";
 export type {
   GqlwalletTokenBalancesQuery,
