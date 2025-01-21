@@ -19,7 +19,7 @@ export interface IKeybanSigner {
 }
 
 export interface IKeybanClientShareStorage {
-  get(): Promise<string>;
+  get(): Promise<string | null>;
   set(clientShare: string): Promise<void>;
 }
 

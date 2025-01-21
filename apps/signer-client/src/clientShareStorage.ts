@@ -11,7 +11,7 @@ export class KeybanClientShareStorage implements IKeybanClientShareStorage {
     this.#auth = auth;
   }
 
-  async get(): Promise<string> {
+  async get(): Promise<string | null> {
     const accessToken = await this.#auth.getToken();
     const res = await fetch(apiUrl("/client-shares"), {
       headers: {
@@ -19,9 +19,11 @@ export class KeybanClientShareStorage implements IKeybanClientShareStorage {
       },
     });
 
-    if (!res.ok) throw new KeybanBaseError(await res.json());
+    if (res.ok) return res.text();
 
-    return res.text();
+    if (res.status === 404) return null;
+
+    throw new KeybanBaseError(await res.json());
   }
 
   async set(clientShare: string): Promise<void> {
