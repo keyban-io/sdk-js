@@ -5,10 +5,6 @@ import Grid2 from "@mui/material/Grid2";
 export default function Dashboard() {
   return (
     <Container maxWidth="sm" sx={{ py: 2, pb: 8 }}>
-      <Typography variant="h4" gutterBottom>
-        Tableau de Bord | Weavenn x Keyban
-      </Typography>
-
       <Grid2 container spacing={2} sx={{ mb: 3 }}>
         <Grid2 size={{ xs: 12 }}>
           <ProductCard productId="1" fullSizeImage />

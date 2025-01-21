@@ -7,13 +7,15 @@ import Login from "../pages/Login";
 import RouteGuard from "./RouteGuard";
 import BottomNav from "./BottomNav";
 import BackButton from "./BackButton";
+import { Box } from "@mui/material";
 
 const AppWithNav: React.FC = () => {
   const { isAuthenticated } = useKeybanAuth();
   const location = useLocation();
 
   return (
-    <>
+    <Box sx={{ position: "relative", maxWidth: "sm", mx: "auto" }}>
+      {isAuthenticated && location.pathname !== "/login" && <BackButton />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<RouteGuard />}>
@@ -28,8 +30,7 @@ const AppWithNav: React.FC = () => {
         </Route>
       </Routes>
       {isAuthenticated && <BottomNav />}
-      {isAuthenticated && location.pathname !== "/login" && <BackButton />}
-    </>
+    </Box>
   );
 };
 
