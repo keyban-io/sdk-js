@@ -13,12 +13,19 @@ import { useNavigate, useLocation } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import EmailIcon from "@mui/icons-material/Email";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { useEffect } from "react";
 
 export default function Login() {
   const { isAuthenticated, isLoading, login } = useKeybanAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/dashboard";
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
 
   const handleLogin = async (method: string) => {
     // Implement different login methods here
@@ -29,7 +36,6 @@ export default function Login() {
       // Call the default login function
       await login();
     }
-    navigate(from, { replace: true });
   };
 
   const loginWithGoogle = async () => {
@@ -44,11 +50,6 @@ export default function Login() {
         <Typography variant="h6">Chargement...</Typography>
       </Container>
     );
-  }
-
-  if (isAuthenticated) {
-    navigate(from, { replace: true });
-    return null;
   }
 
   return (
