@@ -1,14 +1,16 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useKeybanAuth } from "@keyban/sdk-react";
 import Dashboard from "../pages/Dashboard";
 import ProductDetails from "../pages/ProductDetails";
 import Login from "../pages/Login";
 import RouteGuard from "./RouteGuard";
 import BottomNav from "./BottomNav";
+import BackButton from "./BackButton";
 
 const AppWithNav: React.FC = () => {
   const { isAuthenticated } = useKeybanAuth();
+  const location = useLocation();
 
   return (
     <>
@@ -26,6 +28,7 @@ const AppWithNav: React.FC = () => {
         </Route>
       </Routes>
       {isAuthenticated && <BottomNav />}
+      {isAuthenticated && location.pathname !== "/login" && <BackButton />}
     </>
   );
 };
