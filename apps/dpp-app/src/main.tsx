@@ -3,14 +3,10 @@ import * as ReactDOM from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import theme from "./theme";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import BottomNav from "./components/BottomNav";
-import ProductDetails from "./pages/ProductDetails";
-import Login from "./pages/Login";
+import { BrowserRouter } from "react-router-dom";
 import { KeybanProvider } from "@keyban/sdk-react";
-import RouteGuard from "./components/RouteGuard";
 import keybanConfig from "./config";
+import AppWithNav from "./components/AppWithNav";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -23,20 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         clientShareProvider={keybanConfig.clientShareProvider}
       >
         <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route element={<RouteGuard />}>
-              <Route path="/" element={<Navigate to="/dashboard" />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route
-                path="/product-details/:productId"
-                element={<ProductDetails />}
-              />
-              {/* ...add more routes if needed... */}
-              <Route path="*" element={<Navigate to="/login" />} />
-            </Route>
-          </Routes>
-          <BottomNav />
+          <AppWithNav />
         </BrowserRouter>
       </KeybanProvider>
     </ThemeProvider>
