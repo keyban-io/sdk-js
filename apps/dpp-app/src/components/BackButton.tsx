@@ -26,16 +26,16 @@ const BackButton: React.FC = () => {
           position: "fixed",
           top: 24,
           zIndex: 1000,
-          backgroundColor: "black",
-          borderRadius: "32px",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
         }}
       >
         <Tooltip title="Retour">
           <IconButton
             onClick={() => navigate(-1)}
             sx={{
-              color: "white",
+              color: "black",
+              backgroundColor: "transparent",
+              border: "none",
+              boxShadow: "none",
             }}
           >
             <ArrowBackIcon />
