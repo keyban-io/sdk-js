@@ -47,11 +47,7 @@ interface ProductCardProps {
   sx?: object; // Add sx prop for custom styles
 }
 
-export default function ProductCard({
-  productId,
-  fullSizeImage,
-  sx,
-}: ProductCardProps) {
+export default function ProductCard({ productId, sx }: ProductCardProps) {
   const navigate = useNavigate();
   const product = products.find((p) => p.id === productId);
 
@@ -94,15 +90,14 @@ export default function ProductCard({
       <Box
         sx={{
           width: "100%",
-          height: fullSizeImage ? "200px" : "200px", // Adjust height based on fullSizeImage prop
-          backgroundImage: `url(${imageMap[product.imageKey]})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
           borderRadius: "16px 16px 0 0", // Rounded top corners
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
           zIndex: 1,
+          display: "flex", // Add this line
+          justifyContent: "center", // Add this line
         }}
       >
+        <img src={imageMap[product.imageKey]} alt={product.alt} />
         <Box
           sx={{
             position: "absolute",
@@ -131,7 +126,7 @@ export default function ProductCard({
 
       <Card
         sx={{
-          mt: "-50px",
+          mt: -2,
           zIndex: 2,
           position: "relative",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",

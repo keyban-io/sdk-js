@@ -7,7 +7,7 @@ export default function Dashboard() {
     <Container disableGutters>
       <ProductCard productId="1" fullSizeImage />
 
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom align="center">
         Mes Autres Appareils
       </Typography>
 

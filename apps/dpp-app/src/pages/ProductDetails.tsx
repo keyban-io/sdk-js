@@ -7,8 +7,6 @@ import {
   Chip,
   Card,
   CardContent,
-  Tooltip,
-  IconButton,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import products from "../data/products.json";
@@ -21,9 +19,6 @@ import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
 import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
 import EventIcon from "@mui/icons-material/Event";
 import BenefitsIcon from "@mui/icons-material/ThumbUp";
-import DownloadIcon from "@mui/icons-material/Download";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import ShareIcon from "@mui/icons-material/Share";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -70,29 +65,27 @@ export default function ProductDetails() {
   };
 
   return (
-    <Container sx={{ pb: 8, position: "relative" }} disableGutters>
-      <Box
-        alignItems={"center"}
-        display={"flex"}
-        justifyContent={"center"}
-        sx={{
-          flex: "1 0 auto",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "auto",
-          position: "relative",
-        }}
-      >
-        <img src={imageMap[product.imageKey]} alt={product.alt} />
-      </Box>
+    <Container sx={{ pb: 4, position: "relative" }} disableGutters>
       <Card
         sx={{
-          backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent background
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <img src={imageMap[product.imageKey]} alt={product.alt} />
+          </Box>
+        </CardContent>
+      </Card>
+      <Card
+        sx={{
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
           borderRadius: "16px",
           position: "relative",
           zIndex: 1,
+          mt: -4, // Adjust margin top to position above the first card
         }}
       >
         <CardContent>
