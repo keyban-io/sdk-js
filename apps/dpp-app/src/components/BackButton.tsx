@@ -13,23 +13,35 @@ const BackButton: React.FC = () => {
   }
 
   return (
-    <Box sx={{ position: "relative", maxWidth: "sm", mx: "auto" }}>
-      <Tooltip title="Retour">
-        <IconButton
-          onClick={() => navigate(-1)}
-          sx={{
-            position: "absolute",
-            top: 24,
-            left: 32,
-            backgroundColor: "rgba(255, 255, 255, 0.9)",
-            border: "1px solid rgba(0, 0, 0, 0.1)",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-            zIndex: 1000,
-          }}
-        >
-          <ArrowBackIcon />
-        </IconButton>
-      </Tooltip>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "left",
+        width: "100%",
+        marginLeft: 3,
+      }}
+    >
+      <Box
+        sx={{
+          position: "fixed",
+          top: 24,
+          zIndex: 1000,
+          backgroundColor: "black",
+          borderRadius: "32px",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <Tooltip title="Retour">
+          <IconButton
+            onClick={() => navigate(-1)}
+            sx={{
+              color: "white",
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </Box>
   );
 };
