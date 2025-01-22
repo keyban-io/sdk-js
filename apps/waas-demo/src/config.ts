@@ -1,5 +1,9 @@
 import { Auth0ProviderOptions } from "@auth0/auth0-react";
-import { KeybanChain, KeybanClientConfig } from "@keyban/sdk-react";
+import {
+  KeybanChain,
+  KeybanClientConfig,
+  KeybanClientShareProvider,
+} from "@keyban/sdk-react";
 
 const API_URL = {
   "https://waas-demo.beta.keyban.fr": "https://api.beta.keyban.io",
@@ -8,9 +12,11 @@ const API_URL = {
   "http://localhost:4200": "https://api.keyban.localtest.me",
 }[window.location.origin];
 
+const APP_ID = "8febdb3d-75d4-409c-8453-aa5d81e92926";
+
 export type Config = {
   auth: Auth0ProviderOptions;
-  keyban: Omit<KeybanClientConfig, "clientShareProvider">;
+  keyban: KeybanClientConfig;
 };
 
 const config: Config = {
@@ -23,9 +29,13 @@ const config: Config = {
     },
   },
   keyban: {
-    apiUrl: API_URL,
-    appId: "8febdb3d-75d4-409c-8453-aa5d81e92926",
+    apiUrl: API_URL || "https://api.beta.keyban.io",
+    appId: APP_ID,
     chain: KeybanChain.PolygonAmoy,
+    clientShareProvider: new KeybanClientShareProvider(
+      API_URL || "https://api.keyban.io",
+      APP_ID,
+    ),
   },
 };
 

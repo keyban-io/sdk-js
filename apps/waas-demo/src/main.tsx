@@ -6,8 +6,6 @@ import ReactDOM from "react-dom/client";
 import App from "~/App.tsx";
 import config from "~/config";
 
-import ClientShareProvider from "./providers/ClientShareProvider";
-
 let chain: KeybanChain;
 
 try {
@@ -22,8 +20,6 @@ try {
   chain = config.keyban.chain;
 }
 
-const clientShareProvider = new ClientShareProvider(config.keyban.appId);
-
 const rootElement = document.getElementById("root");
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
@@ -32,7 +28,7 @@ if (rootElement) {
         <KeybanProvider
           {...config.keyban}
           chain={chain}
-          clientShareProvider={clientShareProvider}
+          clientShareProvider={config.keyban.clientShareProvider}
         >
           <App />
         </KeybanProvider>
