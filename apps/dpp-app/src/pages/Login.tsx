@@ -53,7 +53,7 @@ export default function Login() {
   }
 
   return (
-    <Container component="main">
+    <Container component="main" disableGutters>
       <Paper
         elevation={6}
         sx={{

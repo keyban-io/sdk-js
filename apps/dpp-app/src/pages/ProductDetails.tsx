@@ -70,7 +70,7 @@ export default function ProductDetails() {
   };
 
   return (
-    <Container sx={{ py: 2, pb: 8 }}>
+    <Container sx={{ pb: 8 }} disableGutters>
       <Card
         sx={{
           height: "100%",
