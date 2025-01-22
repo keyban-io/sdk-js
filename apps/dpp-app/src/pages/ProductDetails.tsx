@@ -70,14 +70,29 @@ export default function ProductDetails() {
   };
 
   return (
-    <Container sx={{ pb: 8 }} disableGutters>
+    <Container sx={{ pb: 8, position: "relative" }} disableGutters>
+      <Box
+        alignItems={"center"}
+        display={"flex"}
+        justifyContent={"center"}
+        sx={{
+          flex: "1 0 auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "auto",
+          position: "relative",
+        }}
+      >
+        <img src={imageMap[product.imageKey]} alt={product.alt} />
+      </Box>
       <Card
         sx={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          pb: 2,
+          backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent background
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          borderRadius: "16px",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <CardContent>
@@ -92,71 +107,6 @@ export default function ProductDetails() {
               position: "relative",
             }}
           >
-            <Box
-              sx={{
-                flex: "1 0 auto",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "auto",
-                position: "relative",
-              }}
-            >
-              <img
-                src={imageMap[product.imageKey]}
-                alt={product.alt}
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "auto",
-                }}
-              />
-              <Box
-                sx={{
-                  position: "absolute",
-                  bottom: 16,
-                  right: 16,
-                  display: "flex",
-                  gap: 1,
-                }}
-              >
-                <Tooltip title="Télécharger le certificat">
-                  <IconButton
-                    color="primary"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      border: "1px solid rgba(0, 0, 0, 0.1)",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                    }}
-                  >
-                    <DownloadIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Signaler un problème">
-                  <IconButton
-                    color="primary"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      border: "1px solid rgba(0, 0, 0, 0.1)",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                    }}
-                  >
-                    <ReportProblemIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Partager les informations du produit">
-                  <IconButton
-                    color="primary"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      border: "1px solid rgba(0, 0, 0, 0.1)",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                    }}
-                  >
-                    <ShareIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </Box>
             <Box sx={{ textAlign: "center", mt: 2 }}>
               <Typography variant="h4" gutterBottom>
                 {product.name}
