@@ -11,12 +11,18 @@ export default function Dashboard() {
         Mes Autres Appareils
       </Typography>
 
-      <Grid2 container spacing={2}>
-        <Grid2 size={{ xs: 12, md: 6 }}>
-          <ProductCard productId="2" />
+      <Grid2 container spacing={2} alignItems="stretch">
+        <Grid2
+          size={{ xs: 12, md: 6 }}
+          sx={{ display: "flex", flexDirection: "column" }}
+        >
+          <ProductCard productId="2" sx={{ flex: 1 }} />
         </Grid2>
-        <Grid2 size={{ xs: 12, md: 6 }}>
-          <ProductCard productId="3" />
+        <Grid2
+          size={{ xs: 12, md: 6 }}
+          sx={{ display: "flex", flexDirection: "column" }}
+        >
+          <ProductCard productId="3" sx={{ flex: 1 }} />
         </Grid2>
       </Grid2>
     </Container>

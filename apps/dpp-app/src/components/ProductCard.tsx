@@ -44,11 +44,13 @@ const imageMap: { [key: string]: string } = {
 interface ProductCardProps {
   productId: string;
   fullSizeImage?: boolean;
+  sx?: object; // Add sx prop for custom styles
 }
 
 export default function ProductCard({
   productId,
   fullSizeImage,
+  sx,
 }: ProductCardProps) {
   const navigate = useNavigate();
   const product = products.find((p) => p.id === productId);
@@ -80,7 +82,15 @@ export default function ProductCard({
   };
 
   return (
-    <Box sx={{ position: "relative", mb: 4 }}>
+    <Box
+      sx={{
+        position: "relative",
+        mb: 4,
+        display: "flex",
+        flexDirection: "column",
+        ...sx,
+      }}
+    >
       <Box
         sx={{
           width: "100%",
@@ -126,6 +136,10 @@ export default function ProductCard({
           position: "relative",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
           borderRadius: "16px", // Rounded corners,
+          flex: 1, // Make the card grow to fill the container
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         <CardContent>
