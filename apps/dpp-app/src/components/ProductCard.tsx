@@ -97,7 +97,11 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
           justifyContent: "center", // Add this line
         }}
       >
-        <img src={imageMap[product.imageKey]} alt={product.alt} />
+        <img
+          src={imageMap[product.imageKey]}
+          alt={product.alt}
+          style={{ maxWidth: "100%" }}
+        />
         <Box
           sx={{
             position: "absolute",
@@ -124,69 +128,68 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
         </Box>
       </Box>
 
-      <Card
-        sx={{
-          mt: -2,
-          zIndex: 2,
-          position: "relative",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-          borderRadius: "16px", // Rounded corners,
-          flex: 1, // Make the card grow to fill the container
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <CardContent>
-          <Box sx={{ textAlign: "center", mt: 2 }}>
-            <Typography>{product.name}</Typography>
-            {product.status && (
-              <Typography variant="body1" color="textSecondary" gutterBottom>
-                {product.status}
-              </Typography>
-            )}
-            <Timeline>
-              <TimelineItem>
-                <TimelineOppositeContent
-                  sx={{ py: "20px" }}
-                  align="right"
-                  variant="body2"
-                  color="text.secondary"
-                >
-                  {formatDate(mostRecentEvent.date)}
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot color="primary">
-                    {iconMap[mostRecentEvent.icon]}
-                  </TimelineDot>
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <Typography>{mostRecentEvent.description}</Typography>
-                </TimelineContent>
-              </TimelineItem>
-            </Timeline>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 1,
-                flexWrap: "wrap",
-                mt: 2,
-              }}
-            >
-              {product.benefits.map((benefit, index) => (
-                <Chip
-                  key={index}
-                  icon={iconMap[benefit.icon]}
-                  label={benefit.label}
-                  color="primary"
-                />
-              ))}
+      <Box sx={{ mt: -2, zIndex: 2, position: "relative" }}>
+        <Card
+          sx={{
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+            borderRadius: "16px", // Rounded corners,
+            flex: 1, // Make the card grow to fill the container
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <CardContent>
+            <Box sx={{ textAlign: "center", mt: 2 }}>
+              <Typography variant="h5">{product.name}</Typography>
+              {product.status && (
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  {product.status}
+                </Typography>
+              )}
+              <Timeline>
+                <TimelineItem>
+                  <TimelineOppositeContent
+                    sx={{ py: "20px" }}
+                    align="right"
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    {formatDate(mostRecentEvent.date)}
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot color="primary">
+                      {iconMap[mostRecentEvent.icon]}
+                    </TimelineDot>
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Typography>{mostRecentEvent.description}</Typography>
+                  </TimelineContent>
+                </TimelineItem>
+              </Timeline>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 1,
+                  flexWrap: "wrap",
+                  mt: 2,
+                }}
+              >
+                {product.benefits.map((benefit, index) => (
+                  <Chip
+                    key={index}
+                    icon={iconMap[benefit.icon]}
+                    label={benefit.label}
+                    color="primary"
+                  />
+                ))}
+              </Box>
             </Box>
-          </Box>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </Box>
     </Box>
   );
 }
