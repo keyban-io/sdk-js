@@ -1,5 +1,4 @@
 import { KeybanChain, KeybanClientShareProvider } from "@keyban/sdk-react";
-// import MyClientShareProvider from "./utils/MyClientShareProvider";
 
 const appId = "e7b8f9d2-3c4e-4f6e-9a7b-123456789def";
 
