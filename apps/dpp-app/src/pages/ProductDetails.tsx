@@ -18,7 +18,6 @@ import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machin
 import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
 import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
 import EventIcon from "@mui/icons-material/Event";
-import BenefitsIcon from "@mui/icons-material/ThumbUp";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -69,15 +68,14 @@ export default function ProductDetails() {
       <Card
         sx={{
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          mb: 2,
           position: "relative",
           zIndex: 1,
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <CardContent>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <img src={imageMap[product.imageKey]} alt={product.alt} />
-          </Box>
-        </CardContent>
+        <img src={imageMap[product.imageKey]} alt={product.alt} />
       </Card>
       <Card
         sx={{
@@ -101,20 +99,12 @@ export default function ProductDetails() {
             }}
           >
             <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Typography variant="h4" gutterBottom>
-                {product.name}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                Modèle : EcoBubble 2023
-              </Typography>
+              <Typography variant="h5">{product.name}</Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
-                Statut : {product.status}
+                {product.status}
               </Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
                 Date d’acquisition : {formatDate(product.acquisitionDate)}
-              </Typography>
-              <Typography variant="h5" gutterBottom>
-                <BenefitsIcon /> Bénéfices Associés :
               </Typography>
               <Box
                 sx={{
@@ -134,9 +124,6 @@ export default function ProductDetails() {
                   />
                 ))}
               </Box>
-              <Typography variant="h5" gutterBottom sx={{ mt: 3 }}>
-                <EventIcon /> Événements Récents :
-              </Typography>
               <Timeline>
                 {sortedEvents.map((event, index) => (
                   <TimelineItem key={index}>
