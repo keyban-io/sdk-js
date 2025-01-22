@@ -14,7 +14,7 @@ const AppWithNav: React.FC = () => {
   const location = useLocation();
 
   return (
-    <Box sx={{ position: "relative", maxWidth: "sm", mx: "auto" }}>
+    <Box sx={{ position: "relative", mx: "auto" }}>
       {isAuthenticated && location.pathname !== "/login" && <BackButton />}
       <Routes>
         <Route path="/login" element={<Login />} />
