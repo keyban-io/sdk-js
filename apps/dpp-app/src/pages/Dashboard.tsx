@@ -1,4 +1,4 @@
-import { Typography, Container, Box } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import Grid2 from "@mui/material/Grid2";
 
