@@ -70,12 +70,6 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Connexion
         </Typography>
-        <Box
-          component="img"
-          src="https://dummyimage.com/150x150/000/fff&text=Logo"
-          alt="Application Logo"
-          sx={{ width: 150, height: 150, mt: 2 }}
-        />
         <Box sx={{ mt: 3, width: "100%" }}>
           <Button
             fullWidth

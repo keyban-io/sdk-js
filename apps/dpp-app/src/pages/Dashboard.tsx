@@ -5,12 +5,6 @@ import Grid2 from "@mui/material/Grid2";
 export default function Dashboard() {
   return (
     <Container maxWidth="sm" sx={{ py: 2, pb: 8, position: "relative" }}>
-      <Box sx={{ mb: 4, textAlign: "center" }}>
-        <Typography variant="h4" gutterBottom>
-          Application Logo
-        </Typography>
-      </Box>
-
       <Card
         sx={{
           position: "absolute",

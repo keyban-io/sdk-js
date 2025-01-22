@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { KeybanProvider } from "@keyban/sdk-react";
 import keybanConfig from "./config";
 import AppWithNav from "./components/AppWithNav";
+import Header from "./components/Header";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         clientShareProvider={keybanConfig.clientShareProvider}
       >
         <BrowserRouter>
+          <Header />
           <AppWithNav />
         </BrowserRouter>
       </KeybanProvider>
