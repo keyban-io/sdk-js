@@ -84,6 +84,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
         mb: 4,
         display: "flex",
         flexDirection: "column",
+        justifyContent: "space-between", // Add this line
         ...sx,
       }}
     >
@@ -93,14 +94,16 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
           borderRadius: "16px 16px 0 0", // Rounded top corners
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
           zIndex: 1,
-          display: "flex", // Add this line
-          justifyContent: "center", // Add this line
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center", // Add this line
+          flex: 1, // Add this line to make the image container grow
         }}
       >
         <img
           src={imageMap[product.imageKey]}
           alt={product.alt}
-          style={{ maxWidth: "100%" }}
+          style={{ maxWidth: "100%", maxHeight: "100%" }} // Add maxHeight to ensure the image fits within the container
         />
         <Box
           sx={{
@@ -136,11 +139,11 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
             flex: 1, // Make the card grow to fill the container
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
+            justifyContent: "flex-end", // Add this line to position the content at the bottom
           }}
         >
           <CardContent>
-            <Box sx={{ textAlign: "center", mt: 2 }}>
+            <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
               {product.status && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
@@ -150,7 +153,6 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
               <Timeline>
                 <TimelineItem>
                   <TimelineOppositeContent
-                    sx={{ py: "20px" }}
                     align="right"
                     variant="body2"
                     color="text.secondary"
