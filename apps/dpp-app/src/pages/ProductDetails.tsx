@@ -70,7 +70,7 @@ export default function ProductDetails() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 2, pb: 8 }}>
+    <Container sx={{ py: 2, pb: 8 }}>
       <Card
         sx={{
           height: "100%",

@@ -45,7 +45,7 @@ export default function Login() {
 
   if (isLoading) {
     return (
-      <Container maxWidth="sm" sx={{ py: 2, textAlign: "center" }}>
+      <Container sx={{ py: 2, textAlign: "center" }}>
         <CircularProgress />
         <Typography variant="h6">Chargement...</Typography>
       </Container>
@@ -53,7 +53,7 @@ export default function Login() {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main">
       <Paper
         elevation={6}
         sx={{

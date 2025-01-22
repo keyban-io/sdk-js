@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Container } from "@mui/material";
 import theme from "./theme";
 import { BrowserRouter } from "react-router-dom";
 import { KeybanProvider } from "@keyban/sdk-react";
@@ -21,7 +21,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       >
         <BrowserRouter>
           <Header />
-          <AppWithNav />
+          <Container maxWidth="sm">
+            <AppWithNav />
+          </Container>
         </BrowserRouter>
       </KeybanProvider>
     </ThemeProvider>
