@@ -19,6 +19,7 @@ const AppWithNav: React.FC = () => {
         position: "relative",
         maxWidth: "sm",
         margin: "auto",
+        pb: 6, // Add padding to the bottom
       }}
     >
       {isAuthenticated && location.pathname !== "/login" && <BackButton />}
