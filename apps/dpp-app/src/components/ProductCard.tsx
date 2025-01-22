@@ -142,7 +142,11 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
             justifyContent: "flex-end", // Add this line to position the content at the bottom
           }}
         >
-          <CardContent>
+          <CardContent
+            sx={{
+              background: "linear-gradient(to right, #f0f0f0, #ffffff)", // Adjust gradient background to start with a lighter gray
+            }}
+          >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
               {product.status && (

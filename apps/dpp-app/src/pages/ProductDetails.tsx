@@ -86,7 +86,11 @@ export default function ProductDetails() {
           mt: -4, // Adjust margin top to position above the first card
         }}
       >
-        <CardContent>
+        <CardContent
+          sx={{
+            background: "linear-gradient(to right, #f0f0f0, #ffffff)", // Adjust gradient background to start with a lighter gray
+          }}
+        >
           <Box
             sx={{
               width: "100%",
