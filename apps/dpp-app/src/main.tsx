@@ -21,9 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       >
         <BrowserRouter>
           <Header />
-          <Container maxWidth="sm">
-            <AppWithNav />
-          </Container>
+          <AppWithNav />
         </BrowserRouter>
       </KeybanProvider>
     </ThemeProvider>

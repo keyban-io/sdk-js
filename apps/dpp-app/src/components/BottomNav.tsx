@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import InventoryIcon from "@mui/icons-material/Inventory2";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+// import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,7 @@ export default function BottomNav() {
           setValue(newValue);
           if (newValue === 0) navigate("/dashboard");
           if (newValue === 1) navigate("/products");
-          if (newValue === 2) navigate("/ai-agent");
+          // if (newValue === 2) navigate("/ai-agent");
           if (newValue === 3) navigate("/settings");
           if (newValue === 4) handleLogout();
         }}
@@ -53,11 +53,11 @@ export default function BottomNav() {
             icon={<InventoryIcon sx={{ color: "white" }} />}
           />
         </Tooltip>
-        <Tooltip title="AI Agent">
+        {/* <Tooltip title="AI Agent">
           <BottomNavigationAction
             icon={<AutoAwesomeIcon sx={{ color: "white" }} />}
           />
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip title="Paramètres">
           <BottomNavigationAction
             icon={<SettingsIcon sx={{ color: "white" }} />}

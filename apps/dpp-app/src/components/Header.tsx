@@ -6,10 +6,8 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
   padding: theme.spacing(2),
-  borderRadius: theme.shape.borderRadius,
   boxShadow: (theme.shadows as string[])[0] || "none",
   textAlign: "center",
-  // marginBottom: theme.spacing(4),
 }));
 
 const Logo = styled("img")({
