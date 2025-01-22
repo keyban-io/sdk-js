@@ -42,6 +42,7 @@ export default function BottomNav() {
           backgroundColor: "black",
           maxWidth: "sm",
           borderRadius: "32px", // Rounded top corners
+          zIndex: 1000, // Ensure the navigation bar is above all other elements
         }}
       >
         <Tooltip title="Dashboard">

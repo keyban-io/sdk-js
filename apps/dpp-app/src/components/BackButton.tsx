@@ -19,8 +19,8 @@ const BackButton: React.FC = () => {
           onClick={() => navigate(-1)}
           sx={{
             position: "absolute",
-            top: 16,
-            left: 16,
+            top: 24,
+            left: 32,
             backgroundColor: "rgba(255, 255, 255, 0.9)",
             border: "1px solid rgba(0, 0, 0, 0.1)",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",

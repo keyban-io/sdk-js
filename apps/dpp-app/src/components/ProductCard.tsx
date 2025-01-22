@@ -80,69 +80,55 @@ export default function ProductCard({
   };
 
   return (
-    <Card
-      sx={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        pb: 2,
-      }}
-    >
-      <CardContent>
+    <Box sx={{ position: "relative", mb: 4 }}>
+      <Box
+        sx={{
+          width: "100%",
+          height: fullSizeImage ? "200px" : "200px", // Adjust height based on fullSizeImage prop
+          backgroundImage: `url(${imageMap[product.imageKey]})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderRadius: "16px 16px 0 0", // Rounded top corners
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          zIndex: 1,
+        }}
+      >
         <Box
           sx={{
-            width: "100%",
-            maxWidth: fullSizeImage ? "100%" : "200px",
-            margin: "0 auto",
+            position: "absolute",
+            top: 8,
+            right: 8,
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            position: "relative",
+            gap: 1,
           }}
         >
-          <Box
-            sx={{
-              flex: "1 0 auto",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: fullSizeImage ? "auto" : "150px",
-              position: "relative",
-            }}
-          >
-            <img
-              src={imageMap[product.imageKey]}
-              alt={product.alt}
-              style={{
-                maxWidth: fullSizeImage ? "100%" : "100%",
-                maxHeight: fullSizeImage ? "auto" : "100%",
-              }}
-            />
-            <Box
+          <Tooltip title="Voir les détails">
+            <IconButton
+              color="primary"
+              onClick={handleDetailsClick}
               sx={{
-                position: "absolute",
-                bottom: fullSizeImage ? 16 : 8,
-                right: fullSizeImage ? 16 : 8,
-                display: "flex",
-                gap: 1,
+                zIndex: 1000,
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                border: "1px solid rgba(0, 0, 0, 0.1)",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
               }}
             >
-              <Tooltip title="Voir les détails">
-                <IconButton
-                  color="primary"
-                  onClick={handleDetailsClick}
-                  sx={{
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                    border: "1px solid rgba(0, 0, 0, 0.1)",
-                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                  }}
-                >
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
+              <InfoIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
+
+      <Card
+        sx={{
+          mt: "-50px",
+          zIndex: 2,
+          position: "relative",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          borderRadius: "16px", // Rounded corners,
+        }}
+      >
+        <CardContent>
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Typography>{product.name}</Typography>
             {product.status && (
@@ -190,8 +176,8 @@ export default function ProductCard({
               ))}
             </Box>
           </Box>
-        </Box>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
