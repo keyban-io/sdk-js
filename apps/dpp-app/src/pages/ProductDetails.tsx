@@ -102,7 +102,7 @@ export default function ProductDetails() {
               position: "relative",
             }}
           >
-            <Box sx={{ textAlign: "center", mt: 2 }}>
+            <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
                 {product.status}
