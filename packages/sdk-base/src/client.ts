@@ -24,29 +24,52 @@ import { RpcClient } from "~/rpc";
  *
  * ### Example Implementation
  *
- * Below is a basic implementation of the `ClientShareProvider` using a custom fetch-based provider:
+ * Below is a basic implementation of a `CustomClientShareProvider` using a fetch-based provider:
  *
  * ```typescript
- * class ClientShareProvider extends FetchBaseProvider{
- *
- *   // Retrieving data (GET)
+ * class CustomClientShareProvider implements ClientShareProvider {
+ *    // Retrieves the client share data.
+ *    // @returns A promise resolving to the client share string or `null` if unavailable.
  *   async get(): Promise<string | null> {
- *     return this.fetch("/api/clientShare", {
- *       method: "GET",
- *     });
+ *     try {
+ *       const response = await fetch("/api/clientShare", {
+ *         method: "GET",
+ *         headers: { "Content-Type": "application/json" },
+ *       });
+ *
+ *       if (!response.ok) {
+ *         console.error("Failed to fetch client share:", response.statusText);
+ *         return null;
+ *       }
+ *
+ *       return response.text();
+ *     } catch (error) {
+ *       console.error("Error retrieving client share:", error);
+ *       return null;
+ *     }
  *   }
  *
- *   // Sending/Saving data (POST or PUT)
+ *
+ *   // Saves the client share data.
+ *   // @param clientShare - The client share string to store.
+ *   // @returns A promise that resolves when the operation is complete.
  *   async set(clientShare: string): Promise<void> {
- *     await this.fetch("/api/clientShare", {
- *       method: "POST",
- *       headers: { "Content-Type": "application/json" },
- *       body: clientShare,
- *     });
+ *     try {
+ *       const response = await fetch("/api/clientShare", {
+ *         method: "POST",
+ *         headers: { "Content-Type": "application/json" },
+ *         body: JSON.stringify({ clientShare }),
+ *       });
+ *
+ *       if (!response.ok) {
+ *         throw new Error(`Failed to save client share: ${response.statusText}`);
+ *       }
+ *     } catch (error) {
+ *       console.error("Error saving client share:", error);
+ *       throw error;
+ *     }
  *   }
  * }
- *
- * export default ClientShareProvider;
  * ```
  *
  * This implementation assumes the existence of an API endpoint `/api/clientShare`

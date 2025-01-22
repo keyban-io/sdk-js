@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline, Container } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import theme from "./theme";
 import { BrowserRouter } from "react-router-dom";
 import { KeybanProvider } from "@keyban/sdk-react";
