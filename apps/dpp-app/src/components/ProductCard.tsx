@@ -173,7 +173,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                     {formatDate(mostRecentEvent.date)}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
-                    <TimelineDot color="primary">
+                    <TimelineDot color="secondary">
                       {iconMap[mostRecentEvent.icon]}
                     </TimelineDot>
                     <TimelineConnector />

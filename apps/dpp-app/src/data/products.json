@@ -6,33 +6,49 @@
     "name": "Lave-linge Samsung EcoBubble",
     "events": [
       {
-        "date": "2023-02-01T00:00:00Z",
-        "description": "Date d’acquisition",
+        "date": "2021-01-10T00:00:00Z",
+        "description": "Date d’acquisition (neuf)",
         "icon": "EventIcon"
       },
-
       {
-        "date": "2023-01-21T00:00:00Z",
-        "description": "Certificat de garantie mis à jour",
-        "icon": "UpdateIcon"
+        "date": "2022-12-15T00:00:00Z",
+        "description": "Inspection de sécurité",
+        "icon": "CheckCircleIcon"
       },
+      {
+        "date": "2022-12-20T00:00:00Z",
+        "description": "Produit repris",
+        "icon": "BuildIcon"
+      },
+      {
+        "date": "2023-01-05T00:00:00Z",
+        "description": "Produit reconditionné",
+        "icon": "BuildIcon"
+      },
+
       {
         "date": "2023-01-20T00:00:00Z",
         "description": "Réparation effectuée",
         "icon": "BuildIcon"
       },
       {
-        "date": "2023-01-20T00:00:00Z",
-        "description": "Inspection qualité réalisée",
-        "icon": "CheckCircleIcon"
+        "date": "2023-01-21T00:00:00Z",
+        "description": "Certificat de garantie mis à jour",
+        "icon": "UpdateIcon"
+      },
+      {
+        "date": "2023-02-10T00:00:00Z",
+        "description": "Acquisition en seconde vie",
+        "icon": "EventIcon"
       }
     ],
     "benefits": [
       { "label": "Traçabilité", "icon": "VerifiedIcon" },
       { "label": "Réparabilité", "icon": "BuildIcon" }
     ],
-    "status": "En service",
-    "acquisitionDate": "2023-01-10T00:00:00Z"
+    "status": "En seconde vie",
+    "acquisitionDate": "2023-02-10T00:00:00Z",
+    "ownershipStatus": "Propriétaire"
   },
   {
     "id": "2",
@@ -63,7 +79,8 @@
     ],
     "benefits": [{ "label": "Traçabilité", "icon": "VerifiedIcon" }],
     "status": "En service",
-    "acquisitionDate": "2022-02-15T00:00:00Z"
+    "acquisitionDate": "2022-02-15T00:00:00Z",
+    "ownershipStatus": "Propriétaire"
   },
   {
     "id": "3",
@@ -119,9 +136,14 @@
         "icon": "EventIcon"
       },
       {
-        "date": "2023-02-01T00:00:00Z",
-        "description": "Inspection de sécurité",
+        "date": "2022-12-20",
+        "description": "Inspection annuelle",
         "icon": "CheckCircleIcon"
+      },
+      {
+        "date": "2023-05-10",
+        "description": "Nettoyage complet",
+        "icon": "UpdateIcon"
       }
     ],
     "benefits": [
@@ -129,7 +151,8 @@
       { "label": "Réparabilité", "icon": "BuildIcon" }
     ],
     "status": "En service",
-    "acquisitionDate": "2022-05-10T00:00:00Z"
+    "acquisitionDate": "2022-05-10T00:00:00Z",
+    "ownershipStatus": "Propriétaire"
   },
   {
     "id": "5",
@@ -138,19 +161,9 @@
     "name": "Écran de télévision OLED LG OLED55C4 2024",
     "events": [
       {
-        "date": "2022-08-15T00:00:00Z",
+        "date": "2024-08-15T00:00:00Z",
         "description": "Date d’acquisition",
         "icon": "EventIcon"
-      },
-      {
-        "date": "2023-01-10T00:00:00Z",
-        "description": "Mise à jour du logiciel",
-        "icon": "UpdateIcon"
-      },
-      {
-        "date": "2023-02-20T00:00:00Z",
-        "description": "Inspection de sécurité",
-        "icon": "CheckCircleIcon"
       }
     ],
     "benefits": [
@@ -158,6 +171,7 @@
       { "label": "Réparabilité", "icon": "BuildIcon" }
     ],
     "status": "En service",
-    "acquisitionDate": "2022-08-15T00:00:00Z"
+    "acquisitionDate": "2022-08-15T00:00:00Z",
+    "ownershipStatus": "Propriétaire"
   }
 ]

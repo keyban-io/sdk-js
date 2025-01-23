@@ -31,6 +31,10 @@ import RepairIcon from "@mui/icons-material/Build";
 import SellIcon from "@mui/icons-material/AttachMoney";
 import RecycleIcon from "@mui/icons-material/Autorenew";
 import TransferIcon from "@mui/icons-material/TransferWithinAStation";
+import Fab from "@mui/material/Fab";
+import Tooltip from "@mui/material/Tooltip";
+import EuroIcon from "@mui/icons-material/Euro";
+import IconButton from "@mui/material/IconButton";
 
 const iconMap: { [key: string]: React.ReactElement } = {
   VerifiedIcon: <VerifiedIcon />,
@@ -87,36 +91,68 @@ export default function ProductDetails() {
         <Box
           sx={{
             position: "absolute",
-            bottom: 16,
+            bottom: 32, // Adjusted to move the buttons slightly above the bottom
             right: 16,
             display: "flex",
             gap: 1,
           }}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<RepairIcon />}
-          >
-            Réparer
-          </Button>
-          <Button variant="contained" color="primary" startIcon={<SellIcon />}>
-            Revendre
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<RecycleIcon />}
-          >
-            Recycler
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<TransferIcon />}
-          >
-            Transferer
-          </Button>
+          <Tooltip title="Réparer">
+            <IconButton
+              color="primary"
+              aria-label="repair"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 1)",
+                },
+              }}
+            >
+              <RepairIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Revendre">
+            <IconButton
+              color="primary"
+              aria-label="sell"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 1)",
+                },
+              }}
+            >
+              <EuroIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Recycler">
+            <IconButton
+              color="primary"
+              aria-label="recycle"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 1)",
+                },
+              }}
+            >
+              <RecycleIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Transferer">
+            <IconButton
+              color="primary"
+              aria-label="transfer"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 1)",
+                },
+              }}
+            >
+              <TransferIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Card>
       <Card
@@ -198,7 +234,6 @@ export default function ProductDetails() {
                   </TimelineItem>
                 ))}
               </Timeline>
-              <Button variant="text">[ Voir l’historique complet ]</Button>
             </Box>
           </Box>
         </CardContent>
