@@ -110,3 +110,7 @@ export type PaginationArgs = {
   /** A cursor representing the starting point for the next page */
   after?: string;
 };
+
+export type KeybanUser = {
+  sub: string;
+};

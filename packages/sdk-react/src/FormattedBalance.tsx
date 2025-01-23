@@ -40,7 +40,7 @@ export type FormatedBalanceProps = {
 /**
  * A React component that formats and displays a balance.
  * @param props - The properties for the FormattedBalance component.
- * @returns The formatted balance.
+ * @returns - The formatted balance.
  * @example
  * ```tsx
  * import { FormattedBalance } from "@keyban/sdk-react";

@@ -5,17 +5,11 @@
 import { KeybanClient, type KeybanClientConfig } from "@keyban/sdk-base";
 import React from "react";
 
+import { KeybanAuthProvider } from "~/auth";
+
 import { PromiseCacheProvider } from "./promise";
 
-const KeybanContext = React.createContext<{
-  client: KeybanClient;
-  auth: {
-    login: () => Promise<void>;
-    logout: () => Promise<void>;
-    isAuthenticated?: boolean;
-    isLoading: boolean;
-  };
-} | null>(null);
+const KeybanContext = React.createContext<KeybanClient | null>(null);
 
 /**
  * Defines the properties for the KeybanProvider component.
@@ -48,7 +42,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * You can use a custom implementation of a `ClientShareProvider` or the provided `KeybanClientShareProvider`.
  * @param props - The Keyban provider configuration options.
  * @throws {Error} If the configuration is invalid.
- * @returns The provider component wrapping the children components.
+ * @returns - The provider component wrapping the children components.
  * @see {@link KeybanClientConfig} for the available configuration options.
  * @see {@link ClientShareProvider} for managing shared keys in client-side operations.
  * @example
@@ -107,40 +101,11 @@ export function KeybanProvider(props: KeybanProviderProps) {
     Object.values(config),
   );
 
-  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>();
-  const updateIsAuthenticated = React.useCallback(
-    () => client.isAuthenticated().then(setIsAuthenticated),
-    [client],
-  );
-
-  React.useEffect(() => {
-    updateIsAuthenticated();
-  }, [updateIsAuthenticated]);
-
-  const login = React.useCallback(
-    () => client.login().then(updateIsAuthenticated),
-    [client, updateIsAuthenticated],
-  );
-  const logout = React.useCallback(
-    () => client.logout().then(updateIsAuthenticated),
-    [client, updateIsAuthenticated],
-  );
-
-  const auth = React.useMemo(
-    () => ({
-      login,
-      logout,
-      isAuthenticated,
-      isLoading: isAuthenticated == null,
-    }),
-    [login, logout, isAuthenticated],
-  );
-
   return (
-    <KeybanContext.Provider
-      value={React.useMemo(() => ({ client, auth }), [client, auth])}
-    >
-      <PromiseCacheProvider>{children}</PromiseCacheProvider>
+    <KeybanContext.Provider value={client}>
+      <KeybanAuthProvider>
+        <PromiseCacheProvider>{children}</PromiseCacheProvider>
+      </KeybanAuthProvider>
     </KeybanContext.Provider>
   );
 }
@@ -152,7 +117,7 @@ export function KeybanProvider(props: KeybanProviderProps) {
  * enabling direct interaction with the SDK from functional React components. This hook
  * ensures that the Keyban client is available within the application's context and allows
  * you to utilize features such as account management, transactions, and blockchain queries.
- * @returns The initialized Keyban client.
+ * @returns - The initialized Keyban client.
  * @throws {Error} If the hook is used outside of a {@link KeybanProvider}, indicating that
  * the context is not properly configured to provide the Keyban client.
  * @example
@@ -190,25 +155,5 @@ export const useKeybanClient = () => {
     throw new Error(
       "useKeybanClient hook must be used within a KeybanProvider",
     );
-  return ctx.client;
+  return ctx;
 };
-
-/**
- * Hook that provides authentication functionality using the Keyban client.
- *
- * To access the Keyban service, the user must authenticate with the Keyban services.
- * The goal is to ensure that only the user has access to their wallet. The application
- * itself does not have direct access to the wallet unless the user authenticates.
- * This approach enhances security by preventing unauthorized access.
- * @returns An object containing:
- * - `login`: A function to log in the user.
- * - `logout`: A function to log out the user.
- * - `isAuthenticated`: A boolean indicating whether the user is authenticated.
- * - `isLoading`: A boolean indicating whether the authentication status is still being determined.
- */
-export function useKeybanAuth() {
-  const ctx = React.useContext(KeybanContext);
-  if (!ctx)
-    throw new Error("useKeybanAuth hook must be used within a KeybanProvider");
-  return ctx.auth;
-}

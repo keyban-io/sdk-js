@@ -4,7 +4,7 @@ import Row from "~/components/atoms/Row";
 import SerializedValue from "~/components/atoms/SerializedValue";
 
 export default function Auth() {
-  const { login, logout, isAuthenticated, isLoading } = useKeybanAuth();
+  const { login, logout, user, isAuthenticated, isLoading } = useKeybanAuth();
 
   return (
     <fieldset>
@@ -21,14 +21,22 @@ export default function Auth() {
       </Row>
 
       {!isLoading && (
-        <Row>
-          <span>Authenticated:</span>
+        <>
+          <Row>
+            <span>Authenticated:</span>
+            <SerializedValue
+              value={isAuthenticated}
+              style={{ flexGrow: 1 }}
+              data-test-id="Auth:isAuthenticated"
+            />
+          </Row>
+
           <SerializedValue
-            value={isAuthenticated}
+            value={user}
             style={{ flexGrow: 1 }}
-            data-test-id="Auth:isAuthenticated"
+            data-test-id="Auth:user"
           />
-        </Row>
+        </>
       )}
     </fieldset>
   );

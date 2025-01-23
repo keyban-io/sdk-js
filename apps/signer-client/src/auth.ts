@@ -1,5 +1,5 @@
 import { Auth0Client } from "@auth0/auth0-spa-js";
-import { KeybanBaseError } from "@keyban/sdk-base";
+import { KeybanBaseError, KeybanUser } from "@keyban/sdk-base";
 import { IKeybanAuth } from "@keyban/sdk-base/rpc";
 
 import { apiUrl } from "~/utils/api";
@@ -44,6 +44,12 @@ export class KeybanAuth implements IKeybanAuth {
   async isAuthenticated() {
     const auth0 = await this.#auth0;
     return auth0.isAuthenticated();
+  }
+
+  async getUser() {
+    const auth0 = await this.#auth0;
+    const user = await auth0.getUser<KeybanUser>();
+    return user ?? null;
   }
 
   async getLoginUrl() {

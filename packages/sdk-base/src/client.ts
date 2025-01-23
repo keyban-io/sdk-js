@@ -29,7 +29,7 @@ import { RpcClient } from "~/rpc";
  * ```typescript
  * class CustomClientShareProvider implements ClientShareProvider {
  *    // Retrieves the client share data.
- *    // @returns A promise resolving to the client share string or `null` if unavailable.
+ *    // @returns - A promise resolving to the client share string or `null` if unavailable.
  *   async get(): Promise<string | null> {
  *     try {
  *       const response = await fetch("/api/clientShare", {
@@ -52,7 +52,7 @@ import { RpcClient } from "~/rpc";
  *
  *   // Saves the client share data.
  *   // @param clientShare - The client share string to store.
- *   // @returns A promise that resolves when the operation is complete.
+ *   // @returns - A promise that resolves when the operation is complete.
  *   async set(clientShare: string): Promise<void> {
  *     try {
  *       const response = await fetch("/api/clientShare", {
@@ -79,13 +79,13 @@ import { RpcClient } from "~/rpc";
 export interface ClientShareProvider {
   /**
    * Retrieves the client share information.
-   * @returns A promise that resolves to a string containing the client share, or null if not available.
+   * @returns - A promise that resolves to a string containing the client share, or null if not available.
    */
   get(): Promise<string | null>;
   /**
    * Sets the client share information.
    * @param clientShare - The client share string to set.
-   * @returns A promise that resolves when the client share has been set.
+   * @returns - A promise that resolves when the client share has been set.
    */
   set(clientShare: string): Promise<unknown>;
 }
@@ -212,7 +212,7 @@ export abstract class KeybanClientBase {
 
   /**
    * Performs a health check on the Keyban API to determine its operational status.
-   * @returns A promise resolving to the API status, either `"operational"` or `"down"`.
+   * @returns - A promise resolving to the API status, either `"operational"` or `"down"`.
    * @example
    * ```typescript
    * const status = await client.apiStatus();
@@ -287,11 +287,15 @@ export abstract class KeybanClientBase {
     return this.rpcClient.call("auth", "isAuthenticated");
   }
 
+  async getUser() {
+    return this.rpcClient.call("auth", "getUser");
+  }
+
   /**
    * Initializes a `KeybanAccount` associated with the current client.
    * This method sets up the account by retrieving or generating the client share,
    * and prepares the account for transactions and other operations.
-   * @returns A promise that resolves to an instance of `KeybanAccount`.
+   * @returns - A promise that resolves to an instance of `KeybanAccount`.
    * @throws {SdkError} If initialization fails due to signing errors.
    * @example
    * ```typescript

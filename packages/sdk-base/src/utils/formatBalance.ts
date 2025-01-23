@@ -42,7 +42,7 @@ export type Balance = {
  * @param client - The KeybanClient instance which provides information about fees and native currency.
  * @param balance - The balance object containing raw balance, decimals, symbol, and flags indicating if it's fees or native currency.
  * @param [token] - (Optional) The KeybanToken object which provides token-specific decimals and symbol.
- * @returns A formatted string representing the balance with the appropriate decimals and symbol.
+ * @returns - A formatted string representing the balance with the appropriate decimals and symbol.
  *
  * test
  * @example

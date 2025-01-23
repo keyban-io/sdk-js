@@ -110,7 +110,7 @@ export type PaginationExtra = {
  * @param data.pageInfo - Information about the pagination state.
  * @param data.totalCount - The total number of results.
  * @param data.edges - The edges containing the nodes.
- * @returns The paginated data.
+ * @returns - The paginated data.
  * @template T - The type of the data being paginated.
  */
 function getPaginatedResults<T>(data: {
@@ -133,7 +133,7 @@ function getPaginatedResults<T>(data: {
  * @param data - The data containing pagination information.
  * @param data.res - The response object containing pagination information.
  * @param fetchMore - A function to fetch more data.
- * @returns An object containing loading state and fetchMore function.
+ * @returns - An object containing loading state and fetchMore function.
  */
 function usePaginationExtra(
   data: {
@@ -158,7 +158,7 @@ function usePaginationExtra(
  *
  * This React hook allows you to access the user's Keyban account within a functional component.
  * It returns an `ApiResult` tuple containing the account data or an error if one occurred during retrieval.
- * @returns An array containing the account data, error, and an undefined value.
+ * @returns - An array containing the account data, error, and an undefined value.
  * @example
  * ```tsx
  * import { useKeybanAccount } from "@keyban/sdk-react";
@@ -194,7 +194,7 @@ export function useKeybanAccount(): ApiResult<KeybanAccount> {
  * This React hook allows you to fetch the native balance of a Keyban account and automatically updates when the balance changes.
  * It returns an `ApiResult` tuple containing the balance or an error if one occurred during retrieval.
  * @param account  - The `KeybanAccount` object representing the user account.
- * @returns An `ApiResult<string>` tuple containing:
+ * @returns - An `ApiResult<string>` tuple containing:
  * - **First element (`balance`)**: A `string` representing the account's native token balance in the smallest unit (e.g., wei for Ethereum). This value automatically updates when the balance changes.
  * - **Second element (`error`)**: An `Error` object if an error occurred during retrieval, or `null` if the balance was fetched successfully.
  *

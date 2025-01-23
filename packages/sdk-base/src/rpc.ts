@@ -3,11 +3,13 @@
  */
 
 import { IFrameRpcError, KeybanBaseError, SdkError } from "~/errors";
+import type { KeybanUser } from "~/index";
 
 type Hex = `0x${string}`;
 
 export interface IKeybanAuth {
   isAuthenticated(): Promise<boolean>;
+  getUser(): Promise<KeybanUser | null>;
   getLoginUrl(): Promise<string>;
   getLogoutUrl(redirect?: string): Promise<string>;
 }
@@ -89,6 +91,7 @@ export class RpcServer implements IRpc {
   } = {
     auth: {
       isAuthenticated: true,
+      getUser: true,
       getLoginUrl: true,
       getLogoutUrl: true,
     },

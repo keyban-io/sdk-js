@@ -18,7 +18,7 @@ const CacheContext = React.createContext<Cache>(new Map());
  * Provides a cache context for promises.
  * @param root0 - The props object.
  * @param root0.children - The child components.
- * @returns The provider component.
+ * @returns - The provider component.
  */
 export function PromiseCacheProvider({ children }: React.PropsWithChildren) {
   const client = useKeybanClient();
@@ -89,7 +89,7 @@ const updateWrappedPromise = <T>(wrapped: WrappedPromise<T>) => {
  * @template B
  * @param promise - The function that returns the promise.
  * @param [options] - Options to configure the hook behavior.
- * @returns The result of the promise with additional controls.
+ * @returns - The result of the promise with additional controls.
  */
 export function usePromise<T, B extends boolean>(
   key: string,

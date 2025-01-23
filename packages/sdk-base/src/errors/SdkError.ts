@@ -128,7 +128,7 @@ export class SdkError extends KeybanBaseError<SdkErrorTypes> {
    * Retrieves a human-readable title based on the error type.
    * @private
    * @param errorType - The type of SDK error.
-   * @returns A descriptive title for the error.
+   * @returns - A descriptive title for the error.
    */
   static #getTitle(errorType: SdkErrorTypes): string {
     switch (errorType) {

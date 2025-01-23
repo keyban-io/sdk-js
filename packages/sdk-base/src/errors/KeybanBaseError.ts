@@ -106,7 +106,7 @@ export class KeybanBaseError<T extends string> extends Error {
   /**
    * Serializes the error instance into a JSON object, including all relevant properties.
    * This is useful for logging, debugging, or transmitting error information.
-   * @returns A JSON representation of the error.
+   * @returns - A JSON representation of the error.
    * @example
    * ```typescript
    * const errorJson = error.toJSON();

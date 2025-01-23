@@ -172,7 +172,7 @@ export class StarknetSigner implements SignerInterface {
 /**
  * Formats the ECDSA signature to the StarkNet format based on the OZ EthAccount.
  * @param ethSignature - The ECDSA signature.
- * @returns The StarkNet formatted signature.
+ * @returns - The StarkNet formatted signature.
  */
 function formatSignature(ethSignature: ECDSASignature) {
   const r: Uint256 = uint256.bnToUint256(ethSignature.r);

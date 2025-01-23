@@ -26,7 +26,7 @@ export class KeybanClientShareProvider implements ClientShareProvider {
 
   /**
    * Retrieves the client share information.
-   * @returns A promise that resolves to a string containing the client share, or null if not available.
+   * @returns - A promise that resolves to a string containing the client share, or null if not available.
    */
   async get(): Promise<string | null> {
     return this.#rpcClient.call("clientShareStorage", "get");
@@ -35,7 +35,7 @@ export class KeybanClientShareProvider implements ClientShareProvider {
   /**
    * Sets the client share information.
    * @param clientShare - The client share string to set.
-   * @returns A promise that resolves when the client share has been set.
+   * @returns - A promise that resolves when the client share has been set.
    */
   async set(clientShare: string): Promise<unknown> {
     return this.#rpcClient.call("clientShareStorage", "set", clientShare);
