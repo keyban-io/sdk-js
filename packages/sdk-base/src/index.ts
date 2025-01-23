@@ -111,6 +111,12 @@ export type PaginationArgs = {
   after?: string;
 };
 
+/**
+ * Represents the types of authentication connections available.
+ * @type {("Username-Password-Authentication" | "google-oauth2")}
+ * @property {"Username-Password-Authentication"} Username-Password-Authentication - Standard username and password authentication.
+ * @property {"google-oauth2"} google-oauth2 - Google OAuth 2.0 authentication.
+ */
 export type AuthConnection =
   | "Username-Password-Authentication"
   | "google-oauth2";

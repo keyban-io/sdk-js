@@ -3,17 +3,51 @@ import React from "react";
 
 import { useKeybanClient } from "~/provider";
 
-type BaseAuth =
+/**
+ * Represents the authentication state of the user.
+ *
+ * This type can be one of the following states:
+ *
+ * - **Loading**:
+ *   - `user`: `undefined`
+ *   - `isAuthenticated`: `undefined`
+ *   - `isLoading`: `true`
+ *
+ * - **Unauthenticated**:
+ *   - `user`: `null`
+ *   - `isAuthenticated`: `false`
+ *   - `isLoading`: `false`
+ *
+ * - **Authenticated**:
+ *   - `user`: `KeybanUser`
+ *   - `isAuthenticated`: `true`
+ *   - `isLoading`: `false`
+ */
+export type BaseAuth =
   | { user: undefined; isAuthenticated: undefined; isLoading: true }
   | { user: null; isAuthenticated: false; isLoading: false }
   | { user: KeybanUser; isAuthenticated: true; isLoading: false };
 
-type AuthContext = BaseAuth & {
+/**
+ * Represents the authentication context which extends the base authentication.
+ * Provides methods for logging in and logging out.
+ * @property {function(AuthConnection): Promise<void>} login - Logs in using the provided connection.
+ * @property {function(): Promise<void>} logout - Logs out the current user.
+ */
+export type AuthContext = BaseAuth & {
   login: (connection?: AuthConnection) => Promise<void>;
   logout: () => Promise<void>;
 };
 
-const KeybanAuthContext = React.createContext<AuthContext | null>(null);
+/**
+ * Context for Keyban authentication.
+ *
+ * This context provides an `AuthContext` or `null` if not available.
+ * It is used to manage authentication state and provide authentication-related
+ * functionality throughout the application.
+ * @type {React.Context<AuthContext | null>}
+ */
+export const KeybanAuthContext = React.createContext<AuthContext | null>(null);
 
 /**
  * KeybanAuthProvider
@@ -69,12 +103,15 @@ export function KeybanAuthProvider({ children }: React.PropsWithChildren) {
  * The goal is to ensure that only the user has access to their wallet. The application
  * itself does not have direct access to the wallet unless the user authenticates.
  * This approach enhances security by preventing unauthorized access.
- * @returns - An object containing:
- * - `login`: A function to log in the user.
- * - `logout`: A function to log out the user.
- * - `isAuthenticated`: A boolean indicating whether the user is authenticated.
- * - `user`: An object representing the user.
- * - `isLoading`: A boolean indicating whether the authentication status is still being determined.
+ *
+ * This hook must be used within a `KeybanProvider` component.
+ * @throws {Error} If the hook is used outside of a `KeybanProvider`.
+ * @returns The Keyban authentication context.
+ *   - `login`: A function to log in the user, see {@link AuthContext}
+ *   - `logout`: A function to log out the user, see {@link AuthContext}
+ *   - `isAuthenticated`: A boolean indicating whether the user is authenticated, see {@link BaseAuth}
+ *   - `user`: An object representing the user, see {@link BaseAuth}
+ *   - `isLoading`: A boolean indicating whether the authentication status is still being determined, see {@link BaseAuth}
  */
 export function useKeybanAuth() {
   const ctx = React.useContext(KeybanAuthContext);

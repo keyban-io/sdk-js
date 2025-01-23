@@ -31,16 +31,11 @@ export default function Login() {
     // Implement different login methods here
     if (method === "google") {
       // Call the login function for Google
-      await loginWithGoogle();
+      await login();
     } else {
       // Call the default login function
       await login();
     }
-  };
-
-  const loginWithGoogle = async () => {
-    // Implement Google login logic here
-    await login();
   };
 
   if (isLoading) {

@@ -230,6 +230,11 @@ export abstract class KeybanClientBase {
       });
   }
 
+  /**
+   * Initiates the login process by opening a popup window for user authentication.
+   * @param [connection] - Optional authentication connection details.
+   * @returns - A promise that resolves when the user is authenticated or the popup is closed.
+   */
   async login(connection?: AuthConnection) {
     const loginUrl = await this.rpcClient.call(
       "auth",
