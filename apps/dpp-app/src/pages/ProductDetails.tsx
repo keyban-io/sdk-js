@@ -3,7 +3,6 @@ import {
   Container,
   Typography,
   Box,
-  Button,
   Chip,
   Card,
   CardContent,
@@ -28,10 +27,8 @@ import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import smegToasterBlue from "../assets/Smeg TSF01 Bleu.png";
 import lgOledTv from "../assets/TV OLED LG OLED55C4 2024.webp";
 import RepairIcon from "@mui/icons-material/Build";
-import SellIcon from "@mui/icons-material/AttachMoney";
 import RecycleIcon from "@mui/icons-material/Autorenew";
 import TransferIcon from "@mui/icons-material/TransferWithinAStation";
-import Fab from "@mui/material/Fab";
 import Tooltip from "@mui/material/Tooltip";
 import EuroIcon from "@mui/icons-material/Euro";
 import IconButton from "@mui/material/IconButton";
