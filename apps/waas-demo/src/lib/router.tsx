@@ -63,7 +63,7 @@ const ProtectedRoute = ({ element }: { element: React.ReactNode }) => {
       <Typography variant="h5">Access my wallet secured by Keyban</Typography>
       <Button
         variant="contained"
-        onClick={keybanLogin}
+        onClick={() => keybanLogin()}
         startIcon={
           <Icon>
             <img
