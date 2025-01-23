@@ -31,7 +31,7 @@
       { "label": "Traçabilité", "icon": "VerifiedIcon" },
       { "label": "Réparabilité", "icon": "BuildIcon" }
     ],
-    "status": "Reconditionné - Comme neuf",
+    "status": "En service",
     "acquisitionDate": "2023-01-10T00:00:00Z"
   },
   {
@@ -73,7 +73,7 @@
     "events": [
       {
         "date": "2021-03-20T00:00:00Z",
-        "description": "Date d’acquisition",
+        "description": "Date d’acquisition (neuf)",
         "icon": "EventIcon"
       },
       {
@@ -88,12 +88,46 @@
       },
       {
         "date": "2023-01-12T00:00:00Z",
-        "description": "Rappel émis",
+        "description": "Produit repris",
         "icon": "BuildIcon"
+      },
+      {
+        "date": "2023-02-01T00:00:00Z",
+        "description": "Produit reconditionné",
+        "icon": "BuildIcon"
+      },
+      {
+        "date": "2023-03-01T00:00:00Z",
+        "description": "Acquisition en seconde vie",
+        "icon": "EventIcon"
       }
     ],
     "benefits": [{ "label": "Recyclabilité", "icon": "BuildIcon" }],
-    "status": "En service",
+    "status": "En seconde vie",
     "acquisitionDate": "2021-03-20T00:00:00Z"
+  },
+  {
+    "id": "4",
+    "imageKey": "toaster",
+    "alt": "Grille-pain",
+    "name": "Grille-pain",
+    "events": [
+      {
+        "date": "2022-05-10T00:00:00Z",
+        "description": "Date d’acquisition",
+        "icon": "EventIcon"
+      },
+      {
+        "date": "2023-02-01T00:00:00Z",
+        "description": "Inspection de sécurité",
+        "icon": "CheckCircleIcon"
+      }
+    ],
+    "benefits": [
+      { "label": "Traçabilité", "icon": "VerifiedIcon" },
+      { "label": "Réparabilité", "icon": "BuildIcon" }
+    ],
+    "status": "En service",
+    "acquisitionDate": "2022-05-10T00:00:00Z"
   }
 ]

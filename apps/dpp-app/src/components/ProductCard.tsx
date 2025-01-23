@@ -170,6 +170,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                     <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent>
+                    {" "}
                     <Typography>{mostRecentEvent.description}</Typography>
                   </TimelineContent>
                 </TimelineItem>
