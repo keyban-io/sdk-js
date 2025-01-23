@@ -1,5 +1,5 @@
 import { Auth0Client } from "@auth0/auth0-spa-js";
-import { KeybanBaseError, KeybanUser } from "@keyban/sdk-base";
+import { AuthConnection, KeybanBaseError, KeybanUser } from "@keyban/sdk-base";
 import { IKeybanAuth } from "@keyban/sdk-base/rpc";
 
 import { apiUrl } from "~/utils/api";
@@ -52,12 +52,13 @@ export class KeybanAuth implements IKeybanAuth {
     return user ?? null;
   }
 
-  async getLoginUrl() {
+  async getLoginUrl(connection?: AuthConnection) {
     const auth0 = await this.#auth0;
 
     return new Promise<string>((resolve) => {
       auth0.loginWithRedirect({
         openUrl: resolve,
+        authorizationParams: { connection },
       });
     });
   }

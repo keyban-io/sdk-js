@@ -1,6 +1,3 @@
-window.onbeforeunload = () =>
-  window.opener.postMessage("keyban:auth:closed", "*");
-
 for (let i = 0; i < window.opener.frames.length; i++) {
   try {
     const frame = window.opener.frames[i];

@@ -3,14 +3,14 @@
  */
 
 import { IFrameRpcError, KeybanBaseError, SdkError } from "~/errors";
-import type { KeybanUser } from "~/index";
+import type { AuthConnection, KeybanUser } from "~/index";
 
 type Hex = `0x${string}`;
 
 export interface IKeybanAuth {
   isAuthenticated(): Promise<boolean>;
   getUser(): Promise<KeybanUser | null>;
-  getLoginUrl(): Promise<string>;
+  getLoginUrl(connection?: AuthConnection): Promise<string>;
   getLogoutUrl(redirect?: string): Promise<string>;
 }
 

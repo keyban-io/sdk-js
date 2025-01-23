@@ -1,4 +1,4 @@
-import { KeybanUser } from "@keyban/sdk-base";
+import { AuthConnection, KeybanUser } from "@keyban/sdk-base";
 import React from "react";
 
 import { useKeybanClient } from "~/provider";
@@ -9,7 +9,7 @@ type BaseAuth =
   | { user: KeybanUser; isAuthenticated: true; isLoading: false };
 
 type AuthContext = BaseAuth & {
-  login: () => Promise<void>;
+  login: (connection?: AuthConnection) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -36,7 +36,7 @@ export function KeybanAuthProvider({ children }: React.PropsWithChildren) {
   }, [updateUser]);
 
   const login = React.useCallback(
-    () => client.login().then(updateUser),
+    (connection?: AuthConnection) => client.login(connection).then(updateUser),
     [client, updateUser],
   );
   const logout = React.useCallback(

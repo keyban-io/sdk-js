@@ -111,6 +111,10 @@ export type PaginationArgs = {
   after?: string;
 };
 
+export type AuthConnection =
+  | "Username-Password-Authentication"
+  | "google-oauth2";
+
 export type KeybanUser = {
   sub: string;
 };

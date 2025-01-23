@@ -8,7 +8,7 @@ import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
 import { type FeesUnit, NativeCurrency } from "~/chains";
-import { KeybanChain } from "~/index";
+import { AuthConnection, KeybanChain } from "~/index";
 import { RpcClient } from "~/rpc";
 
 /**
@@ -230,24 +230,29 @@ export abstract class KeybanClientBase {
       });
   }
 
-  async login() {
-    const loginUrl = await this.rpcClient.call("auth", "getLoginUrl");
+  async login(connection?: AuthConnection) {
+    const loginUrl = await this.rpcClient.call(
+      "auth",
+      "getLoginUrl",
+      connection,
+    );
 
     const width = 500;
     const height = 685;
     const left = window.screenX + (window.innerWidth - width) / 2;
     const top = window.screenY + (window.innerHeight - height) / 2;
 
-    window.open(
+    const popup = window.open(
       loginUrl,
       `keyban:auth:${this.appId}`,
       `left=${left},top=${top},width=${width},height=${height},popup,resizable,scrollbars`,
     );
 
-    await new Promise<void>((resolve) => {
+    // Setup our handler for when user is fully authenticated
+    const authenticatedPromise = new Promise<void>((resolve) => {
       const handler = (event: MessageEvent) => {
         if (event.origin !== this.apiUrl.origin) return;
-        if (event.data !== "keyban:auth:closed") return;
+        if (event.data !== "keyban:auth:isAuthenticated") return;
 
         window.removeEventListener("message", handler);
 
@@ -257,20 +262,19 @@ export abstract class KeybanClientBase {
       window.addEventListener("message", handler);
     });
 
+    // Wait for popup to be closed
+    await new Promise<void>((resolve) => {
+      const interval = setInterval(() => {
+        if (!popup?.closed) return;
+
+        clearInterval(interval);
+        resolve();
+      }, 100);
+    });
+
+    // Wait for user to be authenticated or timeout
     await Promise.race([
-      new Promise<void>((resolve) => {
-        const handler = (event: MessageEvent) => {
-          if (event.origin !== this.apiUrl.origin) return;
-          if (event.data !== "keyban:auth:isAuthenticated") return;
-
-          window.removeEventListener("message", handler);
-
-          resolve();
-        };
-
-        window.addEventListener("message", handler);
-        setTimeout(() => window.removeEventListener("message", handler), 5000);
-      }),
+      authenticatedPromise,
       new Promise((resolve) => setTimeout(resolve, 5000)),
     ]);
   }

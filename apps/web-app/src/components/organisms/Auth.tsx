@@ -11,8 +11,22 @@ export default function Auth() {
       <legend>Auth</legend>
 
       <Row>
-        <button onClick={login} data-test-id="Auth:login">
+        <button onClick={() => login()} data-test-id="Auth:login">
           Login
+        </button>
+
+        <button
+          onClick={() => login("Username-Password-Authentication")}
+          data-test-id="Auth:login:usernamePassword"
+        >
+          Login username/password
+        </button>
+
+        <button
+          onClick={() => login("google-oauth2")}
+          data-test-id="Auth:login:google"
+        >
+          Login Google
         </button>
 
         <button onClick={logout} data-test-id="Auth:logout">
