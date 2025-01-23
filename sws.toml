@@ -13,4 +13,7 @@ health = true
 [advanced]
 [[advanced.headers]]
 source = "**/*"
-headers.Cache-Control = "no-cache, max-age=2592000"
+headers.Cache-Control = "public, max-age=0, must-revalidate"
+[[advanced.headers]]
+source = "**/*.{js,css,woff2,ttf,svg,jpg,jpeg,png,ico,gif,wasm}"
+headers.Cache-Control = "public, max-age=3600, immutable"
