@@ -154,6 +154,11 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                   {product.status}
                 </Typography>
               )}
+              {product.ownershipStatus && (
+                <Typography variant="body2" color="textSecondary" gutterBottom>
+                  {product.ownershipStatus}
+                </Typography>
+              )}
               <Timeline>
                 <TimelineItem>
                   <TimelineOppositeContent

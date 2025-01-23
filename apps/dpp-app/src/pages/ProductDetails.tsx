@@ -107,6 +107,11 @@ export default function ProductDetails() {
               <Typography variant="body1" color="textSecondary" gutterBottom>
                 {product.status}
               </Typography>
+              {product.ownershipStatus && (
+                <Typography variant="body2" color="textSecondary" gutterBottom>
+                  {product.ownershipStatus}
+                </Typography>
+              )}
               <Typography variant="body1" color="textSecondary" gutterBottom>
                 Date d’acquisition : {formatDate(product.acquisitionDate)}
               </Typography>

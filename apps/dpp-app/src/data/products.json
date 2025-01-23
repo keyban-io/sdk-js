@@ -104,7 +104,8 @@
     ],
     "benefits": [{ "label": "Recyclabilité", "icon": "BuildIcon" }],
     "status": "En seconde vie",
-    "acquisitionDate": "2021-03-20T00:00:00Z"
+    "acquisitionDate": "2021-03-20T00:00:00Z",
+    "ownershipStatus": "Ancien propriétaire"
   },
   {
     "id": "4",
