@@ -109,9 +109,9 @@
   },
   {
     "id": "4",
-    "imageKey": "toaster",
-    "alt": "Grille-pain",
-    "name": "Grille-pain",
+    "imageKey": "smegToasterBlue",
+    "alt": "Grille-pain Smeg TSF01 Bleu",
+    "name": "Grille-pain Smeg TSF01 Bleu",
     "events": [
       {
         "date": "2022-05-10T00:00:00Z",
@@ -130,5 +130,34 @@
     ],
     "status": "En service",
     "acquisitionDate": "2022-05-10T00:00:00Z"
+  },
+  {
+    "id": "5",
+    "imageKey": "lgOledTv",
+    "alt": "Écran de télévision OLED LG OLED55C4 2024",
+    "name": "Écran de télévision OLED LG OLED55C4 2024",
+    "events": [
+      {
+        "date": "2022-08-15T00:00:00Z",
+        "description": "Date d’acquisition",
+        "icon": "EventIcon"
+      },
+      {
+        "date": "2023-01-10T00:00:00Z",
+        "description": "Mise à jour du logiciel",
+        "icon": "UpdateIcon"
+      },
+      {
+        "date": "2023-02-20T00:00:00Z",
+        "description": "Inspection de sécurité",
+        "icon": "CheckCircleIcon"
+      }
+    ],
+    "benefits": [
+      { "label": "Traçabilité", "icon": "VerifiedIcon" },
+      { "label": "Réparabilité", "icon": "BuildIcon" }
+    ],
+    "status": "En service",
+    "acquisitionDate": "2022-08-15T00:00:00Z"
   }
 ]

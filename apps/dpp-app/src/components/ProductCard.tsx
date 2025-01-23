@@ -13,7 +13,6 @@ import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { useNavigate } from "react-router-dom";
 import products from "../data/products.json";
@@ -26,6 +25,9 @@ import InfoIcon from "@mui/icons-material/Info";
 import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
 import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
 import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
+import smegToasterBlue from "../assets/Smeg TSF01 Bleu.png";
+import lgOledTv from "../assets/TV OLED LG OLED55C4 2024.webp";
+import TimelineDot from "@mui/lab/TimelineDot";
 
 const iconMap: { [key: string]: React.ReactElement } = {
   VerifiedIcon: <VerifiedIcon />,
@@ -39,6 +41,8 @@ const imageMap: { [key: string]: string } = {
   samsungWashingMachine,
   lgRefrigerator,
   boschOven,
+  smegToasterBlue,
+  lgOledTv,
 };
 
 interface ProductCardProps {

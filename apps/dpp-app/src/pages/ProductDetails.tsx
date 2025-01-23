@@ -25,6 +25,12 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
+import smegToasterBlue from "../assets/Smeg TSF01 Bleu.png";
+import lgOledTv from "../assets/TV OLED LG OLED55C4 2024.webp";
+import RepairIcon from "@mui/icons-material/Build";
+import SellIcon from "@mui/icons-material/AttachMoney";
+import RecycleIcon from "@mui/icons-material/Autorenew";
+import TransferIcon from "@mui/icons-material/TransferWithinAStation";
 
 const iconMap: { [key: string]: React.ReactElement } = {
   VerifiedIcon: <VerifiedIcon />,
@@ -38,6 +44,8 @@ const imageMap: { [key: string]: string } = {
   samsungWashingMachine,
   lgRefrigerator,
   boschOven,
+  smegToasterBlue,
+  lgOledTv,
 };
 
 export default function ProductDetails() {
@@ -76,6 +84,40 @@ export default function ProductDetails() {
         }}
       >
         <img src={imageMap[product.imageKey]} alt={product.alt} />
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 16,
+            right: 16,
+            display: "flex",
+            gap: 1,
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<RepairIcon />}
+          >
+            Réparer
+          </Button>
+          <Button variant="contained" color="primary" startIcon={<SellIcon />}>
+            Revendre
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<RecycleIcon />}
+          >
+            Recycler
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<TransferIcon />}
+          >
+            Transferer
+          </Button>
+        </Box>
       </Card>
       <Card
         sx={{

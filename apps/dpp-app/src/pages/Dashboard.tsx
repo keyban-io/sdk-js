@@ -24,6 +24,18 @@ export default function Dashboard() {
         >
           <ProductCard productId="3" sx={{ flex: 1 }} />
         </Grid2>
+        <Grid2
+          size={{ xs: 12, md: 6 }}
+          sx={{ display: "flex", flexDirection: "column" }}
+        >
+          <ProductCard productId="4" sx={{ flex: 1 }} />
+        </Grid2>
+        <Grid2
+          size={{ xs: 12, md: 6 }}
+          sx={{ display: "flex", flexDirection: "column" }}
+        >
+          <ProductCard productId="5" sx={{ flex: 1 }} />
+        </Grid2>
       </Grid2>
     </Container>
   );
