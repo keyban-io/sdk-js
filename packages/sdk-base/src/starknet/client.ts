@@ -1,3 +1,4 @@
+import { ETransactionVersion } from "@starknet-io/types-js";
 import { Account, RpcProvider } from "starknet";
 
 import { KeybanClientBase, KeybanClientConfig, MetadataConfig } from "~/client";
@@ -42,6 +43,8 @@ export class KeybanStarknetClient extends KeybanClientBase {
       await this.#starknetRpcProvider,
       address,
       signer,
+      undefined,
+      ETransactionVersion.V3,
     );
 
     return new KeybanStarknetAccount(account, publicKey);

@@ -118,7 +118,7 @@ export interface KeybanAccount {
    * @returns - The signed message as a hex string.
    * @throws {Error} If the message is empty or there is an issue during signing.
    */
-  signMessage(message: string): Promise<Hex>;
+  signMessage(message: string): Promise<Hex | string[]>;
 
   /**
    * Transfers native tokens to another address.

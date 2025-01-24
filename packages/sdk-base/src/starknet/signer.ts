@@ -179,7 +179,7 @@ export class StarknetSigner implements SignerInterface {
 function formatSignature(ethSignature: ECDSASignature) {
   const r: Uint256 = uint256.bnToUint256(ethSignature.r);
   const s: Uint256 = uint256.bnToUint256(ethSignature.s);
-  if (!ethSignature.yParity) throw Error("yParity is required");
+  if (ethSignature.yParity === undefined) throw Error("yParity is required");
   return [
     num.toHex(r.low),
     num.toHex(r.high),

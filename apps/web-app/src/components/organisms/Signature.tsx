@@ -33,6 +33,7 @@ export default function Signature() {
           onClick={() =>
             account
               .signMessage(message)
+              .then(JSON.stringify)
               .then(setSignedMessage)
               .catch(showBoundary)
           }

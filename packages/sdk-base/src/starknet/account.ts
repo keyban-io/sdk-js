@@ -15,20 +15,42 @@ import {
 } from "~/index";
 
 export class KeybanStarknetAccount implements KeybanAccount {
-  // #account: Account;
+  #account: Account;
 
   address: Address;
   publicKey: Hex;
 
   constructor(account: Account, publicKey: Hex) {
-    // this.#account = account;
+    this.#account = account;
 
     this.address = account.address as Address;
     this.publicKey = publicKey;
   }
 
-  async signMessage(_message: string): Promise<Hex> {
-    throw new Error("Unimplemented");
+  async signMessage(message: string): Promise<string[]> {
+    // From string message to typedData message
+    const typedMessage = {
+      types: {
+        StarkNetDomain: [
+          { name: "name", type: "felt" },
+          { name: "version", type: "felt" },
+          { name: "chainId", type: "felt" },
+        ],
+        Message: [{ name: "message", type: "felt" }],
+      },
+      primaryType: "Message",
+      domain: {
+        name: "StarkNet Message",
+        version: "1",
+        chainId: 1,
+      },
+      message: { message },
+    };
+    // Sign the typedData formatted message
+    const signedMessage = (await this.#account.signMessage(
+      typedMessage,
+    )) as string[];
+    return signedMessage;
   }
 
   async transfer(
