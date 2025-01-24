@@ -31,7 +31,7 @@ const App = () => {
   return (
     <KeybanProvider
       appId="your-app-id" // Your unique application ID from Keyban
-      chain={KeybanChain.KeybanTestnet} // Specify the blockchain network (e.g., Testnet or Mainnet)
+      chain={KeybanChain.EthereumAnvil} // Specify the blockchain network (e.g., Testnet or Mainnet)
       clientShareProvider={new MyClientShareProvider()} // Custom provider for client shares
     >
       {/* Your application components go here */}
@@ -46,7 +46,7 @@ export default App;
 ### Configuration Options
 
 - **`appId`**: Your application ID for authentication with the Keyban API.
-- **`chain`**: The blockchain network used by Keyban (e.g., `KeybanChain.KeybanTestnet`).
+- **`chain`**: The blockchain network used by Keyban (e.g., `KeybanChain.EthereumAnvil`).
 - **`clientShareProvider`**: A custom implementation of the `ClientShareProvider` interface for managing client shares.
 
 If you need more information about `KeybanProvider`, you can refer to the [KeybanProvider documentation](https://docs.beta.keyban.io/api/sdk-react#keybanprovider).

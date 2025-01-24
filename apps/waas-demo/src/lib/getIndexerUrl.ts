@@ -5,11 +5,11 @@ type HostChainKey = `${string}_${KeybanChain}`;
 
 // Mapping des combinaisons hostname + chain vers les indexeurs
 const indexerUrlMapping: Record<HostChainKey, string> = {
-  // KeybanTestnet mappings
-  localhost_KeybanTestnet: "https://blockscout.keyban.localtest.me",
-  "waas-demo.marc.lvh.me_KeybanTestnet":
+  // EthereumAnvil mappings
+  localhost_EthereumAnvil: "https://blockscout.keyban.localtest.me",
+  "waas-demo.marc.lvh.me_EthereumAnvil":
     "https://blockscout.keyban.localtest.me",
-  "waas-demo.testing.keyban.fr_KeybanTestnet":
+  "waas-demo.testing.keyban.fr_EthereumAnvil":
     "https://blockscout.testing.keyban.io",
 
   // Sepolia mappings (même indexeur pour tous les domaines)
@@ -26,13 +26,13 @@ export const getIndexerUrl = (chain: KeybanChain, txHash: string): string => {
   // Générer la clé pour le mapping
   const key = `${hostname}_${chain}` as HostChainKey;
 
-  // Vérifier si la chaîne KeybanTestnet est disponible sur le domaine actuel
+  // Vérifier si la chaîne EthereumAnvil est disponible sur le domaine actuel
   if (
-    chain === KeybanChain.KeybanTestnet &&
+    chain === KeybanChain.EthereumAnvil &&
     hostname === "waas-demo.beta.keyban.fr"
   ) {
     throw new Error(
-      "KeybanTestnet n'est pas disponible sur l'environnement de démonstration",
+      "EthereumAnvil n'est pas disponible sur l'environnement de démonstration",
     );
   }
 

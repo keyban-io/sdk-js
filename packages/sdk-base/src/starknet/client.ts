@@ -3,10 +3,10 @@ import { Account, RpcProvider } from "starknet";
 
 import { KeybanClientBase, KeybanClientConfig, MetadataConfig } from "~/client";
 import { Hex } from "~/index";
-import { KeybanStarknetAccount } from "~/starknet/account";
+import { StarknetDevnetAccount } from "~/starknet/account";
 import { calculateAddress, StarknetSigner } from "~/starknet/signer";
 
-export class KeybanStarknetClient extends KeybanClientBase {
+export class StarknetDevnetClient extends KeybanClientBase {
   #starknetRpcProvider: Promise<RpcProvider>;
 
   constructor(
@@ -20,7 +20,7 @@ export class KeybanStarknetClient extends KeybanClientBase {
     );
   }
 
-  async initialize(): Promise<KeybanStarknetAccount> {
+  async initialize(): Promise<StarknetDevnetAccount> {
     let clientShare = await this.clientShareProvider.get();
     if (!clientShare) {
       clientShare = await this.rpcClient.call("ecdsa", "dkg", this.chain);
@@ -47,6 +47,6 @@ export class KeybanStarknetClient extends KeybanClientBase {
       ETransactionVersion.V3,
     );
 
-    return new KeybanStarknetAccount(account, publicKey);
+    return new StarknetDevnetAccount(account, publicKey);
   }
 }

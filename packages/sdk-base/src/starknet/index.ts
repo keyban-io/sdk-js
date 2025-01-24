@@ -1,1 +1,1 @@
-export { KeybanStarknetClient } from "./client";
+export { StarknetDevnetClient } from "./client";

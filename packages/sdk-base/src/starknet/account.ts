@@ -14,7 +14,7 @@ import {
   TransferNftParams,
 } from "~/index";
 
-export class KeybanStarknetAccount implements KeybanAccount {
+export class StarknetDevnetAccount implements KeybanAccount {
   #account: Account;
 
   address: Address;

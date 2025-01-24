@@ -34,9 +34,9 @@ export class KeybanEvmClient extends KeybanClientBase {
     );
 
     const chain = {
-      [KeybanChain.KeybanTestnet]: chains.anvil,
+      [KeybanChain.EthereumAnvil]: chains.anvil,
       [KeybanChain.PolygonAmoy]: chains.polygonAmoy,
-      [KeybanChain.KeybanStarknet]: null,
+      [KeybanChain.StarknetDevnet]: null,
       [KeybanChain.StarknetSepolia]: null,
     }[this.chain]!;
 

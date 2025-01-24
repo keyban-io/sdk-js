@@ -27,7 +27,7 @@ import { KeybanClient, KeybanChain, KeybanAccount } from '@keyban/sdk-base';
 
 const client = new KeybanClient({
   appId: "your-keyban-app-id",                 // Your Keyban application ID
-  chain: KeybanChain.KeybanTestnet,            // Select the desired blockchain network
+  chain: KeybanChain.EthereumAnvil,            // Select the desired blockchain network
 });
 ```
 
@@ -102,7 +102,7 @@ console.log(`Transferred NFT with Token ID 1 to 0xRecipientAddress`);
 
 The Keyban SDK supports the following blockchains:
 
-- **Keyban Testnet**: `KeybanChain.KeybanTestnet`
+- **Ethereum anvil**: `KeybanChain.EthereumAnvil`
 - **Polygon Amoy Testnet**: `KeybanChain.PolygonAmoy`
 - **Starknet Devnet**: `KeybanChain.StarknetDevnet`
 - **Starknet Sepolia Testnet**: `KeybanChain.StarknetSepolia`

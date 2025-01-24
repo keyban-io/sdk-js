@@ -16,17 +16,17 @@
  * const client = new KeybanClient({
  *   apiUrl: "https://api.keyban.io",
  *   appId: "your-app-id",
- *   chain: KeybanChain.KeybanTestnet,
+ *   chain: KeybanChain.EthereumAnvil,
  * });
  * ```
  */
 export enum KeybanChain {
   /**
-   * Keyban Testnet Chain for EVM.
+   * Ethereum Anvil Chain.
    * Primarily used for development and testing purposes. This chain allows simulation of
    * transactions and interactions without affecting the main chain.
    */
-  KeybanTestnet = "KeybanTestnet",
+  EthereumAnvil = "EthereumAnvil",
 
   /**
    * Polygon Amoy Chain.
@@ -36,9 +36,9 @@ export enum KeybanChain {
   PolygonAmoy = "PolygonAmoy",
 
   /**
-   * Keyban Testnet Chain for Starknet.
+   * Starknet Devnet Chain.
    */
-  KeybanStarknet = "KeybanStarknet",
+  StarknetDevnet = "StarknetDevnet",
 
   /**
    * Starknet Sepolia Chain.

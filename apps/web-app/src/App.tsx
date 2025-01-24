@@ -15,7 +15,7 @@ import KeybanTest from "~/KeybanTest";
 
 const DEFAULT_API_URL = "https://api.keyban.localtest.me";
 const DEFAULT_APP_ID = "a6f22ae8-341b-4b4f-8c22-f590254c3c21";
-const DEFAULT_CHAIN = KeybanChain.KeybanTestnet;
+const DEFAULT_CHAIN = KeybanChain.EthereumAnvil;
 
 export default function App() {
   const [searchParams, setSearchParams] = useSearchParams();

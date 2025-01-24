@@ -9,7 +9,7 @@ const API_URL = {
 const keybanConfig = {
   apiUrl: API_URL,
   appId,
-  chain: KeybanChain.KeybanTestnet,
+  chain: KeybanChain.EthereumAnvil,
   clientShareProvider: new KeybanClientShareProvider(API_URL, appId),
 };
 
