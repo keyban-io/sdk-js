@@ -295,11 +295,10 @@ export abstract class KeybanClientBase {
   }
 
   async logout() {
-    window.location.href = await this.rpcClient.call(
-      "auth",
-      "getLogoutUrl",
-      window.location.href,
-    );
+    // Redirecting to the logout URL is actually not needed, auth0 client
+    // sdk cleanup its local storage without the need for redirect and we
+    // don't use cookies
+    await this.rpcClient.call("auth", "getLogoutUrl", window.location.href);
   }
 
   async isAuthenticated() {
