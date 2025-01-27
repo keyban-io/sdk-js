@@ -31,18 +31,20 @@ export class StarknetDevnetAccount implements KeybanAccount {
     // From string message to typedData message
     const typedMessage = {
       types: {
-        StarkNetDomain: [
-          { name: "name", type: "felt" },
-          { name: "version", type: "felt" },
-          { name: "chainId", type: "felt" },
+        StarknetDomain: [
+          { name: "name", type: "shortstring" },
+          { name: "version", type: "shortstring" },
+          { name: "chainId", type: "shortstring" },
+          { name: "revision", type: "shortstring" },
         ],
-        Message: [{ name: "message", type: "felt" }],
+        Message: [{ name: "message", type: "string" }],
       },
       primaryType: "Message",
       domain: {
         name: "StarkNet Message",
         version: "1",
-        chainId: 1,
+        chainId: "1",
+        revision: "1",
       },
       message: { message },
     };
