@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useKeybanAuth } from "@keyban/sdk-react";
 import Dashboard from "../pages/Dashboard";
 import ProductDetails from "../pages/ProductDetails";
-import Login from "./Login";
+import Login from "../pages/Login";
 import RouteGuard from "./RouteGuard";
 import BottomNav from "./BottomNav";
 import BackButton from "./BackButton";
