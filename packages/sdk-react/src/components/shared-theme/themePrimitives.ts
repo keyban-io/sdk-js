@@ -402,5 +402,5 @@ const defaultShadows: Shadows = [
   "none",
   "var(--template-palette-baseShadow)",
   ...defaultTheme.shadows.slice(2),
-];
+] as Shadows;
 export const shadows = defaultShadows;

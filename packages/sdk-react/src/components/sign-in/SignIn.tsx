@@ -58,7 +58,15 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-interface SignInProps {
+/**
+ * Represents the configuration options for the SignIn component.
+ * @property disableCustomTheme - When set to true, disables the default custom theme styling.
+ * @property SitemarkIcon - An optional custom icon component that replaces the default SitemarkIcon.
+ * @property enableGoogleAuth - Determines whether Google authentication is enabled.
+ * @property enableLoginPasswordAuth - Determines whether traditional username/password authentication is enabled.
+ * @property enableFacebookAuth - Determines whether Facebook authentication is enabled.
+ */
+export interface SignInProps {
   disableCustomTheme?: boolean;
   /**
    * Optional custom SitemarkIcon component.
