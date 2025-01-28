@@ -295,10 +295,32 @@ export abstract class KeybanClientBase {
   }
 
   async logout() {
-    // Redirecting to the logout URL is actually not needed, auth0 client
-    // sdk cleanup its local storage without the need for redirect and we
-    // don't use cookies
-    await this.rpcClient.call("auth", "getLogoutUrl", window.location.href);
+    const logoutUrl = await this.rpcClient.call(
+      "auth",
+      "getLogoutUrl",
+      window.location.href,
+    );
+
+    const width = 500;
+    const height = 685;
+    const left = window.screenX + (window.innerWidth - width) / 2;
+    const top = window.screenY + (window.innerHeight - height) / 2;
+
+    const popup = window.open(
+      logoutUrl,
+      `keyban:auth:${this.appId}`,
+      `left=${left},top=${top},width=${width},height=${height},popup,resizable,scrollbars`,
+    );
+
+    // Wait for popup to be closed
+    await new Promise<void>((resolve) => {
+      const interval = setInterval(() => {
+        if (!popup?.closed) return;
+
+        clearInterval(interval);
+        resolve();
+      }, 100);
+    });
   }
 
   async isAuthenticated() {
