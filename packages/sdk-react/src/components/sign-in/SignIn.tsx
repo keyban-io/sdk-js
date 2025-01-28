@@ -110,7 +110,7 @@ export default function SignIn({
   enableLoginPasswordAuth = true,
   enableFacebookAuth = true,
 }: SignInProps) {
-  const [isSignUp, setIsSignUp] = useState(false); // Added isSignUp state
+  const [isSignUp, setIsSignUp] = useState(false);
   const SitemarkIconComponent = CustomSitemarkIcon || SitemarkIcon;
 
   const toggleSignUp = () => {
@@ -152,7 +152,7 @@ export default function SignIn({
           {enableLoginPasswordAuth && (
             <SignInWithLoginPasswordButton
               disableCustomTheme={disableCustomTheme}
-              toggleSignUp={toggleSignUp} // Passed toggleSignUp as prop
+              toggleSignUp={toggleSignUp}
             />
           )}
           {(enableGoogleAuth || enableFacebookAuth) &&
