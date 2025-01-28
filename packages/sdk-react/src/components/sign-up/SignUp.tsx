@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useState } from "react";
 
-import { KeybanIcon } from "../CustomIcons";
+import { KeybanIcon, SitemarkIcon } from "../CustomIcons";
 import AppTheme from "../shared-theme/AppTheme";
 import ColorModeSelect from "../shared-theme/ColorModeSelect";
 import SignIn from "../sign-in/SignIn";
@@ -98,6 +98,8 @@ export default function SignUp({
   const [nameErrorMessage, setNameErrorMessage] = React.useState("");
   const [isSignIn, setIsSignIn] = useState(false);
 
+  const SitemarkIconComponent = CustomSitemarkIcon || SitemarkIcon;
+
   const validateInputs = () => {
     const email = document.getElementById("email") as HTMLInputElement;
     const password = document.getElementById("password") as HTMLInputElement;
@@ -171,7 +173,7 @@ export default function SignUp({
       <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
-          {CustomSitemarkIcon && <CustomSitemarkIcon />}
+          {SitemarkIconComponent && <SitemarkIconComponent />}
           <Typography
             component="h1"
             variant="h4"
