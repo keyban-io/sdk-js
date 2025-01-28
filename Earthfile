@@ -27,6 +27,7 @@ update-lock-file:
     DO +GET_PACKAGE_JSON
     COPY ./apps/waas-demo/package.json  ./apps/waas-demo/
     COPY ./apps/web-app/package.json    ./apps/web-app/
+    COPY ./apps/dpp-app/package.json    ./apps/dpp-app/
 
     RUN pnpm install
     SAVE ARTIFACT pnpm-lock.yaml AS LOCAL pnpm-lock.yaml
