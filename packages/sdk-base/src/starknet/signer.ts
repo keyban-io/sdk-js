@@ -1,3 +1,4 @@
+import { secp256k1 } from "@noble/curves/secp256k1";
 import {
   ETransactionVersion2,
   ETransactionVersion3,
@@ -26,7 +27,6 @@ import {
   V3DeployAccountSignerDetails,
   V3InvocationsSignerDetails,
 } from "starknet";
-import { parseSignature, type Signature as ECDSASignature } from "viem";
 
 import { Hex } from "~/index";
 import { RpcClient } from "~/rpc";
@@ -56,7 +56,6 @@ export class StarknetSigner implements SignerInterface {
         this.#clientShare,
         encode.removeHexPrefix(encode.sanitizeHex(hashedMessage)),
       )
-      .then(parseSignature)
       .then(formatSignature);
   }
 
@@ -173,19 +172,25 @@ export class StarknetSigner implements SignerInterface {
 
 /**
  * Formats the ECDSA signature to the StarkNet format based on the OZ EthAccount.
- * @param ethSignature - The ECDSA signature.
+ * @param signatureHex - The ECDSA hex signature.
  * @returns - The StarkNet formatted signature.
  */
-function formatSignature(ethSignature: ECDSASignature) {
-  const r: Uint256 = uint256.bnToUint256(ethSignature.r);
-  const s: Uint256 = uint256.bnToUint256(ethSignature.s);
-  if (ethSignature.yParity === undefined) throw Error("yParity is required");
+function formatSignature(signatureHex: Hex): string[] {
+  const { r, s } = secp256k1.Signature.fromCompact(signatureHex.slice(2, 130));
+  const yParity = Number(`0x${signatureHex.slice(130)}`);
+  if (yParity !== 0 && yParity !== 1) {
+    throw new Error("Invalid yParity value");
+  }
+
+  const bigIntR: Uint256 = uint256.bnToUint256(r);
+  const bigIntS: Uint256 = uint256.bnToUint256(s);
+  if (yParity === undefined) throw Error("yParity is required");
   return [
-    num.toHex(r.low),
-    num.toHex(r.high),
-    num.toHex(s.low),
-    num.toHex(s.high),
-    num.toHex(ethSignature.yParity),
+    num.toHex(bigIntR.low),
+    num.toHex(bigIntR.high),
+    num.toHex(bigIntS.low),
+    num.toHex(bigIntS.high),
+    num.toHex(yParity),
   ];
 }
 

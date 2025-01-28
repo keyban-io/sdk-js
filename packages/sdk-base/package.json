@@ -66,6 +66,7 @@
   "dependencies": {
     "@apollo/client": "^3.12.3",
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@noble/curves": "^1.8.1",
     "core-js": "^3.39.0",
     "graphql-ws": "^5.16.0",
     "starknet": "^6.11.0",

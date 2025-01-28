@@ -32,7 +32,7 @@ export class StarknetDevnetClient extends KeybanClientBase {
       "publicKey",
       clientShare,
     );
-    // remove the Ethereum prefix
+    // remove the 04 prefix from the public key (it's the ECDSA uncompressed key prefix)
     const publicKey: Hex = `0x${ethPublicKey.slice(4)}`;
 
     const signer = new StarknetSigner(this.rpcClient, clientShare, publicKey);
