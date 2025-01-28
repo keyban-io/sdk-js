@@ -8,22 +8,26 @@ import { KeybanProvider } from "@keyban/sdk-react";
 import keybanConfig from "./config";
 import AppWithNav from "./components/AppWithNav";
 import Header from "./components/Header";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundaryFallback } from "./components/ErrorBoundaryFallback";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <KeybanProvider
-        apiUrl={keybanConfig.apiUrl}
-        appId={keybanConfig.appId}
-        chain={keybanConfig.chain}
-        clientShareProvider={keybanConfig.clientShareProvider}
-      >
-        <BrowserRouter>
-          <Header />
-          <AppWithNav />
-        </BrowserRouter>
-      </KeybanProvider>
-    </ThemeProvider>
+    <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <KeybanProvider
+          apiUrl={keybanConfig.apiUrl}
+          appId={keybanConfig.appId}
+          chain={keybanConfig.chain}
+          clientShareProvider={keybanConfig.clientShareProvider}
+        >
+          <BrowserRouter>
+            <Header />
+            <AppWithNav />
+          </BrowserRouter>
+        </KeybanProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
 );
