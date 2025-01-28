@@ -5,6 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
@@ -72,7 +73,7 @@ const SignInWithLoginPasswordButton: React.FC<{
   };
 
   return (
-    <Box
+    <Stack
       component="form"
       onSubmit={handleSubmit}
       noValidate
@@ -150,7 +151,7 @@ const SignInWithLoginPasswordButton: React.FC<{
           Sign up
         </Link>
       </Typography>
-    </Box>
+    </Stack>
   );
 };
 export default SignInWithLoginPasswordButton;
