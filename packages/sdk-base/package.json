@@ -74,8 +74,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
-    "@graphql-codegen/cli": "^5.0.3",
-    "@graphql-codegen/typed-document-node": "^5.0.12",
+    "@graphql-codegen/cli": "^5.0.4",
+    "@graphql-codegen/typed-document-node": "^5.0.13",
     "@starknet-io/types-js": "^0.7.10",
     "@types/node": "^22.12.0",
     "eslint": "^9.19.0",
