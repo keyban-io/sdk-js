@@ -1,5 +1,4 @@
 // src/components/ApplicationHeader.tsx
-import { useAuth0 } from "@auth0/auth0-react";
 import { faBell, faMoon, faSun } from "@fortawesome/free-solid-svg-icons"; // Import des icônes
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type KeybanChain, useKeybanAuth } from "@keyban/sdk-react";
@@ -32,25 +31,9 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
   onToggleTheme, // Déstructuration de la nouvelle prop
   themeMode, // Déstructuration de la nouvelle prop
 }) => {
-  const {
-    user,
-    logout: auth0Logout,
-    isAuthenticated: isAuth0Authenticated,
-  } = useAuth0();
   const { logout: keybanLogout, isAuthenticated: isKeybanAuthenticated } =
     useKeybanAuth();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
-  if (localStorage.getItem("keybanLoggedOut")) {
-    localStorage.removeItem("keybanLoggedOut");
-    if (isAuth0Authenticated) {
-      auth0Logout({
-        logoutParams: {
-          returnTo: window.location.origin,
-        },
-      });
-    }
-  }
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -62,14 +45,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
 
   const logout = () => {
     if (isKeybanAuthenticated) {
-      localStorage.setItem("keybanLoggedOut", "true");
       keybanLogout();
-    } else {
-      auth0Logout({
-        logoutParams: {
-          returnTo: window.location.origin,
-        },
-      });
     }
   };
 
@@ -123,11 +99,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
                   color="inherit"
                   sx={{ p: 0, ml: 1 }}
                 >
-                  <Avatar
-                    sx={{ width: 32, height: 32 }}
-                    src={user?.picture}
-                    alt={user?.name}
-                  />
+                  <Avatar sx={{ width: 32, height: 32 }} />
                 </IconButton>
               </Tooltip>
 

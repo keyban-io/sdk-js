@@ -1,4 +1,3 @@
-import { Auth0ProviderOptions } from "@auth0/auth0-react";
 import {
   KeybanChain,
   KeybanClientConfig,
@@ -15,19 +14,10 @@ const API_URL = {
 const APP_ID = "8febdb3d-75d4-409c-8453-aa5d81e92926";
 
 export type Config = {
-  auth: Auth0ProviderOptions;
   keyban: KeybanClientConfig;
 };
 
 const config: Config = {
-  auth: {
-    domain: "mark-keyban.eu.auth0.com",
-    clientId: "Fyoq3Mi0aM9851TOS5TuPYNvDRlJ3RYu",
-    authorizationParams: {
-      redirect_uri: window.location.origin,
-      audience: API_URL,
-    },
-  },
   keyban: {
     apiUrl: API_URL || "https://api.beta.keyban.io",
     appId: APP_ID,

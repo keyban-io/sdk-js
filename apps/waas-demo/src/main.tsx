@@ -1,4 +1,3 @@
-import { Auth0Provider } from "@auth0/auth0-react";
 import { KeybanChain, KeybanProvider } from "@keyban/sdk-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -24,15 +23,13 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <Auth0Provider {...config.auth}>
-        <KeybanProvider
-          {...config.keyban}
-          chain={chain}
-          clientShareProvider={config.keyban.clientShareProvider}
-        >
-          <App />
-        </KeybanProvider>
-      </Auth0Provider>
+      <KeybanProvider
+        {...config.keyban}
+        chain={chain}
+        clientShareProvider={config.keyban.clientShareProvider}
+      >
+        <App />
+      </KeybanProvider>
     </React.StrictMode>,
   );
 }
