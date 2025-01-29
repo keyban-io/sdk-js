@@ -114,6 +114,7 @@ docker:
     FROM ../+sws
     COPY ./sws.toml /
     WORKDIR /public
+    RUN find /public -type f -exec touch {} +
     CMD static-web-server --config-file /sws.toml --page-fallback /public/index.html
     ARG --required app
     COPY (+dist/dist/ --app="${app}") /public/
