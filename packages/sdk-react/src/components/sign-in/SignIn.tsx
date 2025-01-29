@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MuiCard from "@mui/material/Card";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
@@ -12,8 +11,6 @@ import { useState } from "react";
 import SignInWithGoogleButton from "../buttons/SignInWithGoogleButton";
 import SignInWithLoginPasswordButton from "../buttons/SignInWithLoginPasswordButton";
 import { FacebookIcon, KeybanIcon, SitemarkIcon } from "../CustomIcons";
-import AppTheme from "../shared-theme/AppTheme";
-import ColorModeSelect from "../shared-theme/ColorModeSelect";
 import SignUp from "../sign-up/SignUp";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -60,14 +57,12 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 
 /**
  * Represents the configuration options for the SignIn component.
- * @property disableCustomTheme - When set to true, disables the default custom theme styling.
  * @property SitemarkIcon - An optional custom icon component that replaces the default SitemarkIcon.
  * @property enableGoogleAuth - Determines whether Google authentication is enabled.
  * @property enableLoginPasswordAuth - Determines whether traditional username/password authentication is enabled.
  * @property enableFacebookAuth - Determines whether Facebook authentication is enabled.
  */
 export interface SignInProps {
-  disableCustomTheme?: boolean;
   /**
    * Optional custom SitemarkIcon component.
    * The custom icon should have a width and height similar to the default icon.
@@ -94,7 +89,6 @@ export interface SignInProps {
  * It includes validation for email and password fields and displays error messages
  * if the inputs are invalid.
  * @param props - The component props.
- * @param [props.disableCustomTheme] - Optional flag to disable custom theme.
  * @param [props.SitemarkIcon] - Optional custom SitemarkIcon component.
  * The custom icon should have a width and height similar to the default icon.
  * Default icon dimensions: width: 40px, height: 40px.
@@ -104,7 +98,6 @@ export interface SignInProps {
  * @returns The rendered SignIn component.
  */
 export default function SignIn({
-  disableCustomTheme,
   SitemarkIcon: CustomSitemarkIcon,
   enableGoogleAuth = true,
   enableLoginPasswordAuth = true,
@@ -120,7 +113,6 @@ export default function SignIn({
   if (isSignUp) {
     return (
       <SignUp
-        disableCustomTheme={disableCustomTheme}
         SitemarkIcon={CustomSitemarkIcon}
         enableGoogleAuth={enableGoogleAuth}
         enableLoginPasswordAuth={enableLoginPasswordAuth}
@@ -130,16 +122,12 @@ export default function SignIn({
   }
 
   return (
-    <AppTheme disableCustomTheme={disableCustomTheme}>
-      <CssBaseline enableColorScheme />
+    <>
       <SignInContainer
         direction="column"
         justifyContent="center"
         alignItems="center"
       >
-        <ColorModeSelect
-          sx={{ position: "fixed", top: "1rem", right: "1rem" }}
-        />
         <Card variant="outlined">
           <SitemarkIconComponent />
           <Typography
@@ -150,10 +138,7 @@ export default function SignIn({
             Sign in
           </Typography>
           {enableLoginPasswordAuth && (
-            <SignInWithLoginPasswordButton
-              disableCustomTheme={disableCustomTheme}
-              toggleSignUp={toggleSignUp}
-            />
+            <SignInWithLoginPasswordButton toggleSignUp={toggleSignUp} />
           )}
           {(enableGoogleAuth || enableFacebookAuth) &&
             enableLoginPasswordAuth && <Divider>or</Divider>}
@@ -198,6 +183,6 @@ export default function SignIn({
           </Box>
         </Card>
       </SignInContainer>
-    </AppTheme>
+    </>
   );
 }

@@ -13,7 +13,6 @@ import { useKeybanAuth } from "../../index"; // Adjust the import path as needed
 import ForgotPassword from "../sign-in/components/ForgotPassword";
 
 const SignInWithLoginPasswordButton: React.FC<{
-  disableCustomTheme?: boolean;
   toggleSignUp: () => void; // Added toggleSignUp prop
 }> = ({ toggleSignUp }) => {
   const { login } = useKeybanAuth();

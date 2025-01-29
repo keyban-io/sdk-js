@@ -54,7 +54,6 @@ export default function Login() {
 
   return (
     <SignIn
-      disableCustomTheme={true}
       enableGoogleAuth={true}
       enableLoginPasswordAuth={true}
       enableFacebookAuth={false}

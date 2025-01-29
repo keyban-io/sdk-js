@@ -109,7 +109,6 @@ export default function App() {
               themeMode={themeMode}
             />
             <SignIn
-              disableCustomTheme={false}
               enableFacebookAuth={false}
               SitemarkIcon={KeybanIcon}
               enableLoginPasswordAuth={true}

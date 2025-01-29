@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MuiCard from "@mui/material/Card";
-import CssBaseline from "@mui/material/CssBaseline";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Link from "@mui/material/Link";
@@ -14,8 +13,6 @@ import * as React from "react";
 import { useState } from "react";
 
 import { KeybanIcon, SitemarkIcon } from "../CustomIcons";
-import AppTheme from "../shared-theme/AppTheme";
-import ColorModeSelect from "../shared-theme/ColorModeSelect";
 import SignIn from "../sign-in/SignIn";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -63,7 +60,6 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 /**
  * Renders a sign-up form component with optional third-party authentication.
  * @param props - The component props.
- * @param [props.disableCustomTheme] - Optional flag to disable custom theme.
  * @param [props.SitemarkIcon] - Optional custom SitemarkIcon component.
  * The custom icon should have a width and height similar to the default icon.
  * Default icon dimensions: width: 40px, height: 40px.
@@ -78,13 +74,11 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
  * @private
  */
 export default function SignUp({
-  disableCustomTheme,
   SitemarkIcon: CustomSitemarkIcon,
   enableGoogleAuth = true,
   enableLoginPasswordAuth = true,
   enableFacebookAuth = true,
 }: {
-  disableCustomTheme?: boolean;
   SitemarkIcon?: React.ComponentType<SvgIconProps>;
   enableGoogleAuth?: boolean;
   enableLoginPasswordAuth?: boolean;
@@ -158,7 +152,6 @@ export default function SignUp({
   if (isSignIn) {
     return (
       <SignIn
-        disableCustomTheme={disableCustomTheme}
         SitemarkIcon={CustomSitemarkIcon}
         enableGoogleAuth={enableGoogleAuth}
         enableLoginPasswordAuth={enableLoginPasswordAuth}
@@ -168,9 +161,7 @@ export default function SignUp({
   }
 
   return (
-    <AppTheme disableCustomTheme={disableCustomTheme}>
-      <CssBaseline enableColorScheme />
-      <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
+    <>
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           {SitemarkIconComponent && <SitemarkIconComponent />}
@@ -280,6 +271,6 @@ export default function SignUp({
           </Box>
         </Card>
       </SignUpContainer>
-    </AppTheme>
+    </>
   );
 }
