@@ -117,7 +117,7 @@ const SignInWithLoginPasswordButton: React.FC<{
         />
       </FormControl>
       <FormControlLabel
-        control={<Checkbox value="remember" color="primary" />}
+        control={<Checkbox value="remember" />}
         label="Remember me"
       />
       <ForgotPassword open={open} handleClose={handleClose} />
