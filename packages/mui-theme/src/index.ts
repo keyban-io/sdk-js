@@ -18,47 +18,47 @@ const commonPalette = {
     h2: {
       fontFamily: '"Chivo", sans-serif',
       fontWeight: 700,
-      fontSize: '2rem', // Adjusted size
+      fontSize: '2rem',
     },
     h3: {
       fontFamily: '"Chivo", sans-serif',
       fontWeight: 700,
-      fontSize: '1.75rem', // Adjusted size
+      fontSize: '1.75rem',
     },
     h4: {
       fontFamily: '"Chivo", sans-serif',
       fontWeight: 700,
-      fontSize: '1.5rem', // Adjusted size
+      fontSize: '1.5rem',
     },
     h5: {
       fontFamily: '"Chivo", sans-serif',
       fontWeight: 700,
-      fontSize: '1.25rem', // Adjusted size
+      fontSize: '1.25rem',
     },
     h6: {
       fontFamily: '"Chivo", sans-serif',
       fontWeight: 700,
-      fontSize: '1rem', // Adjusted size
+      fontSize: '1rem',
     },
     body1: {
       fontFamily: '"Inter", sans-serif',
       fontWeight: 400,
-      fontSize: '0.875rem', // Adjusted size
+      fontSize: '0.875rem',
     },
     body2: {
       fontFamily: '"Inter", sans-serif',
       fontWeight: 400,
-      fontSize: '0.75rem', // Adjusted size
+      fontSize: '0.75rem',
     },
     subtitle1: {
       fontFamily: '"Chivo", sans-serif',
       fontWeight: 500,
-      fontSize: '0.875rem', // Adjusted size
+      fontSize: '0.875rem',
     },
     subtitle2: {
       fontFamily: '"Chivo", sans-serif',
       fontWeight: 500,
-      fontSize: '0.75rem', // Adjusted size
+      fontSize: '0.75rem',
     },
   },
 };
@@ -67,19 +67,47 @@ const commonComponents = {
   MuiButton: {
     styleOverrides: {
       containedPrimary: {
-        backgroundColor: '#EF9341', // Couleur de fond des boutons primaires
-        color: '#ffffff',            // Texte en blanc
-        fontWeight: 'bold',          // Texte en bold
+        backgroundColor: '#EF9341',
+        color: '#ffffff',
+        fontWeight: 'bold',
         '&:hover': {
-          backgroundColor: '#d88e34', // Optionnel : Couleur au survol
+          backgroundColor: '#d88e34',
         },
       },
       containedSecondary: {
-        backgroundColor: '#9DCFF4', // Couleur de fond des boutons secondaires
-        color: '#ffffff',            // Texte en blanc
-        fontWeight: 'bold',          // Texte en bold
+        backgroundColor: '#9DCFF4',
+        color: '#ffffff',
+        fontWeight: 'bold',
         '&:hover': {
-          backgroundColor: '#7AB8E3', // Couleur au survol des boutons secondaires (foncée de 10%)
+          backgroundColor: '#7AB8E3',
+        },
+      },
+      outlinedPrimary: {
+        borderColor: '#183E5B',
+        color: '#183E5B',
+        '&:hover': {
+          borderColor: '#0a2435', // Variante plus foncée
+          backgroundColor: 'rgba(24, 62, 91, 0.08)', // Légère coloration au survol
+        },
+      },
+      outlinedSecondary: {
+        borderColor: '#EF9341',
+        color: '#EF9341',
+        '&:hover': {
+          borderColor: '#BF7634',
+          backgroundColor: 'rgba(239,147,65, 0.08)',
+        },
+      },
+      textPrimary: {
+        color: '#183E5B',
+        '&:hover': {
+          backgroundColor: 'rgba(24, 62, 91, 0.08)',
+        },
+      },
+      textSecondary: {
+        color: '#EF9341',
+        '&:hover': {
+          backgroundColor: 'rgba(239,147,65, 0.08)',
         },
       },
     },
@@ -145,6 +173,5 @@ const darkThemeOptions = {
   components: commonComponents,
   typography: commonPalette.typography,
 };
-
 
 export { lightThemeOptions, darkThemeOptions };
