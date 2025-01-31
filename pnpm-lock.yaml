@@ -90,6 +90,9 @@ importers:
         specifier: workspace:*
         version: link:../../packages/sdk-base
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.19.0
+        version: 9.19.0
       '@vitest/ui':
         specifier: ^2.1.8
         version: 2.1.8(vitest@2.1.8)
@@ -463,6 +466,8 @@ importers:
       vitest:
         specifier: ^3.0.4
         version: 3.0.4(@types/debug@4.1.12)(@types/node@22.12.0)(happy-dom@15.11.7)(jiti@2.4.1)(jsdom@16.7.0)(msw@2.7.0(@types/node@22.12.0)(typescript@5.7.3))(terser@5.36.0)(yaml@2.6.1)
+
+  packages/sdk-eddsa-wasm: {}
 
   packages/sdk-react:
     dependencies:
