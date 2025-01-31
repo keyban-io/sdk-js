@@ -13,19 +13,6 @@ import SignInWithLoginPasswordButton from "../buttons/SignInWithLoginPasswordBut
 import { FacebookIcon, KeybanIcon, SitemarkIcon } from "../CustomIcons";
 import SignUp from "../sign-up/SignUp";
 
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignSelf: "center",
-  width: "100%",
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: "auto",
-  [theme.breakpoints.up("sm")]: {
-    maxWidth: "450px",
-  },
-}));
-
 const SignInContainer = styled(Stack)(({ theme }) => ({
   height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
   minHeight: "100%",
@@ -108,7 +95,21 @@ export default function SignIn({
         justifyContent="center"
         alignItems="center"
       >
-        <Card variant="outlined">
+        <MuiCard
+          variant="outlined"
+          sx={(theme) => ({
+            display: "flex",
+            flexDirection: "column",
+            alignSelf: "center",
+            width: "100%",
+            padding: theme.spacing(4),
+            gap: theme.spacing(2),
+            margin: "auto",
+            [theme.breakpoints.up("sm")]: {
+              maxWidth: "450px",
+            },
+          })}
+        >
           <SitemarkIconComponent />
           <Typography
             component="h1"
@@ -160,7 +161,7 @@ export default function SignIn({
               <KeybanIcon />
             </Box>
           </Box>
-        </Card>
+        </MuiCard>
       </SignInContainer>
     </>
   );

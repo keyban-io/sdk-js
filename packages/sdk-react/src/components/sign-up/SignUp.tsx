@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -208,7 +208,6 @@ export default function SignUp({
               fullWidth
               variant="contained"
               onClick={validateInputs}
-              // color="primary" // Ensure button uses theme color
             >
               Sign up
             </Button>
