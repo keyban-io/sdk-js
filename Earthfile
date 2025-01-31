@@ -108,16 +108,15 @@ build:
 dist:
     ARG --required app
     FROM +build --app="${app}"
-    SAVE ARTIFACT /app/apps/${app}/dist
+    SAVE ARTIFACT --keep-ts /app/apps/${app}/dist
 
 docker:
     FROM ../+sws
     COPY ./sws.toml /
     WORKDIR /public
-    RUN find /public -type f -exec touch {} +
     CMD static-web-server --config-file /sws.toml --page-fallback /public/index.html
     ARG --required app
-    COPY (+dist/dist/ --app="${app}") /public/
+    COPY --keep-ts (+dist/dist/ --app="${app}") /public/
     ARG --required ref
     ARG extra_ref
     SAVE IMAGE --push ${ref} ${extra_ref}
