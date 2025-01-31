@@ -5,7 +5,6 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
-import { styled } from "@mui/material/styles";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -14,28 +13,6 @@ import { useState } from "react";
 
 import { KeybanIcon, SitemarkIcon } from "../CustomIcons";
 import SignIn from "../sign-in/SignIn";
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignSelf: "center",
-  width: "100%",
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: "auto",
-  [theme.breakpoints.up("sm")]: {
-    width: "450px",
-  },
-}));
-
-const SignUpContainer = styled(Stack)(({ theme }) => ({
-  height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
-  minHeight: "100%",
-  padding: theme.spacing(2),
-  [theme.breakpoints.up("sm")]: {
-    padding: theme.spacing(4),
-  },
-}));
 
 /**
  * Renders a sign-up form component with optional third-party authentication.
@@ -142,8 +119,34 @@ export default function SignUp({
 
   return (
     <>
-      <SignUpContainer direction="column" justifyContent="space-between">
-        <Card variant="outlined">
+      <Stack
+        direction="column"
+        justifyContent="space-between"
+        height="calc((1 - var(--template-frame-height, 0)) * 100dvh)"
+        minHeight="100%"
+        sx={(theme) => ({
+          padding: theme.spacing(2),
+
+          [theme.breakpoints.up("sm")]: {
+            padding: theme.spacing(4),
+          },
+        })}
+      >
+        <MuiCard
+          variant="outlined"
+          sx={(theme) => ({
+            display: "flex",
+            flexDirection: "column",
+            alignSelf: "center",
+            width: "100%",
+            padding: (theme) => theme.spacing(4),
+            gap: (theme) => theme.spacing(2),
+            margin: "auto",
+            [theme.breakpoints.up("sm")]: {
+              width: "450px",
+            },
+          })}
+        >
           {SitemarkIconComponent && <SitemarkIconComponent />}
           <Typography
             component="h1"
@@ -249,8 +252,8 @@ export default function SignUp({
               <KeybanIcon />
             </Box>
           </Box>
-        </Card>
-      </SignUpContainer>
+        </MuiCard>
+      </Stack>
     </>
   );
 }

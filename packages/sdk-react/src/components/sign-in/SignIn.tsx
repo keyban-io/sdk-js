@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import MuiCard from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
-import { styled } from "@mui/material/styles";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
@@ -12,15 +11,6 @@ import SignInWithGoogleButton from "../buttons/SignInWithGoogleButton";
 import SignInWithLoginPasswordButton from "../buttons/SignInWithLoginPasswordButton";
 import { FacebookIcon, KeybanIcon, SitemarkIcon } from "../CustomIcons";
 import SignUp from "../sign-up/SignUp";
-
-const SignInContainer = styled(Stack)(({ theme }) => ({
-  height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
-  minHeight: "100%",
-  padding: theme.spacing(2),
-  [theme.breakpoints.up("sm")]: {
-    padding: theme.spacing(4),
-  },
-}));
 
 /**
  * Represents the configuration options for the SignIn component.
@@ -90,10 +80,18 @@ export default function SignIn({
 
   return (
     <>
-      <SignInContainer
+      <Stack
         direction="column"
         justifyContent="center"
         alignItems="center"
+        sx={(theme) => ({
+          height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
+          minHeight: "100%",
+          padding: theme.spacing(2),
+          [theme.breakpoints.up("sm")]: {
+            padding: theme.spacing(4),
+          },
+        })}
       >
         <MuiCard
           variant="outlined"
@@ -162,7 +160,7 @@ export default function SignIn({
             </Box>
           </Box>
         </MuiCard>
-      </SignInContainer>
+      </Stack>
     </>
   );
 }
