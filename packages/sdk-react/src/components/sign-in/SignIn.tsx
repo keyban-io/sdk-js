@@ -7,6 +7,7 @@ import { SvgIconProps } from "@mui/material/SvgIcon";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 
+import { getDefaultLanguage } from "../../utils/languageUtils";
 import SignInWithGoogleButton from "../buttons/SignInWithGoogleButton";
 import SignInWithLoginPasswordButton from "../buttons/SignInWithLoginPasswordButton";
 import { FacebookIcon, KeybanIcon, SitemarkIcon } from "../CustomIcons";
@@ -52,7 +53,7 @@ export interface SignInProps {
  * @param [props.enableGoogleAuth] - Optional flag to enable Google authentication.
  * @param [props.enableLoginPasswordAuth] - Optional flag to enable LoginPassword authentication.
  * @param [props.enableFacebookAuth] - Optional flag to enable Facebook authentication.
- * @param props.language
+ * @param [props.language] - Optional language code for translations. Defaults to the browser's language or "en".
  * @returns The rendered SignIn component.
  */
 export default function SignIn({
@@ -60,7 +61,7 @@ export default function SignIn({
   enableGoogleAuth = true,
   enableLoginPasswordAuth = true,
   enableFacebookAuth = true,
-  language = "en",
+  language = getDefaultLanguage(),
 }: SignInProps & { language?: "en" | "fr" | "es" }) {
   const [isSignUp, setIsSignUp] = useState(false);
   const SitemarkIconComponent = CustomSitemarkIcon || SitemarkIcon;

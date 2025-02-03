@@ -7,6 +7,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import * as React from "react";
 
+import { getDefaultLanguage } from "../../../utils/languageUtils";
+
 interface ForgotPasswordProps {
   open: boolean;
   handleClose: () => void;
@@ -17,7 +19,7 @@ interface ForgotPasswordProps {
  * @param props - The properties object.
  * @param props.open - A boolean indicating whether the dialog is open.
  * @param props.handleClose - A function to handle closing the dialog.
- * @param props.language
+ * @param props.language - The language for the dialog content.
  * @returns The ForgotPassword component.
  * @example
  * <ForgotPassword open={isOpen} handleClose={handleCloseFunction} />
@@ -25,7 +27,7 @@ interface ForgotPasswordProps {
 export default function ForgotPassword({
   open,
   handleClose,
-  language = "en",
+  language = getDefaultLanguage(),
 }: ForgotPasswordProps & { language?: "en" | "fr" | "es" }) {
   const translations = {
     en: {

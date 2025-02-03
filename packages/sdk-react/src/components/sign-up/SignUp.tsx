@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useState } from "react";
 
+import { getDefaultLanguage } from "../../utils/languageUtils";
 import { KeybanIcon, SitemarkIcon } from "../CustomIcons";
 import SignIn from "../sign-in/SignIn";
 
@@ -23,7 +24,7 @@ import SignIn from "../sign-in/SignIn";
  * @param [props.enableGoogleAuth] - Optional flag to enable Google authentication.
  * @param [props.enableLoginPasswordAuth] - Optional flag to enable LoginPassword authentication.
  * @param [props.enableFacebookAuth] - Optional flag to enable Facebook authentication.
- * @param props.language
+ * @param props.language - The language for the sign-up form.
  * @remarks
  * This component validates user inputs for name, email, and password.
  * It displays error messages for invalid fields and prevents form submission
@@ -36,7 +37,7 @@ export default function SignUp({
   enableGoogleAuth = true,
   enableLoginPasswordAuth = true,
   enableFacebookAuth = true,
-  language = "en",
+  language = getDefaultLanguage(),
 }: {
   SitemarkIcon?: React.ComponentType<SvgIconProps>;
   enableGoogleAuth?: boolean;

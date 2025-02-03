@@ -10,12 +10,13 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 
 import { useKeybanAuth } from "../../index"; // Adjust the import path as needed
+import { getDefaultLanguage } from "../../utils/languageUtils";
 import ForgotPassword from "../sign-in/components/ForgotPassword";
 
 const SignInWithLoginPasswordButton: React.FC<{
   toggleSignUp: () => void;
   language?: "en" | "fr" | "es";
-}> = ({ toggleSignUp, language = "en" }) => {
+}> = ({ toggleSignUp, language = getDefaultLanguage() }) => {
   const { login } = useKeybanAuth();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");

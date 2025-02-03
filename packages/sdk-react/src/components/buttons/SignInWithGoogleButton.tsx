@@ -2,10 +2,11 @@ import Button from "@mui/material/Button";
 import * as React from "react";
 
 import { useKeybanAuth } from "../../index"; // Adjust the import path as needed
+import { getDefaultLanguage } from "../../utils/languageUtils";
 import { GoogleIcon } from "../CustomIcons";
 
 const SignInWithGoogleButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
-  language = "en",
+  language = getDefaultLanguage(),
 }) => {
   const { login } = useKeybanAuth();
 
