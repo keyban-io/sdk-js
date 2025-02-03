@@ -154,6 +154,7 @@ export default function SignUp({
         enableGoogleAuth={enableGoogleAuth}
         enableLoginPasswordAuth={enableLoginPasswordAuth}
         enableFacebookAuth={enableFacebookAuth}
+        language={language}
       />
     );
   }

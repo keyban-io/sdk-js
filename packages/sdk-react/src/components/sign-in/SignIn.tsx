@@ -98,6 +98,7 @@ export default function SignIn({
         enableGoogleAuth={enableGoogleAuth}
         enableLoginPasswordAuth={enableLoginPasswordAuth}
         enableFacebookAuth={enableFacebookAuth}
+        language={language}
       />
     );
   }
@@ -141,12 +142,15 @@ export default function SignIn({
             {translations[language].signInHeading}
           </Typography>
           {enableLoginPasswordAuth && (
-            <SignInWithLoginPasswordButton toggleSignUp={toggleSignUp} />
+            <SignInWithLoginPasswordButton
+              toggleSignUp={toggleSignUp}
+              language={language}
+            />
           )}
           {(enableGoogleAuth || enableFacebookAuth) &&
             enableLoginPasswordAuth && <Divider>or</Divider>}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {enableGoogleAuth && <SignInWithGoogleButton />}
+            {enableGoogleAuth && <SignInWithGoogleButton language={language} />}
             {enableFacebookAuth && (
               <Button
                 fullWidth

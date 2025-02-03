@@ -153,7 +153,11 @@ const SignInWithLoginPasswordButton: React.FC<{
         control={<Checkbox value="remember" />}
         label={translations[language].rememberMe}
       />
-      <ForgotPassword open={open} handleClose={handleClose} />
+      <ForgotPassword
+        open={open}
+        handleClose={handleClose}
+        language={language}
+      />
       <Button
         type="submit"
         fullWidth
