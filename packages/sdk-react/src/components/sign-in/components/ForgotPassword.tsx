@@ -17,6 +17,7 @@ interface ForgotPasswordProps {
  * @param props - The properties object.
  * @param props.open - A boolean indicating whether the dialog is open.
  * @param props.handleClose - A function to handle closing the dialog.
+ * @param props.language
  * @returns The ForgotPassword component.
  * @example
  * <ForgotPassword open={isOpen} handleClose={handleCloseFunction} />
@@ -24,7 +25,32 @@ interface ForgotPasswordProps {
 export default function ForgotPassword({
   open,
   handleClose,
-}: ForgotPasswordProps) {
+  language = "en",
+}: ForgotPasswordProps & { language?: "en" | "fr" | "es" }) {
+  const translations = {
+    en: {
+      title: "Reset password",
+      description:
+        "Enter your account's email address, and we'll send you a link to reset your password.",
+      cancelLabel: "Cancel",
+      continueLabel: "Continue",
+    },
+    fr: {
+      title: "Réinitialiser le mot de passe",
+      description:
+        "Entrez l'adresse e-mail de votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+      cancelLabel: "Annuler",
+      continueLabel: "Continuer",
+    },
+    es: {
+      title: "Restablecer contraseña",
+      description:
+        "Ingresa el correo de tu cuenta y te enviaremos un enlace para restablecer tu contraseña.",
+      cancelLabel: "Cancelar",
+      continueLabel: "Continuar",
+    },
+  };
+
   return (
     <Dialog
       open={open}
@@ -38,13 +64,12 @@ export default function ForgotPassword({
         sx: { backgroundImage: "none" },
       }}
     >
-      <DialogTitle>Reset password</DialogTitle>
+      <DialogTitle>{translations[language].title}</DialogTitle>
       <DialogContent
         sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}
       >
         <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a
-          link to reset your password.
+          {translations[language].description}
         </DialogContentText>
         <OutlinedInput
           autoFocus
@@ -59,9 +84,11 @@ export default function ForgotPassword({
         />
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>
+          {translations[language].cancelLabel}
+        </Button>
         <Button variant="contained" type="submit">
-          Continue
+          {translations[language].continueLabel}
         </Button>
       </DialogActions>
     </Dialog>

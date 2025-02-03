@@ -52,6 +52,7 @@ export interface SignInProps {
  * @param [props.enableGoogleAuth] - Optional flag to enable Google authentication.
  * @param [props.enableLoginPasswordAuth] - Optional flag to enable LoginPassword authentication.
  * @param [props.enableFacebookAuth] - Optional flag to enable Facebook authentication.
+ * @param props.language
  * @returns The rendered SignIn component.
  */
 export default function SignIn({
@@ -59,9 +60,31 @@ export default function SignIn({
   enableGoogleAuth = true,
   enableLoginPasswordAuth = true,
   enableFacebookAuth = true,
-}: SignInProps) {
+  language = "en",
+}: SignInProps & { language?: "en" | "fr" | "es" }) {
   const [isSignUp, setIsSignUp] = useState(false);
   const SitemarkIconComponent = CustomSitemarkIcon || SitemarkIcon;
+
+  const translations = {
+    en: {
+      signInHeading: "Sign in",
+      poweredBy: "Powered by",
+      signUpLink: "Sign up",
+      dontHaveAccount: "Don’t have an account?",
+    },
+    fr: {
+      signInHeading: "Se connecter",
+      poweredBy: "Propulsé par",
+      signUpLink: "S’inscrire",
+      dontHaveAccount: "Vous n’avez pas de compte ?",
+    },
+    es: {
+      signInHeading: "Iniciar sesión",
+      poweredBy: "Desarrollado por",
+      signUpLink: "Registrarse",
+      dontHaveAccount: "¿No tienes una cuenta?",
+    },
+  };
 
   const toggleSignUp = () => {
     setIsSignUp(!isSignUp);
@@ -114,7 +137,7 @@ export default function SignIn({
             variant="h4"
             sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
           >
-            Sign in
+            {translations[language].signInHeading}
           </Typography>
           {enableLoginPasswordAuth && (
             <SignInWithLoginPasswordButton toggleSignUp={toggleSignUp} />
@@ -146,7 +169,7 @@ export default function SignIn({
               variant="caption"
               sx={{ mr: 1, display: "flex", alignItems: "center" }}
             >
-              Powered by
+              {translations[language].poweredBy}
             </Typography>
             <Box
               sx={{
@@ -159,6 +182,12 @@ export default function SignIn({
               <KeybanIcon />
             </Box>
           </Box>
+          <Typography>
+            {translations[language].dontHaveAccount}{" "}
+            <Button onClick={toggleSignUp}>
+              {translations[language].signUpLink}
+            </Button>
+          </Typography>
         </MuiCard>
       </Stack>
     </>

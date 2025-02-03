@@ -13,14 +13,46 @@ import { useKeybanAuth } from "../../index"; // Adjust the import path as needed
 import ForgotPassword from "../sign-in/components/ForgotPassword";
 
 const SignInWithLoginPasswordButton: React.FC<{
-  toggleSignUp: () => void; // Added toggleSignUp prop
-}> = ({ toggleSignUp }) => {
+  toggleSignUp: () => void;
+  language?: "en" | "fr" | "es";
+}> = ({ toggleSignUp, language = "en" }) => {
   const { login } = useKeybanAuth();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
+
+  const translations = {
+    en: {
+      emailInvalid: "Please enter a valid email address.",
+      passwordTooShort: "Password must be at least 6 characters long.",
+      rememberMe: "Remember me",
+      signInBtn: "Sign in",
+      forgotPassword: "Forgot your password?",
+      noAccount: "Don’t have an account?",
+      signUpLink: "Sign up",
+    },
+    fr: {
+      emailInvalid: "Veuillez saisir une adresse e-mail valide.",
+      passwordTooShort: "Le mot de passe doit contenir au moins 6 caractères.",
+      rememberMe: "Se souvenir de moi",
+      signInBtn: "Se connecter",
+      forgotPassword: "Mot de passe oublié ?",
+      noAccount: "Vous n’avez pas de compte ?",
+      signUpLink: "S’inscrire",
+    },
+    es: {
+      emailInvalid:
+        "Por favor, introduce una dirección de correo electrónico válida.",
+      passwordTooShort: "La contraseña debe tener al menos 6 caracteres.",
+      rememberMe: "Recordarme",
+      signInBtn: "Iniciar sesión",
+      forgotPassword: "¿Olvidaste tu contraseña?",
+      noAccount: "¿No tienes una cuenta?",
+      signUpLink: "Registrarse",
+    },
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,7 +83,7 @@ const SignInWithLoginPasswordButton: React.FC<{
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
+      setEmailErrorMessage(translations[language].emailInvalid);
       isValid = false;
     } else {
       setEmailError(false);
@@ -60,7 +92,7 @@ const SignInWithLoginPasswordButton: React.FC<{
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
+      setPasswordErrorMessage(translations[language].passwordTooShort);
       isValid = false;
     } else {
       setPasswordError(false);
@@ -118,7 +150,7 @@ const SignInWithLoginPasswordButton: React.FC<{
       </FormControl>
       <FormControlLabel
         control={<Checkbox value="remember" />}
-        label="Remember me"
+        label={translations[language].rememberMe}
       />
       <ForgotPassword open={open} handleClose={handleClose} />
       <Button
@@ -127,7 +159,7 @@ const SignInWithLoginPasswordButton: React.FC<{
         variant="contained"
         onClick={validateInputs}
       >
-        Sign in
+        {translations[language].signInBtn}
       </Button>
       <Link
         component="button"
@@ -136,17 +168,17 @@ const SignInWithLoginPasswordButton: React.FC<{
         variant="body2"
         sx={{ alignSelf: "center" }}
       >
-        Forgot your password?
+        {translations[language].forgotPassword}
       </Link>
       <Typography sx={{ textAlign: "center" }}>
-        Don&apos;t have an account?{" "}
+        {translations[language].noAccount}{" "}
         <Link
           component="button"
           onClick={toggleSignUp}
           variant="body2"
           sx={{ alignSelf: "center" }}
         >
-          Sign up
+          {translations[language].signUpLink}
         </Link>
       </Typography>
     </Stack>
