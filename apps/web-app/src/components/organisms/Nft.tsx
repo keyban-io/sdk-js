@@ -75,7 +75,7 @@ export default function Nft() {
           type="number"
           label="Items per page"
           value={pageSize}
-          onChange={(value) => setPageSize(value)}
+          onChange={setPageSize}
           data-test-id="Nft:pageSizeInput"
         />
       </Row>

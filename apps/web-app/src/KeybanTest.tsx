@@ -12,6 +12,7 @@ import NftFetch from "~/components/organisms/NftFetch";
 import NftTransfer from "~/components/organisms/NftTransfer";
 import Signature from "~/components/organisms/Signature";
 import TokenBalances from "~/components/organisms/TokenBalances";
+import Tpp from "~/components/organisms/Tpp";
 import TransferHistory from "~/components/organisms/TransferHistory";
 import WalletInfo from "~/components/organisms/WalletInfo";
 
@@ -34,6 +35,8 @@ export default function KeybanTest() {
       <NativeCurrency />
 
       <Auth />
+
+      <Tpp />
 
       <fieldset>
         <legend>Init</legend>

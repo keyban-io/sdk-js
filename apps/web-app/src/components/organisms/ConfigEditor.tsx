@@ -17,7 +17,7 @@ export type ConfigEditorProps = Omit<
 
 export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
   return (
-    <fieldset data-test-id="config-editor">
+    <fieldset data-test-id="ConfigEditor">
       <legend>Client config</legend>
 
       <TextField
