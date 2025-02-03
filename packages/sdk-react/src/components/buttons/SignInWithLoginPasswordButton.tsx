@@ -26,6 +26,8 @@ const translations = {
     signUpLink: "Sign up",
     emailPlaceholder: "your@email.com",
     passwordPlaceholder: "••••••",
+    emailLabel: "Email",
+    passwordLabel: "Password",
   },
   fr: {
     emailInvalid: "Veuillez saisir une adresse e-mail valide.",
@@ -37,6 +39,8 @@ const translations = {
     signUpLink: "S’inscrire",
     emailPlaceholder: "votre@email.com",
     passwordPlaceholder: "••••••",
+    emailLabel: "E-mail",
+    passwordLabel: "Mot de passe",
   },
   es: {
     emailInvalid:
@@ -49,6 +53,8 @@ const translations = {
     signUpLink: "Registrarse",
     emailPlaceholder: "tu@correo.com",
     passwordPlaceholder: "••••••",
+    emailLabel: "Correo electrónico",
+    passwordLabel: "Contraseña",
   },
 };
 
@@ -134,7 +140,7 @@ const SignInWithLoginPasswordButton: React.FC<
       }}
     >
       <FormControl>
-        <FormLabel htmlFor="email">Email</FormLabel>
+        <FormLabel htmlFor="email">{t.emailLabel}</FormLabel>
         <TextField
           error={emailError}
           helperText={emailErrorMessage}
@@ -153,7 +159,7 @@ const SignInWithLoginPasswordButton: React.FC<
         />
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor="password">Password</FormLabel>
+        <FormLabel htmlFor="password">{t.passwordLabel}</FormLabel>
         <TextField
           error={passwordError}
           helperText={passwordErrorMessage}
