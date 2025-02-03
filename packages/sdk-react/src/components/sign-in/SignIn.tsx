@@ -8,9 +8,10 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 
 import { getDefaultLanguage } from "../../utils/languageUtils";
+import SignInWithFacebookButton from "../buttons/SignInWithFacebookButton";
 import SignInWithGoogleButton from "../buttons/SignInWithGoogleButton";
 import SignInWithLoginPasswordButton from "../buttons/SignInWithLoginPasswordButton";
-import { FacebookIcon, KeybanIcon, SitemarkIcon } from "../CustomIcons";
+import { KeybanIcon, SitemarkIcon } from "../CustomIcons";
 import SignUp from "../sign-up/SignUp";
 
 /**
@@ -72,18 +73,21 @@ export default function SignIn({
       poweredBy: "Powered by",
       signUpLink: "Sign up",
       dontHaveAccount: "Don’t have an account?",
+      signInWithFacebook: "Sign in with Facebook",
     },
     fr: {
       signInHeading: "Se connecter",
       poweredBy: "Propulsé par",
       signUpLink: "S’inscrire",
       dontHaveAccount: "Vous n’avez pas de compte ?",
+      signInWithFacebook: "Se connecter avec Facebook",
     },
     es: {
       signInHeading: "Iniciar sesión",
       poweredBy: "Desarrollado por",
       signUpLink: "Registrarse",
       dontHaveAccount: "¿No tienes una cuenta?",
+      signInWithFacebook: "Iniciar sesión con Facebook",
     },
   };
 
@@ -152,14 +156,7 @@ export default function SignIn({
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {enableGoogleAuth && <SignInWithGoogleButton language={language} />}
             {enableFacebookAuth && (
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => alert("Sign in with Facebook")}
-                startIcon={<FacebookIcon />}
-              >
-                Sign in with Facebook
-              </Button>
+              <SignInWithFacebookButton language={language} />
             )}
           </Box>
           <Box
