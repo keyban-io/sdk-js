@@ -23,6 +23,11 @@ const SignInWithLoginPasswordButton: React.FC<{
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [t, setT] = React.useState(translations[language]);
+
+  React.useEffect(() => {
+    setT(translations[language]);
+  }, [language]);
 
   const translations = {
     en: {
@@ -33,6 +38,8 @@ const SignInWithLoginPasswordButton: React.FC<{
       forgotPassword: "Forgot your password?",
       noAccount: "Don’t have an account?",
       signUpLink: "Sign up",
+      emailPlaceholder: "your@email.com",
+      passwordPlaceholder: "••••••",
     },
     fr: {
       emailInvalid: "Veuillez saisir une adresse e-mail valide.",
@@ -42,6 +49,8 @@ const SignInWithLoginPasswordButton: React.FC<{
       forgotPassword: "Mot de passe oublié ?",
       noAccount: "Vous n’avez pas de compte ?",
       signUpLink: "S’inscrire",
+      emailPlaceholder: "votre@email.com",
+      passwordPlaceholder: "••••••",
     },
     es: {
       emailInvalid:
@@ -52,6 +61,8 @@ const SignInWithLoginPasswordButton: React.FC<{
       forgotPassword: "¿Olvidaste tu contraseña?",
       noAccount: "¿No tienes una cuenta?",
       signUpLink: "Registrarse",
+      emailPlaceholder: "tu@correo.com",
+      passwordPlaceholder: "••••••",
     },
   };
 
@@ -84,7 +95,7 @@ const SignInWithLoginPasswordButton: React.FC<{
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage(translations[language].emailInvalid);
+      setEmailErrorMessage(t.emailInvalid);
       isValid = false;
     } else {
       setEmailError(false);
@@ -93,7 +104,7 @@ const SignInWithLoginPasswordButton: React.FC<{
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage(translations[language].passwordTooShort);
+      setPasswordErrorMessage(t.passwordTooShort);
       isValid = false;
     } else {
       setPasswordError(false);
@@ -123,7 +134,7 @@ const SignInWithLoginPasswordButton: React.FC<{
           id="email"
           type="email"
           name="email"
-          placeholder="your@email.com"
+          placeholder={t.emailPlaceholder}
           autoComplete="email"
           autoFocus
           required
@@ -138,7 +149,7 @@ const SignInWithLoginPasswordButton: React.FC<{
           error={passwordError}
           helperText={passwordErrorMessage}
           name="password"
-          placeholder="••••••"
+          placeholder={t.passwordPlaceholder}
           type="password"
           id="password"
           autoComplete="current-password"
@@ -151,7 +162,7 @@ const SignInWithLoginPasswordButton: React.FC<{
       </FormControl>
       <FormControlLabel
         control={<Checkbox value="remember" />}
-        label={translations[language].rememberMe}
+        label={t.rememberMe}
       />
       <ForgotPassword
         open={open}
@@ -164,7 +175,7 @@ const SignInWithLoginPasswordButton: React.FC<{
         variant="contained"
         onClick={validateInputs}
       >
-        {translations[language].signInBtn}
+        {t.signInBtn}
       </Button>
       <Link
         component="button"
@@ -173,17 +184,17 @@ const SignInWithLoginPasswordButton: React.FC<{
         variant="body2"
         sx={{ alignSelf: "center" }}
       >
-        {translations[language].forgotPassword}
+        {t.forgotPassword}
       </Link>
       <Typography sx={{ textAlign: "center" }}>
-        {translations[language].noAccount}{" "}
+        {t.noAccount}{" "}
         <Link
           component="button"
           onClick={toggleSignUp}
           variant="body2"
           sx={{ alignSelf: "center" }}
         >
-          {translations[language].signUpLink}
+          {t.signUpLink}
         </Link>
       </Typography>
     </Stack>

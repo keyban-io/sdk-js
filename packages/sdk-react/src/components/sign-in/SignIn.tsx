@@ -5,7 +5,7 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getDefaultLanguage } from "../../utils/languageUtils";
 import SignInWithFacebookButton from "../buttons/SignInWithFacebookButton";
@@ -91,6 +91,12 @@ export default function SignIn({
     },
   };
 
+  const [t, setT] = useState(translations[language]);
+
+  useEffect(() => {
+    setT(translations[language]);
+  }, [language]);
+
   const toggleSignUp = () => {
     setIsSignUp(!isSignUp);
   };
@@ -143,7 +149,7 @@ export default function SignIn({
             variant="h4"
             sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
           >
-            {translations[language].signInHeading}
+            {t.signInHeading}
           </Typography>
           {enableLoginPasswordAuth && (
             <SignInWithLoginPasswordButton
@@ -171,7 +177,7 @@ export default function SignIn({
               variant="caption"
               sx={{ mr: 1, display: "flex", alignItems: "center" }}
             >
-              {translations[language].poweredBy}
+              {t.poweredBy}
             </Typography>
             <Box
               sx={{
@@ -185,10 +191,8 @@ export default function SignIn({
             </Box>
           </Box>
           <Typography>
-            {translations[language].dontHaveAccount}{" "}
-            <Button onClick={toggleSignUp}>
-              {translations[language].signUpLink}
-            </Button>
+            {t.dontHaveAccount}{" "}
+            <Button onClick={toggleSignUp}>{t.signUpLink}</Button>
           </Typography>
         </MuiCard>
       </Stack>

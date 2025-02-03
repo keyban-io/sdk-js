@@ -36,6 +36,7 @@ export default function ForgotPassword({
         "Enter your account's email address, and we'll send you a link to reset your password.",
       cancelLabel: "Cancel",
       continueLabel: "Continue",
+      emailPlaceholder: "Email address",
     },
     fr: {
       title: "Réinitialiser le mot de passe",
@@ -43,6 +44,7 @@ export default function ForgotPassword({
         "Entrez l'adresse e-mail de votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
       cancelLabel: "Annuler",
       continueLabel: "Continuer",
+      emailPlaceholder: "Adresse e-mail",
     },
     es: {
       title: "Restablecer contraseña",
@@ -50,8 +52,15 @@ export default function ForgotPassword({
         "Ingresa el correo de tu cuenta y te enviaremos un enlace para restablecer tu contraseña.",
       cancelLabel: "Cancelar",
       continueLabel: "Continuar",
+      emailPlaceholder: "Correo electrónico",
     },
   };
+
+  const [t, setT] = React.useState(translations[language]);
+
+  React.useEffect(() => {
+    setT(translations[language]);
+  }, [language]);
 
   return (
     <Dialog
@@ -66,13 +75,11 @@ export default function ForgotPassword({
         sx: { backgroundImage: "none" },
       }}
     >
-      <DialogTitle>{translations[language].title}</DialogTitle>
+      <DialogTitle>{t.title}</DialogTitle>
       <DialogContent
         sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}
       >
-        <DialogContentText>
-          {translations[language].description}
-        </DialogContentText>
+        <DialogContentText>{t.description}</DialogContentText>
         <OutlinedInput
           autoFocus
           required
@@ -80,17 +87,15 @@ export default function ForgotPassword({
           id="email"
           name="email"
           label="Email address"
-          placeholder="Email address"
+          placeholder={t.emailPlaceholder}
           type="email"
           fullWidth
         />
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>
-        <Button onClick={handleClose}>
-          {translations[language].cancelLabel}
-        </Button>
+        <Button onClick={handleClose}>{t.cancelLabel}</Button>
         <Button variant="contained" type="submit">
-          {translations[language].continueLabel}
+          {t.continueLabel}
         </Button>
       </DialogActions>
     </Dialog>

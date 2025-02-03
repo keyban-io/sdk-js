@@ -16,14 +16,20 @@ const SignInWithFacebookButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
     es: { signInFacebook: "Iniciar sesión con Facebook" },
   };
 
+  const [t, setT] = React.useState(translations[language]);
+
+  React.useEffect(() => {
+    setT(translations[language]);
+  }, [language]);
+
   return (
     <Button
       fullWidth
       variant="outlined"
-      onClick={() => login("facebook-oauth2")}
+      onClick={() => login("google-oauth2")}
       startIcon={<FacebookIcon />}
     >
-      {translations[language].signInFacebook}
+      {t.signInFacebook}
     </Button>
   );
 };

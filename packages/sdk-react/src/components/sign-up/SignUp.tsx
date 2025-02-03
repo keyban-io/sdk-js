@@ -66,6 +66,9 @@ export default function SignUp({
       fullNameLabel: "Full name",
       emailLabel: "Email",
       passwordLabel: "Password",
+      namePlaceholder: "Jon Snow",
+      emailPlaceholder: "your@email.com",
+      passwordPlaceholder: "••••••",
     },
     fr: {
       emailInvalid: "Veuillez saisir une adresse e-mail valide.",
@@ -77,6 +80,9 @@ export default function SignUp({
       fullNameLabel: "Nom complet",
       emailLabel: "E-mail",
       passwordLabel: "Mot de passe",
+      namePlaceholder: "Jean Dupont",
+      emailPlaceholder: "votre@email.com",
+      passwordPlaceholder: "••••••",
     },
     es: {
       emailInvalid:
@@ -89,8 +95,17 @@ export default function SignUp({
       fullNameLabel: "Nombre completo",
       emailLabel: "Correo electrónico",
       passwordLabel: "Contraseña",
+      namePlaceholder: "Juan Pérez",
+      emailPlaceholder: "tu@correo.com",
+      passwordPlaceholder: "••••••",
     },
   };
+
+  const [t, setT] = React.useState(translations[language]);
+
+  React.useEffect(() => {
+    setT(translations[language]);
+  }, [language]);
 
   const validateInputs = () => {
     const email = document.getElementById("email") as HTMLInputElement;
@@ -101,7 +116,7 @@ export default function SignUp({
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage(translations[language].emailInvalid);
+      setEmailErrorMessage(t.emailInvalid);
       isValid = false;
     } else {
       setEmailError(false);
@@ -110,7 +125,7 @@ export default function SignUp({
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage(translations[language].passwordTooShort);
+      setPasswordErrorMessage(t.passwordTooShort);
       isValid = false;
     } else {
       setPasswordError(false);
@@ -119,7 +134,7 @@ export default function SignUp({
 
     if (!name.value || name.value.length < 1) {
       setNameError(true);
-      setNameErrorMessage(translations[language].nameRequired);
+      setNameErrorMessage(t.nameRequired);
       isValid = false;
     } else {
       setNameError(false);
@@ -195,7 +210,7 @@ export default function SignUp({
             variant="h4"
             sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
           >
-            {translations[language].signUpHeading}
+            {t.signUpHeading}
           </Typography>
           <Box
             component="form"
@@ -203,30 +218,26 @@ export default function SignUp({
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="name">
-                {translations[language].fullNameLabel}
-              </FormLabel>
+              <FormLabel htmlFor="name">{t.fullNameLabel}</FormLabel>
               <TextField
                 autoComplete="name"
                 name="name"
                 required
                 fullWidth
                 id="name"
-                placeholder="Jon Snow"
+                placeholder={t.namePlaceholder}
                 error={nameError}
                 helperText={nameErrorMessage}
                 color={nameError ? "error" : "primary"}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="email">
-                {translations[language].emailLabel}
-              </FormLabel>
+              <FormLabel htmlFor="email">{t.emailLabel}</FormLabel>
               <TextField
                 required
                 fullWidth
                 id="email"
-                placeholder="your@email.com"
+                placeholder={t.emailPlaceholder}
                 name="email"
                 autoComplete="email"
                 variant="outlined"
@@ -236,14 +247,12 @@ export default function SignUp({
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password">
-                {translations[language].passwordLabel}
-              </FormLabel>
+              <FormLabel htmlFor="password">{t.passwordLabel}</FormLabel>
               <TextField
                 required
                 fullWidth
                 name="password"
-                placeholder="••••••"
+                placeholder={t.passwordPlaceholder}
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -260,18 +269,18 @@ export default function SignUp({
               variant="contained"
               onClick={validateInputs}
             >
-              {translations[language].signUpHeading}
+              {t.signUpHeading}
             </Button>
           </Box>
           <Typography sx={{ textAlign: "center", mt: 2 }}>
-            {translations[language].alreadyHasAccount}{" "}
+            {t.alreadyHasAccount}{" "}
             <Link
               component="button"
               onClick={toggleSignIn}
               variant="body2"
               sx={{ alignSelf: "center" }}
             >
-              {translations[language].signInLink}
+              {t.signInLink}
             </Link>
           </Typography>
           <Box

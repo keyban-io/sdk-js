@@ -16,6 +16,12 @@ const SignInWithGoogleButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
     es: { signInGoogle: "Iniciar sesión con Google" },
   };
 
+  const [t, setT] = React.useState(translations[language]);
+
+  React.useEffect(() => {
+    setT(translations[language]);
+  }, [language]);
+
   return (
     <Button
       fullWidth
@@ -23,7 +29,7 @@ const SignInWithGoogleButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
       onClick={() => login("google-oauth2")}
       startIcon={<GoogleIcon />}
     >
-      {translations[language].signInGoogle}
+      {t.signInGoogle}
     </Button>
   );
 };
