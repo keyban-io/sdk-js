@@ -57,7 +57,6 @@ export default function Login() {
       enableGoogleAuth={true}
       enableLoginPasswordAuth={true}
       enableFacebookAuth={false}
-      language="es"
     />
   );
 }

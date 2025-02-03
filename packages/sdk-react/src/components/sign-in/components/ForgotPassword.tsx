@@ -6,6 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import * as React from "react";
+import { useMemo } from "react";
 
 import { getDefaultLanguage } from "../../../utils/languageUtils";
 
@@ -13,6 +14,36 @@ interface ForgotPasswordProps {
   open: boolean;
   handleClose: () => void;
 }
+
+const forgotPasswordTranslations = {
+  en: {
+    title: "Reset password",
+    description:
+      "Enter your account's email address, and we'll send you a link to reset your password.",
+    cancelLabel: "Cancel",
+    continueLabel: "Continue",
+    emailPlaceholder: "Email address",
+    emailLabel: "Email address",
+  },
+  fr: {
+    title: "Réinitialiser le mot de passe",
+    description:
+      "Entrez l'adresse e-mail de votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    cancelLabel: "Annuler",
+    continueLabel: "Continuer",
+    emailPlaceholder: "Adresse e-mail",
+    emailLabel: "Adresse e-mail",
+  },
+  es: {
+    title: "Restablecer contraseña",
+    description:
+      "Ingresa el correo de tu cuenta y te enviaremos un enlace para restablecer tu contraseña.",
+    cancelLabel: "Cancelar",
+    continueLabel: "Continuar",
+    emailPlaceholder: "Correo electrónico",
+    emailLabel: "Correo electrónico",
+  },
+};
 
 /**
  * A React component that renders a dialog for resetting a password.
@@ -29,38 +60,10 @@ export default function ForgotPassword({
   handleClose,
   language = getDefaultLanguage(),
 }: ForgotPasswordProps & { language?: "en" | "fr" | "es" }) {
-  const translations = {
-    en: {
-      title: "Reset password",
-      description:
-        "Enter your account's email address, and we'll send you a link to reset your password.",
-      cancelLabel: "Cancel",
-      continueLabel: "Continue",
-      emailPlaceholder: "Email address",
-    },
-    fr: {
-      title: "Réinitialiser le mot de passe",
-      description:
-        "Entrez l'adresse e-mail de votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
-      cancelLabel: "Annuler",
-      continueLabel: "Continuer",
-      emailPlaceholder: "Adresse e-mail",
-    },
-    es: {
-      title: "Restablecer contraseña",
-      description:
-        "Ingresa el correo de tu cuenta y te enviaremos un enlace para restablecer tu contraseña.",
-      cancelLabel: "Cancelar",
-      continueLabel: "Continuar",
-      emailPlaceholder: "Correo electrónico",
-    },
-  };
-
-  const [t, setT] = React.useState(translations[language]);
-
-  React.useEffect(() => {
-    setT(translations[language]);
-  }, [language]);
+  const t = useMemo(
+    () => forgotPasswordTranslations[language] || forgotPasswordTranslations.en,
+    [language],
+  );
 
   return (
     <Dialog
@@ -86,7 +89,7 @@ export default function ForgotPassword({
           margin="dense"
           id="email"
           name="email"
-          label="Email address"
+          label={t.emailLabel}
           placeholder={t.emailPlaceholder}
           type="email"
           fullWidth

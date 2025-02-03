@@ -109,10 +109,9 @@ export default function App() {
               themeMode={themeMode}
             />
             <SignIn
-              enableFacebookAuth={true}
+              enableFacebookAuth={false}
               SitemarkIcon={KeybanIcon}
               enableLoginPasswordAuth={true}
-              language="fr"
             />
           </>
         ) : (
