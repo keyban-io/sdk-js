@@ -112,6 +112,7 @@ export default function App() {
               enableFacebookAuth={false}
               SitemarkIcon={KeybanIcon}
               enableLoginPasswordAuth={true}
+              language="en"
             />
           </>
         ) : (

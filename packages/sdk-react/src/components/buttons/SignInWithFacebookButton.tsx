@@ -1,18 +1,18 @@
 import Button from "@mui/material/Button";
 import * as React from "react";
 
-import { useKeybanAuth } from "../../index"; // Ajuster le chemin si nécessaire
+import { useKeybanAuth } from "../../index";
 import { getDefaultLanguage } from "../../utils/languageUtils";
-import { GoogleIcon } from "../CustomIcons";
+import { FacebookIcon } from "../CustomIcons";
 
 // Définition des traductions en dehors du composant
 const translations = {
-  en: { signInGoogle: "Sign in with Google" },
-  fr: { signInGoogle: "Se connecter avec Google" },
-  es: { signInGoogle: "Iniciar sesión con Google" },
+  en: { signInFacebook: "Sign in with Facebook" },
+  fr: { signInFacebook: "Se connecter avec Facebook" },
+  es: { signInFacebook: "Iniciar sesión con Facebook" },
 };
 
-const SignInWithGoogleButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
+const SignInWithFacebookButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
   language = getDefaultLanguage(),
 }) => {
   const { login } = useKeybanAuth();
@@ -28,11 +28,11 @@ const SignInWithGoogleButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
       fullWidth
       variant="outlined"
       onClick={() => login("google-oauth2")}
-      startIcon={<GoogleIcon />}
+      startIcon={<FacebookIcon />}
     >
-      {t.signInGoogle}
+      {t.signInFacebook}
     </Button>
   );
 };
 
-export default SignInWithGoogleButton;
+export default SignInWithFacebookButton;
