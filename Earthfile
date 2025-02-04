@@ -29,7 +29,7 @@ update-lock-file:
     COPY ./apps/web-app/package.json    ./apps/web-app/
     COPY ./apps/dpp-app/package.json    ./apps/dpp-app/
 
-    RUN pnpm install
+    RUN pnpm install --silent
     SAVE ARTIFACT pnpm-lock.yaml AS LOCAL pnpm-lock.yaml
 
 sdk-build:
@@ -40,7 +40,7 @@ sdk-build:
 
     DO +GET_PACKAGE_JSON
 
-    RUN pnpm install
+    RUN pnpm install --silent
 
     COPY +get-ecdsa-wasm/pkg/*          ./packages/ecdsa-wasm-client
     COPY ./packages/sdk-base            ./packages/sdk-base
@@ -53,7 +53,8 @@ sdk-build:
 
 sdk-release-ga:
     FROM +sdk-build
-    RUN apt update && apt install -y python3
+    RUN apt-get --quiet update > /tmp/log 2>&1 || { cat /tmp/log; exit 1; }
+    RUN apt-get --quiet install --yes python3 > /tmp/log 2>&1 || { cat /tmp/log; exit 1; }
     COPY ../tools/bitwarden+bitwarden/bws /bws
 
     ARG --required package
@@ -71,7 +72,7 @@ app-base:
     ARG --required app
     COPY ./apps/${app}/package.json ./apps/${app}/
 
-    RUN pnpm install | grep -v "Progress: resolved"
+    RUN pnpm install --silent
 
     COPY ./apps/${app} ./apps/${app}
 
@@ -90,13 +91,13 @@ lint:
     WORKDIR /app
     COPY . ./
 
-    RUN pnpm install
+    RUN pnpm install --silent
     RUN pnpm -r lint
 
 test:
     FROM +sdk-build
     COPY ./apps ./apps
-    RUN pnpm install
+    RUN pnpm install --silent
     RUN pnpm -r build
     RUN pnpm -r test
 
@@ -129,7 +130,7 @@ create-keyban-app:
         pnpm remove @keyban/sdk-react && \
         jq '.dependencies["@keyban/sdk-react"] = "workspace:*"' package.json > tmp.json && \
         mv tmp.json package.json && \
-        pnpm install
+        pnpm install --silent
     RUN cd /app/apps/create-keyban-app-dev && sed -i 's|const API_URL = "https://api.beta.keyban.io";|const API_URL = "https://api.keyban.localtest.me";|' /app/apps/create-keyban-app-dev/src/config.ts
     RUN cd /app/apps/create-keyban-app-dev && sed -i 's|chain: KeybanChain.PolygonAmoy,|chain: KeybanChain.EthereumAnvil,|' /app/apps/create-keyban-app-dev/src/config.ts
     SAVE ARTIFACT /app/apps/create-keyban-app-dev AS LOCAL ./apps/create-keyban-app-dev
