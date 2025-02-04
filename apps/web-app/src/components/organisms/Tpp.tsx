@@ -20,14 +20,15 @@ export default function Tpp() {
   const [progress, setProgress] = React.useState<{
     total: number;
     completed: number;
-    errors: string[];
+    errors: { [jobKey: string]: string };
+    results: { [jobKey: string]: { transactionHash: string } };
   } | null>(null);
 
   const handleCreateJob = React.useCallback(() => {
     setJobId(null);
     setProgress(null);
 
-    const url = new URL("/tpp", client.apiUrl);
+    const url = new URL(`/tpp?network=${client.chain}`, client.apiUrl);
 
     fetch(url, {
       method: "POST",
@@ -109,6 +110,15 @@ export default function Tpp() {
               value={progress?.errors}
               style={{ flexGrow: 1 }}
               data-test-id="Tpp:errors"
+            />
+          </fieldset>
+
+          <fieldset>
+            <legend>Results</legend>
+            <SerializedValue
+              value={progress?.results}
+              style={{ flexGrow: 1 }}
+              data-test-id="Tpp:results"
             />
           </fieldset>
         </fieldset>

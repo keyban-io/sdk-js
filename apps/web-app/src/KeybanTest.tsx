@@ -36,7 +36,7 @@ export default function KeybanTest() {
 
       <Auth />
 
-      <Tpp />
+      {isStarknet && <Tpp />}
 
       <fieldset>
         <legend>Init</legend>
