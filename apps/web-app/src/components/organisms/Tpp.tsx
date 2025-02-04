@@ -27,7 +27,7 @@ export default function Tpp() {
     setJobId(null);
     setProgress(null);
 
-    const url = new URL(`/applications/${client.appId}/tpp`, client.apiUrl);
+    const url = new URL("/tpp", client.apiUrl);
 
     fetch(url, {
       method: "POST",
@@ -42,10 +42,7 @@ export default function Tpp() {
   React.useEffect(() => {
     if (!jobId) return;
 
-    const url = new URL(
-      `/applications/${client.appId}/tpp/${jobId}/progress`,
-      client.apiUrl,
-    );
+    const url = new URL(`/tpp/${jobId}/progress`, client.apiUrl);
 
     const eventSource = new EventSource(url);
 
@@ -65,6 +62,7 @@ export default function Tpp() {
           value={jsonl}
           maxRows={20}
           onChange={(e) => setJsonl(e.target.value)}
+          data-test-id="Tpp:jsonl"
           style={{ flexGrow: 1 }}
         />
       </Row>
@@ -77,11 +75,14 @@ export default function Tpp() {
           data-test-id="Tpp:apiKey"
           style={{ flexGrow: 1 }}
         />
-        <button onClick={handleCreateJob}>Create job</button>
+
+        <button onClick={handleCreateJob} data-test-id="Tpp:createJob">
+          Create job
+        </button>
       </Row>
 
       {jobId && (
-        <fieldset>
+        <fieldset data-test-id="Tpp:jobDetails">
           <legend>Job #{jobId}</legend>
 
           <Row>
