@@ -53,8 +53,7 @@ sdk-build:
 
 sdk-release-ga:
     FROM +sdk-build
-    RUN apt-get --quiet update > /tmp/log 2>&1 || { cat /tmp/log; exit 1; }
-    RUN apt-get --quiet install --yes python3 > /tmp/log 2>&1 || { cat /tmp/log; exit 1; }
+    DO ../+APT_GET_UPDATE_INSTALL --packages="python3"
     COPY ../tools/bitwarden+bitwarden/bws /bws
 
     ARG --required package
