@@ -3,9 +3,17 @@ import React from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import TextareaAutosize from "react-textarea-autosize";
 
+import RefreshButton from "~/components/atoms/RefreshButton";
 import Row from "~/components/atoms/Row";
 import SerializedValue from "~/components/atoms/SerializedValue";
 import TextField from "~/components/molecules/TextField";
+
+type JobProgress = {
+  total: number;
+  completed: number;
+  errors: { [jobKey: string]: string };
+  results: { [jobKey: string]: { transactionHash: string } };
+};
 
 export default function Tpp() {
   const { showBoundary } = useErrorBoundary();
@@ -19,12 +27,7 @@ export default function Tpp() {
   );
 
   const [jobId, setJobId] = React.useState<string | null>(null);
-  const [progress, setProgress] = React.useState<{
-    total: number;
-    completed: number;
-    errors: { [jobKey: string]: string };
-    results: { [jobKey: string]: { transactionHash: string } };
-  } | null>(null);
+  const [progress, setProgress] = React.useState<JobProgress | null>(null);
 
   const handleCreateJob = React.useCallback(() => {
     setJobId(null);
@@ -49,6 +52,23 @@ export default function Tpp() {
       .then(setJobId)
       .catch(showBoundary);
   }, [client, apiKey, jsonl, showBoundary]);
+
+  const [jobStatus, setJobStatus] = React.useState<JobProgress | null>(null);
+  const handleFetchStatus = React.useCallback(() => {
+    const url = new URL(`/tpp/${jobId}/status`, client.apiUrl);
+
+    const headers: HeadersInit = { "Content-Type": "application/jsonl" };
+    if (apiKey) headers["X-Api-Key"] = apiKey;
+
+    fetch(url, { headers })
+      .then(async (res) => {
+        const json = await res.json();
+        if (res.ok) return json;
+        throw new Error(json.title);
+      })
+      .then(setJobStatus)
+      .catch(showBoundary);
+  }, [client, apiKey, jobId, showBoundary]);
 
   React.useEffect(() => {
     if (!jobId) return;
@@ -92,8 +112,16 @@ export default function Tpp() {
         </button>
       </Row>
 
-      {jobId && (
-        <fieldset data-test-id="Tpp:jobDetails">
+      <TextField
+        label="Job ID"
+        type="number"
+        value={jobId ?? ""}
+        onChange={setJobId}
+        data-test-id="Tpp:jobId"
+      />
+
+      {progress && (
+        <fieldset>
           <legend>Job #{jobId}</legend>
 
           <Row>
@@ -119,7 +147,7 @@ export default function Tpp() {
             <SerializedValue
               value={progress?.errors}
               style={{ flexGrow: 1 }}
-              data-test-id="Tpp:errors"
+              data-test-id="Tpp:progress:errors"
             />
           </fieldset>
 
@@ -131,6 +159,21 @@ export default function Tpp() {
               data-test-id="Tpp:results"
             />
           </fieldset>
+        </fieldset>
+      )}
+
+      {jobId && (
+        <fieldset>
+          <legend>
+            Status
+            <RefreshButton
+              onClick={handleFetchStatus}
+              style={{ marginInlineStart: "0.5ch" }}
+              data-test-id="Tpp:status:fetch"
+            />
+          </legend>
+
+          <SerializedValue value={jobStatus} data-test-id="Tpp:status" />
         </fieldset>
       )}
     </fieldset>

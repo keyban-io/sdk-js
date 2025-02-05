@@ -24,9 +24,10 @@ const wrapSuspense = (Comp: React.ComponentType) => (
 
 export default function KeybanTest() {
   const client = useKeybanClient();
-  const isStarknet =
-    client.chain === KeybanChain.StarknetDevnet ||
-    client.chain === KeybanChain.StarknetSepolia;
+  const isStarknet = [
+    KeybanChain.StarknetDevnet,
+    KeybanChain.StarknetSepolia,
+  ].includes(client.chain);
 
   const [init, setInit] = React.useState(false);
 
@@ -34,9 +35,9 @@ export default function KeybanTest() {
     <>
       <NativeCurrency />
 
-      <Auth />
-
       {isStarknet && <Tpp />}
+
+      <Auth />
 
       <fieldset>
         <legend>Init</legend>
