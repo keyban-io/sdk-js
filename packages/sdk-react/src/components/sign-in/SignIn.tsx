@@ -46,12 +46,14 @@ const translations = {
  * @property enableGoogleAuth - Determines whether Google authentication is enabled.
  * @property enableLoginPasswordAuth - Determines whether traditional username/password authentication is enabled.
  * @property enableFacebookAuth - Determines whether Facebook authentication is enabled.
+ * @property language - The language code for translations. Defaults to the browser's language or "en".
  */
 export interface SignInProps {
   SitemarkIcon?: React.ComponentType<SvgIconProps>;
   enableGoogleAuth?: boolean;
   enableLoginPasswordAuth?: boolean;
   enableFacebookAuth?: boolean;
+  language?: "en" | "fr" | "es"; // Ajout de la prop language
 }
 
 /**
@@ -75,7 +77,7 @@ export default function SignIn({
   enableLoginPasswordAuth = true,
   enableFacebookAuth = true,
   language = getDefaultLanguage(),
-}: SignInProps & { language?: "en" | "fr" | "es" }) {
+}: SignInProps) {
   const [isSignUp, setIsSignUp] = useState(false);
   const SitemarkIconComponent = CustomSitemarkIcon || SitemarkIcon;
 
