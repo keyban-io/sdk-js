@@ -49,7 +49,7 @@ sdk-build:
     COPY ./packages/create-keyban-app   ./packages/create-keyban-app
     COPY ./packages/tsconfig.base.json  ./packages/tsconfig.base.json
 
-    RUN pnpm -r build
+    RUN pnpm -r build --silent
 
 sdk-release-ga:
     FROM +sdk-build
@@ -97,13 +97,13 @@ test:
     FROM +sdk-build
     COPY ./apps ./apps
     RUN pnpm install --silent
-    RUN pnpm -r build
+    RUN pnpm -r build --silent
     RUN pnpm -r test
 
 build:
     ARG --required app
     FROM +app-base --app=${app}
-    RUN pnpm --filter ${app} build
+    RUN pnpm --filter ${app} build --logLevel silent
 
 dist:
     ARG --required app
