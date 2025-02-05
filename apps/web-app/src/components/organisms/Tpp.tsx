@@ -1,5 +1,6 @@
 import { useKeybanClient } from "@keyban/sdk-react";
 import React from "react";
+import { useErrorBoundary } from "react-error-boundary";
 import TextareaAutosize from "react-textarea-autosize";
 
 import Row from "~/components/atoms/Row";
@@ -7,6 +8,7 @@ import SerializedValue from "~/components/atoms/SerializedValue";
 import TextField from "~/components/molecules/TextField";
 
 export default function Tpp() {
+  const { showBoundary } = useErrorBoundary();
   const client = useKeybanClient();
 
   const [apiKey, setApiKey] = React.useState("WEB-APP-API-KEY");
@@ -30,15 +32,23 @@ export default function Tpp() {
 
     const url = new URL(`/tpp?network=${client.chain}`, client.apiUrl);
 
+    const headers: HeadersInit = { "Content-Type": "application/jsonl" };
+    if (apiKey) headers["X-Api-Key"] = apiKey;
+
     fetch(url, {
       method: "POST",
-      headers: { "X-Api-Key": apiKey },
+      headers,
       body: jsonl,
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        const json = await res.json();
+        if (res.ok) return json;
+        throw new Error(json.title);
+      })
       .then(({ jobId }) => jobId)
-      .then(setJobId);
-  }, [client, apiKey, jsonl]);
+      .then(setJobId)
+      .catch(showBoundary);
+  }, [client, apiKey, jsonl, showBoundary]);
 
   React.useEffect(() => {
     if (!jobId) return;
