@@ -1,3 +1,4 @@
 {
-  "name": "@keyban/sdk"
+  "name": "@keyban/sdk",
+  "packageManager": "pnpm@10.2.0"
 }
