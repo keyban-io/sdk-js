@@ -155,7 +155,7 @@ export abstract class KeybanClientBase {
     this.clientShareProvider = config.clientShareProvider;
 
     const indexerPrefix = {
-      [KeybanChain.EthereumAnvil]: "subql-anvil.",
+      [KeybanChain.EthereumAnvil]: "subql-ethereum-anvil.",
       [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
       [KeybanChain.StarknetDevnet]: "subql-starknet-devnet.",
       [KeybanChain.StarknetSepolia]: "subql-starlink-sepolia.",
