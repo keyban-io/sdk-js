@@ -11,8 +11,12 @@ import TextField from "~/components/molecules/TextField";
 type JobProgress = {
   total: number;
   completed: number;
-  errors: { [jobKey: string]: string };
-  results: { [jobKey: string]: { transactionHash: string } };
+  errors: string[];
+  results: {
+    lineNumber: string;
+    id: string;
+    transactionHash: string;
+  }[];
 };
 
 export default function Tpp() {
@@ -126,7 +130,11 @@ export default function Tpp() {
 
           <Row>
             <span>
-              {progress?.completed} / {progress?.total}
+              <span data-test-id="Tpp:progress:completed">
+                {progress.completed}
+              </span>
+              &nbsp;/&nbsp;
+              <span data-test-id="Tpp:progress:total">{progress.total}</span>
             </span>
 
             <progress
