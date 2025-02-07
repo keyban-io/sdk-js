@@ -1,6 +1,29 @@
 export const ETH_ACCOUNT_CLASS_HASH =
-  "0x1464145f4f402487c34eb6b906a275beb4f1768afe80b6db0122192a94857b5";
+  "0x4cd8a440d4df133e0001f3245db262a53a08be8859e9db36869d581f061c808";
 export const ETH_ACCOUNT_ABI = [
+  {
+    type: "impl",
+    name: "UpgradeableImpl",
+    interface_name: "openzeppelin_upgrades::interface::IUpgradeable",
+  },
+  {
+    type: "interface",
+    name: "openzeppelin_upgrades::interface::IUpgradeable",
+    items: [
+      {
+        type: "function",
+        name: "upgrade",
+        inputs: [
+          {
+            name: "new_class_hash",
+            type: "core::starknet::class_hash::ClassHash",
+          },
+        ],
+        outputs: [],
+        state_mutability: "external",
+      },
+    ],
+  },
   {
     type: "impl",
     name: "EthAccountMixinImpl",
@@ -237,6 +260,90 @@ export const ETH_ACCOUNT_ABI = [
     ],
   },
   {
+    type: "impl",
+    name: "OutsideExecutionV2Impl",
+    interface_name:
+      "openzeppelin_account::extensions::src9::interface::ISRC9_V2",
+  },
+  {
+    type: "struct",
+    name: "core::array::Span::<core::starknet::account::Call>",
+    members: [
+      {
+        name: "snapshot",
+        type: "@core::array::Array::<core::starknet::account::Call>",
+      },
+    ],
+  },
+  {
+    type: "struct",
+    name: "openzeppelin_account::extensions::src9::interface::OutsideExecution",
+    members: [
+      {
+        name: "caller",
+        type: "core::starknet::contract_address::ContractAddress",
+      },
+      {
+        name: "nonce",
+        type: "core::felt252",
+      },
+      {
+        name: "execute_after",
+        type: "core::integer::u64",
+      },
+      {
+        name: "execute_before",
+        type: "core::integer::u64",
+      },
+      {
+        name: "calls",
+        type: "core::array::Span::<core::starknet::account::Call>",
+      },
+    ],
+  },
+  {
+    type: "interface",
+    name: "openzeppelin_account::extensions::src9::interface::ISRC9_V2",
+    items: [
+      {
+        type: "function",
+        name: "execute_from_outside_v2",
+        inputs: [
+          {
+            name: "outside_execution",
+            type: "openzeppelin_account::extensions::src9::interface::OutsideExecution",
+          },
+          {
+            name: "signature",
+            type: "core::array::Span::<core::felt252>",
+          },
+        ],
+        outputs: [
+          {
+            type: "core::array::Array::<core::array::Span::<core::felt252>>",
+          },
+        ],
+        state_mutability: "external",
+      },
+      {
+        type: "function",
+        name: "is_valid_outside_execution_nonce",
+        inputs: [
+          {
+            name: "nonce",
+            type: "core::felt252",
+          },
+        ],
+        outputs: [
+          {
+            type: "core::bool",
+          },
+        ],
+        state_mutability: "view",
+      },
+    ],
+  },
+  {
     type: "constructor",
     name: "constructor",
     inputs: [
@@ -295,7 +402,37 @@ export const ETH_ACCOUNT_ABI = [
   },
   {
     type: "event",
-    name: "contracts::MyAccount::Event",
+    name: "openzeppelin_account::extensions::src9::src9::SRC9Component::Event",
+    kind: "enum",
+    variants: [],
+  },
+  {
+    type: "event",
+    name: "openzeppelin_upgrades::upgradeable::UpgradeableComponent::Upgraded",
+    kind: "struct",
+    members: [
+      {
+        name: "class_hash",
+        type: "core::starknet::class_hash::ClassHash",
+        kind: "data",
+      },
+    ],
+  },
+  {
+    type: "event",
+    name: "openzeppelin_upgrades::upgradeable::UpgradeableComponent::Event",
+    kind: "enum",
+    variants: [
+      {
+        name: "Upgraded",
+        type: "openzeppelin_upgrades::upgradeable::UpgradeableComponent::Upgraded",
+        kind: "nested",
+      },
+    ],
+  },
+  {
+    type: "event",
+    name: "contracts::eth_account::EthAccount::Event",
     kind: "enum",
     variants: [
       {
@@ -306,6 +443,16 @@ export const ETH_ACCOUNT_ABI = [
       {
         name: "SRC5Event",
         type: "openzeppelin_introspection::src5::SRC5Component::Event",
+        kind: "flat",
+      },
+      {
+        name: "SRC9Event",
+        type: "openzeppelin_account::extensions::src9::src9::SRC9Component::Event",
+        kind: "flat",
+      },
+      {
+        name: "UpgradeableEvent",
+        type: "openzeppelin_upgrades::upgradeable::UpgradeableComponent::Event",
         kind: "flat",
       },
     ],
