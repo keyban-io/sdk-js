@@ -40,7 +40,7 @@ export default function Tpp() {
     const url = new URL(`/tpp?network=${client.chain}`, client.apiUrl);
 
     const headers: HeadersInit = { "Content-Type": "application/jsonl" };
-    if (apiKey) headers["X-Api-Key"] = apiKey;
+    if (apiKey) headers.Authorization = `Api-Key ${apiKey}`;
 
     fetch(url, {
       method: "POST",
@@ -62,7 +62,7 @@ export default function Tpp() {
     const url = new URL(`/tpp/${jobId}/status`, client.apiUrl);
 
     const headers: HeadersInit = { "Content-Type": "application/jsonl" };
-    if (apiKey) headers["X-Api-Key"] = apiKey;
+    if (apiKey) headers.Authorization = `Api-Key ${apiKey}`;
 
     fetch(url, { headers })
       .then(async (res) => {
