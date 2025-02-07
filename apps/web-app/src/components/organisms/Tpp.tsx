@@ -25,7 +25,12 @@ export default function Tpp() {
 
   const [apiKey, setApiKey] = React.useState("WEB-APP-API-KEY");
   const [jsonl, setJsonl] = React.useState(
-    [{ id: "foo" }, { id: "bar" }, { id: "baz" }, { id: "qux" }]
+    [
+      { id: "foo", url: "https://api.starknet.id/uri?id=0" },
+      { id: "bar", url: "https://api.starknet.id/uri?id=1" },
+      { id: "baz", url: "https://api.starknet.id/uri?id=2" },
+      { id: "qux", url: "https://api.starknet.id/uri?id=949683961492" },
+    ]
       .map((data) => JSON.stringify(data))
       .join("\n"),
   );
