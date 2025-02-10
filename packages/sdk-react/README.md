@@ -1,6 +1,6 @@
 # Keyban React SDK
 
-The Keyban React SDK provides a seamless way to integrate Keyban's blockchain services into your React applications. It offers React hooks and components to manage accounts, perform transactions, retrieve balances, interact with NFTs, and more, all within the React ecosystem.
+The Keyban React SDK provides a seamless way to integrate Keyban’s blockchain services into your React applications. It offers React hooks and components to manage accounts, perform transactions, retrieve balances, interact with NFTs, and more, all within the React ecosystem.
 
 ## Installation
 
@@ -24,15 +24,14 @@ To start using the Keyban React SDK, wrap your application with the `KeybanProvi
 
 ```jsx
 import React from "react";
-import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
-import { MyClientShareProvider } from "./ClientShareProvider";
+import { KeybanProvider, KeybanChain, KeybanClientShareProvider } from "@keyban/sdk-react";
 
 const App = () => {
   return (
     <KeybanProvider
-      appId="your-app-id" // Your unique application ID from Keyban
-      chain={KeybanChain.EthereumAnvil} // Specify the blockchain network (e.g., Testnet or Mainnet)
-      clientShareProvider={new MyClientShareProvider()} // Custom provider for client shares
+      appId="your-app-id"  // Your unique application ID from Keyban
+      chain={KeybanChain.EthereumAnvil}  // Specify the blockchain network (e.g., Testnet or Mainnet)
+      clientShareProvider={new KeybanClientShareProvider("https://api.keyban.io", "your-app-id")}
     >
       {/* Your application components go here */}
       <YourMainComponent />
@@ -47,15 +46,15 @@ export default App;
 
 - **`appId`**: Your application ID for authentication with the Keyban API.
 - **`chain`**: The blockchain network used by Keyban (e.g., `KeybanChain.EthereumAnvil`).
-- **`clientShareProvider`**: A custom implementation of the `ClientShareProvider` interface for managing client shares.
-
-If you need more information about `KeybanProvider`, you can refer to the [KeybanProvider documentation](https://docs.beta.keyban.io/api/sdk-react#keybanprovider).
+- **`clientShareProvider`**: An instance of the `KeybanClientShareProvider`, responsible for securely storing and retrieving the client share via Keyban's infrastructure. For more details, refer to the [KeybanClientShareProvider documentation](https://docs.beta.keyban.io/api/sdk-react/Class.KeybanClientShareProvider).
 
 ---
 
-## Creating a ClientShareProvider
+## Creating a Custom ClientShareProvider
 
-The `clientShareProvider` is essential for securely storing and retrieving client shares. Below is a simple implementation of the `ClientShareProvider` interface:
+The `clientShareProvider` can be customized to allow the integrator to control the storage and retrieval of client shares directly. Below is a guide on how to implement a custom `ClientShareProvider`.
+
+### Example Implementation
 
 ```typescript
 import { ClientShareProvider } from "@keyban/sdk-base";
@@ -79,9 +78,11 @@ export class MyClientShareProvider implements ClientShareProvider {
 
 > **Note**
 >
-> The `/api/clientShare` endpoint (or any custom endpoint you define) is **mandatory** and must be provided by the integrator of the SDK. This endpoint is responsible for securely saving and restoring the client shares for end users.
+> The `/api/clientShare` endpoint (or any custom endpoint you define) is **mandatory**. This endpoint is responsible for securely saving and restoring the client shares for end users.
 >
 > This example is intentionally simple and does not cover authentication mechanisms to protect access to this endpoint. It is the integrator's responsibility to implement appropriate security measures.
+
+You can choose to use this custom provider instead of the default `KeybanClientShareProvider` if you require full control over client share storage.
 
 ## Using React Hooks
 
