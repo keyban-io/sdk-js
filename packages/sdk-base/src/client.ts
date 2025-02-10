@@ -158,7 +158,7 @@ export abstract class KeybanClientBase {
       [KeybanChain.EthereumAnvil]: "subql-ethereum-anvil.",
       [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
       [KeybanChain.StarknetDevnet]: "subql-starknet-devnet.",
-      [KeybanChain.StarknetSepolia]: "subql-starlink-sepolia.",
+      [KeybanChain.StarknetSepolia]: "subql-starknet-sepolia.",
     }[this.chain];
     this.apolloClient = createApolloClient(
       new URL(this.apiUrl.href.replace("api.", indexerPrefix)),
