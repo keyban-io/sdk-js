@@ -84,6 +84,63 @@ export class MyClientShareProvider implements ClientShareProvider {
 
 You can choose to use this custom provider instead of the default `KeybanClientShareProvider` if you require full control over client share storage.
 
+---
+
+## Authentication Features
+
+### Using the useKeybanAuth Hook
+
+The `useKeybanAuth` hook provides access to authentication features, allowing you to manage user login, logout, and authentication state.
+
+```jsx
+import { useKeybanAuth } from "@keyban/sdk-react";
+
+const AuthInfo = () => {
+  const { isAuthenticated, login, logout } = useKeybanAuth();
+
+  if (isAuthenticated) {
+    return (
+      <div>
+        <button onClick={logout}>Logout</button>
+      </div>
+    );
+  }
+
+  return <button onClick={() => login()}>Login</button>;
+};
+```
+
+### Hook Return Values
+
+- **`user`**: The authenticated user object or `null` if not logged in.
+- **`isAuthenticated`**: A boolean indicating if the user is authenticated.
+- **`login`**: A function to initiate the login process.
+- **`logout`**: A function to log out the user.
+
+For more details on authentication, refer to the [KeybanAuthContext documentation](https://docs.beta.keyban.io/api/sdk-react/Function.useKeybanAuth).
+
+---
+
+### Using the SignIn Component
+
+The `SignIn` component renders a customizable sign-in form, supporting multiple authentication methods such as username/password and OAuth.
+
+#### Example Usage
+
+```jsx
+import { SignIn } from "@keyban/sdk-react";
+
+const AuthPage = () => {
+  return (
+    <div>
+      <SignIn enableGoogleAuth enableLoginPasswordAuth />
+    </div>
+  );
+};
+```
+
+For more details, visit the [SignIn documentation](https://docs.beta.keyban.io/api/sdk-react/Function.SignIn).
+
 ## Using React Hooks
 
 The Keyban React SDK provides several React hooks that allow you to interact with the Keyban API in a declarative and efficient manner.
