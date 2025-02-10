@@ -361,8 +361,8 @@ export abstract class KeybanClientBase {
  * const client = new KeybanClient({
  *   apiUrl: "https://api.keyban.io",
  *   appId: "your-app-id",
- *   accessTokenProvider: () => "your-access-token",
  *   chain: KeybanChain.EthereumAnvil,
+ *   clientShareProvider: () => "your-client-shares-provider",
  * });
  *
  * // Initialize an account
