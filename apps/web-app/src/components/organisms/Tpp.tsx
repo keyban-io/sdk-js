@@ -42,7 +42,7 @@ export default function Tpp() {
     setJobId(null);
     setProgress(null);
 
-    const url = new URL(`/tpp?network=${client.chain}`, client.apiUrl);
+    const url = new URL(`/v1/tpp?network=${client.chain}`, client.apiUrl);
 
     const headers: HeadersInit = { "Content-Type": "application/jsonl" };
     if (apiKey) headers.Authorization = `Api-Key ${apiKey}`;
@@ -64,7 +64,7 @@ export default function Tpp() {
 
   const [jobStatus, setJobStatus] = React.useState<JobProgress | null>(null);
   const handleFetchStatus = React.useCallback(() => {
-    const url = new URL(`/tpp/${jobId}/status`, client.apiUrl);
+    const url = new URL(`/v1/tpp/${jobId}/status`, client.apiUrl);
 
     const headers: HeadersInit = { "Content-Type": "application/jsonl" };
     if (apiKey) headers.Authorization = `Api-Key ${apiKey}`;
@@ -82,7 +82,7 @@ export default function Tpp() {
   React.useEffect(() => {
     if (!jobId) return;
 
-    const url = new URL(`/tpp/${jobId}/progress`, client.apiUrl);
+    const url = new URL(`/v1/tpp/${jobId}/progress`, client.apiUrl);
 
     const eventSource = new EventSource(url);
 
