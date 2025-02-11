@@ -37,8 +37,8 @@ export default function App() {
   }, [config, setSearchParams]);
 
   const clientShareProvider = React.useMemo(
-    () => new KeybanClientShareProvider(config.apiUrl!, config.appId),
-    [config.apiUrl, config.appId],
+    () => new KeybanClientShareProvider(),
+    [],
   );
 
   return (

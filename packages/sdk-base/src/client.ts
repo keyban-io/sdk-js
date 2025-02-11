@@ -8,7 +8,11 @@ import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
 import { type FeesUnit, NativeCurrency } from "~/chains";
-import { AuthConnection, KeybanChain } from "~/index";
+import {
+  AuthConnection,
+  KeybanChain,
+  KeybanClientShareProvider,
+} from "~/index";
 import { RpcClient } from "~/rpc";
 
 /**
@@ -142,7 +146,6 @@ export abstract class KeybanClientBase {
   apolloClient: ApolloClient<NormalizedCacheObject>;
 
   protected clientShareProvider: ClientShareProvider;
-  protected rpcClient: RpcClient;
   protected metadataConfig: Promise<MetadataConfig>;
 
   constructor(
@@ -152,7 +155,10 @@ export abstract class KeybanClientBase {
     this.apiUrl = new URL(config.apiUrl ?? "https://api.keyban.io");
     this.appId = config.appId;
     this.chain = config.chain;
+
     this.clientShareProvider = config.clientShareProvider;
+    if (this.clientShareProvider instanceof KeybanClientShareProvider)
+      this.clientShareProvider.registerClient(this);
 
     const indexerPrefix = {
       [KeybanChain.EthereumAnvil]: "subql-ethereum-anvil.",
@@ -161,17 +167,17 @@ export abstract class KeybanClientBase {
       [KeybanChain.StarknetSepolia]: "subql-starknet-sepolia.",
     }[this.chain];
     this.apolloClient = createApolloClient(
-      new URL(this.apiUrl.href.replace("api.", indexerPrefix)),
+      new URL(this.apiUrl.origin.replace("api.", indexerPrefix)),
     );
 
-    const rpcUrl = new URL("/signer-client/", this.apiUrl);
-    rpcUrl.searchParams.set("appId", this.appId);
-    this.rpcClient = RpcClient.getInstance(rpcUrl);
-
-    const metadataUrl = new URL("/metadata", this.apiUrl);
+    const metadataUrl = new URL(`/v1/metadata`, this.apiUrl);
     metadataUrl.searchParams.set("chain", this.chain);
     this.metadataConfig =
       metadataConfig ?? fetch(metadataUrl).then((res) => res.json());
+  }
+
+  protected get rpcClient() {
+    return RpcClient.getInstance(this);
   }
 
   get nativeCurrency(): NativeCurrency {

@@ -71,7 +71,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *     <KeybanProvider
  *       appId="your-app-id" // Your unique application ID from Keyban
  *       chain={KeybanChain.EthereumAnvil} // Specify the blockchain network (e.g., Testnet or Mainnet)
- *       clientShareProvider={new KeybanClientShareProvider("https://api.keyban.io", "your-app-id")} // Using KeybanClientShareProvider
+ *       clientShareProvider={new KeybanClientShareProvider()} // Using KeybanClientShareProvider
  *     >
  *       <YourMainComponent />
  *     </KeybanProvider>

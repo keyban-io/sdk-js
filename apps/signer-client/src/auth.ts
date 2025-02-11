@@ -2,17 +2,17 @@ import { Auth0Client } from "@auth0/auth0-spa-js";
 import { AuthConnection, KeybanBaseError, KeybanUser } from "@keyban/sdk-base";
 import { IKeybanAuth } from "@keyban/sdk-base/rpc";
 
-import { apiUrl } from "~/utils/api";
+import { API_URL, apiUrl } from "~/utils/api";
 import { APP_ID } from "~/utils/appId";
 
 export class KeybanAuth implements IKeybanAuth {
   #auth0: Promise<Auth0Client>;
 
   constructor() {
-    const audienceUrl = apiUrl();
+    const audienceUrl = new URL(API_URL);
     audienceUrl.searchParams.set("appId", APP_ID);
 
-    this.#auth0 = fetch(apiUrl("/metadata"))
+    this.#auth0 = fetch(apiUrl("/v1/metadata"))
       .then((res) => res.json())
       .then(({ auth }) => {
         return new Auth0Client({

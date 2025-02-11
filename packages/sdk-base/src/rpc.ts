@@ -76,7 +76,7 @@ export class RpcServer implements IRpc {
 
     const appId = new URL(window.location.href).searchParams.get("appId");
     const apiUrl = new URL(window.location.origin);
-    this.domains = fetch(new URL(`/applications/${appId}`, apiUrl))
+    this.domains = fetch(new URL(`/v1/applications/${appId}`, apiUrl))
       .then((res) => res.json())
       .then(({ domains }) => domains);
 
@@ -163,22 +163,33 @@ export class RpcServer implements IRpc {
  * RPC client
  */
 
+type RpcClientOptions = {
+  apiUrl: URL | string;
+  appId: string;
+};
+
 export class RpcClient {
   #iframeUrl: URL;
   #iframe: Promise<HTMLIFrameElement>;
 
   static #instances: Map<string, RpcClient> = new Map();
 
-  static getInstance(iframeUrl: URL): RpcClient {
-    const key = iframeUrl.toString();
+  static #getIframeUrl({ apiUrl, appId }: RpcClientOptions) {
+    const iframeUrl = new URL("/signer-client/", apiUrl);
+    iframeUrl.searchParams.set("appId", appId);
+    return iframeUrl;
+  }
+
+  static getInstance(options: RpcClientOptions): RpcClient {
+    const key = RpcClient.#getIframeUrl(options).toString();
     if (!RpcClient.#instances.has(key))
-      RpcClient.#instances.set(key, new RpcClient(iframeUrl));
+      RpcClient.#instances.set(key, new RpcClient(options));
 
     return RpcClient.#instances.get(key)!;
   }
 
-  private constructor(iframeUrl: URL) {
-    this.#iframeUrl = iframeUrl;
+  private constructor(options: RpcClientOptions) {
+    this.#iframeUrl = RpcClient.#getIframeUrl(options);
 
     this.#iframe = new Promise((resolve, reject) => {
       const iframe = Object.assign(document.createElement("iframe"), {

@@ -1,4 +1,4 @@
-import { ClientShareProvider } from "~/client";
+import { ClientShareProvider, KeybanClientBase } from "~/client";
 import { RpcClient } from "~/rpc";
 
 /**
@@ -11,17 +11,19 @@ import { RpcClient } from "~/rpc";
  * and retrieval of the client share information.
  */
 export class KeybanClientShareProvider implements ClientShareProvider {
-  #rpcClient: RpcClient;
+  #client!: KeybanClientBase;
 
   /**
-   * Creates an instance of `KeybanClientShareProvider`.
-   * @param apiUrl - The base URL of the API.
-   * @param appId - The application ID.
+   * Internal use only.
+   * @param client - A keyban client
+   * @private
    */
-  constructor(apiUrl: URL | string, appId: string) {
-    const rpcUrl = new URL("/signer-client/", apiUrl);
-    rpcUrl.searchParams.set("appId", appId);
-    this.#rpcClient = RpcClient.getInstance(rpcUrl);
+  registerClient(client: KeybanClientBase) {
+    this.#client = client;
+  }
+
+  get #rpcClient() {
+    return RpcClient.getInstance(this.#client);
   }
 
   /**
