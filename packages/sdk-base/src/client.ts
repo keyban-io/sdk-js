@@ -157,6 +157,10 @@ export abstract class KeybanClientBase {
     this.chain = config.chain;
 
     this.clientShareProvider = config.clientShareProvider;
+    console.log(
+      this.clientShareProvider,
+      this.clientShareProvider instanceof KeybanClientShareProvider,
+    );
     if (this.clientShareProvider instanceof KeybanClientShareProvider)
       this.clientShareProvider.registerClient(this);
 

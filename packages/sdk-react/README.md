@@ -31,7 +31,7 @@ const App = () => {
     <KeybanProvider
       appId="your-app-id"  // Your unique application ID from Keyban
       chain={KeybanChain.EthereumAnvil}  // Specify the blockchain network (e.g., Testnet or Mainnet)
-      clientShareProvider={new KeybanClientShareProvider()}
+      clientShareProvider={React.useMemo(() => new KeybanClientShareProvider(), [])}
     >
       {/* Your application components go here */}
       <YourMainComponent />

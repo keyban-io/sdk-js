@@ -71,7 +71,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *     <KeybanProvider
  *       appId="your-app-id" // Your unique application ID from Keyban
  *       chain={KeybanChain.EthereumAnvil} // Specify the blockchain network (e.g., Testnet or Mainnet)
- *       clientShareProvider={new KeybanClientShareProvider()} // Using KeybanClientShareProvider
+ *       clientShareProvider={React.useMemo(() => new KeybanClientShareProvider(), [])} // Using KeybanClientShareProvider
  *     >
  *       <YourMainComponent />
  *     </KeybanProvider>
@@ -82,22 +82,10 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * ```
  */
 export function KeybanProvider(props: KeybanProviderProps) {
-  const { children, clientShareProvider, ...config } = props;
-
-  const clientShareProviderRef = React.useRef(clientShareProvider);
-  React.useImperativeHandle(clientShareProviderRef, () => clientShareProvider, [
-    clientShareProvider,
-  ]);
+  const { children, ...config } = props;
 
   const client = React.useMemo(
-    () =>
-      new KeybanClient({
-        ...config,
-        clientShareProvider: {
-          get: () => clientShareProviderRef.current.get(),
-          set: (share: string) => clientShareProviderRef.current.set(share),
-        },
-      }),
+    () => new KeybanClient(config),
     Object.values(config),
   );
 
