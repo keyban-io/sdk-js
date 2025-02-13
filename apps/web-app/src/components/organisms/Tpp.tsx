@@ -1,4 +1,5 @@
 import { useKeybanClient } from "@keyban/sdk-react";
+import { EventSource } from "eventsource";
 import React from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import TextareaAutosize from "react-textarea-autosize";
@@ -66,7 +67,7 @@ export default function Tpp() {
   const handleFetchStatus = React.useCallback(() => {
     const url = new URL(`/v1/tpp/${jobId}/status`, client.apiUrl);
 
-    const headers: HeadersInit = { "Content-Type": "application/jsonl" };
+    const headers: HeadersInit = {};
     if (apiKey) headers.Authorization = `Api-Key ${apiKey}`;
 
     fetch(url, { headers })
@@ -84,14 +85,23 @@ export default function Tpp() {
 
     const url = new URL(`/v1/tpp/${jobId}/progress`, client.apiUrl);
 
-    const eventSource = new EventSource(url);
+    const eventSource = new EventSource(url, {
+      fetch: (input, init) =>
+        fetch(input, {
+          ...init,
+          headers: {
+            ...init?.headers,
+            Authorization: `Api-Key ${apiKey}`,
+          },
+        }),
+    });
 
     eventSource.onmessage = (e) => {
       setProgress(JSON.parse(e.data));
     };
 
     return () => eventSource.close();
-  }, [client, jobId]);
+  }, [client, apiKey, jobId]);
 
   return (
     <fieldset data-test-id="Tpp">
