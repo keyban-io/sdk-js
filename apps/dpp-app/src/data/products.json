@@ -1,54 +1,88 @@
 [
   {
-    "id": "1",
-    "imageKey": "samsungWashingMachine",
-    "alt": "Lave-linge Samsung EcoBubble",
-    "name": "Lave-linge Samsung EcoBubble",
-    "events": [
+    "name": "Lave-linge hublot Samsung Ecobubble™ WW80CGC04DTH 8 kg Blanc",
+    "description": "### Ecobubble™\n\nGrâce à son système innovant d'injection d'air, la technologie ecobubble™ transforme la lessive en mousse ultra-performante, même à basse température.\n\nAinsi, les lave-linge Samsung peuvent laver à froid (15°C) avec la même efficacité qu’un lavage à 40°C, économisant ainsi jusqu’à 70% d’énergie tout en préservant la qualité et les couleurs des textiles.\n\n### Mode AI Energy de SmartThings\n\nSurveillez et réduisez la consommation d'énergie de votre lave-linge. Le mode AI Energy vous permet de vérifier facilement la consommation d'énergie et d'estimer votre facture d'électricité. Pour les programmes fonctionnant en mode AI Energy, ce dernier réduit la consommation d'énergie jusqu'à 70% grâce à l'utilisation d’ecobubble™ pour laver à l'eau froide, évitant ainsi d'utiliser de l'eau chaude ainsi que du temps supplémentaire lors du cycle de lavage.\n\n### Programme Microplastiques\n\nSamsung, Ocean Wise Plastics Lab et Patagonia œuvrent ensemble pour trouver des solutions au problème de la pollution microplastiques. Le cycle de lavage Microplastiques conçu par Samsung réduit jusqu'à 54% l'émission de microplastiques.\n\n### Moteur Digital Inverter\n\nPourvu d'un aimant permanent évitant les frottements et les pertes d'énergie, ce moteur à induction est particulièrement robuste et silencieux ! En atténuant la friction, il réduit le bruit, les vibrations et rend les pièces du lave-linge moins sujettes à l'usure. Il est garanti 20 ans.\n\n### Programme vapeur\n\nEn générant de la vapeur depuis la partie inférieure du tambour, le programme Anti-allergènes imprègne l’ensemble du linge. Il élimine 99,9% des bactéries responsables d’allergies telles que les acariens, le pollen, etc., à la manière d’un programme à très haute température.\n\n### SmartThings : contrôlez votre lave-linge à distance\n\nL'application SmartThings vous permet de contrôler votre lave-linge à distance et de suivre la progression de votre lessive. Planifiez également vos lessives selon votre emploi du temps ou utilisez l'Assistant choix cycle pour trouver le programme le plus adapté. HomeCare Wizard vous permet d'obtenir un rapport complet du produit.\n\n### Écran LED blanches\n\nDoté d’un bandeau de contrôle et équipé de LED blanches, ce lave-linge présente un design raffiné particulièrement facile et agréable à programmer.",
+    "image": "https://static.fnac-static.com/multimedia/Images/FR/MDMFR/MDM/f4/19/67/23534068/3756-1.jpg",
+    "attributes": [
       {
-        "date": "2021-01-10T00:00:00Z",
-        "description": "Date d’acquisition (neuf)",
-        "icon": "EventIcon"
+        "trait_type": "ean",
+        "value": "8806095210421"
       },
       {
-        "date": "2022-12-15T00:00:00Z",
-        "description": "Inspection de sécurité",
-        "icon": "CheckCircleIcon"
+        "trait_type": "serial_number",
+        "value": "SN123456789"
       },
       {
-        "date": "2022-12-20T00:00:00Z",
-        "description": "Produit repris",
-        "icon": "BuildIcon"
+        "trait_type": "product_category",
+        "value": "Lave-linge hublot"
       },
       {
-        "date": "2023-01-05T00:00:00Z",
-        "description": "Produit reconditionné",
-        "icon": "BuildIcon"
-      },
-
-      {
-        "date": "2023-01-20T00:00:00Z",
-        "description": "Réparation effectuée",
-        "icon": "BuildIcon"
+        "trait_type": "brand",
+        "value": "Samsung"
       },
       {
-        "date": "2023-01-21T00:00:00Z",
-        "description": "Certificat de garantie mis à jour",
-        "icon": "UpdateIcon"
+        "trait_type": "model",
+        "value": "WW80CGC04DTH"
       },
       {
-        "date": "2023-02-10T00:00:00Z",
-        "description": "Acquisition en seconde vie",
-        "icon": "EventIcon"
+        "trait_type": "color",
+        "value": "Blanc"
+      },
+      {
+        "trait_type": "benefits",
+        "value": "Traçabilité"
+      },
+      {
+        "trait_type": "benefits",
+        "value": "Réparabilité"
+      },
+      {
+        "trait_type": "status",
+        "value": "En seconde vie"
+      },
+      {
+        "trait_type": "acquisitionDate",
+        "value": "2023-02-10T00:00:00Z"
+      },
+      {
+        "trait_type": "ownershipStatus",
+        "value": "Propriétaire"
       }
     ],
-    "benefits": [
-      { "label": "Traçabilité", "icon": "VerifiedIcon" },
-      { "label": "Réparabilité", "icon": "BuildIcon" }
-    ],
-    "status": "En seconde vie",
-    "acquisitionDate": "2023-02-10T00:00:00Z",
-    "ownershipStatus": "Propriétaire"
+    "external_url": "https://www.fnac.com/SAMSUNG-Lave-linge-Frontal-WW80CGC04DTH/a20730562/w-4",
+    "creator": "An integrator ID or Name",
+    "blockchain": "Starknet",
+    "id": "1",
+    "events": [
+      {
+        "trait_type": "Date d’acquisition (neuf)",
+        "value": "2021-01-10T00:00:00Z"
+      },
+      {
+        "trait_type": "Inspection de sécurité",
+        "value": "2022-12-15T00:00:00Z"
+      },
+      {
+        "trait_type": "Produit repris",
+        "value": "2022-12-20T00:00:00Z"
+      },
+      {
+        "trait_type": "Produit reconditionné",
+        "value": "2023-01-05T00:00:00Z"
+      },
+      {
+        "trait_type": "Réparation effectuée",
+        "value": "2023-01-20T00:00:00Z"
+      },
+      {
+        "trait_type": "Certificat de garantie mis à jour",
+        "value": "2023-01-21T00:00:00Z"
+      },
+      {
+        "trait_type": "Acquisition en seconde vie",
+        "value": "2023-02-10T00:00:00Z"
+      }
+    ]
   },
   {
     "id": "2",
