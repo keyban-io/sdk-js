@@ -85,127 +85,279 @@
     ]
   },
   {
+    "name": "Réfrigérateur combiné LG GBV3100DEP Noir",
+    "description": "# Réfrigérateur Combiné LG GBV3100DEP\n\nDécouvrez le **Réfrigérateur Combiné LG GBV3100DEP**, un appareil élégant et performant offrant une **solution de stockage optimale** pour vos aliments tout en préservant leur fraîcheur.\n\n## Points forts\n- **Froid Uniforme 24/7** : Température constante, fluctuations minimales, conservation optimale des aliments.  \n- **Refroidissement Rapide** : Rideau d'air froid assurant un refroidissement homogène de l'avant à l'arrière.  \n- **Grand Volume** : 2,03 mètres de hauteur, **capacité totale de 344 L** pour répondre à tous vos besoins.  \n- **Humidité Contrôlée** : Maintient une humidité optimale pour une conservation maximale des aliments.  \n- **Moist Balance Crisper™** : Régule l'humidité pour prolonger la fraîcheur des fruits et légumes.  \n- **Finition Premium** : **Éclairage Soft LED** offrant une luminosité uniforme sans éblouissement.  \n\n---\n\n## Caractéristiques\n- **Capacité** : 344 L (Réfrigérateur : 234 L, Congélateur : 110 L)  \n- **Design** : Noir Graphite, portes réversibles, poignées intégrées, interface digitale intérieure, finition clayettes blanche  \n- **Technologies** :  \n  - **Ventilé Total No Frost**  \n  - **Door Cooling™**  \n  - **Linear Cooling™**  \n  - **Alarme porte ouverte**  \n  - **Mode vacances**  \n\n---\n\n## Réfrigérateur\n- **Nombre de clayettes** : 3  \n- **Porte-bouteilles** : 2  \n- **Tiroirs à fruits et légumes** : 2  \n- **Moist Balance Crisper** : Oui  \n- **Fresh Converter** : Oui  \n- **Balconnets contre porte** : 3  \n- **Fonction Réfrigération express** : Oui  \n- **Support à œufs** : Oui  \n- **Éclairage intérieur** : LED uniforme  \n\n---\n\n## Données Techniques\n- **Dimensions nettes (L x H x P)** : 59,5 x 186 x 67,5 cm  \n- **Poids net** : 74 kg  \n- **Disponibilité des pièces détachées** : 10 ans à compter de la date d'achat",
+    "image": "https://static.fnac-static.com/multimedia/Images/5E/C5/80/15/22547550-1505-3756-1.jpg",
+    "attributes": [
+      {
+        "trait_type": "ean",
+        "value": "8806084256645"
+      },
+      {
+        "trait_type": "serial_number",
+        "value": "SN123456789"
+      },
+      {
+        "trait_type": "product_category",
+        "value": "Réfrigérateur congélateur en bas"
+      },
+      {
+        "trait_type": "brand",
+        "value": "LG"
+      },
+      {
+        "trait_type": "model",
+        "value": "GBV3100DEP"
+      },
+      {
+        "trait_type": "color",
+        "value": "Noir"
+      },
+      {
+        "trait_type": "benefits",
+        "value": "Traçabilité"
+      },
+      {
+        "trait_type": "status",
+        "value": "En service"
+      },
+      {
+        "trait_type": "acquisitionDate",
+        "value": "2022-02-15T00:00:00Z"
+      },
+      {
+        "trait_type": "ownershipStatus",
+        "value": "Propriétaire"
+      }
+    ],
+    "external_url": "https://www.fnac.com/mp49457064/Refrigerateur-combine-LG-GBV3100DEP-Noir/w-4",
+    "creator": "An integrator ID or Name",
+    "blockchain": "Starknet",
     "id": "2",
-    "imageKey": "lgRefrigerator",
-    "alt": "Réfrigérateur LG",
-    "name": "Réfrigérateur LG",
     "events": [
       {
-        "date": "2022-02-15T00:00:00Z",
-        "description": "Date d’acquisition",
-        "icon": "EventIcon"
+        "trait_type": "Date d’acquisition",
+        "value": "2022-02-15T00:00:00Z"
       },
       {
-        "date": "2023-01-01T00:00:00Z",
-        "description": "Nettoyage complet",
-        "icon": "BuildIcon"
+        "trait_type": "Nettoyage complet",
+        "value": "2023-01-01T00:00:00Z"
       },
       {
-        "date": "2023-01-05T00:00:00Z",
-        "description": "Inspection annuelle",
-        "icon": "CheckCircleIcon"
+        "trait_type": "Inspection annuelle",
+        "value": "2023-01-05T00:00:00Z"
       },
       {
-        "date": "2023-01-12T00:00:00Z",
-        "description": "Maintenance recommandée",
-        "icon": "BuildIcon"
+        "trait_type": "Maintenance recommandée",
+        "value": "2023-01-12T00:00:00Z"
       }
-    ],
-    "benefits": [{ "label": "Traçabilité", "icon": "VerifiedIcon" }],
-    "status": "En service",
-    "acquisitionDate": "2022-02-15T00:00:00Z",
-    "ownershipStatus": "Propriétaire"
+    ]
   },
   {
+    "name": "Four intégrable multifonction 71l 60cm a pyrolyse et hydrolyse inox Bosch HBA171BS4F",
+    "description": "## Caractéristiques principales\n**AutoPilot10 - Recettes pré-programmées**\nVous ne savez jamais comment programmer votre four ? Utilisez le programme automatique ! Profitez de **10 recettes pré-programmées et enregistrées**. Sélectionnez le programme souhaité, puis le poids de votre plat, et le four s'occupe du reste.\n\n**Facile à contrôler**\nL'**écran tactile LED** offre une vue d'ensemble de toutes les fonctions du four. La température, la durée et les autres paramètres se règlent avec des touches tactiles, rendant l'entretien plus simple.\n\n**Cuisson homogène sur trois niveaux**\nGrâce au **ventilateur 3D HotAir**, la chaleur est répartie uniformément, permettant de cuire plusieurs plats en même temps, sans mélange de saveurs.\n\n**Nettoyage par pyrolyse**\nLa fonction **pyrolyse** offre trois niveaux de nettoyage (75, 90 ou 120 min) en atteignant **475°C**, éliminant efficacement les résidus de cuisson.\n\n---\n\n## Spécifications techniques\n- **Type de produit** : Four encastrable\n- **Gamme** : Serie 2\n- **Mode de cuisson** : Multifonction\n- **Système de nettoyage intégré** : Pyrolyse + Hydrolyse\n- **Volume utile** : 71 L\n- **Matériau du bandeau** : Acier inox\n- **Matériau de la porte** : Verre\n- **Contrôle de température** : Électronique\n- **Nombre de lampes** : 1\n- **Type d'éclairage** : Halogène\n- **Longueur du cordon électrique** : 120 cm\n- **Classe d'efficacité énergétique** : A+\n- **Consommation énergie (kWh/cycle)**\n  - Mode conventionnel : 0.94\n  - Mode chaleur tournante : 0.69\n- **Puissance de raccordement** : 3600 W\n- **Intensité** : 16 A\n- **Tension** : 220-240 V\n- **Fréquence** : 50-60 Hz\n- **Finition** : Inox\n\n---\n\n## Fonctionnalités de cuisson\n- **HotAir 3D** : Répartition uniforme de la chaleur sur trois niveaux\n- **Nombre de modes de cuisson** : 5\n- **Nombre de programmes automatiques** : 10\n- **Convection naturelle** : Oui\n- **Préchauffage rapide** : Oui\n- **Type de gril** : Gril air pulsé, gril grande surface\n- **Autres modes de cuisson** : HotAir 3D, Air pulsé doux\n- **Plage de températures possibles** : 30-275 °C\n\n---\n\n## Confort et sécurité\n- **Connecté** : Non\n- **Type de bandeau de commande** : TouchControl\n- **Écran** : Tactile LED\n- **Horloge** : Oui\n- **Indicateur de montée en température** : Oui\n- **Rails télescopiques** : Oui\n- **Ventilateur de refroidissement** : Oui\n- **Sécurité enfants** : Oui\n- **Autres sécurités** : Verrou de porte électronique, coupure automatique du four, touche marche\n\n---\n\n## Accessoires inclus\n- **Grille**\n- **Lèchefrite**\n- **Tôle de cuisson émaillée**\n\n---\n\n## Dimensions et poids\n- **Dimensions (H x L x P)** : 59.5 x 59.4 x 54.8 cm\n- **Poids net** : 34.2 kg",
+    "image": "https://static.fnac-static.com/multimedia/Images/A7/9A/4F/1A/27589031-1505-3756-1.jpg",
+    "attributes": [
+      {
+        "trait_type": "ean",
+        "value": "4242005464180"
+      },
+      {
+        "trait_type": "serial_number",
+        "value": "SN123456789"
+      },
+      {
+        "trait_type": "product_category",
+        "value": "Four encastrable"
+      },
+      {
+        "trait_type": "brand",
+        "value": "Bosch"
+      },
+      {
+        "trait_type": "model",
+        "value": "HBA171BS4F"
+      },
+      {
+        "trait_type": "color",
+        "value": "Noir"
+      },
+      {
+        "trait_type": "benefits",
+        "value": "Recyclabilité"
+      },
+      {
+        "trait_type": "status",
+        "value": "En seconde vie"
+      },
+      {
+        "trait_type": "acquisitionDate",
+        "value": "2021-03-20T00:00:00Z"
+      },
+      {
+        "trait_type": "ownershipStatus",
+        "value": "2021-03-20T00:00:00Z"
+      }
+    ],
+    "external_url": "https://www.fnac.com/mp51319597/Four-integrable-multifonction-71l-60cm-a-pyrolyse-et-hydrolyse-inox-Bosch-HBA171BS4F/w-4",
+    "creator": "An integrator ID or Name",
+    "blockchain": "Starknet",
     "id": "3",
-    "imageKey": "boschOven",
-    "alt": "Four Bosch",
-    "name": "Four Bosch",
     "events": [
       {
-        "date": "2021-03-20T00:00:00Z",
-        "description": "Date d’acquisition (neuf)",
-        "icon": "EventIcon"
+        "trait_type": "Date d’acquisition (neuf)",
+        "value": "2021-03-20T00:00:00Z"
       },
       {
-        "date": "2022-12-15T00:00:00Z",
-        "description": "Inspection de sécurité",
-        "icon": "CheckCircleIcon"
+        "trait_type": "Inspection de sécurité",
+        "value": "2022-12-15T00:00:00Z"
       },
       {
-        "date": "2022-12-20T00:00:00Z",
-        "description": "Mise à jour du logiciel",
-        "icon": "UpdateIcon"
+        "trait_type": "Mise à jour du logiciel",
+        "value": "2022-12-20T00:00:00Z"
       },
       {
-        "date": "2023-01-12T00:00:00Z",
-        "description": "Produit repris",
-        "icon": "BuildIcon"
+        "trait_type": "Produit repris",
+        "value": "2023-01-12T00:00:00Z"
       },
       {
-        "date": "2023-02-01T00:00:00Z",
-        "description": "Produit reconditionné",
-        "icon": "BuildIcon"
+        "trait_type": "Produit reconditionné",
+        "value": "2023-02-01T00:00:00Z"
       },
       {
-        "date": "2023-03-01T00:00:00Z",
-        "description": "Acquisition en seconde vie",
-        "icon": "EventIcon"
+        "trait_type": "Acquisition en seconde vie",
+        "value": "2023-03-01T00:00:00Z"
       }
-    ],
-    "benefits": [{ "label": "Recyclabilité", "icon": "BuildIcon" }],
-    "status": "En seconde vie",
-    "acquisitionDate": "2021-03-20T00:00:00Z",
-    "ownershipStatus": "Ancien propriétaire"
+    ]
   },
   {
+    "name": "Grille-pain Smeg TSF01 2 fentes Toaster Noir",
+    "description": "Structure en acier embouti vernis\nBase chromée\nLevier de contrôle en acier inox\nManette de commande chromée rétro-éclairée\n2 fentes extra larges de 36 mm chacune\nCentrage automatique des tranches\nEjection automatique en fin de cuisson\n6 niveaux de brunissement\n3 programmes préréglés : réchauffage, décongélation, bagel\nTiroir ramasse-miettes en acier, amovible pour nettoyage aisé\nRange cordon intégré\nBase antidérapante",
+    "image": "https://static.fnac-static.com/multimedia/Images/FR/MDM/17/92/4e/5149207/1505-1/tsp20250205182714/Grille-pain-Smeg-TSF01-2-fentes-Toaster-Noir.jpg",
+    "attributes": [
+      {
+        "trait_type": "ean",
+        "value": "8017709187002"
+      },
+      {
+        "trait_type": "serial_number",
+        "value": "SN123456789"
+      },
+      {
+        "trait_type": "product_category",
+        "value": "Grille pain"
+      },
+      {
+        "trait_type": "brand",
+        "value": "Smeg"
+      },
+      {
+        "trait_type": "model",
+        "value": "TSF01BLEU"
+      },
+      {
+        "trait_type": "color",
+        "value": "Noir"
+      },
+      {
+        "trait_type": "benefits",
+        "value": "Traçabilité"
+      },
+      {
+        "trait_type": "benefits",
+        "value": "Réparabilité"
+      },
+      {
+        "trait_type": "status",
+        "value": "En service"
+      },
+      {
+        "trait_type": "acquisitionDate",
+        "value": "2022-05-10T00:00:00Z"
+      },
+      {
+        "trait_type": "ownershipStatus",
+        "value": "Propriétaire"
+      }
+    ],
+    "external_url": "https://www.fnac.com/Toaster-2-tranches-noir-annees-50-Smeg-Noir-Acier/a10942160/w-4",
+    "creator": "An integrator ID or Name",
+    "blockchain": "Starknet",
     "id": "4",
-    "imageKey": "smegToasterBlue",
-    "alt": "Grille-pain Smeg TSF01 Bleu",
-    "name": "Grille-pain Smeg TSF01 Bleu",
     "events": [
       {
-        "date": "2022-05-10T00:00:00Z",
-        "description": "Date d’acquisition",
-        "icon": "EventIcon"
+        "trait_type": "Date d’acquisition",
+        "value": "2022-05-10T00:00:00Z"
       },
       {
-        "date": "2022-12-20",
-        "description": "Inspection annuelle",
-        "icon": "CheckCircleIcon"
+        "trait_type": "Inspection annuelle",
+        "value": "2022-12-20"
       },
       {
-        "date": "2023-05-10",
-        "description": "Nettoyage complet",
-        "icon": "UpdateIcon"
+        "trait_type": "Nettoyage complet",
+        "value": "2023-05-10"
       }
-    ],
-    "benefits": [
-      { "label": "Traçabilité", "icon": "VerifiedIcon" },
-      { "label": "Réparabilité", "icon": "BuildIcon" }
-    ],
-    "status": "En service",
-    "acquisitionDate": "2022-05-10T00:00:00Z",
-    "ownershipStatus": "Propriétaire"
+    ]
   },
   {
-    "id": "5",
-    "imageKey": "lgOledTv",
-    "alt": "Écran de télévision OLED LG OLED55C4 2024",
-    "name": "Écran de télévision OLED LG OLED55C4 2024",
-    "events": [
+    "name": "TV OLED Evo LG OLED55C4 139 cm 4K UHD Smart TV 2024 Noir et Brun",
+    "description": "# LG OLED evo\n\n## Magnifiez la puissance des pixels auto-émissifs\n\nAvec **LG OLED evo**, la gestion ultra précise du processeur **a9 AI 4K Gen7** combinée à la technologie **Brightness Booster** offre des images à la luminosité décuplée.\n\n## Noirs Absolus & Contrastes Riches\n\nL’**OLED** est la technologie ultime pour les téléviseurs en matière de qualité d’image. Grâce à des millions de pixels auto-émissifs capables de créer un **noir absolu** et des **couleurs fidèles**, vous bénéficiez d’une **expérience immersive unique**.\n\n## Fidélité des couleurs\n\nLes TV **LG OLED** sont certifiés **100% de fidélité des couleurs** par *Intertek*. Cela signifie que les couleurs affichées à l’écran correspondent fidèlement aux couleurs de l’image d’origine, pour une expérience respectant la vision du réalisateur.\n\n## Processeur a9 AI 4K Gen7\n\nDéveloppé par LG pour les téléviseurs OLED, le processeur **a9 AI 4K Gen7** optimise à la fois l’**image** et le **son** :\n- **Couleurs riches** et précises\n- **Scènes détaillées**\n- **Son immersif et enveloppant**\n\n## Virtualisation du son 9.1.2\n\nLe processeur **a9 AI 4K Gen7** convertit une source audio **2 canaux** en un son immersif **9.1.2**. Vivez l’action comme si vous étiez au cœur du film.\n\n## Dolby Vision & Atmos\n\nL’association de **Dolby Vision** et **Dolby Atmos** offre une immersion sensationnelle. Grâce au **processeur a9 de LG**, **Dolby Vision** ajoute de la **profondeur** et fait ressortir les **textures subtiles**.\n\n## WOW Synergy\n\n**WOW Synergy** est la symbiose ultime entre les **TV LG OLED** et les **barres de son LG** :\n- **WOW Interface** : contrôle de la barre de son depuis la TV.\n- **WOW Orchestra** : synchronisation des haut-parleurs de la TV et de la barre de son pour une immersion totale.\n- **WOWCAST intégré** : qualité sonore immersive sans fil.\n\n## WebOS 24\n\nLe **WebOS 24** offre une expérience TV optimisée :\n- Interface **fluide**, **rapide** et **puissante**.\n- Accès instantané aux contenus grâce aux **Quick Cards**.\n- Mises à jour de l’interface **pendant 5 ans**.\n\n## Fluidité extrême en 144Hz\n\nAvec un taux de rafraîchissement jusqu’à **144 Hz**, profitez de **mouvements ultra-fluides**, sans saccades ni flous.\n\n## HDMI 2.1, VRR, ALLM\n\nPrenez l’avantage sur vos adversaires avec la compatibilité :\n- **HDMI 2.1**\n- **VRR** (*Nvidia G-Sync* et *AMD FreeSync Premium*)\n- **ALLM** (Mode Auto Low Latency)\n- Temps de réponse ultra rapide de **0.1 ms** pour une réactivité optimale.\n\n## Le maximum du streaming\n\nAccédez à une large sélection d’applications de streaming :\n**Netflix, Disney+, Amazon Prime, Apple TV+, Canal+**… Quelque chose d’incroyable vous attend !",
+    "image": "https://static.fnac-static.com/multimedia/Images/FR/MDM/16/cf/68/23645974/3756-1/tsp20250108134601/TV-OLED-Evo-LG-OLED55C4-139-cm-4K-UHD-Smart-TV-2024-Noir-et-Brun.jpg",
+    "attributes": [
       {
-        "date": "2024-08-15T00:00:00Z",
-        "description": "Date d’acquisition",
-        "icon": "EventIcon"
+        "trait_type": "ean",
+        "value": "8806091898364"
+      },
+      {
+        "trait_type": "serial_number",
+        "value": "SN123456789"
+      },
+      {
+        "trait_type": "product_category",
+        "value": "TV, Vidéo, Home cinema"
+      },
+      {
+        "trait_type": "brand",
+        "value": "LG"
+      },
+      {
+        "trait_type": "model",
+        "value": "OLED55C46LA"
+      },
+      {
+        "trait_type": "color",
+        "value": "Noir et Brun"
+      },
+      {
+        "trait_type": "benefits",
+        "value": "Traçabilité"
+      },
+      {
+        "trait_type": "benefits",
+        "value": "Réparabilité"
+      },
+      {
+        "trait_type": "status",
+        "value": "En service"
+      },
+      {
+        "trait_type": "acquisitionDate",
+        "value": "2022-08-15T00:00:00Z"
+      },
+      {
+        "trait_type": "ownershipStatus",
+        "value": "Propriétaire"
       }
     ],
-    "benefits": [
-      { "label": "Traçabilité", "icon": "VerifiedIcon" },
-      { "label": "Réparabilité", "icon": "BuildIcon" }
-    ],
-    "status": "En service",
-    "acquisitionDate": "2022-08-15T00:00:00Z",
-    "ownershipStatus": "Propriétaire"
+    "external_url": "https://www.fnac.com/TV-OLED-Evo-LG-OLED55C4-139-cm-4K-UHD-Smart-TV-2024-Noir-et-Brun/a20284215/w-4",
+    "creator": "An integrator ID or Name",
+    "blockchain": "Starknet",
+    "id": "5",
+    "events": [
+      {
+        "trait_type": "Date d’acquisition",
+        "value": "2024-08-15T00:00:00Z"
+      }
+    ]
   }
 ]
