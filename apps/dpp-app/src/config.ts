@@ -7,6 +7,7 @@ const apiUrl = {
   "https://dpp-app.beta.keyban.fr": "https://api.beta.keyban.io/v1",
   "https://dpp-app.testing.keyban.fr": "https://api.testing.keyban.io/v1",
   "https://dpp-app.marc.lvh.me": "https://api.keyban.localtest.me/v1",
+  "https://dpp-app.sandbox.keyban.fr": "https://api.sandbox.keyban.io/v1",
 }[window.location.origin] ?? "https://api.keyban.localtest.me/v1";
 
 const keybanConfig = {
