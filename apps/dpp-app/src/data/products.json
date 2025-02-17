@@ -42,7 +42,8 @@
       },
       {
         "trait_type": "acquisitionDate",
-        "value": "2023-02-10T00:00:00Z"
+        "value": 1675987200,
+        "display_type": "date"
       },
       {
         "trait_type": "ownershipStatus",
@@ -56,31 +57,33 @@
     "events": [
       {
         "trait_type": "Date d’acquisition (neuf)",
-        "value": "2021-01-10T00:00:00Z"
+        "value": 1609632000,
+        "display_type": "date"
       },
       {
         "trait_type": "Inspection de sécurité",
-        "value": "2022-12-15T00:00:00Z"
+        "value": 1671062400,
+        "display_type": "date"
       },
       {
         "trait_type": "Produit repris",
-        "value": "2022-12-20T00:00:00Z"
+        "value": 1671504000,
+        "display_type": "date"
       },
       {
         "trait_type": "Produit reconditionné",
-        "value": "2023-01-05T00:00:00Z"
-      },
-      {
-        "trait_type": "Réparation effectuée",
-        "value": "2023-01-20T00:00:00Z"
+        "value": 1672876800,
+        "display_type": "date"
       },
       {
         "trait_type": "Certificat de garantie mis à jour",
-        "value": "2023-01-21T00:00:00Z"
+        "value": 1674268800,
+        "display_type": "date"
       },
       {
         "trait_type": "Acquisition en seconde vie",
-        "value": "2023-02-10T00:00:00Z"
+        "value": 1675987200,
+        "display_type": "date"
       }
     ]
   },
@@ -123,7 +126,8 @@
       },
       {
         "trait_type": "acquisitionDate",
-        "value": "2022-02-15T00:00:00Z"
+        "value": 1644883200,
+        "display_type": "date"
       },
       {
         "trait_type": "ownershipStatus",
@@ -137,19 +141,23 @@
     "events": [
       {
         "trait_type": "Date d’acquisition",
-        "value": "2022-02-15T00:00:00Z"
+        "value": 1644883200,
+        "display_type": "date"
       },
       {
         "trait_type": "Nettoyage complet",
-        "value": "2023-01-01T00:00:00Z"
+        "value": 1672531200,
+        "display_type": "date"
       },
       {
         "trait_type": "Inspection annuelle",
-        "value": "2023-01-05T00:00:00Z"
+        "value": 1672876800,
+        "display_type": "date"
       },
       {
         "trait_type": "Maintenance recommandée",
-        "value": "2023-01-12T00:00:00Z"
+        "value": 1673481600,
+        "display_type": "date"
       }
     ]
   },
@@ -192,11 +200,12 @@
       },
       {
         "trait_type": "acquisitionDate",
-        "value": "2021-03-20T00:00:00Z"
+        "value": 1616198400,
+        "display_type": "date"
       },
       {
         "trait_type": "ownershipStatus",
-        "value": "2021-03-20T00:00:00Z"
+        "value": "En seconde vie"
       }
     ],
     "external_url": "https://www.fnac.com/mp51319597/Four-integrable-multifonction-71l-60cm-a-pyrolyse-et-hydrolyse-inox-Bosch-HBA171BS4F/w-4",
@@ -206,27 +215,33 @@
     "events": [
       {
         "trait_type": "Date d’acquisition (neuf)",
-        "value": "2021-03-20T00:00:00Z"
+        "value": 1616198400,
+        "display_type": "date"
       },
       {
         "trait_type": "Inspection de sécurité",
-        "value": "2022-12-15T00:00:00Z"
+        "value": 1671062400,
+        "display_type": "date"
       },
       {
         "trait_type": "Mise à jour du logiciel",
-        "value": "2022-12-20T00:00:00Z"
+        "value": 1671494400,
+        "display_type": "date"
       },
       {
         "trait_type": "Produit repris",
-        "value": "2023-01-12T00:00:00Z"
+        "value": 1673481600,
+        "display_type": "date"
       },
       {
         "trait_type": "Produit reconditionné",
-        "value": "2023-02-01T00:00:00Z"
+        "value": 1675209600,
+        "display_type": "date"
       },
       {
         "trait_type": "Acquisition en seconde vie",
-        "value": "2023-03-01T00:00:00Z"
+        "value": 1677628800,
+        "display_type": "date"
       }
     ]
   },
@@ -273,7 +288,8 @@
       },
       {
         "trait_type": "acquisitionDate",
-        "value": "2022-05-10T00:00:00Z"
+        "value": 1652140800,
+        "display_type": "date"
       },
       {
         "trait_type": "ownershipStatus",
@@ -287,15 +303,18 @@
     "events": [
       {
         "trait_type": "Date d’acquisition",
-        "value": "2022-05-10T00:00:00Z"
+        "value": 1652140800,
+        "display_type": "date"
       },
       {
         "trait_type": "Inspection annuelle",
-        "value": "2022-12-20"
+        "value": 1671504000,
+        "display_type": "date"
       },
       {
         "trait_type": "Nettoyage complet",
-        "value": "2023-05-10"
+        "value": 1683676800,
+        "display_type": "date"
       }
     ]
   },
@@ -342,7 +361,8 @@
       },
       {
         "trait_type": "acquisitionDate",
-        "value": "2022-08-15T00:00:00Z"
+        "value": 1660521600,
+        "display_type": "date"
       },
       {
         "trait_type": "ownershipStatus",
@@ -356,7 +376,8 @@
     "events": [
       {
         "trait_type": "Date d’acquisition",
-        "value": "2024-08-15T00:00:00Z"
+        "value": 1723987200,
+        "display_type": "date"
       }
     ]
   }
