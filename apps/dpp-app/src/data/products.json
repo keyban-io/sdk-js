@@ -5,48 +5,48 @@
     "image": "https://static.fnac-static.com/multimedia/Images/FR/MDMFR/MDM/f4/19/67/23534068/3756-1.jpg",
     "attributes": [
       {
-        "trait_type": "ean",
+        "trait_type": "Ean",
         "value": "8806095210421"
       },
       {
-        "trait_type": "serial_number",
+        "trait_type": "Serial number",
         "value": "SN123456789"
       },
       {
-        "trait_type": "product_category",
+        "trait_type": "Product category",
         "value": "Lave-linge hublot"
       },
       {
-        "trait_type": "brand",
+        "trait_type": "Brand",
         "value": "Samsung"
       },
       {
-        "trait_type": "model",
+        "trait_type": "Model",
         "value": "WW80CGC04DTH"
       },
       {
-        "trait_type": "color",
+        "trait_type": "Color",
         "value": "Blanc"
       },
       {
-        "trait_type": "benefits",
+        "trait_type": "Benefits",
         "value": "Traçabilité"
       },
       {
-        "trait_type": "benefits",
+        "trait_type": "Benefits",
         "value": "Réparabilité"
       },
       {
-        "trait_type": "status",
+        "trait_type": "Status",
         "value": "En seconde vie"
       },
       {
-        "trait_type": "acquisitionDate",
+        "trait_type": "Acquisition date",
         "value": 1675987200,
         "display_type": "date"
       },
       {
-        "trait_type": "ownershipStatus",
+        "trait_type": "Ownership status",
         "value": "Propriétaire"
       }
     ],
@@ -56,32 +56,32 @@
     "id": "1",
     "events": [
       {
-        "trait_type": "Date d’acquisition (neuf)",
+        "trait_type": "Acquisition date (new)",
         "value": 1609632000,
         "display_type": "date"
       },
       {
-        "trait_type": "Inspection de sécurité",
+        "trait_type": "Safety inspection",
         "value": 1671062400,
         "display_type": "date"
       },
       {
-        "trait_type": "Produit repris",
+        "trait_type": "Product reclaimed",
         "value": 1671504000,
         "display_type": "date"
       },
       {
-        "trait_type": "Produit reconditionné",
+        "trait_type": "Refurbished product",
         "value": 1672876800,
         "display_type": "date"
       },
       {
-        "trait_type": "Certificat de garantie mis à jour",
+        "trait_type": "Updated warranty certificate",
         "value": 1674268800,
         "display_type": "date"
       },
       {
-        "trait_type": "Acquisition en seconde vie",
+        "trait_type": "Second life acquisition",
         "value": 1675987200,
         "display_type": "date"
       }
@@ -93,44 +93,44 @@
     "image": "https://static.fnac-static.com/multimedia/Images/5E/C5/80/15/22547550-1505-3756-1.jpg",
     "attributes": [
       {
-        "trait_type": "ean",
+        "trait_type": "Ean",
         "value": "8806084256645"
       },
       {
-        "trait_type": "serial_number",
+        "trait_type": "Serial number",
         "value": "SN123456789"
       },
       {
-        "trait_type": "product_category",
+        "trait_type": "Product category",
         "value": "Réfrigérateur congélateur en bas"
       },
       {
-        "trait_type": "brand",
+        "trait_type": "Brand",
         "value": "LG"
       },
       {
-        "trait_type": "model",
+        "trait_type": "Model",
         "value": "GBV3100DEP"
       },
       {
-        "trait_type": "color",
+        "trait_type": "Color",
         "value": "Noir"
       },
       {
-        "trait_type": "benefits",
+        "trait_type": "Benefits",
         "value": "Traçabilité"
       },
       {
-        "trait_type": "status",
+        "trait_type": "Status",
         "value": "En service"
       },
       {
-        "trait_type": "acquisitionDate",
+        "trait_type": "Acquisition date",
         "value": 1644883200,
         "display_type": "date"
       },
       {
-        "trait_type": "ownershipStatus",
+        "trait_type": "Ownership status",
         "value": "Propriétaire"
       }
     ],
@@ -140,22 +140,22 @@
     "id": "2",
     "events": [
       {
-        "trait_type": "Date d’acquisition",
+        "trait_type": "Acquisition date",
         "value": 1644883200,
         "display_type": "date"
       },
       {
-        "trait_type": "Nettoyage complet",
+        "trait_type": "Complete cleaning",
         "value": 1672531200,
         "display_type": "date"
       },
       {
-        "trait_type": "Inspection annuelle",
+        "trait_type": "Annual inspection",
         "value": 1672876800,
         "display_type": "date"
       },
       {
-        "trait_type": "Maintenance recommandée",
+        "trait_type": "Maintenance recommended",
         "value": 1673481600,
         "display_type": "date"
       }
@@ -167,44 +167,44 @@
     "image": "https://static.fnac-static.com/multimedia/Images/A7/9A/4F/1A/27589031-1505-3756-1.jpg",
     "attributes": [
       {
-        "trait_type": "ean",
+        "trait_type": "Ean",
         "value": "4242005464180"
       },
       {
-        "trait_type": "serial_number",
+        "trait_type": "Serial number",
         "value": "SN123456789"
       },
       {
-        "trait_type": "product_category",
+        "trait_type": "Product category",
         "value": "Four encastrable"
       },
       {
-        "trait_type": "brand",
+        "trait_type": "Brand",
         "value": "Bosch"
       },
       {
-        "trait_type": "model",
+        "trait_type": "Model",
         "value": "HBA171BS4F"
       },
       {
-        "trait_type": "color",
+        "trait_type": "Color",
         "value": "Noir"
       },
       {
-        "trait_type": "benefits",
+        "trait_type": "Benefits",
         "value": "Recyclabilité"
       },
       {
-        "trait_type": "status",
+        "trait_type": "Status",
         "value": "En seconde vie"
       },
       {
-        "trait_type": "acquisitionDate",
+        "trait_type": "Acquisition date",
         "value": 1616198400,
         "display_type": "date"
       },
       {
-        "trait_type": "ownershipStatus",
+        "trait_type": "Ownership status",
         "value": "En seconde vie"
       }
     ],
@@ -214,32 +214,32 @@
     "id": "3",
     "events": [
       {
-        "trait_type": "Date d’acquisition (neuf)",
+        "trait_type": "Acquisition date (new)",
         "value": 1616198400,
         "display_type": "date"
       },
       {
-        "trait_type": "Inspection de sécurité",
+        "trait_type": "Safety inspection",
         "value": 1671062400,
         "display_type": "date"
       },
       {
-        "trait_type": "Mise à jour du logiciel",
+        "trait_type": "Software update",
         "value": 1671494400,
         "display_type": "date"
       },
       {
-        "trait_type": "Produit repris",
+        "trait_type": "Product reclaimed",
         "value": 1673481600,
         "display_type": "date"
       },
       {
-        "trait_type": "Produit reconditionné",
+        "trait_type": "Refurbished product",
         "value": 1675209600,
         "display_type": "date"
       },
       {
-        "trait_type": "Acquisition en seconde vie",
+        "trait_type": "Second life acquisition",
         "value": 1677628800,
         "display_type": "date"
       }
@@ -251,48 +251,48 @@
     "image": "https://static.fnac-static.com/multimedia/Images/FR/MDM/17/92/4e/5149207/1505-1/tsp20250205182714/Grille-pain-Smeg-TSF01-2-fentes-Toaster-Noir.jpg",
     "attributes": [
       {
-        "trait_type": "ean",
+        "trait_type": "Ean",
         "value": "8017709187002"
       },
       {
-        "trait_type": "serial_number",
+        "trait_type": "Serial number",
         "value": "SN123456789"
       },
       {
-        "trait_type": "product_category",
+        "trait_type": "Product category",
         "value": "Grille pain"
       },
       {
-        "trait_type": "brand",
+        "trait_type": "Brand",
         "value": "Smeg"
       },
       {
-        "trait_type": "model",
+        "trait_type": "Model",
         "value": "TSF01BLEU"
       },
       {
-        "trait_type": "color",
+        "trait_type": "Color",
         "value": "Noir"
       },
       {
-        "trait_type": "benefits",
+        "trait_type": "Benefits",
         "value": "Traçabilité"
       },
       {
-        "trait_type": "benefits",
+        "trait_type": "Benefits",
         "value": "Réparabilité"
       },
       {
-        "trait_type": "status",
+        "trait_type": "Status",
         "value": "En service"
       },
       {
-        "trait_type": "acquisitionDate",
+        "trait_type": "Acquisition date",
         "value": 1652140800,
         "display_type": "date"
       },
       {
-        "trait_type": "ownershipStatus",
+        "trait_type": "Ownership status",
         "value": "Propriétaire"
       }
     ],
@@ -302,17 +302,17 @@
     "id": "4",
     "events": [
       {
-        "trait_type": "Date d’acquisition",
+        "trait_type": "Acquisition date",
         "value": 1652140800,
         "display_type": "date"
       },
       {
-        "trait_type": "Inspection annuelle",
+        "trait_type": "Annual inspection",
         "value": 1671504000,
         "display_type": "date"
       },
       {
-        "trait_type": "Nettoyage complet",
+        "trait_type": "Complete cleaning",
         "value": 1683676800,
         "display_type": "date"
       }
@@ -324,48 +324,48 @@
     "image": "https://static.fnac-static.com/multimedia/Images/FR/MDM/16/cf/68/23645974/3756-1/tsp20250108134601/TV-OLED-Evo-LG-OLED55C4-139-cm-4K-UHD-Smart-TV-2024-Noir-et-Brun.jpg",
     "attributes": [
       {
-        "trait_type": "ean",
+        "trait_type": "Ean",
         "value": "8806091898364"
       },
       {
-        "trait_type": "serial_number",
+        "trait_type": "Serial number",
         "value": "SN123456789"
       },
       {
-        "trait_type": "product_category",
+        "trait_type": "Product category",
         "value": "TV, Vidéo, Home cinema"
       },
       {
-        "trait_type": "brand",
+        "trait_type": "Brand",
         "value": "LG"
       },
       {
-        "trait_type": "model",
+        "trait_type": "Model",
         "value": "OLED55C46LA"
       },
       {
-        "trait_type": "color",
+        "trait_type": "Color",
         "value": "Noir et Brun"
       },
       {
-        "trait_type": "benefits",
+        "trait_type": "Benefits",
         "value": "Traçabilité"
       },
       {
-        "trait_type": "benefits",
+        "trait_type": "Benefits",
         "value": "Réparabilité"
       },
       {
-        "trait_type": "status",
+        "trait_type": "Status",
         "value": "En service"
       },
       {
-        "trait_type": "acquisitionDate",
+        "trait_type": "Acquisition date",
         "value": 1660521600,
         "display_type": "date"
       },
       {
-        "trait_type": "ownershipStatus",
+        "trait_type": "Ownership status",
         "value": "Propriétaire"
       }
     ],
@@ -375,7 +375,7 @@
     "id": "5",
     "events": [
       {
-        "trait_type": "Date d’acquisition",
+        "trait_type": "Acquisition date",
         "value": 1723987200,
         "display_type": "date"
       }
