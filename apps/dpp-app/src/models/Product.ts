@@ -69,7 +69,7 @@ function mapEvents(events: Trait[]): Record<string, number> {
 }
 
 /**
- * Maps an array of attributes into a record with key/value pairs.
+ * Maps an array of attributes into a record with key/value pairs, sorted by trait_type.
  *
  * If an attribute has a display type of "date", its value is left as the raw timestamp.
  *
@@ -77,7 +77,10 @@ function mapEvents(events: Trait[]): Record<string, number> {
  * @returns A record where each key is a trait_type and the value is either the original value or the timestamp as a number.
  */
 function mapAttributes(attributes: Trait[]): Record<string, string | number> {
-  return attributes.reduce((acc, attr) => {
+  const sortedAttributes = [...attributes].sort((a, b) =>
+    a.trait_type.localeCompare(b.trait_type)
+  );
+  return sortedAttributes.reduce((acc, attr) => {
     if (attr.display_type === "date" && typeof attr.value === "number") {
       acc[attr.trait_type] = attr.value;
     } else {
