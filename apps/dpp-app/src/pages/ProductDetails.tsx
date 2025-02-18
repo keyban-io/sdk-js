@@ -1,5 +1,13 @@
-import { Container, Typography, Box, Card, CardContent } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  Button,
+} from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -34,6 +42,7 @@ const products = [
 export default function ProductDetails() {
   const { productId } = useParams();
   const product = products.find((p) => p.id === productId);
+  const [expanded, setExpanded] = useState(false); // added state
 
   if (!product) {
     return <Typography variant="h6">Produit non trouvé</Typography>;
@@ -146,8 +155,19 @@ export default function ProductDetails() {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
-              {/* Replace markdown description rendering */}
-              <ReactMarkdown>{product.description}</ReactMarkdown>
+              {/* Render markdown description with toggle */}
+              <Box
+                sx={{ maxHeight: expanded ? "none" : 150, overflow: "hidden" }}
+              >
+                <ReactMarkdown>{product.description}</ReactMarkdown>
+              </Box>
+              <Button
+                onClick={() => setExpanded((prev) => !prev)}
+                sx={{ mt: 1 }}
+                size="small"
+              >
+                {expanded ? "Voir moins" : "Voir plus"}
+              </Button>
               <Typography variant="body1" color="textSecondary" gutterBottom>
                 {product.attributesMap["Status"]}
               </Typography>
