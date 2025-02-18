@@ -24,7 +24,6 @@ import TransferIcon from "@mui/icons-material/TransferWithinAStation";
 import EuroIcon from "@mui/icons-material/Euro";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
-
 import { formatDate } from "../utils/formatDate";
 import Product from "../models/Product";
 import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
@@ -77,7 +76,7 @@ const ActionIconButton: React.FC<ActionIconButtonProps> = ({
 
 // Composant pour afficher les caractéristiques du produit
 interface AttributesSectionProps {
-  attributesMap: { [key: string]: any };
+  attributesMap: { [key: string]: string | number };
 }
 
 const AttributesSection: React.FC<AttributesSectionProps> = ({
@@ -109,16 +108,17 @@ export default function ProductDetails() {
   const product = products.find((p) => p.id === productId);
   const [expanded, setExpanded] = useState(false);
 
-  if (!product) {
-    return <Typography variant="h6">Produit non trouvé</Typography>;
-  }
-
   // Tri des événements par date (croissant)
   const sortedEvents = useMemo(() => {
+    if (!product) return [];
     return Object.entries(product.eventsMap).sort(
       ([, aDate], [, bDate]) => (aDate as number) - (bDate as number),
     );
-  }, [product.eventsMap]);
+  }, [product]);
+
+  if (!product) {
+    return <Typography variant="h6">Produit non trouvé</Typography>;
+  }
 
   // Gestion d'une image de repli en cas d'erreur de chargement
   const handleImageError = (
