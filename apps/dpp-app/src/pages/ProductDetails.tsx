@@ -18,16 +18,15 @@ import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.
 import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
 import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
 import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
-import { mapAttributes } from "../utils/attributes";
-import { mapEvents } from "../utils/events";
+import Product from "../models/Product";
 
 const products = [
   // Consolidated product data from JSON files
-  productBosch,
-  productSmeg,
-  productSamsung,
-  productLG,
-  productLGTV,
+  new Product(productBosch),
+  new Product(productSmeg),
+  new Product(productSamsung),
+  new Product(productLG),
+  new Product(productLGTV),
 ];
 
 export default function ProductDetails() {
@@ -37,25 +36,6 @@ export default function ProductDetails() {
   if (!product) {
     return <Typography variant="h6">Produit non trouvé</Typography>;
   }
-
-  // Mappe les attributs et les events pour un accès simplifié
-  const attrs = mapAttributes(product.attributes || []);
-  const eventsMap = mapEvents(product.events || []);
-  console.log("eventsMap", eventsMap);
-  console.log("typeof eventsMap", typeof eventsMap);
-
-  const acquisitionDate = attrs["Acquisition date"];
-  const acquisitionEvent = eventsMap["Acquisition date"];
-
-  // Format date to be human-readable; input is a timestamp (in seconds)
-  const formatDate = (timestamp: number) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return new Date(timestamp * 1000).toLocaleDateString(undefined, options);
-  };
 
   return (
     <Container sx={{ pb: 4, position: "relative" }} disableGutters>
@@ -165,38 +145,39 @@ export default function ProductDetails() {
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
-                {attrs["Status"]}
+                {product.attributesMap["Status"]}
               </Typography>
-              {attrs["Ownership status"] && (
+              {product.attributesMap["Ownership status"] && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {attrs["Ownership status"]}
+                  {product.attributesMap["Ownership status"]}
                 </Typography>
               )}
-              {acquisitionDate && (
+              {product.attributesMap["Acquisition date"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Date d’acquisition : {formatDate(acquisitionDate)}
+                  Date d’acquisition :{" "}
+                  {product.attributesMap["Acquisition date"]}
                 </Typography>
               )}
-              {acquisitionEvent && (
+              {product.eventsMap["Acquisition date"] && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  (Event : Acquisition - {formatDate(acquisitionDate)})
+                  (Event : Acquisition - {product.eventsMap["Acquisition date"]}
+                  )
                 </Typography>
               )}
               <Timeline>
-                {Object.entries(eventsMap).map(([eventKey], index) => {
+                {Object.entries(product.eventsMap).map(([eventKey], index) => {
                   return (
                     <TimelineItem key={index}>
                       <TimelineOppositeContent
-                        // sx={{ py: "20px" }}
                         align="right"
                         variant="body2"
                         color="text.secondary"
                       >
-                        {formatDate(eventsMap[eventKey])}
+                        {product.eventsMap[eventKey]}
                       </TimelineOppositeContent>
                       <TimelineSeparator>
                         <TimelineDot color="secondary"></TimelineDot>
-                        {index < Object.keys(eventsMap).length - 1 && (
+                        {index < Object.keys(product.eventsMap).length - 1 && (
                           <TimelineConnector />
                         )}
                       </TimelineSeparator>

@@ -18,16 +18,15 @@ import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.
 import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
 import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
 import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
-import { mapAttributes } from "../utils/attributes";
-import { mapEvents } from "../utils/events";
+import Product from "../models/Product";
 
 const products = [
   // Consolidated product data from JSON files
-  productBosch,
-  productSmeg,
-  productSamsung,
-  productLG,
-  productLGTV,
+  new Product(productBosch),
+  new Product(productSmeg),
+  new Product(productSamsung),
+  new Product(productLG),
+  new Product(productLGTV),
 ];
 
 import InfoIcon from "@mui/icons-material/Info";
@@ -50,31 +49,6 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
   const handleDetailsClick = () => {
     navigate(`/product-details/${productId}`);
   };
-
-  // Mappe les attributs et events pour un accès simplifié
-  const attrs = mapAttributes(product.attributes || []);
-  const eventsMap = mapEvents(product.events || []);
-  console.log("eventsMap", eventsMap);
-
-  // Find the most recent event
-  const [mostRecentEventKey, mostRecentEventValue] =
-    Object.entries(eventsMap)[0];
-
-  // Format date to be human-readable; input is a timestamp (in seconds)
-  const formatDate = (timestamp: number) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return new Date(timestamp * 1000).toLocaleDateString(undefined, options);
-  };
-
-  // Conversion de la date d'acquisition si disponible
-  const acquisitionEvent = eventsMap["Acquisition date"];
-  console.log("acquisitionEvent", acquisitionEvent);
-  const acquisitionDate = attrs["Acquisition date"];
-  console.log("acquisitionDate", acquisitionDate);
 
   return (
     <Box
@@ -148,24 +122,25 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
-              {attrs["Status"] && (
+              {product.attributesMap["Status"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  {attrs["Status"]}
+                  {product.attributesMap["Status"]}
                 </Typography>
               )}
-              {attrs["Ownership status"] && (
+              {product.attributesMap["Ownership status"] && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {attrs["Ownership status"]}
+                  {product.attributesMap["Ownership status"]}
                 </Typography>
               )}
-              {acquisitionDate && (
+              {product.attributesMap["Acquisition date"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Date d’acquisition : {formatDate(acquisitionDate)}
+                  Date d’acquisition :{" "}
+                  {product.attributesMap["Acquisition date"]}
                 </Typography>
               )}
-              {acquisitionEvent && (
+              {product.eventsMap["Acquisition date"] && (
                 <Typography variant="caption" color="textSecondary">
-                  (Event Acquisition : {formatDate(acquisitionEvent)})
+                  (Event Acquisition : {product.eventsMap["Acquisition date"]})
                 </Typography>
               )}
               <Timeline>
@@ -175,7 +150,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                     variant="body2"
                     color="text.secondary"
                   >
-                    {formatDate(mostRecentEventValue)}
+                    {product.latestEvent?.value}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineDot color="secondary"></TimelineDot>
@@ -183,7 +158,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                   </TimelineSeparator>
                   <TimelineContent>
                     {" "}
-                    <Typography>{mostRecentEventKey}</Typography>
+                    <Typography>{product.latestEvent?.trait_type}</Typography>
                   </TimelineContent>
                 </TimelineItem>
               </Timeline>
