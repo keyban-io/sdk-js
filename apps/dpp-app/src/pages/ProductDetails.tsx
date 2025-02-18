@@ -20,6 +20,7 @@ import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
 import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
 import Product from "../models/Product";
 import { formatDate } from "../utils/formatDate";
+import ReactMarkdown from "react-markdown"; // added import
 
 const products = [
   // Consolidated product data from JSON files
@@ -145,6 +146,8 @@ export default function ProductDetails() {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
+              {/* Replace markdown description rendering */}
+              <ReactMarkdown>{product.description}</ReactMarkdown>
               <Typography variant="body1" color="textSecondary" gutterBottom>
                 {product.attributesMap["Status"]}
               </Typography>
