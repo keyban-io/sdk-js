@@ -1,3 +1,4 @@
+import React, { useMemo, useState } from "react";
 import {
   Container,
   Typography,
@@ -5,10 +6,11 @@ import {
   Card,
   CardContent,
   Button,
+  IconButton,
+  Tooltip,
   Grid2,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -19,21 +21,19 @@ import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import RepairIcon from "@mui/icons-material/Build";
 import RecycleIcon from "@mui/icons-material/Autorenew";
 import TransferIcon from "@mui/icons-material/TransferWithinAStation";
-import Tooltip from "@mui/material/Tooltip";
 import EuroIcon from "@mui/icons-material/Euro";
-import IconButton from "@mui/material/IconButton";
+import ReactMarkdown from "react-markdown";
+import rehypeSanitize from "rehype-sanitize";
+
+import { formatDate } from "../utils/formatDate";
+import Product from "../models/Product";
 import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
 import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.json";
 import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
 import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
 import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
-import Product from "../models/Product";
-import { formatDate } from "../utils/formatDate";
-import ReactMarkdown from "react-markdown"; // added import
-import React from "react";
 
 const products = [
-  // Consolidated product data from JSON files
   new Product(productBosch),
   new Product(productSmeg),
   new Product(productSamsung),
@@ -41,14 +41,91 @@ const products = [
   new Product(productLGTV),
 ];
 
+// Style centralisé pour les boutons d'action
+const iconButtonSx = {
+  backgroundColor: "rgba(255, 255, 255, 0.8)",
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 1)",
+  },
+};
+
+// Composant réutilisable pour un bouton d'action
+interface ActionIconButtonProps {
+  tooltip: string;
+  ariaLabel: string;
+  icon: React.ReactElement;
+  onClick?: () => void;
+}
+
+const ActionIconButton: React.FC<ActionIconButtonProps> = ({
+  tooltip,
+  ariaLabel,
+  icon,
+  onClick,
+}) => (
+  <Tooltip title={tooltip}>
+    <IconButton
+      color="primary"
+      aria-label={ariaLabel}
+      onClick={onClick}
+      sx={iconButtonSx}
+    >
+      {icon}
+    </IconButton>
+  </Tooltip>
+);
+
+// Composant pour afficher les caractéristiques du produit
+interface AttributesSectionProps {
+  attributesMap: { [key: string]: any };
+}
+
+const AttributesSection: React.FC<AttributesSectionProps> = ({
+  attributesMap,
+}) => (
+  <Box sx={{ mt: 2, textAlign: "left", width: "100%" }}>
+    <Typography variant="h6" gutterBottom>
+      Caractéristiques
+    </Typography>
+    <Grid2 container spacing={1}>
+      {Object.entries(attributesMap).map(([attr, value]) => (
+        <React.Fragment key={attr}>
+          <Grid2 size={{ xs: 4 }}>
+            <Typography variant="body2" fontWeight="bold">
+              {attr}
+            </Typography>
+          </Grid2>
+          <Grid2 size={{ xs: 8 }}>
+            <Typography variant="body2">{value}</Typography>
+          </Grid2>
+        </React.Fragment>
+      ))}
+    </Grid2>
+  </Box>
+);
+
 export default function ProductDetails() {
   const { productId } = useParams();
   const product = products.find((p) => p.id === productId);
-  const [expanded, setExpanded] = useState(false); // added state
+  const [expanded, setExpanded] = useState(false);
 
   if (!product) {
     return <Typography variant="h6">Produit non trouvé</Typography>;
   }
+
+  // Tri des événements par date (croissant)
+  const sortedEvents = useMemo(() => {
+    return Object.entries(product.eventsMap).sort(
+      ([, aDate], [, bDate]) => (aDate as number) - (bDate as number),
+    );
+  }, [product.eventsMap]);
+
+  // Gestion d'une image de repli en cas d'erreur de chargement
+  const handleImageError = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
+    event.currentTarget.src = "fallback.png"; // Remplacer par le chemin de votre image de repli
+  };
 
   return (
     <Container sx={{ pb: 4, position: "relative" }} disableGutters>
@@ -62,72 +139,41 @@ export default function ProductDetails() {
           justifyContent: "center",
         }}
       >
-        <img src={product.image} alt={product.name} />
+        <img
+          src={product.image}
+          alt={product.name}
+          onError={handleImageError}
+          style={{ maxWidth: "100%", height: "auto" }}
+        />
         <Box
           sx={{
             position: "absolute",
-            bottom: 32, // Adjusted to move the buttons slightly above the bottom
+            bottom: 32,
             right: 16,
             display: "flex",
             gap: 1,
           }}
         >
-          <Tooltip title="Réparer">
-            <IconButton
-              color="primary"
-              aria-label="repair"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                },
-              }}
-            >
-              <RepairIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Revendre">
-            <IconButton
-              color="primary"
-              aria-label="sell"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                },
-              }}
-            >
-              <EuroIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Recycler">
-            <IconButton
-              color="primary"
-              aria-label="recycle"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                },
-              }}
-            >
-              <RecycleIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Transferer">
-            <IconButton
-              color="primary"
-              aria-label="transfer"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                },
-              }}
-            >
-              <TransferIcon />
-            </IconButton>
-          </Tooltip>
+          <ActionIconButton
+            tooltip="Réparer"
+            ariaLabel="repair"
+            icon={<RepairIcon />}
+          />
+          <ActionIconButton
+            tooltip="Revendre"
+            ariaLabel="sell"
+            icon={<EuroIcon />}
+          />
+          <ActionIconButton
+            tooltip="Recycler"
+            ariaLabel="recycle"
+            icon={<RecycleIcon />}
+          />
+          <ActionIconButton
+            tooltip="Transferer"
+            ariaLabel="transfer"
+            icon={<TransferIcon />}
+          />
         </Box>
       </Card>
       <Card
@@ -136,12 +182,12 @@ export default function ProductDetails() {
           borderRadius: "16px",
           position: "relative",
           zIndex: 1,
-          mt: -4, // Adjust margin top to position above the first card
+          mt: -4,
         }}
       >
         <CardContent
           sx={{
-            background: "linear-gradient(to right, #f0f0f0, #ffffff)", // Adjust gradient background to start with a lighter gray
+            background: "linear-gradient(to right, #f0f0f0, #ffffff)",
           }}
         >
           <Box
@@ -157,11 +203,12 @@ export default function ProductDetails() {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
-              {/* Render markdown description with toggle */}
               <Box
                 sx={{ maxHeight: expanded ? "none" : 150, overflow: "hidden" }}
               >
-                <ReactMarkdown>{product.description}</ReactMarkdown>
+                <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                  {product.description}
+                </ReactMarkdown>
               </Box>
               <Button
                 onClick={() => setExpanded((prev) => !prev)}
@@ -193,51 +240,26 @@ export default function ProductDetails() {
                 </Typography>
               )}
               <Timeline>
-                {Object.entries(product.eventsMap).map(([eventKey], index) => {
-                  return (
-                    <TimelineItem key={index}>
-                      <TimelineOppositeContent
-                        align="right"
-                        variant="body2"
-                        color="text.secondary"
-                      >
-                        {formatDate(product.eventsMap[eventKey] as number)}
-                      </TimelineOppositeContent>
-                      <TimelineSeparator>
-                        <TimelineDot color="secondary"></TimelineDot>
-                        {index < Object.keys(product.eventsMap).length - 1 && (
-                          <TimelineConnector />
-                        )}
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Typography>{eventKey}</Typography>
-                      </TimelineContent>
-                    </TimelineItem>
-                  );
-                })}
+                {sortedEvents.map(([eventKey, eventDate], index) => (
+                  <TimelineItem key={index}>
+                    <TimelineOppositeContent
+                      align="right"
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      {formatDate(eventDate as number)}
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                      <TimelineDot color="secondary" />
+                      {index < sortedEvents.length - 1 && <TimelineConnector />}
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      <Typography>{eventKey}</Typography>
+                    </TimelineContent>
+                  </TimelineItem>
+                ))}
               </Timeline>
-              {/* New section: display all attributes */}
-              <Box sx={{ mt: 2, textAlign: "left", width: "100%" }}>
-                <Typography variant="h6" gutterBottom>
-                  Caractéristiques
-                </Typography>
-                <Grid2 container spacing={1}>
-                  {Object.entries(product.attributesMap).map(
-                    ([attr, value]) => (
-                      <React.Fragment key={attr}>
-                        <Grid2 size={{ xs: 4 }}>
-                          <Typography variant="body2" fontWeight="bold">
-                            {attr}
-                          </Typography>
-                        </Grid2>
-                        <Grid2 size={{ xs: 8 }}>
-                          <Typography variant="body2">{value}</Typography>
-                        </Grid2>
-                      </React.Fragment>
-                    ),
-                  )}
-                </Grid2>
-              </Box>
+              <AttributesSection attributesMap={product.attributesMap} />
             </Box>
           </Box>
         </CardContent>
