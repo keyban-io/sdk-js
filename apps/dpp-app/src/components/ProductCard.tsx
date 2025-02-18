@@ -19,6 +19,7 @@ import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CG
 import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
 import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
 import Product from "../models/Product";
+import { formatDate } from "../utils/formatDate";
 
 const products = [
   // Consolidated product data from JSON files
@@ -135,12 +136,15 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
               {product.attributesMap["Acquisition date"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
                   Date d’acquisition :{" "}
-                  {product.attributesMap["Acquisition date"]}
+                  {formatDate(
+                    product.attributesMap["Acquisition date"] as number,
+                  )}
                 </Typography>
               )}
               {product.eventsMap["Acquisition date"] && (
                 <Typography variant="caption" color="textSecondary">
-                  (Event Acquisition : {product.eventsMap["Acquisition date"]})
+                  (Event Acquisition :{" "}
+                  {formatDate(product.eventsMap["Acquisition date"] as number)})
                 </Typography>
               )}
               <Timeline>
@@ -150,7 +154,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                     variant="body2"
                     color="text.secondary"
                   >
-                    {product.latestEvent?.value}
+                    {formatDate(product.latestEvent?.value as number)}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineDot color="secondary"></TimelineDot>
