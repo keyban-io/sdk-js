@@ -1,0 +1,70 @@
+{
+  "name": "Réfrigérateur combiné LG GBV3100DEP Noir",
+  "description": "# Réfrigérateur Combiné LG GBV3100DEP\n\nDécouvrez le **Réfrigérateur Combiné LG GBV3100DEP**, un appareil élégant et performant offrant une **solution de stockage optimale** pour vos aliments tout en préservant leur fraîcheur.\n\n## Points forts\n- **Froid Uniforme 24/7** : Température constante, fluctuations minimales, conservation optimale des aliments.  \n- **Refroidissement Rapide** : Rideau d'air froid assurant un refroidissement homogène de l'avant à l'arrière.  \n- **Grand Volume** : 2,03 mètres de hauteur, **capacité totale de 344 L** pour répondre à tous vos besoins.  \n- **Humidité Contrôlée** : Maintient une humidité optimale pour une conservation maximale des aliments.  \n- **Moist Balance Crisper™** : Régule l'humidité pour prolonger la fraîcheur des fruits et légumes.  \n- **Finition Premium** : **Éclairage Soft LED** offrant une luminosité uniforme sans éblouissement.  \n\n---\n\n## Caractéristiques\n- **Capacité** : 344 L (Réfrigérateur : 234 L, Congélateur : 110 L)  \n- **Design** : Noir Graphite, portes réversibles, poignées intégrées, interface digitale intérieure, finition clayettes blanche  \n- **Technologies** :  \n  - **Ventilé Total No Frost**  \n  - **Door Cooling™**  \n  - **Linear Cooling™**  \n  - **Alarme porte ouverte**  \n  - **Mode vacances**  \n\n---\n\n## Réfrigérateur\n- **Nombre de clayettes** : 3  \n- **Porte-bouteilles** : 2  \n- **Tiroirs à fruits et légumes** : 2  \n- **Moist Balance Crisper** : Oui  \n- **Fresh Converter** : Oui  \n- **Balconnets contre porte** : 3  \n- **Fonction Réfrigération express** : Oui  \n- **Support à œufs** : Oui  \n- **Éclairage intérieur** : LED uniforme  \n\n---\n\n## Données Techniques\n- **Dimensions nettes (L x H x P)** : 59,5 x 186 x 67,5 cm  \n- **Poids net** : 74 kg  \n- **Disponibilité des pièces détachées** : 10 ans à compter de la date d'achat",
+  "image": "https://static.fnac-static.com/multimedia/Images/5E/C5/80/15/22547550-1505-3756-1.jpg",
+  "attributes": [
+    {
+      "trait_type": "Ean",
+      "value": "8806084256645"
+    },
+    {
+      "trait_type": "Serial number",
+      "value": "SN123456789"
+    },
+    {
+      "trait_type": "Product category",
+      "value": "Réfrigérateur congélateur en bas"
+    },
+    {
+      "trait_type": "Brand",
+      "value": "LG"
+    },
+    {
+      "trait_type": "Model",
+      "value": "GBV3100DEP"
+    },
+    {
+      "trait_type": "Color",
+      "value": "Noir"
+    },
+    {
+      "trait_type": "Status",
+      "value": "En service"
+    },
+    {
+      "trait_type": "Acquisition date",
+      "value": 1644883200,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Ownership status",
+      "value": "Propriétaire"
+    }
+  ],
+  "external_url": "https://www.fnac.com/mp49457064/Refrigerateur-combine-LG-GBV3100DEP-Noir/w-4",
+  "creator": "An integrator ID or Name",
+  "blockchain": "Starknet",
+  "id": "2",
+  "events": [
+    {
+      "trait_type": "Acquisition date",
+      "value": 1644883200,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Complete cleaning",
+      "value": 1672531200,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Annual inspection",
+      "value": 1672876800,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Maintenance recommended",
+      "value": 1673481600,
+      "display_type": "date"
+    }
+  ]
+}

@@ -4,7 +4,6 @@ import {
   CardContent,
   Typography,
   Box,
-  Chip,
   Tooltip,
   IconButton,
 } from "@mui/material";
@@ -15,11 +14,11 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { useNavigate } from "react-router-dom";
-import productBosch from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Four intégrable multifonction 71l 60cm a pyrolyse et hydrolyse inox Bosch HBA171BS4F.json";
-import productSmeg from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Grille-pain Smeg TSF01 2 fentes Toaster Noir.json";
-import productSamsung from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Lave-linge hublot Samsung Ecobubble™ WW80CGC04DTH 8 kg Blanc.json";
-import productLG from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Réfrigérateur combiné LG GBV3100DEP Noir.json";
-import productLGTV from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/TV OLED Evo LG OLED55C4 139 cm 4K UHD Smart TV 2024 Noir et Brun.json";
+import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
+import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.json";
+import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
+import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
+import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
 import { mapAttributes } from "../utils/attributes";
 import { mapEvents } from "../utils/events";
 
@@ -44,7 +43,7 @@ const iconMap: { [key: string]: React.ReactElement } = {
   BuildIcon: <BuildIcon />,
   UpdateIcon: <UpdateIcon />,
   CheckCircleIcon: <CheckCircleIcon />,
-  EventIcon: <EventIcon />,
+  "Second life acquisition": <EventIcon />,
 };
 
 interface ProductCardProps {
@@ -68,25 +67,27 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
   // Mappe les attributs et events pour un accès simplifié
   const attrs = mapAttributes(product.attributes || []);
   const eventsMap = mapEvents(product.events || []);
+  console.log("eventsMap", eventsMap);
 
   // Find the most recent event
-  const mostRecentEvent = eventsMap[0];
+  const [mostRecentEventKey, mostRecentEventValue] =
+    Object.entries(eventsMap)[0];
 
-  // Format date to be human-readable
-  const formatDate = (dateString: string) => {
+  // Format date to be human-readable; input is a timestamp (in seconds)
+  const formatDate = (timestamp: number) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
       month: "long",
       day: "numeric",
     };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return new Date(timestamp * 1000).toLocaleDateString(undefined, options);
   };
 
   // Conversion de la date d'acquisition si disponible
   const acquisitionEvent = eventsMap["Acquisition date"];
-  const acquisitionDate = attrs["Acquisition date"]
-    ? new Date(attrs["Acquisition date"] * 1000).toISOString()
-    : null;
+  console.log("acquisitionEvent", acquisitionEvent);
+  const acquisitionDate = attrs["Acquisition date"];
+  console.log("acquisitionDate", acquisitionDate);
 
   return (
     <Box
@@ -177,8 +178,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
               )}
               {acquisitionEvent && (
                 <Typography variant="caption" color="textSecondary">
-                  (Event Acquisition :{" "}
-                  {formatDate(new Date(acquisitionEvent * 1000).toISOString())})
+                  (Event Acquisition : {formatDate(acquisitionEvent)})
                 </Typography>
               )}
               <Timeline>
@@ -188,17 +188,17 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                     variant="body2"
                     color="text.secondary"
                   >
-                    {formatDate(mostRecentEvent.date)}
+                    {formatDate(mostRecentEventValue)}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineDot color="secondary">
-                      {iconMap[mostRecentEvent.icon]}
+                      {iconMap[mostRecentEventKey]}
                     </TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent>
                     {" "}
-                    <Typography>{mostRecentEvent.description}</Typography>
+                    <Typography>{mostRecentEventKey}</Typography>
                   </TimelineContent>
                 </TimelineItem>
               </Timeline>

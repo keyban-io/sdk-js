@@ -1,11 +1,5 @@
-import React from "react";
 import { Container, Typography, Box, Card, CardContent } from "@mui/material";
 import { useParams } from "react-router-dom";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import BuildIcon from "@mui/icons-material/Build";
-import UpdateIcon from "@mui/icons-material/Update";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import EventIcon from "@mui/icons-material/Event";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -19,21 +13,13 @@ import TransferIcon from "@mui/icons-material/TransferWithinAStation";
 import Tooltip from "@mui/material/Tooltip";
 import EuroIcon from "@mui/icons-material/Euro";
 import IconButton from "@mui/material/IconButton";
-import productBosch from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Four intégrable multifonction 71l 60cm a pyrolyse et hydrolyse inox Bosch HBA171BS4F.json";
-import productSmeg from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Grille-pain Smeg TSF01 2 fentes Toaster Noir.json";
-import productSamsung from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Lave-linge hublot Samsung Ecobubble™ WW80CGC04DTH 8 kg Blanc.json";
-import productLG from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Réfrigérateur combiné LG GBV3100DEP Noir.json";
-import productLGTV from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/TV OLED Evo LG OLED55C4 139 cm 4K UHD Smart TV 2024 Noir et Brun.json";
+import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
+import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.json";
+import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
+import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
+import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
 import { mapAttributes } from "../utils/attributes";
 import { mapEvents } from "../utils/events";
-
-const iconMap: { [key: string]: React.ReactElement } = {
-  VerifiedIcon: <VerifiedIcon />,
-  BuildIcon: <BuildIcon />,
-  UpdateIcon: <UpdateIcon />,
-  CheckCircleIcon: <CheckCircleIcon />,
-  EventIcon: <EventIcon />,
-};
 
 const products = [
   // Consolidated product data from JSON files
@@ -55,22 +41,20 @@ export default function ProductDetails() {
   // Mappe les attributs et les events pour un accès simplifié
   const attrs = mapAttributes(product.attributes || []);
   const eventsMap = mapEvents(product.events || []);
+  console.log("eventsMap", eventsMap);
+  console.log("typeof eventsMap", typeof eventsMap);
 
-  const acquisitionDate = attrs["Acquisition date"]
-    ? new Date(attrs["Acquisition date"] * 1000).toISOString()
-    : null;
-
-  // Par exemple, accès à la date d'acquisition via l'event "Acquisition date"
+  const acquisitionDate = attrs["Acquisition date"];
   const acquisitionEvent = eventsMap["Acquisition date"];
 
-  // Format date to be human-readable
-  const formatDate = (dateString: string) => {
+  // Format date to be human-readable; input is a timestamp (in seconds)
+  const formatDate = (timestamp: number) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
       month: "long",
       day: "numeric",
     };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return new Date(timestamp * 1000).toLocaleDateString(undefined, options);
   };
 
   return (
@@ -195,32 +179,33 @@ export default function ProductDetails() {
               )}
               {acquisitionEvent && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  (Event : Acquisition -{" "}
-                  {formatDate(new Date(acquisitionEvent * 1000).toISOString())})
+                  (Event : Acquisition - {formatDate(acquisitionDate)})
                 </Typography>
               )}
               <Timeline>
-                {eventsMap.map((event, index) => (
-                  <TimelineItem key={index}>
-                    <TimelineOppositeContent
-                      sx={{ py: "20px" }}
-                      align="right"
-                      variant="body2"
-                      color="text.secondary"
-                    >
-                      {formatDate(event.date)}
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot color="secondary">
-                        {iconMap[event.icon]}
-                      </TimelineDot>
-                      {index < sortedEvents.length - 1 && <TimelineConnector />}
-                    </TimelineSeparator>
-                    <TimelineContent>
-                      <Typography>{event.description}</Typography>
-                    </TimelineContent>
-                  </TimelineItem>
-                ))}
+                {Object.entries(eventsMap).map(([eventKey], index) => {
+                  return (
+                    <TimelineItem key={index}>
+                      <TimelineOppositeContent
+                        sx={{ py: "20px" }}
+                        align="right"
+                        variant="body2"
+                        color="text.secondary"
+                      >
+                        {formatDate(eventsMap[eventKey])}
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineDot color="secondary"></TimelineDot>
+                        {index < Object.keys(eventsMap).length - 1 && (
+                          <TimelineConnector />
+                        )}
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Typography>{eventKey}</Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                  );
+                })}
               </Timeline>
             </Box>
           </Box>
