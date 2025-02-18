@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   CardContent,
@@ -30,21 +29,9 @@ const products = [
   productLG,
   productLGTV,
 ];
-import VerifiedIcon from "@mui/icons-material/Verified";
-import BuildIcon from "@mui/icons-material/Build";
-import UpdateIcon from "@mui/icons-material/Update";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import EventIcon from "@mui/icons-material/Event";
+
 import InfoIcon from "@mui/icons-material/Info";
 import TimelineDot from "@mui/lab/TimelineDot";
-
-const iconMap: { [key: string]: React.ReactElement } = {
-  VerifiedIcon: <VerifiedIcon />,
-  BuildIcon: <BuildIcon />,
-  UpdateIcon: <UpdateIcon />,
-  CheckCircleIcon: <CheckCircleIcon />,
-  "Second life acquisition": <EventIcon />,
-};
 
 interface ProductCardProps {
   productId: string;
@@ -191,9 +178,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                     {formatDate(mostRecentEventValue)}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
-                    <TimelineDot color="secondary">
-                      {iconMap[mostRecentEventKey]}
-                    </TimelineDot>
+                    <TimelineDot color="secondary"></TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent>

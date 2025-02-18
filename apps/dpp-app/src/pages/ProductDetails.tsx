@@ -187,7 +187,7 @@ export default function ProductDetails() {
                   return (
                     <TimelineItem key={index}>
                       <TimelineOppositeContent
-                        sx={{ py: "20px" }}
+                        // sx={{ py: "20px" }}
                         align="right"
                         variant="body2"
                         color="text.secondary"
