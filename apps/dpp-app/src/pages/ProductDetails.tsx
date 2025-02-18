@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   Button,
+  Grid2,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
@@ -29,6 +30,7 @@ import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV
 import Product from "../models/Product";
 import { formatDate } from "../utils/formatDate";
 import ReactMarkdown from "react-markdown"; // added import
+import React from "react";
 
 const products = [
   // Consolidated product data from JSON files
@@ -214,6 +216,28 @@ export default function ProductDetails() {
                   );
                 })}
               </Timeline>
+              {/* New section: display all attributes */}
+              <Box sx={{ mt: 2, textAlign: "left", width: "100%" }}>
+                <Typography variant="h6" gutterBottom>
+                  Caractéristiques
+                </Typography>
+                <Grid2 container spacing={1}>
+                  {Object.entries(product.attributesMap).map(
+                    ([attr, value]) => (
+                      <React.Fragment key={attr}>
+                        <Grid2 size={{ xs: 4 }}>
+                          <Typography variant="body2" fontWeight="bold">
+                            {attr}
+                          </Typography>
+                        </Grid2>
+                        <Grid2 size={{ xs: 8 }}>
+                          <Typography variant="body2">{value}</Typography>
+                        </Grid2>
+                      </React.Fragment>
+                    ),
+                  )}
+                </Grid2>
+              </Box>
             </Box>
           </Box>
         </CardContent>
