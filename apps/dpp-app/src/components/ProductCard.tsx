@@ -15,18 +15,28 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { useNavigate } from "react-router-dom";
-import products from "../data/products.json";
+import productBosch from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Four intégrable multifonction 71l 60cm a pyrolyse et hydrolyse inox Bosch HBA171BS4F.json";
+import productSmeg from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Grille-pain Smeg TSF01 2 fentes Toaster Noir.json";
+import productSamsung from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Lave-linge hublot Samsung Ecobubble™ WW80CGC04DTH 8 kg Blanc.json";
+import productLG from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Réfrigérateur combiné LG GBV3100DEP Noir.json";
+import productLGTV from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/TV OLED Evo LG OLED55C4 139 cm 4K UHD Smart TV 2024 Noir et Brun.json";
+import { mapAttributes } from "../utils/attributes";
+import { mapEvents } from "../utils/events";
+
+const products = [
+  // Consolidated product data from JSON files
+  productBosch,
+  productSmeg,
+  productSamsung,
+  productLG,
+  productLGTV,
+];
 import VerifiedIcon from "@mui/icons-material/Verified";
 import BuildIcon from "@mui/icons-material/Build";
 import UpdateIcon from "@mui/icons-material/Update";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EventIcon from "@mui/icons-material/Event";
 import InfoIcon from "@mui/icons-material/Info";
-import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
-import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
-import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
-import smegToasterBlue from "../assets/Smeg TSF01 Bleu.png";
-import lgOledTv from "../assets/TV OLED LG OLED55C4 2024.webp";
 import TimelineDot from "@mui/lab/TimelineDot";
 
 const iconMap: { [key: string]: React.ReactElement } = {
@@ -35,14 +45,6 @@ const iconMap: { [key: string]: React.ReactElement } = {
   UpdateIcon: <UpdateIcon />,
   CheckCircleIcon: <CheckCircleIcon />,
   EventIcon: <EventIcon />,
-};
-
-const imageMap: { [key: string]: string } = {
-  samsungWashingMachine,
-  lgRefrigerator,
-  boschOven,
-  smegToasterBlue,
-  lgOledTv,
 };
 
 interface ProductCardProps {
@@ -63,13 +65,12 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
     navigate(`/product-details/${productId}`);
   };
 
-  // Sort events by date from most recent to oldest
-  const sortedEvents = product.events.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  // Mappe les attributs et events pour un accès simplifié
+  const attrs = mapAttributes(product.attributes || []);
+  const eventsMap = mapEvents(product.events || []);
 
   // Find the most recent event
-  const mostRecentEvent = sortedEvents[0];
+  const mostRecentEvent = eventsMap[0];
 
   // Format date to be human-readable
   const formatDate = (dateString: string) => {
@@ -80,6 +81,12 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
     };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+
+  // Conversion de la date d'acquisition si disponible
+  const acquisitionEvent = eventsMap["Acquisition date"];
+  const acquisitionDate = attrs["Acquisition date"]
+    ? new Date(attrs["Acquisition date"] * 1000).toISOString()
+    : null;
 
   return (
     <Box
@@ -105,8 +112,8 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
         }}
       >
         <img
-          src={imageMap[product.imageKey]}
-          alt={product.alt}
+          src={product.image}
+          alt={product.name}
           style={{ maxWidth: "100%", maxHeight: "100%" }} // Add maxHeight to ensure the image fits within the container
         />
         <Box
@@ -153,14 +160,25 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
-              {product.status && (
+              {attrs["Status"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  {product.status}
+                  {attrs["Status"]}
                 </Typography>
               )}
-              {product.ownershipStatus && (
+              {attrs["Ownership status"] && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {product.ownershipStatus}
+                  {attrs["Ownership status"]}
+                </Typography>
+              )}
+              {acquisitionDate && (
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  Date d’acquisition : {formatDate(acquisitionDate)}
+                </Typography>
+              )}
+              {acquisitionEvent && (
+                <Typography variant="caption" color="textSecondary">
+                  (Event Acquisition :{" "}
+                  {formatDate(new Date(acquisitionEvent * 1000).toISOString())})
                 </Typography>
               )}
               <Timeline>
@@ -184,24 +202,6 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                   </TimelineContent>
                 </TimelineItem>
               </Timeline>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 1,
-                  flexWrap: "wrap",
-                  mt: 2,
-                }}
-              >
-                {product.benefits.map((benefit, index) => (
-                  <Chip
-                    key={index}
-                    icon={iconMap[benefit.icon]}
-                    label={benefit.label}
-                    color="primary"
-                  />
-                ))}
-              </Box>
             </Box>
           </CardContent>
         </Card>

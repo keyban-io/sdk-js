@@ -1,21 +1,10 @@
 import React from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  Chip,
-  Card,
-  CardContent,
-} from "@mui/material";
+import { Container, Typography, Box, Card, CardContent } from "@mui/material";
 import { useParams } from "react-router-dom";
-import products from "../data/products.json";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import BuildIcon from "@mui/icons-material/Build";
 import UpdateIcon from "@mui/icons-material/Update";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
-import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
-import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
 import EventIcon from "@mui/icons-material/Event";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -24,14 +13,19 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import smegToasterBlue from "../assets/Smeg TSF01 Bleu.png";
-import lgOledTv from "../assets/TV OLED LG OLED55C4 2024.webp";
 import RepairIcon from "@mui/icons-material/Build";
 import RecycleIcon from "@mui/icons-material/Autorenew";
 import TransferIcon from "@mui/icons-material/TransferWithinAStation";
 import Tooltip from "@mui/material/Tooltip";
 import EuroIcon from "@mui/icons-material/Euro";
 import IconButton from "@mui/material/IconButton";
+import productBosch from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Four intégrable multifonction 71l 60cm a pyrolyse et hydrolyse inox Bosch HBA171BS4F.json";
+import productSmeg from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Grille-pain Smeg TSF01 2 fentes Toaster Noir.json";
+import productSamsung from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Lave-linge hublot Samsung Ecobubble™ WW80CGC04DTH 8 kg Blanc.json";
+import productLG from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/Réfrigérateur combiné LG GBV3100DEP Noir.json";
+import productLGTV from "../../../../../tests/specs/features/metadata/eletronics/tpp-app/TV OLED Evo LG OLED55C4 139 cm 4K UHD Smart TV 2024 Noir et Brun.json";
+import { mapAttributes } from "../utils/attributes";
+import { mapEvents } from "../utils/events";
 
 const iconMap: { [key: string]: React.ReactElement } = {
   VerifiedIcon: <VerifiedIcon />,
@@ -41,13 +35,14 @@ const iconMap: { [key: string]: React.ReactElement } = {
   EventIcon: <EventIcon />,
 };
 
-const imageMap: { [key: string]: string } = {
-  samsungWashingMachine,
-  lgRefrigerator,
-  boschOven,
-  smegToasterBlue,
-  lgOledTv,
-};
+const products = [
+  // Consolidated product data from JSON files
+  productBosch,
+  productSmeg,
+  productSamsung,
+  productLG,
+  productLGTV,
+];
 
 export default function ProductDetails() {
   const { productId } = useParams();
@@ -57,10 +52,16 @@ export default function ProductDetails() {
     return <Typography variant="h6">Produit non trouvé</Typography>;
   }
 
-  // Sort events by date from most recent to oldest
-  const sortedEvents = product.events.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  // Mappe les attributs et les events pour un accès simplifié
+  const attrs = mapAttributes(product.attributes || []);
+  const eventsMap = mapEvents(product.events || []);
+
+  const acquisitionDate = attrs["Acquisition date"]
+    ? new Date(attrs["Acquisition date"] * 1000).toISOString()
+    : null;
+
+  // Par exemple, accès à la date d'acquisition via l'event "Acquisition date"
+  const acquisitionEvent = eventsMap["Acquisition date"];
 
   // Format date to be human-readable
   const formatDate = (dateString: string) => {
@@ -84,7 +85,7 @@ export default function ProductDetails() {
           justifyContent: "center",
         }}
       >
-        <img src={imageMap[product.imageKey]} alt={product.alt} />
+        <img src={product.image} alt={product.name} />
         <Box
           sx={{
             position: "absolute",
@@ -180,36 +181,26 @@ export default function ProductDetails() {
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
-                {product.status}
+                {attrs["Status"]}
               </Typography>
-              {product.ownershipStatus && (
+              {attrs["Ownership status"] && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {product.ownershipStatus}
+                  {attrs["Ownership status"]}
                 </Typography>
               )}
-              <Typography variant="body1" color="textSecondary" gutterBottom>
-                Date d’acquisition : {formatDate(product.acquisitionDate)}
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 1,
-                  flexWrap: "wrap",
-                  mt: 2,
-                }}
-              >
-                {product.benefits.map((benefit, index) => (
-                  <Chip
-                    key={index}
-                    icon={iconMap[benefit.icon]}
-                    label={benefit.label}
-                    color="primary"
-                  />
-                ))}
-              </Box>
+              {acquisitionDate && (
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  Date d’acquisition : {formatDate(acquisitionDate)}
+                </Typography>
+              )}
+              {acquisitionEvent && (
+                <Typography variant="body2" color="textSecondary" gutterBottom>
+                  (Event : Acquisition -{" "}
+                  {formatDate(new Date(acquisitionEvent * 1000).toISOString())})
+                </Typography>
+              )}
               <Timeline>
-                {sortedEvents.map((event, index) => (
+                {eventsMap.map((event, index) => (
                   <TimelineItem key={index}>
                     <TimelineOppositeContent
                       sx={{ py: "20px" }}
