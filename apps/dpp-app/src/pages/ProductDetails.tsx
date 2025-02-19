@@ -175,11 +175,12 @@ export default function ProductDetails() {
               {/* Nouvelle barre au-dessus de product.name */}
               <Box
                 sx={{
-                  width: "50px",
-                  height: "4px",
+                  width: "10%",
+                  height: "3px",
                   mb: 1,
                   backgroundColor: "primary.main",
                   margin: "auto",
+                  borderRadius: "2px",
                 }}
               />
               <Typography variant="h5">{product.name}</Typography>
@@ -198,6 +199,7 @@ export default function ProductDetails() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    borderRadius: "16px",
                   }}
                   onClick={() => {}}
                 >
@@ -210,6 +212,7 @@ export default function ProductDetails() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    borderRadius: "16px",
                   }}
                   onClick={() => {}}
                 >
@@ -222,6 +225,7 @@ export default function ProductDetails() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    borderRadius: "16px",
                   }}
                   onClick={() => {}}
                 >
@@ -234,6 +238,7 @@ export default function ProductDetails() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    borderRadius: "16px",
                   }}
                   onClick={() => {}}
                 >
@@ -241,6 +246,18 @@ export default function ProductDetails() {
                   <Typography variant="caption">Transferer</Typography>
                 </Button>
               </Box>
+              {/* Updated full-width bar with rounded edges and centered */}
+              <Box
+                sx={{
+                  width: "80%",
+                  height: "3px",
+                  mt: 2,
+                  mb: 1,
+                  backgroundColor: "primary.main",
+                  borderRadius: "2px",
+                  mx: "auto",
+                }}
+              />
               <Box
                 sx={{ maxHeight: expanded ? "none" : 150, overflow: "hidden" }}
               >

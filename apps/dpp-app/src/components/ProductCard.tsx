@@ -125,11 +125,12 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
               {/* Nouvelle barre au-dessus de product.name */}
               <Box
                 sx={{
-                  width: "50px",
-                  height: "4px",
+                  width: "10%",
+                  height: "3px",
                   mb: 1,
                   backgroundColor: "primary.main",
                   margin: "auto",
+                  borderRadius: "2px",
                 }}
               />
               <Typography variant="h5">{product.name}</Typography>
