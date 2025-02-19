@@ -68,13 +68,14 @@ const translations = {
 /**
  * Renders a sign-up form component with optional third-party authentication.
  * @param props - The component props.
- * @param [props.SitemarkIcon] - Optional custom SitemarkIcon component.
+ * @param [props.sitemarkIcon] - Optional custom SitemarkIcon component.
  * The custom icon should have a width and height similar to the default icon.
  * Default icon dimensions: width: 40px, height: 40px.
  * @param [props.enableGoogleAuth] - Optional flag to enable Google authentication.
  * @param [props.enableLoginPasswordAuth] - Optional flag to enable LoginPassword authentication.
  * @param [props.enableFacebookAuth] - Optional flag to enable Facebook authentication.
  * @param props.language - The language for the sign-up form.
+ * @param props.sitemarkIcon
  * @remarks
  * This component validates user inputs for name, email, and password.
  * It displays error messages for invalid fields and prevents form submission
@@ -83,13 +84,13 @@ const translations = {
  * @private
  */
 export default function SignUp({
-  SitemarkIcon: CustomSitemarkIcon,
+  sitemarkIcon: CustomSitemarkIcon,
   enableGoogleAuth = true,
   enableLoginPasswordAuth = true,
   enableFacebookAuth = true,
   language = getDefaultLanguage(),
 }: {
-  SitemarkIcon?: React.ComponentType<SvgIconProps>;
+  sitemarkIcon?: React.ComponentType<SvgIconProps>;
   enableGoogleAuth?: boolean;
   enableLoginPasswordAuth?: boolean;
   enableFacebookAuth?: boolean;
@@ -164,7 +165,7 @@ export default function SignUp({
   if (isSignIn) {
     return (
       <SignIn
-        SitemarkIcon={CustomSitemarkIcon}
+        sitemarkIcon={CustomSitemarkIcon}
         enableGoogleAuth={enableGoogleAuth}
         enableLoginPasswordAuth={enableLoginPasswordAuth}
         enableFacebookAuth={enableFacebookAuth}

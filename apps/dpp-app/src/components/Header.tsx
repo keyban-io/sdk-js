@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
-import { SitemarkIcon } from "./SitemarkIcon.tsx"; // nouvelle importation
+import { SitemarkIcon } from "./SitemarkIcon.tsx";
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
