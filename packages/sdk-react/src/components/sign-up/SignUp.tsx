@@ -74,7 +74,7 @@ const translations = {
  * @param [props.enableGoogleAuth] - Optional flag to enable Google authentication.
  * @param [props.enableLoginPasswordAuth] - Optional flag to enable LoginPassword authentication.
  * @param [props.enableFacebookAuth] - Optional flag to enable Facebook authentication.
- * @param props.language - The language for the sign-up form.
+ * @param [props.language] - The language for the sign-up form.
  * @remarks
  * This component validates user inputs for name, email, and password.
  * It displays error messages for invalid fields and prevents form submission
