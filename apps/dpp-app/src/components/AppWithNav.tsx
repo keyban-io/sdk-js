@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import RouteGuard from "./RouteGuard";
 import BottomNav from "./BottomNav";
 import BackButton from "./BackButton";
+import Header from "./Header";
 import { Box } from "@mui/material";
 
 const AppWithNav: React.FC = () => {
@@ -23,6 +24,7 @@ const AppWithNav: React.FC = () => {
       }}
     >
       {isAuthenticated && location.pathname !== "/login" && <BackButton />}
+      {isAuthenticated && <Header />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<RouteGuard />}>

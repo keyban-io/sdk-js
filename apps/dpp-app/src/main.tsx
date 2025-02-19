@@ -23,7 +23,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           clientShareProvider={keybanConfig.clientShareProvider}
         >
           <BrowserRouter>
-            <Header />
             <AppWithNav />
           </BrowserRouter>
         </KeybanProvider>
