@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { styled } from "@mui/system";
+import { SitemarkIcon } from "./SitemarkIcon.tsx"; // nouvelle importation
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -10,18 +11,10 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   textAlign: "center",
 }));
 
-const Logo = styled("img")({
-  height: "50px",
-  marginBottom: "8px",
-});
-
 const Header: React.FC = () => {
   return (
     <HeaderContainer sx={{ maxWidth: "sm", margin: "0 auto" }}>
-      <Logo src="/path/to/logo.png" alt="Application Logo" />
-      <Typography variant="h4" component="h1">
-        Application Name
-      </Typography>
+      <SitemarkIcon />
     </HeaderContainer>
   );
 };
