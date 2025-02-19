@@ -45,27 +45,34 @@ interface AttributesSectionProps {
   attributesMap: { [key: string]: string | number };
 }
 
+// Updated AttributesSection component for improved rendering
 const AttributesSection: React.FC<AttributesSectionProps> = ({
   attributesMap,
 }) => (
-  <Box sx={{ mt: 2, textAlign: "left", width: "100%" }}>
+  <Box sx={{ mt: 2, width: "100%" }}>
     <Typography variant="h6" gutterBottom>
       Caractéristiques
     </Typography>
-    <Grid2 container spacing={1}>
+    <Box>
       {Object.entries(attributesMap).map(([attr, value]) => (
-        <React.Fragment key={attr}>
-          <Grid2 size={{ xs: 4 }}>
-            <Typography variant="body2" fontWeight="bold">
-              {attr}
-            </Typography>
-          </Grid2>
-          <Grid2 size={{ xs: 8 }}>
-            <Typography variant="body2">{value}</Typography>
-          </Grid2>
-        </React.Fragment>
+        <Box
+          key={attr}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            p: 1,
+            borderBottom: "1px solid",
+            borderColor: "divider",
+          }}
+        >
+          <Typography variant="body2" fontWeight="bold">
+            {attr}
+          </Typography>
+          <Typography variant="body2">{value}</Typography>
+        </Box>
       ))}
-    </Grid2>
+    </Box>
   </Box>
 );
 
@@ -286,28 +293,6 @@ export default function ProductDetails() {
                 >
                   Afficher la description
                 </Button>
-              )}
-              <Typography variant="body1" color="textSecondary" gutterBottom>
-                {product.attributesMap["Status"]}
-              </Typography>
-              {product.attributesMap["Ownership status"] && (
-                <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {product.attributesMap["Ownership status"]}
-                </Typography>
-              )}
-              {product.attributesMap["Acquisition date"] && (
-                <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Date d’acquisition :{" "}
-                  {formatDate(
-                    product.attributesMap["Acquisition date"] as number,
-                  )}
-                </Typography>
-              )}
-              {product.eventsMap["Acquisition date"] && (
-                <Typography variant="body2" color="textSecondary" gutterBottom>
-                  (Event : Acquisition -{" "}
-                  {formatDate(product.eventsMap["Acquisition date"] as number)})
-                </Typography>
               )}
               <Timeline>
                 {sortedEvents.map(([eventKey, eventDate], index) => (
