@@ -167,6 +167,7 @@ export default function ProductDetails() {
                     flexDirection: "column",
                     alignItems: "center",
                     borderRadius: "16px",
+                    backgroundColor: "var(--mui-palette-background-paper)",
                   }}
                   onClick={() => {}}
                 >
@@ -181,6 +182,7 @@ export default function ProductDetails() {
                     flexDirection: "column",
                     alignItems: "center",
                     borderRadius: "16px",
+                    backgroundColor: "var(--mui-palette-background-paper)",
                   }}
                   onClick={() => {}}
                 >
@@ -195,6 +197,7 @@ export default function ProductDetails() {
                     flexDirection: "column",
                     alignItems: "center",
                     borderRadius: "16px",
+                    backgroundColor: "var(--mui-palette-background-paper)",
                   }}
                   onClick={() => {}}
                 >
@@ -209,6 +212,7 @@ export default function ProductDetails() {
                     flexDirection: "column",
                     alignItems: "center",
                     borderRadius: "16px",
+                    backgroundColor: "var(--mui-palette-background-paper)",
                   }}
                   onClick={() => {}}
                 >
@@ -244,6 +248,8 @@ export default function ProductDetails() {
                       width: "100%",
                       justifyContent: "space-between",
                       borderRadius: "16px",
+                      height: "56px", // increased height
+                      backgroundColor: "var(--mui-palette-background-paper)",
                     }}
                     endIcon={<ExpandLessIcon />}
                   >
@@ -260,6 +266,8 @@ export default function ProductDetails() {
                     width: "100%",
                     justifyContent: "space-between",
                     borderRadius: "16px",
+                    height: "56px", // increased height
+                    backgroundColor: "var(--mui-palette-background-paper)",
                   }}
                   endIcon={<ArticleIcon />}
                 >
