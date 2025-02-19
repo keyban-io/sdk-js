@@ -1,10 +1,8 @@
-import React from "react";
 import {
   Card,
   CardContent,
   Typography,
   Box,
-  Chip,
   Tooltip,
   IconButton,
 } from "@mui/material";
@@ -15,35 +13,25 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { useNavigate } from "react-router-dom";
-import products from "../data/products.json";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import BuildIcon from "@mui/icons-material/Build";
-import UpdateIcon from "@mui/icons-material/Update";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import EventIcon from "@mui/icons-material/Event";
+import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
+import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.json";
+import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
+import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
+import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
+import Product from "../models/Product";
+import { formatDate } from "../utils/formatDate";
+
+const products = [
+  // Consolidated product data from JSON files
+  new Product(productBosch),
+  new Product(productSmeg),
+  new Product(productSamsung),
+  new Product(productLG),
+  new Product(productLGTV),
+];
+
 import InfoIcon from "@mui/icons-material/Info";
-import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
-import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
-import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
-import smegToasterBlue from "../assets/Smeg TSF01 Bleu.png";
-import lgOledTv from "../assets/TV OLED LG OLED55C4 2024.webp";
 import TimelineDot from "@mui/lab/TimelineDot";
-
-const iconMap: { [key: string]: React.ReactElement } = {
-  VerifiedIcon: <VerifiedIcon />,
-  BuildIcon: <BuildIcon />,
-  UpdateIcon: <UpdateIcon />,
-  CheckCircleIcon: <CheckCircleIcon />,
-  EventIcon: <EventIcon />,
-};
-
-const imageMap: { [key: string]: string } = {
-  samsungWashingMachine,
-  lgRefrigerator,
-  boschOven,
-  smegToasterBlue,
-  lgOledTv,
-};
 
 interface ProductCardProps {
   productId: string;
@@ -61,24 +49,6 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
 
   const handleDetailsClick = () => {
     navigate(`/product-details/${productId}`);
-  };
-
-  // Sort events by date from most recent to oldest
-  const sortedEvents = product.events.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
-
-  // Find the most recent event
-  const mostRecentEvent = sortedEvents[0];
-
-  // Format date to be human-readable
-  const formatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   return (
@@ -105,8 +75,8 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
         }}
       >
         <img
-          src={imageMap[product.imageKey]}
-          alt={product.alt}
+          src={product.image}
+          alt={product.name}
           style={{ maxWidth: "100%", maxHeight: "100%" }} // Add maxHeight to ensure the image fits within the container
         />
         <Box
@@ -153,14 +123,28 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
-              {product.status && (
+              {product.attributesMap["Status"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  {product.status}
+                  {product.attributesMap["Status"]}
                 </Typography>
               )}
-              {product.ownershipStatus && (
+              {product.attributesMap["Ownership status"] && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {product.ownershipStatus}
+                  {product.attributesMap["Ownership status"]}
+                </Typography>
+              )}
+              {product.attributesMap["Acquisition date"] && (
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  Date d’acquisition :{" "}
+                  {formatDate(
+                    product.attributesMap["Acquisition date"] as number,
+                  )}
+                </Typography>
+              )}
+              {product.eventsMap["Acquisition date"] && (
+                <Typography variant="caption" color="textSecondary">
+                  (Event Acquisition :{" "}
+                  {formatDate(product.eventsMap["Acquisition date"] as number)})
                 </Typography>
               )}
               <Timeline>
@@ -170,38 +154,18 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                     variant="body2"
                     color="text.secondary"
                   >
-                    {formatDate(mostRecentEvent.date)}
+                    {formatDate(product.latestEvent?.value as number)}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
-                    <TimelineDot color="secondary">
-                      {iconMap[mostRecentEvent.icon]}
-                    </TimelineDot>
+                    <TimelineDot color="secondary"></TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent>
                     {" "}
-                    <Typography>{mostRecentEvent.description}</Typography>
+                    <Typography>{product.latestEvent?.trait_type}</Typography>
                   </TimelineContent>
                 </TimelineItem>
               </Timeline>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 1,
-                  flexWrap: "wrap",
-                  mt: 2,
-                }}
-              >
-                {product.benefits.map((benefit, index) => (
-                  <Chip
-                    key={index}
-                    icon={iconMap[benefit.icon]}
-                    label={benefit.label}
-                    color="primary"
-                  />
-                ))}
-              </Box>
             </Box>
           </CardContent>
         </Card>

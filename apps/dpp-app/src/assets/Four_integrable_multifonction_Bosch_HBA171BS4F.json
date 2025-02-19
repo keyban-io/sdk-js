@@ -1,0 +1,80 @@
+{
+  "name": "Four intégrable multifonction 71l 60cm a pyrolyse et hydrolyse inox Bosch HBA171BS4F",
+  "description": "## Caractéristiques principales\n**AutoPilot10 - Recettes pré-programmées**\nVous ne savez jamais comment programmer votre four ? Utilisez le programme automatique ! Profitez de **10 recettes pré-programmées et enregistrées**. Sélectionnez le programme souhaité, puis le poids de votre plat, et le four s'occupe du reste.\n\n**Facile à contrôler**\nL'**écran tactile LED** offre une vue d'ensemble de toutes les fonctions du four. La température, la durée et les autres paramètres se règlent avec des touches tactiles, rendant l'entretien plus simple.\n\n**Cuisson homogène sur trois niveaux**\nGrâce au **ventilateur 3D HotAir**, la chaleur est répartie uniformément, permettant de cuire plusieurs plats en même temps, sans mélange de saveurs.\n\n**Nettoyage par pyrolyse**\nLa fonction **pyrolyse** offre trois niveaux de nettoyage (75, 90 ou 120 min) en atteignant **475°C**, éliminant efficacement les résidus de cuisson.\n\n---\n\n## Spécifications techniques\n- **Type de produit** : Four encastrable\n- **Gamme** : Serie 2\n- **Mode de cuisson** : Multifonction\n- **Système de nettoyage intégré** : Pyrolyse + Hydrolyse\n- **Volume utile** : 71 L\n- **Matériau du bandeau** : Acier inox\n- **Matériau de la porte** : Verre\n- **Contrôle de température** : Électronique\n- **Nombre de lampes** : 1\n- **Type d'éclairage** : Halogène\n- **Longueur du cordon électrique** : 120 cm\n- **Classe d'efficacité énergétique** : A+\n- **Consommation énergie (kWh/cycle)**\n  - Mode conventionnel : 0.94\n  - Mode chaleur tournante : 0.69\n- **Puissance de raccordement** : 3600 W\n- **Intensité** : 16 A\n- **Tension** : 220-240 V\n- **Fréquence** : 50-60 Hz\n- **Finition** : Inox\n\n---\n\n## Fonctionnalités de cuisson\n- **HotAir 3D** : Répartition uniforme de la chaleur sur trois niveaux\n- **Nombre de modes de cuisson** : 5\n- **Nombre de programmes automatiques** : 10\n- **Convection naturelle** : Oui\n- **Préchauffage rapide** : Oui\n- **Type de gril** : Gril air pulsé, gril grande surface\n- **Autres modes de cuisson** : HotAir 3D, Air pulsé doux\n- **Plage de températures possibles** : 30-275 °C\n\n---\n\n## Confort et sécurité\n- **Connecté** : Non\n- **Type de bandeau de commande** : TouchControl\n- **Écran** : Tactile LED\n- **Horloge** : Oui\n- **Indicateur de montée en température** : Oui\n- **Rails télescopiques** : Oui\n- **Ventilateur de refroidissement** : Oui\n- **Sécurité enfants** : Oui\n- **Autres sécurités** : Verrou de porte électronique, coupure automatique du four, touche marche\n\n---\n\n## Accessoires inclus\n- **Grille**\n- **Lèchefrite**\n- **Tôle de cuisson émaillée**\n\n---\n\n## Dimensions et poids\n- **Dimensions (H x L x P)** : 59.5 x 59.4 x 54.8 cm\n- **Poids net** : 34.2 kg",
+  "image": "https://static.fnac-static.com/multimedia/Images/A7/9A/4F/1A/27589031-1505-3756-1.jpg",
+  "attributes": [
+    {
+      "trait_type": "Ean",
+      "value": "4242005464180"
+    },
+    {
+      "trait_type": "Serial number",
+      "value": "SN123456789"
+    },
+    {
+      "trait_type": "Product category",
+      "value": "Four encastrable"
+    },
+    {
+      "trait_type": "Brand",
+      "value": "Bosch"
+    },
+    {
+      "trait_type": "Model",
+      "value": "HBA171BS4F"
+    },
+    {
+      "trait_type": "Color",
+      "value": "Noir"
+    },
+    {
+      "trait_type": "Status",
+      "value": "En seconde vie"
+    },
+    {
+      "trait_type": "Acquisition date",
+      "value": 1616198400,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Ownership status",
+      "value": "Précédent propriétaire"
+    }
+  ],
+  "external_url": "https://www.fnac.com/mp51319597/Four-integrable-multifonction-71l-60cm-a-pyrolyse-et-hydrolyse-inox-Bosch-HBA171BS4F/w-4",
+  "creator": "An integrator ID or Name",
+  "blockchain": "Starknet",
+  "id": "3",
+  "events": [
+    {
+      "trait_type": "Acquisition date (new)",
+      "value": 1616198400,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Safety inspection",
+      "value": 1671062400,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Software update",
+      "value": 1671494400,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Product reclaimed",
+      "value": 1673481600,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Refurbished product",
+      "value": 1675209600,
+      "display_type": "date"
+    },
+    {
+      "trait_type": "Second life acquisition",
+      "value": 1677628800,
+      "display_type": "date"
+    }
+  ]
+}

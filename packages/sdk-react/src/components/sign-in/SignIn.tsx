@@ -42,14 +42,14 @@ const translations = {
 };
 /**
  * Represents the configuration options for the SignIn component.
- * @property SitemarkIcon - An optional custom icon component that replaces the default SitemarkIcon.
+ * @property sitemarkIcon - An optional custom icon component that replaces the default sitemarkIcon.
  * @property enableGoogleAuth - Determines whether Google authentication is enabled.
  * @property enableLoginPasswordAuth - Determines whether traditional username/password authentication is enabled.
  * @property enableFacebookAuth - Determines whether Facebook authentication is enabled.
  * @property language - The language code for translations. Defaults to the browser's language or "en".
  */
 export interface SignInProps {
-  SitemarkIcon?: React.ComponentType<SvgIconProps>;
+  sitemarkIcon?: React.ComponentType<SvgIconProps>;
   enableGoogleAuth?: boolean;
   enableLoginPasswordAuth?: boolean;
   enableFacebookAuth?: boolean;
@@ -62,7 +62,7 @@ export interface SignInProps {
  * It includes validation for email and password fields and displays error messages
  * if the inputs are invalid.
  * @param props - The component props.
- * @param [props.SitemarkIcon] - Optional custom SitemarkIcon component.
+ * @param [props.sitemarkIcon] - Optional custom sitemarkIcon component.
  * The custom icon should have a width and height similar to the default icon.
  * Default icon dimensions: width: 40px, height: 40px.
  * @param [props.enableGoogleAuth] - Optional flag to enable Google authentication.
@@ -72,7 +72,7 @@ export interface SignInProps {
  * @returns The rendered SignIn component.
  */
 export default function SignIn({
-  SitemarkIcon: CustomSitemarkIcon,
+  sitemarkIcon: CustomSitemarkIcon,
   enableGoogleAuth = true,
   enableLoginPasswordAuth = true,
   enableFacebookAuth = true,
@@ -94,7 +94,7 @@ export default function SignIn({
   if (isSignUp) {
     return (
       <SignUp
-        SitemarkIcon={CustomSitemarkIcon}
+        sitemarkIcon={CustomSitemarkIcon}
         enableGoogleAuth={enableGoogleAuth}
         enableLoginPasswordAuth={enableLoginPasswordAuth}
         enableFacebookAuth={enableFacebookAuth}

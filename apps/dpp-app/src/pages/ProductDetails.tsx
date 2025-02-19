@@ -1,22 +1,16 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import {
   Container,
   Typography,
   Box,
-  Chip,
   Card,
   CardContent,
+  Button,
+  IconButton,
+  Tooltip,
+  Grid2,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import products from "../data/products.json";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import BuildIcon from "@mui/icons-material/Build";
-import UpdateIcon from "@mui/icons-material/Update";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import samsungWashingMachine from "../assets/Samsung WW80CGC04DTH washing machine.webp";
-import lgRefrigerator from "../assets/LG GBV3100EPY Refrigerator.webp";
-import boschOven from "../assets/Bosch HBA171BB3F integrated oven.webp";
-import EventIcon from "@mui/icons-material/Event";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -24,52 +18,113 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import smegToasterBlue from "../assets/Smeg TSF01 Bleu.png";
-import lgOledTv from "../assets/TV OLED LG OLED55C4 2024.webp";
 import RepairIcon from "@mui/icons-material/Build";
 import RecycleIcon from "@mui/icons-material/Autorenew";
 import TransferIcon from "@mui/icons-material/TransferWithinAStation";
-import Tooltip from "@mui/material/Tooltip";
 import EuroIcon from "@mui/icons-material/Euro";
-import IconButton from "@mui/material/IconButton";
+import ReactMarkdown from "react-markdown";
+import rehypeSanitize from "rehype-sanitize";
+import { formatDate } from "../utils/formatDate";
+import Product from "../models/Product";
+import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
+import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.json";
+import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
+import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
+import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
 
-const iconMap: { [key: string]: React.ReactElement } = {
-  VerifiedIcon: <VerifiedIcon />,
-  BuildIcon: <BuildIcon />,
-  UpdateIcon: <UpdateIcon />,
-  CheckCircleIcon: <CheckCircleIcon />,
-  EventIcon: <EventIcon />,
+const products = [
+  new Product(productBosch),
+  new Product(productSmeg),
+  new Product(productSamsung),
+  new Product(productLG),
+  new Product(productLGTV),
+];
+
+// Style centralisé pour les boutons d'action
+const iconButtonSx = {
+  backgroundColor: "rgba(255, 255, 255, 0.8)",
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 1)",
+  },
 };
 
-const imageMap: { [key: string]: string } = {
-  samsungWashingMachine,
-  lgRefrigerator,
-  boschOven,
-  smegToasterBlue,
-  lgOledTv,
-};
+// Composant réutilisable pour un bouton d'action
+interface ActionIconButtonProps {
+  tooltip: string;
+  ariaLabel: string;
+  icon: React.ReactElement;
+  onClick?: () => void;
+}
+
+const ActionIconButton: React.FC<ActionIconButtonProps> = ({
+  tooltip,
+  ariaLabel,
+  icon,
+  onClick,
+}) => (
+  <Tooltip title={tooltip}>
+    <IconButton
+      color="primary"
+      aria-label={ariaLabel}
+      onClick={onClick}
+      sx={iconButtonSx}
+    >
+      {icon}
+    </IconButton>
+  </Tooltip>
+);
+
+// Composant pour afficher les caractéristiques du produit
+interface AttributesSectionProps {
+  attributesMap: { [key: string]: string | number };
+}
+
+const AttributesSection: React.FC<AttributesSectionProps> = ({
+  attributesMap,
+}) => (
+  <Box sx={{ mt: 2, textAlign: "left", width: "100%" }}>
+    <Typography variant="h6" gutterBottom>
+      Caractéristiques
+    </Typography>
+    <Grid2 container spacing={1}>
+      {Object.entries(attributesMap).map(([attr, value]) => (
+        <React.Fragment key={attr}>
+          <Grid2 size={{ xs: 4 }}>
+            <Typography variant="body2" fontWeight="bold">
+              {attr}
+            </Typography>
+          </Grid2>
+          <Grid2 size={{ xs: 8 }}>
+            <Typography variant="body2">{value}</Typography>
+          </Grid2>
+        </React.Fragment>
+      ))}
+    </Grid2>
+  </Box>
+);
 
 export default function ProductDetails() {
   const { productId } = useParams();
   const product = products.find((p) => p.id === productId);
+  const [expanded, setExpanded] = useState(false);
+
+  // Tri des événements par date (croissant)
+  const sortedEvents = useMemo(() => {
+    if (!product) return [];
+    return Object.entries(product.eventsMap).sort(
+      ([, aDate], [, bDate]) => (aDate as number) - (bDate as number),
+    );
+  }, [product]);
 
   if (!product) {
     return <Typography variant="h6">Produit non trouvé</Typography>;
   }
 
-  // Sort events by date from most recent to oldest
-  const sortedEvents = product.events.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
-
-  // Format date to be human-readable
-  const formatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+  // Gestion d'une image de repli en cas d'erreur de chargement
+  const handleImageError = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
+    event.currentTarget.src = "fallback.png"; // Remplacer par le chemin de votre image de repli
   };
 
   return (
@@ -84,72 +139,41 @@ export default function ProductDetails() {
           justifyContent: "center",
         }}
       >
-        <img src={imageMap[product.imageKey]} alt={product.alt} />
+        <img
+          src={product.image}
+          alt={product.name}
+          onError={handleImageError}
+          style={{ maxWidth: "100%", height: "auto" }}
+        />
         <Box
           sx={{
             position: "absolute",
-            bottom: 32, // Adjusted to move the buttons slightly above the bottom
+            bottom: 32,
             right: 16,
             display: "flex",
             gap: 1,
           }}
         >
-          <Tooltip title="Réparer">
-            <IconButton
-              color="primary"
-              aria-label="repair"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                },
-              }}
-            >
-              <RepairIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Revendre">
-            <IconButton
-              color="primary"
-              aria-label="sell"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                },
-              }}
-            >
-              <EuroIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Recycler">
-            <IconButton
-              color="primary"
-              aria-label="recycle"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                },
-              }}
-            >
-              <RecycleIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Transferer">
-            <IconButton
-              color="primary"
-              aria-label="transfer"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                },
-              }}
-            >
-              <TransferIcon />
-            </IconButton>
-          </Tooltip>
+          <ActionIconButton
+            tooltip="Réparer"
+            ariaLabel="repair"
+            icon={<RepairIcon />}
+          />
+          <ActionIconButton
+            tooltip="Revendre"
+            ariaLabel="sell"
+            icon={<EuroIcon />}
+          />
+          <ActionIconButton
+            tooltip="Recycler"
+            ariaLabel="recycle"
+            icon={<RecycleIcon />}
+          />
+          <ActionIconButton
+            tooltip="Transferer"
+            ariaLabel="transfer"
+            icon={<TransferIcon />}
+          />
         </Box>
       </Card>
       <Card
@@ -158,12 +182,12 @@ export default function ProductDetails() {
           borderRadius: "16px",
           position: "relative",
           zIndex: 1,
-          mt: -4, // Adjust margin top to position above the first card
+          mt: -4,
         }}
       >
         <CardContent
           sx={{
-            background: "linear-gradient(to right, #f0f0f0, #ffffff)", // Adjust gradient background to start with a lighter gray
+            background: "linear-gradient(to right, #f0f0f0, #ffffff)",
           }}
         >
           <Box
@@ -179,58 +203,63 @@ export default function ProductDetails() {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5">{product.name}</Typography>
+              <Box
+                sx={{ maxHeight: expanded ? "none" : 150, overflow: "hidden" }}
+              >
+                <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                  {product.description}
+                </ReactMarkdown>
+              </Box>
+              <Button
+                onClick={() => setExpanded((prev) => !prev)}
+                sx={{ mt: 1 }}
+                size="small"
+              >
+                {expanded ? "Voir moins" : "Voir plus"}
+              </Button>
               <Typography variant="body1" color="textSecondary" gutterBottom>
-                {product.status}
+                {product.attributesMap["Status"]}
               </Typography>
-              {product.ownershipStatus && (
+              {product.attributesMap["Ownership status"] && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {product.ownershipStatus}
+                  {product.attributesMap["Ownership status"]}
                 </Typography>
               )}
-              <Typography variant="body1" color="textSecondary" gutterBottom>
-                Date d’acquisition : {formatDate(product.acquisitionDate)}
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 1,
-                  flexWrap: "wrap",
-                  mt: 2,
-                }}
-              >
-                {product.benefits.map((benefit, index) => (
-                  <Chip
-                    key={index}
-                    icon={iconMap[benefit.icon]}
-                    label={benefit.label}
-                    color="primary"
-                  />
-                ))}
-              </Box>
+              {product.attributesMap["Acquisition date"] && (
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  Date d’acquisition :{" "}
+                  {formatDate(
+                    product.attributesMap["Acquisition date"] as number,
+                  )}
+                </Typography>
+              )}
+              {product.eventsMap["Acquisition date"] && (
+                <Typography variant="body2" color="textSecondary" gutterBottom>
+                  (Event : Acquisition -{" "}
+                  {formatDate(product.eventsMap["Acquisition date"] as number)})
+                </Typography>
+              )}
               <Timeline>
-                {sortedEvents.map((event, index) => (
+                {sortedEvents.map(([eventKey, eventDate], index) => (
                   <TimelineItem key={index}>
                     <TimelineOppositeContent
-                      sx={{ py: "20px" }}
                       align="right"
                       variant="body2"
                       color="text.secondary"
                     >
-                      {formatDate(event.date)}
+                      {formatDate(eventDate as number)}
                     </TimelineOppositeContent>
                     <TimelineSeparator>
-                      <TimelineDot color="secondary">
-                        {iconMap[event.icon]}
-                      </TimelineDot>
+                      <TimelineDot color="secondary" />
                       {index < sortedEvents.length - 1 && <TimelineConnector />}
                     </TimelineSeparator>
                     <TimelineContent>
-                      <Typography>{event.description}</Typography>
+                      <Typography>{eventKey}</Typography>
                     </TimelineContent>
                   </TimelineItem>
                 ))}
               </Timeline>
+              <AttributesSection attributesMap={product.attributesMap} />
             </Box>
           </Box>
         </CardContent>
