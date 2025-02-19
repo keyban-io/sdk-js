@@ -7,7 +7,6 @@ import { BrowserRouter } from "react-router-dom";
 import { KeybanProvider } from "@keyban/sdk-react";
 import keybanConfig from "./config";
 import AppWithNav from "./components/AppWithNav";
-import Header from "./components/Header";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBoundaryFallback } from "./components/ErrorBoundaryFallback";
 

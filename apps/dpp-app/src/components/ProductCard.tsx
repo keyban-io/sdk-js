@@ -122,6 +122,16 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
             }}
           >
             <Box sx={{ textAlign: "center" }}>
+              {/* Nouvelle barre au-dessus de product.name */}
+              <Box
+                sx={{
+                  width: "50px",
+                  height: "4px",
+                  mb: 1,
+                  backgroundColor: "primary.main",
+                  margin: "auto",
+                }}
+              />
               <Typography variant="h5">{product.name}</Typography>
               {product.attributesMap["Status"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
