@@ -6,8 +6,6 @@ import {
   Card,
   CardContent,
   Button,
-  IconButton,
-  Tooltip,
   Grid2,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -41,40 +39,6 @@ const products = [
   new Product(productLG),
   new Product(productLGTV),
 ];
-
-// Style centralisé pour les boutons d'action
-const iconButtonSx = {
-  backgroundColor: "rgba(255, 255, 255, 0.8)",
-  "&:hover": {
-    backgroundColor: "rgba(255, 255, 255, 1)",
-  },
-};
-
-// Composant réutilisable pour un bouton d'action
-interface ActionIconButtonProps {
-  tooltip: string;
-  ariaLabel: string;
-  icon: React.ReactElement;
-  onClick?: () => void;
-}
-
-const ActionIconButton: React.FC<ActionIconButtonProps> = ({
-  tooltip,
-  ariaLabel,
-  icon,
-  onClick,
-}) => (
-  <Tooltip title={tooltip}>
-    <IconButton
-      color="primary"
-      aria-label={ariaLabel}
-      onClick={onClick}
-      sx={iconButtonSx}
-    >
-      {icon}
-    </IconButton>
-  </Tooltip>
-);
 
 // Composant pour afficher les caractéristiques du produit
 interface AttributesSectionProps {
@@ -174,23 +138,23 @@ export default function ProductDetails() {
             }}
           >
             <Box sx={{ textAlign: "center" }}>
-              {/* Nouvelle barre au-dessus de product.name */}
+              {/* Bar above product.name */}
               <Box
                 sx={{
                   width: "10%",
                   height: "3px",
-                  mb: 1,
                   backgroundColor: "primary.main",
                   margin: "auto",
                   borderRadius: "2px",
+                  mb: 1,
                 }}
               />
               <Typography variant="h5">{product.name}</Typography>
-              {/* New action buttons row */}
+              {/* Action buttons row updated to occupy full width */}
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "center",
+                  width: "100%",
                   gap: 2,
                   mt: 2,
                 }}
@@ -198,6 +162,7 @@ export default function ProductDetails() {
                 <Button
                   variant="outlined"
                   sx={{
+                    flex: 1,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -211,6 +176,7 @@ export default function ProductDetails() {
                 <Button
                   variant="outlined"
                   sx={{
+                    flex: 1,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -224,6 +190,7 @@ export default function ProductDetails() {
                 <Button
                   variant="outlined"
                   sx={{
+                    flex: 1,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -237,6 +204,7 @@ export default function ProductDetails() {
                 <Button
                   variant="outlined"
                   sx={{
+                    flex: 1,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -251,7 +219,7 @@ export default function ProductDetails() {
               {/* Updated full-width bar with rounded edges and centered */}
               <Box
                 sx={{
-                  width: "80%",
+                  width: "100%",
                   height: "3px",
                   mt: 2,
                   mb: 1,
