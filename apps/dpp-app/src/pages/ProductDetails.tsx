@@ -145,36 +145,6 @@ export default function ProductDetails() {
           onError={handleImageError}
           style={{ maxWidth: "100%", height: "auto" }}
         />
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: 32,
-            right: 16,
-            display: "flex",
-            gap: 1,
-          }}
-        >
-          <ActionIconButton
-            tooltip="Réparer"
-            ariaLabel="repair"
-            icon={<RepairIcon />}
-          />
-          <ActionIconButton
-            tooltip="Revendre"
-            ariaLabel="sell"
-            icon={<EuroIcon />}
-          />
-          <ActionIconButton
-            tooltip="Recycler"
-            ariaLabel="recycle"
-            icon={<RecycleIcon />}
-          />
-          <ActionIconButton
-            tooltip="Transferer"
-            ariaLabel="transfer"
-            icon={<TransferIcon />}
-          />
-        </Box>
       </Card>
       <Card
         sx={{
@@ -213,6 +183,64 @@ export default function ProductDetails() {
                 }}
               />
               <Typography variant="h5">{product.name}</Typography>
+              {/* New action buttons row */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 2,
+                  mt: 2,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  onClick={() => {}}
+                >
+                  <RepairIcon />
+                  <Typography variant="caption">Réparer</Typography>
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  onClick={() => {}}
+                >
+                  <EuroIcon />
+                  <Typography variant="caption">Revendre</Typography>
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  onClick={() => {}}
+                >
+                  <RecycleIcon />
+                  <Typography variant="caption">Recycler</Typography>
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  onClick={() => {}}
+                >
+                  <TransferIcon />
+                  <Typography variant="caption">Transferer</Typography>
+                </Button>
+              </Box>
               <Box
                 sx={{ maxHeight: expanded ? "none" : 150, overflow: "hidden" }}
               >
