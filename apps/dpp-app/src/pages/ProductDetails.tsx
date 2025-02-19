@@ -24,6 +24,8 @@ import TransferIcon from "@mui/icons-material/TransferWithinAStation";
 import EuroIcon from "@mui/icons-material/Euro";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
+import ArticleIcon from "@mui/icons-material/Article";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { formatDate } from "../utils/formatDate";
 import Product from "../models/Product";
 import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
@@ -258,21 +260,44 @@ export default function ProductDetails() {
                   mx: "auto",
                 }}
               />
-              <Box
-                sx={{ maxHeight: expanded ? "none" : 150, overflow: "hidden" }}
-              >
-                <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
-                  {product.description}
-                </ReactMarkdown>
-              </Box>
-              <Button
-                variant="outlined"
-                onClick={() => setExpanded((prev) => !prev)}
-                sx={{ mt: 1 }}
-                size="small"
-              >
-                {expanded ? "Voir moins" : "Voir plus"}
-              </Button>
+              {/* Description section toggle */}
+              {expanded ? (
+                <>
+                  <Box sx={{ mt: 2 }}>
+                    <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                      {product.description}
+                    </ReactMarkdown>
+                  </Box>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setExpanded(false)}
+                    sx={{
+                      mt: 1,
+                      width: "100%",
+                      justifyContent: "space-between",
+                      borderRadius: "16px",
+                    }}
+                    endIcon={<ExpandLessIcon />}
+                  >
+                    Cacher la description
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  size="large"
+                  variant="outlined"
+                  onClick={() => setExpanded(true)}
+                  sx={{
+                    mt: 1,
+                    width: "100%",
+                    justifyContent: "space-between",
+                    borderRadius: "16px",
+                  }}
+                  endIcon={<ArticleIcon />}
+                >
+                  Afficher la description
+                </Button>
+              )}
               <Typography variant="body1" color="textSecondary" gutterBottom>
                 {product.attributesMap["Status"]}
               </Typography>
