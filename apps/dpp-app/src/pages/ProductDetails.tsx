@@ -240,6 +240,19 @@ export default function ProductDetails() {
                       {product.description}
                     </ReactMarkdown>
                   </Box>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: "3px",
+                      mt: 2,
+                      mb: 1,
+                      backgroundColor: "primary.main",
+                      borderRadius: "2px",
+                      mx: "auto",
+                    }}
+                  />
+                  {/* Moved AttributesSection inside the description block */}
+                  <AttributesSection attributesMap={product.attributesMap} />
                   <Button
                     variant="outlined"
                     onClick={() => setExpanded(false)}
@@ -248,7 +261,7 @@ export default function ProductDetails() {
                       width: "100%",
                       justifyContent: "space-between",
                       borderRadius: "16px",
-                      height: "56px", // increased height
+                      height: "56px",
                       backgroundColor: "var(--mui-palette-background-paper)",
                     }}
                     endIcon={<ExpandLessIcon />}
@@ -266,7 +279,7 @@ export default function ProductDetails() {
                     width: "100%",
                     justifyContent: "space-between",
                     borderRadius: "16px",
-                    height: "56px", // increased height
+                    height: "56px",
                     backgroundColor: "var(--mui-palette-background-paper)",
                   }}
                   endIcon={<ArticleIcon />}
@@ -316,7 +329,6 @@ export default function ProductDetails() {
                   </TimelineItem>
                 ))}
               </Timeline>
-              <AttributesSection attributesMap={product.attributesMap} />
             </Box>
           </Box>
         </CardContent>
