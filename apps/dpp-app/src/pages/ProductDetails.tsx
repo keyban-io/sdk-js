@@ -6,6 +6,8 @@ import {
   Card,
   CardContent,
   Button,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Timeline from "@mui/lab/Timeline";
@@ -49,9 +51,6 @@ const AttributesSection: React.FC<AttributesSectionProps> = ({
   attributesMap,
 }) => (
   <Box sx={{ mt: 2, width: "100%" }}>
-    <Typography variant="h6" gutterBottom>
-      Caractéristiques
-    </Typography>
     <Box>
       {Object.entries(attributesMap).map(([attr, value]) => (
         <Box
@@ -79,6 +78,7 @@ export default function ProductDetails() {
   const { productId } = useParams();
   const product = products.find((p) => p.id === productId);
   const [expanded, setExpanded] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(0); // new state for tabs
 
   // Tri des événements par date (croissant)
   const sortedEvents = useMemo(() => {
@@ -238,14 +238,44 @@ export default function ProductDetails() {
                   mx: "auto",
                 }}
               />
-              {/* Description section toggle */}
+              {/* Description & Attributes tabs when expanded */}
               {expanded ? (
                 <>
-                  <Box sx={{ mt: 2 }}>
-                    <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
-                      {product.description}
-                    </ReactMarkdown>
-                  </Box>
+                  <Tabs
+                    value={selectedTab}
+                    onChange={(e, newValue) => setSelectedTab(newValue)}
+                    variant="fullWidth"
+                    sx={{ mt: 2 }}
+                  >
+                    <Tab label="Description" />
+                    <Tab label="Caractéristiques" />
+                  </Tabs>
+                  {selectedTab === 0 && (
+                    <Box sx={{ mt: 2 }}>
+                      <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                        {product.description}
+                      </ReactMarkdown>
+                    </Box>
+                  )}
+                  {selectedTab === 1 && (
+                    <AttributesSection attributesMap={product.attributesMap} />
+                  )}
+
+                  <Button
+                    variant="outlined"
+                    onClick={() => setExpanded(false)}
+                    sx={{
+                      mt: 1,
+                      // width: "100%",
+                      justifyContent: "space-between",
+                      borderRadius: "16px",
+                      // height: "56px",
+                      backgroundColor: "var(--mui-palette-background-paper)",
+                    }}
+                    endIcon={<ExpandLessIcon />}
+                  >
+                    Fermer
+                  </Button>
                   <Box
                     sx={{
                       width: "100%",
@@ -257,23 +287,6 @@ export default function ProductDetails() {
                       mx: "auto",
                     }}
                   />
-                  {/* Moved AttributesSection inside the description block */}
-                  <AttributesSection attributesMap={product.attributesMap} />
-                  <Button
-                    variant="outlined"
-                    onClick={() => setExpanded(false)}
-                    sx={{
-                      mt: 1,
-                      width: "100%",
-                      justifyContent: "space-between",
-                      borderRadius: "16px",
-                      height: "56px",
-                      backgroundColor: "var(--mui-palette-background-paper)",
-                    }}
-                    endIcon={<ExpandLessIcon />}
-                  >
-                    Cacher la description
-                  </Button>
                 </>
               ) : (
                 <Button
@@ -290,7 +303,7 @@ export default function ProductDetails() {
                   }}
                   endIcon={<ArticleIcon />}
                 >
-                  Afficher la description
+                  Informations du produit...
                 </Button>
               )}
               <Timeline>
