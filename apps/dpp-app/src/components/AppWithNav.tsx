@@ -4,6 +4,7 @@ import { useKeybanAuth } from "@keyban/sdk-react";
 import Dashboard from "../pages/Dashboard";
 import ProductDetails from "../pages/ProductDetails";
 import Login from "../pages/Login";
+import Settings from "../pages/Settings"; // <-- new import
 import RouteGuard from "./RouteGuard";
 import BottomNav from "./BottomNav";
 import BackButton from "./BackButton";
@@ -34,7 +35,7 @@ const AppWithNav: React.FC = () => {
             path="/product-details/:productId"
             element={<ProductDetails />}
           />
-          {/* ...add more routes if needed... */}
+          <Route path="/settings" element={<Settings />} /> {/* new route */}
           <Route path="*" element={<Navigate to="/login" />} />
         </Route>
       </Routes>
