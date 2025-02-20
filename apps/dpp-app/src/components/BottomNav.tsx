@@ -6,9 +6,9 @@ import {
   Box,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import InventoryIcon from "@mui/icons-material/Inventory2";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
 import { useKeybanAuth } from "@keyban/sdk-react";
 
@@ -47,9 +47,9 @@ export default function BottomNav() {
         <Tooltip title="Dashboard">
           <BottomNavigationAction icon={<HomeIcon sx={{ color: "white" }} />} />
         </Tooltip>
-        <Tooltip title="Mes Produits">
+        <Tooltip title="Ajouter un produit">
           <BottomNavigationAction
-            icon={<InventoryIcon sx={{ color: "white" }} />}
+            icon={<AddCircleIcon sx={{ color: "white" }} />}
           />
         </Tooltip>
         <Tooltip title="Paramètres">
