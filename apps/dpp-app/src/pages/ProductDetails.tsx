@@ -86,7 +86,7 @@ const AttributesSection: React.FC<AttributesSectionProps> = ({
 export default function ProductDetails() {
   const { productId } = useParams();
   const product = products.find((p) => p.id === productId);
-  const [expandedProduct, setExpandedProduct] = useState(false); // renamed setter
+  const [expandedProduct, setExpandedProduct] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0); // new state for tabs
   // New state for events visibility
   const [showEvents, setShowEvents] = useState(false);
@@ -314,7 +314,7 @@ export default function ProductDetails() {
                   height: "56px",
                   backgroundColor: "var(--mui-palette-background-paper)",
                 }}
-                endIcon={<HistoryIcon />}
+                endIcon={showEvents ? <ExpandLessIcon /> : <HistoryIcon />}
               >
                 {showEvents ? "Cacher l'historique" : "Voir l'historique"}
               </Button>
