@@ -219,8 +219,8 @@ function updatePaginatedData<T extends { id: string }>(
       return {
         pageInfo: {
           ...prev.pageInfo,
-          startCursor: edges[0].cursor,
-          endCursor: edges[edges.length - 1].cursor,
+          startCursor: edges[0]?.cursor ?? null,
+          endCursor: edges[edges.length - 1]?.cursor ?? null,
         },
         totalCount: prev.totalCount - 1,
         edges,
