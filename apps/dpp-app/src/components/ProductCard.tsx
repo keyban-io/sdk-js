@@ -133,8 +133,8 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                   mb: 1,
                 }}
               />
-              <Typography variant="h5">{product.name}</Typography>
-              {product.attributesMap["Status"] && (
+              <Typography variant="body1">{product.name}</Typography>
+              {/* {product.attributesMap["Status"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
                   {product.attributesMap["Status"].value}
                 </Typography>
@@ -157,8 +157,8 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                   (Event Acquisition :{" "}
                   {formatDate(product.eventsMap["Acquisition date"] as number)})
                 </Typography>
-              )}
-              <Timeline>
+              )} */}
+              {/* <Timeline>
                 <TimelineItem>
                   <TimelineOppositeContent
                     align="right"
@@ -176,7 +176,7 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                     <Typography>{product.latestEvent?.trait_type}</Typography>
                   </TimelineContent>
                 </TimelineItem>
-              </Timeline>
+              </Timeline> */}
             </Box>
           </CardContent>
         </Card>
