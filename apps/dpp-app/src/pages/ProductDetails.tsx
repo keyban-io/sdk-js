@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   Button,
-  Grid2,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Timeline from "@mui/lab/Timeline";
