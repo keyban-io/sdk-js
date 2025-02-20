@@ -53,57 +53,86 @@ interface RawProduct {
 }
 
 /**
- * Maps an array of events (assumed to be date traits) into a record with timestamp values.
+ * Helper function to safely convert a value to a number.
+ * @param value - The value to convert.
+ * @returns The number if the conversion is successful, otherwise null.
+ */
+function safeNumber(value: string | number): number | null {
+  const num = typeof value === "number" ? value : Number(value);
+  return isNaN(num) ? null : num;
+}
+
+/**
+ * Maps an array of event objects to a record where each key is a trait type and each value is its numeric representation.
  *
- * The events are sorted in descending order based on their timestamp values.
+ * This function performs the following steps:
+ * 1. Filters out events whose value cannot be converted to a number using the safeNumber function.
+ * 2. Sorts the valid events in descending order based on their numeric values.
+ * 3. Reduces the sorted events into an object mapping each event's trait_type to its numeric value.
  *
- * @param events - An array of event traits.
- * @returns A record where each key is a trait_type and the value is the timestamp as a number.
+ * @param events - An array of event objects, each expected to have a 'value' and 'trait_type' property.
+ * @returns An object whose keys are event trait types and values are the corresponding numeric values.
  */
 function mapEvents(events: Trait[]): Record<string, number> {
-  const sortedEvents = [...events].sort((a, b) => Number(b.value) - Number(a.value));
+  const validEvents = events.filter(event => safeNumber(event.value) !== null);
+  const sortedEvents = [...validEvents].sort((a, b) => safeNumber(b.value)! - safeNumber(a.value)!);
   return sortedEvents.reduce((acc, event) => {
-    acc[event.trait_type] = Number(event.value);
+    acc[event.trait_type] = safeNumber(event.value)!;
     return acc;
   }, {} as Record<string, number>);
 }
 
+
 /**
- * Maps an array of attributes into a record with key/value pairs, sorted by trait_type.
+ * Maps an array of Trait objects to a record with sorted keys.
  *
- * If an attribute has a display type of "date", its value is left as the raw timestamp.
+ * The function sorts the input array of attributes by the "trait_type" property. It then iterates through each attribute and attempts to convert the value to a number when the "display_type"
+ * indicates a numeric value (excluding dates). The resulting record uses the trait type as keys and stores objects containing the (possibly converted) value and the optional display type.
  *
- * @param attributes - An array of attribute traits.
- * @returns A record where each key is a trait_type and the value is either the original value or the timestamp as a number.
+ * @param attributes - An array of Trait objects, each containing a "trait_type", a "value", and optionally a "display_type".
+ * @returns A record mapping each trait_type to an object with:
+ *   - value: a string or number representing the attribute value, possibly converted from the original value,
+ *   - display_type: an optional string indicating the type of display.
  */
-function mapAttributes(attributes: Trait[]): Record<string, string | number> {
+function mapAttributes(attributes: Trait[]): Record<string, { value: string | number; display_type?: string }> {
   const sortedAttributes = [...attributes].sort((a, b) =>
     a.trait_type.localeCompare(b.trait_type)
   );
   return sortedAttributes.reduce((acc, attr) => {
-    if (attr.display_type === "date" && typeof attr.value === "number") {
-      acc[attr.trait_type] = attr.value;
-    } else {
-      acc[attr.trait_type] = attr.value;
+    let val: string | number = attr.value;
+    if (
+      attr.display_type &&
+      attr.display_type !== "date" &&
+      ["number", "boost_percentage", "boost_number"].includes(attr.display_type)
+    ) {
+      const parsed = safeNumber(attr.value);
+      val = parsed !== null ? parsed : attr.value;
     }
+    acc[attr.trait_type] = { value: val, display_type: attr.display_type };
     return acc;
-  }, {} as Record<string, string | number>);
+  }, {} as Record<string, { value: string | number; display_type?: string }>);
 }
 
+
 /**
- * Retrieves the most recent event from an array of events (assumed to be date traits).
+ * Retrieves the event with the highest numeric value from an array of events.
  *
- * @param events - An array of event traits.
- * @returns An object containing the trait_type and the timestamp of the most recent event,
- *          or null if no events exist.
+ * The function filters out events whose value is not a valid number (as determined by the safeNumber function),
+ * then reduces the remaining events to the one with the highest numeric value. If no valid event is found,
+ * the function returns null.
+ *
+ * @param events - An array of events of type Trait.
+ * @returns An object containing the trait_type and the numeric value of the latest event, or null if no event
+ *          with a valid numeric value exists.
  */
 function getLatestEvent(events: Trait[]): { trait_type: string; value: number } | null {
-  if (events.length === 0) return null;
-  const latest = events.reduce((prev, curr) =>
-    Number(curr.value) > Number(prev.value) ? curr : prev, events[0]);
+  const validEvents = events.filter(event => safeNumber(event.value) !== null);
+  if (validEvents.length === 0) return null;
+  const latest = validEvents.reduce((prev, curr) =>
+    safeNumber(curr.value)! > safeNumber(prev.value)! ? curr : prev, validEvents[0]);
   return {
     trait_type: latest.trait_type,
-    value: Number(latest.value)
+    value: safeNumber(latest.value)!
   };
 }
 
@@ -130,7 +159,7 @@ export default class Product {
   /** The product identifier. */
   id: string;
   /** A map of attributes for easier data access, where each key is the trait_type. */
-  attributesMap: Record<string, string | number>;
+  attributesMap: Record<string, { value: string | number; display_type?: string }>;
   /** A map of events with timestamp values for easier data access. */
   eventsMap: Record<string, number>;
   /** The most recent event, containing its trait_type and timestamp, or null if no events exist. */

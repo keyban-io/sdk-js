@@ -136,19 +136,19 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
               <Typography variant="h5">{product.name}</Typography>
               {product.attributesMap["Status"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  {product.attributesMap["Status"]}
+                  {product.attributesMap["Status"].value}
                 </Typography>
               )}
               {product.attributesMap["Ownership status"] && (
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {product.attributesMap["Ownership status"]}
+                  {product.attributesMap["Ownership status"].value}
                 </Typography>
               )}
               {product.attributesMap["Acquisition date"] && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
                   Date d’acquisition :{" "}
                   {formatDate(
-                    product.attributesMap["Acquisition date"] as number,
+                    product.attributesMap["Acquisition date"].value as number,
                   )}
                 </Typography>
               )}

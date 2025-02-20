@@ -43,7 +43,9 @@ const products = [
 
 // Composant pour afficher les caractéristiques du produit
 interface AttributesSectionProps {
-  attributesMap: { [key: string]: string | number };
+  attributesMap: {
+    [key: string]: { value: string | number; display_type?: string };
+  };
 }
 
 // Updated AttributesSection component for improved rendering
@@ -67,7 +69,13 @@ const AttributesSection: React.FC<AttributesSectionProps> = ({
           <Typography variant="body2" fontWeight="bold">
             {attr}
           </Typography>
-          <Typography variant="body2">{value}</Typography>
+          {value.display_type === "date" ? (
+            <Typography variant="body2">
+              {formatDate(Number(value.value))}
+            </Typography>
+          ) : (
+            <Typography variant="body2">{value.value}</Typography>
+          )}
         </Box>
       ))}
     </Box>
