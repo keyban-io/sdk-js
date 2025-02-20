@@ -6,12 +6,6 @@ import {
   Tooltip,
   IconButton,
 } from "@mui/material";
-import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { useNavigate } from "react-router-dom";
 import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
 import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.json";
@@ -19,7 +13,6 @@ import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CG
 import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
 import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
 import Product from "../models/Product";
-import { formatDate } from "../utils/formatDate";
 
 const products = [
   // Consolidated product data from JSON files
@@ -31,7 +24,6 @@ const products = [
 ];
 
 import InfoIcon from "@mui/icons-material/Info";
-import TimelineDot from "@mui/lab/TimelineDot";
 
 interface ProductCardProps {
   productId: string;
@@ -134,49 +126,6 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
                 }}
               />
               <Typography variant="body1">{product.name}</Typography>
-              {/* {product.attributesMap["Status"] && (
-                <Typography variant="body1" color="textSecondary" gutterBottom>
-                  {product.attributesMap["Status"].value}
-                </Typography>
-              )}
-              {product.attributesMap["Ownership status"] && (
-                <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {product.attributesMap["Ownership status"].value}
-                </Typography>
-              )}
-              {product.attributesMap["Acquisition date"] && (
-                <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Date d’acquisition :{" "}
-                  {formatDate(
-                    product.attributesMap["Acquisition date"].value as number,
-                  )}
-                </Typography>
-              )}
-              {product.eventsMap["Acquisition date"] && (
-                <Typography variant="caption" color="textSecondary">
-                  (Event Acquisition :{" "}
-                  {formatDate(product.eventsMap["Acquisition date"] as number)})
-                </Typography>
-              )} */}
-              {/* <Timeline>
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    align="right"
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    {formatDate(product.latestEvent?.value as number)}
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineDot color="secondary"></TimelineDot>
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    {" "}
-                    <Typography>{product.latestEvent?.trait_type}</Typography>
-                  </TimelineContent>
-                </TimelineItem>
-              </Timeline> */}
             </Box>
           </CardContent>
         </Card>

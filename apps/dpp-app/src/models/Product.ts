@@ -164,6 +164,12 @@ export default class Product {
   eventsMap: Record<string, number>;
   /** The most recent event, containing its trait_type and timestamp, or null if no events exist. */
   latestEvent: { trait_type: string; value: number } | null;
+  /** New documents property to store document traits. */
+  documents: Array<{ title: string; url: string }>;
+  /**
+   * A list of offers for this product.
+   */
+  offers: never[];
 
   /**
    * Constructs a new Product instance.
@@ -187,5 +193,8 @@ export default class Product {
     this.attributesMap = mapAttributes(data.attributes);
     this.eventsMap = mapEvents(data.events);
     this.latestEvent = getLatestEvent(data.events);
+    // Initialize documents with the external_url as the first trait.
+    this.documents = [{ title: "External URL", url: data.external_url }];
+    this.offers = [];
   }
 }

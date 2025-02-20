@@ -35,6 +35,9 @@ import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.
 import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
 import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
 import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
+import AttributesSection from "../components/AttributesSection";
+import DocumentsSection from "../components/DocumentsSection";
+import OffersSection from "../components/OffersSection";
 
 const products = [
   new Product(productBosch),
@@ -43,47 +46,6 @@ const products = [
   new Product(productLG),
   new Product(productLGTV),
 ];
-
-// Composant pour afficher les caractéristiques du produit
-interface AttributesSectionProps {
-  attributesMap: {
-    [key: string]: { value: string | number; display_type?: string };
-  };
-}
-
-// Updated AttributesSection component for improved rendering
-const AttributesSection: React.FC<AttributesSectionProps> = ({
-  attributesMap,
-}) => (
-  <Box sx={{ mt: 2, width: "100%" }}>
-    <Box>
-      {Object.entries(attributesMap).map(([attr, value]) => (
-        <Box
-          key={attr}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            p: 1,
-            borderBottom: "1px solid",
-            borderColor: "divider",
-          }}
-        >
-          <Typography variant="body2" fontWeight="bold">
-            {attr}
-          </Typography>
-          {value.display_type === "date" ? (
-            <Typography variant="body2">
-              {formatDate(Number(value.value))}
-            </Typography>
-          ) : (
-            <Typography variant="body2">{value.value}</Typography>
-          )}
-        </Box>
-      ))}
-    </Box>
-  </Box>
-);
 
 export default function ProductDetails() {
   const { productId } = useParams();
@@ -317,7 +279,15 @@ export default function ProductDetails() {
                   {/* Contenu additionnel pour {expandedExtra} */}
                   <Typography variant="body2">
                     {/* ...placeholder content... */}
-                    Contenu de {expandedExtra}
+
+                    {expandedExtra === "documents" ? (
+                      <DocumentsSection documents={product.documents} />
+                    ) : (
+                      <>
+                        Offres
+                        <OffersSection offers={product.offers} />
+                      </>
+                    )}
                   </Typography>
                 </Box>
               )}

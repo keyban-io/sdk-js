@@ -13,7 +13,6 @@ export default function Settings() {
             <Typography variant="h5">Paramètres</Typography>
           </Box>
           <Typography variant="body1">
-            {/* ...content des paramètres... */}
             <p>Adresse de votre portefeuille: {account.address}</p>{" "}
           </Typography>
         </CardContent>
