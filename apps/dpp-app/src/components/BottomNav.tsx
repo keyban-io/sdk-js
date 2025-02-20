@@ -29,7 +29,7 @@ export default function BottomNav() {
         onChange={(_event, newValue) => {
           setValue(newValue);
           if (newValue === 0) navigate("/dashboard");
-          if (newValue === 1) navigate("/products");
+          if (newValue === 1) navigate("/product-entry"); // Updated URL
           if (newValue === 2) navigate("/settings");
           if (newValue === 3) handleLogout();
         }}

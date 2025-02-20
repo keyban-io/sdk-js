@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard";
 import ProductDetails from "../pages/ProductDetails";
 import Login from "../pages/Login";
 import Settings from "../pages/Settings"; // <-- new import
+import ProductEntry from "../pages/ProductEntry"; // new import
 import RouteGuard from "./RouteGuard";
 import BottomNav from "./BottomNav";
 import BackButton from "./BackButton";
@@ -36,6 +37,8 @@ const AppWithNav: React.FC = () => {
             element={<ProductDetails />}
           />
           <Route path="/settings" element={<Settings />} /> {/* new route */}
+          <Route path="/product-entry" element={<ProductEntry />} />{" "}
+          {/* new route */}
           <Route path="*" element={<Navigate to="/login" />} />
         </Route>
       </Routes>
