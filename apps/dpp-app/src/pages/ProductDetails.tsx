@@ -243,7 +243,7 @@ export default function ProductDetails() {
                 <>
                   <Tabs
                     value={selectedTab}
-                    onChange={(e, newValue) => setSelectedTab(newValue)}
+                    onChange={(_, newValue) => setSelectedTab(newValue)}
                     variant="fullWidth"
                     sx={{ mt: 2 }}
                   >
