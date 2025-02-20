@@ -25,6 +25,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import ArticleIcon from "@mui/icons-material/Article";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import HistoryIcon from "@mui/icons-material/History";
 import { formatDate } from "../utils/formatDate";
 import Product from "../models/Product";
 import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
@@ -85,8 +86,10 @@ const AttributesSection: React.FC<AttributesSectionProps> = ({
 export default function ProductDetails() {
   const { productId } = useParams();
   const product = products.find((p) => p.id === productId);
-  const [expanded, setExpanded] = useState(false);
+  const [expandedProduct, setExpandedProduct] = useState(false); // renamed setter
   const [selectedTab, setSelectedTab] = useState(0); // new state for tabs
+  // New state for events visibility
+  const [showEvents, setShowEvents] = useState(false);
 
   // Tri des événements par date (croissant)
   const sortedEvents = useMemo(() => {
@@ -246,8 +249,26 @@ export default function ProductDetails() {
                   mx: "auto",
                 }}
               />
-              {/* Description & Attributes tabs when expanded */}
-              {expanded ? (
+              {/* Unified toggle button for product information */}
+              <Button
+                variant="outlined"
+                onClick={() => setExpandedProduct(!expandedProduct)}
+                sx={{
+                  mt: 1,
+                  width: "100%",
+                  justifyContent: "space-between",
+                  borderRadius: "16px",
+                  height: "56px",
+                  backgroundColor: "var(--mui-palette-background-paper)",
+                }}
+                endIcon={expandedProduct ? <ExpandLessIcon /> : <ArticleIcon />}
+              >
+                {expandedProduct
+                  ? "Cacher les informations produit"
+                  : "Voir les informations produit"}
+              </Button>
+              {/* Conditionally render the details content */}
+              {expandedProduct && (
                 <>
                   <Tabs
                     value={selectedTab}
@@ -268,22 +289,6 @@ export default function ProductDetails() {
                   {selectedTab === 1 && (
                     <AttributesSection attributesMap={product.attributesMap} />
                   )}
-
-                  <Button
-                    variant="outlined"
-                    onClick={() => setExpanded(false)}
-                    sx={{
-                      mt: 1,
-                      // width: "100%",
-                      justifyContent: "space-between",
-                      borderRadius: "16px",
-                      // height: "56px",
-                      backgroundColor: "var(--mui-palette-background-paper)",
-                    }}
-                    endIcon={<ExpandLessIcon />}
-                  >
-                    Fermer
-                  </Button>
                   <Box
                     sx={{
                       width: "100%",
@@ -296,44 +301,48 @@ export default function ProductDetails() {
                     }}
                   />
                 </>
-              ) : (
-                <Button
-                  size="large"
-                  variant="outlined"
-                  onClick={() => setExpanded(true)}
-                  sx={{
-                    mt: 1,
-                    width: "100%",
-                    justifyContent: "space-between",
-                    borderRadius: "16px",
-                    height: "56px",
-                    backgroundColor: "var(--mui-palette-background-paper)",
-                  }}
-                  endIcon={<ArticleIcon />}
-                >
-                  Informations du produit...
-                </Button>
               )}
-              <Timeline>
-                {sortedEvents.map(([eventKey, eventDate], index) => (
-                  <TimelineItem key={index}>
-                    <TimelineOppositeContent
-                      align="right"
-                      variant="body2"
-                      color="text.secondary"
-                    >
-                      {formatDate(eventDate as number)}
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                      <TimelineDot color="secondary" />
-                      {index < sortedEvents.length - 1 && <TimelineConnector />}
-                    </TimelineSeparator>
-                    <TimelineContent>
-                      <Typography>{eventKey}</Typography>
-                    </TimelineContent>
-                  </TimelineItem>
-                ))}
-              </Timeline>
+              {/* New toggle button for events */}
+              <Button
+                variant="outlined"
+                onClick={() => setShowEvents((prev) => !prev)}
+                sx={{
+                  mt: 2,
+                  width: "100%",
+                  justifyContent: "space-between",
+                  borderRadius: "16px",
+                  height: "56px",
+                  backgroundColor: "var(--mui-palette-background-paper)",
+                }}
+                endIcon={<HistoryIcon />}
+              >
+                {showEvents ? "Cacher l'historique" : "Voir l'historique"}
+              </Button>
+              {/* Conditionally render the Timeline */}
+              {showEvents && (
+                <Timeline>
+                  {sortedEvents.map(([eventKey, eventDate], index) => (
+                    <TimelineItem key={index}>
+                      <TimelineOppositeContent
+                        align="right"
+                        variant="body2"
+                        color="text.secondary"
+                      >
+                        {formatDate(eventDate as number)}
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineDot color="secondary" />
+                        {index < sortedEvents.length - 1 && (
+                          <TimelineConnector />
+                        )}
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Typography>{eventKey}</Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                  ))}
+                </Timeline>
+              )}
             </Box>
           </Box>
         </CardContent>
