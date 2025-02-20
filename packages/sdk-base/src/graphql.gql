@@ -7,8 +7,8 @@ query walletBalance($walletId: String!) {
 
 subscription walletSubscription($walletIds: [ID!], $mutation: [MutationType!]) {
   sub: wallets(id: $walletIds, mutation: $mutation) {
-    mutation_type
-    _entity {
+    mutationType: mutation_type
+    entity: _entity {
       id
       ...KeybanClient_Wallet
     }
@@ -46,8 +46,8 @@ subscription tokenBalancesSubscription(
   $mutation: [MutationType!]
 ) {
   sub: tokenBalances(id: $tokenBalancesIds, mutation: $mutation) {
-    mutation_type
-    _entity {
+    mutationType: mutation_type
+    entity: _entity {
       id
       ...KeybanClient_TokenBalance
     }
@@ -85,8 +85,8 @@ subscription nftBalancesSubscription(
   $mutation: [MutationType!]
 ) {
   sub: nftBalances(id: $nftBalanceIds, mutation: $mutation) {
-    mutation_type
-    _entity {
+    mutationType: mutation_type
+    entity: _entity {
       id
       ...KeybanClient_NftBalance
     }
@@ -133,8 +133,8 @@ subscription assetTransfersSubscription(
   $mutation: [MutationType!]
 ) {
   sub: assetTransfers(id: $assetTransferIds, mutation: $mutation) {
-    mutation_type
-    _entity {
+    mutationType: mutation_type
+    entity: _entity {
       id
       ...KeybanClient_AssetTransfer
     }
@@ -164,6 +164,8 @@ fragment KeybanClient_TokenContract on TokenContract {
 
 fragment KeybanClient_TokenBalance on TokenBalance {
   id
+  nodeId
+  walletId
   token {
     id
     ...KeybanClient_TokenContract
@@ -183,6 +185,8 @@ fragment KeybanClient_Nft on Nft {
 
 fragment KeybanClient_NftBalance on NftBalance {
   id
+  nodeId
+  walletId
   nft {
     id
     ...KeybanClient_Nft
@@ -203,12 +207,9 @@ fragment KeybanClient_Transaction on Transaction {
 
 fragment KeybanClient_AssetTransfer on AssetTransfer {
   id
-  from {
-    id
-  }
-  to {
-    id
-  }
+  nodeId
+  fromId
+  toId
   transaction {
     id
     ...KeybanClient_Transaction

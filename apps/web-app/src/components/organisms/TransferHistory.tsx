@@ -47,10 +47,10 @@ export default function TransferHistory() {
                 <code>{node?.transaction?.date}</code>
               </td>
               <td>
-                <code>{node?.from?.id}</code>
+                <code>{node?.fromId}</code>
               </td>
               <td>
-                <code>{node?.to?.id}</code>
+                <code>{node?.toId}</code>
               </td>
               <td
                 style={{

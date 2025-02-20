@@ -104,6 +104,16 @@ export type PaginationExtra = {
 
 // Utils
 
+type GqlEdge<T extends { id: string }> = {
+  cursor: string | null;
+  node: T | null;
+};
+type GqlPaginatedData<T extends { id: string }> = {
+  pageInfo: GqlPageInfo;
+  totalCount: number;
+  edges: GqlEdge<T>[];
+};
+
 /**
  * Extracts paginated results from the given data.
  * @param data - The data containing pagination information and edges.
@@ -113,11 +123,9 @@ export type PaginationExtra = {
  * @returns - The paginated data.
  * @template T - The type of the data being paginated.
  */
-function getPaginatedResults<T>(data: {
-  pageInfo: GqlPageInfo;
-  totalCount: number;
-  edges: { node?: T | null }[];
-}): PaginatedData<T> {
+function getPaginatedResults<T extends { id: string }>(
+  data: GqlPaginatedData<T>,
+): PaginatedData<T> {
   return {
     hasPrevPage: data.pageInfo.hasPreviousPage,
     hasNextPage: data.pageInfo.hasNextPage,
@@ -131,14 +139,11 @@ function getPaginatedResults<T>(data: {
 /**
  * Provides extra pagination controls for fetching more data.
  * @param data - The data containing pagination information.
- * @param data.res - The response object containing pagination information.
  * @param fetchMore - A function to fetch more data.
  * @returns - An object containing loading state and fetchMore function.
  */
-function usePaginationExtra(
-  data: {
-    res: { pageInfo: GqlPageInfo } | null;
-  },
+function usePaginationExtra<T extends { id: string }>(
+  data: GqlPaginatedData<T>,
   fetchMore: (options: { variables: { after?: string | null } }) => unknown,
 ): PaginationExtra {
   const [isPending, startTransition] = React.useTransition();
@@ -147,10 +152,81 @@ function usePaginationExtra(
     loading: isPending,
     fetchMore: () => {
       startTransition(() => {
-        fetchMore({ variables: { after: data.res?.pageInfo.endCursor } });
+        fetchMore({ variables: { after: data.pageInfo.endCursor } });
       });
     },
   };
+}
+
+/**
+ * Update paginated data with subscription update.
+ * @param prev -
+ * @param mutationType -
+ * @param edge -
+ * @param isBefore -
+ * @returns - The updated paginated data
+ */
+function updatePaginatedData<T extends { id: string }>(
+  prev: GqlPaginatedData<T>,
+  mutationType: GqlMutationType,
+  edge: GqlEdge<T>,
+  isBefore: (a: GqlEdge<T>) => boolean,
+) {
+  switch (mutationType) {
+    // subql cannot differentiate between inserts and
+    // updates when historical data are enabled
+    case GqlMutationType.INSERT:
+    case GqlMutationType.UPDATE: {
+      if (prev.edges.find(({ node }) => node?.id === edge.node?.id))
+        // This is an update for sure, apollo cache already updated
+        // it with normalized cache, nothing more to do
+        return prev;
+
+      const insertIndex =
+        prev.edges.findLastIndex((edge) => isBefore(edge)) + 1;
+
+      const isFirst = insertIndex === 0;
+      const isLast = insertIndex === prev.edges.length;
+      const { hasPreviousPage, hasNextPage } = prev.pageInfo;
+
+      if ((hasPreviousPage && isFirst) || (hasNextPage && isLast))
+        // the entity is outside the range of known data, we cannot
+        // update the totalCount since we cannot be not sure if
+        // it's an update or an insert
+        return {
+          ...prev,
+          totalCount:
+            prev.totalCount + Number(mutationType === GqlMutationType.INSERT),
+        };
+
+      const edges = [...prev.edges]; // clone array
+      edges.splice(insertIndex, 0, edge); // insert edge
+
+      return {
+        pageInfo: {
+          ...prev.pageInfo,
+          startCursor: edges[0].cursor,
+          endCursor: edges[edges.length - 1].cursor,
+        },
+        totalCount: prev.totalCount + 1,
+        edges,
+      };
+    }
+
+    case GqlMutationType.DELETE: {
+      const edges = prev.edges.filter(({ node }) => node?.id !== edge.node?.id);
+
+      return {
+        pageInfo: {
+          ...prev.pageInfo,
+          startCursor: edges[0].cursor,
+          endCursor: edges[edges.length - 1].cursor,
+        },
+        totalCount: prev.totalCount - 1,
+        edges,
+      };
+    }
+  }
 }
 
 /**
@@ -250,7 +326,7 @@ export function useKeybanAccountBalance(
           query: walletBalanceDocument,
           variables: { walletId: account.address },
         },
-        () => ({ res: data!.sub!._entity }),
+        () => ({ res: data!.sub!.entity }),
       );
     },
   });
@@ -335,7 +411,7 @@ export function useKeybanAccountTokenBalances(
 ): ApiResult<PaginatedData<KeybanTokenBalance>, PaginationExtra> {
   const client = useKeybanClient();
 
-  const { data, error, refetch, fetchMore } = useSuspenseQuery(
+  const { data, error, fetchMore, subscribeToMore } = useSuspenseQuery(
     walletTokenBalancesDocument,
     {
       client: client.apolloClient,
@@ -347,28 +423,42 @@ export function useKeybanAccountTokenBalances(
     },
   );
 
-  const debounceRef = React.useRef<NodeJS.Timeout>(undefined);
-  useSubscription(tokenBalancesSubscriptionDocument, {
-    client: client.apolloClient,
-    onData({ data: { data } }) {
-      switch (data?.sub?.mutation_type) {
-        case GqlMutationType.INSERT:
-        case GqlMutationType.UPDATE:
-        case GqlMutationType.DELETE:
-          break;
-      }
+  React.useEffect(
+    () =>
+      subscribeToMore({
+        document: tokenBalancesSubscriptionDocument,
+        updateQuery(prev, { subscriptionData }) {
+          if (!prev.res) return prev;
+          if (!subscriptionData.data.sub?.entity) return prev;
 
-      // TODO: replace me
-      clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(() => {
-        React.startTransition(() => {
-          refetch();
-        });
-      }, 100);
-    },
-  });
+          const { mutationType, entity } = subscriptionData.data.sub;
+          if (entity.walletId !== account.address) return prev;
 
-  const extra = usePaginationExtra(data, fetchMore);
+          return {
+            res: updatePaginatedData(
+              prev.res,
+              mutationType,
+              {
+                cursor: btoa(
+                  JSON.stringify([
+                    GqlTokenBalancesOrderBy.TOKEN_SYMBOL_ASC.toLowerCase(),
+                    [
+                      Number(entity.token?.symbol),
+                      JSON.parse(atob(entity.nodeId))[0],
+                    ],
+                  ]),
+                ),
+                node: entity,
+              },
+              ({ node }) => node!.token!.symbol! < entity.token!.symbol!,
+            ),
+          };
+        },
+      }),
+    [subscribeToMore, account.address],
+  );
+
+  const extra = usePaginationExtra(data.res!, fetchMore);
 
   return error
     ? ([null, error, extra] as const)
@@ -450,40 +540,54 @@ export function useKeybanAccountNfts(
 ): ApiResult<PaginatedData<KeybanNftBalance>, PaginationExtra> {
   const client = useKeybanClient();
 
-  const { data, error, refetch, fetchMore } = useSuspenseQuery(
+  const { data, error, fetchMore, subscribeToMore } = useSuspenseQuery(
     walletNftsDocument,
     {
       client: client.apolloClient,
       variables: {
+        ...options,
         walletId: account.address,
         orderBy: GqlNftBalancesOrderBy.NFT_TOKEN_ID_ASC,
-        ...options,
       },
     },
   );
 
-  const debounceRef = React.useRef<NodeJS.Timeout>(undefined);
-  useSubscription(nftBalancesSubscriptionDocument, {
-    client: client.apolloClient,
-    onData({ data: { data } }) {
-      switch (data?.sub?.mutation_type) {
-        case GqlMutationType.INSERT:
-        case GqlMutationType.UPDATE:
-        case GqlMutationType.DELETE:
-          break;
-      }
+  React.useEffect(
+    () =>
+      subscribeToMore({
+        document: nftBalancesSubscriptionDocument,
+        updateQuery(prev, { subscriptionData }) {
+          if (!prev.res) return prev;
+          if (!subscriptionData.data.sub?.entity) return prev;
 
-      // TODO: replace me
-      clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(() => {
-        React.startTransition(() => {
-          refetch();
-        });
-      }, 100);
-    },
-  });
+          const { mutationType, entity } = subscriptionData.data.sub;
+          if (entity.walletId !== account.address) return prev;
 
-  const extra = usePaginationExtra(data, fetchMore);
+          return {
+            res: updatePaginatedData(
+              prev.res,
+              mutationType,
+              {
+                cursor: btoa(
+                  JSON.stringify([
+                    GqlNftBalancesOrderBy.NFT_TOKEN_ID_ASC.toLowerCase(),
+                    [
+                      Number(entity.nft?.tokenId),
+                      JSON.parse(atob(entity.nodeId))[0],
+                    ],
+                  ]),
+                ),
+                node: entity,
+              },
+              ({ node }) => node!.nft!.tokenId < entity.nft!.tokenId,
+            ),
+          };
+        },
+      }),
+    [subscribeToMore, account.address],
+  );
+
+  const extra = usePaginationExtra(data.res!, fetchMore);
 
   return error
     ? ([null, error, extra] as const)
@@ -638,7 +742,7 @@ export function useKeybanAccountTransferHistory(
 ): ApiResult<PaginatedData<KeybanAssetTransfer>, PaginationExtra> {
   const client = useKeybanClient();
 
-  const { data, error, refetch, fetchMore } = useSuspenseQuery(
+  const { data, error, fetchMore, subscribeToMore } = useSuspenseQuery(
     walletAssetTransfersDocument,
     {
       client: client.apolloClient,
@@ -650,34 +754,46 @@ export function useKeybanAccountTransferHistory(
     },
   );
 
-  const debounceRef = React.useRef<NodeJS.Timeout>(undefined);
-  useSubscription(assetTransfersSubscriptionDocument, {
-    client: client.apolloClient,
-    onData({ data: { data } }) {
-      // const match = [
-      //   data?.sub?._entity?.fromId,
-      //   data?.sub?._entity?.toId,
-      // ].includes(address);
-      // if (!match) return;
+  React.useEffect(
+    () =>
+      subscribeToMore({
+        document: assetTransfersSubscriptionDocument,
+        updateQuery(prev, { subscriptionData }) {
+          if (!prev.res) return prev;
+          if (!subscriptionData.data.sub?.entity) return prev;
 
-      switch (data?.sub?.mutation_type) {
-        case GqlMutationType.INSERT:
-        case GqlMutationType.UPDATE:
-        case GqlMutationType.DELETE:
-          break;
-      }
+          const { mutationType, entity } = subscriptionData.data.sub;
 
-      // TODO: replace me
-      clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(() => {
-        React.startTransition(() => {
-          refetch();
-        });
-      }, 100);
-    },
-  });
+          const match = [entity.fromId, entity.toId].includes(account.address);
+          if (!match) return prev;
 
-  const extra = usePaginationExtra(data, fetchMore);
+          return {
+            res: updatePaginatedData(
+              prev.res,
+              mutationType,
+              {
+                cursor: btoa(
+                  JSON.stringify([
+                    GqlAssetTransfersOrderBy.TRANSACTION_BLOCK_NUMBER_DESC.toLowerCase(),
+                    [
+                      Number(entity.transaction?.blockNumber),
+                      JSON.parse(atob(entity.nodeId))[0],
+                    ],
+                  ]),
+                ),
+                node: entity,
+              },
+              ({ node }) =>
+                node!.transaction!.blockNumber >
+                entity.transaction!.blockNumber,
+            ),
+          };
+        },
+      }),
+    [subscribeToMore, account.address],
+  );
+
+  const extra = usePaginationExtra(data.res!, fetchMore);
 
   return error
     ? ([null, error, extra] as const)

@@ -110,10 +110,10 @@ const TransferList: React.FC<TransferListProps> = ({
   const getStatus = (transfer: KeybanAssetTransfer) => {
     if (!account) return "Unknown";
 
-    const { from, to } = transfer;
+    const { fromId, toId } = transfer;
     const accountAddress = account.address.toLowerCase();
-    if (to?.id.toLowerCase() === accountAddress) return "Received";
-    if (from?.id?.toLowerCase() === accountAddress) return "Sent";
+    if (toId?.toLowerCase() === accountAddress) return "Received";
+    if (fromId?.toLowerCase() === accountAddress) return "Sent";
     return "Unknown";
   };
 
@@ -219,18 +219,18 @@ const TransferList: React.FC<TransferListProps> = ({
                     </Tooltip>
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title={transfer?.from?.id} arrow>
+                    <Tooltip title={transfer?.fromId} arrow>
                       <Typography variant="body2" noWrap>
-                        {transfer?.from?.id
-                          ? shortenAddress(transfer.from.id)
+                        {transfer?.fromId
+                          ? shortenAddress(transfer.fromId)
                           : ""}
                       </Typography>
                     </Tooltip>
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title={transfer.to?.id ?? ""} arrow>
+                    <Tooltip title={transfer.toId ?? ""} arrow>
                       <Typography variant="body2" noWrap>
-                        {transfer.to?.id ? shortenAddress(transfer.to.id) : ""}
+                        {transfer.toId ? shortenAddress(transfer.toId) : ""}
                       </Typography>
                     </Tooltip>
                   </TableCell>
