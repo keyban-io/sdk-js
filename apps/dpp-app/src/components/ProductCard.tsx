@@ -126,11 +126,11 @@ export default function ProductCard({ productId, sx }: ProductCardProps) {
               <Box
                 sx={{
                   width: "10%",
-                  height: "3px",
-                  mb: 1,
+                  height: "2px",
                   backgroundColor: "primary.main",
                   margin: "auto",
                   borderRadius: "2px",
+                  mb: 1,
                 }}
               />
               <Typography variant="h5">{product.name}</Typography>

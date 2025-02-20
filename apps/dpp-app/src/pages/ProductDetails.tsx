@@ -24,8 +24,10 @@ import EuroIcon from "@mui/icons-material/Euro";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import ArticleIcon from "@mui/icons-material/Article";
+import DiscountOutlinedIcon from "@mui/icons-material/DiscountOutlined";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import HistoryIcon from "@mui/icons-material/History";
+import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined";
 import { formatDate } from "../utils/formatDate";
 import Product from "../models/Product";
 import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
@@ -90,6 +92,10 @@ export default function ProductDetails() {
   const [selectedTab, setSelectedTab] = useState(0); // new state for tabs
   // New state for events visibility
   const [showEvents, setShowEvents] = useState(false);
+  // New state for extra section toggling: "documents" or "offres"
+  const [expandedExtra, setExpandedExtra] = useState<
+    "documents" | "offres" | null
+  >(null);
 
   // Tri des événements par date (croissant)
   const sortedEvents = useMemo(() => {
@@ -159,7 +165,7 @@ export default function ProductDetails() {
               <Box
                 sx={{
                   width: "10%",
-                  height: "3px",
+                  height: "2px",
                   backgroundColor: "primary.main",
                   margin: "auto",
                   borderRadius: "2px",
@@ -241,27 +247,95 @@ export default function ProductDetails() {
               <Box
                 sx={{
                   width: "100%",
-                  height: "3px",
+                  height: "2px",
                   mt: 2,
-                  mb: 1,
+                  mb: 2,
                   backgroundColor: "primary.main",
                   borderRadius: "2px",
                   mx: "auto",
                 }}
               />
+              {/* New row with two buttons for Documents and Offres */}
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  gap: 2,
+                  mt: 1,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  onClick={() =>
+                    setExpandedExtra((prev) =>
+                      prev === "documents" ? null : "documents",
+                    )
+                  }
+                  sx={{
+                    flex: 1,
+                    borderRadius: "16px",
+                    backgroundColor: "var(--mui-palette-background-paper)",
+                    height: "56px",
+                  }}
+                  endIcon={
+                    expandedExtra === "documents" ? (
+                      <ExpandLessIcon />
+                    ) : (
+                      <ArticleIcon />
+                    )
+                  }
+                >
+                  Documents
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() =>
+                    setExpandedExtra((prev) =>
+                      prev === "offres" ? null : "offres",
+                    )
+                  }
+                  sx={{
+                    flex: 1,
+                    borderRadius: "16px",
+                    height: "56px",
+                    backgroundColor: "var(--mui-palette-background-paper)",
+                  }}
+                  endIcon={
+                    expandedExtra === "offres" ? (
+                      <ExpandLessIcon />
+                    ) : (
+                      <DiscountOutlinedIcon />
+                    )
+                  }
+                >
+                  Offres
+                </Button>
+              </Box>
+              {/* Optionally render extra content for Documents/Offres */}
+              {expandedExtra && (
+                <Box sx={{ mt: 2, textAlign: "left" }}>
+                  {/* Contenu additionnel pour {expandedExtra} */}
+                  <Typography variant="body2">
+                    {/* ...placeholder content... */}
+                    Contenu de {expandedExtra}
+                  </Typography>
+                </Box>
+              )}
               {/* Unified toggle button for product information */}
               <Button
                 variant="outlined"
                 onClick={() => setExpandedProduct(!expandedProduct)}
                 sx={{
-                  mt: 1,
+                  mt: 2,
                   width: "100%",
                   justifyContent: "space-between",
                   borderRadius: "16px",
                   height: "56px",
                   backgroundColor: "var(--mui-palette-background-paper)",
                 }}
-                endIcon={expandedProduct ? <ExpandLessIcon /> : <ArticleIcon />}
+                endIcon={
+                  expandedProduct ? <ExpandLessIcon /> : <SubjectOutlinedIcon />
+                }
               >
                 {expandedProduct
                   ? "Cacher les informations produit"
@@ -292,7 +366,7 @@ export default function ProductDetails() {
                   <Box
                     sx={{
                       width: "100%",
-                      height: "3px",
+                      height: "2px",
                       mt: 2,
                       mb: 1,
                       backgroundColor: "primary.main",
