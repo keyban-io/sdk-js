@@ -20,12 +20,14 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
   const theme = useTheme();
 
   const currentDomain = window.location.hostname;
-  const shouldExcludeEthereumAnvil =
+  const shouldExcludeDevChains =
     currentDomain === "waas-demo.keyban.io" ||
     currentDomain === "waas-demo.beta.keyban.fr";
 
-  const availableChains = shouldExcludeEthereumAnvil
-    ? Object.values(KeybanChain).filter((chain) => chain !== "EthereumAnvil")
+  const availableChains = shouldExcludeDevChains
+    ? Object.values(KeybanChain).filter(
+        (chain) => chain !== "EthereumAnvil" && chain !== "StarknetDevnet",
+      )
     : Object.values(KeybanChain);
 
   return (
