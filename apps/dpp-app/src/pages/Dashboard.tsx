@@ -35,7 +35,6 @@ export default function Dashboard() {
 
           <Grid2 container spacing={2} alignItems="stretch">
             {nfts.nodes.map((nft: KeybanNftBalance) => {
-              console.log("nft", nft);
               return (
                 nft.nft && (
                   <Grid2

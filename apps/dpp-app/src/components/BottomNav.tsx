@@ -18,7 +18,6 @@ export default function BottomNav() {
   const { logout } = useKeybanAuth();
 
   const handleLogout = async () => {
-    console.log("Logging out...");
     await logout();
   };
 
