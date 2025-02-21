@@ -33,7 +33,7 @@ const AppWithNav: React.FC = () => {
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route
-            path="/product-details/:productId"
+            path="/product-details/:tokenAddress/:tokenId"
             element={<ProductDetails />}
           />
           <Route path="/settings" element={<Settings />} /> {/* new route */}

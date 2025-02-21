@@ -7,40 +7,54 @@ import {
   IconButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
-import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.json";
-import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
-import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
-import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
-import Product from "../models/Product";
+import { useKeybanAccount, useKeybanAccountNft, Hex } from "@keyban/sdk-react";
 
-const products = [
-  // Consolidated product data from JSON files
-  new Product(productBosch),
-  new Product(productSmeg),
-  new Product(productSamsung),
-  new Product(productLG),
-  new Product(productLGTV),
-];
+import Product from "../models/Product";
 
 import InfoIcon from "@mui/icons-material/Info";
 
 interface ProductCardProps {
-  productId: string;
+  tokenAddress: Hex;
+  tokenId: string;
   fullSizeImage?: boolean;
   sx?: object; // Add sx prop for custom styles
 }
 
-export default function ProductCard({ productId, sx }: ProductCardProps) {
+export default function ProductCard({
+  tokenAddress,
+  tokenId,
+  sx,
+}: ProductCardProps) {
   const navigate = useNavigate();
-  const product = products.find((p) => p.id === productId);
+  const [account, accountError] = useKeybanAccount();
+  const [nftBalance, nftError] = useKeybanAccountNft(
+    account!,
+    tokenAddress,
+    tokenId,
+  );
+
+  if (accountError) {
+    // Handle account retrieval error
+    return <div>Error fetching account: {accountError.message}</div>;
+  }
+
+  if (nftError) {
+    // Handle NFT retrieval error (e.g., NFT not found)
+    return <div>Error fetching NFT: {nftError.message}</div>;
+  }
+
+  if (!nftBalance) {
+    // Display a loading indicator or an appropriate message
+    return <div>Loading NFT...</div>;
+  }
+  const product = new Product(nftBalance.nft?.metadata);
 
   if (!product) {
     return null;
   }
 
   const handleDetailsClick = () => {
-    navigate(`/product-details/${productId}`);
+    navigate(`/product-details/${tokenAddress}/${tokenId}`);
   };
 
   return (
