@@ -30,52 +30,193 @@ import HistoryIcon from "@mui/icons-material/History";
 import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined";
 import { formatDate } from "../utils/formatDate";
 import Product from "../models/Product";
-import productBosch from "../assets/Four_integrable_multifonction_Bosch_HBA171BS4F.json";
-import productSmeg from "../assets/Grille_pain_Smeg_TSF01_2_fentes_Toaster_Noir.json";
-import productSamsung from "../assets/Lave_linge_hublot_Samsung_Ecobubble_WW80CGC04DTH_8kg_Blanc.json";
-import productLG from "../assets/Refrigerateur_combine_LG_GBV3100DEP_Noir.json";
-import productLGTV from "../assets/TV_OLED_Evo_LG_OLED55C4_139cm_4K_UHD_Smart_TV_2024_Noir_et_Brun.json";
 import AttributesSection from "../components/AttributesSection";
 import DocumentsSection from "../components/DocumentsSection";
 import OffersSection from "../components/OffersSection";
+import { useKeybanAccount, useKeybanAccountNft } from "@keyban/sdk-react";
+const fallbackImage = `data:image/svg+xml;utf8,<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none"><rect width="200" height="200" fill="#e0e0e0"/><circle cx="100" cy="80" r="30" fill="#bdbdbd"/><rect x="50" y="130" width="100" height="40" rx="10" fill="#bdbdbd"/><text x="50%" y="180" text-anchor="middle" fill="#757575" font-size="16px" font-family="Arial">Image indisponible</text></svg>`;
 
-const products = [
-  new Product(productBosch),
-  new Product(productSmeg),
-  new Product(productSamsung),
-  new Product(productLG),
-  new Product(productLGTV),
-];
+// Composant pour les boutons d'actions
+const ActionButtons = () => {
+  const handleAction = (actionName: string) => {
+    // Placeholder pour une future implémentation
+    alert(`Fonctionnalité "${actionName}" en cours de développement.`);
+  };
+
+  return (
+    <Box sx={{ display: "flex", width: "100%", gap: 2, mt: 2 }}>
+      <Button
+        variant="outlined"
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderRadius: "16px",
+          backgroundColor: "var(--mui-palette-background-paper)",
+        }}
+        onClick={() => handleAction("Réparer")}
+      >
+        <RepairIcon />
+        <Typography variant="caption">Réparer</Typography>
+      </Button>
+      <Button
+        variant="outlined"
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderRadius: "16px",
+          backgroundColor: "var(--mui-palette-background-paper)",
+        }}
+        onClick={() => handleAction("Revendre")}
+      >
+        <EuroIcon />
+        <Typography variant="caption">Revendre</Typography>
+      </Button>
+      <Button
+        variant="outlined"
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderRadius: "16px",
+          backgroundColor: "var(--mui-palette-background-paper)",
+        }}
+        onClick={() => handleAction("Recycler")}
+      >
+        <RecycleIcon />
+        <Typography variant="caption">Recycler</Typography>
+      </Button>
+      <Button
+        variant="outlined"
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderRadius: "16px",
+          backgroundColor: "var(--mui-palette-background-paper)",
+        }}
+        onClick={() => handleAction("Transferer")}
+      >
+        <TransferIcon />
+        <Typography variant="caption">Transferer</Typography>
+      </Button>
+    </Box>
+  );
+};
+
+// Composant pour la section "Documents" ou "Offres"
+const ExtraSection = ({
+  expandedExtra,
+  product,
+}: {
+  expandedExtra: "documents" | "offres" | null;
+  product: Product;
+}) => (
+  <Box sx={{ mt: 2, textAlign: "left" }}>
+    <Typography variant="body2">
+      {expandedExtra === "documents" ? (
+        <DocumentsSection documents={product.documents} />
+      ) : (
+        <>
+          Offres
+          <OffersSection offers={product.offers} />
+        </>
+      )}
+    </Typography>
+  </Box>
+);
+
+// Composant pour la Timeline des événements
+const TimelineEvents = ({
+  sortedEvents,
+}: {
+  sortedEvents: [string, number][];
+}) => (
+  <Timeline>
+    {sortedEvents.map(([eventKey, eventDate], index) => (
+      <TimelineItem key={index}>
+        <TimelineOppositeContent
+          align="right"
+          variant="body2"
+          color="text.secondary"
+        >
+          {formatDate(eventDate)}
+        </TimelineOppositeContent>
+        <TimelineSeparator>
+          <TimelineDot color="secondary" />
+          {index < sortedEvents.length - 1 && <TimelineConnector />}
+        </TimelineSeparator>
+        <TimelineContent>
+          <Typography>{eventKey}</Typography>
+        </TimelineContent>
+      </TimelineItem>
+    ))}
+  </Timeline>
+);
 
 export default function ProductDetails() {
-  const { productId } = useParams();
-  const product = products.find((p) => p.id === productId);
+  // Extraction des paramètres depuis l'URL
+  const { tokenAddress, tokenId } = useParams<{
+    tokenAddress: string;
+    tokenId: string;
+  }>();
+
+  const [account, accountError] = useKeybanAccount();
+  const [nftBalance, nftError] = useKeybanAccountNft(
+    account!,
+    tokenAddress as `0x${string}`,
+    tokenId!,
+  );
+
+  // États locaux
   const [expandedProduct, setExpandedProduct] = useState(false);
-  const [selectedTab, setSelectedTab] = useState(0); // new state for tabs
-  // New state for events visibility
+  const [selectedTab, setSelectedTab] = useState(0);
   const [showEvents, setShowEvents] = useState(false);
-  // New state for extra section toggling: "documents" or "offres"
   const [expandedExtra, setExpandedExtra] = useState<
     "documents" | "offres" | null
   >(null);
 
-  // Tri des événements par date (croissant)
+  // Construction du produit et tri des événements (hooks sont appelés inconditionnellement)
+  const product = useMemo(() => {
+    return nftBalance && nftBalance.nft?.metadata
+      ? new Product(nftBalance.nft.metadata)
+      : null;
+  }, [nftBalance]);
+
   const sortedEvents = useMemo(() => {
     if (!product) return [];
     return Object.entries(product.eventsMap).sort(
-      ([, aDate], [, bDate]) => (aDate as number) - (bDate as number),
+      ([, aDate], [, bDate]) => aDate - bDate,
     );
   }, [product]);
 
+  // Gestion des erreurs et états de chargement
+  if (accountError) {
+    return <div>Error fetching account: {accountError.message}</div>;
+  }
+  if (!account) {
+    return <div>Loading account...</div>;
+  }
+  if (nftError) {
+    return <div>Error fetching NFT: {nftError.message}</div>;
+  }
+  if (!nftBalance) {
+    return <div>Loading NFT...</div>;
+  }
   if (!product) {
     return <Typography variant="h6">Produit non trouvé</Typography>;
   }
 
-  // Gestion d'une image de repli en cas d'erreur de chargement
+  // Gestion de l'image de repli
   const handleImageError = (
     event: React.SyntheticEvent<HTMLImageElement, Event>,
   ) => {
-    event.currentTarget.src = "fallback.png"; // Remplacer par le chemin de votre image de repli
+    event.currentTarget.src = fallbackImage;
   };
 
   return (
@@ -107,9 +248,7 @@ export default function ProductDetails() {
         }}
       >
         <CardContent
-          sx={{
-            background: "linear-gradient(to right, #f0f0f0, #ffffff)",
-          }}
+          sx={{ background: "linear-gradient(to right, #f0f0f0, #ffffff)" }}
         >
           <Box
             sx={{
@@ -123,7 +262,7 @@ export default function ProductDetails() {
             }}
           >
             <Box sx={{ textAlign: "center" }}>
-              {/* Bar above product.name */}
+              {/* Barre décorative */}
               <Box
                 sx={{
                   width: "10%",
@@ -135,77 +274,10 @@ export default function ProductDetails() {
                 }}
               />
               <Typography variant="h5">{product.name}</Typography>
-              {/* Action buttons row updated to occupy full width */}
-              <Box
-                sx={{
-                  display: "flex",
-                  width: "100%",
-                  gap: 2,
-                  mt: 2,
-                }}
-              >
-                <Button
-                  variant="outlined"
-                  sx={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    borderRadius: "16px",
-                    backgroundColor: "var(--mui-palette-background-paper)",
-                  }}
-                  onClick={() => {}}
-                >
-                  <RepairIcon />
-                  <Typography variant="caption">Réparer</Typography>
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    borderRadius: "16px",
-                    backgroundColor: "var(--mui-palette-background-paper)",
-                  }}
-                  onClick={() => {}}
-                >
-                  <EuroIcon />
-                  <Typography variant="caption">Revendre</Typography>
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    borderRadius: "16px",
-                    backgroundColor: "var(--mui-palette-background-paper)",
-                  }}
-                  onClick={() => {}}
-                >
-                  <RecycleIcon />
-                  <Typography variant="caption">Recycler</Typography>
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    borderRadius: "16px",
-                    backgroundColor: "var(--mui-palette-background-paper)",
-                  }}
-                  onClick={() => {}}
-                >
-                  <TransferIcon />
-                  <Typography variant="caption">Transferer</Typography>
-                </Button>
-              </Box>
-              {/* Updated full-width bar with rounded edges and centered */}
+
+              {/* Boutons d'actions */}
+              <ActionButtons />
+
               <Box
                 sx={{
                   width: "100%",
@@ -217,15 +289,8 @@ export default function ProductDetails() {
                   mx: "auto",
                 }}
               />
-              {/* New row with two buttons for Documents and Offres */}
-              <Box
-                sx={{
-                  display: "flex",
-                  width: "100%",
-                  gap: 2,
-                  mt: 1,
-                }}
-              >
+              {/* Boutons pour afficher les sections Documents/Offres */}
+              <Box sx={{ display: "flex", width: "100%", gap: 2, mt: 1 }}>
                 <Button
                   variant="outlined"
                   onClick={() =>
@@ -273,25 +338,11 @@ export default function ProductDetails() {
                   Offres
                 </Button>
               </Box>
-              {/* Optionally render extra content for Documents/Offres */}
               {expandedExtra && (
-                <Box sx={{ mt: 2, textAlign: "left" }}>
-                  {/* Contenu additionnel pour {expandedExtra} */}
-                  <Typography variant="body2">
-                    {/* ...placeholder content... */}
-
-                    {expandedExtra === "documents" ? (
-                      <DocumentsSection documents={product.documents} />
-                    ) : (
-                      <>
-                        Offres
-                        <OffersSection offers={product.offers} />
-                      </>
-                    )}
-                  </Typography>
-                </Box>
+                <ExtraSection expandedExtra={expandedExtra} product={product} />
               )}
-              {/* Unified toggle button for product information */}
+
+              {/* Bouton pour afficher/cacher les informations produit */}
               <Button
                 variant="outlined"
                 onClick={() => setExpandedProduct(!expandedProduct)}
@@ -311,7 +362,6 @@ export default function ProductDetails() {
                   ? "Cacher les informations produit"
                   : "Voir les informations produit"}
               </Button>
-              {/* Conditionally render the details content */}
               {expandedProduct && (
                 <>
                   <Tabs
@@ -346,7 +396,7 @@ export default function ProductDetails() {
                   />
                 </>
               )}
-              {/* New toggle button for events */}
+              {/* Bouton et affichage de l'historique */}
               <Button
                 variant="outlined"
                 onClick={() => setShowEvents((prev) => !prev)}
@@ -362,31 +412,7 @@ export default function ProductDetails() {
               >
                 {showEvents ? "Cacher l'historique" : "Voir l'historique"}
               </Button>
-              {/* Conditionally render the Timeline */}
-              {showEvents && (
-                <Timeline>
-                  {sortedEvents.map(([eventKey, eventDate], index) => (
-                    <TimelineItem key={index}>
-                      <TimelineOppositeContent
-                        align="right"
-                        variant="body2"
-                        color="text.secondary"
-                      >
-                        {formatDate(eventDate as number)}
-                      </TimelineOppositeContent>
-                      <TimelineSeparator>
-                        <TimelineDot color="secondary" />
-                        {index < sortedEvents.length - 1 && (
-                          <TimelineConnector />
-                        )}
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Typography>{eventKey}</Typography>
-                      </TimelineContent>
-                    </TimelineItem>
-                  ))}
-                </Timeline>
-              )}
+              {showEvents && <TimelineEvents sortedEvents={sortedEvents} />}
             </Box>
           </Box>
         </CardContent>
