@@ -6,6 +6,7 @@ import {
   useKeybanAccountNfts,
   type KeybanNftBalance,
 } from "@keyban/sdk-react";
+import Product from "../models/Product";
 
 export default function Dashboard() {
   const [account, accountError] = useKeybanAccount();
@@ -43,6 +44,7 @@ export default function Dashboard() {
                     sx={{ display: "flex", flexDirection: "column" }}
                   >
                     <ProductCard
+                      product={new Product(nft.nft.metadata)}
                       tokenAddress={
                         (nft.nft.collection?.id ?? "0x") as `0x${string}`
                       }

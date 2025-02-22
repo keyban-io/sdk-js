@@ -7,13 +7,14 @@ import {
   IconButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useKeybanAccount, useKeybanAccountNft, Hex } from "@keyban/sdk-react";
+import { Hex } from "@keyban/sdk-react";
 
 import Product from "../models/Product";
 
 import InfoIcon from "@mui/icons-material/Info";
 
 interface ProductCardProps {
+  product: Product;
   tokenAddress: Hex;
   tokenId: string;
   fullSizeImage?: boolean;
@@ -21,33 +22,12 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
+  product,
   tokenAddress,
   tokenId,
   sx,
 }: ProductCardProps) {
   const navigate = useNavigate();
-  const [account, accountError] = useKeybanAccount();
-  const [nftBalance, nftError] = useKeybanAccountNft(
-    account!,
-    tokenAddress,
-    tokenId,
-  );
-
-  if (accountError) {
-    // Handle account retrieval error
-    return <div>Error fetching account: {accountError.message}</div>;
-  }
-
-  if (nftError) {
-    // Handle NFT retrieval error (e.g., NFT not found)
-    return <div>Error fetching NFT: {nftError.message}</div>;
-  }
-
-  if (!nftBalance) {
-    // Display a loading indicator or an appropriate message
-    return <div>Loading NFT...</div>;
-  }
-  const product = new Product(nftBalance.nft?.metadata);
 
   if (!product) {
     return null;
