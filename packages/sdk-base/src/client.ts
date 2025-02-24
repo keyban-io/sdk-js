@@ -238,7 +238,7 @@ export abstract class KeybanClientBase {
    * @see {@link KeybanApiStatus}
    */
   async apiStatus(): Promise<KeybanApiStatus> {
-    return fetch(new URL("/health", this.apiUrl))
+    return fetch(new URL("/health/ready", this.apiUrl))
       .then((res) => (res.ok ? "operational" : "down"))
       .catch((err) => {
         console.error("Failed to perform health check", err);
