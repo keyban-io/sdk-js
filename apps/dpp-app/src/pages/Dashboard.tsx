@@ -7,13 +7,22 @@ import {
   type KeybanNftBalance,
 } from "@keyban/sdk-react";
 import Product from "../models/Product";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [account, accountError] = useKeybanAccount();
   const [nfts, nftsError, { fetchMore, loading }] = useKeybanAccountNfts(
     account!,
     { first: 5 },
   );
+
+  useEffect(() => {
+    if (nfts && nfts.nodes.length === 0) {
+      navigate("/product-entry");
+    }
+  }, [nfts, navigate]);
 
   if (accountError) {
     return <div>Error fetching account: {accountError.message}</div>;
