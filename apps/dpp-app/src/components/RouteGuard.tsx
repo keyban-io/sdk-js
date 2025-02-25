@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useKeybanAuth } from "@keyban/sdk-react";
-import { CircularProgress, Container, Typography } from "@mui/material";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 
 const RouteGuard: React.FC = () => {
   const { isAuthenticated, isLoading } = useKeybanAuth();
@@ -9,10 +9,16 @@ const RouteGuard: React.FC = () => {
 
   if (isLoading) {
     return (
-      <Container maxWidth="sm" sx={{ py: 2, textAlign: "center" }}>
+      <Stack
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <CircularProgress />
         <Typography variant="h6">Chargement...</Typography>
-      </Container>
+      </Stack>
     );
   }
 

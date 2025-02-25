@@ -1,4 +1,4 @@
-import { Container, Typography, CircularProgress } from "@mui/material";
+import { Stack, Typography, CircularProgress } from "@mui/material";
 import { useKeybanAuth } from "@keyban/sdk-react"; // Adjust the import path as needed
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
@@ -19,10 +19,16 @@ export default function Login() {
 
   if (isLoading) {
     return (
-      <Container sx={{ py: 2, textAlign: "center" }}>
+      <Stack
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <CircularProgress />
         <Typography variant="h6">Chargement...</Typography>
-      </Container>
+      </Stack>
     );
   }
 

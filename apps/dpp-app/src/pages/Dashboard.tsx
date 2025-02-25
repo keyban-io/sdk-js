@@ -1,4 +1,12 @@
-import { Typography, Container, Box, Card, CardContent } from "@mui/material";
+import {
+  Typography,
+  Container,
+  Box,
+  Card,
+  CardContent,
+  Stack,
+  CircularProgress,
+} from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import Grid2 from "@mui/material/Grid2";
 import {
@@ -32,7 +40,18 @@ export default function Dashboard() {
   }
 
   if (!nfts) {
-    return <div>Chargement des produits...</div>;
+    return (
+      <Stack
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+        <Typography variant="h6">Chargement...</Typography>
+      </Stack>
+    );
   }
 
   return (

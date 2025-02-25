@@ -8,26 +8,26 @@ import {
   CardContent,
   Container,
   IconButton,
+  CircularProgress,
+  Stack,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 import jsQR from "jsqr";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
+import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
 
 export default function ProductEntry() {
+  const [account, accountError] = useKeybanAccount();
+  const [nfts, nftsError] = useKeybanAccountNfts(account!, { first: 5 });
+
   const [serialNumber, setSerialNumber] = useState("");
   const [orderNumber, setOrderNumber] = useState("");
   const [scanning, setScanning] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
   const navigate = useNavigate();
   const webcamRef = useRef<Webcam | null>(null);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Serial:", serialNumber, "Order:", orderNumber);
-    navigate("/dashboard");
-  };
 
   const captureAndScan = useCallback(() => {
     if (webcamRef.current) {
@@ -73,133 +73,160 @@ export default function ProductEntry() {
     };
   }, [scanning, captureAndScan]);
 
-  return (
-    <Container disableGutters>
-      {/* Ajout de la définition de l'animation pour le scan */}
-      <style>
-        {`
-          @keyframes pulse {
-            0% { border-color: #3f51b5; }
-            50% { border-color: #f50057; }
-            100% { border-color: #3f51b5; }
-          }
-          @keyframes scanLine {
-            0% { top: -50px; }
-            100% { top: calc(100%); }
-          }
-        `}
-      </style>
-      <Card sx={{ mx: "auto", maxWidth: 600 }}>
-        <CardContent>
-          <Box sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
-              Ajouter un produit
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <TextField
-                label="Numéro de série"
-                value={serialNumber}
-                onChange={(e) => setSerialNumber(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-              <TextField
-                label="Numéro de commande"
-                value={orderNumber}
-                onChange={(e) => setOrderNumber(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-              <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-                Soumettre
-              </Button>
-            </form>
-            {scanError && (
-              <Typography color="error" variant="body2" sx={{ mt: 2 }}>
-                {scanError}
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Serial:", serialNumber, "Order:", orderNumber);
+    navigate("/dashboard");
+  };
+
+  let content;
+  if (accountError) {
+    content = <div>Error fetching account: {accountError.message}</div>;
+  } else if (nftsError) {
+    content = <div>Error fetching NFTs: {nftsError.message}</div>;
+  } else if (!nfts) {
+    content = (
+      <Stack
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Stack>
+    );
+  } else {
+    content = (
+      <Container disableGutters>
+        {/* Ajout de la définition de l'animation pour le scan */}
+        <style>
+          {`
+            @keyframes pulse {
+              0% { border-color: #3f51b5; }
+              50% { border-color: #f50057; }
+              100% { border-color: #3f51b5; }
+            }
+            @keyframes scanLine {
+              0% { top: -50px; }
+              100% { top: calc(100%); }
+            }
+          `}
+        </style>
+        <Card sx={{ mx: "auto", maxWidth: 600 }}>
+          <CardContent>
+            <Box sx={{ p: 3 }}>
+              <Typography variant="h5" gutterBottom>
+                Ajouter un produit
               </Typography>
-            )}
-            <Box
-              sx={{
-                width: "100%",
-                height: "100%",
-                mt: 2,
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                overflow: "hidden",
-              }}
-            >
-              {scanning ? (
-                // Modification : affichage de la vidéo avec overlay de balayage
-                <Box
-                  sx={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                >
-                  <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    videoConstraints={{ facingMode: "environment" }}
-                    mirrored={true}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  {/* Overlay du balayage vertical */}
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  label="Numéro de série"
+                  value={serialNumber}
+                  onChange={(e) => setSerialNumber(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+                <TextField
+                  label="Numéro de commande"
+                  value={orderNumber}
+                  onChange={(e) => setOrderNumber(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+                <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+                  Soumettre
+                </Button>
+              </form>
+              {scanError && (
+                <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                  {scanError}
+                </Typography>
+              )}
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  mt: 2,
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  overflow: "hidden",
+                }}
+              >
+                {scanning ? (
+                  // Modification : affichage de la vidéo avec overlay de balayage
                   <Box
                     sx={{
-                      position: "absolute",
-                      left: 0,
+                      position: "relative",
                       width: "100%",
-                      height: "50px",
-                      background:
-                        "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%)",
-                      animation: "scanLine 2s linear infinite",
+                      height: "100%",
                     }}
-                  />
-                  <IconButton
+                  >
+                    <Webcam
+                      audio={false}
+                      ref={webcamRef}
+                      screenshotFormat="image/jpeg"
+                      videoConstraints={{ facingMode: "environment" }}
+                      mirrored={true}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                    {/* Overlay du balayage vertical */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: 0,
+                        width: "100%",
+                        height: "50px",
+                        background:
+                          "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%)",
+                        animation: "scanLine 2s linear infinite",
+                      }}
+                    />
+                    <IconButton
+                      onClick={() => {
+                        setScanning(false);
+                        setScanError(null);
+                      }}
+                      sx={{
+                        position: "absolute",
+                        top: 10,
+                        right: 10,
+                        backgroundColor: "rgba(255,255,255,0.7)",
+                        "&:hover": { backgroundColor: "rgba(255,255,255,0.9)" },
+                      }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
+                ) : (
+                  <Button
                     onClick={() => {
-                      setScanning(false);
+                      setScanning(true);
                       setScanError(null);
                     }}
                     sx={{
-                      position: "absolute",
-                      top: 10,
-                      right: 10,
-                      backgroundColor: "rgba(255,255,255,0.7)",
-                      "&:hover": { backgroundColor: "rgba(255,255,255,0.9)" },
+                      borderRadius: "50%",
+                      width: 60,
+                      height: 60,
+                      minWidth: 0,
                     }}
                   >
-                    <CloseIcon />
-                  </IconButton>
-                </Box>
-              ) : (
-                <Button
-                  onClick={() => {
-                    setScanning(true);
-                    setScanError(null);
-                  }}
-                  sx={{
-                    borderRadius: "50%",
-                    width: 60,
-                    height: 60,
-                    minWidth: 0,
-                  }}
-                >
-                  <CameraAltIcon fontSize="large" />
-                </Button>
-              )}
+                    <CameraAltIcon fontSize="large" />
+                  </Button>
+                )}
+              </Box>
             </Box>
-          </Box>
-        </CardContent>
-      </Card>
-    </Container>
-  );
+          </CardContent>
+        </Card>
+      </Container>
+    );
+  }
+
+  return content;
 }
