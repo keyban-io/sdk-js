@@ -13,7 +13,9 @@ const apiUrl = {
 const keybanConfig = {
   apiUrl,
   appId,
-  chain: KeybanChain.EthereumAnvil,
+  chain: window.location.origin === "https://dpp-app.beta.keyban.fr"
+    ? KeybanChain.PolygonAmoy
+    : KeybanChain.EthereumAnvil,
   clientShareProvider: new KeybanClientShareProvider(),
 };
 
