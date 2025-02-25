@@ -35,7 +35,7 @@ export default function Login() {
   return (
     <SignIn
       enableGoogleAuth={true}
-      enableLoginPasswordAuth={true}
+      enableLoginPasswordAuth={false}
       enableFacebookAuth={false}
       language="fr"
       sitemarkIcon={SitemarkIcon}
