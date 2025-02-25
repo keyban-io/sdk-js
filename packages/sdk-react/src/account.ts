@@ -784,8 +784,8 @@ export function useKeybanAccountTransferHistory(
                 node: entity,
               },
               ({ node }) =>
-                node!.transaction!.blockNumber >
-                entity.transaction!.blockNumber,
+                BigInt(node!.transaction!.blockNumber) >
+                BigInt(entity.transaction!.blockNumber),
             ),
           };
         },
