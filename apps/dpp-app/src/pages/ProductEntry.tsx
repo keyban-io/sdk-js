@@ -99,7 +99,7 @@ export default function ProductEntry() {
   } else {
     content = (
       <Container disableGutters>
-        {/* Ajout de la définition de l'animation pour le scan */}
+        {/* Définition des animations pour le scan */}
         <style>
           {`
             @keyframes pulse {
@@ -118,6 +118,18 @@ export default function ProductEntry() {
             <Box sx={{ p: 3 }}>
               <Typography variant="h5" gutterBottom>
                 Ajouter un produit
+              </Typography>
+              {/* Message d'accueil et instructions pour la première utilisation */}
+              {nfts.nodes.length === 0 && (
+                <Typography variant="body1" gutterBottom>
+                  Bienvenue sur votre espace produit. Vous n'avez pas encore de
+                  produit associé à votre compte.
+                </Typography>
+              )}
+              <Typography variant="body1" gutterBottom>
+                Pour ajouter un produit, vous pouvez soit remplir les
+                informations manuellement ci-dessous, soit utiliser la caméra
+                pour scanner le code QR de votre produit.
               </Typography>
               <form onSubmit={handleSubmit}>
                 <TextField
@@ -156,7 +168,6 @@ export default function ProductEntry() {
                 }}
               >
                 {scanning ? (
-                  // Modification : affichage de la vidéo avec overlay de balayage
                   <Box
                     sx={{
                       position: "relative",
@@ -176,7 +187,7 @@ export default function ProductEntry() {
                         objectFit: "cover",
                       }}
                     />
-                    {/* Overlay du balayage vertical */}
+                    {/* Overlay du balayage vertical avec message d'instruction */}
                     <Box
                       sx={{
                         position: "absolute",
@@ -188,6 +199,21 @@ export default function ProductEntry() {
                         animation: "scanLine 2s linear infinite",
                       }}
                     />
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        position: "absolute",
+                        bottom: 20,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        color: "#fff",
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      Placez le code QR dans le cadre
+                    </Typography>
                     <IconButton
                       onClick={() => {
                         setScanning(false);
@@ -200,6 +226,7 @@ export default function ProductEntry() {
                         backgroundColor: "rgba(255,255,255,0.7)",
                         "&:hover": { backgroundColor: "rgba(255,255,255,0.9)" },
                       }}
+                      aria-label="Arrêter le scan"
                     >
                       <CloseIcon />
                     </IconButton>
@@ -216,6 +243,7 @@ export default function ProductEntry() {
                       height: 60,
                       minWidth: 0,
                     }}
+                    aria-label="Activer la caméra pour scanner le produit"
                   >
                     <CameraAltIcon fontSize="large" />
                   </Button>
