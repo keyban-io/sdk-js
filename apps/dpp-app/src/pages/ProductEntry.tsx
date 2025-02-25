@@ -75,6 +75,20 @@ export default function ProductEntry() {
 
   return (
     <Container disableGutters>
+      {/* Ajout de la définition de l'animation pour le scan */}
+      <style>
+        {`
+          @keyframes pulse {
+            0% { border-color: #3f51b5; }
+            50% { border-color: #f50057; }
+            100% { border-color: #3f51b5; }
+          }
+          @keyframes scanLine {
+            0% { top: -50px; }
+            100% { top: calc(100%); }
+          }
+        `}
+      </style>
       <Card sx={{ mx: "auto", maxWidth: 600 }}>
         <CardContent>
           <Box sx={{ p: 3 }}>
@@ -109,7 +123,6 @@ export default function ProductEntry() {
               sx={{
                 width: "100%",
                 height: "100%",
-                borderRadius: 3,
                 mt: 2,
                 position: "relative",
                 display: "flex",
@@ -119,18 +132,36 @@ export default function ProductEntry() {
               }}
             >
               {scanning ? (
+                // Modification : affichage de la vidéo avec overlay de balayage
                 <Box
-                  sx={{ position: "relative", width: "100%", height: "100%" }}
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    height: "100%",
+                  }}
                 >
                   <Webcam
                     audio={false}
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
                     videoConstraints={{ facingMode: "environment" }}
+                    mirrored={true}
                     style={{
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
+                    }}
+                  />
+                  {/* Overlay du balayage vertical */}
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      left: 0,
+                      width: "100%",
+                      height: "50px",
+                      background:
+                        "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%)",
+                      animation: "scanLine 2s linear infinite",
                     }}
                   />
                   <IconButton
