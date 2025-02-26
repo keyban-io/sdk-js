@@ -137,6 +137,6 @@ create-keyban-app:
 
 get-starknet-contracts:
     FROM scratch
-    COPY ../blockchain/starknet/contracts/+build/artifacts/contracts_EthAccount.contract_class.json ./artifacts/account.contract_class.json
-    COPY ../blockchain/starknet/contracts/+build/artifacts/contracts_EthAccount.compiled_contract_class.json ./artifacts/account.compiled_contract_class.json
+    COPY ../blockchain/starknet/contracts/+build/artifacts/contracts_KeybanEthAccount.contract_class.json ./artifacts/account.contract_class.json
+    COPY ../blockchain/starknet/contracts/+build/artifacts/contracts_KeybanEthAccount.compiled_contract_class.json ./artifacts/account.compiled_contract_class.json
     SAVE ARTIFACT ./artifacts AS LOCAL ./packages/sdk-base/contracts/starknet
