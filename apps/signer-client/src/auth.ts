@@ -48,6 +48,14 @@ export class KeybanAuth implements IKeybanAuth {
 
   async getUser() {
     const auth0 = await this.#auth0;
+
+    // We're using the same Auth0 app for multiple audiences, don't
+    // assume user is connected just because we have an id_token
+    // (which might come from another Keyban app). Check we also have
+    // a valid access_token
+    const token = await this.getToken().catch(() => null);
+    if (!token) return null;
+
     const user = await auth0.getUser<KeybanUser>();
     return user ?? null;
   }
