@@ -1,4 +1,4 @@
-import { Auth0Client } from "@auth0/auth0-spa-js";
+import { Auth0Client, createAuth0Client } from "@auth0/auth0-spa-js";
 import { AuthConnection, KeybanBaseError, KeybanUser } from "@keyban/sdk-base";
 import { IKeybanAuth } from "@keyban/sdk-base/rpc";
 
@@ -14,8 +14,8 @@ export class KeybanAuth implements IKeybanAuth {
 
     this.#auth0 = fetch(apiUrl("/v1/metadata"))
       .then((res) => res.json())
-      .then(({ auth }) => {
-        return new Auth0Client({
+      .then(async ({ auth }) =>
+        createAuth0Client({
           ...auth,
           useRefreshTokens: true,
           cacheLocation: "localstorage",
@@ -24,8 +24,8 @@ export class KeybanAuth implements IKeybanAuth {
             audience: audienceUrl.toString(),
             redirect_uri: apiUrl("/signer-client/login").toString(),
           },
-        });
-      });
+        }),
+      );
 
     window.addEventListener(
       "message",
