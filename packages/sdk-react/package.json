@@ -52,8 +52,8 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@keyban/sdk-base": "workspace:*",
-    "@mui/icons-material": "^6.4.5",
-    "@mui/material": "^6.4.5"
+    "@mui/icons-material": "^6.4.6",
+    "@mui/material": "^6.4.6"
   },
   "peerDependencies": {
     "react": ">=19"
