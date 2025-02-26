@@ -23,7 +23,7 @@ update-lock-file:
     DO ../+USEPNPM
 
     WORKDIR /app
-    COPY package.json .
+    COPY package.json pnpm-workspace.yaml .
     DO +GET_PACKAGE_JSON
     COPY ./apps/waas-demo/package.json  ./apps/waas-demo/
     COPY ./apps/web-app/package.json    ./apps/web-app/
