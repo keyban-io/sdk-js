@@ -11,7 +11,6 @@ get-ecdsa-wasm:
 
 GET_PACKAGE_JSON:
     FUNCTION
-    COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
     COPY +get-ecdsa-wasm/pkg/package.json           ./packages/ecdsa-wasm-client/
     COPY ./packages/sdk-base/package.json           ./packages/sdk-base/
     COPY --dir +get-starknet-contracts/artifacts    ./packages/sdk-base/contracts/starknet
@@ -24,7 +23,7 @@ update-lock-file:
     DO ../+USEPNPM
 
     WORKDIR /app
-
+    COPY package.json .
     DO +GET_PACKAGE_JSON
     COPY ./apps/waas-demo/package.json  ./apps/waas-demo/
     COPY ./apps/web-app/package.json    ./apps/web-app/
@@ -39,6 +38,7 @@ sdk-build:
 
     WORKDIR /app
 
+    COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
     DO +GET_PACKAGE_JSON
 
     RUN pnpm install --silent
