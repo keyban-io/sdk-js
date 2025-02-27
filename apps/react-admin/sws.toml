@@ -1,0 +1,19 @@
+[general]
+
+port = 4200
+root = "/public"
+log-level = "info"
+cache-control-headers = false
+# we want to serve the pre-compressed files, but don't want to compress them on the fly
+compression = false
+compression-static = true
+cors-allow-origins = "*"
+health = true
+
+[advanced]
+[[advanced.headers]]
+source = "**/*"
+headers.Cache-Control = "public, max-age=0, must-revalidate"
+[[advanced.headers]]
+source = "**/*.{js,css,woff2,ttf,svg,jpg,jpeg,png,ico,gif,wasm}"
+headers.Cache-Control = "public, max-age=3600, immutable"

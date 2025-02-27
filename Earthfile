@@ -39,9 +39,10 @@ update-lock-file:
     WORKDIR /app
     COPY package.json pnpm-workspace.yaml .
     DO +GET_PACKAGE_JSON
-    COPY ./apps/waas-demo/package.json  ./apps/waas-demo/
-    COPY ./apps/web-app/package.json    ./apps/web-app/
-    COPY ./apps/dpp-app/package.json    ./apps/dpp-app/
+    COPY ./apps/waas-demo/package.json   ./apps/waas-demo/
+    COPY ./apps/web-app/package.json     ./apps/web-app/
+    COPY ./apps/dpp-app/package.json     ./apps/dpp-app/
+    COPY ./apps/react-admin/package.json ./apps/react-admin/
 
     RUN pnpm install --silent
     SAVE ARTIFACT pnpm-lock.yaml AS LOCAL pnpm-lock.yaml
