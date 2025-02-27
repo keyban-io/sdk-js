@@ -28,6 +28,7 @@ export default function KeybanTest() {
     KeybanChain.StarknetDevnet,
     KeybanChain.StarknetSepolia,
   ].includes(client.chain);
+  const isStarknetDevnet = client.chain === KeybanChain.StarknetDevnet;
 
   const [init, setInit] = React.useState(false);
 
@@ -52,14 +53,14 @@ export default function KeybanTest() {
         <>
           {wrapSuspense(WalletInfo)}
           {wrapSuspense(Signature)}
-          {!isStarknet && wrapSuspense(Balance)}
-          {!isStarknet && wrapSuspense(NativeTransfer)}
+          {wrapSuspense(Balance)}
+          {!isStarknetDevnet && wrapSuspense(NativeTransfer)}
           {!isStarknet && wrapSuspense(TokenBalances)}
           {!isStarknet && wrapSuspense(ERC20Transfer)}
           {!isStarknet && wrapSuspense(Nft)}
           {!isStarknet && wrapSuspense(NftFetch)}
           {!isStarknet && wrapSuspense(NftTransfer)}
-          {!isStarknet && wrapSuspense(TransferHistory)}
+          {!isStarknetDevnet && wrapSuspense(TransferHistory)}
         </>
       )}
     </>
