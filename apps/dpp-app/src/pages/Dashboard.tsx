@@ -6,6 +6,7 @@ import {
   CardContent,
   Stack,
   CircularProgress,
+  Button, // Ajout du Button MUI
 } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import Grid2 from "@mui/material/Grid2";
@@ -85,9 +86,20 @@ export default function Dashboard() {
             })}
           </Grid2>
           {nfts.hasNextPage && (
-            <button onClick={fetchMore} disabled={loading}>
+            <Button
+              variant="outlined"
+              onClick={fetchMore}
+              disabled={loading}
+              sx={{
+                mt: 2,
+                width: "100%",
+                borderRadius: "16px",
+                height: "56px",
+                backgroundColor: "var(--mui-palette-background-paper)",
+              }}
+            >
               {loading ? "Loading..." : "Load More"}
-            </button>
+            </Button>
           )}
         </CardContent>
       </Card>
