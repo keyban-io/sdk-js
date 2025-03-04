@@ -44,7 +44,15 @@ const ActionButtons = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", width: "100%", gap: 2, mt: 2 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", sm: "row" }, // responsive: vertical on xs, horizontal on sm+
+        width: "100%",
+        gap: 1,
+        mt: 2,
+      }}
+    >
       <Button
         variant="outlined"
         sx={{
@@ -220,7 +228,15 @@ export default function ProductDetails() {
   };
 
   return (
-    <Container sx={{ pb: 4, position: "relative" }} disableGutters>
+    <Container
+      maxWidth="md"
+      sx={{
+        pb: 4,
+        position: "relative",
+        px: { xs: 2, md: 0 }, // padding horizontal responsive
+      }}
+      disableGutters
+    >
       <Card
         sx={{
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
@@ -244,7 +260,7 @@ export default function ProductDetails() {
           borderRadius: "16px",
           position: "relative",
           zIndex: 1,
-          mt: -4,
+          mt: { xs: 2, md: -4 }, // margin-top responsive
         }}
       >
         <CardContent
