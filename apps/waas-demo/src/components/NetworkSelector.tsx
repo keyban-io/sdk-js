@@ -26,7 +26,9 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
 
   const availableChains = shouldExcludeDevChains
     ? Object.values(KeybanChain).filter(
-        (chain) => chain !== "EthereumAnvil" && chain !== "StarknetDevnet",
+        (chain) =>
+          chain !== KeybanChain.EthereumAnvil &&
+          chain !== KeybanChain.StarknetDevnet,
       )
     : Object.values(KeybanChain);
 

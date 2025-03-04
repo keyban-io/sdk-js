@@ -1,1 +1,1 @@
-export { StarknetDevnetClient } from "./client";
+export { StarknetClient } from "./client";

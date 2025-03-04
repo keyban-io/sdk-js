@@ -411,13 +411,13 @@ export class KeybanClient extends KeybanClientBase {
         ),
       [KeybanChain.StarknetDevnet]: () =>
         import("~/starknet").then(
-          ({ StarknetDevnetClient }) =>
-            new StarknetDevnetClient(config, this.metadataConfig),
+          ({ StarknetClient }) =>
+            new StarknetClient(config, this.metadataConfig),
         ),
       [KeybanChain.StarknetSepolia]: () =>
         import("~/starknet").then(
-          ({ StarknetDevnetClient }) =>
-            new StarknetDevnetClient(config, this.metadataConfig),
+          ({ StarknetClient }) =>
+            new StarknetClient(config, this.metadataConfig),
         ),
     }[this.chain]();
   }
