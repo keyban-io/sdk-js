@@ -216,11 +216,11 @@ export abstract class KeybanClientBase {
         decimals: 9,
       },
       [KeybanChain.StarknetDevnet]: {
-        symbol: "STRK",
+        symbol: "FRI",
         decimals: 18,
       },
       [KeybanChain.StarknetSepolia]: {
-        symbol: "STRK",
+        symbol: "FRI",
         decimals: 18,
       },
     }[this.chain];
