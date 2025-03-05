@@ -43,6 +43,7 @@ update-lock-file:
     COPY ./apps/web-app/package.json     ./apps/web-app/
     COPY ./apps/dpp-app/package.json     ./apps/dpp-app/
     COPY ./apps/react-admin/package.json ./apps/react-admin/
+    COPY ./apps/refine-admin/package.json ./apps/refine-admin/
 
     RUN pnpm install --silent
     SAVE ARTIFACT pnpm-lock.yaml AS LOCAL pnpm-lock.yaml
