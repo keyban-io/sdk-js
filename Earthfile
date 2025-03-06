@@ -63,7 +63,7 @@ sdk-release-ga:
     WORKDIR ./packages/$package
     RUN pnpm version $version --git-tag-version=false
     RUN --no-cache --secret BWS_ACCESS_TOKEN \
-        ENV=prod /bws/runwithsecrets 'NPM_TOKEN' \
+        /bws/runwithsecrets 'prod' \
         sh -c 'pnpm set //registry.npmjs.org/:_authToken $NPM_TOKEN'
     RUN --no-cache pnpm publish --no-git-checks
 
