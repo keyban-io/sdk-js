@@ -35,6 +35,7 @@ type CastFn<T> = T extends (...args: any[]) => any ? T : never;
 interface IRpc {
   auth: IKeybanAuth;
   ecdsa: IKeybanSigner;
+  eddsa: IKeybanSigner;
   clientShareStorage: IKeybanClientShareStorage;
 }
 
@@ -67,6 +68,7 @@ type RpcResult<
 export class RpcServer implements IRpc {
   auth!: IKeybanAuth;
   ecdsa!: IKeybanSigner;
+  eddsa!: IKeybanSigner;
   clientShareStorage!: IKeybanClientShareStorage;
 
   domains: Promise<string[]>;
@@ -96,6 +98,11 @@ export class RpcServer implements IRpc {
       getLogoutUrl: true,
     },
     ecdsa: {
+      dkg: true,
+      sign: true,
+      publicKey: true,
+    },
+    eddsa: {
       dkg: true,
       sign: true,
       publicKey: true,

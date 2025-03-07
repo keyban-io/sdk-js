@@ -9,9 +9,23 @@ get-ecdsa-wasm:
     SAVE ARTIFACT /pkg/wasm_exec.js AS LOCAL ./packages/ecdsa-wasm-client/wasm_exec.js
     SAVE ARTIFACT /pkg
 
+get-eddsa-wasm:
+    FROM scratch
+    COPY ./packages/eddsa-wasm-client/* /pkg/
+    COPY ../signers/eddsa/wasm-client+wasm/pkg/eddsa_wasm_client_bg.wasm /pkg/
+    COPY ../signers/eddsa/wasm-client+wasm/pkg/eddsa_wasm_client_bg.wasm.d.ts /pkg/
+    COPY ../signers/eddsa/wasm-client+wasm/pkg/eddsa_wasm_client.d.ts /pkg/
+    COPY ../signers/eddsa/wasm-client+wasm/pkg/eddsa_wasm_client.js /pkg/
+    SAVE ARTIFACT /pkg/eddsa_wasm_client_bg.wasm AS LOCAL ./packages/eddsa-wasm-client/eddsa_wasm_client_bg.wasm
+    SAVE ARTIFACT /pkg/eddsa_wasm_client_bg.wasm.d.ts AS LOCAL ./packages/eddsa-wasm-client/eddsa_wasm_client_bg.wasm.d.ts
+    SAVE ARTIFACT /pkg/eddsa_wasm_client.d.ts AS LOCAL ./packages/eddsa-wasm-client/eddsa_wasm_client.d.ts
+    SAVE ARTIFACT /pkg/eddsa_wasm_client.js AS LOCAL ./packages/eddsa-wasm-client/eddsa_wasm_client.js
+    SAVE ARTIFACT /pkg
+
 GET_PACKAGE_JSON:
     FUNCTION
     COPY +get-ecdsa-wasm/pkg/package.json           ./packages/ecdsa-wasm-client/
+    COPY +get-eddsa-wasm/pkg/package.json           ./packages/eddsa-wasm-client/
     COPY ./packages/sdk-base/package.json           ./packages/sdk-base/
     COPY --dir +get-starknet-contracts/artifacts    ./packages/sdk-base/contracts/starknet
     COPY ./packages/sdk-react/package.json          ./packages/sdk-react/
@@ -44,6 +58,7 @@ sdk-build:
     RUN pnpm install --silent
 
     COPY +get-ecdsa-wasm/pkg/*          ./packages/ecdsa-wasm-client
+    COPY +get-eddsa-wasm/pkg/*          ./packages/eddsa-wasm-client
     COPY ./packages/sdk-base            ./packages/sdk-base
     COPY ./packages/sdk-react           ./packages/sdk-react
     COPY ./packages/mui-theme           ./packages/mui-theme

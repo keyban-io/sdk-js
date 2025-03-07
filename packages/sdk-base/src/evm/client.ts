@@ -38,6 +38,7 @@ export class KeybanEvmClient extends KeybanClientBase {
       [KeybanChain.PolygonAmoy]: chains.polygonAmoy,
       [KeybanChain.StarknetDevnet]: null,
       [KeybanChain.StarknetSepolia]: null,
+      [KeybanChain.StellarTestnet]: null,
     }[this.chain]!;
 
     const publicClient = transport.then((transport) =>

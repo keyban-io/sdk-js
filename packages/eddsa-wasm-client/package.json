@@ -1,0 +1,47 @@
+{
+  "name": "@keyban/eddsa-wasm-client",
+  "version": "0.0.0",
+  "homepage": "https://docs.beta.keyban.io/",
+  "author": {
+    "name": "Keyban",
+    "email": "it@keyban.io",
+    "url": "https://keyban.io"
+  },
+  "license": "Apache-2.0",
+  "type": "module",
+  "types": "eddsa_wasm_client.d.ts",
+  "module": "eddsa_wasm_client.js",
+  "exports": {
+    ".": {
+      "types": "./eddsa_wasm_client.d.ts",
+      "import": "./eddsa_wasm_client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "eddsa_wasm_client_bg.wasm",
+    "eddsa_wasm_client_bg.wasm.d.ts",
+    "eddsa_wasm_client.d.ts",
+    "eddsa_wasm_client.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "pnpm lint --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.25.0"
+  }
+}

@@ -165,6 +165,7 @@ export abstract class KeybanClientBase {
       [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
       [KeybanChain.StarknetDevnet]: "subql-starknet-devnet.",
       [KeybanChain.StarknetSepolia]: "subql-starknet-sepolia.",
+      [KeybanChain.StellarTestnet]: "subql-stellar-testnet.",
     }[this.chain];
     this.apolloClient = createApolloClient(
       new URL(this.apiUrl.origin.replace("api.", indexerPrefix)),
@@ -202,6 +203,11 @@ export abstract class KeybanClientBase {
         symbol: "STRK",
         decimals: 18,
       },
+      [KeybanChain.StellarTestnet]: {
+        name: "Stellar Token",
+        symbol: "XLM",
+        decimals: 6,
+      },
     }[this.chain];
   }
 
@@ -222,6 +228,10 @@ export abstract class KeybanClientBase {
       [KeybanChain.StarknetSepolia]: {
         symbol: "FRI",
         decimals: 18,
+      },
+      [KeybanChain.StellarTestnet]: {
+        symbol: "stroop",
+        decimals: 6,
       },
     }[this.chain];
   }
@@ -418,6 +428,10 @@ export class KeybanClient extends KeybanClientBase {
         import("~/starknet").then(
           ({ StarknetClient }) =>
             new StarknetClient(config, this.metadataConfig),
+        ),
+      [KeybanChain.StellarTestnet]: () =>
+        import("~/stellar").then(
+          ({ StellarClient }) => new StellarClient(config, this.metadataConfig),
         ),
     }[this.chain]();
   }
