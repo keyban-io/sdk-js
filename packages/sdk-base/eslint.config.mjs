@@ -1,9 +1,9 @@
 import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import jsdoc from "eslint-plugin-jsdoc";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-import jsdoc from "eslint-plugin-jsdoc";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   jsdoc.configs["flat/recommended-typescript"],
@@ -14,7 +14,7 @@ export default tseslint.config(
       ...tseslint.configs.recommended,
       eslintPluginPrettierRecommended,
     ],
-    files: ["**/*.{ts,tsx}"],
+    files: ["src/**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -25,7 +25,6 @@ export default tseslint.config(
       "simple-import-sort/exports": "warn",
       "jsdoc/require-description": "warn",
       "jsdoc/require-hyphen-before-param-description": "warn",
-      "jsdoc/check-tag-names": ["error", { typed: true }],
       "jsdoc/check-tag-names": ["error", { definedTags: ["remarks"] }],
     },
   },

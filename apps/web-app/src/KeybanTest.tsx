@@ -54,11 +54,11 @@ export default function KeybanTest() {
           {wrapSuspense(Signature)}
           {wrapSuspense(Balance)}
           {wrapSuspense(NativeTransfer)}
-          {!isStarknet && wrapSuspense(TokenBalances)}
-          {!isStarknet && wrapSuspense(ERC20Transfer)}
-          {!isStarknet && wrapSuspense(Nft)}
-          {!isStarknet && wrapSuspense(NftFetch)}
-          {!isStarknet && wrapSuspense(NftTransfer)}
+          {wrapSuspense(TokenBalances)}
+          {wrapSuspense(ERC20Transfer)}
+          {wrapSuspense(Nft)}
+          {wrapSuspense(NftFetch)}
+          {wrapSuspense(NftTransfer)}
           {wrapSuspense(TransferHistory)}
         </>
       )}
