@@ -11,12 +11,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-
-const data = [
-  { name: "Consultation", value: 4700 },
-  { name: "Modification", value: 4700 },
-  { name: "Transfer", value: 4700 },
-];
+import { revenueSourcesPieData } from "../dashboardData"; // added import
 
 export const RevenueSourcesPie: React.FC = () => {
   const theme = useTheme();
@@ -34,7 +29,7 @@ export const RevenueSourcesPie: React.FC = () => {
       <ResponsiveContainer width="100%" height={270} minHeight={270}>
         <PieChart>
           <Pie
-            data={data}
+            data={revenueSourcesPieData} // using imported data
             cx="50%"
             cy="50%"
             innerRadius={50}
@@ -43,7 +38,7 @@ export const RevenueSourcesPie: React.FC = () => {
             dataKey="value"
             label={({ value }) => `${value}€`}
           >
-            {data.map((_, index) => (
+            {revenueSourcesPieData.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={colors[index % colors.length]}

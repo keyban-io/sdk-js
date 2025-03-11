@@ -3,15 +3,13 @@ import ShareIcon from "@mui/icons-material/Share";
 import DownloadIcon from "@mui/icons-material/Download";
 import Grid2 from "@mui/material/Grid2";
 import TimeFrameSelector from "../components/TimeFrameSelector";
-import { UsersChart } from "../components/UsersChart";
-import { TPPsChart } from "../components/TPPsChart";
-import { TotalTPPCount } from "../components/TotalTPPCount"; // Ajout de l'import du composant TPPCountnt
-import { TotalUsers } from "../components/TotalUsers"; // Ajout de l'import du composant TPPCount
-import { TPPsDisplayed } from "../components/TPPsDisplayed"; // Ajout de l'import du composant TPPsDisplayed
-import { TPPsPerUser } from "../components/TPPsPerUser";
+import { RevenuesChart } from "../components/RevenuesChart";
+import { RevenueSourcesPie } from "../components/RevenueSourcesPie";
+import { RevenueKPIs } from "../components/RevenueKPIs";
+import { DetailedReport } from "../components/DetailedReport";
 import { TimeFrameProvider } from "../providers/TimeFrameProvider";
 
-export default function Dashboard() {
+export default function ProductRevenue() {
   return (
     <TimeFrameProvider>
       <Box>
@@ -49,25 +47,19 @@ export default function Dashboard() {
           </Stack>
         </Box>
         <Grid2 container spacing={2}>
-          <Grid2 size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
-            <UsersChart />
+          <Grid2 size={{ xs: 12, sm: 4 }} sx={{ display: "flex" }}>
+            <RevenuesChart />
           </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
-            <TotalUsers />
+          <Grid2 size={{ xs: 12, sm: 4 }} sx={{ display: "flex" }}>
+            <RevenueSourcesPie />
           </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
-            <TPPsChart />
-          </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
-            <TotalTPPCount />
-          </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
-            <TPPsDisplayed />
-          </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6 }} sx={{ display: "flex" }}>
-            <TPPsPerUser />
+          <Grid2 size={{ xs: 12, sm: 4 }} sx={{ display: "flex" }}>
+            <RevenueKPIs />
           </Grid2>
         </Grid2>
+        <Box mt={2}>
+          <DetailedReport />
+        </Box>
       </Box>
     </TimeFrameProvider>
   );

@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useTimeFrame } from "../hooks/useTimeFrame";
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 // ...existing code or imports if necessary...
 const TimeFrameSelector: React.FC = () => {
-  const [alignment, setAlignment] = useState("week");
+  const { timeFrame, setTimeFrame } = useTimeFrame();
 
   const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null,
+    _event: React.MouseEvent<HTMLElement>,
+    newAlignment: "days" | "weeks" | "months" | "years" | "overall" | null,
   ) => {
     if (newAlignment !== null) {
-      setAlignment(newAlignment);
+      setTimeFrame(newAlignment);
     }
   };
 
@@ -28,7 +28,7 @@ const TimeFrameSelector: React.FC = () => {
       }}
     >
       <ToggleButtonGroup
-        value={alignment}
+        value={timeFrame}
         exclusive
         onChange={handleChange}
         sx={{
@@ -39,7 +39,7 @@ const TimeFrameSelector: React.FC = () => {
         }}
       >
         <ToggleButton
-          value="week"
+          value="days"
           sx={{
             borderRadius: 3,
             px: 2,
@@ -51,10 +51,10 @@ const TimeFrameSelector: React.FC = () => {
             },
           }}
         >
-          Week
+          Days
         </ToggleButton>
         <ToggleButton
-          value="month"
+          value="weeks"
           sx={{
             borderRadius: 3,
             px: 2,
@@ -66,10 +66,10 @@ const TimeFrameSelector: React.FC = () => {
             },
           }}
         >
-          Month
+          Weeks
         </ToggleButton>
         <ToggleButton
-          value="semester"
+          value="months"
           sx={{
             borderRadius: 3,
             px: 2,
@@ -81,10 +81,10 @@ const TimeFrameSelector: React.FC = () => {
             },
           }}
         >
-          Semester
+          Months
         </ToggleButton>
         <ToggleButton
-          value="year"
+          value="years"
           sx={{
             borderRadius: 3,
             px: 2,
@@ -96,7 +96,22 @@ const TimeFrameSelector: React.FC = () => {
             },
           }}
         >
-          Year
+          Years
+        </ToggleButton>
+        <ToggleButton
+          value="overall"
+          sx={{
+            borderRadius: 3,
+            px: 2,
+            textTransform: "none",
+            "&.Mui-selected": {
+              bgcolor: "secondary.main",
+              color: "primary.contrastText",
+              "&:hover": { bgcolor: "secondary.main" },
+            },
+          }}
+        >
+          Overall
         </ToggleButton>
       </ToggleButtonGroup>
     </Box>

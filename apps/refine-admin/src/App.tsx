@@ -15,6 +15,7 @@ import GlobalStyles from "@mui/material/GlobalStyles";
 import { ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { Google as GoogleIcon } from "@mui/icons-material";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import { Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -24,7 +25,8 @@ import { lightThemeOptions } from "@keyban/mui-theme"; // Ajustez le chemin si n
 import { createTheme } from "@mui/material/styles";
 import { KeybanIcon } from "./components/KeybanIcon";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/Dashboard.tsx";
+import ProductRevenue from "./pages/ProductRevenue.tsx";
 
 export default function App() {
   const { isLoading, user, logout, getIdTokenClaims, loginWithPopup } =
@@ -95,6 +97,15 @@ export default function App() {
                   icon: <DashboardIcon />,
                 },
               },
+              {
+                name: "product-revenue",
+                list: "/product-revenue",
+                meta: {
+                  label: "Product Revenue",
+                  // Utilisation d'une icône adaptée pour Product Revenue
+                  icon: <MonetizationOnIcon />,
+                },
+              },
             ]}
             options={{
               syncWithLocation: true,
@@ -155,17 +166,17 @@ export default function App() {
                   }
                 />
                 {/* <Route
-                  path="/register"
-                  element={<AuthPage type="register" />}
-                />
-                <Route
-                  path="/update-password"
-                  element={<AuthPage type="updatePassword" />}
-                />
-                <Route
-                  path="/forgot-password"
-                  element={<AuthPage type="forgotPassword" />}
-                /> */}
+                path="/register"
+                element={<AuthPage type="register" />}
+              />
+              <Route
+                path="/update-password"
+                element={<AuthPage type="updatePassword" />}
+              />
+              <Route
+                path="/forgot-password"
+                element={<AuthPage type="forgotPassword" />}
+              /> */}
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
@@ -199,6 +210,8 @@ export default function App() {
                 >
                   {/* Route par défaut: Dashboard */}
                   <Route index element={<Dashboard />} />
+                  {/* Ajout de la route ProductRevenue */}
+                  <Route path="product-revenue" element={<ProductRevenue />} />
                   {/* Ajoute ici toutes tes routes protégées */}
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />

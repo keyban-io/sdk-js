@@ -11,11 +11,7 @@ import {
   Legend,
   Tooltip,
 } from "recharts";
-
-const data = [
-  { name: "Primary Market", value: 1000 },
-  { name: "Secondary Market", value: 750 },
-];
+import { revenueKPIsData } from "../dashboardData"; // updated import
 
 export const RevenueKPIs: React.FC = () => {
   const theme = useTheme();
@@ -29,14 +25,14 @@ export const RevenueKPIs: React.FC = () => {
       <ResponsiveContainer width="100%" height={270} minHeight={270}>
         <PieChart>
           <Pie
-            data={data}
+            data={revenueKPIsData}
             innerRadius={50}
             outerRadius={80}
             paddingAngle={5}
             dataKey="value"
             label={({ value }) => `${value}€`}
           >
-            {data.map((_, index) => (
+            {revenueKPIsData.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={colors[index % colors.length]}

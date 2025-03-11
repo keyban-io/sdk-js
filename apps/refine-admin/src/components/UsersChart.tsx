@@ -12,38 +12,36 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { revenuesChartData } from "../dashboardData";
+import { usersChartData } from "../dashboardData"; // updated import
 import { useTimeFrame } from "../hooks/useTimeFrame";
 
-type RevenueData = { date: string; revenue: number };
-
+// Fonction de mapping
 const mapTimeFrame = (tf: string) => {
   if (tf === "days") return "daily";
   if (tf === "weeks") return "weekly";
   if (tf === "months") return "monthly";
   if (tf === "years") return "yearly";
-  return "weekly";
+  return "weekly"; // overall par défaut
 };
 
-export const RevenuesChart: React.FC = () => {
-  const theme = useTheme();
+export const UsersChart: React.FC = () => {
   const { timeFrame } = useTimeFrame();
   const timeframeKey = mapTimeFrame(timeFrame);
-  // Cast the revenue data with an explicit type
+  const theme = useTheme();
+  // Ensure timeFrame is valid, fallback to "daily"
   const data =
-    (revenuesChartData[
-      timeframeKey as keyof typeof revenuesChartData
-    ] as RevenueData[]) || [];
+    usersChartData[timeframeKey as keyof typeof usersChartData] ||
+    usersChartData.daily;
 
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 4, width: "100%" }}>
       <Typography variant="h6" sx={{ mb: 2 }}>
-        Product service revenue over time
+        Evolution of the number of users
       </Typography>
       <ResponsiveContainer width="100%" height={270} minHeight={270}>
         <AreaChart data={data}>
           <defs>
-            <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
               <stop
                 offset="5%"
                 stopColor={theme.palette.primary.main}
@@ -58,18 +56,14 @@ export const RevenuesChart: React.FC = () => {
           </defs>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis dataKey="date" axisLine={false} tickLine={false} />
-          <YAxis
-            axisLine={false}
-            tickLine={false}
-            tickFormatter={(val) => `${val}€`}
-          />
-          <Tooltip formatter={(value: number) => `${value}€`} />
+          <YAxis axisLine={false} tickLine={false} />
+          <Tooltip formatter={(value: number) => value.toString()} />
           <Area
             type="monotone"
-            dataKey="revenue"
+            dataKey="users"
             stroke={theme.palette.primary.main}
             fillOpacity={1}
-            fill="url(#colorRevenue)"
+            fill="url(#colorUsers)"
           />
         </AreaChart>
       </ResponsiveContainer>
