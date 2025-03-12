@@ -11,6 +11,7 @@
     "lint:fix": "pnpm lint --fix"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.6.0",
     "@keyban/sdk-react": "workspace:*",
     "eventsource": "^3.0.5",
     "jose": "^5.10.0",

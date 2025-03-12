@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { useKeybanClient } from "@keyban/sdk-react";
 import { EventSource } from "eventsource";
 import React from "react";
@@ -20,20 +21,31 @@ type JobProgress = {
   }[];
 };
 
+function randomTppMetadata() {
+  return {
+    name: faker.commerce.product(),
+    image: faker.image.url(),
+    attributes: [
+      { trait_type: "Ean", value: faker.commerce.isbn({ separator: "" }) },
+      { trait_type: "Serial number", value: faker.string.uuid() },
+      { trait_type: "Product category", value: faker.commerce.department() },
+      { trait_type: "Brand", value: faker.company.name() },
+      { trait_type: "Model", value: faker.commerce.productName() },
+      { trait_type: "Color", value: faker.color.human() },
+    ],
+    external_url: faker.internet.url(),
+    creator: "Keyban | web-app",
+    blockchain: "Starknet",
+  };
+}
+
 export default function Tpp() {
   const { showBoundary } = useErrorBoundary();
   const client = useKeybanClient();
 
   const [apiKey, setApiKey] = React.useState("WEB-APP-API-KEY");
-  const [jsonl, setJsonl] = React.useState(
-    [
-      { id: "foo", url: "https://api.starknet.id/uri?id=0" },
-      { id: "bar", url: "https://api.starknet.id/uri?id=1" },
-      { id: "baz", url: "https://api.starknet.id/uri?id=2" },
-      { id: "qux", url: "https://api.starknet.id/uri?id=949683961492" },
-    ]
-      .map((data) => JSON.stringify(data))
-      .join("\n"),
+  const [jsonl, setJsonl] = React.useState(() =>
+    JSON.stringify(randomTppMetadata()),
   );
 
   const [jobId, setJobId] = React.useState<string | null>(null);
@@ -115,6 +127,10 @@ export default function Tpp() {
           data-test-id="Tpp:jsonl"
           style={{ flexGrow: 1 }}
         />
+
+        <button onClick={() => setJsonl(JSON.stringify(randomTppMetadata()))}>
+          Random
+        </button>
       </Row>
 
       <Row>
@@ -168,7 +184,7 @@ export default function Tpp() {
           <fieldset>
             <legend>Errors</legend>
             <SerializedValue
-              value={progress?.errors}
+              value={progress?.errors ?? []}
               style={{ flexGrow: 1 }}
               data-test-id="Tpp:progress:errors"
             />
@@ -177,7 +193,7 @@ export default function Tpp() {
           <fieldset>
             <legend>Results</legend>
             <SerializedValue
-              value={progress?.results}
+              value={progress?.results ?? []}
               style={{ flexGrow: 1 }}
               data-test-id="Tpp:results"
             />
