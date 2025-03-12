@@ -14,8 +14,8 @@ const keybanConfig = {
   apiUrl,
   appId,
   chain: window.location.origin === "https://dpp-app.beta.keyban.fr"
-    ? KeybanChain.PolygonAmoy
-    : KeybanChain.EthereumAnvil,
+    ? KeybanChain.StarknetSepolia
+    : KeybanChain.StarknetDevnet,
   clientShareProvider: new KeybanClientShareProvider(),
 };
 
