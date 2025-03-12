@@ -14,26 +14,16 @@ import {
   Legend,
 } from "recharts";
 import { tppsChartData } from "../../src/dashboardData";
-import { useTimeFrame } from "../hooks/useTimeFrame";
-
-const mapTimeFrame = (tf: string) => {
-  if (tf === "days") return "daily";
-  if (tf === "weeks") return "weekly";
-  if (tf === "months") return "monthly";
-  if (tf === "years") return "yearly";
-  return "weekly";
-};
+import { useTimeFrame } from "./TimeFrameSelector/useTimeFrame";
 
 type TppData = { date: string; TPPs: number; userTPPs: number };
 
 export const TPPsChart: React.FC = () => {
   const theme = useTheme();
   const { timeFrame } = useTimeFrame();
-  const timeframeKey = mapTimeFrame(timeFrame);
   // Cast the TPP data with an explicit type
   const data =
-    (tppsChartData[timeframeKey as keyof typeof tppsChartData] as TppData[]) ||
-    [];
+    (tppsChartData[timeFrame as keyof typeof tppsChartData] as TppData[]) || [];
 
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 4, width: "100%" }}>

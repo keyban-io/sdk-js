@@ -1,26 +1,16 @@
 import React from "react";
 import { Typography, Paper, Box } from "@mui/material";
 import { usersChartData } from "../dashboardData";
-import { useTimeFrame } from "../hooks/useTimeFrame";
-
-const mapTimeFrame = (tf: string) => {
-  if (tf === "days") return "daily";
-  if (tf === "weeks") return "weekly";
-  if (tf === "months") return "monthly";
-  if (tf === "years") return "yearly";
-  return "weekly";
-};
+import { useTimeFrame } from "./TimeFrameSelector/useTimeFrame";
 
 type UsersData = { date: string; users: number };
 
 export const TotalUsers: React.FC = () => {
   const { timeFrame } = useTimeFrame();
-  const timeframeKey = mapTimeFrame(timeFrame);
   // Cast the user data with an explicit type
   const data =
-    (usersChartData[
-      timeframeKey as keyof typeof usersChartData
-    ] as UsersData[]) || [];
+    (usersChartData[timeFrame as keyof typeof usersChartData] as UsersData[]) ||
+    [];
 
   const totalUsers = data.reduce(
     (sum: number, item: UsersData) => sum + item.users,

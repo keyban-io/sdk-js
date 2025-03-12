@@ -3,25 +3,15 @@
 import React from "react";
 import { Typography, Paper, Box } from "@mui/material";
 import { tppsChartData } from "../dashboardData";
-import { useTimeFrame } from "../hooks/useTimeFrame";
-
-const mapTimeFrame = (tf: string) => {
-  if (tf === "days") return "daily";
-  if (tf === "weeks") return "weekly";
-  if (tf === "months") return "monthly";
-  if (tf === "years") return "yearly";
-  return "weekly";
-};
+import { useTimeFrame } from "./TimeFrameSelector/useTimeFrame";
 
 type TppData = { date: string; TPPs: number; userTPPs: number };
 
 export const TotalTPPCount: React.FC = () => {
   const { timeFrame } = useTimeFrame();
-  const timeframeKey = mapTimeFrame(timeFrame);
   // Cast the TPP data with an explicit type
   const data =
-    (tppsChartData[timeframeKey as keyof typeof tppsChartData] as TppData[]) ||
-    [];
+    (tppsChartData[timeFrame as keyof typeof tppsChartData] as TppData[]) || [];
 
   const createdTPPs = data.reduce(
     (sum: number, item: TppData) => sum + item.TPPs,

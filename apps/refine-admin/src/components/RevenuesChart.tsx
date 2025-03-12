@@ -13,26 +13,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { revenuesChartData } from "../dashboardData";
-import { useTimeFrame } from "../hooks/useTimeFrame";
+import { useTimeFrame } from "./TimeFrameSelector/useTimeFrame";
 
 type RevenueData = { date: string; revenue: number };
-
-const mapTimeFrame = (tf: string) => {
-  if (tf === "days") return "daily";
-  if (tf === "weeks") return "weekly";
-  if (tf === "months") return "monthly";
-  if (tf === "years") return "yearly";
-  return "weekly";
-};
 
 export const RevenuesChart: React.FC = () => {
   const theme = useTheme();
   const { timeFrame } = useTimeFrame();
-  const timeframeKey = mapTimeFrame(timeFrame);
   // Cast the revenue data with an explicit type
   const data =
     (revenuesChartData[
-      timeframeKey as keyof typeof revenuesChartData
+      timeFrame as keyof typeof revenuesChartData
     ] as RevenueData[]) || [];
 
   return (

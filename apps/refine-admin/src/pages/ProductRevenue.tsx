@@ -2,12 +2,12 @@ import { Box, Button, Stack } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import DownloadIcon from "@mui/icons-material/Download";
 import Grid2 from "@mui/material/Grid2";
-import TimeFrameSelector from "../components/TimeFrameSelector";
+import TimeFrameSelector from "../components/TimeFrameSelector/TimeFrameSelector";
 import { RevenuesChart } from "../components/RevenuesChart";
 import { RevenueSourcesPie } from "../components/RevenueSourcesPie";
 import { RevenueKPIs } from "../components/RevenueKPIs";
 import { DetailedReport } from "../components/DetailedReport";
-import { TimeFrameProvider } from "../providers/TimeFrameProvider";
+import { TimeFrameProvider } from "../components/TimeFrameSelector/TimeFrameProvider";
 
 export default function ProductRevenue() {
   return (

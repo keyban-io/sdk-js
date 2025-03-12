@@ -2,14 +2,14 @@ import { Box, Button, Stack } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import DownloadIcon from "@mui/icons-material/Download";
 import Grid2 from "@mui/material/Grid2";
-import TimeFrameSelector from "../components/TimeFrameSelector";
+import TimeFrameSelector from "../components/TimeFrameSelector/TimeFrameSelector";
 import { UsersChart } from "../components/UsersChart";
 import { TPPsChart } from "../components/TPPsChart";
 import { TotalTPPCount } from "../components/TotalTPPCount"; // Ajout de l'import du composant TPPCountnt
 import { TotalUsers } from "../components/TotalUsers"; // Ajout de l'import du composant TPPCount
 import { TPPsDisplayed } from "../components/TPPsDisplayed"; // Ajout de l'import du composant TPPsDisplayed
 import { TPPsPerUser } from "../components/TPPsPerUser";
-import { TimeFrameProvider } from "../providers/TimeFrameProvider";
+import { TimeFrameProvider } from "../components/TimeFrameSelector/TimeFrameProvider";
 
 export default function Dashboard() {
   return (

@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { TimeFrameContextInternal } from "../context/TimeFrameContextInternal";
+import { TimeFrameContext } from "./TimeFrameContext";
 
 export const useTimeFrame = () => {
-  const context = useContext(TimeFrameContextInternal);
+  const context = useContext(TimeFrameContext);
   if (!context) {
     throw new Error("useTimeFrame must be used within a TimeFrameProvider");
   }

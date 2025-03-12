@@ -13,25 +13,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { usersChartData } from "../dashboardData"; // updated import
-import { useTimeFrame } from "../hooks/useTimeFrame";
-
-// Fonction de mapping
-const mapTimeFrame = (tf: string) => {
-  if (tf === "days") return "daily";
-  if (tf === "weeks") return "weekly";
-  if (tf === "months") return "monthly";
-  if (tf === "years") return "yearly";
-  return "weekly"; // overall par défaut
-};
+import { useTimeFrame } from "./TimeFrameSelector/useTimeFrame";
 
 export const UsersChart: React.FC = () => {
   const { timeFrame } = useTimeFrame();
-  const timeframeKey = mapTimeFrame(timeFrame);
   const theme = useTheme();
   // Ensure timeFrame is valid, fallback to "daily"
-  const data =
-    usersChartData[timeframeKey as keyof typeof usersChartData] ||
-    usersChartData.daily;
+  const data = usersChartData[timeFrame as keyof typeof usersChartData];
 
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 4, width: "100%" }}>

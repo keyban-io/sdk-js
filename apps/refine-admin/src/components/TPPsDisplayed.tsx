@@ -3,26 +3,15 @@
 import React from "react";
 import { Paper, Typography, Box } from "@mui/material";
 import { tppsChartData } from "../dashboardData";
-import { useTimeFrame } from "../hooks/useTimeFrame";
-
-// Fonction de mapping
-const mapTimeFrame = (tf: string) => {
-  if (tf === "days") return "daily";
-  if (tf === "weeks") return "weekly";
-  if (tf === "months") return "monthly";
-  if (tf === "years") return "yearly";
-  return "weekly"; // overall par défaut
-};
+import { useTimeFrame } from "./TimeFrameSelector/useTimeFrame";
 
 type TppData = { date: string; TPPs: number; userTPPs: number };
 
 export const TPPsDisplayed: React.FC = () => {
   const { timeFrame } = useTimeFrame();
-  const timeframeKey = mapTimeFrame(timeFrame);
   // Cast the TPP data with an explicit type
   const data =
-    (tppsChartData[timeframeKey as keyof typeof tppsChartData] as TppData[]) ||
-    [];
+    (tppsChartData[timeFrame as keyof typeof tppsChartData] as TppData[]) || [];
 
   // Use explicit type for items in reduce
   const tppOwned = data.reduce(
