@@ -7,6 +7,6 @@ export default defineConfig({
   server: {
     host: true,
     port: 4200,
-    allowedHosts: ["refine.admin.keyban.localtest.me"],
+    allowedHosts: ["refine-admin.keyban.localtest.me"],
   },
 })

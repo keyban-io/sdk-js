@@ -38,7 +38,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: true,
     port: 4200,
-    allowedHosts: ["react.admin.keyban.localtest.me"],
+    allowedHosts: ["react-admin.keyban.localtest.me"],
   },
   build: {
     sourcemap: mode === "developement",
