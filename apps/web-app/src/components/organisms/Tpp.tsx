@@ -23,19 +23,22 @@ type JobProgress = {
 
 function randomTppMetadata() {
   return {
-    name: faker.commerce.product(),
-    image: faker.image.url(),
-    attributes: [
-      { trait_type: "Ean", value: faker.commerce.isbn({ separator: "" }) },
-      { trait_type: "Serial number", value: faker.string.uuid() },
-      { trait_type: "Product category", value: faker.commerce.department() },
-      { trait_type: "Brand", value: faker.company.name() },
-      { trait_type: "Model", value: faker.commerce.productName() },
-      { trait_type: "Color", value: faker.color.human() },
-    ],
-    external_url: faker.internet.url(),
-    creator: "Keyban | web-app",
-    blockchain: "Starknet",
+    id: faker.string.uuid(),
+    metadata: {
+      name: faker.commerce.product(),
+      image: faker.image.url(),
+      attributes: [
+        { trait_type: "Ean", value: faker.commerce.isbn({ separator: "" }) },
+        { trait_type: "Serial number", value: faker.string.uuid() },
+        { trait_type: "Product category", value: faker.commerce.department() },
+        { trait_type: "Brand", value: faker.company.name() },
+        { trait_type: "Model", value: faker.commerce.productName() },
+        { trait_type: "Color", value: faker.color.human() },
+      ],
+      external_url: faker.internet.url(),
+      creator: "Keyban | web-app",
+      blockchain: "Starknet",
+    },
   };
 }
 
