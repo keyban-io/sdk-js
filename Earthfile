@@ -27,7 +27,6 @@ GET_PACKAGE_JSON:
     COPY +get-ecdsa-wasm/pkg/package.json           ./packages/ecdsa-wasm-client/
     COPY +get-eddsa-wasm/pkg/package.json           ./packages/eddsa-wasm-client/
     COPY ./packages/sdk-base/package.json           ./packages/sdk-base/
-    COPY --dir +get-starknet-contracts/artifacts    ./packages/sdk-base/contracts/starknet
     COPY ./packages/sdk-react/package.json          ./packages/sdk-react/
     COPY ./packages/mui-theme/package.json          ./packages/mui-theme/
     COPY ./packages/create-keyban-app/package.json  ./packages/create-keyban-app/
@@ -59,13 +58,15 @@ sdk-build:
 
     RUN pnpm install --silent
 
-    COPY +get-ecdsa-wasm/pkg/*          ./packages/ecdsa-wasm-client
-    COPY +get-eddsa-wasm/pkg/*          ./packages/eddsa-wasm-client
-    COPY ./packages/sdk-base            ./packages/sdk-base
-    COPY ./packages/sdk-react           ./packages/sdk-react
-    COPY ./packages/mui-theme           ./packages/mui-theme
-    COPY ./packages/create-keyban-app   ./packages/create-keyban-app
-    COPY ./packages/tsconfig.base.json  ./packages/tsconfig.base.json
+    COPY +get-ecdsa-wasm/pkg/*                      ./packages/ecdsa-wasm-client
+    COPY +get-eddsa-wasm/pkg/*                      ./packages/eddsa-wasm-client
+    COPY ./packages/sdk-base                        ./packages/sdk-base
+    COPY --dir +get-starknet-contracts/artifacts    ./packages/sdk-base/contracts/starknet
+    SAVE ARTIFACT ./packages/sdk-base/contracts/starknet AS LOCAL ./packages/sdk-base/contracts/starknet
+    COPY ./packages/sdk-react                       ./packages/sdk-react
+    COPY ./packages/mui-theme                       ./packages/mui-theme
+    COPY ./packages/create-keyban-app               ./packages/create-keyban-app
+    COPY ./packages/tsconfig.base.json              ./packages/tsconfig.base.json
 
     RUN pnpm -r build --silent
 
