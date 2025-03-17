@@ -110,6 +110,7 @@ lint:
     COPY . ./
 
     RUN pnpm install --silent
+    # Run TypeScript type checking before ESLint
     RUN pnpm -r lint
 
 test:

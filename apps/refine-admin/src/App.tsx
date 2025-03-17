@@ -1,6 +1,12 @@
 import { Refine, Authenticated, type AuthProvider } from "@refinedev/core";
 import routerProvider from "@refinedev/react-router";
-import { BrowserRouter, Route, Routes, Outlet, Navigate } from "react-router";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 
 import {
   ThemedLayoutV2,
@@ -66,8 +72,9 @@ export default function App() {
     check: async () => {
       const token = await getIdTokenClaims();
       if (token) {
-        axios.defaults.headers.common["Authorization"] =
-          `Bearer ${token.__raw}`;
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token.__raw}`;
         return { authenticated: true };
       }
       return { authenticated: false, redirectTo: "/login" };
@@ -165,18 +172,6 @@ export default function App() {
                     />
                   }
                 />
-                {/* <Route
-                path="/register"
-                element={<AuthPage type="register" />}
-              />
-              <Route
-                path="/update-password"
-                element={<AuthPage type="updatePassword" />}
-              />
-              <Route
-                path="/forgot-password"
-                element={<AuthPage type="forgotPassword" />}
-              /> */}
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
