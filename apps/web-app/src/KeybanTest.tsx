@@ -27,6 +27,7 @@ export default function KeybanTest() {
   const isStarknet = [
     KeybanChain.StarknetDevnet,
     KeybanChain.StarknetSepolia,
+    KeybanChain.StarknetMainnet,
   ].includes(client.chain);
 
   const [init, setInit] = React.useState(false);

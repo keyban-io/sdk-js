@@ -106,6 +106,7 @@ The Keyban SDK supports the following blockchains:
 - **Polygon Amoy Testnet**: `KeybanChain.PolygonAmoy`
 - **Starknet Devnet**: `KeybanChain.StarknetDevnet`
 - **Starknet Sepolia Testnet**: `KeybanChain.StarknetSepolia`
+- **Starknet Mainnet**: `KeybanChain.StarknetMainnet`
 
 Support for additional blockchains and mainnets will be introduced in future releases.
 

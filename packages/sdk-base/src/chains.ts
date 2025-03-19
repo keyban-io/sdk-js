@@ -46,6 +46,11 @@ export enum KeybanChain {
   StarknetSepolia = "StarknetSepolia",
 
   /**
+   * Starknet Mainnet Chain.
+   */
+  StarknetMainnet = "StarknetMainnet",
+
+  /**
    * Stellar Testnet Chain.
    */
   StellarTestnet = "StellarTestnet",
