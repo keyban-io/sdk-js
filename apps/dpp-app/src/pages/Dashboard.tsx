@@ -24,7 +24,7 @@ export default function Dashboard() {
   const [account, accountError] = useKeybanAccount();
   const [nfts, nftsError, { fetchMore, loading }] = useKeybanAccountNfts(
     account!,
-    { first: 5 },
+    { first: 5 }
   );
 
   useEffect(() => {
@@ -72,14 +72,47 @@ export default function Dashboard() {
                     size={{ xs: 12, md: 6 }}
                     sx={{ display: "flex", flexDirection: "column" }}
                   >
-                    <ProductCard
-                      product={new Product(nft.nft.metadata)}
-                      tokenAddress={
-                        (nft.nft.collection?.id ?? "0x") as `0x${string}`
-                      }
-                      tokenId={nft.nft.tokenId}
-                      sx={{ flex: 1 }}
-                    />
+                    {nft.nft.metadata &&
+                    Object.keys(nft.nft.metadata).length === 0 ? (
+                      // Fallback card when metadata is empty
+                      <Card
+                        sx={{
+                          flex: 1,
+                          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                          borderRadius: "16px",
+                        }}
+                      >
+                        <CardContent
+                          sx={{
+                            background:
+                              "linear-gradient(to right, #f0f0f0, #ffffff)",
+                            textAlign: "center",
+                          }}
+                        >
+                          <Box>
+                            <Typography variant="body1">
+                              {nft.nft.collection?.name ?? "Unknown Collection"}
+                            </Typography>
+                            <Typography variant="body2">
+                              Token ID: {nft.nft.tokenId}
+                            </Typography>
+                            <Typography variant="body2">
+                              Contract ID: {nft.nft.collection?.id ?? "N/A"}
+                            </Typography>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      // Regular product card when metadata is present
+                      <ProductCard
+                        product={new Product(nft.nft.metadata)}
+                        tokenAddress={
+                          (nft.nft.collection?.id ?? "0x") as `0x${string}`
+                        }
+                        tokenId={nft.nft.tokenId}
+                        sx={{ flex: 1 }}
+                      />
+                    )}
                   </Grid2>
                 )
               );
