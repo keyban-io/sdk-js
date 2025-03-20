@@ -12,7 +12,7 @@ export class KeybanSigner_EDDSA implements IKeybanSigner {
     .then(() => {
       return { dkg, sign, public_key };
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       throw new WasmError(
         WasmError.types.WebAssemblyInitialization,
         "KeybanSigner_EDDSA",

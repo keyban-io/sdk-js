@@ -25,6 +25,14 @@ export interface IKeybanClientShareStorage {
   set(clientShare: string): Promise<void>;
 }
 
+export interface IKeybanTpp {
+  claim(
+    network: string,
+    tppId: string,
+    recipient: string,
+  ): Promise<{ transactionHash: string }>;
+}
+
 /*
  * RPC types
  */
@@ -37,6 +45,7 @@ interface IRpc {
   ecdsa: IKeybanSigner;
   eddsa: IKeybanSigner;
   clientShareStorage: IKeybanClientShareStorage;
+  tpp: IKeybanTpp;
 }
 
 type Service = keyof IRpc;
@@ -70,6 +79,7 @@ export class RpcServer implements IRpc {
   ecdsa!: IKeybanSigner;
   eddsa!: IKeybanSigner;
   clientShareStorage!: IKeybanClientShareStorage;
+  tpp!: IKeybanTpp;
 
   domains: Promise<string[]>;
 
@@ -110,6 +120,9 @@ export class RpcServer implements IRpc {
     clientShareStorage: {
       get: true,
       set: true,
+    },
+    tpp: {
+      claim: true,
     },
   };
 

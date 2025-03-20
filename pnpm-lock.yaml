@@ -292,6 +292,9 @@ importers:
       '@keyban/sdk-base':
         specifier: workspace:*
         version: link:../../packages/sdk-base
+      eventsource:
+        specifier: ^3.0.5
+        version: 3.0.5
     devDependencies:
       '@eslint/js':
         specifier: ^9.21.0

@@ -12,7 +12,8 @@ import NftFetch from "~/components/organisms/NftFetch";
 import NftTransfer from "~/components/organisms/NftTransfer";
 import Signature from "~/components/organisms/Signature";
 import TokenBalances from "~/components/organisms/TokenBalances";
-import Tpp from "~/components/organisms/Tpp";
+import TppClaim from "~/components/organisms/TppClaim";
+import TppMint from "~/components/organisms/TppMint";
 import TransferHistory from "~/components/organisms/TransferHistory";
 import WalletInfo from "~/components/organisms/WalletInfo";
 
@@ -36,7 +37,7 @@ export default function KeybanTest() {
     <>
       <NativeCurrency />
 
-      {isStarknet && <Tpp />}
+      {isStarknet && <TppMint />}
 
       <Auth />
 
@@ -60,6 +61,7 @@ export default function KeybanTest() {
           {wrapSuspense(Nft)}
           {wrapSuspense(NftFetch)}
           {wrapSuspense(NftTransfer)}
+          {wrapSuspense(TppClaim)}
           {wrapSuspense(TransferHistory)}
         </>
       )}

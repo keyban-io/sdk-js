@@ -357,6 +357,10 @@ export abstract class KeybanClientBase {
     return this.rpcClient.call("auth", "getUser");
   }
 
+  async tppClaim(tppId: string, recipient: string) {
+    return this.rpcClient.call("tpp", "claim", this.chain, tppId, recipient);
+  }
+
   /**
    * Initializes a `KeybanAccount` associated with the current client.
    * This method sets up the account by retrieving or generating the client share,
