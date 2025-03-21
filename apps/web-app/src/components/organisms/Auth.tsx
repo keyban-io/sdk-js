@@ -36,14 +36,12 @@ export default function Auth() {
 
       {!isLoading && (
         <>
-          <Row>
-            <span>Authenticated:</span>
-            <SerializedValue
-              value={isAuthenticated}
-              style={{ flexGrow: 1 }}
-              data-test-id="Auth:isAuthenticated"
-            />
-          </Row>
+          <SerializedValue
+            label="Authenticated"
+            value={isAuthenticated}
+            style={{ flexGrow: 1 }}
+            data-test-id="Auth:isAuthenticated"
+          />
 
           <SerializedValue
             value={user}

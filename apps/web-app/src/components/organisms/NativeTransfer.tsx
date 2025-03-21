@@ -63,8 +63,8 @@ export default function NativeTransfer() {
 
       {estimation && (
         <Row>
-          <span>Estimation:</span>
           <SerializedValue
+            label="Estimation"
             value={estimation.maxFees}
             style={{ flexGrow: 1 }}
             data-test-id="NativeTransfer:estimate:rawValue"
@@ -96,14 +96,12 @@ export default function NativeTransfer() {
         </button>
       </Row>
 
-      <Row>
-        <span>Hash:</span>
-        <SerializedValue
-          value={hash}
-          style={{ flexGrow: 1 }}
-          data-test-id="NativeTransfer:hash"
-        />
-      </Row>
+      <SerializedValue
+        label="Tx hash"
+        value={hash}
+        style={{ flexGrow: 1 }}
+        data-test-id="NativeTransfer:hash"
+      />
     </fieldset>
   );
 }

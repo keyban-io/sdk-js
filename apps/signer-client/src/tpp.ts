@@ -3,6 +3,7 @@ import { IKeybanTpp } from "@keyban/sdk-base/rpc";
 import { EventSource } from "eventsource";
 
 import { KeybanAuth } from "~/auth";
+import { TppError } from "~/errors/TppError";
 import { apiUrl } from "~/utils/api";
 
 export class KeybanTpp implements IKeybanTpp {
@@ -50,18 +51,29 @@ export class KeybanTpp implements IKeybanTpp {
       });
 
       eventSource.onmessage = (e) => {
-        const { state, result, error } = JSON.parse(e.data);
+        const data: {
+          state: string;
+          result?: { transactionHash: string };
+          error?: string;
+        } = JSON.parse(e.data);
+        const { state, result, error } = data;
 
         switch (state) {
           case "completed":
-            resolve(result);
+            resolve(result!);
             eventSource.close();
             break;
 
-          case "failed":
-            reject(new Error(error));
+          case "failed": {
+            reject(
+              Object.assign(
+                new TppError(TppError.types.ClaimFailed, "KeybanTpp"),
+                { detail: error },
+              ),
+            );
             eventSource.close();
             break;
+          }
         }
       };
 

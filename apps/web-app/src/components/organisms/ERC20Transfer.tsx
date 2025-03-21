@@ -73,12 +73,13 @@ export default function ERC20Transfer() {
 
       {estimation && (
         <Row>
-          <span>Estimation:</span>
           <SerializedValue
+            label="Estimation"
             value={estimation.maxFees}
             style={{ flexGrow: 1 }}
             data-test-id="ERC20Transfer:estimate:rawValue"
           />
+
           <div data-test-id="ERC20Transfer:estimate:formattedValue">
             <FormattedBalance
               balance={{ raw: estimation.maxFees, isFees: true }}
@@ -111,14 +112,12 @@ export default function ERC20Transfer() {
         </button>
       </Row>
 
-      <Row>
-        <span>Hash:</span>
-        <SerializedValue
-          value={hash}
-          style={{ flexGrow: 1 }}
-          data-test-id="ERC20Transfer:hash"
-        />
-      </Row>
+      <SerializedValue
+        label="Tx hash"
+        value={hash}
+        style={{ flexGrow: 1 }}
+        data-test-id="ERC20Transfer:hash"
+      />
     </fieldset>
   );
 }

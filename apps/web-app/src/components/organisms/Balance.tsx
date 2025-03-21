@@ -25,14 +25,12 @@ export default function Balance() {
         </div>
       </Row>
 
-      <Row>
-        <span>Raw:</span>
-        <SerializedValue
-          value={balance}
-          style={{ flexGrow: 1 }}
-          data-test-id="Balance:rawValue"
-        />
-      </Row>
+      <SerializedValue
+        label="Raw"
+        value={balance}
+        style={{ flexGrow: 1 }}
+        data-test-id="Balance:rawValue"
+      />
     </fieldset>
   );
 }

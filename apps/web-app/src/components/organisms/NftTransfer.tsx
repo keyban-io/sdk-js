@@ -118,8 +118,8 @@ export default function NftTransfer() {
 
       {estimation && (
         <Row>
-          <span>Estimation:</span>
           <SerializedValue
+            label="Estimation"
             value={estimation.maxFees}
             style={{ flexGrow: 1 }}
             data-test-id="NftTransfer:estimate:rawValue"
@@ -158,14 +158,12 @@ export default function NftTransfer() {
         </button>
       </Row>
 
-      <Row>
-        <span>Hash:</span>
-        <SerializedValue
-          value={hash}
-          style={{ flexGrow: 1 }}
-          data-test-id="NftTransfer:hash"
-        />
-      </Row>
+      <SerializedValue
+        label="Tx hash"
+        value={hash}
+        style={{ flexGrow: 1 }}
+        data-test-id="NftTransfer:hash"
+      />
     </fieldset>
   );
 }

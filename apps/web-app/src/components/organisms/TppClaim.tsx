@@ -14,10 +14,14 @@ export default function TppClaim() {
   if (accountError) throw accountError;
 
   const [tppId, setTppId] = React.useState("");
-  const [result, setResult] = React.useState<{ transactionHash: string }>();
+  const [txHash, setTxHash] = React.useState("");
 
   const handleClaim = React.useCallback(async () => {
-    client.tppClaim(tppId, account.address).then(setResult).catch(showBoundary);
+    client
+      .tppClaim(tppId, account.address)
+      .then(({ transactionHash }) => transactionHash)
+      .then(setTxHash)
+      .catch(showBoundary);
   }, [showBoundary, client, tppId, account.address]);
 
   return (
@@ -38,7 +42,11 @@ export default function TppClaim() {
         </button>
       </Row>
 
-      <SerializedValue value={result} data-test-id="TppClaim:result" />
+      <SerializedValue
+        label="Tx hash"
+        value={txHash}
+        data-test-id="TppClaim:txHash"
+      />
     </fieldset>
   );
 }
