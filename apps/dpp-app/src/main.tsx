@@ -27,5 +27,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </KeybanProvider>
       </ThemeProvider>
     </ErrorBoundary>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

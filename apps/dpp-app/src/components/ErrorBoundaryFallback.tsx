@@ -3,6 +3,9 @@ import { Container, Paper, Typography, Button, Box } from "@mui/material";
 
 export function ErrorBoundaryFallback({ error }: { error: Error }) {
   const [showStack, setShowStack] = useState(false);
+  const isNetworkError = error.message
+    .toLowerCase()
+    .includes("failed to fetch");
 
   return (
     <Container maxWidth="sm" sx={{ mt: 8 }}>
@@ -21,6 +24,15 @@ export function ErrorBoundaryFallback({ error }: { error: Error }) {
           >
             Réessayer
           </Button>
+          {isNetworkError && (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => (window.location.href = "/settings")}
+            >
+              Paramètres
+            </Button>
+          )}
           <Button
             variant="outlined"
             color="secondary"
