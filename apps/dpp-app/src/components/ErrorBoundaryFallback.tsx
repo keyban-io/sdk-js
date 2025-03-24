@@ -16,6 +16,12 @@ export function ErrorBoundaryFallback({ error }: { error: Error }) {
         <Typography variant="body1" sx={{ mb: 2 }}>
           {error.message}
         </Typography>
+        {isNetworkError && (
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            La blockchain sélectionnée n'est pas disponible. Veuillez vous
+            rendre dans les settings pour en choisir une autre.
+          </Typography>
+        )}
         <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 2 }}>
           <Button
             variant="contained"
