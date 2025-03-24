@@ -16,14 +16,27 @@ import Webcam from "react-webcam";
 import jsQR from "jsqr";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
-import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
+import {
+  useKeybanAccount,
+  useKeybanAccountNfts,
+  useKeybanClient,
+} from "@keyban/sdk-react";
+
+// Ajout de la fonction de hachage sha256
+async function hashSHA256(message: string): Promise<string> {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
 
 export default function ProductEntry() {
   const [account, accountError] = useKeybanAccount();
+  const keybanClient = useKeybanClient();
   const [nfts, nftsError] = useKeybanAccountNfts(account!, { first: 5 });
 
   const [serialNumber, setSerialNumber] = useState("");
-  const [orderNumber, setOrderNumber] = useState("");
+  const [ean, setEan] = useState("");
   const [scanning, setScanning] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -51,9 +64,9 @@ export default function ProductEntry() {
           if (code) {
             const text = code.data;
             console.log("Scanned:", text);
-            const [scannedSerial, scannedOrder] = text.split(",");
+            const [scannedEan, scannedSerial] = text.split(",");
+            setEan(scannedEan || "");
             setSerialNumber(scannedSerial || "");
-            setOrderNumber(scannedOrder || "");
             setScanning(false);
           }
         };
@@ -73,10 +86,21 @@ export default function ProductEntry() {
     };
   }, [scanning, captureAndScan]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Serial:", serialNumber, "Order:", orderNumber);
-    navigate("/dashboard");
+    // Concaténer l'ean et le numéro de série pour créer le tppId
+    const concatenated = ean + serialNumber;
+    const tppId = await hashSHA256(concatenated);
+    // Utiliser account.address comme recipient (supposé présent)
+    const recipient = account?.address || "";
+    try {
+      const { transactionHash } = await keybanClient.tppClaim(tppId, recipient);
+      console.log("Transaction hash:", transactionHash);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Erreur lors de tppClaim", error);
+      // ...gestion d'erreur éventuelle...
+    }
   };
 
   let content;
@@ -133,16 +157,16 @@ export default function ProductEntry() {
               </Typography>
               <form onSubmit={handleSubmit}>
                 <TextField
-                  label="Numéro de série"
-                  value={serialNumber}
-                  onChange={(e) => setSerialNumber(e.target.value)}
+                  label="EAN"
+                  value={ean}
+                  onChange={(e) => setEan(e.target.value)}
                   fullWidth
                   margin="normal"
                 />
                 <TextField
-                  label="Numéro de commande"
-                  value={orderNumber}
-                  onChange={(e) => setOrderNumber(e.target.value)}
+                  label="Numéro de série"
+                  value={serialNumber}
+                  onChange={(e) => setSerialNumber(e.target.value)}
                   fullWidth
                   margin="normal"
                 />
