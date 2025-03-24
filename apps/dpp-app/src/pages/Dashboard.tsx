@@ -59,7 +59,7 @@ export default function Dashboard() {
       console.log("Transaction hash:", transactionHash);
       setModalOpen(false);
       // Optionnel : déclencher un rafraîchissement des NFT ou afficher un message de succès
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Erreur lors de tppClaim", error);
       setSubmissionError("Erreur lors de l'ajout du tpp");
     } finally {
