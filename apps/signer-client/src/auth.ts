@@ -2,7 +2,7 @@ import { Auth0Client, createAuth0Client } from "@auth0/auth0-spa-js";
 import { AuthConnection, KeybanBaseError, KeybanUser } from "@keyban/sdk-base";
 import { IKeybanAuth } from "@keyban/sdk-base/rpc";
 
-import { API_URL, apiUrl } from "~/utils/api";
+import { API_URL } from "~/utils/api";
 import { APP_ID } from "~/utils/appId";
 
 export class KeybanAuth implements IKeybanAuth {
@@ -12,7 +12,7 @@ export class KeybanAuth implements IKeybanAuth {
     const audienceUrl = new URL(API_URL);
     audienceUrl.searchParams.set("appId", APP_ID);
 
-    this.#auth0 = fetch(apiUrl("/v1/metadata"))
+    this.#auth0 = fetch(new URL("/v1/metadata", API_URL))
       .then((res) => res.json())
       .then(async ({ auth }) =>
         createAuth0Client({
@@ -22,7 +22,7 @@ export class KeybanAuth implements IKeybanAuth {
           authorizationParams: {
             scope: "openid",
             audience: audienceUrl.toString(),
-            redirect_uri: apiUrl("/signer-client/login").toString(),
+            redirect_uri: new URL("/signer-client/login", API_URL).toString(),
           },
         }),
       );
@@ -74,7 +74,7 @@ export class KeybanAuth implements IKeybanAuth {
   async getLogoutUrl(redirect: string) {
     const auth0 = await this.#auth0;
 
-    const redirectUrl = apiUrl("/signer-client/logout");
+    const redirectUrl = new URL("/signer-client/logout", API_URL);
     redirectUrl.searchParams.set("redirect", redirect);
 
     return new Promise<string>((resolve) => {

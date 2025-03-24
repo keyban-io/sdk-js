@@ -2,7 +2,7 @@ import { KeybanBaseError } from "@keyban/sdk-base";
 import { IKeybanAccount } from "@keyban/sdk-base/rpc";
 
 import { KeybanAuth } from "~/auth";
-import { apiUrl } from "~/utils/api";
+import { API_URL } from "~/utils/api";
 
 export class KeybanAccount implements IKeybanAccount {
   #auth: KeybanAuth;
@@ -14,7 +14,7 @@ export class KeybanAccount implements IKeybanAccount {
   async getAddress(network: string): Promise<string> {
     const accessToken = await this.#auth.getToken();
 
-    const url = apiUrl("/v1/accounts");
+    const url = new URL("/v1/accounts", API_URL);
     url.searchParams.set("network", network);
 
     const res = await fetch(url, {

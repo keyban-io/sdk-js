@@ -1,10 +1,10 @@
 import { KeybanBaseError } from "@keyban/sdk-base";
 import { IKeybanTpp } from "@keyban/sdk-base/rpc";
-import { ErrorEvent, EventSource } from "eventsource";
+import { EventSource } from "eventsource";
 
 import { KeybanAuth } from "~/auth";
 import { TppError } from "~/errors/TppError";
-import { apiUrl } from "~/utils/api";
+import { API_URL } from "~/utils/api";
 
 export class KeybanTpp implements IKeybanTpp {
   #auth: KeybanAuth;
@@ -20,7 +20,7 @@ export class KeybanTpp implements IKeybanTpp {
   ): Promise<{ transactionHash: string }> {
     const accessToken = await this.#auth.getToken();
 
-    const claimUrl = apiUrl("/v1/tpp/claim");
+    const claimUrl = new URL("/v1/tpp/claim", API_URL);
     claimUrl.searchParams.set("network", network);
 
     const { jobId } = await fetch(claimUrl, {
@@ -38,7 +38,7 @@ export class KeybanTpp implements IKeybanTpp {
     return new Promise<{
       transactionHash: string;
     }>((resolve, reject) => {
-      const url = apiUrl(`/v1/tpp/claim/${jobId}/status/sse`);
+      const url = new URL(`/v1/tpp/claim/${jobId}/status/sse`, API_URL);
       const eventSource = new EventSource(url, {
         fetch: (input, init) =>
           fetch(input, {
@@ -75,14 +75,6 @@ export class KeybanTpp implements IKeybanTpp {
             break;
           }
         }
-      };
-
-      eventSource.onerror = (e: ErrorEvent) => {
-        reject(
-          Object.assign(new TppError(TppError.types.ClaimFailed, "KeybanTpp"), {
-            detail: e.message,
-          }),
-        );
       };
     });
   }

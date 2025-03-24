@@ -2,7 +2,7 @@ import { KeybanBaseError } from "@keyban/sdk-base";
 import { IKeybanClientShareStorage } from "@keyban/sdk-base/rpc";
 
 import { KeybanAuth } from "~/auth";
-import { apiUrl } from "~/utils/api";
+import { API_URL } from "~/utils/api";
 
 export class KeybanClientShareStorage implements IKeybanClientShareStorage {
   #auth: KeybanAuth;
@@ -13,7 +13,7 @@ export class KeybanClientShareStorage implements IKeybanClientShareStorage {
 
   async get(): Promise<string | null> {
     const accessToken = await this.#auth.getToken();
-    const res = await fetch(apiUrl("/v1/client-shares"), {
+    const res = await fetch(new URL("/v1/client-shares", API_URL), {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -28,7 +28,7 @@ export class KeybanClientShareStorage implements IKeybanClientShareStorage {
 
   async set(clientShare: string): Promise<void> {
     const accessToken = await this.#auth.getToken();
-    const res = await fetch(apiUrl("/v1/client-shares"), {
+    const res = await fetch(new URL("/v1/client-shares", API_URL), {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
