@@ -1,6 +1,6 @@
 import { KeybanBaseError } from "@keyban/sdk-base";
 import { IKeybanTpp } from "@keyban/sdk-base/rpc";
-import { EventSource } from "eventsource";
+import { ErrorEvent, EventSource } from "eventsource";
 
 import { KeybanAuth } from "~/auth";
 import { TppError } from "~/errors/TppError";
@@ -77,7 +77,13 @@ export class KeybanTpp implements IKeybanTpp {
         }
       };
 
-      eventSource.onerror = reject;
+      eventSource.onerror = (e: ErrorEvent) => {
+        reject(
+          Object.assign(new TppError(TppError.types.ClaimFailed, "KeybanTpp"), {
+            detail: e.message,
+          }),
+        );
+      };
     });
   }
 }
