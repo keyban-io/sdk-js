@@ -4,10 +4,10 @@ import { Account, RpcProvider } from "starknet";
 import { KeybanClientBase, KeybanClientConfig, MetadataConfig } from "~/client";
 import { Hex } from "~/index";
 import { StarknetAccount } from "~/starknet/account";
-import { calculateAddress, StarknetSigner } from "~/starknet/signer";
+import { StarknetSigner } from "~/starknet/signer";
 
 export class StarknetClient extends KeybanClientBase {
-  #starknetRpcProvider: Promise<RpcProvider>;
+  #rpcProvider: Promise<RpcProvider>;
 
   constructor(
     config: KeybanClientConfig,
@@ -15,7 +15,7 @@ export class StarknetClient extends KeybanClientBase {
   ) {
     super(config, metadataConfig);
 
-    this.#starknetRpcProvider = this.metadataConfig.then(
+    this.#rpcProvider = this.metadataConfig.then(
       (config) => new RpcProvider({ nodeUrl: config.chain.rpcUrl }),
     );
   }
@@ -27,20 +27,19 @@ export class StarknetClient extends KeybanClientBase {
       await this.clientShareProvider.set(clientShare);
     }
 
-    const ethPublicKey = await this.rpcClient.call(
-      "ecdsa",
-      "publicKey",
-      clientShare,
-    );
-    // remove the 04 prefix from the public key (it's the ECDSA uncompressed key prefix)
-    const publicKey: Hex = `0x${ethPublicKey.slice(4)}`;
+    const [provider, publicKey, address] = await Promise.all([
+      this.#rpcProvider,
+      this.rpcClient
+        .call("ecdsa", "publicKey", clientShare)
+        // remove the 04 prefix from the public key (it's the ECDSA uncompressed key prefix)
+        .then((ethPublicKey): Hex => `0x${ethPublicKey.slice(4)}`),
+      this.rpcClient.call("account", "getAddress", this.chain),
+    ]);
 
     const signer = new StarknetSigner(this.rpcClient, clientShare, publicKey);
 
-    const address = calculateAddress(publicKey);
-
     const account = new Account(
-      await this.#starknetRpcProvider,
+      provider,
       address,
       signer,
       undefined,

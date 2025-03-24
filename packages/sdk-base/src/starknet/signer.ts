@@ -28,7 +28,6 @@ import {
   V3InvocationsSignerDetails,
 } from "starknet";
 
-import accountContractArtifacts from "~/../contracts/starknet/account.contract_class.json";
 import { Hex } from "~/index";
 import { RpcClient } from "~/rpc";
 
@@ -191,26 +190,4 @@ function formatSignature(signatureHex: Hex): string[] {
     num.toHex(bigIntS.high),
     num.toHex(yParity),
   ];
-}
-
-/**
- * Calculates the StarkNet address based on the public key.
- * Note that it uses a salt of 0 and assumes an origin-independent account (not bound to a deployer).
- * @param publicKey - The public key.
- * @returns The StarkNet address.
- */
-export function calculateAddress(publicKey: Hex): string {
-  const myCallData = new CallData(accountContractArtifacts.abi);
-  const tssAccountconstructorCalldata = myCallData.compile("constructor", {
-    public_key: publicKey,
-  });
-  const classHash = hash.computeContractClassHash(
-    JSON.stringify(accountContractArtifacts),
-  );
-  return hash.calculateContractAddressFromHash(
-    "0",
-    classHash,
-    tssAccountconstructorCalldata,
-    0,
-  );
 }

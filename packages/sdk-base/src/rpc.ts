@@ -20,6 +20,10 @@ export interface IKeybanSigner {
   publicKey(clientShare: string): Promise<Hex>;
 }
 
+export interface IKeybanAccount {
+  getAddress(network: string): Promise<string>;
+}
+
 export interface IKeybanClientShareStorage {
   get(): Promise<string | null>;
   set(clientShare: string): Promise<void>;
@@ -44,6 +48,7 @@ interface IRpc {
   auth: IKeybanAuth;
   ecdsa: IKeybanSigner;
   eddsa: IKeybanSigner;
+  account: IKeybanAccount;
   clientShareStorage: IKeybanClientShareStorage;
   tpp: IKeybanTpp;
 }
@@ -78,6 +83,7 @@ export class RpcServer implements IRpc {
   auth!: IKeybanAuth;
   ecdsa!: IKeybanSigner;
   eddsa!: IKeybanSigner;
+  account!: IKeybanAccount;
   clientShareStorage!: IKeybanClientShareStorage;
   tpp!: IKeybanTpp;
 
@@ -116,6 +122,9 @@ export class RpcServer implements IRpc {
       dkg: true,
       sign: true,
       publicKey: true,
+    },
+    account: {
+      getAddress: true,
     },
     clientShareStorage: {
       get: true,

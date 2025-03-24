@@ -61,8 +61,6 @@ sdk-build:
     COPY +get-ecdsa-wasm/pkg/*                      ./packages/ecdsa-wasm-client
     COPY +get-eddsa-wasm/pkg/*                      ./packages/eddsa-wasm-client
     COPY ./packages/sdk-base                        ./packages/sdk-base
-    COPY --dir +get-starknet-contracts/artifacts    ./packages/sdk-base/contracts/starknet
-    SAVE ARTIFACT ./packages/sdk-base/contracts/starknet AS LOCAL ./packages/sdk-base/contracts/starknet
     COPY ./packages/sdk-react                       ./packages/sdk-react
     COPY ./packages/mui-theme                       ./packages/mui-theme
     COPY ./packages/create-keyban-app               ./packages/create-keyban-app
@@ -153,9 +151,3 @@ create-keyban-app:
     RUN cd /app/apps/create-keyban-app-dev && sed -i 's|const API_URL = "https://api.keyban.io";|const API_URL = "https://api.keyban.localtest.me";|' /app/apps/create-keyban-app-dev/src/config.ts
     RUN cd /app/apps/create-keyban-app-dev && sed -i 's|chain: KeybanChain.PolygonAmoy,|chain: KeybanChain.EthereumAnvil,|' /app/apps/create-keyban-app-dev/src/config.ts
     SAVE ARTIFACT /app/apps/create-keyban-app-dev AS LOCAL ./apps/create-keyban-app-dev
-
-get-starknet-contracts:
-    FROM scratch
-    COPY ../blockchain/starknet/contracts/+build/artifacts/contracts_KeybanEthAccount.contract_class.json ./artifacts/account.contract_class.json
-    COPY ../blockchain/starknet/contracts/+build/artifacts/contracts_KeybanEthAccount.compiled_contract_class.json ./artifacts/account.compiled_contract_class.json
-    SAVE ARTIFACT ./artifacts AS LOCAL ./packages/sdk-base/contracts/starknet
