@@ -16,7 +16,10 @@ export default function Settings() {
   const domain = window.location.origin;
   let availableChains: { value: string; label: string }[] = [];
   let defaultChain = "";
-  if (domain === "https://dpp-app.beta.keyban.fr") {
+  if (
+    domain === "https://dpp-app.keyban.fr" ||
+    domain === "https://dpp-app.staging.keyban.fr"
+  ) {
     availableChains = [
       { value: "StarknetSepolia", label: "Starknet Sepolia" },
       { value: "StarknetMainnet", label: "Starknet Mainnet" },
