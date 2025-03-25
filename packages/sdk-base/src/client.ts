@@ -182,6 +182,14 @@ export abstract class KeybanClientBase {
     return RpcClient.getInstance(this);
   }
 
+  /**
+   * Retrieves the native currency details associated with the current chain.
+   *
+   * This getter returns an object that includes the native currency's name, symbol, and decimal precision for the respective blockchain
+   * as defined by the `this.chain` property. Each blockchain in the supported list (e.g., EthereumAnvil, PolygonAmoy, StarknetDevnet, etc.)
+   * has its unique configuration, which is used to construct the returned object.
+   * @returns The native currency information for the current chain.
+   */
   get nativeCurrency(): NativeCurrency {
     return {
       [KeybanChain.EthereumAnvil]: {
@@ -217,6 +225,19 @@ export abstract class KeybanClientBase {
     }[this.chain];
   }
 
+  /**
+   * Retrieves the fee unit configuration based on the current blockchain chain.
+   *
+   * This getter returns an object that maps supported blockchain chains to their respective
+   * fee unit details, including the currency symbol and the number of decimal places.
+   * The fee unit is selected according to the chain specified in `this.chain`.
+   * @remarks
+   * Supported configurations include:
+   * - EthereumAnvil & PolygonAmoy with unit "gwei" and 9 decimals.
+   * - StarknetDevnet, StarknetSepolia, & StarknetMainnet with unit "FRI" and 18 decimals.
+   * - StellarTestnet with unit "stroop" and 6 decimals.
+   * @returns An object containing the fee unit configuration for the active chain.
+   */
   get feesUnit(): FeesUnit {
     return {
       [KeybanChain.EthereumAnvil]: {
@@ -349,14 +370,28 @@ export abstract class KeybanClientBase {
     });
   }
 
+  /**
+   * Checks whether the client is authenticated.
+   * @returns A Promise that resolves to the result of the authentication check.
+   */
   async isAuthenticated() {
     return this.rpcClient.call("auth", "isAuthenticated");
   }
 
+  /**
+   * Retrieves the current user information.
+   * @returns A Promise resolving with the user data retrieved from the server.
+   */
   async getUser() {
     return this.rpcClient.call("auth", "getUser");
   }
 
+  /**
+   * Claims a TPP for a given recipient.
+   * @param tppId - The identifier of the Tokenized Product Passport (TPP) to claim.
+   * @param recipient - The recipient (the address) for which the claim is to be made.
+   * @returns A promise that resolves with the result of the RPC call.
+   */
   async tppClaim(tppId: string, recipient: string) {
     return this.rpcClient.call("tpp", "claim", this.chain, tppId, recipient);
   }
@@ -392,7 +427,6 @@ export abstract class KeybanClientBase {
  *   apiUrl: "https://api.keyban.io",
  *   appId: "your-app-id",
  *   chain: KeybanChain.EthereumAnvil,
- *   clientShareProvider: () => "your-client-shares-provider",
  * });
  *
  * // Initialize an account
@@ -414,7 +448,6 @@ export class KeybanClient extends KeybanClientBase {
    * const client = new KeybanClient({
    *   apiUrl: "https://api.keyban.io",
    *   appId: "your-app-id",
-   *   clientShareProvider: () => "your-client-shares-provider",
    *   chain: KeybanChain.EthereumAnvil,
    * });
    * ```

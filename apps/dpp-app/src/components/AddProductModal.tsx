@@ -10,7 +10,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { useKeybanClient, useKeybanAccount } from "@keyban/sdk-react";
+import {
+  useKeybanClient,
+  useKeybanAccount,
+  KeybanBaseError,
+} from "@keyban/sdk-react";
 
 interface AddProductModalProps {
   open: boolean;
@@ -52,14 +56,32 @@ export default function AddProductModal({
       setEan("");
       setSerialNumber("");
       onClose();
-    } catch (error: unknown) {
-      console.error("Error submitting form", error);
-      if (error == "Error: This TPP has already been claimed") {
-        setSubmissionError(
-          "Oups, ce produit est déjà attribué ! Avez-vous bien vérifié ?"
-        );
+    } catch (error) {
+      const keybanBaseError = error as KeybanBaseError<string>;
+
+      console.error("Error submitting form", JSON.stringify(keybanBaseError));
+      if (keybanBaseError.type === "ClaimFailed") {
+        switch (keybanBaseError.detail) {
+          case "This TPP has already been claimed":
+            setSubmissionError(
+              "Ce produit a déjà été attribué. Veuillez vérifier les informations saisies."
+            );
+            break;
+          case "This TPP does not exist":
+            setSubmissionError(
+              "Ce produit n'existe pas. Vérifiez l'EAN et le numéro de série."
+            );
+            break;
+          default:
+            setSubmissionError(
+              "Une erreur inattendue est survenue lors de l'ajout du produit. Veuillez réessayer."
+            );
+            break;
+        }
       } else {
-        setSubmissionError(`Erreur lors de l'ajout du tpp (${error})`);
+        setSubmissionError(
+          "Une erreur inattendue est survenue lors de l'ajout du produit. Veuillez réessayer."
+        );
       }
     } finally {
       setIsSubmitting(false);
