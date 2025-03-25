@@ -59,9 +59,9 @@ export function createApolloClient(
       typePolicies: {
         Query: {
           fields: {
-            tokenBalances: relayStylePagination(),
-            nftBalances: relayStylePagination(),
-            assetTransfers: relayStylePagination(),
+            tokenBalances: relayStylePagination(["filter"]),
+            nftBalances: relayStylePagination(["filter"]),
+            assetTransfers: relayStylePagination(["filter"]),
           },
         },
         Transaction: {

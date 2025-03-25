@@ -30,6 +30,7 @@ import {
 } from "@keyban/sdk-base/graphql";
 import React from "react";
 
+import { useKeybanAuth } from "~/auth";
 import { usePromise } from "~/promise";
 import { useKeybanClient } from "~/provider";
 
@@ -258,9 +259,14 @@ function updatePaginatedData<T extends { id: string }>(
  */
 export function useKeybanAccount(): ApiResult<KeybanAccount> {
   const client = useKeybanClient();
-  const [data, error] = usePromise("account", () => client.initialize(), {
-    suspense: true,
-  });
+  const auth = useKeybanAuth();
+
+  const [data, error] = usePromise(
+    `account:${auth.user?.sub}`,
+    () => client.initialize(),
+    { suspense: true },
+  );
+
   return [data, error, undefined] as ApiResult<KeybanAccount>;
 }
 

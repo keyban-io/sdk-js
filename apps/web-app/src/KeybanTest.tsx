@@ -1,4 +1,4 @@
-import { KeybanChain, useKeybanClient } from "@keyban/sdk-react";
+import { KeybanChain, useKeybanAuth, useKeybanClient } from "@keyban/sdk-react";
 import React from "react";
 
 import ApiStatus from "~/components/organisms/ApiStatus";
@@ -32,6 +32,12 @@ export default function KeybanTest() {
   ].includes(client.chain);
 
   const [init, setInit] = React.useState(false);
+
+  // Reset init state when user log-out
+  const auth = useKeybanAuth();
+  React.useEffect(() => {
+    setInit((init) => init && Boolean(auth.isAuthenticated));
+  }, [auth.isAuthenticated]);
 
   return (
     <>
