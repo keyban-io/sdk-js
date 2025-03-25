@@ -13,20 +13,11 @@ import Grid2 from "@mui/material/Grid2";
 import {
   useKeybanAccount,
   useKeybanAccountNfts,
-  useKeybanClient,
   type KeybanNftBalance,
 } from "@keyban/sdk-react";
 import Product from "../models/Product";
 import { useState } from "react";
 import AddProductModal from "../components/AddProductModal";
-
-// Fonction de hachage sha256
-async function hashSHA256(message: string): Promise<string> {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-}
 
 export default function Dashboard() {
   const [account, accountError] = useKeybanAccount();
@@ -34,21 +25,7 @@ export default function Dashboard() {
     account!,
     { first: 5 }
   );
-  const keybanClient = useKeybanClient();
-
-  // Suppression des états relatifs à la modale déplacer dans AddProductModal
   const [modalOpen, setModalOpen] = useState(false);
-
-  // Nouvelle fonction de soumission intégrant la logique tppClaim
-  const handleAddProduct = async (ean: string, serialNumber: string) => {
-    const concatenated = ean + serialNumber;
-    const tppId = await hashSHA256(concatenated);
-    const recipient = account?.address || "";
-    const { transactionHash } = await keybanClient.tppClaim(tppId, recipient);
-    console.log("Transaction hash:", transactionHash);
-    setModalOpen(false);
-    // ...eventuellement rafraîchir les NFT ou afficher un succès...
-  };
 
   if (accountError) {
     return <div>Error fetching account: {accountError.message}</div>;
@@ -176,11 +153,7 @@ export default function Dashboard() {
         </Card>
       )}
 
-      <AddProductModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSubmit={handleAddProduct}
-      />
+      <AddProductModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </Container>
   );
 }

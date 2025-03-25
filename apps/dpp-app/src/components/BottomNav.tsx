@@ -10,40 +10,17 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
-import {
-  useKeybanAuth,
-  useKeybanClient,
-  useKeybanAccount,
-} from "@keyban/sdk-react";
+import { useKeybanAuth } from "@keyban/sdk-react";
 import AddProductModal from "./AddProductModal";
-
-function hashSHA256(message: string): Promise<string> {
-  const msgBuffer = new TextEncoder().encode(message);
-  return crypto.subtle.digest("SHA-256", msgBuffer).then((hashBuffer) => {
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-  });
-}
 
 export default function BottomNav() {
   const [value, setValue] = React.useState(0);
   const [modalOpen, setModalOpen] = React.useState(false);
   const navigate = useNavigate();
   const { logout } = useKeybanAuth();
-  const keybanClient = useKeybanClient();
-  const [account] = useKeybanAccount();
 
   const handleLogout = async () => {
     await logout();
-  };
-
-  const handleAddProduct = async (ean: string, serialNumber: string) => {
-    const concatenated = ean + serialNumber;
-    const tppId = await hashSHA256(concatenated);
-    const recipient = account?.address || "";
-    const { transactionHash } = await keybanClient.tppClaim(tppId, recipient);
-    console.log("Transaction hash:", transactionHash);
-    setModalOpen(false);
   };
 
   return (
@@ -91,11 +68,7 @@ export default function BottomNav() {
           </Tooltip>
         </BottomNavigation>
       </Box>
-      <AddProductModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSubmit={handleAddProduct}
-      />
+      <AddProductModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 }

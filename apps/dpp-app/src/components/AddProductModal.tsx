@@ -10,31 +10,48 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
+import { useKeybanClient, useKeybanAccount } from "@keyban/sdk-react";
+
 interface AddProductModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (ean: string, serialNumber: string) => Promise<void>;
 }
 
 export default function AddProductModal({
   open,
   onClose,
-  onSubmit,
 }: AddProductModalProps) {
+  const keybanClient = useKeybanClient();
+  const [account] = useKeybanAccount();
+
   const [ean, setEan] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Local hash function
+  function hashSHA256(message: string): Promise<string> {
+    const msgBuffer = new TextEncoder().encode(message);
+    return crypto.subtle.digest("SHA-256", msgBuffer).then((hashBuffer) => {
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+    });
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmissionError(null);
     try {
-      await onSubmit(ean, serialNumber);
+      const concatenated = ean + serialNumber;
+      const tppId = await hashSHA256(concatenated);
+      const recipient = account?.address || "";
+      const { transactionHash } = await keybanClient.tppClaim(tppId, recipient);
+      console.log("Transaction hash:", transactionHash);
       // Reset fields after successful submit
       setEan("");
       setSerialNumber("");
+      onClose();
     } catch (error: unknown) {
       console.error("Error submitting form", error);
       if (error == "Error: This TPP has already been claimed") {
