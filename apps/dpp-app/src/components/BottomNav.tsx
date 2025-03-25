@@ -4,6 +4,7 @@ import {
   BottomNavigationAction,
   Tooltip,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -16,10 +17,12 @@ import AddProductModal from "./AddProductModal";
 export default function BottomNav() {
   const [value, setValue] = React.useState(0);
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
   const navigate = useNavigate();
   const { logout } = useKeybanAuth();
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     await logout();
   };
 
@@ -31,19 +34,19 @@ export default function BottomNav() {
           onChange={(_event, newValue) => {
             setValue(newValue);
             if (newValue === 0) navigate("/dashboard");
-            if (newValue === 1) setModalOpen(true); // Open AddProductModal instead of navigating
+            if (newValue === 1) setModalOpen(true);
             if (newValue === 2) navigate("/settings");
             if (newValue === 3) handleLogout();
           }}
           showLabels={false}
           sx={{
             position: "fixed",
-            bottom: 16, // Add space between the navigation bar and the bottom of the screen
+            bottom: 16,
             height: "56px",
             backgroundColor: "black",
             maxWidth: "sm",
-            borderRadius: "32px", // Rounded top corners
-            zIndex: 1000, // Ensure the navigation bar is above all other elements
+            borderRadius: "32px",
+            zIndex: 1000,
           }}
         >
           <Tooltip title="Dashboard">
@@ -69,6 +72,25 @@ export default function BottomNav() {
         </BottomNavigation>
       </Box>
       <AddProductModal open={modalOpen} onClose={() => setModalOpen(false)} />
+
+      {isLoggingOut && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(255,255,255,0.7)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1100,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
     </>
   );
 }
