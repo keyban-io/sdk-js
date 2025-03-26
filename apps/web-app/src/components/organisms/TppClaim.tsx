@@ -1,4 +1,4 @@
-import { useKeybanAccount, useKeybanClient } from "@keyban/sdk-react";
+import { useKeybanAccount } from "@keyban/sdk-react";
 import React from "react";
 import { useErrorBoundary } from "react-error-boundary";
 
@@ -8,7 +8,6 @@ import TextField from "~/components/molecules/TextField";
 
 export default function TppClaim() {
   const { showBoundary } = useErrorBoundary();
-  const client = useKeybanClient();
 
   const [account, accountError] = useKeybanAccount();
   if (accountError) throw accountError;
@@ -17,12 +16,12 @@ export default function TppClaim() {
   const [txHash, setTxHash] = React.useState("");
 
   const handleClaim = React.useCallback(async () => {
-    client
-      .tppClaim(tppId, account.address)
+    account
+      .tppClaim(tppId)
       .then(({ transactionHash }) => transactionHash)
       .then(setTxHash)
       .catch(showBoundary);
-  }, [showBoundary, client, tppId, account.address]);
+  }, [showBoundary, tppId, account]);
 
   return (
     <fieldset data-test-id="TppClaim">

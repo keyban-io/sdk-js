@@ -3,6 +3,7 @@
  */
 
 import type { Address, Hash, Hex } from "~/index";
+import { RpcClient } from "~/rpc";
 
 /**
  * Represents the estimation of fees for a transaction.
@@ -101,16 +102,27 @@ export type EstimateNftTransferParams = Omit<TransferNftParams, "txOptions">;
  * It provides methods to interact with the blockchain, including signing messages,
  * fetching balances, transferring tokens, and estimating transaction costs.
  */
-export interface KeybanAccount {
+export abstract class KeybanAccount {
   /**
    * The blockchain address associated with the account.
    */
-  address: Address;
+  abstract address: Address;
 
   /**
    * The public key associated with the account.
    */
-  publicKey: Hex;
+  abstract publicKey: Hex;
+
+  #rpcClient: RpcClient;
+
+  /**
+   * KeybanAccount constructor
+   * @param rpcClient - the keyban rpc client
+   * @private
+   */
+  constructor(rpcClient: RpcClient) {
+    this.#rpcClient = rpcClient;
+  }
 
   /**
    * Signs an Ethereum message.
@@ -118,7 +130,7 @@ export interface KeybanAccount {
    * @returns - The signed message as a hex string.
    * @throws {Error} If the message is empty or there is an issue during signing.
    */
-  signMessage(message: string): Promise<Hex | string[]>;
+  abstract signMessage(message: string): Promise<Hex | string[]>;
 
   /**
    * Transfers native tokens to another address.
@@ -141,7 +153,7 @@ export interface KeybanAccount {
    * };
    * ```
    */
-  transfer(
+  abstract transfer(
     to: Address,
     value: bigint,
     txOptions?: TransactionOptions,
@@ -153,7 +165,7 @@ export interface KeybanAccount {
    * @returns - A promise that resolves to a `FeesEstimation` object containing the fee details.
    * @throws {Error} If there is an issue with estimating the gas or fees.
    */
-  estimateTransfer(to: Address): Promise<FeesEstimation>;
+  abstract estimateTransfer(to: Address): Promise<FeesEstimation>;
 
   /**
    * Transfers ERC20 tokens to another address.
@@ -178,7 +190,7 @@ export interface KeybanAccount {
    * };
    * ```
    */
-  transferERC20(params: TransferERC20Params): Promise<Hash>;
+  abstract transferERC20(params: TransferERC20Params): Promise<Hash>;
 
   /**
    * Estimates the cost of transferring ERC20 tokens to another address.
@@ -203,7 +215,7 @@ export interface KeybanAccount {
    * };
    * ```
    */
-  estimateERC20Transfer(
+  abstract estimateERC20Transfer(
     params: EstimateERC20TransferParams,
   ): Promise<FeesEstimation>;
 
@@ -232,7 +244,7 @@ export interface KeybanAccount {
    * };
    * ```
    */
-  transferNft(params: TransferNftParams): Promise<Hash>;
+  abstract transferNft(params: TransferNftParams): Promise<Hash>;
 
   /**
    * Estimates the cost of transferring ERC721 and ERC1155 tokens to another address.
@@ -259,7 +271,16 @@ export interface KeybanAccount {
    * };
    * ```
    */
-  estimateNftTransfer(
+  abstract estimateNftTransfer(
     params: EstimateNftTransferParams,
   ): Promise<FeesEstimation>;
+
+  /**
+   * Claims a TPP for a given recipient.
+   * @param tppId - The identifier of the Tokenized Product Passport (TPP) to claim.
+   * @returns A promise that resolves with the result of the RPC call.
+   */
+  async tppClaim(tppId: string) {
+    return this.#rpcClient.call("tpp", "claim", tppId, this.address);
+  }
 }

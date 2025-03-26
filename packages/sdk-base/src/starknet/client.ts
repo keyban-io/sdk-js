@@ -46,6 +46,6 @@ export class StarknetClient extends KeybanClientBase {
       ETransactionVersion.V3,
     );
 
-    return new StarknetAccount(account, publicKey);
+    return new StarknetAccount(this.rpcClient, account, publicKey);
   }
 }

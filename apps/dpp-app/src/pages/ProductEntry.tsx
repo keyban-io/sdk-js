@@ -16,11 +16,7 @@ import Webcam from "react-webcam";
 import jsQR from "jsqr";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  useKeybanAccount,
-  useKeybanAccountNfts,
-  useKeybanClient,
-} from "@keyban/sdk-react";
+import { useKeybanAccount, useKeybanAccountNfts } from "@keyban/sdk-react";
 
 // Ajout de la fonction de hachage sha256
 async function hashSHA256(message: string): Promise<string> {
@@ -32,7 +28,6 @@ async function hashSHA256(message: string): Promise<string> {
 
 export default function ProductEntry() {
   const [account, accountError] = useKeybanAccount();
-  const keybanClient = useKeybanClient();
   const [nfts, nftsError] = useKeybanAccountNfts(account!, { first: 5 });
 
   const [serialNumber, setSerialNumber] = useState("");
@@ -91,10 +86,12 @@ export default function ProductEntry() {
     // Concaténer l'ean et le numéro de série pour créer le tppId
     const concatenated = ean + serialNumber;
     const tppId = await hashSHA256(concatenated);
-    // Utiliser account.address comme recipient (supposé présent)
-    const recipient = account?.address || "";
+
     try {
-      const { transactionHash } = await keybanClient.tppClaim(tppId, recipient);
+      if (!account)
+        throw new Error("You need to be logged in to claim this TPP");
+
+      const { transactionHash } = await account.tppClaim(tppId);
       console.log("Transaction hash:", transactionHash);
       navigate("/dashboard");
     } catch (error) {

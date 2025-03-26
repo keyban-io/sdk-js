@@ -11,11 +11,7 @@ import {
 import { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 
-import {
-  useKeybanClient,
-  useKeybanAccount,
-  KeybanBaseError,
-} from "@keyban/sdk-react";
+import { useKeybanAccount, KeybanBaseError } from "@keyban/sdk-react";
 
 interface AddProductModalProps {
   open: boolean;
@@ -26,7 +22,6 @@ export default function AddProductModal({
   open,
   onClose,
 }: AddProductModalProps) {
-  const keybanClient = useKeybanClient();
   const [account] = useKeybanAccount();
 
   const [ean, setEan] = useState("");
@@ -50,8 +45,13 @@ export default function AddProductModal({
     try {
       const concatenated = ean + serialNumber;
       const tppId = await hashSHA256(concatenated);
-      const recipient = account?.address || "";
-      const { transactionHash } = await keybanClient.tppClaim(tppId, recipient);
+
+      if (!account)
+        return setSubmissionError(
+          "Vous devez être connecté pour ajouter le produit."
+        );
+
+      const { transactionHash } = await account.tppClaim(tppId);
       console.log("Transaction hash:", transactionHash);
       // Reset fields after successful submit
       setEan("");

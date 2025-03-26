@@ -387,16 +387,6 @@ export abstract class KeybanClientBase {
   }
 
   /**
-   * Claims a TPP for a given recipient.
-   * @param tppId - The identifier of the Tokenized Product Passport (TPP) to claim.
-   * @param recipient - The recipient (the address) for which the claim is to be made.
-   * @returns A promise that resolves with the result of the RPC call.
-   */
-  async tppClaim(tppId: string, recipient: string) {
-    return this.rpcClient.call("tpp", "claim", tppId, recipient);
-  }
-
-  /**
    * Initializes a `KeybanAccount` associated with the current client.
    * This method sets up the account by retrieving or generating the client share,
    * and prepares the account for transactions and other operations.

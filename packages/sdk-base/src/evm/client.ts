@@ -105,6 +105,6 @@ export class KeybanEvmClient extends KeybanClientBase {
       account,
     });
 
-    return new KeybanEvmAccount(publicClient, walletClient);
+    return new KeybanEvmAccount(this.rpcClient, publicClient, walletClient);
   }
 }

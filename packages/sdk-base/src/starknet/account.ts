@@ -13,14 +13,17 @@ import {
   TransferERC20Params,
   TransferNftParams,
 } from "~/index";
+import { RpcClient } from "~/rpc";
 
-export class StarknetAccount implements KeybanAccount {
+export class StarknetAccount extends KeybanAccount {
   #account: Account;
 
   address: Address;
   publicKey: Hex;
 
-  constructor(account: Account, publicKey: Hex) {
+  constructor(rpcClient: RpcClient, account: Account, publicKey: Hex) {
+    super(rpcClient);
+
     this.#account = account;
 
     this.address = account.address as Address;

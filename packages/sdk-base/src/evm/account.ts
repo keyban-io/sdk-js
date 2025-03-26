@@ -26,6 +26,7 @@ import {
   TransferERC20Params,
   TransferNftParams,
 } from "~/index";
+import { RpcClient } from "~/rpc";
 
 const ERC1155_ABI_TRANSFER_FROM = [
   {
@@ -43,14 +44,17 @@ const ERC1155_ABI_TRANSFER_FROM = [
   },
 ];
 
-export class KeybanEvmAccount implements KeybanAccount {
+export class KeybanEvmAccount extends KeybanAccount {
   #publicClient: PublicClient<Transport, Chain>;
   #walletClient: WalletClient<Transport, Chain, LocalAccount>;
 
   constructor(
+    rpcClient: RpcClient,
     publicClient: PublicClient<Transport, Chain>,
     walletClient: WalletClient<Transport, Chain, LocalAccount>,
   ) {
+    super(rpcClient);
+
     this.#publicClient = publicClient;
     this.#walletClient = walletClient;
   }
