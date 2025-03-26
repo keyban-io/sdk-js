@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import SendIcon from "@mui/icons-material/Send";
 
 import {
   useKeybanClient,
@@ -120,7 +121,13 @@ export default function AddProductModal({
             Annuler
           </Button>
           <Button type="submit" variant="contained" disabled={isSubmitting}>
-            {isSubmitting ? <CircularProgress size={24} /> : "Soumettre"}
+            {isSubmitting ? (
+              <CircularProgress size={24} />
+            ) : (
+              <>
+                Soumettre <SendIcon sx={{ ml: 1 }} />
+              </>
+            )}
           </Button>
         </DialogActions>
       </form>
