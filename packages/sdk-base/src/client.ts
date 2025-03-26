@@ -7,12 +7,12 @@ import type { ApolloClient } from "@apollo/client/core";
 import { KeybanAccount } from "~/account";
 import type { KeybanApiStatus } from "~/api";
 import { createApolloClient } from "~/apollo";
-import { type FeesUnit, NativeCurrency } from "~/chains";
 import {
   AuthConnection,
-  KeybanChain,
   KeybanClientShareProvider,
+  KeybanNetwork,
 } from "~/index";
+import { type FeesUnit, NativeCurrency } from "~/network";
 import { RpcClient } from "~/rpc";
 
 /**
@@ -111,7 +111,7 @@ export type KeybanClientConfig = {
   /**
    * The blockchain configuration for Keyban.
    */
-  chain: KeybanChain;
+  network: KeybanNetwork;
 
   /**
    * The client share provider.
@@ -120,7 +120,7 @@ export type KeybanClientConfig = {
 };
 
 export type MetadataConfig = {
-  chain: { rpcUrl: string; indexerUrl: string };
+  network: { rpcUrl: string; indexerUrl: string };
   auth: { domain: string; clientId: string };
 };
 
@@ -138,7 +138,7 @@ export abstract class KeybanClientBase {
   /**
    * The blockchain used by Keyban.
    */
-  chain: KeybanChain;
+  network: KeybanNetwork;
 
   /**
    * The Apollo GraphQL client used for making API requests.
@@ -154,26 +154,26 @@ export abstract class KeybanClientBase {
   ) {
     this.apiUrl = new URL(config.apiUrl ?? "https://api.keyban.io");
     this.appId = config.appId;
-    this.chain = config.chain;
+    this.network = config.network;
 
     this.clientShareProvider = config.clientShareProvider;
     if (this.clientShareProvider instanceof KeybanClientShareProvider)
       this.clientShareProvider.registerClient(this);
 
     const indexerPrefix = {
-      [KeybanChain.EthereumAnvil]: "subql-ethereum-anvil.",
-      [KeybanChain.PolygonAmoy]: "subql-polygon-amoy.",
-      [KeybanChain.StarknetDevnet]: "subql-starknet-devnet.",
-      [KeybanChain.StarknetSepolia]: "subql-starknet-sepolia.",
-      [KeybanChain.StarknetMainnet]: "subql-starknet-mainnet.",
-      [KeybanChain.StellarTestnet]: "subql-stellar-testnet.",
-    }[this.chain];
+      [KeybanNetwork.EthereumAnvil]: "subql-ethereum-anvil.",
+      [KeybanNetwork.PolygonAmoy]: "subql-polygon-amoy.",
+      [KeybanNetwork.StarknetDevnet]: "subql-starknet-devnet.",
+      [KeybanNetwork.StarknetSepolia]: "subql-starknet-sepolia.",
+      [KeybanNetwork.StarknetMainnet]: "subql-starknet-mainnet.",
+      [KeybanNetwork.StellarTestnet]: "subql-stellar-testnet.",
+    }[this.network];
     this.apolloClient = createApolloClient(
       new URL(this.apiUrl.origin.replace("api.", indexerPrefix)),
     );
 
     const metadataUrl = new URL(`/v1/metadata`, this.apiUrl);
-    metadataUrl.searchParams.set("chain", this.chain);
+    metadataUrl.searchParams.set("network", this.network);
     this.metadataConfig =
       metadataConfig ?? fetch(metadataUrl).then((res) => res.json());
   }
@@ -192,37 +192,37 @@ export abstract class KeybanClientBase {
    */
   get nativeCurrency(): NativeCurrency {
     return {
-      [KeybanChain.EthereumAnvil]: {
+      [KeybanNetwork.EthereumAnvil]: {
         decimals: 18,
         name: "Ether",
         symbol: "ETH",
       },
-      [KeybanChain.PolygonAmoy]: {
+      [KeybanNetwork.PolygonAmoy]: {
         name: "POL",
         symbol: "POL",
         decimals: 18,
       },
-      [KeybanChain.StarknetDevnet]: {
+      [KeybanNetwork.StarknetDevnet]: {
         name: "Starknet Token",
         symbol: "STRK",
         decimals: 18,
       },
-      [KeybanChain.StarknetSepolia]: {
+      [KeybanNetwork.StarknetSepolia]: {
         name: "StarkNet Token",
         symbol: "STRK",
         decimals: 18,
       },
-      [KeybanChain.StarknetMainnet]: {
+      [KeybanNetwork.StarknetMainnet]: {
         name: "StarkNet Token",
         symbol: "STRK",
         decimals: 18,
       },
-      [KeybanChain.StellarTestnet]: {
+      [KeybanNetwork.StellarTestnet]: {
         name: "Stellar Token",
         symbol: "XLM",
         decimals: 6,
       },
-    }[this.chain];
+    }[this.network];
   }
 
   /**
@@ -240,31 +240,31 @@ export abstract class KeybanClientBase {
    */
   get feesUnit(): FeesUnit {
     return {
-      [KeybanChain.EthereumAnvil]: {
+      [KeybanNetwork.EthereumAnvil]: {
         symbol: "gwei",
         decimals: 9,
       },
-      [KeybanChain.PolygonAmoy]: {
+      [KeybanNetwork.PolygonAmoy]: {
         symbol: "gwei",
         decimals: 9,
       },
-      [KeybanChain.StarknetDevnet]: {
+      [KeybanNetwork.StarknetDevnet]: {
         symbol: "FRI",
         decimals: 18,
       },
-      [KeybanChain.StarknetSepolia]: {
+      [KeybanNetwork.StarknetSepolia]: {
         symbol: "FRI",
         decimals: 18,
       },
-      [KeybanChain.StarknetMainnet]: {
+      [KeybanNetwork.StarknetMainnet]: {
         symbol: "FRI",
         decimals: 18,
       },
-      [KeybanChain.StellarTestnet]: {
+      [KeybanNetwork.StellarTestnet]: {
         symbol: "stroop",
         decimals: 6,
       },
-    }[this.chain];
+    }[this.network];
   }
 
   /**
@@ -393,7 +393,7 @@ export abstract class KeybanClientBase {
    * @returns A promise that resolves with the result of the RPC call.
    */
   async tppClaim(tppId: string, recipient: string) {
-    return this.rpcClient.call("tpp", "claim", this.chain, tppId, recipient);
+    return this.rpcClient.call("tpp", "claim", tppId, recipient);
   }
 
   /**
@@ -426,7 +426,7 @@ export abstract class KeybanClientBase {
  * const client = new KeybanClient({
  *   apiUrl: "https://api.keyban.io",
  *   appId: "your-app-id",
- *   chain: KeybanChain.EthereumAnvil,
+ *   network: KeybanNetwork.EthereumAnvil,
  * });
  *
  * // Initialize an account
@@ -448,7 +448,7 @@ export class KeybanClient extends KeybanClientBase {
    * const client = new KeybanClient({
    *   apiUrl: "https://api.keyban.io",
    *   appId: "your-app-id",
-   *   chain: KeybanChain.EthereumAnvil,
+   *   network: KeybanNetwork.EthereumAnvil,
    * });
    * ```
    */
@@ -456,36 +456,36 @@ export class KeybanClient extends KeybanClientBase {
     super(config);
 
     this.#client = {
-      [KeybanChain.EthereumAnvil]: () =>
+      [KeybanNetwork.EthereumAnvil]: () =>
         import("~/evm").then(
           ({ KeybanEvmClient }) =>
             new KeybanEvmClient(config, this.metadataConfig),
         ),
-      [KeybanChain.PolygonAmoy]: () =>
+      [KeybanNetwork.PolygonAmoy]: () =>
         import("~/evm").then(
           ({ KeybanEvmClient }) =>
             new KeybanEvmClient(config, this.metadataConfig),
         ),
-      [KeybanChain.StarknetDevnet]: () =>
+      [KeybanNetwork.StarknetDevnet]: () =>
         import("~/starknet").then(
           ({ StarknetClient }) =>
             new StarknetClient(config, this.metadataConfig),
         ),
-      [KeybanChain.StarknetSepolia]: () =>
+      [KeybanNetwork.StarknetSepolia]: () =>
         import("~/starknet").then(
           ({ StarknetClient }) =>
             new StarknetClient(config, this.metadataConfig),
         ),
-      [KeybanChain.StarknetMainnet]: () =>
+      [KeybanNetwork.StarknetMainnet]: () =>
         import("~/starknet").then(
           ({ StarknetClient }) =>
             new StarknetClient(config, this.metadataConfig),
         ),
-      [KeybanChain.StellarTestnet]: () =>
+      [KeybanNetwork.StellarTestnet]: () =>
         import("~/stellar").then(
           ({ StellarClient }) => new StellarClient(config, this.metadataConfig),
         ),
-    }[this.chain]();
+    }[this.network]();
   }
 
   async initialize() {

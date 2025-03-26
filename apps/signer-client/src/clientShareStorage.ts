@@ -2,7 +2,7 @@ import { KeybanBaseError } from "@keyban/sdk-base";
 import { IKeybanClientShareStorage } from "@keyban/sdk-base/rpc";
 
 import { KeybanAuth } from "~/auth";
-import { API_URL } from "~/utils/api";
+import { API_URL } from "~/constants";
 
 export class KeybanClientShareStorage implements IKeybanClientShareStorage {
   #auth: KeybanAuth;

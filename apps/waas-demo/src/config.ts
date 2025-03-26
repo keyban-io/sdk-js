@@ -1,7 +1,7 @@
 import {
-  KeybanChain,
   KeybanClientConfig,
   KeybanClientShareProvider,
+  KeybanNetwork,
 } from "@keyban/sdk-react";
 
 const apiUrl =
@@ -24,7 +24,7 @@ const config: Config = {
   keyban: {
     apiUrl,
     appId,
-    chain: KeybanChain.PolygonAmoy,
+    network: KeybanNetwork.PolygonAmoy,
     clientShareProvider: new KeybanClientShareProvider(),
   },
 };

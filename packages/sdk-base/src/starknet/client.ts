@@ -16,14 +16,14 @@ export class StarknetClient extends KeybanClientBase {
     super(config, metadataConfig);
 
     this.#rpcProvider = this.metadataConfig.then(
-      (config) => new RpcProvider({ nodeUrl: config.chain.rpcUrl }),
+      (config) => new RpcProvider({ nodeUrl: config.network.rpcUrl }),
     );
   }
 
   async initialize(): Promise<StarknetAccount> {
     let clientShare = await this.clientShareProvider.get();
     if (!clientShare) {
-      clientShare = await this.rpcClient.call("ecdsa", "dkg", this.chain);
+      clientShare = await this.rpcClient.call("ecdsa", "dkg");
       await this.clientShareProvider.set(clientShare);
     }
 
@@ -33,7 +33,7 @@ export class StarknetClient extends KeybanClientBase {
         .call("ecdsa", "publicKey", clientShare)
         // remove the 04 prefix from the public key (it's the ECDSA uncompressed key prefix)
         .then((ethPublicKey): Hex => `0x${ethPublicKey.slice(4)}`),
-      this.rpcClient.call("account", "getAddress", this.chain),
+      this.rpcClient.call("account", "getAddress"),
     ]);
 
     const signer = new StarknetSigner(this.rpcClient, clientShare, publicKey);

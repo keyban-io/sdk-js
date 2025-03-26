@@ -329,7 +329,7 @@ const TransferNFT: React.FC = () => {
                     Transaction {index + 1}:{" "}
                     <Link
                       underline="always"
-                      href={getIndexerUrl(client.chain, txHash)}
+                      href={getIndexerUrl(client.network, txHash)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

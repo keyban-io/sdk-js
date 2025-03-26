@@ -199,7 +199,7 @@ const TransferERC20: React.FC = () => {
               Transaction {index + 1}:{" "}
               <Link
                 underline="always"
-                href={getIndexerUrl(keybanClient.chain, txHash)}
+                href={getIndexerUrl(keybanClient.network, txHash)}
                 target="_blank"
                 rel="noopener noreferrer"
               >

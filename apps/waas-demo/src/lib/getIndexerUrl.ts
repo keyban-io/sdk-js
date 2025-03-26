@@ -1,7 +1,7 @@
-import { KeybanChain } from "@keyban/sdk-react";
+import { KeybanNetwork } from "@keyban/sdk-react";
 
 // Type pour représenter les clés du mapping
-type HostChainKey = `${string}_${KeybanChain}`;
+type HostChainKey = `${string}_${KeybanNetwork}`;
 
 // Mapping des combinaisons hostname + chain vers les indexeurs
 const indexerUrlMapping: Record<HostChainKey, string> = {
@@ -20,15 +20,18 @@ const indexerUrlMapping: Record<HostChainKey, string> = {
   "waas-demo.beta.keyban.fr_PolygonAmoy": "https://rpc-amoy.polygon.technology",
 };
 
-export const getIndexerUrl = (chain: KeybanChain, txHash: string): string => {
+export const getIndexerUrl = (
+  network: KeybanNetwork,
+  txHash: string,
+): string => {
   const hostname = window.location.hostname;
 
   // Générer la clé pour le mapping
-  const key = `${hostname}_${chain}` as HostChainKey;
+  const key = `${hostname}_${network}` as HostChainKey;
 
   // Vérifier si la chaîne EthereumAnvil est disponible sur le domaine actuel
   if (
-    chain === KeybanChain.EthereumAnvil &&
+    network === KeybanNetwork.EthereumAnvil &&
     hostname === "waas-demo.beta.keyban.fr"
   ) {
     throw new Error(
@@ -42,6 +45,6 @@ export const getIndexerUrl = (chain: KeybanChain, txHash: string): string => {
     return `${indexerUrl}/tx/${txHash}`;
   }
   throw new Error(
-    `Indexeur non défini pour le domaine "${hostname}" avec la chaîne "${chain}"`,
+    `Indexeur non défini pour le domaine "${hostname}" avec la chaîne "${network}"`,
   );
 };

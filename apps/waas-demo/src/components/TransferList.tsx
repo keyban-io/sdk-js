@@ -188,7 +188,7 @@ const TransferList: React.FC<TransferListProps> = ({
 
               let indexerUrl = "";
               try {
-                indexerUrl = getIndexerUrl(client.chain, transfer.id ?? "");
+                indexerUrl = getIndexerUrl(client.network, transfer.id ?? "");
               } catch (error) {
                 console.error("Error generating indexer URL:", error);
               }

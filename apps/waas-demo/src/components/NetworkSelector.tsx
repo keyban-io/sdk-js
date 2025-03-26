@@ -1,4 +1,4 @@
-import { KeybanChain } from "@keyban/sdk-react";
+import { KeybanNetwork } from "@keyban/sdk-react";
 import {
   FormControl,
   MenuItem,
@@ -9,12 +9,12 @@ import {
 import type React from "react";
 
 interface NetworkSelectorProps {
-  chain: KeybanChain;
-  onChange: (chainId: KeybanChain) => void;
+  network: KeybanNetwork;
+  onChange: (chainId: KeybanNetwork) => void;
 }
 
 const NetworkSelector: React.FC<NetworkSelectorProps> = ({
-  chain,
+  network,
   onChange,
 }) => {
   const theme = useTheme();
@@ -25,12 +25,12 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
     currentDomain === "waas-demo.beta.keyban.fr";
 
   const availableChains = shouldExcludeDevChains
-    ? Object.values(KeybanChain).filter(
-        (chain) =>
-          chain !== KeybanChain.EthereumAnvil &&
-          chain !== KeybanChain.StarknetDevnet,
+    ? Object.values(KeybanNetwork).filter(
+        (network) =>
+          network !== KeybanNetwork.EthereumAnvil &&
+          network !== KeybanNetwork.StarknetDevnet,
       )
-    : Object.values(KeybanChain);
+    : Object.values(KeybanNetwork);
 
   return (
     <Tooltip title="Current blockchain" placement="left-start" arrow>
@@ -39,8 +39,8 @@ const NetworkSelector: React.FC<NetworkSelectorProps> = ({
           variant="standard"
           id="network-select"
           label="Network"
-          value={chain}
-          onChange={(e) => onChange(e.target.value as KeybanChain)}
+          value={network}
+          onChange={(e) => onChange(e.target.value as KeybanNetwork)}
           labelId="network-select-label"
           inputProps={{ "aria-label": "Network Selector" }}
           sx={{

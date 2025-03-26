@@ -154,7 +154,7 @@ const TransferNativeCrypto: React.FC = () => {
               Transaction {index + 1}:{" "}
               <Link
                 underline="always"
-                href={getIndexerUrl(client.chain, txHash)} // Utilisation dynamique de l'indexeur
+                href={getIndexerUrl(client.network, txHash)} // Utilisation dynamique de l'indexeur
                 target="_blank"
                 rel="noopener noreferrer"
               >

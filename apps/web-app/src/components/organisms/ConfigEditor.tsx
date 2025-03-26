@@ -1,4 +1,4 @@
-import { KeybanChain, KeybanClientConfig } from "@keyban/sdk-react";
+import { KeybanClientConfig, KeybanNetwork } from "@keyban/sdk-react";
 import React from "react";
 
 import Row from "~/components/atoms/Row";
@@ -38,14 +38,14 @@ export default function ConfigEditor({ config, onChange }: ConfigEditorProps) {
       </Row>
 
       <SelectField
-        label="Chain"
-        value={config.chain}
-        onChange={(chain) =>
-          onChange({ ...config, chain: chain as KeybanChain })
+        label="Network"
+        value={config.network}
+        onChange={(network) =>
+          onChange({ ...config, network: network as KeybanNetwork })
         }
-        data-test-id="ConfigEditor:chain"
+        data-test-id="ConfigEditor:network"
       >
-        {Object.entries(KeybanChain).map(([key, value]) => (
+        {Object.entries(KeybanNetwork).map(([key, value]) => (
           <option key={key} value={value}>
             {value}
           </option>

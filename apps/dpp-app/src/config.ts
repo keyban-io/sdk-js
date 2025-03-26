@@ -1,4 +1,4 @@
-import { KeybanChain, KeybanClientShareProvider } from "@keyban/sdk-react";
+import { KeybanNetwork, KeybanClientShareProvider, KeybanClientConfig } from "@keyban/sdk-react";
 
 const appId = "e7b8f9d2-3c4e-4f6e-9a7b-123456789def";
 
@@ -10,16 +10,16 @@ const apiUrl = {
   "https://dpp-app.marc.lvh.me": "https://api.keyban.localtest.me/v1",
   "https://dpp-app.sandbox.keyban.fr": "https://api.sandbox.keyban.io/v1",
 }[window.location.origin] ?? "https://api.keyban.localtest.me/v1";
-const storedChain = localStorage.getItem("selectedChain");
+const storedNetwork = localStorage.getItem("selectedNetwork");
 const defaultChain = window.location.origin === "https://dpp-app.keyban.fr"
-  ? KeybanChain.StarknetSepolia
-  : KeybanChain.StarknetDevnet;
-const chain = storedChain ? storedChain as KeybanChain : defaultChain;
+  ? KeybanNetwork.StarknetSepolia
+  : KeybanNetwork.StarknetDevnet;
+const network = storedNetwork ? storedNetwork as KeybanNetwork : defaultChain;
 
-const keybanConfig = {
+const keybanConfig: KeybanClientConfig = {
   apiUrl,
   appId,
-  chain,
+  network,
   clientShareProvider: new KeybanClientShareProvider(),
 };
 

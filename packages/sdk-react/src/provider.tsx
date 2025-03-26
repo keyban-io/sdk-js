@@ -48,7 +48,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  * @example
  * ```tsx
  * import React from "react";
- * import { KeybanProvider, KeybanChain } from "@keyban/sdk-react";
+ * import { KeybanProvider, KeybanNetwork } from "@keyban/sdk-react";
  * import { MyClientShareProvider } from './ClientShareProvider';
  * import { KeybanClientShareProvider } from '@keyban/sdk-base';
  *
@@ -57,7 +57,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *   return (
  *     <KeybanProvider
  *       appId="your-app-id" // Your unique application ID from Keyban
- *       chain={KeybanChain.EthereumAnvil} // Specify the blockchain network (e.g., Testnet or Mainnet)
+ *       network={KeybanNetwork.EthereumAnvil} // Specify the blockchain network (e.g., Testnet or Mainnet)
  *       clientShareProvider={new MyClientShareProvider()} // Custom provider for client shares
  *     >
  *       <YourMainComponent />
@@ -70,7 +70,7 @@ export type KeybanProviderProps = React.PropsWithChildren<KeybanClientConfig>;
  *   return (
  *     <KeybanProvider
  *       appId="your-app-id" // Your unique application ID from Keyban
- *       chain={KeybanChain.EthereumAnvil} // Specify the blockchain network (e.g., Testnet or Mainnet)
+ *       network={KeybanNetwork.EthereumAnvil} // Specify the blockchain network (e.g., Testnet or Mainnet)
  *       clientShareProvider={React.useMemo(() => new KeybanClientShareProvider(), [])} // Using KeybanClientShareProvider
  *     >
  *       <YourMainComponent />

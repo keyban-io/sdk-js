@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <KeybanProvider
           apiUrl={keybanConfig.apiUrl}
           appId={keybanConfig.appId}
-          chain={keybanConfig.chain}
+          network={keybanConfig.network}
           clientShareProvider={keybanConfig.clientShareProvider}
         >
           <BrowserRouter>

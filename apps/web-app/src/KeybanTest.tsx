@@ -1,4 +1,8 @@
-import { KeybanChain, useKeybanAuth, useKeybanClient } from "@keyban/sdk-react";
+import {
+  KeybanNetwork,
+  useKeybanAuth,
+  useKeybanClient,
+} from "@keyban/sdk-react";
 import React from "react";
 
 import ApiStatus from "~/components/organisms/ApiStatus";
@@ -26,10 +30,10 @@ const wrapSuspense = (Comp: React.ComponentType) => (
 export default function KeybanTest() {
   const client = useKeybanClient();
   const isStarknet = [
-    KeybanChain.StarknetDevnet,
-    KeybanChain.StarknetSepolia,
-    KeybanChain.StarknetMainnet,
-  ].includes(client.chain);
+    KeybanNetwork.StarknetDevnet,
+    KeybanNetwork.StarknetSepolia,
+    KeybanNetwork.StarknetMainnet,
+  ].includes(client.network);
 
   const [init, setInit] = React.useState(false);
 

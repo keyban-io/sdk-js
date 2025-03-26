@@ -8,7 +8,6 @@ export {
   TransferNftParams,
 } from "~/account";
 export { KeybanApiStatus } from "~/api";
-export { FeesUnit, KeybanChain, NativeCurrency } from "~/chains";
 export {
   ClientShareProvider,
   KeybanClient,
@@ -23,6 +22,7 @@ export type {
   GqlKeybanClient_TokenContractFragment as KeybanToken,
   GqlKeybanClient_TokenBalanceFragment as KeybanTokenBalance,
 } from "~/graphql";
+export { FeesUnit, KeybanNetwork, NativeCurrency } from "~/network";
 export * from "~/utils";
 
 /**

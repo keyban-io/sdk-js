@@ -1,22 +1,22 @@
-import { KeybanChain, KeybanProvider } from "@keyban/sdk-react";
+import { KeybanNetwork, KeybanProvider } from "@keyban/sdk-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "~/App.tsx";
 import config from "~/config";
 
-let chain: KeybanChain;
+let network: KeybanNetwork;
 
 try {
   const stored = localStorage.getItem("selectedChain");
   if (stored) {
-    chain = JSON.parse(stored) as KeybanChain;
+    network = JSON.parse(stored) as KeybanNetwork;
   } else {
-    chain = config.keyban.chain;
+    network = config.keyban.network;
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 } catch (e) {
-  chain = config.keyban.chain;
+  network = config.keyban.network;
 }
 
 const rootElement = document.getElementById("root");
@@ -25,7 +25,7 @@ if (rootElement) {
     <React.StrictMode>
       <KeybanProvider
         {...config.keyban}
-        chain={chain}
+        network={network}
         clientShareProvider={config.keyban.clientShareProvider}
       >
         <App />

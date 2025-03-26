@@ -6,7 +6,7 @@ import {
   test as testBase,
 } from "vitest";
 
-import { APP_ID } from "~/utils/appId";
+import { APP_ID } from "~/constants";
 
 type Fixtures = {
   server: SetupServerApi;

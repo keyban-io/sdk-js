@@ -4,23 +4,23 @@
 
 /**
  * @enum {string}
- * The `KeybanChain` enumeration defines the various blockchain networks supported by the Keyban SDK.
+ * The `KeybanNetwork` enumeration defines the various blockchain networks supported by the Keyban SDK.
  * Each member of the enumeration represents a specific blockchain network identified by its unique name.
  * @remarks
  * Use this enumeration to specify the blockchain network you wish to interact with when utilizing
  * the different functionalities of the Keyban SDK, such as account management, transactions, and NFTs.
  * @example
  * ```typescript
- * import { KeybanClient, KeybanChain } from '@keyban/sdk';
+ * import { KeybanClient, KeybanNetwork } from '@keyban/sdk';
  *
  * const client = new KeybanClient({
  *   apiUrl: "https://api.keyban.io",
  *   appId: "your-app-id",
- *   chain: KeybanChain.EthereumAnvil,
+ *   network: KeybanNetwork.EthereumAnvil,
  * });
  * ```
  */
-export enum KeybanChain {
+export enum KeybanNetwork {
   /**
    * Ethereum Anvil Chain.
    * Primarily used for development and testing purposes. This chain allows simulation of

@@ -3,7 +3,7 @@
  */
 
 import { IFrameRpcError, KeybanBaseError, SdkError } from "~/errors";
-import type { AuthConnection, KeybanUser } from "~/index";
+import type { AuthConnection, KeybanNetwork, KeybanUser } from "~/index";
 
 type Hex = `0x${string}`;
 
@@ -15,13 +15,13 @@ export interface IKeybanAuth {
 }
 
 export interface IKeybanSigner {
-  dkg(network: string): Promise<string>;
+  dkg(): Promise<string>;
   sign(clientShare: string, message: string): Promise<Hex>;
   publicKey(clientShare: string): Promise<Hex>;
 }
 
 export interface IKeybanAccount {
-  getAddress(network: string): Promise<string>;
+  getAddress(): Promise<string>;
 }
 
 export interface IKeybanClientShareStorage {
@@ -30,11 +30,7 @@ export interface IKeybanClientShareStorage {
 }
 
 export interface IKeybanTpp {
-  claim(
-    network: string,
-    tppId: string,
-    recipient: string,
-  ): Promise<{ transactionHash: string }>;
+  claim(tppId: string, recipient: string): Promise<{ transactionHash: string }>;
 }
 
 /*
@@ -195,6 +191,7 @@ export class RpcServer implements IRpc {
 type RpcClientOptions = {
   apiUrl: URL | string;
   appId: string;
+  network: KeybanNetwork;
 };
 
 export class RpcClient {
@@ -203,9 +200,10 @@ export class RpcClient {
 
   static #instances: Map<string, RpcClient> = new Map();
 
-  static #getIframeUrl({ apiUrl, appId }: RpcClientOptions) {
+  static #getIframeUrl({ apiUrl, appId, network }: RpcClientOptions) {
     const iframeUrl = new URL("/signer-client/", apiUrl);
     iframeUrl.searchParams.set("appId", appId);
+    iframeUrl.searchParams.set("network", network);
     return iframeUrl;
   }
 

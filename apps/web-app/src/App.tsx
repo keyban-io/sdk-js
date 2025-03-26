@@ -1,6 +1,6 @@
 import {
-  KeybanChain,
   KeybanClientShareProvider,
+  KeybanNetwork,
   KeybanProvider,
 } from "@keyban/sdk-react";
 import React from "react";
@@ -15,7 +15,7 @@ import KeybanTest from "~/KeybanTest";
 
 const DEFAULT_API_URL = "https://api.keyban.localtest.me";
 const DEFAULT_APP_ID = "a6f22ae8-341b-4b4f-8c22-f590254c3c21";
-const DEFAULT_CHAIN = KeybanChain.EthereumAnvil;
+const DEFAULT_CHAIN = KeybanNetwork.EthereumAnvil;
 
 export default function App() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,14 +23,14 @@ export default function App() {
   const [config, setConfig] = React.useState<ConfigEditorProps["config"]>({
     apiUrl: searchParams.get("apiUrl") ?? DEFAULT_API_URL,
     appId: searchParams.get("appId") ?? DEFAULT_APP_ID,
-    chain: (searchParams.get("chain") as KeybanChain) ?? DEFAULT_CHAIN,
+    network: (searchParams.get("network") as KeybanNetwork) ?? DEFAULT_CHAIN,
   });
 
   React.useEffect(() => {
     setSearchParams((prev) => {
       prev.set("apiUrl", config.apiUrl?.toString() ?? "");
       prev.set("appId", config.appId);
-      prev.set("chain", config.chain);
+      prev.set("network", config.network);
 
       return prev;
     });
@@ -49,7 +49,7 @@ export default function App() {
         <KeybanProvider
           apiUrl={config.apiUrl}
           appId={config.appId}
-          chain={config.chain}
+          network={config.network}
           clientShareProvider={clientShareProvider}
         >
           <KeybanTest />

@@ -1,7 +1,7 @@
 // src/components/ApplicationHeader.tsx
 import { faBell, faMoon, faSun } from "@fortawesome/free-solid-svg-icons"; // Import des icônes
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { type KeybanChain, useKeybanAuth } from "@keyban/sdk-react";
+import { type KeybanNetwork, useKeybanAuth } from "@keyban/sdk-react";
 import {
   AppBar,
   Avatar,
@@ -19,15 +19,15 @@ import { useState } from "react";
 import NetworkSelector from "~/components/NetworkSelector";
 
 type ApplicationHeaderProps = {
-  selectedChainId?: KeybanChain;
-  onSelectChain?: (chainId: KeybanChain) => void;
+  selectedNetworkId?: KeybanNetwork;
+  onSelectNetwork?: (chainId: KeybanNetwork) => void;
   onToggleTheme: () => void; // Nouvelle prop pour basculer le thème
   themeMode: "light" | "dark"; // Nouvelle prop pour le mode actuel
 };
 
 const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
-  selectedChainId,
-  onSelectChain,
+  selectedNetworkId,
+  onSelectNetwork,
   onToggleTheme, // Déstructuration de la nouvelle prop
   themeMode, // Déstructuration de la nouvelle prop
 }) => {
@@ -66,7 +66,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
           KEYBAN WAAS Demo
         </Typography>
 
-        {selectedChainId && onSelectChain && <Box sx={{ flexGrow: 1 }} />}
+        {selectedNetworkId && onSelectNetwork && <Box sx={{ flexGrow: 1 }} />}
 
         <Box
           sx={{
@@ -74,8 +74,11 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
             alignItems: "center",
           }}
         >
-          {selectedChainId && onSelectChain && (
-            <NetworkSelector chain={selectedChainId} onChange={onSelectChain} />
+          {selectedNetworkId && onSelectNetwork && (
+            <NetworkSelector
+              network={selectedNetworkId}
+              onChange={onSelectNetwork}
+            />
           )}
 
           {/* Bouton de Bascule du Thème */}
@@ -83,7 +86,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
             <FontAwesomeIcon icon={themeMode === "light" ? faMoon : faSun} />
           </IconButton>
 
-          {selectedChainId && onSelectChain && (
+          {selectedNetworkId && onSelectNetwork && (
             <IconButton color="inherit" sx={{ mx: 1 }}>
               <Badge badgeContent={4} color="secondary">
                 <FontAwesomeIcon icon={faBell} />
@@ -91,7 +94,7 @@ const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({
             </IconButton>
           )}
 
-          {selectedChainId && onSelectChain && (
+          {selectedNetworkId && onSelectNetwork && (
             <>
               <Tooltip title="Open settings">
                 <IconButton

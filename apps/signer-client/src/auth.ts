@@ -2,8 +2,7 @@ import { Auth0Client, createAuth0Client } from "@auth0/auth0-spa-js";
 import { AuthConnection, KeybanBaseError, KeybanUser } from "@keyban/sdk-base";
 import { IKeybanAuth } from "@keyban/sdk-base/rpc";
 
-import { API_URL } from "~/utils/api";
-import { APP_ID } from "~/utils/appId";
+import { API_URL, APP_ID, METADATA_PROMISE } from "~/constants";
 
 export class KeybanAuth implements IKeybanAuth {
   #auth0: Promise<Auth0Client>;
@@ -12,20 +11,18 @@ export class KeybanAuth implements IKeybanAuth {
     const audienceUrl = new URL(API_URL);
     audienceUrl.searchParams.set("appId", APP_ID);
 
-    this.#auth0 = fetch(new URL("/v1/metadata", API_URL))
-      .then((res) => res.json())
-      .then(async ({ auth }) =>
-        createAuth0Client({
-          ...auth,
-          useRefreshTokens: true,
-          cacheLocation: "localstorage",
-          authorizationParams: {
-            scope: "openid",
-            audience: audienceUrl.toString(),
-            redirect_uri: new URL("/signer-client/login", API_URL).toString(),
-          },
-        }),
-      );
+    this.#auth0 = METADATA_PROMISE.then(async ({ auth }) =>
+      createAuth0Client({
+        ...auth,
+        useRefreshTokens: true,
+        cacheLocation: "localstorage",
+        authorizationParams: {
+          scope: "openid",
+          audience: audienceUrl.toString(),
+          redirect_uri: new URL("/signer-client/login", API_URL).toString(),
+        },
+      }),
+    );
 
     window.addEventListener(
       "message",

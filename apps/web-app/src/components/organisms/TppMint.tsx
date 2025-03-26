@@ -62,7 +62,8 @@ export default function TppMint() {
     setJobId(null);
     setProgress(null);
 
-    const url = new URL(`/v1/tpp/mint?network=${client.chain}`, client.apiUrl);
+    const url = new URL("/v1/tpp/mint", client.apiUrl);
+    url.searchParams.set("network", client.network);
 
     const headers: HeadersInit = { "Content-Type": "application/jsonl" };
     if (apiKey) headers["X-Api-Key"] = apiKey;

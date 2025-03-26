@@ -3,9 +3,8 @@ import { KeybanBaseError } from "@keyban/sdk-base/errors";
 import { IKeybanSigner } from "@keyban/sdk-base/rpc";
 
 import { KeybanAuth } from "~/auth";
+import { API_URL, APP_ID, NETWORK } from "~/constants";
 import { WasmError } from "~/errors/WasmError";
-import { API_URL } from "~/utils/api";
-import { APP_ID } from "~/utils/appId";
 
 export class KeybanSigner_ECDSA implements IKeybanSigner {
   static #wasm = initWasm()
@@ -30,13 +29,13 @@ export class KeybanSigner_ECDSA implements IKeybanSigner {
     this.#auth = auth;
   }
 
-  async dkg(network: string) {
+  async dkg() {
     const wasm = await KeybanSigner_ECDSA.#wasm;
 
     return wasm
       .dkg(
         API_URL.origin,
-        `?network=${network}`,
+        `?network=${NETWORK}`,
         APP_ID,
         await this.#auth.getToken(),
       )

@@ -1,6 +1,6 @@
 // src/App.tsx
 import { darkThemeOptions, lightThemeOptions } from "@keyban/mui-theme"; // Ajustez le chemin si nécessaire
-import { KeybanChain, SignIn, useKeybanAuth } from "@keyban/sdk-react";
+import { KeybanNetwork, SignIn, useKeybanAuth } from "@keyban/sdk-react";
 import {
   CircularProgress,
   Container,
@@ -46,9 +46,9 @@ export function KeybanIcon() {
 }
 
 export default function App() {
-  const [chain, setChain] = useLocalStorage<KeybanChain>(
-    "selectedChain",
-    config.keyban.chain,
+  const [network, setNetwork] = useLocalStorage<KeybanNetwork>(
+    "selectedNetwork",
+    config.keyban.network,
   );
 
   const { isAuthenticated, isLoading } = useKeybanAuth();
@@ -78,8 +78,8 @@ export default function App() {
         <CssBaseline />
         <Container maxWidth="md" sx={{ py: [2] }}>
           <ApplicationHeader
-            selectedChainId={chain}
-            onSelectChain={setChain}
+            selectedNetworkId={network}
+            onSelectNetwork={setNetwork}
             onToggleTheme={toggleTheme}
             themeMode={themeMode}
           />
@@ -118,8 +118,8 @@ export default function App() {
         ) : (
           <>
             <ApplicationHeader
-              selectedChainId={chain}
-              onSelectChain={setChain}
+              selectedNetworkId={network}
+              onSelectNetwork={setNetwork}
               onToggleTheme={toggleTheme} // Passer la fonction de bascule
               themeMode={themeMode} // Passer le mode actuel
             />

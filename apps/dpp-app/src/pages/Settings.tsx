@@ -39,8 +39,8 @@ export default function Settings() {
     defaultChain = "StarknetDevnet";
   }
 
-  const [selectedChain, setSelectedChain] = useState<string>(() => {
-    return localStorage.getItem("selectedChain") || defaultChain;
+  const [selectedNetwork, setSelectedNetwork] = useState<string>(() => {
+    return localStorage.getItem("selectedNetwork") || defaultChain;
   });
 
   return (
@@ -56,11 +56,11 @@ export default function Settings() {
           <Typography variant="body1">
             Blockchain:{" "}
             <Select
-              value={selectedChain}
+              value={selectedNetwork}
               onChange={(e) => {
-                const newChain = e.target.value as string;
-                setSelectedChain(newChain);
-                localStorage.setItem("selectedChain", newChain);
+                const newNetwork = e.target.value as string;
+                setSelectedNetwork(newNetwork);
+                localStorage.setItem("selectedNetwork", newNetwork);
                 // Reload the app to apply the new chain selection
                 window.location.reload();
               }}

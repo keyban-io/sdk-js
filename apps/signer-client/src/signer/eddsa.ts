@@ -3,9 +3,8 @@ import { KeybanBaseError } from "@keyban/sdk-base/errors";
 import { IKeybanSigner } from "@keyban/sdk-base/rpc";
 
 import { KeybanAuth } from "~/auth";
+import { API_URL, APP_ID, NETWORK } from "~/constants";
 import { WasmError } from "~/errors/WasmError";
-import { API_URL } from "~/utils/api";
-import { APP_ID } from "~/utils/appId";
 
 export class KeybanSigner_EDDSA implements IKeybanSigner {
   static #wasm = initWasm()
@@ -32,16 +31,17 @@ export class KeybanSigner_EDDSA implements IKeybanSigner {
     this.#auth = auth;
   }
 
-  async dkg(network: string) {
+  async dkg() {
     const wasm = await KeybanSigner_EDDSA.#wasm;
 
     return wasm
       .dkg(
-        API_URL.origin + `?network=${network}`,
+        API_URL.origin + `?network=${NETWORK}`,
         APP_ID,
         await this.#auth.getToken(),
       )
-      .catch((err) => {
+      .catch((err: Error) => {
+        // @ts-expect-error: I don't known how to pass correct type here
         throw new KeybanBaseError(err);
       });
   }
@@ -57,7 +57,8 @@ export class KeybanSigner_EDDSA implements IKeybanSigner {
         clientShare,
         message,
       )
-      .catch((err) => {
+      .catch((err: Error) => {
+        // @ts-expect-error: I don't known how to pass correct type here
         throw new KeybanBaseError(err);
       });
   }
@@ -65,7 +66,8 @@ export class KeybanSigner_EDDSA implements IKeybanSigner {
   async publicKey(clientShare: string) {
     const wasm = await KeybanSigner_EDDSA.#wasm;
 
-    return wasm.public_key(clientShare).catch((err) => {
+    return wasm.public_key(clientShare).catch((err: Error) => {
+      // @ts-expect-error: I don't known how to pass correct type here
       throw new KeybanBaseError(err);
     });
   }

@@ -24,13 +24,13 @@ To start using the Keyban React SDK, wrap your application with the `KeybanProvi
 
 ```jsx
 import React from "react";
-import { KeybanProvider, KeybanChain, KeybanClientShareProvider } from "@keyban/sdk-react";
+import { KeybanProvider, KeybanNetwork, KeybanClientShareProvider } from "@keyban/sdk-react";
 
 const App = () => {
   return (
     <KeybanProvider
       appId="your-app-id"  // Your unique application ID from Keyban
-      chain={KeybanChain.EthereumAnvil}  // Specify the blockchain network (e.g., Testnet or Mainnet)
+      network={KeybanNetwork.EthereumAnvil}  // Specify the blockchain network (e.g., Testnet or Mainnet)
       clientShareProvider={React.useMemo(() => new KeybanClientShareProvider(), [])}
     >
       {/* Your application components go here */}
@@ -45,7 +45,7 @@ export default App;
 ### Configuration Options
 
 - **`appId`**: Your application ID for authentication with the Keyban API.
-- **`chain`**: The blockchain network used by Keyban (e.g., `KeybanChain.EthereumAnvil`).
+- **`network`**: The blockchain network used by Keyban (e.g., `KeybanNetwork.EthereumAnvil`).
 - **`clientShareProvider`**: An instance of the `KeybanClientShareProvider`, responsible for securely storing and retrieving the client share via Keyban's infrastructure. For more details, refer to the [KeybanClientShareProvider documentation](https://docs.beta.keyban.io/api/sdk-react/Class.KeybanClientShareProvider).
 
 ---

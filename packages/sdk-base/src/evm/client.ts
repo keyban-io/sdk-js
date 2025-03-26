@@ -12,9 +12,9 @@ import {
 import { publicKeyToAddress, toAccount } from "viem/accounts";
 import * as chains from "viem/chains";
 
-import { KeybanChain } from "~/chains";
 import { KeybanClientBase, KeybanClientConfig, MetadataConfig } from "~/client";
 import { KeybanEvmAccount } from "~/evm/account";
+import { KeybanNetwork } from "~/network";
 
 export class KeybanEvmClient extends KeybanClientBase {
   #viem: {
@@ -30,17 +30,17 @@ export class KeybanEvmClient extends KeybanClientBase {
     super(config, metadataConfig);
 
     const transport = this.metadataConfig.then((config) =>
-      http(config.chain.rpcUrl),
+      http(config.network.rpcUrl),
     );
 
     const chain = {
-      [KeybanChain.EthereumAnvil]: chains.anvil,
-      [KeybanChain.PolygonAmoy]: chains.polygonAmoy,
-      [KeybanChain.StarknetDevnet]: null,
-      [KeybanChain.StarknetSepolia]: null,
-      [KeybanChain.StarknetMainnet]: null,
-      [KeybanChain.StellarTestnet]: null,
-    }[this.chain]!;
+      [KeybanNetwork.EthereumAnvil]: chains.anvil,
+      [KeybanNetwork.PolygonAmoy]: chains.polygonAmoy,
+      [KeybanNetwork.StarknetDevnet]: null,
+      [KeybanNetwork.StarknetSepolia]: null,
+      [KeybanNetwork.StarknetMainnet]: null,
+      [KeybanNetwork.StellarTestnet]: null,
+    }[this.network]!;
 
     const publicClient = transport.then((transport) =>
       createPublicClient({ chain, transport }),
@@ -52,7 +52,7 @@ export class KeybanEvmClient extends KeybanClientBase {
   async initialize(): Promise<KeybanEvmAccount> {
     let clientShare = await this.clientShareProvider.get();
     if (!clientShare) {
-      clientShare = await this.rpcClient.call("ecdsa", "dkg", this.chain);
+      clientShare = await this.rpcClient.call("ecdsa", "dkg");
       await this.clientShareProvider.set(clientShare);
     }
 

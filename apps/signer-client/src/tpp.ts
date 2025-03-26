@@ -3,8 +3,8 @@ import { IKeybanTpp } from "@keyban/sdk-base/rpc";
 import { EventSource } from "eventsource";
 
 import { KeybanAuth } from "~/auth";
+import { API_URL, NETWORK } from "~/constants";
 import { TppError } from "~/errors/TppError";
-import { API_URL } from "~/utils/api";
 
 export class KeybanTpp implements IKeybanTpp {
   #auth: KeybanAuth;
@@ -14,14 +14,13 @@ export class KeybanTpp implements IKeybanTpp {
   }
 
   async claim(
-    network: string,
     tppId: string,
     recipient: string,
   ): Promise<{ transactionHash: string }> {
     const accessToken = await this.#auth.getToken();
 
     const claimUrl = new URL("/v1/tpp/claim", API_URL);
-    claimUrl.searchParams.set("network", network);
+    claimUrl.searchParams.set("network", NETWORK);
 
     const { jobId } = await fetch(claimUrl, {
       method: "POST",
