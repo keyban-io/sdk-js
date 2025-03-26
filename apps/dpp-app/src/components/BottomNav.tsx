@@ -32,11 +32,15 @@ export default function BottomNav() {
         <BottomNavigation
           value={value}
           onChange={(_event, newValue) => {
-            setValue(newValue);
-            if (newValue === 0) navigate("/dashboard");
-            if (newValue === 1) setModalOpen(true);
-            if (newValue === 2) navigate("/settings");
-            if (newValue === 3) handleLogout();
+            if (newValue === 1) {
+              setModalOpen(true);
+              // Do not update state so previous button stays highlighted
+            } else {
+              setValue(newValue);
+              if (newValue === 0) navigate("/dashboard");
+              if (newValue === 2) navigate("/settings");
+              if (newValue === 3) handleLogout();
+            }
           }}
           showLabels={false}
           sx={{
@@ -51,22 +55,38 @@ export default function BottomNav() {
         >
           <Tooltip title="Dashboard">
             <BottomNavigationAction
-              icon={<HomeIcon sx={{ color: "white" }} />}
+              icon={
+                <HomeIcon
+                  sx={{ color: value === 0 ? "primary.main" : "white" }}
+                />
+              }
             />
           </Tooltip>
           <Tooltip title="Ajouter un produit">
             <BottomNavigationAction
-              icon={<AddCircleIcon sx={{ color: "white" }} />}
+              icon={
+                <AddCircleIcon
+                  sx={{ color: "white" }} // always white regardless of selected state
+                />
+              }
             />
           </Tooltip>
           <Tooltip title="Paramètres">
             <BottomNavigationAction
-              icon={<SettingsIcon sx={{ color: "white" }} />}
+              icon={
+                <SettingsIcon
+                  sx={{ color: value === 2 ? "primary.main" : "white" }}
+                />
+              }
             />
           </Tooltip>
           <Tooltip title="Logout">
             <BottomNavigationAction
-              icon={<LogoutIcon sx={{ color: "white" }} />}
+              icon={
+                <LogoutIcon
+                  sx={{ color: value === 3 ? "primary.main" : "white" }}
+                />
+              }
             />
           </Tooltip>
         </BottomNavigation>
