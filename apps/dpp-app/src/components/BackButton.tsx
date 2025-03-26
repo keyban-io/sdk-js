@@ -33,9 +33,10 @@ const BackButton: React.FC = () => {
             onClick={() => navigate(-1)}
             sx={{
               color: "black",
-              backgroundColor: "transparent",
+              backgroundColor: "#f0f0f0", // Updated from transparent to light gray
               border: "none",
               boxShadow: "none",
+              borderRadius: "50%", // Added round shape
             }}
           >
             <ArrowBackIcon />
