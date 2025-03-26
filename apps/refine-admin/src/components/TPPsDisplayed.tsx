@@ -14,20 +14,13 @@ export const TPPsDisplayed: React.FC = () => {
     (tppsChartData[timeFrame as keyof typeof tppsChartData] as TppData[]) || [];
 
   // Use explicit type for items in reduce
-  const tppOwned = data.reduce(
+  const tppCreated = data.reduce(
     (sum: number, item: TppData) => sum + item.TPPs,
-    0,
-  );
-  const tppDisplayed = data.reduce(
-    (sum: number, item: TppData) => sum + item.userTPPs,
-    0,
+    0
   );
 
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 4, width: "100%" }}>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        TPPs Displayed
-      </Typography>
       <Box
         width="100%"
         height={270}
@@ -35,16 +28,12 @@ export const TPPsDisplayed: React.FC = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly", // changed from "space-between"
         }}
       >
         <Box textAlign="center">
-          <Typography variant="subtitle1">Owned</Typography>
-          <Typography variant="h2">{tppOwned}</Typography>
-        </Box>
-        <Box textAlign="center">
-          <Typography variant="subtitle1">Displayed</Typography>
-          <Typography variant="h2">{tppDisplayed}</Typography>
+          <Typography variant="h2">{tppCreated}</Typography>
+          <Typography variant="subtitle1">TPP created</Typography>
         </Box>
       </Box>
     </Paper>

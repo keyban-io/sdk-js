@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Paper, Box } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
 import { usersChartData } from "../dashboardData";
 import { useTimeFrame } from "./TimeFrameSelector/useTimeFrame";
 
@@ -14,21 +15,29 @@ export const TotalUsers: React.FC = () => {
 
   const totalUsers = data.reduce(
     (sum: number, item: UsersData) => sum + item.users,
-    0,
+    0
   );
 
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 4, width: "100%" }}>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        New Users
-      </Typography>
       <Box
-        width="100%"
-        height={270}
-        minHeight={270}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          py: 6,
+          px: 2,
+          height: "100%",
+        }}
       >
-        <Typography variant="h1">{totalUsers}</Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <PersonIcon fontSize="large" sx={{ mr: 1 }} />
+          <Typography variant="h1" component="span">
+            {totalUsers}
+          </Typography>
+        </Box>
+        <Typography variant="subtitle1">New Users</Typography>
       </Box>
     </Paper>
   );

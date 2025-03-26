@@ -30,8 +30,7 @@ export default function Dashboard() {
           <Stack direction="row" spacing={1}>
             <Button
               size="small"
-              variant="contained"
-              color="secondary"
+              variant="text"
               startIcon={<ShareIcon />}
               sx={{ borderRadius: 2 }}
             >
@@ -39,8 +38,7 @@ export default function Dashboard() {
             </Button>
             <Button
               size="small"
-              variant="contained"
-              color="secondary"
+              variant="text"
               startIcon={<DownloadIcon />}
               sx={{ borderRadius: 2 }}
             >

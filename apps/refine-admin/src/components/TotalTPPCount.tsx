@@ -15,42 +15,46 @@ export const TotalTPPCount: React.FC = () => {
 
   const createdTPPs = data.reduce(
     (sum: number, item: TppData) => sum + item.TPPs,
-    0,
+    0
   );
-  const associatedTPPs = data.reduce(
+  const ownedTPPs = data.reduce(
     (sum: number, item: TppData) => sum + item.userTPPs,
-    0,
+    0
   );
   const percentage =
-    createdTPPs > 0 ? Math.round((associatedTPPs / createdTPPs) * 100) : 0;
+    createdTPPs > 0 ? Math.round((ownedTPPs / createdTPPs) * 100) : 0;
 
   return (
     <Paper elevation={3} sx={{ p: 4, borderRadius: 4, width: "100%" }}>
-      {/* Main information: percentage display */}
-      <Box textAlign="center" sx={{ mt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          py: 6,
+          px: 2,
+        }}
+      >
         <Typography variant="h1" component="div">
           {percentage}%
         </Typography>
-        <Typography variant="subtitle1" sx={{ mt: 1 }}>
-          Associated TPP
+        <Typography variant="subtitle1" sx={{ mb: 4 }}>
+          Owned TPP
         </Typography>
-      </Box>
-      <Box
-        width="100%"
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          minHeight: 270,
-        }}
-      >
-        <Box textAlign="center">
-          <Typography variant="subtitle1">Created</Typography>
-          <Typography variant="h2">{createdTPPs}</Typography>
-        </Box>
-        <Box textAlign="center">
-          <Typography variant="subtitle1">Associated</Typography>
-          <Typography variant="h2">{associatedTPPs}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <Box textAlign="center">
+            <Typography variant="h1">{ownedTPPs}</Typography>
+            <Typography variant="subtitle1">TPP Owned</Typography>
+          </Box>
         </Box>
       </Box>
     </Paper>
