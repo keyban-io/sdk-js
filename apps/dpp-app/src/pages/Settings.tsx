@@ -18,7 +18,8 @@ export default function Settings() {
   let defaultChain = "";
   if (
     domain === "https://dpp-app.keyban.fr" ||
-    domain === "https://dpp-app.staging.keyban.fr"
+    domain === "https://dpp-app.staging.keyban.fr" ||
+    domain === "https://dpp-app.prod.keyban.fr"
   ) {
     availableChains = [
       { value: "StarknetSepolia", label: "Starknet Sepolia" },
