@@ -14,7 +14,7 @@
  * import { KeybanClient, KeybanNetwork } from '@keyban/sdk';
  *
  * const client = new KeybanClient({
- *   apiUrl: "https://api.keyban.io",
+ *   apiUrl: "https://api.prod.keyban.io",
  *   appId: "your-app-id",
  *   network: KeybanNetwork.EthereumAnvil,
  * });

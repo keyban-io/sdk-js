@@ -99,7 +99,7 @@ export interface ClientShareProvider {
  */
 export type KeybanClientConfig = {
   /**
-   * The base URL of the API. Optional. Defaults to "https://api.keyban.io" if not provided.
+   * The base URL of the API. Optional. Defaults to "https://api.prod.keyban.io" if not provided.
    */
   apiUrl?: URL | string;
 
@@ -126,7 +126,7 @@ export type MetadataConfig = {
 
 export abstract class KeybanClientBase {
   /**
-   * The Keyban API URL, defaulting to "https://api.keyban.io".
+   * The Keyban API URL, defaulting to "https://api.prod.keyban.io".
    */
   apiUrl: URL;
 
@@ -152,7 +152,7 @@ export abstract class KeybanClientBase {
     config: KeybanClientConfig,
     metadataConfig?: Promise<MetadataConfig>,
   ) {
-    this.apiUrl = new URL(config.apiUrl ?? "https://api.keyban.io");
+    this.apiUrl = new URL(config.apiUrl ?? "https://api.prod.keyban.io");
     this.appId = config.appId;
     this.network = config.network;
 
@@ -414,7 +414,7 @@ export abstract class KeybanClientBase {
  * ```typescript
  * // Initialize the client
  * const client = new KeybanClient({
- *   apiUrl: "https://api.keyban.io",
+ *   apiUrl: "https://api.prod.keyban.io",
  *   appId: "your-app-id",
  *   network: KeybanNetwork.EthereumAnvil,
  * });
@@ -436,7 +436,7 @@ export class KeybanClient extends KeybanClientBase {
    * @example
    * ```typescript
    * const client = new KeybanClient({
-   *   apiUrl: "https://api.keyban.io",
+   *   apiUrl: "https://api.prod.keyban.io",
    *   appId: "your-app-id",
    *   network: KeybanNetwork.EthereumAnvil,
    * });

@@ -2,7 +2,7 @@ import {
   KeybanNetwork,
 } from "@keyban/sdk-react";
 
-const API_URL = "https://api.keyban.io";
+const API_URL = "https://api.prod.keyban.io";
 
 export default {
   keyban: {

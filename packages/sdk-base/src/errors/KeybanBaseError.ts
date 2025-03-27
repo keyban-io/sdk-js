@@ -39,7 +39,7 @@ export class KeybanBaseError<T extends string> extends Error {
    * machine-readable identifier for the error.
    * @example
    * ```typescript
-   * error.type // "https://api.keyban.io/errors/address-invalid"
+   * error.type // "https://api.prod.keyban.io/errors/address-invalid"
    * ```
    */
   type: T;
