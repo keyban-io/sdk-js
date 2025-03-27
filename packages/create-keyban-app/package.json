@@ -24,7 +24,7 @@
     "format": "prettier --write ./template ./index.js"
   },
   "devDependencies": {
-    "@types/node": "^22.13.5",
-    "prettier": "^3.5.2"
+    "@types/node": "^22.13.14",
+    "prettier": "^3.5.3"
   }
 }
