@@ -115,9 +115,10 @@ export type PaginationArgs = {
  * Represents the types of authentication connections available.
  * @type {("username-password" | "google-oauth2")}
  * @property {"username-password"} username-password - Standard username and password authentication.
+ * @property {"email"} email - One time password send through email.
  * @property {"google-oauth2"} google-oauth2 - Google OAuth 2.0 authentication.
  */
-export type AuthConnection = "username-password" | "google-oauth2";
+export type AuthConnection = "username-password" | "email" | "google-oauth2";
 
 export type KeybanUser = {
   sub: string;
