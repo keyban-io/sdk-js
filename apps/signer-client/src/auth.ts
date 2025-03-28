@@ -8,9 +8,6 @@ export class KeybanAuth implements IKeybanAuth {
   #auth0: Promise<Auth0Client>;
 
   constructor() {
-    const audienceUrl = new URL(API_URL);
-    audienceUrl.searchParams.set("appId", APP_ID);
-
     this.#auth0 = METADATA_PROMISE.then(async ({ auth }) =>
       createAuth0Client({
         ...auth,
@@ -18,7 +15,8 @@ export class KeybanAuth implements IKeybanAuth {
         cacheLocation: "localstorage",
         authorizationParams: {
           scope: "openid",
-          audience: audienceUrl.toString(),
+          audience: API_URL.origin,
+          organization: APP_ID,
           redirect_uri: new URL("/signer-client/login", API_URL).toString(),
         },
       }),

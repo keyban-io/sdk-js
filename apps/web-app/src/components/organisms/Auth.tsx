@@ -16,7 +16,7 @@ export default function Auth() {
         </button>
 
         <button
-          onClick={() => login("Username-Password-Authentication")}
+          onClick={() => login("username-password")}
           data-test-id="Auth:login:usernamePassword"
         >
           Login username/password

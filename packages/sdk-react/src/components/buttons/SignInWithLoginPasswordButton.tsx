@@ -124,7 +124,7 @@ const SignInWithLoginPasswordButton: React.FC<
       return;
     }
     console.log({ email, password });
-    await login("Username-Password-Authentication");
+    await login("username-password");
   };
 
   return (
