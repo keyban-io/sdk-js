@@ -117,9 +117,7 @@ export type PaginationArgs = {
  * @property {"username-password"} username-password - Standard username and password authentication.
  * @property {"google-oauth2"} google-oauth2 - Google OAuth 2.0 authentication.
  */
-export type AuthConnection =
-  | "username-password"
-  | "google-oauth2";
+export type AuthConnection = "username-password" | "google-oauth2";
 
 export type KeybanUser = {
   sub: string;
