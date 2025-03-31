@@ -4,14 +4,13 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import Typography from "@mui/material/Typography";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import { getDefaultLanguage } from "../../utils/languageUtils";
+import SignInWithEmailButton from "../buttons/SignInWithEmailButton";
 import SignInWithFacebookButton from "../buttons/SignInWithFacebookButton";
 import SignInWithGoogleButton from "../buttons/SignInWithGoogleButton";
-import SignInWithLoginPasswordButton from "../buttons/SignInWithLoginPasswordButton";
 import { KeybanIcon, SitemarkIcon } from "../CustomIcons";
-import SignUp from "../sign-up/SignUp";
 
 // Définition des traductions en dehors du composant
 const translations = {
@@ -41,17 +40,17 @@ const translations = {
   },
 };
 /**
- * Represents the configuration options for the SignIn component.
- * @property sitemarkIcon - An optional custom icon component that replaces the default sitemarkIcon.
- * @property enableGoogleAuth - Determines whether Google authentication is enabled.
- * @property enableLoginPasswordAuth - Determines whether traditional username/password authentication is enabled.
- * @property enableFacebookAuth - Determines whether Facebook authentication is enabled.
- * @property language - The language code for translations. Defaults to the browser's language or "en".
+ * Configuration options for the SignIn component.
+ * @property sitemarkIcon - Optional custom icon component that overrides the default sitemarkIcon.
+ * @property enableGoogleAuth - Enables Google authentication.
+ * @property enableEmailAuth - Enables email authentication using a One Time Password.
+ * @property enableFacebookAuth - Enables Facebook authentication.
+ * @property language - Language code used for translations, defaulting to the browser's locale or "en".
  */
 export interface SignInProps {
   sitemarkIcon?: React.ComponentType<SvgIconProps>;
   enableGoogleAuth?: boolean;
-  enableLoginPasswordAuth?: boolean;
+  enableEmailAuth?: boolean;
   enableFacebookAuth?: boolean;
   language?: "en" | "fr" | "es"; // Ajout de la prop language
 }
@@ -66,7 +65,7 @@ export interface SignInProps {
  * The custom icon should have a width and height similar to the default icon.
  * Default icon dimensions: width: 40px, height: 40px.
  * @param [props.enableGoogleAuth] - Optional flag to enable Google authentication.
- * @param [props.enableLoginPasswordAuth] - Optional flag to enable LoginPassword authentication.
+ * @param [props.enableEmailAuth] - Optional flag to enable Email authentication using a One Time Password.
  * @param [props.enableFacebookAuth] - Optional flag to enable Facebook authentication.
  * @param [props.language] - Optional language code for translations. Defaults to the browser's language or "en".
  * @returns The rendered SignIn component.
@@ -74,11 +73,10 @@ export interface SignInProps {
 export default function SignIn({
   sitemarkIcon: CustomSitemarkIcon,
   enableGoogleAuth = true,
-  enableLoginPasswordAuth = true,
+  enableEmailAuth = true,
   enableFacebookAuth = true,
   language = getDefaultLanguage(),
 }: SignInProps) {
-  const [isSignUp, setIsSignUp] = useState(false);
   const SitemarkIconComponent = CustomSitemarkIcon || SitemarkIcon;
 
   // Calcul de la traduction active avec fallback sur l'anglais
@@ -86,22 +84,6 @@ export default function SignIn({
     () => translations[language] || translations.en,
     [language],
   );
-
-  const toggleSignUp = () => {
-    setIsSignUp(!isSignUp);
-  };
-
-  if (isSignUp) {
-    return (
-      <SignUp
-        sitemarkIcon={CustomSitemarkIcon}
-        enableGoogleAuth={enableGoogleAuth}
-        enableLoginPasswordAuth={enableLoginPasswordAuth}
-        enableFacebookAuth={enableFacebookAuth}
-        language={language}
-      />
-    );
-  }
 
   return (
     <Stack
@@ -140,14 +122,10 @@ export default function SignIn({
         >
           {t.signInHeading}
         </Typography>
-        {enableLoginPasswordAuth && (
-          <SignInWithLoginPasswordButton
-            toggleSignUp={toggleSignUp}
-            language={language}
-          />
+        {enableEmailAuth && <SignInWithEmailButton language={language} />}
+        {(enableGoogleAuth || enableFacebookAuth) && enableEmailAuth && (
+          <Divider>{t.or}</Divider>
         )}
-        {(enableGoogleAuth || enableFacebookAuth) &&
-          enableLoginPasswordAuth && <Divider>{t.or}</Divider>}
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {enableGoogleAuth && <SignInWithGoogleButton language={language} />}
           {enableFacebookAuth && (

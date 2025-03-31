@@ -133,7 +133,7 @@ import { SignIn } from "@keyban/sdk-react";
 const AuthPage = () => {
   return (
     <div>
-      <SignIn enableGoogleAuth enableLoginPasswordAuth />
+      <SignIn enableGoogleAuth enableEmailAuth />
     </div>
   );
 };
