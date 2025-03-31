@@ -56,7 +56,6 @@ export class KeybanTpp implements IKeybanTpp {
           error?: string;
         } = JSON.parse(e.data);
         const { state, result, error } = data;
-        console.log("EVENT", data);
 
         switch (state) {
           case "completed":
