@@ -111,7 +111,7 @@ export default function App() {
             <SignIn
               enableFacebookAuth={false}
               sitemarkIcon={KeybanIcon}
-              enableLoginPasswordAuth={false}
+              enableEmailAuth
               language="en"
             />
           </>
