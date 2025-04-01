@@ -43,7 +43,7 @@
     "@emotion/styled": "^11.14.0",
     "@fontsource/chivo": "^5.2.5",
     "@fontsource/inter": "^5.2.5",
-    "@mui/material": "^6.4.9"
+    "@mui/material": "^6.4.10"
   },
   "devDependencies": {
     "tsup": "^8.4.0",
