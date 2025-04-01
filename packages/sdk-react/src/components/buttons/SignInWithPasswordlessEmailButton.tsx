@@ -1,4 +1,4 @@
-import EmailIcon from "@mui/icons-material/Email";
+import VpnKeyOffIcon from "@mui/icons-material/VpnKeyOff";
 import Button from "@mui/material/Button";
 import * as React from "react";
 
@@ -7,14 +7,14 @@ import { getDefaultLanguage } from "../../utils/languageUtils";
 
 // Ajout des traductions en dehors du composant
 const translations = {
-  en: { signInEmail: "Sign in with Email" },
-  fr: { signInEmail: "Se connecter avec Email" },
-  es: { signInEmail: "Iniciar sesión con Email" },
+  en: { signInEmail: "Passwordless sign in via Email" },
+  fr: { signInEmail: "Connexion sans mot de passe par e-mail" },
+  es: { signInEmail: "Inicio de sesión sin contraseña por correo" },
 };
 
-const SignInWithEmailButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
-  language = getDefaultLanguage(),
-}) => {
+const SignInWithPasswordlessEmailButton: React.FC<{
+  language?: "en" | "fr" | "es";
+}> = ({ language = getDefaultLanguage() }) => {
   const { login } = useKeybanAuth();
 
   // Calcul de la traduction active avec fallback sur l'anglais
@@ -28,11 +28,11 @@ const SignInWithEmailButton: React.FC<{ language?: "en" | "fr" | "es" }> = ({
       fullWidth
       variant="outlined"
       onClick={() => login("email")}
-      startIcon={<EmailIcon />}
+      startIcon={<VpnKeyOffIcon />}
     >
       {t.signInEmail}
     </Button>
   );
 };
 
-export default SignInWithEmailButton;
+export default SignInWithPasswordlessEmailButton;

@@ -35,7 +35,8 @@ export default function Login() {
   return (
     <SignIn
       enableGoogleAuth
-      enableEmailAuth
+      enablePasswordlessEmailAuth
+      enableUsernamePasswordAuth // nouvelle prop activée
       enableFacebookAuth={false}
       language="fr"
       sitemarkIcon={SitemarkIcon}
