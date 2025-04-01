@@ -49,6 +49,19 @@ interface RawProduct {
   blockchain: string;
   /** The product identifier. */
   id: string;
+  /** Metadata for the product (new schema). */
+  metadata?: {
+    name: string;
+    description: string;
+    image: string;
+    attributes: Trait[];
+    events?: Trait[];
+    external_url: string;
+    creator: string;
+    blockchain: string;
+  };
+  /** TPP identifier for the product (new schema). */
+  tppId?: string;
   // ...other potential properties...
 }
 
@@ -178,23 +191,40 @@ export default class Product {
    * @throws Will throw an error if the required fields (name, description, image) are missing.
    */
   constructor(data: RawProduct) {
-    if (!data.name || !data.description || !data.image) {
-      throw new Error("The fields 'name', 'description', and 'image' are required.");
+    // New branch for JSON schema with metadata
+    if (data.metadata) {
+      const meta = data.metadata;
+      if (!meta.name || !meta.description || !meta.image || !meta.attributes || !meta.external_url || !meta.creator || !meta.blockchain) {
+        throw new Error("Missing required metadata fields.");
+      }
+      this.name = meta.name;
+      this.description = meta.description;
+      this.image = meta.image;
+      this.attributes = meta.attributes;
+      this.events = meta.events || []; // fallback pour events
+      this.external_url = meta.external_url;
+      this.creator = meta.creator;
+      this.blockchain = meta.blockchain;
+      this.id = data.tppId!; // use tppId as the product identifier
+    } else {
+      if (!data.name || !data.description || !data.image) {
+        throw new Error("The fields 'name', 'description', and 'image' are required.");
+      }
+      this.name = data.name;
+      this.description = data.description;
+      this.image = data.image;
+      this.attributes = data.attributes;
+      this.events = data.events || []; // fallback pour events
+      this.external_url = data.external_url;
+      this.creator = data.creator;
+      this.blockchain = data.blockchain;
+      this.id = data.id;
     }
-    this.name = data.name;
-    this.description = data.description;
-    this.image = data.image;
-    this.attributes = data.attributes;
-    this.events = data.events;
-    this.external_url = data.external_url;
-    this.creator = data.creator;
-    this.blockchain = data.blockchain;
-    this.id = data.id;
-    this.attributesMap = mapAttributes(data.attributes);
-    this.eventsMap = mapEvents(data.events);
-    this.latestEvent = getLatestEvent(data.events);
+    this.attributesMap = mapAttributes(this.attributes);
+    this.eventsMap = mapEvents(this.events);
+    this.latestEvent = getLatestEvent(this.events);
     // Initialize documents with the external_url as the first trait.
-    this.documents = [{ title: "External URL", url: data.external_url }];
+    this.documents = [{ title: "External URL", url: this.external_url }];
     this.offers = [];
   }
 }
