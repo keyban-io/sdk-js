@@ -8,33 +8,32 @@ import { useKeybanClient } from "~/provider";
  *
  * This type can be one of the following states:
  *
- * - **Loading**:
+ * - **Unintialized**:
  *   - `user`: `undefined`
  *   - `isAuthenticated`: `undefined`
- *   - `isLoading`: `true`
  *
  * - **Unauthenticated**:
  *   - `user`: `null`
  *   - `isAuthenticated`: `false`
- *   - `isLoading`: `false`
  *
  * - **Authenticated**:
  *   - `user`: `KeybanUser`
  *   - `isAuthenticated`: `true`
- *   - `isLoading`: `false`
  */
 export type BaseAuth =
-  | { user: undefined; isAuthenticated: undefined; isLoading: true }
-  | { user: null; isAuthenticated: false; isLoading: false }
-  | { user: KeybanUser; isAuthenticated: true; isLoading: false };
+  | { user: undefined; isAuthenticated: undefined }
+  | { user: null; isAuthenticated: false }
+  | { user: KeybanUser; isAuthenticated: true };
 
 /**
  * Represents the authentication context which extends the base authentication.
  * Provides methods for logging in and logging out.
+ * @property {boolean} isLoading - Authentication loading state.
  * @property {function(AuthConnection): Promise<void>} login - Logs in using the provided connection.
  * @property {function(): Promise<void>} logout - Logs out the current user.
  */
 export type AuthContext = BaseAuth & {
+  isLoading: boolean;
   login: (connection?: AuthConnection) => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -45,7 +44,6 @@ export type AuthContext = BaseAuth & {
  * This context provides an `AuthContext` or `null` if not available.
  * It is used to manage authentication state and provide authentication-related
  * functionality throughout the application.
- * @type {React.Context<AuthContext | null>}
  */
 export const KeybanAuthContext = React.createContext<AuthContext | null>(null);
 
@@ -69,14 +67,30 @@ export function KeybanAuthProvider({ children }: React.PropsWithChildren) {
     updateUser();
   }, [updateUser]);
 
+  const [pendingLogin, setPendingLogin] = React.useState(false);
   const login = React.useCallback(
-    (connection?: AuthConnection) => client.login(connection).then(updateUser),
+    async (connection?: AuthConnection) => {
+      try {
+        setPendingLogin(true);
+        await client.login(connection);
+        await updateUser();
+      } finally {
+        setPendingLogin(false);
+      }
+    },
     [client, updateUser],
   );
-  const logout = React.useCallback(
-    () => client.logout().then(updateUser),
-    [client, updateUser],
-  );
+
+  const [pendingLogout, setPendingLogout] = React.useState(false);
+  const logout = React.useCallback(async () => {
+    try {
+      setPendingLogout(true);
+      await client.logout();
+      await updateUser();
+    } finally {
+      setPendingLogout(false);
+    }
+  }, [client, updateUser]);
 
   const auth = React.useMemo(
     () => ({
@@ -84,9 +98,9 @@ export function KeybanAuthProvider({ children }: React.PropsWithChildren) {
       logout,
       user,
       isAuthenticated: user === undefined ? undefined : user !== null,
-      isLoading: user === undefined,
+      isLoading: user === undefined || pendingLogin || pendingLogout,
     }),
-    [login, logout, user],
+    [pendingLogin, login, pendingLogout, logout, user],
   );
 
   return (

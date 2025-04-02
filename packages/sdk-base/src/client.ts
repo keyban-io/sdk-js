@@ -337,7 +337,7 @@ export abstract class KeybanClientBase {
     // Wait for user to be authenticated or timeout
     await Promise.race([
       authenticatedPromise,
-      new Promise((resolve) => setTimeout(resolve, 5000)),
+      new Promise((resolve) => setTimeout(resolve, 2000)),
     ]);
   }
 

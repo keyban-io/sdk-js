@@ -37,19 +37,15 @@ export class KeybanAuth implements IKeybanAuth {
   }
 
   async isAuthenticated() {
-    const auth0 = await this.#auth0;
-    return auth0.isAuthenticated();
+    const user = await this.getUser();
+    return user != null;
   }
 
   async getUser() {
     const auth0 = await this.#auth0;
 
-    // We're using the same Auth0 app for multiple audiences, don't
-    // assume user is connected just because we have an id_token
-    // (which might come from another Keyban app). Check we also have
-    // a valid access_token
-    const token = await this.getToken().catch(() => null);
-    if (!token) return null;
+    const orgValid = await this.#checkOrganization();
+    if (!orgValid) return null;
 
     const user = await auth0.getUser<KeybanUser>();
     return user ?? null;
@@ -83,6 +79,9 @@ export class KeybanAuth implements IKeybanAuth {
   async getToken() {
     const auth0 = await this.#auth0;
 
+    const orgValid = await this.#checkOrganization();
+    if (!orgValid) return "";
+
     return auth0.getTokenSilently().catch((err) => {
       if (err.error === "missing_refresh_token") return "";
 
@@ -93,5 +92,19 @@ export class KeybanAuth implements IKeybanAuth {
         title: err.error_description,
       });
     });
+  }
+
+  /**
+   * Validate organization, this is mostly a dev env problem:
+   * We're using different orgs on the same top level domain (lvh.me) so
+   * auth informations can be mixed up. In reality this is unlikely to
+   * happen, unless one of our client hack into the system of another of
+   * our client and inject its own appId in place of the intended one.
+   */
+  async #checkOrganization() {
+    const auth0 = await this.#auth0;
+
+    const claims = await auth0.getIdTokenClaims();
+    return claims?.org_name === APP_ID;
   }
 }
