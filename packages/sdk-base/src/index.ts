@@ -116,9 +116,14 @@ export type PaginationArgs = {
  * @type {("username-password" | "google-oauth2")}
  * @property {"username-password"} username-password - Standard username and password authentication.
  * @property {"email"} email - One time password send through email.
+ * @property {"sms"} sms - One time password send through sms.
  * @property {"google-oauth2"} google-oauth2 - Google OAuth 2.0 authentication.
  */
-export type AuthConnection = "username-password" | "email" | "google-oauth2";
+export type AuthConnection =
+  | "username-password"
+  | "email"
+  | "sms"
+  | "google-oauth2";
 
 export type KeybanUser = {
   sub: string;

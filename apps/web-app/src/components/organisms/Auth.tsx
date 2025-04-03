@@ -26,6 +26,10 @@ export default function Auth() {
           Login email
         </button>
 
+        <button onClick={() => login("sms")} data-test-id="Auth:login:sms">
+          Login sms
+        </button>
+
         <button
           onClick={() => login("google-oauth2")}
           data-test-id="Auth:login:google"
