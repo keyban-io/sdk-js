@@ -17,7 +17,7 @@ const indexerUrlMapping: Record<HostChainKey, string> = {
   "waas-demo.marc.lvh.me_PolygonAmoy": "https://rpc-amoy.polygon.technology",
   "waas-demo.testing.keyban.fr_PolygonAmoy":
     "https://rpc-amoy.polygon.technology",
-  "waas-demo.beta.keyban.fr_PolygonAmoy": "https://rpc-amoy.polygon.technology",
+  "waas-demo.staging.keyban.fr_PolygonAmoy": "https://rpc-amoy.polygon.technology",
 };
 
 export const getIndexerUrl = (
@@ -32,7 +32,7 @@ export const getIndexerUrl = (
   // Vérifier si la chaîne EthereumAnvil est disponible sur le domaine actuel
   if (
     network === KeybanNetwork.EthereumAnvil &&
-    hostname === "waas-demo.beta.keyban.fr"
+    hostname === "waas-demo.staging.keyban.fr"
   ) {
     throw new Error(
       "EthereumAnvil n'est pas disponible sur l'environnement de démonstration",

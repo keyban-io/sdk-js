@@ -2,7 +2,7 @@
   "name": "@keyban/create-keyban-app",
   "version": "0.0.0",
   "description": "CLI to create a Keyban React app with Vite",
-  "homepage": "https://docs.beta.keyban.io/",
+  "homepage": "https://docs.keyban.io/",
   "author": {
     "name": "Keyban",
     "email": "it@keyban.io",

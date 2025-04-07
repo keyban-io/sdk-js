@@ -46,7 +46,7 @@ export default App;
 
 - **`appId`**: Your application ID for authentication with the Keyban API.
 - **`network`**: The blockchain network used by Keyban (e.g., `KeybanNetwork.EthereumAnvil`).
-- **`clientShareProvider`**: An instance of the `KeybanClientShareProvider`, responsible for securely storing and retrieving the client share via Keyban's infrastructure. For more details, refer to the [KeybanClientShareProvider documentation](https://docs.beta.keyban.io/api/sdk-react/Class.KeybanClientShareProvider).
+- **`clientShareProvider`**: An instance of the `KeybanClientShareProvider`, responsible for securely storing and retrieving the client share via Keyban's infrastructure. For more details, refer to the [KeybanClientShareProvider documentation](https://docs.keyban.io/api/sdk-react/Class.KeybanClientShareProvider).
 
 ---
 
@@ -117,7 +117,7 @@ const AuthInfo = () => {
 - **`login`**: A function to initiate the login process.
 - **`logout`**: A function to log out the user.
 
-For more details on authentication, refer to the [KeybanAuthContext documentation](https://docs.beta.keyban.io/api/sdk-react/Function.useKeybanAuth).
+For more details on authentication, refer to the [KeybanAuthContext documentation](https://docs.keyban.io/api/sdk-react/Function.useKeybanAuth).
 
 ---
 
@@ -139,7 +139,7 @@ const AuthPage = () => {
 };
 ```
 
-For more details, visit the [SignIn documentation](https://docs.beta.keyban.io/api/sdk-react/Function.SignIn).
+For more details, visit the [SignIn documentation](https://docs.keyban.io/api/sdk-react/Function.SignIn).
 
 ## Using React Hooks
 
@@ -374,4 +374,4 @@ const BalanceDisplay = () => {
 
 ## Additional Resources
 
-- [Complete Keyban React SDK Documentation](https://docs.beta.keyban.io/api/sdk-react)
+- [Complete Keyban React SDK Documentation](https://docs.keyban.io/api/sdk-react)

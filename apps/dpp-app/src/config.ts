@@ -12,7 +12,7 @@ const apiUrl = {
   "https://dpp-app.sandbox.keyban.fr": "https://api.sandbox.keyban.io/v1",
 }[window.location.origin] ?? "https://api.keyban.localtest.me/v1";
 const storedNetwork = localStorage.getItem("selectedNetwork");
-const defaultChain = (window.location.origin === "https://dpp-app.keyban.fr" || window.location.origin === "https://dpp-app.prod.keyban.fr")
+const defaultChain = (window.location.origin === "https://dpp-app.keyban.fr" || window.location.origin === "https://dpp-app.prod.keyban.fr" || window.location.origin === "https://dpp-app.staging.keyban.fr")
   ? KeybanNetwork.StarknetSepolia
   : KeybanNetwork.StarknetDevnet;
 const network = storedNetwork ? storedNetwork as KeybanNetwork : defaultChain;

@@ -1,7 +1,7 @@
 {
   "name": "@keyban/eddsa-wasm-client",
   "version": "0.0.0",
-  "homepage": "https://docs.beta.keyban.io/",
+  "homepage": "https://docs.keyban.io/",
   "author": {
     "name": "Keyban",
     "email": "it@keyban.io",

@@ -2,7 +2,7 @@
   "name": "@keyban/sdk-react",
   "version": "0.0.0",
   "description": "Keyban SDK React simplifies the integration of Keyban's MPC wallet in React apps with TypeScript support, flexible storage, and Ethereum blockchain integration.",
-  "homepage": "https://docs.beta.keyban.io/",
+  "homepage": "https://docs.keyban.io/",
   "author": {
     "name": "Keyban",
     "email": "it@keyban.io",
