@@ -18,3 +18,17 @@ export const METADATA_PROMISE: Promise<{
   if (!res.ok) throw new KeybanBaseError(await res.json());
   return res.json();
 });
+
+export const APPLICATION_PROMISE: Promise<{
+  id: string;
+  name?: string;
+  domains: string[];
+  allowEmbededAuth: boolean;
+  tpps: {
+    network: KeybanNetwork;
+    address: string;
+  }[];
+}> = fetch(new URL(`/v1/applications/${APP_ID}`, API_URL)).then(async (res) => {
+  if (!res.ok) throw new KeybanBaseError(await res.json());
+  return res.json();
+});

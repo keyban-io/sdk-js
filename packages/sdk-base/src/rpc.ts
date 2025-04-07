@@ -98,14 +98,10 @@ export class RpcServer implements IRpc {
 
   domains: Promise<string[]>;
 
-  constructor(services: IRpc) {
+  constructor(services: IRpc, domains: Promise<string[]>) {
     Object.assign(this, services);
 
-    const appId = new URL(window.location.href).searchParams.get("appId");
-    const apiUrl = new URL(window.location.origin);
-    this.domains = fetch(new URL(`/v1/applications/${appId}`, apiUrl))
-      .then((res) => res.json())
-      .then(({ domains }) => domains);
+    this.domains = domains;
 
     window.addEventListener("message", this.handleMessage);
   }

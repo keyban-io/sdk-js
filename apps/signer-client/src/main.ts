@@ -3,6 +3,7 @@ import { RpcServer } from "@keyban/sdk-base/rpc";
 import { KeybanAccount } from "~/account";
 import { KeybanAuth } from "~/auth";
 import { KeybanClientShareStorage } from "~/clientShareStorage";
+import { APPLICATION_PROMISE } from "~/constants";
 import { KeybanSigner_ECDSA } from "~/signer/ecdsa";
 import { KeybanSigner_EDDSA } from "~/signer/eddsa";
 import { KeybanTpp } from "~/tpp";
@@ -14,4 +15,7 @@ const account = new KeybanAccount(auth);
 const clientShareStorage = new KeybanClientShareStorage(auth);
 const tpp = new KeybanTpp(auth);
 
-new RpcServer({ auth, ecdsa, eddsa, account, clientShareStorage, tpp });
+new RpcServer(
+  { auth, ecdsa, eddsa, account, clientShareStorage, tpp },
+  APPLICATION_PROMISE.then(({ domains }) => domains),
+);

@@ -3,7 +3,13 @@ import { AuthConnection, KeybanBaseError, KeybanUser } from "@keyban/sdk-base";
 import { IKeybanAuth } from "@keyban/sdk-base/rpc";
 import { WebAuth } from "auth0-js";
 
-import { API_URL, APP_ID, METADATA_PROMISE } from "~/constants";
+import {
+  API_URL,
+  APP_ID,
+  APPLICATION_PROMISE,
+  METADATA_PROMISE,
+} from "~/constants";
+import { AuthError } from "~/errors/AuthError";
 
 export class KeybanAuth implements IKeybanAuth {
   #auth0: Promise<Auth0Client>;
@@ -179,6 +185,10 @@ export class KeybanAuth implements IKeybanAuth {
   async #wrapWebAuthLogin(
     loginFn: (state: string, nonce: string) => Promise<unknown>,
   ) {
+    const { allowEmbededAuth } = await APPLICATION_PROMISE;
+    if (!allowEmbededAuth)
+      throw new AuthError(AuthError.types.EmbededAuthNotAllowed, "KeybanAuth");
+
     const {
       auth: { clientId },
     } = await METADATA_PROMISE;
