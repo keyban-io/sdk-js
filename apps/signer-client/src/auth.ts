@@ -10,6 +10,9 @@ export class KeybanAuth implements IKeybanAuth {
   #webAuth: Promise<WebAuth>;
 
   constructor() {
+    const audienceUrl = new URL(API_URL);
+    audienceUrl.searchParams.set("appId", APP_ID);
+
     this.#auth0 = METADATA_PROMISE.then(async ({ auth }) =>
       createAuth0Client({
         ...auth,
@@ -17,8 +20,7 @@ export class KeybanAuth implements IKeybanAuth {
         cacheLocation: "localstorage",
         authorizationParams: {
           scope: "openid",
-          audience: API_URL.origin,
-          organization: APP_ID,
+          audience: audienceUrl.toString(),
           redirect_uri: new URL("/signer-client/login", API_URL).toString(),
         },
       }),
@@ -31,7 +33,7 @@ export class KeybanAuth implements IKeybanAuth {
           clientID: auth.clientId,
           responseType: "code",
           scope: "openid",
-          audience: API_URL.origin,
+          audience: audienceUrl.toString(),
           redirectUri: new URL("/signer-client/login", API_URL).toString(),
         }),
     );
@@ -57,9 +59,6 @@ export class KeybanAuth implements IKeybanAuth {
 
   async getUser() {
     const auth0 = await this.#auth0;
-
-    const orgValid = await this.#checkOrganization();
-    if (!orgValid) return null;
 
     const user = await auth0.getUser<KeybanUser>();
     return user ?? null;
@@ -93,9 +92,6 @@ export class KeybanAuth implements IKeybanAuth {
   async getToken() {
     const auth0 = await this.#auth0;
 
-    const orgValid = await this.#checkOrganization();
-    if (!orgValid) return "";
-
     return auth0.getTokenSilently().catch((err) => {
       if (err.error === "missing_refresh_token") return "";
 
@@ -106,20 +102,6 @@ export class KeybanAuth implements IKeybanAuth {
         title: err.error_description,
       });
     });
-  }
-
-  /**
-   * Validate organization, this is mostly a dev env problem:
-   * We're using different orgs on the same top level domain (lvh.me) so
-   * auth informations can be mixed up. In reality this is unlikely to
-   * happen, unless one of our client hack into the system of another of
-   * our client and inject its own appId in place of the intended one.
-   */
-  async #checkOrganization() {
-    const auth0 = await this.#auth0;
-
-    const claims = await auth0.getIdTokenClaims();
-    return claims?.org_name === APP_ID;
   }
 
   async passwordLogin(username: string, password: string) {
@@ -135,11 +117,10 @@ export class KeybanAuth implements IKeybanAuth {
               password,
               state,
               nonce,
-              // @ts-expect-error: organizations not documented but supported
-              organization: APP_ID,
+              // @ts-expect-error: undocumented
               // Force popup mode, so auth0-js will load response page into an
               // iframe (on auth0 domain) which will post the message with the
-              // code+state (undocumented)
+              // code+state
               popup: true,
             },
             (err, res) => (err ? reject(err) : resolve(res)),
@@ -183,11 +164,10 @@ export class KeybanAuth implements IKeybanAuth {
               // re-use the state & nonce created by auth0-spa-js
               state,
               nonce,
-              // @ts-expect-error: organizations not documented but supported
-              organization: APP_ID,
+              // @ts-expect-error: undocumented
               // Force popup mode, so auth0-js will load response page into an
               // iframe (on auth0 domain) which will post the message with the
-              // code+state (undocumented)
+              // code+state
               popup: true,
             },
             (err, res) => (err ? reject(err) : resolve(res)),
