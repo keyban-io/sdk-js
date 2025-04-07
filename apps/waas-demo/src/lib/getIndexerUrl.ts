@@ -17,7 +17,8 @@ const indexerUrlMapping: Record<HostChainKey, string> = {
   "waas-demo.marc.lvh.me_PolygonAmoy": "https://rpc-amoy.polygon.technology",
   "waas-demo.testing.keyban.fr_PolygonAmoy":
     "https://rpc-amoy.polygon.technology",
-  "waas-demo.staging.keyban.fr_PolygonAmoy": "https://rpc-amoy.polygon.technology",
+  "waas-demo.staging.keyban.fr_PolygonAmoy":
+    "https://rpc-amoy.polygon.technology",
 };
 
 export const getIndexerUrl = (
