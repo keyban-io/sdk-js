@@ -36,6 +36,19 @@ export type AuthContext = BaseAuth & {
   isLoading: boolean;
   login: (connection?: AuthConnection) => Promise<void>;
   logout: () => Promise<void>;
+
+  passwordLogin(username: string, password: string): Promise<void>;
+
+  passwordlessStart(
+    connection: "email" | "sms",
+    username: string,
+  ): Promise<void>;
+
+  passwordlessLogin(
+    connection: "email" | "sms",
+    username: string,
+    otp: string,
+  ): Promise<void>;
 };
 
 /**
@@ -58,49 +71,73 @@ export function KeybanAuthProvider({ children }: React.PropsWithChildren) {
   const client = useKeybanClient();
 
   const [user, setUser] = React.useState<KeybanUser | null>();
-  const updateUser = React.useCallback(
-    () => client.getUser().then(setUser),
+  const [pendingUpdates, setPendingUpdates] = React.useState(0);
+
+  const wrapUpdate = React.useCallback(
+    async (cb?: () => Promise<unknown>) => {
+      try {
+        setPendingUpdates((count) => count + 1);
+        await cb?.();
+        await client.getUser().then(setUser);
+      } finally {
+        setPendingUpdates((count) => count - 1);
+      }
+    },
     [client],
   );
 
   React.useEffect(() => {
-    updateUser();
-  }, [updateUser]);
+    wrapUpdate();
+  }, [wrapUpdate]);
 
-  const [pendingLogin, setPendingLogin] = React.useState(false);
   const login = React.useCallback(
-    async (connection?: AuthConnection) => {
-      try {
-        setPendingLogin(true);
-        await client.login(connection);
-        await updateUser();
-      } finally {
-        setPendingLogin(false);
-      }
-    },
-    [client, updateUser],
+    (connection?: AuthConnection) => wrapUpdate(() => client.login(connection)),
+    [client, wrapUpdate],
   );
 
-  const [pendingLogout, setPendingLogout] = React.useState(false);
-  const logout = React.useCallback(async () => {
-    try {
-      setPendingLogout(true);
-      await client.logout();
-      await updateUser();
-    } finally {
-      setPendingLogout(false);
-    }
-  }, [client, updateUser]);
+  const logout = React.useCallback(
+    () => wrapUpdate(() => client.logout()),
+    [client, wrapUpdate],
+  );
+
+  const passwordLogin = React.useCallback(
+    (username: string, password: string) =>
+      wrapUpdate(() => client.passwordLogin(username, password)),
+    [client, wrapUpdate],
+  );
+
+  const passwordlessStart = React.useCallback(
+    (connection: "email" | "sms", username: string) =>
+      client.passwordlessStart(connection, username),
+    [client],
+  );
+
+  const passwordlessLogin = React.useCallback(
+    (connection: "email" | "sms", username: string, otp: string) =>
+      wrapUpdate(() => client.passwordlessLogin(connection, username, otp)),
+    [client, wrapUpdate],
+  );
 
   const auth = React.useMemo(
     () => ({
       login,
       logout,
+      passwordLogin,
+      passwordlessStart,
+      passwordlessLogin,
       user,
       isAuthenticated: user === undefined ? undefined : user !== null,
-      isLoading: user === undefined || pendingLogin || pendingLogout,
+      isLoading: user === undefined || Boolean(pendingUpdates),
     }),
-    [pendingLogin, login, pendingLogout, logout, user],
+    [
+      pendingUpdates,
+      login,
+      logout,
+      passwordLogin,
+      passwordlessStart,
+      passwordlessLogin,
+      user,
+    ],
   );
 
   return (

@@ -288,6 +288,49 @@ export abstract class KeybanClientBase {
   }
 
   /**
+   * Checks whether the client is authenticated.
+   * @returns A Promise that resolves to the result of the authentication check.
+   */
+  async isAuthenticated() {
+    return this.rpcClient.call("auth", "isAuthenticated");
+  }
+
+  /**
+   * Retrieves the current user information.
+   * @returns A Promise resolving with the user data retrieved from the server.
+   */
+  async getUser() {
+    return this.rpcClient.call("auth", "getUser");
+  }
+
+  async passwordLogin(username: string, password: string) {
+    return this.rpcClient.call("auth", "passwordLogin", username, password);
+  }
+
+  async passwordlessStart(connection: "email" | "sms", username: string) {
+    return this.rpcClient.call(
+      "auth",
+      "passwordlessStart",
+      connection,
+      username,
+    );
+  }
+
+  async passwordlessLogin(
+    connection: "email" | "sms",
+    username: string,
+    otp: string,
+  ) {
+    return this.rpcClient.call(
+      "auth",
+      "passwordlessLogin",
+      connection,
+      username,
+      otp,
+    );
+  }
+
+  /**
    * Initiates the login process by opening a popup window for user authentication.
    * @param [connection] - Optional authentication connection details.
    * @returns - A promise that resolves when the user is authenticated or the popup is closed.
@@ -368,22 +411,6 @@ export abstract class KeybanClientBase {
         resolve();
       }, 100);
     });
-  }
-
-  /**
-   * Checks whether the client is authenticated.
-   * @returns A Promise that resolves to the result of the authentication check.
-   */
-  async isAuthenticated() {
-    return this.rpcClient.call("auth", "isAuthenticated");
-  }
-
-  /**
-   * Retrieves the current user information.
-   * @returns A Promise resolving with the user data retrieved from the server.
-   */
-  async getUser() {
-    return this.rpcClient.call("auth", "getUser");
   }
 
   /**
@@ -479,15 +506,15 @@ export class KeybanClient extends KeybanClientBase {
   }
 
   async initialize() {
-    const sub = "WHATEVER";
+    const key = "WHATEVER";
 
-    const pending = this.#pendingAccounts.get(sub);
+    const pending = this.#pendingAccounts.get(key);
     if (pending) return pending;
 
     const promise = this.#client.then((client) => client.initialize());
 
-    this.#pendingAccounts.set(sub, promise);
-    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(sub));
+    this.#pendingAccounts.set(key, promise);
+    promise.catch(() => {}).finally(() => this.#pendingAccounts.delete(key));
 
     return promise;
   }

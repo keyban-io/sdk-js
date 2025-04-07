@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
+    "@types/auth0-js": "^9.21.6",
     "@vitest/ui": "^3.1.1",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
@@ -35,6 +36,7 @@
     "@keyban/ecdsa-wasm-client": "workspace:*",
     "@keyban/eddsa-wasm-client": "workspace:*",
     "@keyban/sdk-base": "workspace:*",
+    "auth0-js": "^9.28.0",
     "eventsource": "^3.0.6"
   }
 }

@@ -12,6 +12,19 @@ export interface IKeybanAuth {
   getUser(): Promise<KeybanUser | null>;
   getLoginUrl(connection?: AuthConnection): Promise<string>;
   getLogoutUrl(redirect?: string): Promise<string>;
+
+  passwordLogin(username: string, password: string): Promise<void>;
+
+  passwordlessStart(
+    connection: "email" | "sms",
+    username: string,
+  ): Promise<void>;
+
+  passwordlessLogin(
+    connection: "email" | "sms",
+    username: string,
+    otp: string,
+  ): Promise<void>;
 }
 
 export interface IKeybanSigner {
@@ -108,6 +121,9 @@ export class RpcServer implements IRpc {
       getUser: true,
       getLoginUrl: true,
       getLogoutUrl: true,
+      passwordLogin: true,
+      passwordlessStart: true,
+      passwordlessLogin: true,
     },
     ecdsa: {
       dkg: true,
