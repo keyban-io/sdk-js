@@ -2,17 +2,22 @@ import { KeybanBaseError } from "@keyban/sdk-base/errors";
 
 export enum AuthErrorType {
   EmbededAuthNotAllowed = "EmbededAuthNotAllowed",
+  LoginFailed = "LoginFailed",
 }
 
 export class AuthError extends KeybanBaseError<AuthErrorType> {
   static types = AuthErrorType;
 
-  constructor(type: AuthErrorType, instance: string, rootError?: Error) {
+  constructor(
+    type: AuthErrorType,
+    instance: string,
+    error?: Partial<AuthError>,
+  ) {
     super({
       type,
       instance,
-      rootError,
       title: AuthError.#getTitle(type),
+      ...error,
     });
   }
 

@@ -7,12 +7,12 @@ export enum TppErrorType {
 export class TppError extends KeybanBaseError<TppErrorType> {
   static types = TppErrorType;
 
-  constructor(type: TppErrorType, instance: string, rootError?: Error) {
+  constructor(type: TppErrorType, instance: string, error?: Partial<TppError>) {
     super({
       type,
       instance,
-      rootError,
       title: TppError.#getTitle(type),
+      ...error,
     });
   }
 

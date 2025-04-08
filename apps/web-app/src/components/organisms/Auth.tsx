@@ -65,13 +65,19 @@ export default function Auth() {
       <fieldset data-test-id="Auth:password">
         <legend>Email/password (embeded)</legend>
 
-        <TextField label="Email" ref={emailRef} data-test-id="email" />
+        <TextField
+          label="Email"
+          ref={emailRef}
+          data-test-id="email"
+          defaultValue="shurel@keyban.io"
+        />
         <Row>
           <TextField
             type="password"
             label="Password"
             ref={passwordRef}
             data-test-id="password"
+            defaultValue="QidMNHybDdnS3cB"
           />
           <button
             onClick={() =>
@@ -123,6 +129,7 @@ export default function Auth() {
             label="Phone number"
             ref={otpPhoneNumberRef}
             data-test-id="phoneNumber"
+            defaultValue="+33674860777"
           />
           <button
             onClick={() =>

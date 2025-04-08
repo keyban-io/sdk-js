@@ -15,7 +15,7 @@ export class KeybanSigner_EDDSA implements IKeybanSigner {
       throw new WasmError(
         WasmError.types.WebAssemblyInitialization,
         "KeybanSigner_EDDSA",
-        err,
+        { rootError: err },
       );
     });
 

@@ -8,12 +8,16 @@ export enum WasmErrorType {
 export class WasmError extends KeybanBaseError<WasmErrorType> {
   static types = WasmErrorType;
 
-  constructor(type: WasmErrorType, instance: string, rootError?: Error) {
+  constructor(
+    type: WasmErrorType,
+    instance: string,
+    error?: Partial<WasmError>,
+  ) {
     super({
       type,
       instance,
-      rootError,
       title: WasmError.#getTitle(type),
+      ...error,
     });
   }
 

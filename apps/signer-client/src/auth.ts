@@ -25,7 +25,7 @@ export class KeybanAuth implements IKeybanAuth {
         useRefreshTokens: true,
         cacheLocation: "localstorage",
         authorizationParams: {
-          scope: "openid",
+          scope: "openid profile email phone offline_access",
           audience: audienceUrl.toString(),
           redirect_uri: new URL("/signer-client/login", API_URL).toString(),
         },
@@ -38,7 +38,7 @@ export class KeybanAuth implements IKeybanAuth {
           domain: auth.domain,
           clientID: auth.clientId,
           responseType: "code",
-          scope: "openid",
+          scope: "openid profile email phone offline_access",
           audience: audienceUrl.toString(),
           redirectUri: new URL("/signer-client/login", API_URL).toString(),
         }),
@@ -129,7 +129,16 @@ export class KeybanAuth implements IKeybanAuth {
               // code+state
               popup: true,
             },
-            (err, res) => (err ? reject(err) : resolve(res)),
+            (err, res) =>
+              err
+                ? reject(
+                    new AuthError(
+                      AuthError.types.LoginFailed,
+                      "KeybanAuth.passwordLogin",
+                      { detail: err.description },
+                    ),
+                  )
+                : resolve(res),
           ),
         ),
     );
@@ -142,11 +151,21 @@ export class KeybanAuth implements IKeybanAuth {
       webAuth.passwordlessStart(
         {
           connection: connection,
-          email: connection === "email" ? username : undefined,
+          email:
+            connection === "email" ? username : `appId+${APP_ID}@keyban.io`,
           phoneNumber: connection === "sms" ? username : undefined,
           send: "code",
         },
-        (err, res) => (err ? reject(err) : resolve(res)),
+        (err, res) =>
+          err
+            ? reject(
+                new AuthError(
+                  AuthError.types.LoginFailed,
+                  "KeybanAuth.passwordlessStart",
+                  { detail: err.description },
+                ),
+              )
+            : resolve(res),
       ),
     );
   }
@@ -176,7 +195,16 @@ export class KeybanAuth implements IKeybanAuth {
               // code+state
               popup: true,
             },
-            (err, res) => (err ? reject(err) : resolve(res)),
+            (err, res) =>
+              err
+                ? reject(
+                    new AuthError(
+                      AuthError.types.LoginFailed,
+                      "KeybanAuth.passwordlessLogin",
+                      { detail: err.description },
+                    ),
+                  )
+                : resolve(res),
           ),
         ),
     );
@@ -187,7 +215,10 @@ export class KeybanAuth implements IKeybanAuth {
   ) {
     const { allowEmbededAuth } = await APPLICATION_PROMISE;
     if (!allowEmbededAuth)
-      throw new AuthError(AuthError.types.EmbededAuthNotAllowed, "KeybanAuth");
+      throw new AuthError(
+        AuthError.types.EmbededAuthNotAllowed,
+        "KeybanAuth.#wrapWebAuthLogin",
+      );
 
     const {
       auth: { clientId },

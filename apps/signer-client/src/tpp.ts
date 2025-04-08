@@ -65,10 +65,9 @@ export class KeybanTpp implements IKeybanTpp {
 
           case "failed": {
             reject(
-              Object.assign(
-                new TppError(TppError.types.ClaimFailed, "KeybanTpp"),
-                { detail: error },
-              ),
+              new TppError(TppError.types.ClaimFailed, "KeybanTpp.claim", {
+                detail: error,
+              }),
             );
             eventSource.close();
             break;
