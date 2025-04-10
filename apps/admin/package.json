@@ -1,0 +1,83 @@
+{
+  "name": "admin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "refine dev",
+    "build": "tsc && refine build",
+    "start": "refine start",
+    "refine": "refine",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "pnpm lint --fix",
+    "intl:extract": "formatjs extract 'src/**/*.ts*' --ignore='**/*.d.ts' --out-file src/lang/en-US.json --id-interpolation-pattern '[sha512:contenthash:base64:6]' --pragma intl-meta",
+    "intl:compile:en-US": "formatjs compile src/lang/en-US.json --ast --out-file src/lang/en-US.ast.json",
+    "intl:compile:fr-FR": "formatjs compile src/lang/fr-FR.json --ast --out-file src/lang/fr-FR.ast.json"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@auth0/auth0-react": "^1.5.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/lab": "^6.0.0-beta.14",
+    "@mui/material": "^6.1.7",
+    "@mui/x-data-grid": "^7.22.2",
+    "@refinedev/cli": "^2.16.46",
+    "@refinedev/core": "^4.57.9",
+    "@refinedev/devtools": "^1.2.16",
+    "@refinedev/graphql": "^7.1.3",
+    "@refinedev/kbar": "^1.3.16",
+    "@refinedev/mui": "^6.1.1",
+    "@refinedev/react-hook-form": "^4.9.3",
+    "@refinedev/react-router": "^1.0.1",
+    "@refinedev/simple-rest": "^5.0.10",
+    "@tabler/icons-react": "^3.31.0",
+    "axios": "^1.8.4",
+    "clsx": "^2.1.1",
+    "graphql": "^16.10.0",
+    "graphql-request": "^7.1.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.55.0",
+    "react-intl": "^7.1.10",
+    "react-router": "^7.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@formatjs/cli": "^6.6.3",
+    "@swc/plugin-formatjs": "^3.1.1",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "@vitejs/plugin-react-swc": "^3.8.1",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.1",
+    "vite": "^6.2.5",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "refine": {
+    "projectId": "NdHegM-f6hDZY-IAFAVS"
+  }
+}

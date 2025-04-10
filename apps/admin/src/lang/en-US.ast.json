@@ -1,0 +1,52 @@
+{
+  "DqD1yK": [
+    {
+      "type": 0,
+      "value": "Applications"
+    }
+  ],
+  "HAlOn1": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "TKmub+": [
+    {
+      "type": 0,
+      "value": "This field is required"
+    }
+  ],
+  "bzHfqv": [
+    {
+      "type": 0,
+      "value": "Page Not found"
+    }
+  ],
+  "qlcuNQ": [
+    {
+      "type": 0,
+      "value": "ID"
+    }
+  ],
+  "wL7VAE": [
+    {
+      "type": 0,
+      "value": "Actions"
+    }
+  ],
+  "wafoOY": [
+    {
+      "type": 0,
+      "value": "Hello "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "!"
+    }
+  ]
+}
