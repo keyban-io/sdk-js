@@ -21,10 +21,11 @@ export class StarknetClient extends KeybanClientBase {
   }
 
   async initialize(): Promise<StarknetAccount> {
-    let clientShare = await this.clientShareProvider.get();
+    let clientShare = await this.clientShareProvider.get("ecdsa");
     if (!clientShare) {
       clientShare = await this.rpcClient.call("ecdsa", "dkg");
-      await this.clientShareProvider.set(clientShare);
+      console.log("CLIENT SHARE", clientShare);
+      await this.clientShareProvider.set("ecdsa", clientShare);
     }
 
     const [provider, publicKey, address] = await Promise.all([

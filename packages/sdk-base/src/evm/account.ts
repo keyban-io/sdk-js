@@ -109,7 +109,10 @@ export class KeybanEvmAccount extends KeybanAccount {
     const [{ maxFeePerGas, maxPriorityFeePerGas }, gasCost] = await Promise.all(
       [
         this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
-        this.#publicClient.estimateGas({ to, account: this.address }),
+        this.#publicClient.estimateGas({
+          to: to as `0x${string}`,
+          account: this.address as `0x${string}`,
+        }),
       ],
     );
 
@@ -186,11 +189,11 @@ export class KeybanEvmAccount extends KeybanAccount {
       [
         this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
         this.#publicClient.estimateContractGas({
-          address: contractAddress,
+          address: contractAddress as `0x${string}`,
           abi: erc20Abi,
           functionName: "transfer",
-          args: [to, value],
-          account: this.address,
+          args: [to as `0x${string}`, value],
+          account: this.address as `0x${string}`,
         }),
       ],
     );
@@ -272,7 +275,7 @@ export class KeybanEvmAccount extends KeybanAccount {
     txOptions,
   }: Omit<TransferNftParams, "value" | "standard">): Promise<Hash> {
     const erc721Contract = getContract({
-      address: contractAddress,
+      address: contractAddress as `0x${string}`,
       abi: erc721Abi,
       client: {
         public: this.#publicClient,
@@ -282,7 +285,10 @@ export class KeybanEvmAccount extends KeybanAccount {
 
     const from = this.address;
     return erc721Contract.write
-      .transferFrom([from, to, tokenId], txOptions)
+      .transferFrom(
+        [from as `0x${string}`, to as `0x${string}`, tokenId],
+        txOptions,
+      )
       .catch((err: ContractFunctionExecutionErrorType) => {
         switch (true) {
           case err.cause.cause instanceof InsufficientFundsError:
@@ -306,7 +312,7 @@ export class KeybanEvmAccount extends KeybanAccount {
     txOptions,
   }: Omit<TransferNftParams, "standard">): Promise<Hash> {
     const erc1155Contract = getContract({
-      address: contractAddress,
+      address: contractAddress as `0x${string}`,
       abi: ERC1155_ABI_TRANSFER_FROM,
       client: {
         public: this.#publicClient,
@@ -373,11 +379,11 @@ export class KeybanEvmAccount extends KeybanAccount {
       [
         this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
         this.#publicClient.estimateContractGas({
-          address: contractAddress,
+          address: contractAddress as `0x${string}`,
           abi: erc721Abi,
           functionName: "transferFrom",
-          args: [from, to, tokenId],
-          account: this.address,
+          args: [from as `0x${string}`, to as `0x${string}`, tokenId],
+          account: this.address as `0x${string}`,
         }),
       ],
     );
@@ -403,11 +409,11 @@ export class KeybanEvmAccount extends KeybanAccount {
       [
         this.#publicClient.estimateFeesPerGas({ type: "eip1559" }),
         this.#publicClient.estimateContractGas({
-          address: contractAddress,
+          address: contractAddress as `0x${string}`,
           abi: ERC1155_ABI_TRANSFER_FROM,
           functionName: "safeTransferFrom",
           args: [from, to, tokenId, value, ""],
-          account: this.address,
+          account: this.address as `0x${string}`,
         }),
       ],
     );

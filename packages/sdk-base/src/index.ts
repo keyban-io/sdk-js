@@ -44,7 +44,7 @@ export * from "~/utils";
  * This type alias enforces that any variable of type `Address` must be a string that adheres to the Ethereum address format.
  * It is used throughout the SDK to represent addresses in a type-safe manner, reducing errors related to address handling.
  */
-export type Address = `0x${string}`;
+export type Address = string;
 
 /**
  * Represents a cryptographic hash value in hexadecimal format.
@@ -98,7 +98,7 @@ export type Hash = `0x${string}`;
  * - **Transaction Data:** Encoding transaction payloads or other binary data.
  * - **Hashes and Digests:** While specific types like `Hash` exist, `Hex` can be used for general-purpose hexadecimal data.
  */
-export type Hex = `0x${string}`;
+export type Hex = string;
 
 /**
  * Arguments for paginating a collection.

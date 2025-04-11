@@ -51,6 +51,11 @@ export enum KeybanNetwork {
   StarknetMainnet = "StarknetMainnet",
 
   /**
+   * Stellar Quickstart Chain.
+   */
+  StellarQuickstart = "StellarQuickstart",
+
+  /**
    * Stellar Testnet Chain.
    */
   StellarTestnet = "StellarTestnet",

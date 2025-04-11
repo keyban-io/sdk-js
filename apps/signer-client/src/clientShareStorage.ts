@@ -11,9 +11,9 @@ export class KeybanClientShareStorage implements IKeybanClientShareStorage {
     this.#auth = auth;
   }
 
-  async get(): Promise<string | null> {
+  async get(key: string): Promise<string | null> {
     const accessToken = await this.#auth.getToken();
-    const res = await fetch(new URL("/v1/client-shares", API_URL), {
+    const res = await fetch(new URL(`/v1/client-shares/${key}`, API_URL), {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -26,9 +26,9 @@ export class KeybanClientShareStorage implements IKeybanClientShareStorage {
     throw new KeybanBaseError(await res.json());
   }
 
-  async set(clientShare: string): Promise<void> {
+  async set(key: string, clientShare: string): Promise<void> {
     const accessToken = await this.#auth.getToken();
-    const res = await fetch(new URL("/v1/client-shares", API_URL), {
+    const res = await fetch(new URL(`/v1/client-shares/${key}`, API_URL), {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,

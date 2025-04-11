@@ -39,6 +39,7 @@ export class KeybanEvmClient extends KeybanClientBase {
       [KeybanNetwork.StarknetDevnet]: null,
       [KeybanNetwork.StarknetSepolia]: null,
       [KeybanNetwork.StarknetMainnet]: null,
+      [KeybanNetwork.StellarQuickstart]: null,
       [KeybanNetwork.StellarTestnet]: null,
     }[this.network]!;
 
@@ -50,10 +51,10 @@ export class KeybanEvmClient extends KeybanClientBase {
   }
 
   async initialize(): Promise<KeybanEvmAccount> {
-    let clientShare = await this.clientShareProvider.get();
+    let clientShare = await this.clientShareProvider.get("ecdsa");
     if (!clientShare) {
       clientShare = await this.rpcClient.call("ecdsa", "dkg");
-      await this.clientShareProvider.set(clientShare);
+      await this.clientShareProvider.set("ecdsa", clientShare);
     }
 
     const publicKey = await this.rpcClient.call(

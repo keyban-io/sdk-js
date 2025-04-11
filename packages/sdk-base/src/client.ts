@@ -83,15 +83,17 @@ import { RpcClient } from "~/rpc";
 export interface ClientShareProvider {
   /**
    * Retrieves the client share information.
+   * @param key - The key associated with the client share.
    * @returns - A promise that resolves to a string containing the client share, or null if not available.
    */
-  get(): Promise<string | null>;
+  get(key: string): Promise<string | null>;
   /**
    * Sets the client share information.
+   * @param key - The key associated with the client share.
    * @param clientShare - The client share string to set.
    * @returns - A promise that resolves when the client share has been set.
    */
-  set(clientShare: string): Promise<unknown>;
+  set(key: string, clientShare: string): Promise<unknown>;
 }
 
 /**
@@ -166,6 +168,7 @@ export abstract class KeybanClientBase {
       [KeybanNetwork.StarknetDevnet]: "subql-starknet-devnet.",
       [KeybanNetwork.StarknetSepolia]: "subql-starknet-sepolia.",
       [KeybanNetwork.StarknetMainnet]: "subql-starknet-mainnet.",
+      [KeybanNetwork.StellarQuickstart]: "subql-stellar-quickstart.",
       [KeybanNetwork.StellarTestnet]: "subql-stellar-testnet.",
     }[this.network];
     this.apolloClient = createApolloClient(
@@ -217,6 +220,11 @@ export abstract class KeybanClientBase {
         symbol: "STRK",
         decimals: 18,
       },
+      [KeybanNetwork.StellarQuickstart]: {
+        name: "Stellar Token",
+        symbol: "XLM",
+        decimals: 6,
+      },
       [KeybanNetwork.StellarTestnet]: {
         name: "Stellar Token",
         symbol: "XLM",
@@ -259,6 +267,10 @@ export abstract class KeybanClientBase {
       [KeybanNetwork.StarknetMainnet]: {
         symbol: "FRI",
         decimals: 18,
+      },
+      [KeybanNetwork.StellarQuickstart]: {
+        symbol: "stroop",
+        decimals: 6,
       },
       [KeybanNetwork.StellarTestnet]: {
         symbol: "stroop",
@@ -497,6 +509,10 @@ export class KeybanClient extends KeybanClientBase {
         import("~/starknet").then(
           ({ StarknetClient }) =>
             new StarknetClient(config, this.metadataConfig),
+        ),
+      [KeybanNetwork.StellarQuickstart]: () =>
+        import("~/stellar").then(
+          ({ StellarClient }) => new StellarClient(config, this.metadataConfig),
         ),
       [KeybanNetwork.StellarTestnet]: () =>
         import("~/stellar").then(

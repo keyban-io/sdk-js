@@ -36,10 +36,12 @@ export class KeybanSigner_EDDSA implements IKeybanSigner {
 
     return wasm
       .dkg(
-        API_URL.origin + `?network=${NETWORK}`,
+        API_URL.origin,
+        `?network=${NETWORK}`,
         APP_ID,
         await this.#auth.getToken(),
       )
+      .then(JSON.stringify)
       .catch((err: Error) => {
         // @ts-expect-error: I don't known how to pass correct type here
         throw new KeybanBaseError(err);
@@ -54,7 +56,7 @@ export class KeybanSigner_EDDSA implements IKeybanSigner {
         API_URL.origin,
         APP_ID,
         await this.#auth.getToken(),
-        clientShare,
+        JSON.parse(clientShare),
         message,
       )
       .catch((err: Error) => {
@@ -66,9 +68,12 @@ export class KeybanSigner_EDDSA implements IKeybanSigner {
   async publicKey(clientShare: string) {
     const wasm = await KeybanSigner_EDDSA.#wasm;
 
-    return wasm.public_key(clientShare).catch((err: Error) => {
-      // @ts-expect-error: I don't known how to pass correct type here
-      throw new KeybanBaseError(err);
-    });
+    return wasm
+      .public_key(JSON.parse(clientShare).secret_share)
+      .catch((err: Error) => {
+        console.log(err);
+        // @ts-expect-error: I don't known how to pass correct type here
+        throw new KeybanBaseError(err);
+      });
   }
 }

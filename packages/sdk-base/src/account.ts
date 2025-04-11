@@ -111,7 +111,7 @@ export abstract class KeybanAccount {
   /**
    * The public key associated with the account.
    */
-  abstract publicKey: Hex;
+  abstract publicKey: string;
 
   #rpcClient: RpcClient;
 

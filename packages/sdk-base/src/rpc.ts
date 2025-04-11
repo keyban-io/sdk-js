@@ -38,8 +38,8 @@ export interface IKeybanAccount {
 }
 
 export interface IKeybanClientShareStorage {
-  get(): Promise<string | null>;
-  set(clientShare: string): Promise<void>;
+  get(key: string): Promise<string | null>;
+  set(key: string, clientShare: string): Promise<void>;
 }
 
 export interface IKeybanTpp {
